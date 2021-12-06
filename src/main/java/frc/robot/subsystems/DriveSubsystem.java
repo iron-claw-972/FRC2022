@@ -8,17 +8,22 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.kDrive;
 
-public class ExampleSubsystem extends SubsystemBase {
-  /**
-   * Creates a new ExampleSubsystem.
-   */
-  public ExampleSubsystem() {
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.can.*;
 
+public class DriveSubsystem extends SubsystemBase {
+  
+  TalonSRX leftMotor = new TalonSRX(kDrive.kLeftMotorPort);
+  TalonSRX rightMotor = new TalonSRX(kDrive.kRightMotorPort);
+
+  public DriveSubsystem() {
+    leftMotor.setInverted(true);
   }
 
-  @Override
-  public void periodic() {
-    // This method will be called once per scheduler run
+  public void arcadeDrive(double throttle, double turn) {
+    leftMotor.set(ControlMode.PercentOutput, throttle + turn);
+    rightMotor.set(ControlMode.PercentOutput, throttle - turn);
   }
 }
