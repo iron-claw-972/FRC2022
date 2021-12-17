@@ -91,7 +91,8 @@ public class RobotContainer {
   public static double getThrottleValue() {
     // Controllers y-axes are natively up-negative, down-positive. This method
     // corrects that by returning the opposite of the y-value
-    return -deadbandX(driver.getY(GenericHID.Hand.kLeft), kJoy.kJoystickDeadband);
+    // 1 represents up/down axis on the left joystick
+    return -deadbandX(driver.getRawAxis(1), kJoy.kJoystickDeadband);
   }
 
   /**
@@ -100,7 +101,8 @@ public class RobotContainer {
    * @return the deadbanded turn input from the main driver controller
    */
   public static double getTurnValue() {
-      return deadbandX(driver.getX(GenericHID.Hand.kRight), kJoy.kJoystickDeadband);
+      // 5 represents left/right axis on the right joystick
+      return deadbandX(driver.getRawAxis(5), kJoy.kJoystickDeadband);
   }
 
   /**
