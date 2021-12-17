@@ -7,10 +7,7 @@
 
 package frc.robot.commands;
 
-<<<<<<< Updated upstream
-=======
 import frc.robot.subsystems.DriveSubsystem;
->>>>>>> Stashed changes
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DriveSubsystem;
 

@@ -12,7 +12,7 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
-public class Util {
+public class ControllerFactory {
 
     private static int talonSRXDefaultContinuousLimit = 38;
     private static int talonSRXDefaultPeakLimit = 45;

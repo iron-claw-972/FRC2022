@@ -9,12 +9,6 @@ package frc.robot;
 
 import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.GenericHID;
-<<<<<<< Updated upstream
-import frc.robot.subsystems.DriveSubsystem;
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.RunCommand;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-=======
 import frc.robot.subsystems.Drivetrain;
 
 import edu.wpi.first.wpilibj2.command.Command;
@@ -25,7 +19,6 @@ import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
->>>>>>> Stashed changes
 
 import frc.robot.Constants.DriverConstants;
 /**
