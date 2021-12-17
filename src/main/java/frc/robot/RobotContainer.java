@@ -8,10 +8,10 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
-import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.DriveSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -20,16 +20,10 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
  * (including subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
-  // The robot's subsystems and commands are defined here...
+
   private final DriveSubsystem m_drive = new DriveSubsystem();
 
-  private final ExampleCommand m_autoCommand = new RunCommand();
 
-
-
-  /**
-   * The container for the robot.  Contains subsystems, OI devices, and commands.
-   */
   public RobotContainer() {
     // Configure the button bindings
     configureButtonBindings();
@@ -50,7 +44,9 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    // An ExampleCommand will run in autonomous
-    return m_autoCommand;
+    // An spin in circle
+    return new SequentialCommandGroup(
+      new RunCommand(() -> m_drive.tankDrive(0.2, -0.2))
+      );
   }
 }

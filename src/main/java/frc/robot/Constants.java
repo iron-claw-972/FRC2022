@@ -19,6 +19,6 @@ public final class Constants {
 
     public final class kDrive {
         public static final int kLeftMotorPort = -1;
-		public static int kRightMotorPort = -1;
+		public static final int kRightMotorPort = -1;
     }
 }

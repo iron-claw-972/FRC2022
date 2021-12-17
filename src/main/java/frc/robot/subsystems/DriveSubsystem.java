@@ -26,4 +26,9 @@ public class DriveSubsystem extends SubsystemBase {
     leftMotor.set(ControlMode.PercentOutput, throttle + turn);
     rightMotor.set(ControlMode.PercentOutput, throttle - turn);
   }
+
+  public void tankDrive(double left, double right) {
+    leftMotor.set(ControlMode.PercentOutput, left);
+    rightMotor.set(ControlMode.PercentOutput, right);
+  }
 }
