@@ -9,16 +9,17 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.kDrive;
+import frc.robot.ControllerFactory;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.*;
 
-public class DriveSubsystem extends SubsystemBase {
+public class Drivetrain extends SubsystemBase {
   
-  TalonSRX leftMotor = new TalonSRX(kDrive.kLeftMotorPort);
-  TalonSRX rightMotor = new TalonSRX(kDrive.kRightMotorPort);
+  TalonSRX leftMotor = ControllerFactory.createTalonSRX(kDrive.kLeftMotorPort);
+  TalonSRX rightMotor = ControllerFactory.createTalonSRX(kDrive.kRightMotorPort);
 
-  public DriveSubsystem() {
+  public Drivetrain() {
     leftMotor.setInverted(true);
   }
 
@@ -30,5 +31,26 @@ public class DriveSubsystem extends SubsystemBase {
   public void tankDrive(double left, double right) {
     leftMotor.set(ControlMode.PercentOutput, left);
     rightMotor.set(ControlMode.PercentOutput, right);
+  }
+
+  public void setEncoders(double left, double right) {
+    leftMotor.setSelectedSensorPosition(left);
+    rightMotor.setSelectedSensorPosition(right);
+  } 
+
+  public double getLeftEncoder() {
+    return leftMotor.getSelectedSensorPosition();
+  }
+
+  public double getRightEncoder() {
+    return rightMotor.getSelectedSensorPosition();
+  }
+
+  public double getLeftVelocity() {
+    return leftMotor.getSelectedSensorVelocity();
+  }
+
+  public double getRightVelocity() {
+    return rightMotor.getSelectedSensorVelocity();
   }
 }

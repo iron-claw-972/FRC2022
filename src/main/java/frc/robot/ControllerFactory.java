@@ -66,9 +66,9 @@ public class ControllerFactory {
      * @param useDefaultLimits whether or not to enable the default limits
      * @return a fully configured TalonSRX object 
      */
-    public static TalonSRX createTalonSRX(int id, boolean useDefaultLimits) {
+    public static TalonSRX createTalonSRX(int id) {
         TalonSRX talon = createTalonSRX(id, talonSRXDefaultContinuousLimit, talonSRXDefaultPeakLimit, talonSRXDefaultPeakDuration);
-        talon.enableCurrentLimit(useDefaultLimits);
+        talon.enableCurrentLimit(true);
 
         return talon;
     }
