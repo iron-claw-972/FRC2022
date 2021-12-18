@@ -14,13 +14,24 @@ import frc.robot.ControllerFactory;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.*;
 
+import java.util.List;
+
+
 public class Drivetrain extends SubsystemBase {
   
-  TalonSRX leftMotor = ControllerFactory.createTalonSRX(kDrive.kLeftMotorPort);
-  TalonSRX rightMotor = ControllerFactory.createTalonSRX(kDrive.kRightMotorPort);
+  TalonFX leftMotor = ControllerFactory.createTalonFX(kDrive.kLeftMotorPort);
+  TalonFX leftMotorPal = ControllerFactory.createTalonFX(kDrive.kLeftMotorPalPort);
+
+  TalonFX rightMotor = ControllerFactory.createTalonFX(kDrive.kRightMotorPort);
+  TalonFX rightMotorPal = ControllerFactory.createTalonFX(kDrive.kRightMotorPalPort);
 
   public Drivetrain() {
-    leftMotor.setInverted(true);
+    leftMotorPal.follow(leftMotor);
+    rightMotorPal.follow(rightMotor);
+
+    // Inverting opposite sides of the drivetrain
+    List.of(leftMotor, leftMotorPal).forEach(motor -> motor.setInverted(false));
+    List.of(rightMotor, rightMotorPal).forEach(motor -> motor.setInverted(true));
   }
 
   public void arcadeDrive(double throttle, double turn) {
