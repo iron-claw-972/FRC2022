@@ -14,9 +14,6 @@ import frc.robot.ControllerFactory;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.*;
 
-import java.util.List;
-
-
 public class Drivetrain extends SubsystemBase {
   
   TalonFX leftMotor = ControllerFactory.createTalonFX(kDrive.kLeftMotorPort);
