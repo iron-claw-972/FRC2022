@@ -30,8 +30,8 @@ public class Drivetrain extends SubsystemBase {
     rightMotorPal.follow(rightMotor);
 
     // Inverting opposite sides of the drivetrain
-    List.of(leftMotor, leftMotorPal).forEach(motor -> motor.setInverted(false));
-    List.of(rightMotor, rightMotorPal).forEach(motor -> motor.setInverted(true));
+    rightMotor.setInverted(true);
+    rightMotorPal.setInverted(true);
   }
 
   public void arcadeDrive(double throttle, double turn) {
