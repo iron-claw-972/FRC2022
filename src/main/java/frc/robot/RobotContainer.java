@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
+import edu.wpi.first.cameraserver.CameraServer;
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -53,6 +54,9 @@ public class RobotContainer {
 
   
   public RobotContainer() {
+
+    CameraServer.getInstance().startAutomaticCapture();
+
     m_drive.setDefaultCommand(
       new RunCommand(() -> m_drive.arcadeDrive(getThrottleValue(), getTurnValue())));
     
