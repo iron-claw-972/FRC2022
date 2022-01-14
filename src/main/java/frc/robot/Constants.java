@@ -17,19 +17,19 @@ package frc.robot;
  */
 public class Constants {
 
-    public static final double kMaxVoltage = 12.0;
+  public static final double kMaxVoltage = 12.0;
 
-    public final class kJoy {
-        public static final int kDriverJoy = 0;
-        public static final int kOperatorJoy = 1;
-		public static final double kJoystickDeadband = 0.07; // How much of joystick is "dead" zone [0,1]
-    }
+  public final class JoyConstants {
+    public static final int kDriverJoy = 0;
+    public static final int kOperatorJoy = 1;
+    public static final double kJoystickDeadband = 0.07; // How much of joystick is "dead" zone [0,1]
+  }
 
-    public final class kDrive {
-        public static final int kLeftMotorPort = -1;
-        public static final int kLeftMotorPalPort = -1;
+  public final class DriveConstants {
+    public static final int kLeftMotorPort = -1;
+    public static final int kLeftMotorPalPort = -1;
 
-        public static final int kRightMotorPort = -1;
-        public static final int kRightMotorPalPort = -1;
-    }
+    public static final int kRightMotorPort = -1;
+    public static final int kRightMotorPalPort = -1;
+  }
 }

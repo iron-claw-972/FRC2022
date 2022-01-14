@@ -8,7 +8,7 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants.kDrive;
+import frc.robot.Constants.DriveConstants;
 import frc.robot.ControllerFactory;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
@@ -16,11 +16,11 @@ import com.ctre.phoenix.motorcontrol.can.*;
 
 public class Drivetrain extends SubsystemBase {
   
-  TalonFX leftMotor = ControllerFactory.createTalonFX(kDrive.kLeftMotorPort);
-  TalonFX leftMotorPal = ControllerFactory.createTalonFX(kDrive.kLeftMotorPalPort);
+  TalonFX leftMotor = ControllerFactory.createTalonFX(DriveConstants.kLeftMotorPort);
+  TalonFX leftMotorPal = ControllerFactory.createTalonFX(DriveConstants.kLeftMotorPalPort);
 
-  TalonFX rightMotor = ControllerFactory.createTalonFX(kDrive.kRightMotorPort);
-  TalonFX rightMotorPal = ControllerFactory.createTalonFX(kDrive.kRightMotorPalPort);
+  TalonFX rightMotor = ControllerFactory.createTalonFX(DriveConstants.kRightMotorPort);
+  TalonFX rightMotorPal = ControllerFactory.createTalonFX(DriveConstants.kRightMotorPalPort);
 
   public Drivetrain() {
     leftMotorPal.follow(leftMotor);
