@@ -58,7 +58,7 @@ public class RobotContainer {
 
     m_drive.setDefaultCommand(new ArcadeDrive(m_drive));
 
-    CameraServer.getInstance().startAutomaticCapture();
+    CameraServer.startAutomaticCapture();
 
     m_drive.setDefaultCommand(
       new RunCommand(() -> m_drive.arcadeDrive(getThrottleValue(), getTurnValue())));
