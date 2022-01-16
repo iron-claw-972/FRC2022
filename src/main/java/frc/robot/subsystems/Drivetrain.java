@@ -60,11 +60,6 @@ public class Drivetrain extends SubsystemBase {
         m_gyro.getRotation2d(), leftMotor.getSelectedSensorPosition(), rightMotor.getSelectedSensorPosition());
   }
 
-  public void tankDrive(double left, double right) {
-    leftMotor.set(ControlMode.PercentOutput, left);
-    rightMotor.set(ControlMode.PercentOutput, right);
-  }
-
   public void setEncoders(double left, double right) {
     leftMotor.setSelectedSensorPosition(left);
     rightMotor.setSelectedSensorPosition(right);
@@ -101,7 +96,7 @@ public class Drivetrain extends SubsystemBase {
    * @return The current wheel speeds.
    */
   public DifferentialDriveWheelSpeeds getWheelSpeeds() {
-    return new DifferentialDriveWheelSpeeds(leftMotor.getSelectedSensorVelocity(), rightMotor.getSelectedSensorVelocity());
+    return new DifferentialDriveWheelSpeeds(getLeftVelocity(), getRightVelocity());
   }
 
   /**
@@ -142,7 +137,7 @@ public class Drivetrain extends SubsystemBase {
    * @return the average of the two encoder readings
    */
   public double getAverageEncoderDistance() {
-    return (m_leftEncoder.getDistance() + m_rightEncoder.getDistance()) / 2.0;
+    return (getLeftEncoder() + getRightEncoder()) / 2.0;
   }
 
   /**
