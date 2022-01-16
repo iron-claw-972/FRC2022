@@ -31,9 +31,20 @@ public class Drivetrain extends SubsystemBase {
     rightMotorPal.setInverted(true);
   }
 
+  int sensitivity = 5;
+  public void modSensitivity(){
+    if (sensitivity == 5) {
+      sensitivity = 2;
+      System.out.println("sensitivity changed to 1/2");
+    } else {
+      sensitivity = 5;
+      System.out.println("sensitivity changed to 1/5");
+    }
+  }
+
   public void arcadeDrive(double throttle, double turn) {
-    leftMotor.set(ControlMode.PercentOutput, throttle + turn);
-    rightMotor.set(ControlMode.PercentOutput, throttle - turn);
+    leftMotor.set(ControlMode.PercentOutput, (throttle + turn) / sensitivity);
+    rightMotor.set(ControlMode.PercentOutput, (throttle - turn) / sensitivity);
   }
 
   public void tankDrive(double left, double right) {
