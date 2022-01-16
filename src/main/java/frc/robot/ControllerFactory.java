@@ -8,6 +8,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.TalonFXConfiguration;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.TalonSRXConfiguration;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
@@ -112,7 +113,7 @@ public class ControllerFactory {
   * 
   * @return a fully configured TalonFX
   */
-  public static TalonFX createTalonFX(int id) {
+  public static WPI_TalonFX createTalonFX(int id) {
     TalonFXConfiguration config = new TalonFXConfiguration();
     
     config.statorCurrLimit = new StatorCurrentLimitConfiguration(
@@ -121,7 +122,7 @@ public class ControllerFactory {
         talonFXSupplyLimitEnable, talonFXSupplyCurrentLimit, talonFXSupplyTriggerThreshold, talonFXSupplyTriggerDuration);
     config.voltageCompSaturation = 12;
 
-    TalonFX talon = new TalonFX(id);
+    WPI_TalonFX talon = new WPI_TalonFX(id);
     talon.configFactoryDefault();
     talon.configAllSettings(config);
     talon.enableVoltageCompensation(true);

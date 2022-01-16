@@ -32,4 +32,30 @@ public class Constants {
     public static final int kRightMotorPort = -1;
     public static final int kRightMotorPalPort = -1;
   }
+
+  public final class AutoConstants {
+
+    /** 
+     * Characterization data
+     */
+    // ksVolts -> adds +ksVolts or -ksVolts to overcome static friction in the direction of motion.
+    // kvVoltSecondsPerMeter -> Adds the values number of volts for every meter per second of velocity desired.
+    // kaVoltSecondsSquaredPerMeter -> Adds the values number of volts for every meter per second squared of acceleration desired.
+    public static final double ksVolts = 0.51764;
+    public static final double kvVoltSecondsPerMeter = 0.85433;
+    public static final double kaVoltSecondsSquaredPerMeter = 0.048697;
+
+    // P Gain -> Number of ticks/100ms to apply for every ticks/100ms of error
+    public static final double kRamsetePGain = 0.85763;
+
+    /**
+     * Trajectories Data
+     */
+    public static final double kMaxSpeedMetersPerSecond = 3;
+    public static final double kMaxAccelerationMetersPerSecondSquared = 3;
+
+    // Reasonable baseline values for a RAMSETE follower in units of meters and seconds
+    public static final double kRamseteB = 2;
+    public static final double kRamseteZeta = 0.7;
+  }
 }
