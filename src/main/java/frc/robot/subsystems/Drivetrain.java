@@ -25,13 +25,13 @@ import com.ctre.phoenix.motorcontrol.can.*;
 public class Drivetrain extends SubsystemBase {
   
   WPI_TalonFX leftMotor = ControllerFactory.createTalonFX(DriveConstants.kLeftMotorPort);
-  WPI_TalonFX leftMotorPal = ControllerFactory.createTalonFX(DriveConstants.kLeftMotorPalPort);
+  //WPI_TalonFX leftMotorPal = ControllerFactory.createTalonFX(DriveConstants.kLeftMotorPalPort);
 
   WPI_TalonFX rightMotor = ControllerFactory.createTalonFX(DriveConstants.kRightMotorPort);
-  WPI_TalonFX rightMotorPal = ControllerFactory.createTalonFX(DriveConstants.kRightMotorPalPort);
+  //WPI_TalonFX rightMotorPal = ControllerFactory.createTalonFX(DriveConstants.kRightMotorPalPort);
 
-  private final MotorControllerGroup m_leftMotors = new MotorControllerGroup(leftMotor, leftMotorPal);
-  private final MotorControllerGroup m_rightMotors = new MotorControllerGroup(rightMotor, rightMotorPal);
+  private final MotorControllerGroup m_leftMotors = new MotorControllerGroup(leftMotor/*, leftMotorPal*/);
+  private final MotorControllerGroup m_rightMotors = new MotorControllerGroup(rightMotor/*, rightMotorPal*/);
 
    // The robot's drive
    private final DifferentialDrive m_drive = new DifferentialDrive(m_leftMotors, m_rightMotors);
@@ -43,8 +43,8 @@ public class Drivetrain extends SubsystemBase {
    private final DifferentialDriveOdometry m_odometry;
 
   public Drivetrain() {
-    leftMotorPal.follow(leftMotor);
-    rightMotorPal.follow(rightMotor);
+    // leftMotorPal.follow(leftMotor);
+    // rightMotorPal.follow(rightMotor);
 
     // Inverting opposite sides of the drivetrain
     m_rightMotors.setInverted(true);

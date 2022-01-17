@@ -71,12 +71,12 @@ public class RobotContainer {
   
   public RobotContainer() {
 
-    m_drive.setDefaultCommand(new ArcadeDrive(m_drive));
+   // m_drive.setDefaultCommand(new ArcadeDrive(m_drive));
 
     CameraServer.startAutomaticCapture();
 
     m_drive.setDefaultCommand(
-        new RunCommand(() -> m_drive.arcadeDrive(getThrottleValue(), getTurnValue())));
+        new RunCommand(() -> m_drive.arcadeDrive(getThrottleValue(), getTurnValue()), m_drive));
     
     // Configure the button bindings
     configureButtonBindings();

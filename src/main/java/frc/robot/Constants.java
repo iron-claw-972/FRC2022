@@ -28,10 +28,10 @@ public class Constants {
   }
 
   public static final class DriveConstants {
-    public static final int kLeftMotorPort = -1;
+    public static final int kLeftMotorPort = 1;
     public static final int kLeftMotorPalPort = -1;
 
-    public static final int kRightMotorPort = -1;
+    public static final int kRightMotorPort = 2;
     public static final int kRightMotorPalPort = -1;
 
     public static final double kTrackwidthMeters = 0.69;
