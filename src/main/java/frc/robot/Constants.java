@@ -47,14 +47,14 @@ public class Constants {
     // ksVolts -> adds +ksVolts or -ksVolts to overcome static friction in the direction of motion.
     // kvVoltSecondsPerMeter -> Adds the values number of volts for every meter per second of velocity desired.
     // kaVoltSecondsSquaredPerMeter -> Adds the values number of volts for every meter per second squared of acceleration desired.
-    public static final double ksVolts = 0.51764;
-    public static final double kvVoltSecondsPerMeter = 0.85433;
-    public static final double kaVoltSecondsSquaredPerMeter = 0.048697;
+    public static final double ksVolts = 0.45633;
+    public static final double kvVoltSecondsPerMeter = 0.012947;
+    public static final double kaVoltSecondsSquaredPerMeter = 0.0035528;
 
     // P Gain -> Number of ticks/100ms to apply for every ticks/100ms of error
-    public static final double kRamsetePGain = 0.85763;
+    public static final double kRamsetePGain = 0.019073;
     //ARE THESE THE SAME??? IDK????
-    public static final double kPDriveVel = 0.85763;
+    public static final double kPDriveVel = 0.019073;
 
     /**
      * Trajectories Data
