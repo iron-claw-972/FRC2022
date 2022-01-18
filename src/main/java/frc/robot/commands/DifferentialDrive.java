@@ -9,12 +9,15 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
+import frc.robot.Constants.DriveConstants;
 import frc.robot.subsystems.Drivetrain;
 
-public class ArcadeDrive extends CommandBase {
+public class DifferentialDrive extends CommandBase {
   private final Drivetrain m_drive;
 
-  public ArcadeDrive(Drivetrain subsystem) {
+  private double speed, rotation;
+
+  public DifferentialDrive(Drivetrain subsystem) {
     m_drive = subsystem;
     addRequirements(subsystem);
   }
@@ -22,6 +25,9 @@ public class ArcadeDrive extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_drive.arcadeDrive(RobotContainer.getThrottleValue(), RobotContainer.getTurnValue());
+    speed = m_drive.getSpeedLimiter().calculate(RobotContainer.getThrottleValue()) * DriveConstants.kMaxSpeedMetersPerSecond;
+    rotation = m_drive.getRotationLimiter().calculate(RobotContainer.getTurnValue()) * DriveConstants.kMaxAngularSpeedRadiansPerSecond;
+
+    m_drive.drive(speed, rotation);
   }
 }
