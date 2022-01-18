@@ -7,8 +7,33 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+import com.kauailabs.navx.frc.AHRS;
+
+import edu.wpi.first.hal.SimDevice;
+import edu.wpi.first.hal.SimDouble;
+import edu.wpi.first.hal.simulation.SimDeviceDataJNI;
+import edu.wpi.first.math.VecBuilder;
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.controller.RamseteController;
+import edu.wpi.first.math.controller.SimpleMotorFeedforward;
+import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
+import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
+import edu.wpi.first.wpilibj.RobotBase;
+import edu.wpi.first.wpilibj.RobotController;
+import ctre_shims.PhoenixMotorControllerGroup;
+import ctre_shims.TalonEncoder;
+import ctre_shims.TalonEncoderSim;
+import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.simulation.DifferentialDrivetrainSim;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.Encoder;
@@ -16,44 +41,232 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.interfaces.Gyro;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
+import frc.robot.Constants;
 import frc.robot.ControllerFactory;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.can.*;
-
 public class Drivetrain extends SubsystemBase {
+
+  private final WPI_TalonFX m_leftMotor1 = ControllerFactory.createTalonFX(DriveConstants.kLeftMotor1Port);
+  private final WPI_TalonFX m_leftMotor2 = ControllerFactory.createTalonFX(DriveConstants.kLeftMotor2Port);
+
+  private final WPI_TalonFX m_rightMotor1 = ControllerFactory.createTalonFX(DriveConstants.kRightMotor1Port);
+  private final WPI_TalonFX m_rightMotor2 = ControllerFactory.createTalonFX(DriveConstants.kRightMotor2Port);
+
+  private final PhoenixMotorControllerGroup m_leftMotors = new PhoenixMotorControllerGroup(m_leftMotor1, m_leftMotor2);
+  private final PhoenixMotorControllerGroup m_rightMotors = new PhoenixMotorControllerGroup(m_rightMotor1,
+      m_rightMotor2);
+
+  // The left-side drive encoder
+  private final TalonEncoder m_leftEncoder = new TalonEncoder(m_leftMotor1, DriveConstants.kLeftEncoderReversed);
+
+  // The right-side drive encoder
+  private final TalonEncoder m_rightEncoder = new TalonEncoder(m_rightMotor1, DriveConstants.kRightEncoderReversed);
+
+  private final DifferentialDrive m_dDrive = new DifferentialDrive(m_leftMotors, m_rightMotors);
+
+  private final AHRS m_navX = new AHRS(SPI.Port.kMXP);
+
+  // Odometry class for tracking robot pose
+  private final DifferentialDriveOdometry m_odometry;
+
+  private final SlewRateLimiter m_speedLimiter = new SlewRateLimiter(DriveConstants.kSpeedSlewRateLimit);
+  private final SlewRateLimiter m_rotationLimiter = new SlewRateLimiter(DriveConstants.kRotationSlewRateLimit);
+
+  private final PIDController m_leftRamsetePIDController = new PIDController(DriveConstants.kRamseteP, 0, 0);
+  private final PIDController m_rightRamsetePIDController = new PIDController(DriveConstants.kRamseteP, 0, 0);
+
+  private final PIDController m_leftVelocityPIDController = new PIDController(DriveConstants.kVelocityP,
+      DriveConstants.kVelocityI, DriveConstants.kVelocityD);
+  private final PIDController m_rightVelocityPIDController = new PIDController(DriveConstants.kVelocityP,
+      DriveConstants.kVelocityI, DriveConstants.kVelocityD);
+
+  private final RamseteController m_ramseteController = new RamseteController(AutoConstants.kRamseteB,
+      AutoConstants.kRamseteZeta);
+
+  private final SimpleMotorFeedforward m_feedforward = new SimpleMotorFeedforward(
+      DriveConstants.ksVolts,
+      DriveConstants.kvVoltSecondsPerMeter,
+      DriveConstants.kaVoltSecondsSquaredPerMeter);
+
+  private final DifferentialDriveKinematics m_driveKinematics = new DifferentialDriveKinematics(
+      DriveConstants.kTrackWidthMeters);
+
+  // These classes help us simulate our drivetrain
+  private DifferentialDrivetrainSim m_drivetrainSim;
+  private TalonEncoderSim m_leftEncoderSim;
+  private TalonEncoderSim m_rightEncoderSim;
+
+  // The Field2d class shows the field in the sim GUI
+  private Field2d m_fieldSim;
   
-  WPI_TalonFX leftMotor = ControllerFactory.createTalonFX(DriveConstants.kLeftMotorPort);
-  //WPI_TalonFX leftMotorPal = ControllerFactory.createTalonFX(DriveConstants.kLeftMotorPalPort);
-
-  WPI_TalonFX rightMotor = ControllerFactory.createTalonFX(DriveConstants.kRightMotorPort);
-  //WPI_TalonFX rightMotorPal = ControllerFactory.createTalonFX(DriveConstants.kRightMotorPalPort);
-
-  private final MotorControllerGroup m_leftMotors = new MotorControllerGroup(leftMotor/*, leftMotorPal*/);
-  private final MotorControllerGroup m_rightMotors = new MotorControllerGroup(rightMotor/*, rightMotorPal*/);
-
-   // The robot's drive
-   private final DifferentialDrive m_drive = new DifferentialDrive(m_leftMotors, m_rightMotors);
- 
-   // The gyro sensor
-   private final Gyro m_gyro = new ADXRS450_Gyro();
- 
-   // Odometry class for tracking robot pose
-   private final DifferentialDriveOdometry m_odometry;
+  private int sensitivity = 5;
 
   public Drivetrain() {
-    // leftMotorPal.follow(leftMotor);
-    // rightMotorPal.follow(rightMotor);
-
-    // Inverting opposite sides of the drivetrain
+    // Inverting one side of the drivetrain as to drive forward
+    m_leftMotors.setInverted(false);
     m_rightMotors.setInverted(true);
-    
-    setEncoders(0, 0);
-    m_odometry = new DifferentialDriveOdometry(m_gyro.getRotation2d());
+
+    // Sets the distance per pulse for the encoders
+    m_leftEncoder.setDistancePerPulse(DriveConstants.kEncoderMetersPerPulse);
+    m_rightEncoder.setDistancePerPulse(DriveConstants.kEncoderMetersPerPulse);
+
+    resetEncoders();
+    zeroHeading();
+
+    m_odometry = new DifferentialDriveOdometry(m_navX.getRotation2d());
+
+    if (RobotBase.isSimulation()) {
+      // This class simulates our drivetrain's motion around the field.
+      m_drivetrainSim = new DifferentialDrivetrainSim(
+          DriveConstants.kDrivetrainPlant,
+          DriveConstants.kDriveGearbox,
+          DriveConstants.kGearRatio,
+          DriveConstants.kTrackWidthMeters,
+          DriveConstants.kWheelDiameterMeters / 2.0,
+          VecBuilder.fill(0, 0, 0.0001, 0.1, 0.1, 0.005, 0.005));
+
+      // The encoder and gyro angle sims let us set simulated sensor readings
+      m_leftEncoderSim = new TalonEncoderSim(m_leftEncoder);
+      m_rightEncoderSim = new TalonEncoderSim(m_rightEncoder);
+
+      // the Field2d class lets us visualize our robot in the simulation GUI.
+      m_fieldSim = new Field2d();
+      SmartDashboard.putData("Field", m_fieldSim);
+    }
   }
 
-  int sensitivity = 5;
+  @Override
+  public void simulationPeriodic() {
+    // To update our simulation, we set motor voltage inputs, update the simulation,
+    // and write the simulated positions and velocities to our simulated encoder and
+    // gyro.
+    // We negate the right side so that positive voltages make the right side
+    // move forward.
+    m_drivetrainSim.setInputs(
+        m_leftMotors.get() * RobotController.getBatteryVoltage(),
+        m_rightMotors.get() * RobotController.getBatteryVoltage());
+    m_drivetrainSim.update(0.020);
+
+    m_leftEncoderSim.setDistance(m_drivetrainSim.getLeftPositionMeters());
+    m_leftEncoderSim.setRate(m_drivetrainSim.getLeftVelocityMetersPerSecond());
+    m_rightEncoderSim.setDistance(m_drivetrainSim.getRightPositionMeters());
+    m_rightEncoderSim.setRate(m_drivetrainSim.getRightVelocityMetersPerSecond());
+
+    int dev = SimDeviceDataJNI.getSimDeviceHandle("navX-Sensor[0]");
+    SimDouble angle = new SimDouble(SimDeviceDataJNI.getSimValueHandle(dev, "Yaw"));
+    // NavX expects clockwise positive, but sim outputs clockwise negative
+    angle.set(Math.IEEEremainder(-m_drivetrainSim.getHeading().getDegrees(), 360));
+  }
+
+  /**
+   * Returns the current being drawn by the drivetrain. This works in SIMULATION
+   * ONLY! If you want
+   * it to work elsewhere, use the code in
+   * {@link DifferentialDrivetrainSim#getCurrentDrawAmps()}
+   *
+   * @return The drawn current in Amps.
+   */
+  public double getDrawnCurrentAmps() {
+    return m_drivetrainSim.getCurrentDrawAmps();
+  }
+
+  public SlewRateLimiter getSpeedLimiter() {
+    return m_speedLimiter;
+  }
+
+  public SlewRateLimiter getRotationLimiter() {
+    return m_rotationLimiter;
+  }
+
+  public DifferentialDriveKinematics getDriveKinematics() {
+    return m_driveKinematics;
+  }
+
+  @Override
+  public void periodic() {
+    // Update the odometry in the periodic block
+    updateOdometry();
+    m_fieldSim.setRobotPose(getPose());
+  }
+
+  public void updateOdometry() {
+    m_odometry.update(m_navX.getRotation2d(), m_leftEncoder.getDistance(), m_rightEncoder.getDistance());
+  }
+
+  /**
+   * Drives the robot with the given linear velocity and angular velocity.
+   *
+   * @param xSpeed Linear velocity in m/s.
+   * @param rot    Angular velocity in rad/s.
+   */
+  public void drive(double xSpeed, double rot) {
+    var wheelSpeeds = m_driveKinematics.toWheelSpeeds(new ChassisSpeeds(xSpeed, 0.0, rot));
+    setSpeeds(wheelSpeeds);
+  }
+
+  public RamseteController getRamseteController() {
+    return m_ramseteController;
+  }
+
+  public SimpleMotorFeedforward getFeedforward() {
+    return m_feedforward;
+  }
+
+  public PIDController getLeftRamsetePIDController() {
+    return m_leftRamsetePIDController;
+  }
+
+  public PIDController getRightRamsetePIDController() {
+    return m_rightRamsetePIDController;
+  }
+
+  public PIDController getLeftVelocityPIDController() {
+    return m_leftVelocityPIDController;
+  }
+
+  public PIDController getRightVelocityPIDController() {
+    return m_rightVelocityPIDController;
+  }
+
+  /**
+   * Returns the currently-estimated pose of the robot.
+   *
+   * @return The pose.
+   */
+  public Pose2d getPose() {
+    return m_odometry.getPoseMeters();
+  }
+
+  public DifferentialDriveWheelSpeeds getWheelSpeeds() {
+    return new DifferentialDriveWheelSpeeds(m_leftEncoder.getRate(), m_rightEncoder.getRate());
+  }
+
+  /**
+   * Resets the odometry to the specified pose.
+   *
+   * @param pose The pose to which to set the odometry.
+   */
+  public void resetOdometry(Pose2d pose) {
+    resetEncoders();
+    m_odometry.resetPosition(pose, m_navX.getRotation2d());
+  }
+
+  /**
+   * Gets the average distance of the two encoders.
+   *
+   * @return the average of the two encoder readings
+   */
+  public double getAverageEncoderDistance() {
+    return (m_leftEncoder.getDistance() + m_rightEncoder.getDistance()) / 2.0;
+  }
+
+  public void tankDrive(double left, double right) {
+    m_leftMotors.set(left);
+    m_rightMotors.set(right);
+
+
   public void modSensitivity(){
     if (sensitivity == 5) {
       sensitivity = 2;
@@ -68,106 +281,59 @@ public class Drivetrain extends SubsystemBase {
     leftMotor.set(ControlMode.PercentOutput, (throttle + turn) / sensitivity);
     rightMotor.set(ControlMode.PercentOutput, (throttle - turn) / sensitivity);
   }
-
-  @Override
-  public void periodic() {
-    // Update the odometry in the periodic block
-    m_odometry.update(
-        m_gyro.getRotation2d(), leftMotor.getSelectedSensorPosition(), rightMotor.getSelectedSensorPosition());
-  }
-
-  public void setEncoders(double left, double right) {
-    leftMotor.setSelectedSensorPosition(left);
-    rightMotor.setSelectedSensorPosition(right);
-  } 
-
-  public double getLeftEncoder() {
-    return leftMotor.getSelectedSensorPosition();
-  }
-
-  public double getRightEncoder() {
-    return rightMotor.getSelectedSensorPosition();
-  }
-
-  public double getLeftVelocity() {
-    return leftMotor.getSelectedSensorVelocity();
-  }
-
-  public double getRightVelocity() {
-    return rightMotor.getSelectedSensorVelocity();
-  }
-
-    /**
-   * Returns the currently-estimated pose of the robot.
-   *
-   * @return The pose.
-   */
-  public Pose2d getPose() {
-    return m_odometry.getPoseMeters();
-  }
-
-  /**
-   * Returns the current wheel speeds of the robot.
-   *
-   * @return The current wheel speeds.
-   */
-  public DifferentialDriveWheelSpeeds getWheelSpeeds() {
-    return new DifferentialDriveWheelSpeeds(getLeftVelocity(), getRightVelocity());
-  }
-
-  /**
-   * Resets the odometry to the specified pose.
-   *
-   * @param pose The pose to which to set the odometry.
-   */
-  public void resetOdometry(Pose2d pose) {
-    setEncoders(0, 0);
-    m_odometry.resetPosition(pose, m_gyro.getRotation2d());
-  }
-
-  /**
-   * Drives the robot using arcade controls.
-   *
-   * @param fwd the commanded forward movement
-   * @param rot the commanded rotation
-   */
-  public void arcadeDrive(double fwd, double rot) {
-    m_drive.arcadeDrive(fwd, rot);
+    
   }
 
   /**
    * Controls the left and right sides of the drive directly with voltages.
    *
-   * @param leftVolts the commanded left output
+   * @param leftVolts  the commanded left output
    * @param rightVolts the commanded right output
    */
   public void tankDriveVolts(double leftVolts, double rightVolts) {
+    var batteryVoltage = RobotController.getBatteryVoltage();
+    if (Math.max(Math.abs(leftVolts), Math.abs(rightVolts)) > batteryVoltage) {
+      leftVolts *= batteryVoltage / Constants.kMaxVoltage;
+      rightVolts *= batteryVoltage / Constants.kMaxVoltage;
+    }
     m_leftMotors.setVoltage(leftVolts);
     m_rightMotors.setVoltage(rightVolts);
-    m_drive.feed();
+    m_dDrive.feed();
   }
 
   /**
-   * Gets the average distance of the two encoders.
+   * Sets the desired wheel speeds.
    *
-   * @return the average of the two encoder readings
+   * @param speeds The desired wheel speeds.
    */
-  public double getAverageEncoderDistance() {
-    return (getLeftEncoder() + getRightEncoder()) / 2.0;
+  public void setSpeeds(DifferentialDriveWheelSpeeds speeds) {
+    final double leftFeedforward = m_feedforward.calculate(speeds.leftMetersPerSecond);
+    final double rightFeedforward = m_feedforward.calculate(speeds.rightMetersPerSecond);
+
+    final double leftOutput = m_leftVelocityPIDController.calculate(m_leftEncoder.getRate(), speeds.leftMetersPerSecond);
+    final double rightOutput = m_rightVelocityPIDController.calculate(m_rightEncoder.getRate(), speeds.rightMetersPerSecond);
+
+    tankDriveVolts(leftOutput + leftFeedforward, rightOutput + rightFeedforward);
+  }
+
+  public void resetEncoders() {
+    m_leftEncoder.reset();
+    m_rightEncoder.reset();
   }
 
   /**
-   * Sets the max output of the drive. Useful for scaling the drive to drive more slowly.
+   * Sets the max output of the drive. Useful for scaling the drive to drive more
+   * slowly.
    *
    * @param maxOutput the maximum output to which the drive will be constrained
    */
   public void setMaxOutput(double maxOutput) {
-    m_drive.setMaxOutput(maxOutput);
+    m_dDrive.setMaxOutput(maxOutput);
   }
 
   /** Zeroes the heading of the robot. */
   public void zeroHeading() {
-    m_gyro.reset();
+    m_navX.reset();
   }
 
   /**
@@ -176,7 +342,7 @@ public class Drivetrain extends SubsystemBase {
    * @return the robot's heading in degrees, from -180 to 180
    */
   public double getHeading() {
-    return m_gyro.getRotation2d().getDegrees();
+    return m_navX.getRotation2d().getDegrees();
   }
 
   /**
@@ -185,7 +351,6 @@ public class Drivetrain extends SubsystemBase {
    * @return The turn rate of the robot, in degrees per second
    */
   public double getTurnRate() {
-    return -m_gyro.getRate();
+    return -m_navX.getRate();
   }
-
 }

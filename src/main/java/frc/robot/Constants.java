@@ -7,7 +7,13 @@
 
 package frc.robot;
 
+import edu.wpi.first.math.numbers.N2;
+import edu.wpi.first.math.system.LinearSystem;
+import edu.wpi.first.math.system.plant.DCMotor;
+import edu.wpi.first.math.system.plant.LinearSystemId;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
+
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
@@ -17,54 +23,79 @@ import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
  * <p>It is advised to statically import this class (or one of its inner classes) wherever the
  * constants are needed, to reduce verbosity.
  */
-public class Constants {
+public final class Constants {
 
   public static final double kMaxVoltage = 12.0;
 
   public static final class JoyConstants {
     public static final int kDriverJoy = 0;
-    public static final int kOperatorJoy = 1;
+    public static final int kOperatorJoy = 0;
     public static final double kJoystickDeadband = 0.07; // How much of joystick is "dead" zone [0,1]
   }
 
   public static final class DriveConstants {
-    public static final int kLeftMotorPort = 1;
-    public static final int kLeftMotorPalPort = -1;
+    // Drivetrain motor ports, use -1 for unused motors
+    public static final int kLeftMotor1Port = 1;
+    public static final int kLeftMotor2Port = 3;
 
-    public static final int kRightMotorPort = 2;
-    public static final int kRightMotorPalPort = -1;
+    public static final int kRightMotor1Port = 2;
+    public static final int kRightMotor2Port = 4;
 
-    public static final double kTrackwidthMeters = 0.69;
-    public static final DifferentialDriveKinematics kDriveKinematics =
-        new DifferentialDriveKinematics(kTrackwidthMeters);
+    public static final double kSpeedSlewRateLimit = 1;
+    public static final double kRotationSlewRateLimit = 1;
+
+    public static final double kTrackWidthMeters = Units.inchesToMeters(20); // Distance between center of left wheel and center of right wheel in meters
+
+    public static final int kEncoderResolution = 2048; // 2048 for Falcon500 integrated encoder
+    public static final double kWheelDiameterMeters = Units.inchesToMeters(4);
+    public static final double kGearRatio = 8 / 62;
+    public static final double kEncoderMetersPerPulse = kWheelDiameterMeters * Math.PI / (double) kEncoderResolution / kGearRatio;
+    public static final double kEncoderMetersPerSecond = kWheelDiameterMeters * Math.PI / kGearRatio * 10.0;
+
+    // Use the SysId program in WPILib Tools to estimate values
+    public static final double ksVolts = 0.454; // Ks
+    public static final double kvVoltSecondsPerMeter = 0.005279; // Kv    // or 0.012947?
+    public static final double kaVoltSecondsSquaredPerMeter = 0.0012546; // Ka     // or 0.0035528?
+    public static final double kRamseteP = 0.020719; // Kp for Ramsete PID //or 0.019073?
+    public static final double kvVoltSecondsPerRadian = 0.05;
+    public static final double kaVoltSecondsSquaredPerRadian = 0.005;
+
+    public static final LinearSystem<N2, N2, N2> kDrivetrainPlant =
+        LinearSystemId.identifyDrivetrainSystem(
+            kvVoltSecondsPerMeter,
+            kaVoltSecondsSquaredPerMeter,
+            kvVoltSecondsPerRadian,
+            kaVoltSecondsSquaredPerRadian);
+
+
+    // Velocity PID gain values
+    public static final double kVelocityP = 1; // Proportional
+    public static final double kVelocityI = 0; // Integral
+    public static final double kVelocityD = 0; // Derivative
+
+    // Teleop max speeds
+    public static final double kMaxSpeedMetersPerSecond = Units.feetToMeters(10); // Max velocity
+    public static final double kMaxAngularSpeedRadiansPerSecond = Units.rotationsPerMinuteToRadiansPerSecond(60); // Max angular velocity
+
+    public static final DCMotor kDriveGearbox = DCMotor.getFalcon500(2);
+
+    public static final boolean kRightEncoderReversed = false;
+    public static final boolean kLeftEncoderReversed = true;
   }
 
   public static final class AutoConstants {
-
-    /** 
-     * Characterization data
-     */
-    // ksVolts -> adds +ksVolts or -ksVolts to overcome static friction in the direction of motion.
-    // kvVoltSecondsPerMeter -> Adds the values number of volts for every meter per second of velocity desired.
-    // kaVoltSecondsSquaredPerMeter -> Adds the values number of volts for every meter per second squared of acceleration desired.
-    public static final double ksVolts = 0.45633;
-    public static final double kvVoltSecondsPerMeter = 0.012947;
-    public static final double kaVoltSecondsSquaredPerMeter = 0.0035528;
-
-    // P Gain -> Number of ticks/100ms to apply for every ticks/100ms of error
-    public static final double kRamsetePGain = 0.019073;
-    //ARE THESE THE SAME??? IDK????
-    public static final double kPDriveVel = 0.019073;
-
-    /**
-     * Trajectories Data
-     */
-    public static final double kMaxSpeedMetersPerSecond = 3;
-    public static final double kMaxAccelerationMetersPerSecondSquared = 3;
+    public static final double kMaxSpeedMetersPerSecond = Units.feetToMeters(10); // Max velocity
+    public static final double kMaxAccelerationMetersPerSecondSquared = Units.feetToMeters(5); // Max acceleration
 
     // Reasonable baseline values for a RAMSETE follower in units of meters and seconds
-    // from WPI tutorial no clue what they mean
+    // DO NOT MODIFY unless you know what you are doing
     public static final double kRamseteB = 2;
     public static final double kRamseteZeta = 0.7;
+
+    // Trajectories should be placed in src/main/deploy/paths
+    public static final String kTrajectoryName = "TopAuto";
+
+    public static final DifferentialDriveKinematics kDriveKinematics =
+        new DifferentialDriveKinematics(kTrackwidthMeters);
   }
 }

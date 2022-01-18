@@ -4,9 +4,9 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.StatorCurrentLimitConfiguration;
 import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
-import com.ctre.phoenix.motorcontrol.can.TalonFX;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.motorcontrol.can.TalonFXConfiguration;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.TalonSRXConfiguration;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.revrobotics.CANSparkMax;
@@ -43,14 +43,14 @@ public class ControllerFactory {
    * 
    * @return a fully configured TalonSRX object
    */
-  public static TalonSRX createTalonSRX(int id, int continuousCurrentLimit, int peakCurrentLimit, int peakCurrentDuration) {
+  public static WPI_TalonSRX createTalonSRX(int id, int continuousCurrentLimit, int peakCurrentLimit, int peakCurrentDuration) {
     TalonSRXConfiguration config = new TalonSRXConfiguration();
     config.continuousCurrentLimit = continuousCurrentLimit;
     config.peakCurrentLimit = peakCurrentLimit;
     config.peakCurrentDuration = peakCurrentDuration;
     config.voltageCompSaturation = voltageCompensation;
 
-    TalonSRX talon = new TalonSRX(id);
+    WPI_TalonSRX talon = new WPI_TalonSRX(id);
     talon.configFactoryDefault();
     talon.configAllSettings(config);
     talon.enableCurrentLimit(true);
@@ -67,8 +67,8 @@ public class ControllerFactory {
    * @param useDefaultLimits whether or not to enable the default limits
    * @return a fully configured TalonSRX object 
    */
-  public static TalonSRX createTalonSRX(int id) {
-    TalonSRX talon = createTalonSRX(id, talonSRXDefaultContinuousLimit, talonSRXDefaultPeakLimit, talonSRXDefaultPeakDuration);
+  public static WPI_TalonSRX createTalonSRX(int id) {
+    WPI_TalonSRX talon = createTalonSRX(id, talonSRXDefaultContinuousLimit, talonSRXDefaultPeakLimit, talonSRXDefaultPeakDuration);
     talon.enableCurrentLimit(true);
 
     return talon;
@@ -120,7 +120,7 @@ public class ControllerFactory {
         talonFXStatorLimitEnable, talonFXStatorCurrentLimit, talonFXStatorTriggerThreshold, talonFXStatorTriggerDuration);
     config.supplyCurrLimit = new SupplyCurrentLimitConfiguration(
         talonFXSupplyLimitEnable, talonFXSupplyCurrentLimit, talonFXSupplyTriggerThreshold, talonFXSupplyTriggerDuration);
-    config.voltageCompSaturation = 12;
+    config.voltageCompSaturation = Constants.kMaxVoltage;
 
     WPI_TalonFX talon = new WPI_TalonFX(id);
     talon.configFactoryDefault();
