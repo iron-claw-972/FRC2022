@@ -33,6 +33,13 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.simulation.DifferentialDrivetrainSim;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
+import edu.wpi.first.wpilibj.ADXRS450_Gyro;
+import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.interfaces.Gyro;
+import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
@@ -93,6 +100,8 @@ public class Drivetrain extends SubsystemBase {
 
   // The Field2d class shows the field in the sim GUI
   private Field2d m_fieldSim;
+  
+  private int sensitivity = 5;
 
   public Drivetrain() {
     // Inverting one side of the drivetrain as to drive forward
@@ -253,14 +262,26 @@ public class Drivetrain extends SubsystemBase {
     return (m_leftEncoder.getDistance() + m_rightEncoder.getDistance()) / 2.0;
   }
 
-  public void arcadeDrive(double throttle, double turn) {
-    m_leftMotors.set(throttle + turn);
-    m_rightMotors.set(throttle - turn);
-  }
-
   public void tankDrive(double left, double right) {
     m_leftMotors.set(left);
     m_rightMotors.set(right);
+
+
+  public void modSensitivity(){
+    if (sensitivity == 5) {
+      sensitivity = 2;
+      System.out.println("sensitivity changed to 1/2");
+    } else {
+      sensitivity = 5;
+      System.out.println("sensitivity changed to 1/5");
+    }
+  }
+
+  public void arcadeDrive(double throttle, double turn) {
+    leftMotor.set(ControlMode.PercentOutput, (throttle + turn) / sensitivity);
+    rightMotor.set(ControlMode.PercentOutput, (throttle - turn) / sensitivity);
+  }
+    
   }
 
   /**
@@ -332,5 +353,4 @@ public class Drivetrain extends SubsystemBase {
   public double getTurnRate() {
     return -m_navX.getRate();
   }
-
 }
