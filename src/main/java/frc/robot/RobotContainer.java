@@ -109,9 +109,6 @@ public class RobotContainer {
     m_driverController_RB
         .whenPressed(() -> m_drive.setMaxOutput(0.5))
         .whenReleased(() -> m_drive.setMaxOutput(1));
-
-    m_driverController_B.whenPressed(() -> m_drive.modSensitivity()); // most likely remove this as does the same as above
-
   }
 
   /**
