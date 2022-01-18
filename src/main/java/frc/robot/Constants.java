@@ -94,8 +94,5 @@ public final class Constants {
 
     // Trajectories should be placed in src/main/deploy/paths
     public static final String kTrajectoryName = "TopAuto";
-
-    public static final DifferentialDriveKinematics kDriveKinematics =
-        new DifferentialDriveKinematics(kTrackwidthMeters);
   }
 }

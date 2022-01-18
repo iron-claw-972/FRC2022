@@ -33,31 +33,7 @@ import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.JoyConstants;
 import frc.robot.commands.ArcadeDrive;
-import frc.robot.commands.DifferentialDrive;
 import frc.robot.subsystems.Drivetrain;
-import frc.robot.Constants.AutoConstants;
-import frc.robot.Constants.DriveConstants;
-import frc.robot.Constants.JoyConstants;
-import frc.robot.commands.ArcadeDrive;
-
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.RamseteCommand;
-import edu.wpi.first.wpilibj2.command.RunCommand;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import edu.wpi.first.wpilibj2.command.button.POVButton;
-
-import edu.wpi.first.cameraserver.CameraServer;
-import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.math.controller.RamseteController;
-import edu.wpi.first.math.controller.SimpleMotorFeedforward;
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.math.trajectory.Trajectory;
-import edu.wpi.first.math.trajectory.TrajectoryConfig;
-import edu.wpi.first.math.trajectory.TrajectoryGenerator;
-import edu.wpi.first.math.trajectory.constraint.DifferentialDriveVoltageConstraint;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -134,7 +110,7 @@ public class RobotContainer {
         .whenPressed(() -> m_drive.setMaxOutput(0.5))
         .whenReleased(() -> m_drive.setMaxOutput(1));
 
-    driver_B.whenPressed(() -> m_drive.modSensitivity()); // most likely remove this as does the same as above
+    m_driverController_B.whenPressed(() -> m_drive.modSensitivity()); // most likely remove this as does the same as above
 
   }
 

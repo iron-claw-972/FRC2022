@@ -33,11 +33,8 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.simulation.DifferentialDrivetrainSim;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.interfaces.Gyro;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -265,7 +262,7 @@ public class Drivetrain extends SubsystemBase {
   public void tankDrive(double left, double right) {
     m_leftMotors.set(left);
     m_rightMotors.set(right);
-
+  }
 
   public void modSensitivity(){
     if (sensitivity == 5) {
@@ -278,10 +275,8 @@ public class Drivetrain extends SubsystemBase {
   }
 
   public void arcadeDrive(double throttle, double turn) {
-    leftMotor.set(ControlMode.PercentOutput, (throttle + turn) / sensitivity);
-    rightMotor.set(ControlMode.PercentOutput, (throttle - turn) / sensitivity);
-  }
-    
+    m_leftMotor1.set((throttle + turn) / sensitivity);
+    m_rightMotor1.set((throttle - turn) / sensitivity);
   }
 
   /**
