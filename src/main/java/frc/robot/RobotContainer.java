@@ -88,6 +88,7 @@ public class RobotContainer {
    * and then passing it to a {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
+    driver_B.whenPressed(() -> m_drive.modSensitivity());
   }
 
 

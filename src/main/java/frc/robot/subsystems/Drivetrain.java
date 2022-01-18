@@ -48,9 +48,25 @@ public class Drivetrain extends SubsystemBase {
 
     // Inverting opposite sides of the drivetrain
     m_rightMotors.setInverted(true);
-
+    
     setEncoders(0, 0);
     m_odometry = new DifferentialDriveOdometry(m_gyro.getRotation2d());
+  }
+
+  int sensitivity = 5;
+  public void modSensitivity(){
+    if (sensitivity == 5) {
+      sensitivity = 2;
+      System.out.println("sensitivity changed to 1/2");
+    } else {
+      sensitivity = 5;
+      System.out.println("sensitivity changed to 1/5");
+    }
+  }
+
+  public void arcadeDrive(double throttle, double turn) {
+    leftMotor.set(ControlMode.PercentOutput, (throttle + turn) / sensitivity);
+    rightMotor.set(ControlMode.PercentOutput, (throttle - turn) / sensitivity);
   }
 
   @Override
