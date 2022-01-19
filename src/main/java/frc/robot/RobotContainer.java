@@ -132,7 +132,7 @@ public class RobotContainer {
             // Apply the voltage constraint
             .addConstraint(autoVoltageConstraint);
 
-    if (loadedAutonomousTrajectory) {
+    if (!loadedAutonomousTrajectory) {
       // Fallback to default trajectory
       autonomousTrajectory = TrajectoryGenerator.generateTrajectory(
           // Start at (1, 2) facing the +X direction
