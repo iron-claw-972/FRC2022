@@ -47,7 +47,7 @@ public final class Constants {
 
     public static final int kEncoderResolution = 2048; // 2048 for Falcon500 integrated encoder
     public static final double kWheelDiameterMeters = Units.inchesToMeters(4);
-    public static final double kGearRatio = 8 / 62;
+    public static final double kGearRatio = 8.0 / 62.0;
     public static final double kEncoderMetersPerPulse = kWheelDiameterMeters * Math.PI / (double) kEncoderResolution / kGearRatio;
     public static final double kEncoderMetersPerSecond = kWheelDiameterMeters * Math.PI / kGearRatio * 10.0;
 
