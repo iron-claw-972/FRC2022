@@ -97,8 +97,8 @@ public class Drivetrain extends SubsystemBase {
 
   public Drivetrain() {
     // Inverting one side of the drivetrain as to drive forward
-    m_leftMotors.setInverted(false);
-    m_rightMotors.setInverted(true);
+    m_leftMotors.setInverted(true);
+    m_rightMotors.setInverted(false);
 
     // Sets the distance per pulse for the encoders
     m_leftEncoder.setDistancePerPulse(DriveConstants.kEncoderMetersPerPulse);

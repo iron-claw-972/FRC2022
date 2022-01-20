@@ -29,7 +29,7 @@ public final class Constants {
   public static final class JoyConstants {
     public static final int kDriverJoy = 0;
     public static final int kOperatorJoy = 0;
-    public static final double kJoystickDeadband = 0.07; // How much of joystick is "dead" zone [0,1]
+    public static final double kJoystickDeadband = 0.015; // How much of joystick is "dead" zone [0,1]
   }
 
   public static final class DriveConstants {
@@ -37,8 +37,8 @@ public final class Constants {
     public static final int kLeftMotor1Port = 1;
     public static final int kLeftMotor2Port = 3;
 
-    public static final int kRightMotor1Port = 2;
-    public static final int kRightMotor2Port = 4;
+    public static final int kRightMotor1Port = 0;
+    public static final int kRightMotor2Port = 2;
 
     public static final double kSpeedSlewRateLimit = 1;
     public static final double kRotationSlewRateLimit = 1;
@@ -92,6 +92,6 @@ public final class Constants {
     public static final double kRamseteZeta = 0.7;
 
     // Trajectories should be placed in src/main/deploy/paths
-    public static final String kTrajectoryName = "TopAuto";
+    public static final String kTrajectoryName = "";//"TopAuto";
   }
 }
