@@ -180,7 +180,9 @@ public class Drivetrain extends SubsystemBase {
   public void periodic() {
     // Update the odometry in the periodic block
     updateOdometry();
-    m_fieldSim.setRobotPose(getPose());
+    if (RobotBase.isSimulation()) {
+      m_fieldSim.setRobotPose(getPose());
+    }
   }
 
   public void updateOdometry() {
