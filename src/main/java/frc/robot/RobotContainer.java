@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj.GenericHID;
 import frc.robot.subsystems.Drivetrain;
 import edu.wpi.first.wpilibj.Joystick;
 import frc.robot.Constants.kJoy;
-import frc.robot.commands.ArcadeDrive;
+import frc.robot.commands.*;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
@@ -56,7 +56,7 @@ public class RobotContainer {
   
   public RobotContainer() {
 
-    m_drive.setDefaultCommand(new ArcadeDrive(m_drive));
+    m_drive.setDefaultCommand(new RunDrive(m_drive));
 
     CameraServer.startAutomaticCapture();
 
@@ -74,7 +74,7 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     driver_B.whenPressed(() -> m_drive.modSensitivity());
-    driver_B.whenPressed(() -> m_drive.modDrive());
+    driver_A.whenPressed(() -> m_drive.modDrive());
   }
 
 

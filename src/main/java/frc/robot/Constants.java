@@ -24,6 +24,8 @@ public class Constants {
         public static final int kDriverJoy = 0;
         public static final int kOperatorJoy = 1;
 		public static final double kJoystickDeadband = 0.00; // How much of joystick is "dead" zone [0,1]
+
+        
     }
 
     public final class kDrive {

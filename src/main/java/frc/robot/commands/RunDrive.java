@@ -11,10 +11,10 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.Drivetrain;
 
-public class ArcadeDrive extends CommandBase {
+public class RunDrive extends CommandBase {
   private final Drivetrain m_drive;
 
-  public ArcadeDrive(Drivetrain subsystem) {
+  public RunDrive(Drivetrain subsystem) {
     m_drive = subsystem;
     addRequirements(subsystem);
   }
@@ -22,6 +22,7 @@ public class ArcadeDrive extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() { //TODO: acceleration smoothing?
+    System.out.println("runing command");
     m_drive.arcadeDrive(RobotContainer.getThrottleValue(), RobotContainer.getTurnValue());
   }
 }

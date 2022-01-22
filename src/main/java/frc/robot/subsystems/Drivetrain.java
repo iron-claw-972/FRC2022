@@ -132,8 +132,22 @@ public class Drivetrain extends SubsystemBase {
     return finVal;
   }
 
-  
+  String driveMode = "arcade";
   public void modDrive(){
-    
+    if (driveMode == "arcade") {
+      driveMode = "shift";
+    }else if (driveMode == "shift") {
+      driveMode = "arcade";
+    }
   }
+
+  public void runDrive(double throttle, double turn){
+    if (driveMode == "arcade") {
+      this.arcadeDrive(throttle, turn);
+    }
+    if (driveMode == "shift") {
+      this.shiftDrive(throttle, turn);
+    }
+  }
+  
 }
