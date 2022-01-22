@@ -156,11 +156,13 @@ public class Drivetrain extends SubsystemBase {
     if (driveMode == "arcade") {
       driveMode = "prop";
     }else if (driveMode == "prop") {
+      driveMode = "shift";
+    }else if (driveMode == "shift") {
       driveMode = "arcade";
     }
   }
-  public boolean isArcade(){
-    return (driveMode == "arcade");
+  public boolean isDrive(String drive){
+    return (driveMode == drive);
   }
 
   public void runDrive(double throttle, double turn){

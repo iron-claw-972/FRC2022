@@ -23,8 +23,10 @@ public class RunDrive extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() { //TODO: acceleration smoothing?
-    System.out.println("runing command");
+    // System.out.println("running command");
     m_drive.runDrive(RobotContainer.getThrottleValue(), RobotContainer.getTurnValue());
-    SmartDashboard.putBoolean("arcade drive", m_drive.isArcade());
+    SmartDashboard.putBoolean("arcade drive", m_drive.isDrive("arcade"));
+    SmartDashboard.putBoolean("prop drive", m_drive.isDrive("prop"));
+    SmartDashboard.putBoolean("shift drive", m_drive.isDrive("shift"));
   }
 }
