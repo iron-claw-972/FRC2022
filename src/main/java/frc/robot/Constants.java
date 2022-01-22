@@ -8,6 +8,7 @@
 package frc.robot;
 
 /**
+ * 
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
  * constants.  This class should not be used for any other purpose.  All constants should be
  * declared globally (i.e. public static).  Do not put anything functional in this class.
@@ -22,15 +23,17 @@ public class Constants {
     public final class kJoy {
         public static final int kDriverJoy = 0;
         public static final int kOperatorJoy = 1;
-		public static final double kJoystickDeadband = 0.07; // How much of joystick is "dead" zone [0,1]
+		public static final double kJoystickDeadband = 0.00; // How much of joystick is "dead" zone [0,1]
+
+        
     }
 
     public final class kDrive {
-        public static final int kLeftMotorPort = -1;
-        public static final int kLeftMotorPalPort = -1;
+        public static final int kLeftMotorPort = 1;
+        // public static final int kLeftMotorPalPort = -1;
 
-        public static final int kRightMotorPort = -1;
-        public static final int kRightMotorPalPort = -1;
+        public static final int kRightMotorPort = 2;
+        // public static final int kRightMotorPalPort = -1;
     }
 //CB stands for Controller Button
     public final class kGameCB {
