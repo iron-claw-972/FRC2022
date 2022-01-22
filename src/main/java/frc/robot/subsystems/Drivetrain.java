@@ -152,12 +152,12 @@ public class Drivetrain extends SubsystemBase {
 
   String driveMode = "arcade";
   public void modDrive(){
-    System.out.println("modding                         drive");
+    System.out.println("modding drive");
     if (driveMode == "arcade") {
       driveMode = "prop";
     }else if (driveMode == "prop") {
-      driveMode = "shift";
-    }else if (driveMode == "shift") {
+    //   driveMode = "shift";
+    // }else if (driveMode == "shift") {
       driveMode = "arcade";
     }
   }
