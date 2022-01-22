@@ -1,24 +1,26 @@
-package frc.robot.utils.controlers;
+package frc.robot.utils.controllers;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.button.*;
+import frc.robot.Constants;
+import frc.robot.Constants.kMadCatzC;
 
-public class Game {
+public class MadCatzC {
 
     // System.out.println("thing");
     public static class Button {
 
-        public static JoystickButton A(Joystick controller) {
-            return new JoystickButton(controller, 1);
+        public static JoystickButton 1(Joystick controller) {
+            return new JoystickButton(controller, k1);
         }
         public static JoystickButton B(Joystick controller) {
-            return new JoystickButton(controller, 2);
+            return new JoystickButton(controller, k2);
         }
         public static JoystickButton X(Joystick controller) {
-            return new JoystickButton(controller, 3);
+            return new JoystickButton(controller, k3);
         }
         public static JoystickButton Y(Joystick controller) {
-            return new JoystickButton(controller, 4);
+            return new JoystickButton(controller, k4);
         }
         public static JoystickButton LB(Joystick controller) {
             return new JoystickButton(controller, 5);
@@ -47,6 +49,8 @@ public class Game {
             return controller.getRawAxis(0);
         }
     }
+
+    
     
     
 }

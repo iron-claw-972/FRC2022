@@ -4,8 +4,8 @@ import edu.wpi.first.wpilibj.Joystick;
 import frc.robot.Constants.kJoy;
 import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj2.command.button.*;
-import frc.robot.utils.controlers.*;
-import frc.robot.utils.controlers.Game.Button;
+import frc.robot.utils.controllers.*;
+import frc.robot.utils.controllers.Game.Button;
 
 public class Controls {
   public static Drivetrain m_drive = new Drivetrain();
