@@ -12,6 +12,7 @@ import frc.robot.Constants.kDrive;
 import frc.robot.ControllerFactory;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.*;
 
 public class Drivetrain extends SubsystemBase {
@@ -29,6 +30,11 @@ public class Drivetrain extends SubsystemBase {
     // Inverting opposite sides of the drivetrain
     leftMotor.setInverted(true);
     // rightMotorPal.setInverted(true);
+
+    // leftMotor.setNeutralMode(NeutralMode.Coast);
+    // rightMotor.setNeutralMode(NeutralMode.Coast);
+
+
   }
 
   // double lowSensThrottle = 0.2;
@@ -90,6 +96,17 @@ public class Drivetrain extends SubsystemBase {
   
   //dev zone below / experimental
 
+  public void propDrive(double throttle, double turn){
+    throttle = throttle * sensThrottle;
+    turn = turn * sensTurn;
+    
+    double leftOut =throttle * (1 + turn);
+    double rightOut=throttle * (1 - turn);
+
+    leftMotor.set(ControlMode.PercentOutput, leftOut);
+    rightMotor.set(ControlMode.PercentOutput, rightOut);
+  }
+
   public void shiftDrive(double throttle, double turn) {
     
     throttle = throttle * sensThrottle;
@@ -137,8 +154,8 @@ public class Drivetrain extends SubsystemBase {
   public void modDrive(){
     System.out.println("modding                         drive");
     if (driveMode == "arcade") {
-      driveMode = "shift";
-    }else if (driveMode == "shift") {
+      driveMode = "prop";
+    }else if (driveMode == "prop") {
       driveMode = "arcade";
     }
   }
@@ -146,10 +163,12 @@ public class Drivetrain extends SubsystemBase {
   public void runDrive(double throttle, double turn){
     if (driveMode == "arcade") {
       this.arcadeDrive(throttle, turn);
-    }
-    if (driveMode == "shift") {
+    }if (driveMode == "shift") {
       this.shiftDrive(throttle, turn);
+    }if (driveMode == "prop") {
+      this.propDrive(throttle, turn);
     }
   }
   
+
 }
