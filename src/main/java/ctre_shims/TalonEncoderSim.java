@@ -77,8 +77,7 @@ public class TalonEncoderSim {
    * @return the encoder period
    */
   public double getPeriod() {
-    return m_encoder.getRate()
-    ;
+    return m_encoder.getRate();
   }
 
   /**
