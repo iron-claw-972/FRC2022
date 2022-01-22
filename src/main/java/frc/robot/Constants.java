@@ -52,10 +52,10 @@ public final class Constants {
     public static final double kEncoderMetersPerSecond = kWheelDiameterMeters * Math.PI / kGearRatio * 10.0;
 
     // Use the SysId program in WPILib Tools to estimate values
-    public static final double ksVolts = 0.5; // Ks
-    public static final double kvVoltSecondsPerMeter = 2.65; // Kv    // or 0.012947?
-    public static final double kaVoltSecondsSquaredPerMeter = 0.21; // Ka     // or 0.0035528?
-    public static final double kRamseteP = 3.07; // Kp for Ramsete PID //or 0.019073?
+    public static final double ksVolts = 0.59765; // Ks
+    public static final double kvVoltSecondsPerMeter = 2.6544; // Kv
+    public static final double kaVoltSecondsSquaredPerMeter = 0.15897; // Ka
+    public static final double kRamseteP = 2.7489; // Kp for Ramsete PID
     public static final double kvVoltSecondsPerRadian = 0.05;
     public static final double kaVoltSecondsSquaredPerRadian = 0.005;
 
@@ -92,6 +92,6 @@ public final class Constants {
     public static final double kRamseteZeta = 0.7;
 
     // Trajectories should be placed in src/main/deploy/paths
-    public static final String kTrajectoryName = "";//"TopAuto";
+    public static final String kTrajectoryName = "";
   }
 }
