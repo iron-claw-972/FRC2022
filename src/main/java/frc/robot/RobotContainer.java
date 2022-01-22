@@ -26,15 +26,17 @@ import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.JoyConstants;
 import frc.robot.commands.ArcadeDrive;
-import frc.robot.commands.DifferentialDrive;
 import frc.robot.subsystems.Drivetrain;
+import frc.robot.subsystems.Intake;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -49,6 +51,7 @@ import frc.robot.subsystems.Drivetrain;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   public static Drivetrain m_drive = new Drivetrain();
+  public static Intake m_intake = new Intake();
 
   static Joystick m_driverController = new Joystick(JoyConstants.kDriverJoy);
   static Joystick m_operatorController = new Joystick(JoyConstants.kOperatorJoy);
@@ -137,11 +140,11 @@ public class RobotContainer {
       // Fallback to default trajectory
       autonomousTrajectory = TrajectoryGenerator.generateTrajectory(
           // Start at (1, 2) facing the +X direction
-          new Pose2d(1, 2, new Rotation2d(0)),
+          new Pose2d(0, 0, new Rotation2d(0)),
           // Pass through these two interior waypoints, making an 's' curve path
-          List.of(new Translation2d(2, 3), new Translation2d(3, 1)),
+          List.of(new Translation2d(3, 0), new Translation2d(3, 3), new Translation2d(0, 3)),
           // End 3 meters straight ahead of where we started, facing forward
-          new Pose2d(4, 2, new Rotation2d(0)),
+          new Pose2d(0, 0, new Rotation2d(0)),
           // Pass config
           config);
     }
@@ -162,8 +165,12 @@ public class RobotContainer {
     // Reset odometry to the starting pose of the trajectory.
     m_drive.resetOdometry(autonomousTrajectory.getInitialPose());
 
-    // Run path following command, then stop at the end.
-    return ramseteCommand.andThen(() -> m_drive.tankDriveVolts(0, 0));
+    // Run path following command, then stop at the end. At the same time intake.
+    // "Deadline" is the first command, meaning the whole thing will stop once the first one does.
+    return new ParallelDeadlineGroup(
+        ramseteCommand.andThen(() -> m_drive.tankDriveVolts(0, 0)), 
+        new RunCommand(() -> m_intake.run(0.5)));
+    //return ramseteCommand.andThen(() -> m_drive.tankDriveVolts(0, 0));
   }
 
   /**

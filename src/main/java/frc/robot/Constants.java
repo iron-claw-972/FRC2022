@@ -34,10 +34,10 @@ public final class Constants {
 
   public static final class DriveConstants {
     // Drivetrain motor ports, use -1 for unused motors
-    public static final int kLeftMotor1Port = 1;
+    public static final int kLeftMotor1Port = 2;
     public static final int kLeftMotor2Port = 3;
 
-    public static final int kRightMotor1Port = 0;
+    public static final int kRightMotor1Port = 4;
     public static final int kRightMotor2Port = 2;
 
     public static final double kSpeedSlewRateLimit = 1;
@@ -82,9 +82,13 @@ public final class Constants {
     public static final boolean kLeftEncoderReversed = true;
   }
 
+  public static final class IntakeConstants {
+    public static final int kIntakeMotorPort = 23;
+  }
+
   public static final class AutoConstants {
-    public static final double kMaxSpeedMetersPerSecond = Units.feetToMeters(10); // Max velocity
-    public static final double kMaxAccelerationMetersPerSecondSquared = Units.feetToMeters(5); // Max acceleration
+    public static final double kMaxSpeedMetersPerSecond = Units.feetToMeters(3.28); // Max velocity
+    public static final double kMaxAccelerationMetersPerSecondSquared = Units.feetToMeters(3.28); // Max acceleration
 
     // Reasonable baseline values for a RAMSETE follower in units of meters and seconds
     // DO NOT MODIFY unless you know what you are doing
@@ -92,6 +96,6 @@ public final class Constants {
     public static final double kRamseteZeta = 0.7;
 
     // Trajectories should be placed in src/main/deploy/paths
-    public static final String kTrajectoryName = "";
+    public static final String kTrajectoryName = "TwoBallsToHangarTest";
   }
 }
