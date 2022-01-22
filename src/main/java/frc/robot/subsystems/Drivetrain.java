@@ -24,7 +24,7 @@ public class Drivetrain extends SubsystemBase {
 
   public Drivetrain() {
     // leftMotorPal.follow(leftMotor);
-    // rightMotorPal.follow(rightMotor);
+    // rightMotorPal.folalow(rightMotor);
 
     // Inverting opposite sides of the drivetrain
     leftMotor.setInverted(true);
@@ -56,8 +56,9 @@ public class Drivetrain extends SubsystemBase {
   }
 
   public void arcadeDrive(double throttle, double turn) {
-    leftMotor.set(ControlMode.PercentOutput, (throttle * sensThrottle - turn * sensTurn));
-    rightMotor.set(ControlMode.PercentOutput, (throttle * sensThrottle + turn * sensTurn));
+    // System.out.println("arcade drive");
+    leftMotor.set(ControlMode.PercentOutput, (throttle * sensThrottle + turn * sensTurn));
+    rightMotor.set(ControlMode.PercentOutput, (throttle * sensThrottle - turn * sensTurn));
   }
 
   public void tankDrive(double left, double right) {
@@ -134,6 +135,7 @@ public class Drivetrain extends SubsystemBase {
 
   String driveMode = "arcade";
   public void modDrive(){
+    System.out.println("modding                         drive");
     if (driveMode == "arcade") {
       driveMode = "shift";
     }else if (driveMode == "shift") {

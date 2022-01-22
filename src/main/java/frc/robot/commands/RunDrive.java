@@ -23,6 +23,6 @@ public class RunDrive extends CommandBase {
   @Override
   public void execute() { //TODO: acceleration smoothing?
     System.out.println("runing command");
-    m_drive.arcadeDrive(RobotContainer.getThrottleValue(), RobotContainer.getTurnValue());
+    m_drive.runDrive(RobotContainer.getThrottleValue(), RobotContainer.getTurnValue());
   }
 }
