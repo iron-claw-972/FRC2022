@@ -8,8 +8,9 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants.kDrive;
+import frc.robot.Constants.*;
 import frc.robot.ControllerFactory;
+import edu.wpi.first.math.filter.SlewRateLimiter;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
@@ -22,6 +23,8 @@ public class Drivetrain extends SubsystemBase {
 
   TalonFX rightMotor = ControllerFactory.createTalonFX(kDrive.kRightMotorPort);
   // TalonFX rightMotorPal = ControllerFactory.createTalonFX(kDrive.kRightMotorPalPort);
+
+  SlewRateLimiter slew = new SlewRateLimiter (2);
 
   public Drivetrain() {
     // leftMotorPal.follow(leftMotor);
@@ -36,11 +39,6 @@ public class Drivetrain extends SubsystemBase {
 
 
   }
-
-  // double lowSensThrottle = 0.2;
-  // double lowSensTurn = 0.4;
-  // double highSensThrottle = 1;
-  // double highSensTurn = 0.5;
 
   double lowSensThrottle = 0.2;
   double lowSensTurn = 0.4;
@@ -63,8 +61,8 @@ public class Drivetrain extends SubsystemBase {
 
   public void arcadeDrive(double throttle, double turn) {
     // System.out.println("arcade drive");
-    leftMotor.set(ControlMode.PercentOutput, (throttle * sensThrottle + turn * sensTurn));
-    rightMotor.set(ControlMode.PercentOutput, (throttle * sensThrottle - turn * sensTurn));
+    leftMotor.set(ControlMode.PercentOutput, (throttle + turn));
+    rightMotor.set(ControlMode.PercentOutput, (throttle - turn));
   }
 
   public void tankDrive(double left, double right) {
@@ -92,14 +90,8 @@ public class Drivetrain extends SubsystemBase {
   public double getRightVelocity() {
     return rightMotor.getSelectedSensorVelocity();
   }
-  
-  
-  //dev zone below / experimental
 
   public void propDrive(double throttle, double turn){
-    throttle = throttle * sensThrottle;
-    turn = turn * sensTurn;
-    
     double leftOut =throttle * (1 + turn);
     double rightOut=throttle * (1 - turn);
 
@@ -108,9 +100,6 @@ public class Drivetrain extends SubsystemBase {
   }
 
   public void shiftDrive(double throttle, double turn) {
-    
-    throttle = throttle * sensThrottle;
-    turn = turn * sensTurn;
 
     System.out.println("throttle: " + throttle);
     System.out.println("turn: " + turn);
@@ -140,7 +129,6 @@ public class Drivetrain extends SubsystemBase {
     rightMotor.set(ControlMode.PercentOutput, rightOut);
   }
 
-
   public double expoMS(double base, double exponent){
     //weird stuff will hapen if you don't put a number > 0
     double finVal = Math.pow(Math.abs(base),exponent);
@@ -161,11 +149,15 @@ public class Drivetrain extends SubsystemBase {
       driveMode = "arcade";
     }
   }
+  
   public boolean isDrive(String drive){
     return (driveMode == drive);
   }
 
   public void runDrive(double throttle, double turn){
+    throttle = throttle*sensThrottle;
+    turn = turn *sensTurn;
+    
     if (driveMode == "arcade") {
       this.arcadeDrive(throttle, turn);
     }if (driveMode == "shift") {
@@ -174,6 +166,5 @@ public class Drivetrain extends SubsystemBase {
       this.propDrive(throttle, turn);
     }
   }
-  
 
 }
