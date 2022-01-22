@@ -27,14 +27,20 @@ public class Drivetrain extends SubsystemBase {
     // rightMotorPal.follow(rightMotor);
 
     // Inverting opposite sides of the drivetrain
-    rightMotor.setInverted(true);
+    leftMotor.setInverted(true);
     // rightMotorPal.setInverted(true);
   }
 
+  // double lowSensThrottle = 0.2;
+  // double lowSensTurn = 0.4;
+  // double highSensThrottle = 1;
+  // double highSensTurn = 0.5;
+
   double lowSensThrottle = 0.2;
   double lowSensTurn = 0.4;
-  double highSensThrottle = 0.5;
+  double highSensThrottle = 1;
   double highSensTurn = 0.5;
+
   double sensThrottle = lowSensThrottle;
   double sensTurn = lowSensTurn;
   public void modSensitivity(){
@@ -50,8 +56,8 @@ public class Drivetrain extends SubsystemBase {
   }
 
   public void arcadeDrive(double throttle, double turn) {
-    leftMotor.set(ControlMode.PercentOutput, -(throttle * sensThrottle - turn* sensTurn));
-    rightMotor.set(ControlMode.PercentOutput, (throttle * sensThrottle + turn* sensTurn));
+    leftMotor.set(ControlMode.PercentOutput, (throttle * sensThrottle - turn * sensTurn));
+    rightMotor.set(ControlMode.PercentOutput, (throttle * sensThrottle + turn * sensTurn));
   }
 
   public void tankDrive(double left, double right) {
@@ -83,22 +89,34 @@ public class Drivetrain extends SubsystemBase {
   
   //dev zone below / experimental
 
-  public void modArcadeDrive1(double throttle, double turn) {
+  public void shiftDrive(double throttle, double turn) {
+    
+    throttle = throttle * sensThrottle;
+    turn = turn * sensTurn;
+
+    System.out.println("throttle: " + throttle);
+    System.out.println("turn: " + turn);
+
     double leftOut =throttle;
     double rightOut=throttle;
+    
     if (turn > 0){
-      rightOut += turn;
+      leftOut = leftOut + turn;
     } else if (turn < 0){
-      leftOut += -turn;
+      rightOut = rightOut - turn;
     }
 
     if (leftOut > 1){
       rightOut = rightOut - (leftOut - 1);
       leftOut = 1;
-    } else if (rightOut > 1){
+    }
+    if (rightOut > 1){
       leftOut = leftOut - (rightOut - 1);
       rightOut = 1;
     }    
+
+    System.out.println("left: " + leftOut);
+    System.out.println("Right: " + rightOut);
 
     leftMotor.set(ControlMode.PercentOutput, leftOut);
     rightMotor.set(ControlMode.PercentOutput, rightOut);
@@ -112,5 +130,10 @@ public class Drivetrain extends SubsystemBase {
       finVal *= -1;
     }
     return finVal;
+  }
+
+  
+  public void modDrive(){
+    
   }
 }

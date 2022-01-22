@@ -74,6 +74,7 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     driver_B.whenPressed(() -> m_drive.modSensitivity());
+    driver_B.whenPressed(() -> m_drive.modDrive());
   }
 
 
@@ -98,7 +99,7 @@ public class RobotContainer {
     // Controllers y-axes are natively up-negative, down-positive. This method
     // corrects that by returning the opposite of the y-value
     // 1 represents up/down axis on the left joystick
-    return driver.getRawAxis(1);
+    return -driver.getRawAxis(1);
   }
 
   /**
