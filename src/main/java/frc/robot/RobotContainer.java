@@ -37,7 +37,9 @@ public class RobotContainer {
     driver_B = new JoystickButton(driver, 2), driver_X = new JoystickButton(driver, 3),
     driver_Y = new JoystickButton(driver, 4), driver_LB = new JoystickButton(driver, 5),
     driver_RB = new JoystickButton(driver, 6), driver_BACK = new JoystickButton(driver, 7),
-    driver_START = new JoystickButton(driver, 8);
+    driver_START = new JoystickButton(driver, 8),
+
+    driver_stickButt = new JoystickButton(driver, 1);
 
   private static final JoystickButton operator_A = new JoystickButton(operator, 1),
     operator_B = new JoystickButton(operator, 2), operator_X = new JoystickButton(operator, 3),
@@ -73,8 +75,9 @@ public class RobotContainer {
    * and then passing it to a {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    driver_B.whenPressed(() -> m_drive.modSensitivity());
-    driver_A.whenPressed(() -> m_drive.modDrive());
+    // driver_B.whenPressed(() -> m_drive.modSensitivity());
+    // driver_A.whenPressed(() -> m_drive.modDrive());
+    driver_stickButt.whenPressed(() -> m_drive.modSensitivity());
   }
 
 
@@ -108,8 +111,9 @@ public class RobotContainer {
    * @return the deadbanded turn input from the main driver controller
    */
   public static double getTurnValue() {
-      // 5 represents left/right axis on the right joystick
-      return driver.getRawAxis(4);
+      // 4 represents left/right axis on the right joystick
+      // return driver.getRawAxis(4);
+      return -driver.getRawAxis(0);
   }
 
   /**
