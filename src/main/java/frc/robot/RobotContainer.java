@@ -76,8 +76,8 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     operator_B.whenPressed(() -> m_drive.modSensitivity());
-    // driver_A.whenPressed(() -> m_drive.modDrive());
-    driver_stickButt.whenPressed(() -> m_drive.modDrive());
+    driver_A.whenPressed(() -> m_drive.modDrive());
+    // driver_stickButt.whenPressed(() -> m_drive.modDrive());
   }
 
 
@@ -112,8 +112,8 @@ public class RobotContainer {
    */
   public static double getTurnValue() {
       // 4 represents left/right axis on the right joystick
-      // return driver.getRawAxis(4);
-      return -driver.getRawAxis(0);
+      return driver.getRawAxis(4);
+      // return -driver.getRawAxis(0);
   }
 
   /**

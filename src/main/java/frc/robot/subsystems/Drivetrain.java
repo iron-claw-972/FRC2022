@@ -159,6 +159,9 @@ public class Drivetrain extends SubsystemBase {
       driveMode = "arcade";
     }
   }
+  public boolean isArcade(){
+    return (driveMode == "arcade");
+  }
 
   public void runDrive(double throttle, double turn){
     if (driveMode == "arcade") {
