@@ -47,15 +47,15 @@ public final class Constants {
 
     public static final int kEncoderResolution = 2048; // 2048 for Falcon500 integrated encoder
     public static final double kWheelDiameterMeters = Units.inchesToMeters(4);
-    public static final double kGearRatio = 8.0 / 62.0;
+    public static final double kGearRatio = 62.0 / 8.0;
     public static final double kEncoderMetersPerPulse = kWheelDiameterMeters * Math.PI / (double) kEncoderResolution / kGearRatio;
     public static final double kEncoderMetersPerSecond = kWheelDiameterMeters * Math.PI / kGearRatio * 10.0;
 
     // Use the SysId program in WPILib Tools to estimate values
-    public static final double ksVolts = 0.454; // Ks
-    public static final double kvVoltSecondsPerMeter = 0.005279; // Kv    // or 0.012947?
-    public static final double kaVoltSecondsSquaredPerMeter = 0.0012546; // Ka     // or 0.0035528?
-    public static final double kRamseteP = 0.020719; // Kp for Ramsete PID //or 0.019073?
+    public static final double ksVolts = 0.5; // Ks
+    public static final double kvVoltSecondsPerMeter = 2.65; // Kv    // or 0.012947?
+    public static final double kaVoltSecondsSquaredPerMeter = 0.21; // Ka     // or 0.0035528?
+    public static final double kRamseteP = 3.07; // Kp for Ramsete PID //or 0.019073?
     public static final double kvVoltSecondsPerRadian = 0.05;
     public static final double kaVoltSecondsSquaredPerRadian = 0.005;
 
