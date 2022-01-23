@@ -10,43 +10,70 @@ public class MadCatzC {
     // System.out.println("thing");
     public static class Button {
 
-        public static JoystickButton 1(Joystick controller) {
-            return new JoystickButton(controller, k1);
+        public static JoystickButton b1(Joystick controller) {
+            return new JoystickButton(controller, kMadCatzC.buttons.k1);
         }
-        public static JoystickButton B(Joystick controller) {
-            return new JoystickButton(controller, k2);
+        public static JoystickButton b2(Joystick controller) {
+            return new JoystickButton(controller, kMadCatzC.buttons.k2);
         }
-        public static JoystickButton X(Joystick controller) {
-            return new JoystickButton(controller, k3);
+        public static JoystickButton b3(Joystick controller) {
+            return new JoystickButton(controller, kMadCatzC.buttons.k3);
         }
-        public static JoystickButton Y(Joystick controller) {
-            return new JoystickButton(controller, k4);
+        public static JoystickButton b4(Joystick controller) {
+            return new JoystickButton(controller, kMadCatzC.buttons.k4);
         }
-        public static JoystickButton LB(Joystick controller) {
-            return new JoystickButton(controller, 5);
+        public static JoystickButton b5(Joystick controller) {
+            return new JoystickButton(controller, kMadCatzC.buttons.k5);
         }
-        public static JoystickButton RB(Joystick controller) {
-            return new JoystickButton(controller, 6);
+        public static JoystickButton b6(Joystick controller) {
+            return new JoystickButton(controller, kMadCatzC.buttons.k6);
         }
-        public static JoystickButton BACK(Joystick controller) {
-            return new JoystickButton(controller, 7);
-        }
-        public static JoystickButton START(Joystick controller) {
-            return new JoystickButton(controller, 8);
+        public static JoystickButton b7(Joystick controller) {
+            return new JoystickButton(controller, kMadCatzC.buttons.k7);
         }
     }
     public static class DPad {
         public static POVButton up(Joystick controller) {
-            return new POVButton(controller, 0);
+            return new POVButton(controller, kMadCatzC.thumbstick.kUp);
         }
-        // UP = new POVButton(driver, 0),
-    // RIGHT = new POVButton(driver, 90),
-    // DOWN = new POVButton(driver, 180),
-    // LEFT = new POVButton(driver, 270);
+        public static POVButton upRight(Joystick controller) {
+            return new POVButton(controller, kMadCatzC.thumbstick.kUpRight);
+        }
+        public static POVButton right(Joystick controller) {
+            return new POVButton(controller, kMadCatzC.thumbstick.kRight);
+        }
+        public static POVButton downRight(Joystick controller) {
+            return new POVButton(controller, kMadCatzC.thumbstick.kDownRight);
+        }
+        public static POVButton down(Joystick controller) {
+            return new POVButton(controller, kMadCatzC.thumbstick.kDown);
+        }
+        public static POVButton downLeft(Joystick controller) {
+            return new POVButton(controller, kMadCatzC.thumbstick.kDownLeft);
+        }
+        public static POVButton left(Joystick controller) {
+            return new POVButton(controller, kMadCatzC.thumbstick.kLeft);
+        }
+        public static POVButton upLeft(Joystick controller) {
+            return new POVButton(controller, kMadCatzC.thumbstick.kUpLeft);
+        }
+        /* UP = new POVButton(driver, 0),
+        RIGHT = new POVButton(driver, 90),
+        DOWN = new POVButton(driver, 180),
+        LEFT = new POVButton(driver, 270); */
     }
     public static class joystickAxis{
-        public static double leftX(Joystick controller){
-            return controller.getRawAxis(0);
+        public static double X(Joystick controller){
+            return controller.getRawAxis(kMadCatzC.joystickAxis.kX);
+        }
+        public static double Y(Joystick controller){
+            return controller.getRawAxis(kMadCatzC.joystickAxis.kY);
+        }
+        public static double zRotate(Joystick controller){
+            return controller.getRawAxis(kMadCatzC.joystickAxis.kZRotate);
+        }
+        public static double zAxis(Joystick controller){
+            return controller.getRawAxis(kMadCatzC.joystickAxis.kZAxis);
         }
     }
 

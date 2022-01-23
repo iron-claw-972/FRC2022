@@ -5,7 +5,7 @@ import frc.robot.Constants.kJoy;
 import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj2.command.button.*;
 import frc.robot.utils.controllers.*;
-import frc.robot.utils.controllers.Game.Button;
+import frc.robot.utils.controllers.GameC.Button;
 
 public class Controls {
   public static Drivetrain m_drive = new Drivetrain();
@@ -22,7 +22,7 @@ public class Controls {
     //driver controls
     
     // operator_B.whenPressed(() -> m_drive.modSensitivity());
-    Game.Button.A(driver).whenPressed(() -> m_drive.modDrive());
+    GameC.Button.A(driver).whenPressed(() -> m_drive.modDrive());
     
     //Operator controls
     
