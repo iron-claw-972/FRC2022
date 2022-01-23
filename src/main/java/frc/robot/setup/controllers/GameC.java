@@ -1,87 +1,95 @@
 package frc.robot.setup.controllers;
 
+
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.button.*;
 import frc.robot.constants.controller.*;
 
-public class GameC {
+public class GameC extends Controller{
 
-    public static class Button {
+    public GameC(Joystick joystick_){
+        super(joystick_);
+    }
 
-        public static JoystickButton A(Joystick controller) {
+    public Button Button = new Button();
+    public final class Button {
+        public JoystickButton A() {
             return new JoystickButton(controller, kGameC.buttons.kA);
         }
-        public static JoystickButton B(Joystick controller) {
+        public JoystickButton B() {
             return new JoystickButton(controller, kGameC.buttons.kB);
         }
-        public static JoystickButton X(Joystick controller) {
+        public JoystickButton X() {
             return new JoystickButton(controller, kGameC.buttons.kX);
         }
-        public static JoystickButton Y(Joystick controller) {
+        public JoystickButton Y() {
             return new JoystickButton(controller, kGameC.buttons.kY);
         }
-        public static JoystickButton LB(Joystick controller) {
+        public JoystickButton LB() {
             return new JoystickButton(controller, kGameC.buttons.kLB);
         }
-        public static JoystickButton RB(Joystick controller) {
+        public JoystickButton RB() {
             return new JoystickButton(controller, kGameC.buttons.kRB);
         }
-        public static JoystickButton back(Joystick controller) {
+        public JoystickButton back() {
             return new JoystickButton(controller, kGameC.buttons.kBack);
         }
-        public static JoystickButton start(Joystick controller) {
+        public JoystickButton start() {
             return new JoystickButton(controller, kGameC.buttons.kStart);
         }
     }
- 
-    public static class DPad {
-        public static POVButton up(Joystick controller) {
+    
+    public DPad DPad = new DPad();
+    public class DPad {
+        public POVButton up() {
             return new POVButton(controller, kGameC.dPad.kUp);
         }
-        public static POVButton upRight(Joystick controller) {
+        public POVButton upRight() {
             return new POVButton(controller, kGameC.dPad.kUpRight);
         }
-        public static POVButton right(Joystick controller) {
+        public POVButton right() {
             return new POVButton(controller, kGameC.dPad.kRight);
         }
-        public static POVButton downRight(Joystick controller) {
+        public POVButton downRight() {
             return new POVButton(controller, kGameC.dPad.kDownRight);
         }
-        public static POVButton down(Joystick controller) {
+        public POVButton down() {
             return new POVButton(controller, kGameC.dPad.kDown);
         }
-        public static POVButton downLeft(Joystick controller) {
+        public POVButton downLeft() {
             return new POVButton(controller, kGameC.dPad.kDownLeft);
         }
-        public static POVButton left(Joystick controller) {
+        public POVButton left() {
             return new POVButton(controller, kGameC.dPad.kLeft);
         }
-        public static POVButton upLeft(Joystick controller) {
+        public POVButton upLeft() {
             return new POVButton(controller, kGameC.dPad.kUpLeft);
         }
     }
 
-    public static class JoystickAxis{
-        public static double leftX(Joystick controller){
+    public JoystickAxis JoystickAxis = new JoystickAxis();
+    public class JoystickAxis{
+        public double leftX(){
             return controller.getRawAxis(kGameC.joystickAxis.kLeftX);
         }
-        public static double leftY(Joystick controller){
+        public double leftY(){
             return controller.getRawAxis(kGameC.joystickAxis.kLeftY);
         }
-         public static double RightX(Joystick controller){
-            return controller.getRawAxis(0);
+        public double rightX(){
+            return controller.getRawAxis(kGameC.joystickAxis.kRightX);
         }
-        public static double RightY(Joystick controller){
-            return controller.getRawAxis(0);
+        public double rightY(){
+            return controller.getRawAxis(kGameC.joystickAxis.kRightY);
         }
     }
 
-    public static class TriggerAxis{
-        public static double leftTrigger(Joystick controller){
+    public TriggerAxis TriggerAxis = new TriggerAxis();
+    public  class TriggerAxis{
+        public double leftTrigger(){
             return controller.getRawAxis(kGameC.triggers.kLeftT);
         }
-        public static double RightTrigger(Joystick controller){
-            return controller.getRawAxis(0);
+        public double RightTrigger(){
+            return controller.getRawAxis(kGameC.triggers.kRightT);
         }
     }
     

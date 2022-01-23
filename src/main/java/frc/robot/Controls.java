@@ -1,5 +1,7 @@
 package frc.robot;
 
+import java.sql.Driver;
+
 import edu.wpi.first.wpilibj.Joystick;
 import frc.robot.Constants.kJoy;
 import frc.robot.subsystems.*;
@@ -12,34 +14,29 @@ public class Controls {
   public static Drivetrain m_drive = new Drivetrain();
 
 
-  static Joystick driver = new Joystick(kJoy.kDriverJoy);
-  static Joystick operator = new Joystick(kJoy.kOperatorJoy);
-  
-  public Controls(){
-
-  }
+  GameC driver = new GameC(new Joystick(kJoy.kDriverJoy));
+  // static Joystick operator = new Joystick(kJoy.kOperatorJoy);
   
   public void configureButtonBindings() {
-    //driver controls
+    //driver buttons
   
     // operator_B.whenPressed(() -> m_drive.modSensitivity());
-    GameC.Button.A(driver).whenPressed(() -> m_drive.modDrive());
+    driver.Button.A().whenPressed(() -> m_drive.modDrive());
+
+
+    //Operator buttons
     
-    //Operator controls
-    
-  }
-  
-  // driver val
-  public static double getThrottleValue() {
-    // Controllers y-axes are natively up-negative, down-positive. This method
-    // corrects that by returning the opposite of the y-value
-    return -driver.getRawAxis(1);
   }
 
-  public static double getTurnValue() {
-      // 4 represents left/right axis on the right joystick
-      return driver.getRawAxis(4);
-      // return -driver.getRawAxis(0);
+  // driver val
+  public double getThrottleValue() {
+    // Controllers y-axes are natively up-negative, down-positive. This method
+    // corrects that by returning the opposite of the y-value
+    return 0; //-driver.getRawAxis(1);
+  }
+
+  public double getTurnValue() {
+      return driver.JoystickAxis.rightX();
   }
 
   /**

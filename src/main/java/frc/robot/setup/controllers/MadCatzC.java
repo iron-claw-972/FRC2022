@@ -4,70 +4,77 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.button.*;
 import frc.robot.constants.controller.kMadCatzC;
 
-public class MadCatzC {
+public class MadCatzC extends Controller{
 
-    // System.out.println("thing");
-    public static class Button {
+    public MadCatzC(Joystick joystick_){
+        super(joystick_);
+    }
 
-        public static JoystickButton b1(Joystick controller) {
+    Button Button = new Button();
+    public class Button {
+        public JoystickButton b1() {
             return new JoystickButton(controller, kMadCatzC.buttons.k1);
         }
-        public static JoystickButton b2(Joystick controller) {
+        public JoystickButton b2() {
             return new JoystickButton(controller, kMadCatzC.buttons.k2);
         }
-        public static JoystickButton b3(Joystick controller) {
+        public JoystickButton b3() {
             return new JoystickButton(controller, kMadCatzC.buttons.k3);
         }
-        public static JoystickButton b4(Joystick controller) {
+        public JoystickButton b4() {
             return new JoystickButton(controller, kMadCatzC.buttons.k4);
         }
-        public static JoystickButton b5(Joystick controller) {
+        public JoystickButton b5() {
             return new JoystickButton(controller, kMadCatzC.buttons.k5);
         }
-        public static JoystickButton b6(Joystick controller) {
+        public JoystickButton b6() {
             return new JoystickButton(controller, kMadCatzC.buttons.k6);
         }
-        public static JoystickButton b7(Joystick controller) {
+        public JoystickButton b7() {
             return new JoystickButton(controller, kMadCatzC.buttons.k7);
         }
     }
-    public static class DPad {
-        public static POVButton up(Joystick controller) {
+
+    public DPad DPad = new DPad();
+    public class DPad {
+        public POVButton up() {
             return new POVButton(controller, kMadCatzC.thumbstick.kUp);
         }
-        public static POVButton upRight(Joystick controller) {
+        public POVButton upRight() {
             return new POVButton(controller, kMadCatzC.thumbstick.kUpRight);
         }
-        public static POVButton right(Joystick controller) {
+        public POVButton right() {
             return new POVButton(controller, kMadCatzC.thumbstick.kRight);
         }
-        public static POVButton downRight(Joystick controller) {
+        public POVButton downRight() {
             return new POVButton(controller, kMadCatzC.thumbstick.kDownRight);
         }
-        public static POVButton down(Joystick controller) {
+        public POVButton down() {
             return new POVButton(controller, kMadCatzC.thumbstick.kDown);
         }
-        public static POVButton downLeft(Joystick controller) {
+        public POVButton downLeft() {
             return new POVButton(controller, kMadCatzC.thumbstick.kDownLeft);
         }
-        public static POVButton left(Joystick controller) {
+        public POVButton left() {
             return new POVButton(controller, kMadCatzC.thumbstick.kLeft);
         }
-        public static POVButton upLeft(Joystick controller) {
+        public POVButton upLeft() {
             return new POVButton(controller, kMadCatzC.thumbstick.kUpLeft);
         }
     }
-    public static class joystickAxis{
-        public static double X(Joystick controller){
+
+    public JoystickAxis JoystickAxis = new JoystickAxis();
+    public class JoystickAxis{
+        public double X(){
             return controller.getRawAxis(kMadCatzC.joystickAxis.kX);
         }
-        public static double Y(Joystick controller){
+        public double Y(){
             return controller.getRawAxis(kMadCatzC.joystickAxis.kY);
         }
-        public static double zRotate(Joystick controller){
+        public double zRotate(){
             return controller.getRawAxis(kMadCatzC.joystickAxis.kZRotate);
         }
-        public static double zAxis(Joystick controller){
+        public double zAxis(){
             return controller.getRawAxis(kMadCatzC.joystickAxis.kZAxis);
         }
     }

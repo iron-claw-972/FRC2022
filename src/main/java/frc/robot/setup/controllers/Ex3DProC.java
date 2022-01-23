@@ -1,61 +1,69 @@
 package frc.robot.setup.controllers;
 
+import java.util.ResourceBundle.Control;
+
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.button.*;
 import frc.robot.constants.controller.kEx3DProC;
 
-public class Ex3DProC {
-    public static class Button {
-
-        public static JoystickButton b1(Joystick controller) {
+public class Ex3DProC extends Controller{
+    
+    public Ex3DProC(Joystick joystick_){
+        super(joystick_);
+    }
+    
+    Button Button = new Button();
+    public class Button {
+        public JoystickButton b1() {
             return new JoystickButton(controller, kEx3DProC.buttons.k1);
         }
-        public static JoystickButton b2(Joystick controller) {
+        public JoystickButton b2() {
             return new JoystickButton(controller, kEx3DProC.buttons.k2);
         }
-        public static JoystickButton b3(Joystick controller) {
+        public JoystickButton b3() {
             return new JoystickButton(controller, kEx3DProC.buttons.k3);
         }
-        public static JoystickButton b4(Joystick controller) {
+        public JoystickButton b4() {
             return new JoystickButton(controller, kEx3DProC.buttons.k4);
         }
-        public static JoystickButton b5(Joystick controller) {
+        public JoystickButton b5() {
             return new JoystickButton(controller, kEx3DProC.buttons.k5);
         }
-        public static JoystickButton b6(Joystick controller) {
+        public JoystickButton b6() {
             return new JoystickButton(controller, kEx3DProC.buttons.k6);
         }
-        public static JoystickButton b7(Joystick controller) {
+        public JoystickButton b7() {
             return new JoystickButton(controller, kEx3DProC.buttons.k7);
         }
-        public static JoystickButton b8(Joystick controller) {
+        public JoystickButton b8() {
             return new JoystickButton(controller, kEx3DProC.buttons.k8);
         }
-        public static JoystickButton b9(Joystick controller) {
+        public JoystickButton b9() {
             return new JoystickButton(controller, kEx3DProC.buttons.k9);
         }
-        public static JoystickButton b10(Joystick controller) {
+        public JoystickButton b10() {
             return new JoystickButton(controller, kEx3DProC.buttons.k10);
         }
-        public static JoystickButton b11(Joystick controller) {
+        public JoystickButton b11() {
             return new JoystickButton(controller, kEx3DProC.buttons.k11);
         }
-        public static JoystickButton b12(Joystick controller) {
+        public JoystickButton b12() {
             return new JoystickButton(controller, kEx3DProC.buttons.k12);
         }
     }
 
-    public static class JoystickAxis{
-        public static double X(Joystick controller){
+    public JoystickAxis JoystickAxis = new JoystickAxis();
+    public class JoystickAxis{
+        public double X(){
             return controller.getRawAxis(kEx3DProC.joystickAxis.kX);
         }
-        public static double Y(Joystick controller){
+        public double Y(){
             return controller.getRawAxis(kEx3DProC.joystickAxis.kY);
         }
-        public static double Z(Joystick controller){
+        public double Z(){
             return controller.getRawAxis(kEx3DProC.joystickAxis.kZ);
         }
-        public static double slider(Joystick controller){
+        public double slider(){
             return controller.getRawAxis(kEx3DProC.joystickAxis.kSlider);
         }
     }
