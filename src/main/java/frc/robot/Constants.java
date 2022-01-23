@@ -37,7 +37,7 @@ public class Constants {
     }
 //CB stands for Controller
     public final class kGameC {
-        public final class button {
+        public final class buttons {
             // 4 Buttons on Right of Controller
             public static final int kA = 1;
             public static final int kB = 2;
@@ -64,7 +64,7 @@ public class Constants {
             public static final int kDownRight = 135;
 
             public static final int kDown = 180;
-            public static final int kDownleft = 235;
+            public static final int kDownLeft = 235;
 
             public static final int kLeft = 270;
             public static final int kUpLeft = 315;
@@ -86,7 +86,7 @@ public class Constants {
         }
     }
 
-    public final class kEx3DProCB {
+    public final class kEx3DProC {
         public final class buttons {
             // Trigger Button
             public static final int k1 = 1;
@@ -113,13 +113,13 @@ public class Constants {
             // Joystick axis, X is Right/Left, Y is Up/Down, Z is twist Right/Left
             public static final int kX = 0;
             public static final int kY = 1;
-            public static final int kZRotate = 2;
+            public static final int kZ = 2;
             // Slider on Front Base of Controller
             public static final int kSlider = 3;
         }
     }
     
-    public final class kMadCatzCB {
+    public final class kMadCatzC {
         public final class buttons {
             // Trigger Button
             public static final int k1 = 1;
