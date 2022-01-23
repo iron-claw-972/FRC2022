@@ -1,9 +1,8 @@
-package frc.robot.utils.controlers;
+package frc.robot.setup.controllers;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.button.*;
-import frc.robot.Constants;
-import frc.robot.Constants.kGameC;
+import frc.robot.constants.controller.*;
 
 public class GameC {
 

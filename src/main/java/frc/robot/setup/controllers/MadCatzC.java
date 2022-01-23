@@ -1,9 +1,8 @@
-package frc.robot.utils.controllers;
+package frc.robot.setup.controllers;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.button.*;
-import frc.robot.Constants;
-import frc.robot.Constants.kMadCatzC;
+import frc.robot.constants.controller.kMadCatzC;
 
 public class MadCatzC {
 
@@ -57,10 +56,6 @@ public class MadCatzC {
         public static POVButton upLeft(Joystick controller) {
             return new POVButton(controller, kMadCatzC.thumbstick.kUpLeft);
         }
-        /* UP = new POVButton(driver, 0),
-        RIGHT = new POVButton(driver, 90),
-        DOWN = new POVButton(driver, 180),
-        LEFT = new POVButton(driver, 270); */
     }
     public static class joystickAxis{
         public static double X(Joystick controller){
@@ -76,8 +71,4 @@ public class MadCatzC {
             return controller.getRawAxis(kMadCatzC.joystickAxis.kZAxis);
         }
     }
-
-    
-    
-    
 }

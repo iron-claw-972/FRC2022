@@ -9,7 +9,7 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.*;
-import frc.robot.ControllerFactory;
+import frc.robot.setup.ControllerFactory;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
