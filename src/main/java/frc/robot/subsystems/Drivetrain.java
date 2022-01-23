@@ -9,6 +9,7 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.*;
+import frc.robot.constants.drivetrain.kdClassBot2;
 import frc.robot.setup.ControllerFactory;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 
@@ -18,7 +19,10 @@ import com.ctre.phoenix.motorcontrol.can.*;
 
 public class Drivetrain extends SubsystemBase {
   
-  TalonFX leftMotor = ControllerFactory.createTalonFX(kDrive.kLeftMotorPort);
+
+  kdClassBot2 drivetrain; 
+
+  TalonFX leftMotor = ControllerFactory.createTalonFX(drivetrain.leftMotor);
   // TalonFX leftMotorPal = ControllerFactory.createTalonFX(kDrive.kLeftMotorPalPort);
 
   TalonFX rightMotor = ControllerFactory.createTalonFX(kDrive.kRightMotorPort);
@@ -26,6 +30,7 @@ public class Drivetrain extends SubsystemBase {
 
   SlewRateLimiter slew = new SlewRateLimiter (2);
 
+  
   public Drivetrain() {
     // leftMotorPal.follow(leftMotor);
     // rightMotorPal.folalow(rightMotor);

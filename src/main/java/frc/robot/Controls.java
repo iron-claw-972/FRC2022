@@ -21,7 +21,7 @@ public class Controls {
   
   public void configureButtonBindings() {
     //driver controls
-    
+  
     // operator_B.whenPressed(() -> m_drive.modSensitivity());
     GameC.Button.A(driver).whenPressed(() -> m_drive.modDrive());
     
