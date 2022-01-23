@@ -35,9 +35,9 @@ public class Constants {
         public static final int kRightMotorPort = 2;
         // public static final int kRightMotorPalPort = -1;
     }
-//CB stands for Controller Button
-    public final class kGameCB {
-        public final class buttons {
+//CB stands for Controller
+    public final class kGameC {
+        public final class button {
             // 4 Buttons on Right of Controller
             public static final int kA = 1;
             public static final int kB = 2;
