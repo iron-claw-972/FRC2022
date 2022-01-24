@@ -166,7 +166,8 @@ public class RobotContainer {
     m_drive.resetOdometry(autonomousTrajectory.getInitialPose());
 
     // Run path following command, then stop at the end. At the same time intake.
-    // "Deadline" is the first command, meaning the whole thing will stop once the first one does.
+    // "Deadline" is the first command, 
+    // meaning the whole group will stop once the first command does.
     return new ParallelDeadlineGroup(
         ramseteCommand.andThen(() -> m_drive.tankDriveVolts(0, 0)), 
         new RunCommand(() -> m_intake.run(0.5)));
