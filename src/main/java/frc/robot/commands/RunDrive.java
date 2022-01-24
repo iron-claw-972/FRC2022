@@ -7,6 +7,8 @@
 
 package frc.robot.commands;
 
+import java.util.ResourceBundle.Control;
+
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Controls;
@@ -21,11 +23,13 @@ public class RunDrive extends CommandBase {
     addRequirements(subsystem);
   }
 
+  Controls controller; 
+
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() { //TODO: acceleration smoothing?
     // System.out.println("running command");
-    m_drive.runDrive(Controls.getThrottleValue(), Controls.getTurnValue());
+    m_drive.runDrive(controller.getThrottleValue(), controller.getTurnValue());
     SmartDashboard.putBoolean("arcade drive", m_drive.isDrive("arcade"));
     SmartDashboard.putBoolean("prop drive", m_drive.isDrive("prop"));
     SmartDashboard.putBoolean("shift drive", m_drive.isDrive("shift"));
