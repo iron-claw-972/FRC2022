@@ -3,7 +3,7 @@ package frc.robot;
 import java.sql.Driver;
 
 import edu.wpi.first.wpilibj.Joystick;
-import frc.robot.Constants.kJoy;
+import frc.robot.Constants.*;
 import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj2.command.button.*;
 
@@ -18,7 +18,7 @@ public class Controls {
   public static Drivetrain m_drive = new Drivetrain();
 
 
-  GameC driver = new GameC(new Joystick(kJoy.kDriverJoy));
+  GameC driver = new GameC(new Joystick(JoyConstants.kDriverJoy));
   // static Joystick operator = new Joystick(kJoy.kOperatorJoy);
   
   public void configureButtonBindings() {

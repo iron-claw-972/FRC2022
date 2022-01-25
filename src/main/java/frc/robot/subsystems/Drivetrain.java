@@ -47,7 +47,6 @@ import ctre_shims.TalonEncoderSim;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants;
-import frc.robot.ControllerFactory;
 
 public class Drivetrain extends SubsystemBase {
 
@@ -60,8 +59,7 @@ public class Drivetrain extends SubsystemBase {
   private final WPI_TalonFX m_rightMotor2 = ControllerFactory.createTalonFX(DriveConstants.kRightMotor2Port);
 
   private final PhoenixMotorControllerGroup m_leftMotors = new PhoenixMotorControllerGroup(m_leftMotor1, m_leftMotor2);
-  private final PhoenixMotorControllerGroup m_rightMotors = new PhoenixMotorControllerGroup(m_rightMotor1,
-      m_rightMotor2);
+  private final PhoenixMotorControllerGroup m_rightMotors = new PhoenixMotorControllerGroup(m_rightMotor1,m_rightMotor2);
 
   // The left-side drive encoder
   private final TalonEncoder m_leftEncoder = new TalonEncoder(m_leftMotor1, DriveConstants.kLeftEncoderReversed);
@@ -108,22 +106,21 @@ public class Drivetrain extends SubsystemBase {
 
   SlewRateLimiter slew = new SlewRateLimiter (2);
 
-  
+/*
   public Drivetrain() {
     // leftMotor1.follow(leftMotor);
     // rightMotor1.folalow(rightMotor);
 
     // Inverting opposite sides of the drivetrain
-    leftMotor.setInverted(true);
+    m_leftMotor1.setInverted(true);
     // rightMotor1.setInverted(true);
 
-    // leftMotor.setNeutralMode(NeutralMode.Coast);
-    // rightMotor.setNeutralMode(NeutralMode.Coast);
-    // leftMotor.setNeutralMode(NeutralMode1.Coast);
-    // rightMotor.setNeutralMode(NeutralMode1.Coast);
-
-
+    // m_leftMotor1.setNeutralMode(NeutralMode.Coast);
+    // m_rightMotor1.setNeutralMode(NeutralMode.Coast);
+    // m_leftMotor1.setNeutralMode(NeutralMode1.Coast);
+    // m_rightMotor1.setNeutralMode(NeutralMode1.Coast);
   }
+*/
 
   double lowSensThrottle = 0.2;
   double lowSensTurn = 0.4;
@@ -146,14 +143,17 @@ public class Drivetrain extends SubsystemBase {
 
   public void arcadeDrive(double throttle, double turn) {
     // System.out.println("arcade drive");
-    leftMotor.set(ControlMode.PercentOutput, (throttle + turn));
-    rightMotor.set(ControlMode.PercentOutput, (throttle - turn));
+    m_leftMotor1.set(ControlMode.PercentOutput, (throttle + turn));
+    m_rightMotor1.set(ControlMode.PercentOutput, (throttle - turn));
   }
 
   public void tankDrive(double left, double right) {
-    leftMotor.set(ControlMode.PercentOutput, left);
-    rightMotor.set(ControlMode.PercentOutput, right);
-    // Inverting one side of the drivetrain as to drive forward
+    m_leftMotor1.set(ControlMode.PercentOutput, left);
+    m_rightMotor1.set(ControlMode.PercentOutput, right);
+  }
+
+public Drivetrain() {
+  // Inverting one side of the drivetrain as to drive forward
     m_leftMotors.setInverted(true);
     m_rightMotors.setInverted(false);
 
@@ -285,8 +285,8 @@ public class Drivetrain extends SubsystemBase {
     double leftOut =throttle * (1 + turn);
     double rightOut=throttle * (1 - turn);
 
-    leftMotor.set(ControlMode.PercentOutput, leftOut);
-    rightMotor.set(ControlMode.PercentOutput, rightOut);
+    m_leftMotor1.set(ControlMode.PercentOutput, leftOut);
+    m_rightMotor1.set(ControlMode.PercentOutput, rightOut);
   }
 
   public void shiftDrive(double throttle, double turn) {
@@ -315,8 +315,8 @@ public class Drivetrain extends SubsystemBase {
     System.out.println("left: " + leftOut);
     System.out.println("Right: " + rightOut);
 
-    leftMotor.set(ControlMode.PercentOutput, leftOut);
-    rightMotor.set(ControlMode.PercentOutput, rightOut);
+    m_leftMotor1.set(ControlMode.PercentOutput, leftOut);
+    m_rightMotor1.set(ControlMode.PercentOutput, rightOut);
   }
 
   public double expoMS(double base, double exponent){
@@ -355,6 +355,7 @@ public class Drivetrain extends SubsystemBase {
     }if (driveMode == "prop") {
       this.propDrive(throttle, turn);
     }
+  }
   /**
    * Returns the currently-estimated pose of the robot.
    *
@@ -387,13 +388,6 @@ public class Drivetrain extends SubsystemBase {
     return (m_leftEncoder.getDistance() + m_rightEncoder.getDistance()) / 2.0;
   }
 
-  public void tankDrive(double left, double right) {
-    m_dDrive.tankDrive(left, right);
-  }
-
-  public void arcadeDrive(double throttle, double turn) {
-    m_dDrive.arcadeDrive(throttle, turn);
-  }
 
   /**
    * Controls the left and right sides of the drive directly with voltages.

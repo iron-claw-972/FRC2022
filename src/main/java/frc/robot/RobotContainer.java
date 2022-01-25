@@ -50,6 +50,7 @@ import frc.robot.Constants.*;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   public static Drivetrain m_drive = new Drivetrain();
+  public static Intake m_intake = new Intake();
 
   public static Controls m_controller = new Controls();
 
@@ -60,7 +61,6 @@ public class RobotContainer {
 
   public RobotContainer() {
     // Configure the button bindings
-    configureButtonBindings();
 
     m_drive.setDefaultCommand(new RunDrive(m_drive));
 
@@ -151,7 +151,6 @@ public class RobotContainer {
     //return ramseteCommand.andThen(() -> m_drive.tankDriveVolts(0, 0));
   }
 
-  }
 
   public void loadAutonomousTrajectory(String trajectoryName) {
     String trajectoryJSON = "paths/output/" + trajectoryName + ".wpilib.json";

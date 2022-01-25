@@ -3,8 +3,8 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
-import frc.robot.ControllerFactory;
 import frc.robot.Constants.IntakeConstants;
+import frc.robot.setup.ControllerFactory;
 
 public class Intake {
     

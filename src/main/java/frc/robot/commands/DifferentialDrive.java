@@ -8,6 +8,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Controls;
 import frc.robot.RobotContainer;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.subsystems.Drivetrain;
@@ -25,8 +26,8 @@ public class DifferentialDrive extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    speed = m_drive.getSpeedLimiter().calculate(RobotContainer.getThrottleValue()) * DriveConstants.kMaxSpeedMetersPerSecond;
-    rotation = m_drive.getRotationLimiter().calculate(RobotContainer.getTurnValue()) * DriveConstants.kMaxAngularSpeedRadiansPerSecond;
+    speed = m_drive.getSpeedLimiter().calculate(Controls.controls.getThrottleValue()) * DriveConstants.kMaxSpeedMetersPerSecond;
+    rotation = m_drive.getRotationLimiter().calculate(Controls.controls.getTurnValue()) * DriveConstants.kMaxAngularSpeedRadiansPerSecond;
 
     m_drive.drive(speed, rotation);
   }
