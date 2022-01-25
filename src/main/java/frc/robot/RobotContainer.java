@@ -126,18 +126,28 @@ public class RobotContainer {
     m_driverController_RB
         .whenPressed(() -> m_drive.setMaxOutput(0.5))
         .whenReleased(() -> m_drive.setMaxOutput(1));
+
+    //when the left bumper is pressed, run the left extender, when released, stop running
     m_operatorController_LB
         .whenPressed(() -> m_leftExtender.runLeft(0.25))
         .whenReleased(() -> m_leftExtender.runLeft(0.0));
+
+    //when the right bumper is pressed, run the right extender, when released, stop running
     m_operatorController_RB
         .whenPressed(() -> m_rightExtender.runRight(.25))
         .whenReleased(() -> m_rightExtender.runRight(0.0));
+
+    //when the back is pressed, run the left rotator, when released, stop running
     m_operatorController_BACK
         .whenPressed(() -> m_leftRotator.runLeft(0.25))
         .whenReleased(() -> m_leftRotator.runLeft(0.0));
+    
+    //when the start is pressed, run the right rotator, when released, stop running
     m_operatorController_START
         .whenPressed(() -> m_rightRotator.runRight(0.25))
         .whenReleased(() -> m_rightRotator.runRight(0.0));
+      
+    //when the left joystick is pressed, all arms to move in opposite directions when called
     m_operatorController_LJOYPRESS
         .whenPressed(() -> m_rightRotator.inverter())
         .whenPressed(() -> m_leftRotator.inverter())
