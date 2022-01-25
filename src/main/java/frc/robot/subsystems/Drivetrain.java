@@ -23,24 +23,26 @@ public class Drivetrain extends SubsystemBase {
   kdClassBot3 drivetrain; 
 
   TalonFX leftMotor = ControllerFactory.createTalonFX(drivetrain.leftMotor);
-  // TalonFX leftMotorPal = ControllerFactory.createTalonFX(kDrive.kLeftMotorPalPort);
+  // TalonFX leftMotor1 = ControllerFactory.createTalonFX(kDrive.kLeftMotor1Port);
 
   TalonFX rightMotor = ControllerFactory.createTalonFX(kDrive.kRightMotorPort);
-  // TalonFX rightMotorPal = ControllerFactory.createTalonFX(kDrive.kRightMotorPalPort);
+  // TalonFX rightMotor1 = ControllerFactory.createTalonFX(kDrive.kRightMotor1Port);
 
   SlewRateLimiter slew = new SlewRateLimiter (2);
 
   
   public Drivetrain() {
-    // leftMotorPal.follow(leftMotor);
-    // rightMotorPal.folalow(rightMotor);
+    // leftMotor1.follow(leftMotor);
+    // rightMotor1.folalow(rightMotor);
 
     // Inverting opposite sides of the drivetrain
     leftMotor.setInverted(true);
-    // rightMotorPal.setInverted(true);
+    // rightMotor1.setInverted(true);
 
     // leftMotor.setNeutralMode(NeutralMode.Coast);
     // rightMotor.setNeutralMode(NeutralMode.Coast);
+    // leftMotor.setNeutralMode(NeutralMode1.Coast);
+    // rightMotor.setNeutralMode(NeutralMode1.Coast);
 
 
   }

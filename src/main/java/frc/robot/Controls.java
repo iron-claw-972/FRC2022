@@ -8,7 +8,6 @@ import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj2.command.button.*;
 
 import frc.robot.setup.controllers.*;
-import frc.robot.setup.controllers.GameC.*;
 
 public class Controls {
   public static Controls controls;
@@ -24,24 +23,24 @@ public class Controls {
   
   public void configureButtonBindings() {
     //driver buttons
-  
-    // operator_B.whenPressed(() -> m_drive.modSensitivity());
+    driver.Button.B().whenPressed(() -> m_drive.modSensitivity());
     driver.Button.A().whenPressed(() -> m_drive.modDrive());
-
 
     //Operator buttons
     
+
   }
 
   // driver val
   public double getThrottleValue() {
     // Controllers y-axes are natively up-negative, down-positive. This method
     // corrects that by returning the opposite of the y-value
-    return 0; //-driver.getRawAxis(1);
+    return -driver.JoystickAxis.leftY();
   }
 
   public double getTurnValue() {
-      return driver.JoystickAxis.rightX();
+    //Right is Positive left is negitive
+    return driver.JoystickAxis.rightX();
   }
   /**
    * Deadbands an input to [-1, -deadband], [deadband, 1], rescaling inputs to be
