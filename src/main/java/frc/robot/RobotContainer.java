@@ -55,6 +55,13 @@ public class RobotContainer {
   public static Drivetrain m_drive = new Drivetrain();
   public static Intake m_intake = new Intake();
 
+  //arm objects
+  public static Extender m_rightExtender = new Extender();
+  public static Extender m_leftExtender = new Extender();
+  public static Rotator m_rightRotator = new Rotator();
+  public static Rotator m_leftRotator = new Rotator();
+  //-----//
+
   static Joystick m_driverController = new Joystick(JoyConstants.kDriverJoy);
   static Joystick m_operatorController = new Joystick(JoyConstants.kOperatorJoy);
 
@@ -65,7 +72,9 @@ public class RobotContainer {
       m_driverController_LB = new JoystickButton(m_driverController, 5),
       m_driverController_RB = new JoystickButton(m_driverController, 6),
       m_driverController_BACK = new JoystickButton(m_driverController, 7),
-      m_driverController_START = new JoystickButton(m_driverController, 8);
+      m_driverController_START = new JoystickButton(m_driverController, 8),
+      m_driverController_LJOYPRESS = new JoystickButton(m_driverController, 9),
+      m_driverController_RJOYPRESS = new JoystickButton(m_driverController, 10);
 
   private static final JoystickButton m_operatorController_A = new JoystickButton(m_operatorController, 1),
       m_operatorController_B = new JoystickButton(m_operatorController, 2),
@@ -74,7 +83,9 @@ public class RobotContainer {
       m_operatorController_LB = new JoystickButton(m_operatorController, 5),
       m_operatorController_RB = new JoystickButton(m_operatorController, 6),
       m_operatorController_BACK = new JoystickButton(m_operatorController, 7),
-      m_operatorController_START = new JoystickButton(m_operatorController, 8);
+      m_operatorController_START = new JoystickButton(m_operatorController, 8),
+      m_operatorController_LJOYPRESS = new JoystickButton(m_operatorController, 9),
+      m_operatorController_RJOYPRESS = new JoystickButton(m_operatorController, 10);
 
   private static final POVButton m_driverController_DPAD_UP = new POVButton(m_driverController, 0),
       m_driverController_DPAD_RIGHT = new POVButton(m_driverController, 90),
@@ -116,11 +127,22 @@ public class RobotContainer {
         .whenPressed(() -> m_drive.setMaxOutput(0.5))
         .whenReleased(() -> m_drive.setMaxOutput(1));
     m_operatorController_LB
-        .whenPressed(() -> m_lmotor.runLeft(0.25))
-        .whenReleased(() -> m_lmotor.runLeft(0.0));
+        .whenPressed(() -> m_leftExtender.runLeft(0.25))
+        .whenReleased(() -> m_leftExtender.runLeft(0.0));
     m_operatorController_RB
-        .whenPressed(() -> m_rmotor.runRight(.25))
-        .whenReleased(() -> m_rmotor.runRight(0.0));
+        .whenPressed(() -> m_rightExtender.runRight(.25))
+        .whenReleased(() -> m_rightExtender.runRight(0.0));
+    m_operatorController_BACK
+        .whenPressed(() -> m_leftRotator.runLeft(0.25))
+        .whenReleased(() -> m_leftRotator.runLeft(0.0));
+    m_operatorController_START
+        .whenPressed(() -> m_rightRotator.runRight(0.25))
+        .whenReleased(() -> m_rightRotator.runRight(0.0));
+    m_operatorController_LJOYPRESS
+        .whenPressed(() -> m_rightRotator.inverter())
+        .whenPressed(() -> m_leftRotator.inverter())
+        .whenPressed(() -> m_leftExtender.inverter())
+        .whenPressed(() -> m_rightExtender.inverter());
   }
 
   /**
