@@ -40,8 +40,8 @@ public final class Constants {
     public static final int kRightMotor1Port = 0;
     public static final int kRightMotor2Port = 2;
 
-    public static final double kSpeedSlewRateLimit = 1;
-    public static final double kRotationSlewRateLimit = 1;
+    public static final double kSpeedSlewRateLimit = 3;
+    public static final double kRotationSlewRateLimit = 3;
 
     public static final double kTrackWidthMeters = Units.inchesToMeters(20); // Distance between center of left wheel and center of right wheel in meters
 

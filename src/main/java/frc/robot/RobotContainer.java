@@ -35,6 +35,7 @@ import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.JoyConstants;
 import frc.robot.commands.ArcadeDrive;
+import frc.robot.commands.DifferentialDrive;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Intake;
 
@@ -92,7 +93,7 @@ public class RobotContainer {
     configureButtonBindings();
 
     // Arcade drive if no command given
-    m_drive.setDefaultCommand(new ArcadeDrive(m_drive));
+    m_drive.setDefaultCommand(new DifferentialDrive(m_drive));
 
     // Start camera stream for driver
     CameraServer.startAutomaticCapture();

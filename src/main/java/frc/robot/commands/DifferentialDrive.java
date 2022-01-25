@@ -26,7 +26,7 @@ public class DifferentialDrive extends CommandBase {
   @Override
   public void execute() {
     speed = m_drive.getSpeedLimiter().calculate(RobotContainer.getThrottleValue()) * DriveConstants.kMaxSpeedMetersPerSecond;
-    rotation = m_drive.getRotationLimiter().calculate(RobotContainer.getTurnValue()) * DriveConstants.kMaxAngularSpeedRadiansPerSecond;
+    rotation = -1 * m_drive.getRotationLimiter().calculate(RobotContainer.getTurnValue()) * DriveConstants.kMaxAngularSpeedRadiansPerSecond;
 
     m_drive.drive(speed, rotation);
   }
