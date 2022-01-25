@@ -3,6 +3,7 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.ControllerFactory;
 import frc.robot.Constants.RotatorConstants;
 
@@ -13,6 +14,12 @@ public class Rotator {
 
     public void inverter() {
         inverter *= -1;
+        if(inverter == 1) {
+            SmartDashboard.putBoolean("rotator inverted", false);
+        }
+        if(inverter == -1) {
+            SmartDashboard.putBoolean("rotator inverted", true);
+        }
     }
 
     public void runLeft(double pow) {
