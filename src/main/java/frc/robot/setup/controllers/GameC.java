@@ -1,6 +1,5 @@
 package frc.robot.setup.controllers;
 
-
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.button.*;
 import frc.robot.constants.controller.*;
@@ -11,6 +10,7 @@ public class GameC extends Controller{
         super(joystick_);
     }
 
+    //returns JoystickButton object
     public Button Button = new Button();
     public final class Button {
         public JoystickButton A() {
@@ -39,6 +39,7 @@ public class GameC extends Controller{
         }
     }
     
+    //returns POVButton object
     public DPad DPad = new DPad();
     public class DPad {
         public POVButton up() {
@@ -67,6 +68,7 @@ public class GameC extends Controller{
         }
     }
 
+    //returns Joystick Axis value
     public JoystickAxis JoystickAxis = new JoystickAxis();
     public class JoystickAxis{
         public double leftX(){
@@ -83,6 +85,7 @@ public class GameC extends Controller{
         }
     }
 
+    //returns Trigger Axis value
     public TriggerAxis TriggerAxis = new TriggerAxis();
     public  class TriggerAxis{
         public double leftTrigger(){

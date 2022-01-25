@@ -2,8 +2,11 @@ package frc.robot.setup.controllers;
 import edu.wpi.first.wpilibj.Joystick;
 
 public class Controller {
-    public Joystick controller;
 
+    //for storeing the controller object
+    public Joystick controller;
+    
+    //gets controller object used for return methods
     public Controller(Joystick joystick_){
         controller = joystick_;
     }

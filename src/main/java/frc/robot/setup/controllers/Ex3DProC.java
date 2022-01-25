@@ -1,7 +1,5 @@
 package frc.robot.setup.controllers;
 
-import java.util.ResourceBundle.Control;
-
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.button.*;
 import frc.robot.constants.controller.kEx3DProC;
@@ -12,6 +10,7 @@ public class Ex3DProC extends Controller{
         super(joystick_);
     }
     
+    //returns JoystickButton object
     Button Button = new Button();
     public class Button {
         public JoystickButton b1() {
@@ -52,6 +51,7 @@ public class Ex3DProC extends Controller{
         }
     }
 
+    //returns Joystick Axis value
     public JoystickAxis JoystickAxis = new JoystickAxis();
     public class JoystickAxis{
         public double X(){

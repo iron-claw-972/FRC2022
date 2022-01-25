@@ -26,7 +26,7 @@ public final class kMadCatzC {
     }
 
     public final class thumbstick {
-        // 8 Directional Inputs on Thumbstick
+        // 8 Directional Inputs on Hat Switch
         public static final int kUp = 0;
         public static final int kUpRight = 45;
     

@@ -27,6 +27,8 @@ public class RobotContainer {
   public static Drivetrain m_drive = new Drivetrain();
   public static Controls m_controller = new Controls();
 
+  public Controls controls;
+
   
   public RobotContainer() {
 
@@ -60,4 +62,7 @@ public class RobotContainer {
       );
   }
 
+  public Controls getControls(){
+    return controls;
+  }
 }

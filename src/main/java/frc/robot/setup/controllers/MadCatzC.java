@@ -10,6 +10,7 @@ public class MadCatzC extends Controller{
         super(joystick_);
     }
 
+    //returns JoystickButton object
     Button Button = new Button();
     public class Button {
         public JoystickButton b1() {
@@ -35,8 +36,9 @@ public class MadCatzC extends Controller{
         }
     }
 
-    public DPad DPad = new DPad();
-    public class DPad {
+    //returns POVButton object
+    public HatSwitch HatSwitch = new HatSwitch();
+    public class HatSwitch {
         public POVButton up() {
             return new POVButton(controller, kMadCatzC.thumbstick.kUp);
         }
@@ -63,6 +65,7 @@ public class MadCatzC extends Controller{
         }
     }
 
+    //returns JoystickButton object
     public JoystickAxis JoystickAxis = new JoystickAxis();
     public class JoystickAxis{
         public double X(){

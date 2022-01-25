@@ -11,6 +11,11 @@ import frc.robot.setup.controllers.*;
 import frc.robot.setup.controllers.GameC.*;
 
 public class Controls {
+  public static Controls controls;
+  public static Controls getControls(){
+    return controls;
+  }
+
   public static Drivetrain m_drive = new Drivetrain();
 
 
@@ -38,7 +43,6 @@ public class Controls {
   public double getTurnValue() {
       return driver.JoystickAxis.rightX();
   }
-
   /**
    * Deadbands an input to [-1, -deadband], [deadband, 1], rescaling inputs to be
    * linear from (deadband, 0) to (1,1)

@@ -1,7 +1,7 @@
 package frc.robot.constants.controller;
 
 public final class kGameC {
-    public final class buttons {
+    public static final class buttons {
         // 4 Buttons on Right of Controller
         public static final int kA = 1;
         public static final int kB = 2;
@@ -19,7 +19,7 @@ public final class kGameC {
         public static final int kRightJ = 10;
     }
 
-    public final class dPad {
+    public static final class dPad {
         // 8 D-Pad Buttons on left of Controller
         public static final int kUp = 0;
         public static final int kUpRight = 45;
@@ -34,7 +34,7 @@ public final class kGameC {
         public static final int kUpLeft = 315;
     }
 
-    public final class joystickAxis {
+    public static final class joystickAxis {
         // Left Joystick axis, X is Right/Left and Y is Up/Down
         public static final int kLeftX = 0;
         public static final int kLeftY = 1;
@@ -43,7 +43,7 @@ public final class kGameC {
         public static final int kRightY = 5;
     }
 
-    public final class triggers {
+    public static final class triggers {
         // Left and Right Triggers on Controller
         public static final int kLeftT = 2;
         public static final int kRightT = 3;
