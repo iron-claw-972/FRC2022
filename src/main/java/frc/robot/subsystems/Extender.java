@@ -1,21 +1,29 @@
 package frc.robot.subsystems;
 
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.ControllerFactory;
 import frc.robot.Constants.ExtenderConstants;
 
 public class Extender {
-    private final CANSparkMax m_lmotor = ControllerFactory.createSparkMAX(ExtenderConstants.kLeftExtenderPort, MotorType.kBrushless);
-    private final CANSparkMax m_rmotor = ControllerFactory.createSparkMAX(ExtenderConstants.kRightExtenderPort, MotorType.kBrushless);
+    private final WPI_TalonFX m_lmotor = ControllerFactory.createTalonFX(ExtenderConstants.kLeftExtenderPort);
+    private final WPI_TalonFX m_rmotor = ControllerFactory.createTalonFX(ExtenderConstants.kRightExtenderPort);
     private int inverter = 1;
 
     public void inverter() {
         inverter *= -1;
+        if(inverter == 1) {
+            SmartDashboard.putBoolean("extender inverted", false);
+        }
+        if(inverter == -1) {
+            SmartDashboard.putBoolean("extender inverted", true);
+        }
     }
 
     public void runLeft(double pow) {
+        //if ticks greater than a specified point, stop running
+        
         m_lmotor.set(pow * inverter);
     }
 
