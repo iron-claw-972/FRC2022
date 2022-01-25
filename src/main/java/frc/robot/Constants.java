@@ -34,10 +34,10 @@ public final class Constants {
 
   public static final class DriveConstants {
     // Drivetrain motor ports, use -1 for unused motors
-    public static final int kLeftMotor1Port = 2;
+    public static final int kLeftMotor1Port = 1;
     public static final int kLeftMotor2Port = 3;
 
-    public static final int kRightMotor1Port = 4;
+    public static final int kRightMotor1Port = 0;
     public static final int kRightMotor2Port = 2;
 
     public static final double kSpeedSlewRateLimit = 1;
@@ -96,6 +96,7 @@ public final class Constants {
     public static final double kRamseteZeta = 0.7;
 
     // Trajectories should be placed in src/main/deploy/paths
-    public static final String kTrajectoryName = "TwoBallsToHangarTest";
+    // name without stuff after . ex AutoPath
+    public static final String kTrajectoryName = "HangarTest";
   }
 }
