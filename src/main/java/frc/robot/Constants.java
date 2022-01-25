@@ -33,12 +33,15 @@ public final class Constants {
   }
 
   public static final class DriveConstants {
-    // Drivetrain motor ports, use -1 for unused motors
-    public static final int kLeftMotor1Port = 2;
-    public static final int kLeftMotor2Port = 3;
 
-    public static final int kRightMotor1Port = 4;
-    public static final int kRightMotor2Port = 2;
+    //TODO: Change motor ports accordingly!
+    //Drivetrain motor ports, use -1 for unused motors
+    public static final int kLeftMotor1Port = -1;
+    public static final int kLeftMotor2Port = -1;
+
+    public static final int kRightMotor1Port = -1;
+    public static final int kRightMotor2Port = -1;
+    //====//
 
     public static final double kSpeedSlewRateLimit = 1;
     public static final double kRotationSlewRateLimit = 1;
@@ -84,6 +87,18 @@ public final class Constants {
 
   public static final class IntakeConstants {
     public static final int kIntakeMotorPort = 23;
+  }
+
+  public static final class ExtenderConstants {
+    //extending motors (for climber)
+    public static final int kRightExtenderPort = -1;
+    public static final int kLeftExtenderPort = -1;
+  }
+
+  public static final class RotatorConstants {
+    //rotating motors (for climber)
+    public static final int kRightRotatorPort = -1;
+    public static final int kLeftRotatorPort = -1;
   }
 
   public static final class AutoConstants {
