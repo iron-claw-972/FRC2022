@@ -41,7 +41,6 @@ public final class Constants {
 
     public static final int kRightMotor1Port = -1;
     public static final int kRightMotor2Port = -1;
-    //====//
 
     public static final double kSpeedSlewRateLimit = 1;
     public static final double kRotationSlewRateLimit = 1;
