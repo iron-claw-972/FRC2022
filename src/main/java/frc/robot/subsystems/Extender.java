@@ -9,12 +9,17 @@ import frc.robot.Constants.ExtenderConstants;
 public class Extender {
     private final CANSparkMax m_lmotor = ControllerFactory.createSparkMAX(ExtenderConstants.kLeftExtenderPort, MotorType.kBrushless);
     private final CANSparkMax m_rmotor = ControllerFactory.createSparkMAX(ExtenderConstants.kRightExtenderPort, MotorType.kBrushless);
+    private int inverter = 1;
+
+    public void inverter() {
+        inverter *= -1;
+    }
 
     public void runLeft(double pow) {
-        m_lmotor.set(pow);
+        m_lmotor.set(pow * inverter);
     }
 
     public void runRight(double pow) {
-        m_rmotor.set(pow);
+        m_rmotor.set(pow * inverter);
     }
 }
