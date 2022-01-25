@@ -37,6 +37,8 @@ import frc.robot.Constants.JoyConstants;
 import frc.robot.commands.ArcadeDrive;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Extender;
+import frc.robot.subsystems.Rotator;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -113,6 +115,12 @@ public class RobotContainer {
     m_driverController_RB
         .whenPressed(() -> m_drive.setMaxOutput(0.5))
         .whenReleased(() -> m_drive.setMaxOutput(1));
+    m_operatorController_LB
+        .whenPressed(() -> m_lmotor.runLeft(0.25))
+        .whenReleased(() -> m_lmotor.runLeft(0.0));
+    m_operatorController_RB
+        .whenPressed(() -> m_rmotor.runRight(.25))
+        .whenReleased(() -> m_rmotor.runRight(0.0));
   }
 
   /**
