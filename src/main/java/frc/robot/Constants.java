@@ -92,12 +92,14 @@ public final class Constants {
     //extending motors (for climber)
     public static final int kRightExtenderPort = -1;
     public static final int kLeftExtenderPort = -1;
+    public static final double kExtenderPower = 0.10;
   }
 
   public static final class RotatorConstants {
     //rotating motors (for climber)
     public static final int kRightRotatorPort = -1;
     public static final int kLeftRotatorPort = -1;
+    public static final double kRotatorPower = 0.10;
   }
 
   public static final class AutoConstants {
