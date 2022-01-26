@@ -8,6 +8,7 @@ import frc.robot.ControllerFactory;
 import frc.robot.Constants.RotatorConstants;
 
 public class Rotator {
+    //TODO: check if whatever is connected to the sparkmax is brush/brushless
     private final CANSparkMax m_lmotor = ControllerFactory.createSparkMAX(RotatorConstants.kLeftRotatorPort, MotorType.kBrushless);
     private final CANSparkMax m_rmotor = ControllerFactory.createSparkMAX(RotatorConstants.kRightRotatorPort, MotorType.kBrushless);
     private int inverter = 1;
