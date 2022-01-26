@@ -38,7 +38,10 @@ import frc.robot.commands.ArcadeDrive;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Extender;
+import frc.robot.Constants.ExtenderConstants;
 import frc.robot.subsystems.Rotator;
+import frc.robot.Constants.RotatorConstants;
+
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -129,22 +132,22 @@ public class RobotContainer {
 
     //when the left bumper is pressed, run the left extender, when released, stop running
     m_operatorController_LB
-        .whenPressed(() -> m_leftExtender.runLeft(0.25))
+        .whenPressed(() -> m_leftExtender.runLeft(ExtenderConstants.kExtenderPower))
         .whenReleased(() -> m_leftExtender.runLeft(0.0));
 
     //when the right bumper is pressed, run the right extender, when released, stop running
     m_operatorController_RB
-        .whenPressed(() -> m_rightExtender.runRight(.25))
+        .whenPressed(() -> m_rightExtender.runRight(ExtenderConstants.kExtenderPower))
         .whenReleased(() -> m_rightExtender.runRight(0.0));
 
     //when the back is pressed, run the left rotator, when released, stop running
     m_operatorController_BACK
-        .whenPressed(() -> m_leftRotator.runLeft(0.25))
+        .whenPressed(() -> m_leftRotator.runLeft(RotatorConstants.kRotatorPower))
         .whenReleased(() -> m_leftRotator.runLeft(0.0));
     
     //when the start is pressed, run the right rotator, when released, stop running
     m_operatorController_START
-        .whenPressed(() -> m_rightRotator.runRight(0.25))
+        .whenPressed(() -> m_rightRotator.runRight(RotatorConstants.kRotatorPower))
         .whenReleased(() -> m_rightRotator.runRight(0.0));
       
     //when the left joystick is pressed, all arms to move in opposite directions when called
