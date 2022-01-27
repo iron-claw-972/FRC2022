@@ -184,7 +184,7 @@ public class RobotContainer {
     // Controllers y-axes are natively up-negative, down-positive. This method
     // corrects that by returning the opposite of the y-value
     // 1 represents up/down axis on the left joystick
-    return -deadbandX(m_driverController.getRawAxis(1), JoyConstants.kJoystickDeadband);
+    return -deadband(m_driverController.getRawAxis(1), JoyConstants.kJoystickDeadband);
   }
 
   /**
@@ -194,7 +194,8 @@ public class RobotContainer {
    */
   public static double getTurnValue() {
     // 4 represents left/right axis on the right joystick
-    return deadbandX(m_driverController.getRawAxis(4), JoyConstants.kJoystickDeadband);
+    // 0 represents ryans thing
+    return deadband(m_driverController.getRawAxis(0), JoyConstants.kJoystickDeadband);
   }
 
   /**
@@ -205,7 +206,7 @@ public class RobotContainer {
    * @param deadband The deadband
    * @return the input rescaled and to fit [-1, -deadband], [deadband, 1]
    */
-  public static double deadbandX(double input, double deadband) {
+  public static double deadband(double input, double deadband) {
     if (Math.abs(input) <= deadband) {
       return 0;
     } else if (Math.abs(input) == 1) {
