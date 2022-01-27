@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import frc.robot.Constants.*;
 import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj2.command.button.*;
+import edu.wpi.first.math.filter.SlewRateLimiter;
 
 import frc.robot.setup.controllers.*;
 
@@ -19,6 +20,10 @@ public class Controls {
 
 
   GameC driver = new GameC(new Joystick(JoyConstants.kDriverJoy));
+
+  private final SlewRateLimiter m_speedLimiter = new SlewRateLimiter(DriveConstants.kSpeedSlewRateLimit);
+  private final SlewRateLimiter m_rotationLimiter = new SlewRateLimiter(DriveConstants.kRotationSlewRateLimit);
+
   // static Joystick operator = new Joystick(kJoy.kOperatorJoy);
   
   public void configureButtonBindings() {
@@ -60,4 +65,13 @@ public class Controls {
     }
   }
 
+  //is an exponetional function that maintains positive or negitive
+  public double expoMS(double base, double exponent){
+    //weird stuff will hapen if you don't put a number > 0
+    double finVal = Math.pow(Math.abs(base),exponent);
+    if (base < 0) {
+      finVal *= -1;
+    }
+    return finVal;
+  }
 }

@@ -25,7 +25,6 @@ import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.RamseteController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
-import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
@@ -74,9 +73,6 @@ public class Drivetrain extends SubsystemBase {
   // Odometry class for tracking robot pose
   private final DifferentialDriveOdometry m_odometry;
 
-  private final SlewRateLimiter m_speedLimiter = new SlewRateLimiter(DriveConstants.kSpeedSlewRateLimit);
-  private final SlewRateLimiter m_rotationLimiter = new SlewRateLimiter(DriveConstants.kRotationSlewRateLimit);
-
   private final PIDController m_leftRamsetePIDController = new PIDController(DriveConstants.kRamseteP, 0, 0);
   private final PIDController m_rightRamsetePIDController = new PIDController(DriveConstants.kRamseteP, 0, 0);
 
@@ -96,6 +92,7 @@ public class Drivetrain extends SubsystemBase {
   private final DifferentialDriveKinematics m_driveKinematics = new DifferentialDriveKinematics(
       DriveConstants.kTrackWidthMeters);
 
+/*
   // These classes help us simulate our drivetrain
   private DifferentialDrivetrainSim m_drivetrainSim;
   private TalonEncoderSim m_leftEncoderSim;
@@ -103,8 +100,7 @@ public class Drivetrain extends SubsystemBase {
 
   // The Field2d class shows the field in the sim GUI
   private Field2d m_fieldSim;
-
-  SlewRateLimiter slew = new SlewRateLimiter (2);
+*/
 
 /*
   public Drivetrain() {
@@ -121,14 +117,44 @@ public class Drivetrain extends SubsystemBase {
     // m_rightMotor1.setNeutralMode(NeutralMode1.Coast);
   }
 */
+  public Drivetrain() {
+    // Inverting one side of the drivetrain as to drive forward
+      m_leftMotors.setInverted(true);
+      m_rightMotors.setInverted(false);
 
-  double lowSensThrottle = 0.2;
-  double lowSensTurn = 0.4;
-  double highSensThrottle = 1;
-  double highSensTurn = 0.5;
+      // Sets the distance per pulse for the encoders
+      m_leftEncoder.setDistancePerPulse(DriveConstants.kEncoderMetersPerPulse);
+      m_rightEncoder.setDistancePerPulse(DriveConstants.kEncoderMetersPerPulse);
 
-  double sensThrottle = lowSensThrottle;
-  double sensTurn = lowSensTurn;
+      resetEncoders();
+      zeroHeading();
+
+      m_odometry = new DifferentialDriveOdometry(m_navX.getRotation2d());
+      /*
+      if (RobotBase.isSimulation()) {
+        // This class simulates our drivetrain's motion around the field.
+        m_drivetrainSim = new DifferentialDrivetrainSim(
+            DriveConstants.kDrivetrainPlant,
+            DriveConstants.kDriveGearbox,
+            DriveConstants.kGearRatio,
+            DriveConstants.kTrackWidthMeters,
+            DriveConstants.kWheelDiameterMeters / 2.0,
+            VecBuilder.fill(0, 0, 0.0001, 0.1, 0.1, 0.005, 0.005));
+
+        // The encoder and gyro angle sims let us set simulated sensor readings
+        m_leftEncoderSim = new TalonEncoderSim(m_leftEncoder);
+        m_rightEncoderSim = new TalonEncoderSim(m_rightEncoder);
+
+        // the Field2d class lets us visualize our robot in the simulation GUI.
+        m_fieldSim = new Field2d();
+        SmartDashboard.putData("Field", m_fieldSim);
+      }
+      */
+    }
+
+  double lowSensThrottle = 0.2 , lowSensTurn = 0.4, highSensThrottle = 1, highSensTurn = 0.5;
+
+  double sensThrottle = lowSensThrottle, sensTurn = lowSensTurn;
   public void modSensitivity(){
     if (sensThrottle == highSensThrottle) {
       sensThrottle = lowSensThrottle;
@@ -152,40 +178,7 @@ public class Drivetrain extends SubsystemBase {
     m_rightMotor1.set(ControlMode.PercentOutput, right);
   }
 
-public Drivetrain() {
-  // Inverting one side of the drivetrain as to drive forward
-    m_leftMotors.setInverted(true);
-    m_rightMotors.setInverted(false);
-
-    // Sets the distance per pulse for the encoders
-    m_leftEncoder.setDistancePerPulse(DriveConstants.kEncoderMetersPerPulse);
-    m_rightEncoder.setDistancePerPulse(DriveConstants.kEncoderMetersPerPulse);
-
-    resetEncoders();
-    zeroHeading();
-
-    m_odometry = new DifferentialDriveOdometry(m_navX.getRotation2d());
-
-    if (RobotBase.isSimulation()) {
-      // This class simulates our drivetrain's motion around the field.
-      m_drivetrainSim = new DifferentialDrivetrainSim(
-          DriveConstants.kDrivetrainPlant,
-          DriveConstants.kDriveGearbox,
-          DriveConstants.kGearRatio,
-          DriveConstants.kTrackWidthMeters,
-          DriveConstants.kWheelDiameterMeters / 2.0,
-          VecBuilder.fill(0, 0, 0.0001, 0.1, 0.1, 0.005, 0.005));
-
-      // The encoder and gyro angle sims let us set simulated sensor readings
-      m_leftEncoderSim = new TalonEncoderSim(m_leftEncoder);
-      m_rightEncoderSim = new TalonEncoderSim(m_rightEncoder);
-
-      // the Field2d class lets us visualize our robot in the simulation GUI.
-      m_fieldSim = new Field2d();
-      SmartDashboard.putData("Field", m_fieldSim);
-    }
-  }
-
+  /*
   @Override
   public void simulationPeriodic() {
     // To update our simulation, we set motor voltage inputs, update the simulation,
@@ -208,6 +201,7 @@ public Drivetrain() {
     // NavX expects clockwise positive, but sim outputs clockwise negative
     angle.set(Math.IEEEremainder(-m_drivetrainSim.getHeading().getDegrees(), 360));
   }
+  */
 
   /**
    * Returns the current being drawn by the drivetrain. This works in SIMULATION
@@ -221,18 +215,11 @@ public Drivetrain() {
     return m_drivetrainSim.getCurrentDrawAmps();
   }
 
-  public SlewRateLimiter getSpeedLimiter() {
-    return m_speedLimiter;
-  }
-
-  public SlewRateLimiter getRotationLimiter() {
-    return m_rotationLimiter;
-  }
-
   public DifferentialDriveKinematics getDriveKinematics() {
     return m_driveKinematics;
   }
 
+  /*
   @Override
   public void periodic() {
     // Update the odometry in the periodic block
@@ -241,6 +228,7 @@ public Drivetrain() {
       m_fieldSim.setRobotPose(getPose());
     }
   }
+  */
 
   public void updateOdometry() {
     m_odometry.update(m_navX.getRotation2d(), m_leftEncoder.getDistance(), m_rightEncoder.getDistance());
@@ -252,7 +240,7 @@ public Drivetrain() {
    * @param xSpeed Linear velocity in m/s.
    * @param rot    Angular velocity in rad/s.
    */
-  public void drive(double xSpeed, double rot) {
+  public void feedForwardDrive(double xSpeed, double rot) {
     var wheelSpeeds = m_driveKinematics.toWheelSpeeds(new ChassisSpeeds(xSpeed, 0.0, rot));
     setSpeeds(wheelSpeeds);
   }
@@ -265,18 +253,18 @@ public Drivetrain() {
     return m_feedforward;
   }
 
+  //Velocity PID for auto
   public PIDController getLeftRamsetePIDController() {
     return m_leftRamsetePIDController;
   }
-
   public PIDController getRightRamsetePIDController() {
     return m_rightRamsetePIDController;
   }
 
+  //Velocity PID for teleop
   public PIDController getLeftVelocityPIDController() {
     return m_leftVelocityPIDController;
   }
-
   public PIDController getRightVelocityPIDController() {
     return m_rightVelocityPIDController;
   }
@@ -317,15 +305,6 @@ public Drivetrain() {
 
     m_leftMotor1.set(ControlMode.PercentOutput, leftOut);
     m_rightMotor1.set(ControlMode.PercentOutput, rightOut);
-  }
-
-  public double expoMS(double base, double exponent){
-    //weird stuff will hapen if you don't put a number > 0
-    double finVal = Math.pow(Math.abs(base),exponent);
-    if (base < 0) {
-      finVal *= -1;
-    }
-    return finVal;
   }
 
   String driveMode = "arcade";

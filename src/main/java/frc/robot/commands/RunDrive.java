@@ -25,7 +25,7 @@ public class RunDrive extends CommandBase {
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() { //TODO: acceleration smoothing?
+  public void execute() { //TODO: acceleration smoothing
     // System.out.println("running command");
     m_drive.runDrive(Controls.controls.getThrottleValue(), Controls.controls.getTurnValue());
     SmartDashboard.putBoolean("arcade drive", m_drive.isDrive("arcade"));

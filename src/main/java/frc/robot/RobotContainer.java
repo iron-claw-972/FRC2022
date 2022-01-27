@@ -15,21 +15,8 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.cameraserver.CameraServer;
-import java.io.IOException;
-import java.nio.file.Path;
-import java.util.List;
 
 import edu.wpi.first.cameraserver.CameraServer;
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.math.trajectory.Trajectory;
-import edu.wpi.first.math.trajectory.TrajectoryConfig;
-import edu.wpi.first.math.trajectory.TrajectoryGenerator;
-import edu.wpi.first.math.trajectory.TrajectoryUtil;
-import edu.wpi.first.math.trajectory.constraint.DifferentialDriveVoltageConstraint;
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.Filesystem;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
@@ -56,9 +43,6 @@ public class RobotContainer {
 
   public Controls controls;
 
-  private Trajectory autonomousTrajectory;
-  private boolean loadedAutonomousTrajectory = false;
-
   public RobotContainer() {
     // Configure the button bindings
 
@@ -73,7 +57,7 @@ public class RobotContainer {
     // Configure the button bindings
     m_controller.configureButtonBindings();
     // Attempt to load trajectory from PathWeaver
-    loadAutonomousTrajectory(AutoConstants.kTrajectoryName);
+    
   }
 
   /**
@@ -83,86 +67,18 @@ public class RobotContainer {
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
 
-//   private void configureButtonBindings() {
-
-//     // Drive at half speed when the right bumper is held
-//     m_driverController_RB
-//         .whenPressed(() -> m_drive.setMaxOutput(0.5))
-//         .whenReleased(() -> m_drive.setMaxOutput(1));
-//   }
-
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
    *
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-
-    // Create a voltage constraint to ensure we don't accelerate too fast
-    var autoVoltageConstraint = new DifferentialDriveVoltageConstraint(
-        m_drive.getFeedforward(),
-        m_drive.getDriveKinematics(),
-        Constants.kMaxVoltage);
-
-    // Create config for trajectory
-    TrajectoryConfig config = new TrajectoryConfig(
-        AutoConstants.kMaxSpeedMetersPerSecond,
-        AutoConstants.kMaxAccelerationMetersPerSecondSquared)
-            // Add kinematics to ensure max speed is actually obeyed
-            .setKinematics(m_drive.getDriveKinematics())
-            // Apply the voltage constraint
-            .addConstraint(autoVoltageConstraint);
-
-    if (!loadedAutonomousTrajectory) {
-      // Fallback to default trajectory
-      autonomousTrajectory = TrajectoryGenerator.generateTrajectory(
-          // Start at (1, 2) facing the +X direction
-          new Pose2d(0, 0, new Rotation2d(0)),
-          // Pass through these two interior waypoints, making an 's' curve path
-          List.of(new Translation2d(3, 0), new Translation2d(3, 3), new Translation2d(0, 3)),
-          // End 3 meters straight ahead of where we started, facing forward
-          new Pose2d(0, 0, new Rotation2d(0)),
-          // Pass config
-          config);
-    }
-
-    RamseteCommand ramseteCommand = new RamseteCommand(
-        autonomousTrajectory,
-        m_drive::getPose,
-        m_drive.getRamseteController(),
-        m_drive.getFeedforward(),
-        m_drive.getDriveKinematics(),
-        m_drive::getWheelSpeeds,
-        m_drive.getLeftRamsetePIDController(),
-        m_drive.getRightRamsetePIDController(),
-        // RamseteCommand passes volts to the callback
-        m_drive::tankDriveVolts,
-        m_drive);
-
-    // Reset odometry to the starting pose of the trajectory.
-    m_drive.resetOdometry(autonomousTrajectory.getInitialPose());
-
+    loadAutonomousTrajectory(AutoConstants.kTrajectoryName);
+    
     // Run path following command, then stop at the end. At the same time intake.
     // "Deadline" is the first command, 
     // meaning the whole group will stop once the first command does.
-    return new ParallelDeadlineGroup(
-        ramseteCommand.andThen(() -> m_drive.tankDriveVolts(0, 0)), 
-        new RunCommand(() -> m_intake.run(0.5)));
+    return //path weather here
     //return ramseteCommand.andThen(() -> m_drive.tankDriveVolts(0, 0));
-  }
-
-
-  public void loadAutonomousTrajectory(String trajectoryName) {
-    String trajectoryJSON = "paths/output/" + trajectoryName + ".wpilib.json";
-    try {
-      Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryJSON);
-      autonomousTrajectory = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
-      loadedAutonomousTrajectory = true;
-    } catch (IOException ex) {
-      DriverStation.reportWarning(
-          "Unable to open trajectory: " + trajectoryJSON + "\n" +
-              "Falling back to default trajectory",
-          ex.getStackTrace());
-    }
   }
 }
