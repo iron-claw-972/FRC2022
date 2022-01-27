@@ -211,9 +211,11 @@ public class Drivetrain extends SubsystemBase {
    *
    * @return The drawn current in Amps.
    */
-  public double getDrawnCurrentAmps() {
+  /*
+   public double getDrawnCurrentAmps() {
     return m_drivetrainSim.getCurrentDrawAmps();
   }
+  */
 
   public DifferentialDriveKinematics getDriveKinematics() {
     return m_driveKinematics;

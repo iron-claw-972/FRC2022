@@ -23,6 +23,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.*;
 
 import frc.robot.Constants.*;
+import frc.robot.autonomous.drivetrain.Pathweaver;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -73,12 +74,12 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    loadAutonomousTrajectory(AutoConstants.kTrajectoryName);
+    Pathweaver.loadAutonomousTrajectory(AutoConstants.kTrajectoryName);
     
     // Run path following command, then stop at the end. At the same time intake.
     // "Deadline" is the first command, 
     // meaning the whole group will stop once the first command does.
-    return //path weather here
+    return Pathweaver.pathweaverCommand();
     //return ramseteCommand.andThen(() -> m_drive.tankDriveVolts(0, 0));
   }
 }

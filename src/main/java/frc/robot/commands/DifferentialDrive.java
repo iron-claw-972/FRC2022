@@ -26,9 +26,11 @@ public class DifferentialDrive extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    speed = m_drive.getSpeedLimiter().calculate(Controls.controls.getThrottleValue()) * DriveConstants.kMaxSpeedMetersPerSecond;
-    rotation = m_drive.getRotationLimiter().calculate(Controls.controls.getTurnValue()) * DriveConstants.kMaxAngularSpeedRadiansPerSecond;
 
-    m_drive.drive(speed, rotation);
+    //slew ratelimiter removed temp need to move to controls
+    speed = Controls.controls.getThrottleValue() * DriveConstants.kMaxSpeedMetersPerSecond;
+    rotation = Controls.controls.getTurnValue() * DriveConstants.kMaxAngularSpeedRadiansPerSecond;
+
+    m_drive.feedForwardDrive(speed, rotation);
   }
 }

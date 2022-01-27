@@ -1,6 +1,7 @@
 package frc.robot.autonomous.drivetrain;
 
 import frc.robot.subsystems.Drivetrain;
+import frc.robot.subsystems.Intake;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -19,8 +20,10 @@ import frc.robot.Constants.*;
 public class Pathweaver {
 
     public static Drivetrain m_drive = new Drivetrain();
-    private Trajectory autonomousTrajectory;
-    RamseteCommand ramseteCommand = new RamseteCommand(
+    public static Intake m_intake = new Intake();
+    
+    private static Trajectory autonomousTrajectory;
+    private static RamseteCommand ramseteCommand = new RamseteCommand(
             autonomousTrajectory,
             m_drive::getPose,
             m_drive.getRamseteController(),
@@ -38,7 +41,7 @@ public class Pathweaver {
         m_drive.resetOdometry(autonomousTrajectory.getInitialPose());
     }
 
-    public void loadAutonomousTrajectory(String trajectoryName) {
+    public static void loadAutonomousTrajectory(String trajectoryName) {
         String trajectoryJSON = "paths/output/" + trajectoryName + ".wpilib.json";
         try {
           Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryJSON);
@@ -75,8 +78,10 @@ public class Pathweaver {
         }
     }
     
-    //add return here
-    new ParallelDeadlineGroup(
+    //returnes auto command group
+    public static ParallelDeadlineGroup pathweaverCommand(){
+        return new ParallelDeadlineGroup(
         ramseteCommand.andThen(() -> m_drive.tankDriveVolts(0, 0)), 
         new RunCommand(() -> m_intake.run(0.5)));
-}
+    }
+} 
