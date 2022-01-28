@@ -11,8 +11,9 @@ import java.util.ResourceBundle.Control;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Controls;
 import frc.robot.RobotContainer;
+import frc.robot.controls.Driver;
+import frc.robot.controls.Functions;
 import frc.robot.subsystems.Drivetrain;
 
 public class RunDrive extends CommandBase {
@@ -27,7 +28,7 @@ public class RunDrive extends CommandBase {
   @Override
   public void execute() { //TODO: acceleration smoothing
     // System.out.println("running command");
-    m_drive.runDrive(Controls.controls.getThrottleValue(), Controls.controls.getTurnValue());
+    m_drive.runDrive(Driver.getRawThrottleValue(), Driver.getRawTurnValue());
     SmartDashboard.putBoolean("arcade drive", m_drive.isDrive("arcade"));
     SmartDashboard.putBoolean("prop drive", m_drive.isDrive("prop"));
     SmartDashboard.putBoolean("shift drive", m_drive.isDrive("shift"));

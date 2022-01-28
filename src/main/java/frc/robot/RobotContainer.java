@@ -11,6 +11,8 @@ import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.GenericHID;
 import frc.robot.subsystems.*;
 import frc.robot.commands.*;
+import frc.robot.controls.*;
+import frc.robot.controls.Functions;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
@@ -40,9 +42,9 @@ public class RobotContainer {
   public static Drivetrain m_drive = new Drivetrain();
   public static Intake m_intake = new Intake();
 
-  public static Controls m_controller = new Controls();
+  public static Functions m_controller = new Functions();
 
-  public Controls controls;
+  public Functions controls;
 
   public RobotContainer() {
     // Configure the button bindings
@@ -56,7 +58,7 @@ public class RobotContainer {
     //  new RunCommand(() -> m_drive.arcadeDrive(getThrottleValue(), getTurnValue())));
     
     // Configure the button bindings
-    m_controller.configureButtonBindings();
+    Driver.configureButtonBindings();
     // Attempt to load trajectory from PathWeaver
     
   }

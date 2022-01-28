@@ -12,11 +12,13 @@ import frc.robot.Constants.*;
 import frc.robot.constants.drivetrain.*;
 import frc.robot.setup.ControllerFactory;
 import edu.wpi.first.math.filter.SlewRateLimiter;
+import frc.robot.controls.Driver;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.*;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+import com.fasterxml.jackson.annotation.JsonCreator.Mode;
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.hal.SimDouble;
@@ -51,14 +53,14 @@ public class Drivetrain extends SubsystemBase {
 
   kdClassBot3 drivetrain;
 
-  private final WPI_TalonFX m_leftMotor1 = ControllerFactory.createTalonFX(DriveConstants.kLeftMotor1Port);
-  private final WPI_TalonFX m_leftMotor2 = ControllerFactory.createTalonFX(DriveConstants.kLeftMotor2Port);
+  private static final WPI_TalonFX m_leftMotor1 = ControllerFactory.createTalonFX(DriveConstants.kLeftMotor1Port);
+  private static final WPI_TalonFX m_leftMotor2 = ControllerFactory.createTalonFX(DriveConstants.kLeftMotor2Port);
 
-  private final WPI_TalonFX m_rightMotor1 = ControllerFactory.createTalonFX(DriveConstants.kRightMotor1Port);
-  private final WPI_TalonFX m_rightMotor2 = ControllerFactory.createTalonFX(DriveConstants.kRightMotor2Port);
+  private static final WPI_TalonFX m_rightMotor1 = ControllerFactory.createTalonFX(DriveConstants.kRightMotor1Port);
+  private static final WPI_TalonFX m_rightMotor2 = ControllerFactory.createTalonFX(DriveConstants.kRightMotor2Port);
 
-  private final PhoenixMotorControllerGroup m_leftMotors = new PhoenixMotorControllerGroup(m_leftMotor1, m_leftMotor2);
-  private final PhoenixMotorControllerGroup m_rightMotors = new PhoenixMotorControllerGroup(m_rightMotor1,m_rightMotor2);
+  private static final PhoenixMotorControllerGroup m_leftMotors = new PhoenixMotorControllerGroup(m_leftMotor1, m_leftMotor2);
+  private static final PhoenixMotorControllerGroup m_rightMotors = new PhoenixMotorControllerGroup(m_rightMotor1,m_rightMotor2);
 
   // The left-side drive encoder
   private final TalonEncoder m_leftEncoder = new TalonEncoder(m_leftMotor1, DriveConstants.kLeftEncoderReversed);
@@ -152,32 +154,60 @@ public class Drivetrain extends SubsystemBase {
       */
     }
 
-  double lowSensThrottle = 0.2 , lowSensTurn = 0.4, highSensThrottle = 1, highSensTurn = 0.5;
+  public static class Mode {
 
-  double sensThrottle = lowSensThrottle, sensTurn = lowSensTurn;
-  public void modSensitivity(){
-    if (sensThrottle == highSensThrottle) {
-      sensThrottle = lowSensThrottle;
-      sensTurn = lowSensTurn;
-      System.out.println("sensitivity changed to low");
-    } else {
-      sensThrottle = highSensThrottle;
-      sensTurn = highSensTurn;
-      System.out.println("sensitivity changed to high");
+    public static void arcadeDrive(double throttle, double turn) {
+      // System.out.println("arcade drive");
+      m_leftMotor1.set(ControlMode.PercentOutput, (throttle + turn));
+      m_rightMotor1.set(ControlMode.PercentOutput, (throttle - turn));
     }
+  
+    public static void tankDrive(double left, double right) {
+      m_leftMotor1.set(ControlMode.PercentOutput, left);
+      m_rightMotor1.set(ControlMode.PercentOutput, right);
+    }
+
+    public static void propDrive(double throttle, double turn){
+      double leftOut =throttle * (1 + turn);
+      double rightOut=throttle * (1 - turn);
+  
+      m_leftMotor1.set(ControlMode.PercentOutput, leftOut);
+      m_rightMotor1.set(ControlMode.PercentOutput, rightOut);
+    }
+  
+    public static void shiftDrive(double throttle, double turn) {
+  
+      System.out.println("throttle: " + throttle);
+      System.out.println("turn: " + turn);
+  
+      double leftOut =throttle;
+      double rightOut=throttle;
+      
+      if (turn > 0){
+        leftOut = leftOut + turn;
+      } else if (turn < 0){
+        rightOut = rightOut - turn;
+      }
+  
+      if (leftOut > 1){
+        rightOut = rightOut - (leftOut - 1);
+        leftOut = 1;
+      }
+      if (rightOut > 1){
+        leftOut = leftOut - (rightOut - 1);
+        rightOut = 1;
+      }    
+  
+      System.out.println("left: " + leftOut);
+      System.out.println("Right: " + rightOut);
+  
+      m_leftMotor1.set(ControlMode.PercentOutput, leftOut);
+      m_rightMotor1.set(ControlMode.PercentOutput, rightOut);
+    }
+
   }
 
-  public void arcadeDrive(double throttle, double turn) {
-    // System.out.println("arcade drive");
-    m_leftMotor1.set(ControlMode.PercentOutput, (throttle + turn));
-    m_rightMotor1.set(ControlMode.PercentOutput, (throttle - turn));
-  }
-
-  public void tankDrive(double left, double right) {
-    m_leftMotor1.set(ControlMode.PercentOutput, left);
-    m_rightMotor1.set(ControlMode.PercentOutput, right);
-  }
-
+  //sim stuff (nede more detail)
   /*
   @Override
   public void simulationPeriodic() {
@@ -326,17 +356,18 @@ public class Drivetrain extends SubsystemBase {
   }
 
   public void runDrive(double throttle, double turn){
-    throttle = throttle*sensThrottle;
-    turn = turn *sensTurn;
+    throttle = throttle * Driver.sensThrottle;
+    turn = turn * Driver.sensTurn;
     
     if (driveMode == "arcade") {
-      this.arcadeDrive(throttle, turn);
+      Mode.arcadeDrive(throttle, turn);
     }if (driveMode == "shift") {
-      this.shiftDrive(throttle, turn);
+      Mode.shiftDrive(throttle, turn);
     }if (driveMode == "prop") {
-      this.propDrive(throttle, turn);
+      Mode.propDrive(throttle, turn);
     }
   }
+
   /**
    * Returns the currently-estimated pose of the robot.
    *
