@@ -16,12 +16,7 @@ public class Rotator {
     public void inverter() {
         inverter *= -1;
         //if inverter is -1, smartdashboard is true and the pop-up box is green
-        if(inverter == 1) {
-            SmartDashboard.putBoolean("rotator inverted", false);
-        }
-        if(inverter == -1) {
-            SmartDashboard.putBoolean("rotator inverted", true);
-        }
+        SmartDashboard.putBoolean("rotator inverted", inverter == -1);
     }
 
     public void runLeft(double pow) {

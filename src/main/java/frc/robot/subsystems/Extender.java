@@ -14,12 +14,7 @@ public class Extender {
     public void inverter() {
         inverter *= -1;
         //if inverter is -1, smartdashboard is true and the pop-up box is green
-        if(inverter == 1) {
-            SmartDashboard.putBoolean("extender inverted", false);
-        }
-        if(inverter == -1) {
-            SmartDashboard.putBoolean("extender inverted", true);
-        }
+        SmartDashboard.putBoolean("extender inverted", inverter == -1);
     }
 
     public void runLeft(double pow) {
