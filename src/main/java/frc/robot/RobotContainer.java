@@ -53,12 +53,10 @@ public class RobotContainer {
 
     // Start camera stream for driver
     CameraServer.startAutomaticCapture();
-
-    //m_drive.setDefaultCommand(
-    //  new RunCommand(() -> m_drive.arcadeDrive(getThrottleValue(), getTurnValue())));
     
     // Configure the button bindings
     Driver.configureButtonBindings();
+    Operator.configureButtonBindings();
     // Attempt to load trajectory from PathWeaver
     
   }

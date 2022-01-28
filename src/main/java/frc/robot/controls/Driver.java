@@ -9,15 +9,15 @@ import frc.robot.setup.controllers.*;
 
 public class Driver{
 
-  public static GameC driver = new GameC(new Joystick(JoyConstants.kDriverJoy));
+  public static GameC controller = new GameC(new Joystick(JoyConstants.kDriverJoy));
 
   public static double lowSensThrottle = 0.2 , lowSensTurn = 0.4, highSensThrottle = 1, highSensTurn = 0.5;
   public static double sensThrottle = lowSensThrottle, sensTurn = lowSensTurn;
-
+  
+  //driver buttons
   public static void configureButtonBindings() {
-      //driver buttons
-      driver.Button.B().whenPressed(() -> modSensitivity());
-      driver.Button.A().whenPressed(() -> modDrive());
+      controller.Button.B().whenPressed(() -> modSensitivity());
+      controller.Button.A().whenPressed(() -> modDrive());
     }
   
   public static void modSensitivity(){
@@ -54,12 +54,12 @@ public class Driver{
   public static double getRawThrottleValue() {
     // Controllers y-axes are natively up-negative, down-positive. This method
     // corrects that by returning the opposite of the y-value
-    return -driver.JoystickAxis.leftY();
+    return -controller.JoystickAxis.leftY();
   }
 
   public static double getRawTurnValue() {
     //Right is Positive left is negitive
-    return driver.JoystickAxis.rightX();
+    return controller.JoystickAxis.rightX();
   }
 
   }
