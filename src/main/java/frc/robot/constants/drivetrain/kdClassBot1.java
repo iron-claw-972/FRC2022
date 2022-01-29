@@ -6,14 +6,10 @@ import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.system.plant.LinearSystemId;
 import edu.wpi.first.math.util.Units;
 
-public class kdClassBot1 extends kdBase {
-    public final static int 
-    kLeftMotor1Port  = 2, 
-    kRightMotor1Port = 12,
-    kLeftMotor2Port  = -1,
-    kRightMotor2Port = -1,
-    kLeftMotor3Port  = -1, 
-    kRightMotor3Port = -1;
+public class kdClassBot1 {
+
+    public static final int[] rightMotorPorts = {12};
+    public static final int[] leftMotorPorts = {2};
 
     //auto might be off becuse they were calbrated for classbot3
 
