@@ -1,9 +1,9 @@
 package frc.robot.constants.drivetrain;
 
-public class kdClassBot2 extends kdbase {
+public class kdClassBot4 extends kdbase {
     public final static int 
-    kleftMotor1  = 1, 
-    krightMotor1 = 2,
+    kleftMotor1  = 0, 
+    krightMotor1 = 15,
     kleftMotor2  = -1, 
     krightMotor2 = -1,
     kleftMotor3  = -1, 
