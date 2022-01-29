@@ -89,20 +89,21 @@ public final class Constants {
   }
 
   public static final class ExtenderConstants {
-    //extending motors (for climber)
+    // extending motors (for climber)
     public static final int kRightExtenderPort = -1;
     public static final int kLeftExtenderPort = -1;
     public static final double kExtenderPower = 0.10;
 
+    // the arm's max height - the arm's lowest height (max extension - max compression);
     public static final double kExtenderMaxArmLength = 0;
 
     // used to convert ticks to feet
-    public static final double kExtenderTicksDesired = 10;
     public static final double kExtenderTicksPerRotation = 1/2048; //2048 ticks per rotation (talonfx)
     public static final double kExtenderGearRatio = 20/1; // TODO: correct the gear ratio
     public static final double kExtenderInchesPerRotation = Math.PI * 6; // 6 inches per rotation
-    public static final double kExtenderFeetTravelled = (
-      kExtenderTicksDesired * kExtenderTicksPerRotation * kExtenderGearRatio * kExtenderInchesPerRotation * (1/12)
+    // kExtenderFeetTravelled * kExtenderTicksDesired = feet travelled
+    public static final double kExtenderTickMultiple = (
+      kExtenderTicksPerRotation * kExtenderGearRatio * kExtenderInchesPerRotation * (1/12)
     );
   }
 
