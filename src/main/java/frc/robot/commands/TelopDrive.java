@@ -29,6 +29,8 @@ public class TelopDrive extends CommandBase {
   public void execute() { //TODO: acceleration smoothing
     // System.out.println("running command");
     m_drive.runDrive(Driver.getRawThrottleValue(), Driver.getRawTurnValue());
+
+    //shuffle board
     SmartDashboard.putBoolean("arcade drive", m_drive.isDrive("arcade"));
     SmartDashboard.putBoolean("prop drive", m_drive.isDrive("prop"));
     SmartDashboard.putBoolean("shift drive", m_drive.isDrive("shift"));

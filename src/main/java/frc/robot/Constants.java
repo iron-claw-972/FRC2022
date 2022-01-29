@@ -33,10 +33,10 @@ public final class Constants {
   public static final class JoyConstants {
     public static final int kDriverJoy = 0;
     public static final int kOperatorJoy = 1;
-    public static final double kJoystickDeadband = 0.015; // How much of joystick is "dead" zone [0,1]
   }
 
   public static final class DriveConstants {
+
     // Drivetrain motor ports, use -1 for unused motors
     public static final int kLeftMotor1Port = 1;
     public static final int kLeftMotor2Port = 3;
@@ -46,6 +46,8 @@ public final class Constants {
 
     public static final double kSpeedSlewRateLimit = 1;
     public static final double kRotationSlewRateLimit = 1;
+
+
 
     public static final double kTrackWidthMeters = Units.inchesToMeters(20); // Distance between center of left wheel and center of right wheel in meters
 
@@ -76,6 +78,8 @@ public final class Constants {
     public static final double kVelocityI = 0; // Integral
     public static final double kVelocityD = 0; // Derivative
 
+
+    //keep here for later
     // Teleop max speeds
     public static final double kMaxSpeedMetersPerSecond = Units.feetToMeters(10); // Max velocity
     public static final double kMaxAngularSpeedRadiansPerSecond = Units.rotationsPerMinuteToRadiansPerSecond(60); // Max angular velocity
