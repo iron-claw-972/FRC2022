@@ -2,10 +2,10 @@ package frc.robot.constants.drivetrain;
 
 public class kdClassBot1 extends kdbase {
     public final static int 
-    kleftMotor1  = 2, 
-    krightMotor1 = 12,
-    kleftMotor2  = -1, 
-    krightMotor2 = -1,
-    kleftMotor3  = -1, 
-    krightMotor3 = -1;
+    kLeftMotor1Port  = 2, 
+    kRightMotor1Port = 12,
+    kLeftMotor2Port  = -1, 
+    kRightMotor2Port = -1,
+    kLeftMotor3Port  = -1, 
+    kRightMotor3Port = -1;
 }

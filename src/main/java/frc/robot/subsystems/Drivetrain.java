@@ -51,13 +51,13 @@ import frc.robot.Constants;
 
 public class Drivetrain extends SubsystemBase {
 
-  kdClassBot3 drivetrain;
+  private static kdClassBot3 drivetrain;
 
-  private static final WPI_TalonFX m_leftMotor1 = ControllerFactory.createTalonFX(DriveConstants.kLeftMotor1Port);
-  private static final WPI_TalonFX m_leftMotor2 = ControllerFactory.createTalonFX(DriveConstants.kLeftMotor2Port);
+  private static final WPI_TalonFX m_leftMotor1 = ControllerFactory.createTalonFX(drivetrain.kLeftMotor1Port);
+  private static final WPI_TalonFX m_leftMotor2 = ControllerFactory.createTalonFX(drivetrain.kLeftMotor2Port);
 
-  private static final WPI_TalonFX m_rightMotor1 = ControllerFactory.createTalonFX(DriveConstants.kRightMotor1Port);
-  private static final WPI_TalonFX m_rightMotor2 = ControllerFactory.createTalonFX(DriveConstants.kRightMotor2Port);
+  private static final WPI_TalonFX m_rightMotor1 = ControllerFactory.createTalonFX(drivetrain.kRightMotor1Port);
+  private static final WPI_TalonFX m_rightMotor2 = ControllerFactory.createTalonFX(drivetrain.kRightMotor2Port);
 
   private static final PhoenixMotorControllerGroup m_leftMotors = new PhoenixMotorControllerGroup(m_leftMotor1, m_leftMotor2);
   private static final PhoenixMotorControllerGroup m_rightMotors = new PhoenixMotorControllerGroup(m_rightMotor1,m_rightMotor2);

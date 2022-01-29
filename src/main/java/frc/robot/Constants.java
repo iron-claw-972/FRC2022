@@ -37,18 +37,6 @@ public final class Constants {
 
   public static final class DriveConstants {
 
-    // Drivetrain motor ports, use -1 for unused motors
-    public static final int kLeftMotor1Port = 1;
-    public static final int kLeftMotor2Port = 3;
-
-    public static final int kRightMotor1Port = 0;
-    public static final int kRightMotor2Port = 2;
-
-    public static final double kSpeedSlewRateLimit = 1;
-    public static final double kRotationSlewRateLimit = 1;
-
-
-
     public static final double kTrackWidthMeters = Units.inchesToMeters(20); // Distance between center of left wheel and center of right wheel in meters
 
     public static final int kEncoderResolution = 2048; // 2048 for Falcon500 integrated encoder
