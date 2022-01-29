@@ -9,23 +9,18 @@ import frc.robot.Constants.ExtenderConstants;
 public class Extender {
     private final WPI_TalonFX m_lmotor = ControllerFactory.createTalonFX(ExtenderConstants.kLeftExtenderPort);
     private final WPI_TalonFX m_rmotor = ControllerFactory.createTalonFX(ExtenderConstants.kRightExtenderPort);
+
     private int inverter = 1;
 
     public void inverter() {
         inverter *= -1;
-        //if inverter is -1, smartdashboard is true and the pop-up box is green
-        if(inverter == 1) {
-            SmartDashboard.putBoolean("extender inverted", false);
-        }
-        if(inverter == -1) {
-            SmartDashboard.putBoolean("extender inverted", true);
-        }
+        SmartDashboard.putBoolean("extender inverted", inverter == -1);
     }
 
     public void runLeft(double pow) {
         //if ticks greater than a specified point, stop running
         
-        m_lmotor.set(pow * inverter);
+        m_lmotor.set((pow * -1) * inverter);
     }
 
     public void runRight(double pow) {
