@@ -37,14 +37,13 @@ import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-import frc.robot.controls.Driver;
-
 import ctre_shims.PhoenixMotorControllerGroup;
 import ctre_shims.TalonEncoder;
 import ctre_shims.TalonEncoderSim;
 
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants;
+import frc.robot.controls.Driver;
 
 public class Drivetrain extends SubsystemBase {
 
@@ -289,31 +288,12 @@ public class Drivetrain extends SubsystemBase {
     return m_rightVelocityPIDController;
   }
 
-  String driveMode = "arcade";
-  public void modDrive(){
-    System.out.println("modding drive");
-    if (driveMode == "arcade") {
-      driveMode = "prop";
-    }else if (driveMode == "prop") {
-    //   driveMode = "shift";
-    // }else if (driveMode == "shift") {
-      driveMode = "arcade";
-    }
-  }
-  
-  public boolean isDrive(String drive){
-    return (driveMode == drive);
-  }
-
   public void runDrive(double throttle, double turn){
-    throttle = throttle * Driver.sensThrottle;
-    turn = turn * Driver.sensTurn;
-    
-    if (driveMode == "arcade") {
+    if (Driver.driveMode == "arcade") {
       arcadeDrive(throttle, turn);
-    } if (driveMode == "shift") {
+    } if (Driver.driveMode == "shift") {
       shiftDrive(throttle, turn);
-    } if (driveMode == "prop") {
+    } if (Driver.driveMode == "prop") {
       propDrive(throttle, turn);
     }
   }

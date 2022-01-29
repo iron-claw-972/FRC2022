@@ -26,13 +26,8 @@ public class TelopDrive extends CommandBase {
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() { //TODO: acceleration smoothing
+  public void execute() {
     // System.out.println("running command");
     m_drive.runDrive(Driver.getRawThrottleValue(), Driver.getRawTurnValue());
-
-    //shuffle board
-    SmartDashboard.putBoolean("arcade drive", m_drive.isDrive("arcade"));
-    SmartDashboard.putBoolean("prop drive", m_drive.isDrive("prop"));
-    SmartDashboard.putBoolean("shift drive", m_drive.isDrive("shift"));
   }
 }

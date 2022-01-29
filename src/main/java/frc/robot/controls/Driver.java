@@ -28,7 +28,7 @@ public class Driver{
     //put any proses in any order of the driver's choseing
     return
       Functions.slewCalculate(5,
-      -getRawThrottleValue() // Controllers y-axes are natively up-negative, down-positive
+      -getRawThrottleValue()*sensThrottle // Controllers y-axes are natively up-negative, down-positive
     );
   }
 
@@ -36,7 +36,7 @@ public class Driver{
     //Right is Positive left is negitive
     return
       Functions.slewCalculate(5,
-      getRawThrottleValue()
+      getRawThrottleValue()*sensTurn
     );
   }
 
@@ -80,4 +80,4 @@ public class Driver{
     return controller.JoystickAxis.rightX();
   }
 
-  }
+}
