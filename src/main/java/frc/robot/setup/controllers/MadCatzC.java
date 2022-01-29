@@ -63,6 +63,27 @@ public class MadCatzC extends Controller{
         public POVButton upLeft() {
             return new POVButton(controller, kMadCatzC.thumbstick.kUpLeft);
         }
+        
+        public Trigger allUp(){
+            return up()
+            .or(upRight()
+            .or(upLeft()));
+        }
+        public Trigger allDown(){
+            return down()
+            .or(downRight()
+            .or(downLeft()));
+        }
+        public Trigger allLeft(){
+            return left()
+            .or(upLeft()
+            .or(downLeft()));
+        }
+        public Trigger allRight(){
+            return right()
+            .or(upRight()
+            .or(downRight()));
+        }
     }
 
     //returns JoystickButton object

@@ -42,6 +42,11 @@ public class GameC extends Controller{
     //returns POVButton object
     public DPad DPad = new DPad();
     public class DPad {
+
+        public POVButton unpressed(){
+            return  new POVButton(controller, -1);
+        }
+
         public POVButton up() {
             return new POVButton(controller, kGameC.dPad.kUp);
         }
@@ -66,6 +71,28 @@ public class GameC extends Controller{
         public POVButton upLeft() {
             return new POVButton(controller, kGameC.dPad.kUpLeft);
         }
+        
+        public Trigger allUp(){
+            return up()
+            .or(upRight()
+            .or(upLeft()));
+        }
+        public Trigger allDown(){
+            return down()
+            .or(downRight()
+            .or(downLeft()));
+        }
+        public Trigger allLeft(){
+            return left()
+            .or(upLeft()
+            .or(downLeft()));
+        }
+        public Trigger allRight(){
+            return right()
+            .or(upRight()
+            .or(downRight()));
+        }
+        
     }
 
     //returns Joystick Axis value
