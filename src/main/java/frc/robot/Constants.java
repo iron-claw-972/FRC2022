@@ -93,6 +93,15 @@ public final class Constants {
     public static final int kRightExtenderPort = -1;
     public static final int kLeftExtenderPort = -1;
     public static final double kExtenderPower = 0.10;
+
+    // used to convert ticks to feet
+    public static final double extenderTicksDesired = 10;
+    public static final double extenderTicksPerRotation = 1/2048; //2048 ticks per rotation (talonfx)
+    public static final double extenderGearRatio = 20/1; // TODO: correct the gear ratio
+    public static final double extenderInchesPerRotation = Math.PI * 6; // 6 inches per rotation
+    public static final double extenderFeetTravelled = (
+      extenderTicksDesired * extenderTicksPerRotation * extenderGearRatio * extenderInchesPerRotation * (1/12)
+    );
   }
 
   public static final class RotatorConstants {
