@@ -23,25 +23,12 @@ public class Pathweaver {
     public static Intake m_intake = new Intake();
     
     private static Trajectory autonomousTrajectory;
-    private static RamseteCommand ramseteCommand = new RamseteCommand(
-            autonomousTrajectory,
-            m_drive::getPose,
-            m_drive.getRamseteController(),
-            m_drive.getFeedforward(),
-            m_drive.getDriveKinematics(),
-            m_drive::getWheelSpeeds,
-            m_drive.getLeftRamsetePIDController(),
-            m_drive.getRightRamsetePIDController(),
-            // RamseteCommand passes volts to the callback
-            m_drive::tankDriveVolts,
-            m_drive);
+    private static RamseteCommand ramseteCommand;
 
-    public void setup(){
-        // Reset odometry to the starting pose of the trajectory.
+    public static void setupAutonomousTrajectory(String trajectoryName) {
+        
         m_drive.resetOdometry(autonomousTrajectory.getInitialPose());
-    }
 
-    public static void loadAutonomousTrajectory(String trajectoryName) {
         String trajectoryJSON = "paths/output/" + trajectoryName + ".wpilib.json";
         try {
           Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryJSON);
@@ -76,10 +63,26 @@ public class Pathweaver {
               // Pass config
               config);
         }
+
+        ramseteCommand = new RamseteCommand(
+            autonomousTrajectory,
+            m_drive::getPose,
+            m_drive.getRamseteController(),
+            m_drive.getFeedforward(),
+            m_drive.getDriveKinematics(),
+            m_drive::getWheelSpeeds,
+            m_drive.getLeftRamsetePIDController(),
+            m_drive.getRightRamsetePIDController(),
+            // RamseteCommand passes volts to the callback
+            m_drive::tankDriveVolts,
+            m_drive);
     }
     
-    //returnes auto command group
-    public static ParallelDeadlineGroup pathweaverCommand(){
+    //returns auto command group
+    public static Command pathweaverCommand(){
+        // Run path following command, then stop at the end. At the same time intake.
+        // "Deadline" is the first command, 
+        // meaning the whole group will stop once the first command does.
         return new ParallelDeadlineGroup(
         ramseteCommand.andThen(() -> m_drive.tankDriveVolts(0, 0)), 
         new RunCommand(() -> m_intake.run(0.5)));

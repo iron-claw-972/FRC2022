@@ -52,14 +52,16 @@ public class Drivetrain extends SubsystemBase {
 
   public static kdClassBot3 kDrivetrain;
 
-  private static final WPI_TalonFX m_leftMotor1 = ControllerFactory.createTalonFX(kDrivetrain.kLeftMotor1Port);
-  private static final WPI_TalonFX m_leftMotor2 = ControllerFactory.createTalonFX(kDrivetrain.kLeftMotor2Port);
+  private static Drivetrain instance;
 
-  private static final WPI_TalonFX m_rightMotor1 = ControllerFactory.createTalonFX(kDrivetrain.kRightMotor1Port);
-  private static final WPI_TalonFX m_rightMotor2 = ControllerFactory.createTalonFX(kDrivetrain.kRightMotor2Port);
+  private final WPI_TalonFX m_leftMotor1 = ControllerFactory.createTalonFX(kDrivetrain.kLeftMotor1Port);
+  private final WPI_TalonFX m_leftMotor2 = ControllerFactory.createTalonFX(kDrivetrain.kLeftMotor2Port);
 
-  private static final PhoenixMotorControllerGroup m_leftMotors = new PhoenixMotorControllerGroup(m_leftMotor1, m_leftMotor2);
-  private static final PhoenixMotorControllerGroup m_rightMotors = new PhoenixMotorControllerGroup(m_rightMotor1,m_rightMotor2);
+  private final WPI_TalonFX m_rightMotor1 = ControllerFactory.createTalonFX(kDrivetrain.kRightMotor1Port);
+  private final WPI_TalonFX m_rightMotor2 = ControllerFactory.createTalonFX(kDrivetrain.kRightMotor2Port);
+
+  private final PhoenixMotorControllerGroup m_leftMotors = new PhoenixMotorControllerGroup(m_leftMotor1, m_leftMotor2);
+  private final PhoenixMotorControllerGroup m_rightMotors = new PhoenixMotorControllerGroup(m_rightMotor1,m_rightMotor2);
 
   // The left-side drive encoder
   private final TalonEncoder m_leftEncoder = new TalonEncoder(m_leftMotor1, kDrivetrain.kLeftEncoderReversed);
@@ -103,110 +105,99 @@ public class Drivetrain extends SubsystemBase {
   private Field2d m_fieldSim;
 */
 
-/*
-  public Drivetrain() {
-    // leftMotor1.follow(leftMotor);
-    // rightMotor1.folalow(rightMotor);
-
-    // Inverting opposite sides of the drivetrain
-    m_leftMotor1.setInverted(true);
-    // rightMotor1.setInverted(true);
-
-    // m_leftMotor1.setNeutralMode(NeutralMode.Coast);
-    // m_rightMotor1.setNeutralMode(NeutralMode.Coast);
-    // m_leftMotor1.setNeutralMode(NeutralMode1.Coast);
-    // m_rightMotor1.setNeutralMode(NeutralMode1.Coast);
+  public static Drivetrain getInstance() {
+    if (instance == null) {
+      instance = new Drivetrain();
+      return instance;
+    }
+    return instance;
   }
-*/
+
   public Drivetrain() {
     // Inverting one side of the drivetrain as to drive forward
-      m_leftMotors.setInverted(true);
-      m_rightMotors.setInverted(false);
+    m_leftMotors.setInverted(true);
+    m_rightMotors.setInverted(false);
 
-      // Sets the distance per pulse for the encoders
-      m_leftEncoder.setDistancePerPulse(kDrivetrain.kEncoderMetersPerPulse);
-      m_rightEncoder.setDistancePerPulse(kDrivetrain.kEncoderMetersPerPulse);
+    // Sets the distance per pulse for the encoders
+    m_leftEncoder.setDistancePerPulse(kDrivetrain.kEncoderMetersPerPulse);
+    m_rightEncoder.setDistancePerPulse(kDrivetrain.kEncoderMetersPerPulse);
 
-      resetEncoders();
-      zeroHeading();
+    resetEncoders();
+    zeroHeading();
 
-      m_odometry = new DifferentialDriveOdometry(m_navX.getRotation2d());
-      /*
-      if (RobotBase.isSimulation()) {
-        // This class simulates our drivetrain's motion around the field.
-        m_drivetrainSim = new DifferentialDrivetrainSim(
-            drivetrain.kDrivetrainPlant,
-            drivetrain.kDriveGearbox,
-            drivetrain.kGearRatio,
-            drivetrain.kTrackWidthMeters,
-            drivetrain.kWheelDiameterMeters / 2.0,
-            VecBuilder.fill(0, 0, 0.0001, 0.1, 0.1, 0.005, 0.005));
+    m_odometry = new DifferentialDriveOdometry(m_navX.getRotation2d());
+    /*
+    if (RobotBase.isSimulation()) {
+      // This class simulates our drivetrain's motion around the field.
+      m_drivetrainSim = new DifferentialDrivetrainSim(
+          drivetrain.kDrivetrainPlant,
+          drivetrain.kDriveGearbox,
+          drivetrain.kGearRatio,
+          drivetrain.kTrackWidthMeters,
+          drivetrain.kWheelDiameterMeters / 2.0,
+          VecBuilder.fill(0, 0, 0.0001, 0.1, 0.1, 0.005, 0.005));
 
-        // The encoder and gyro angle sims let us set simulated sensor readings
-        m_leftEncoderSim = new TalonEncoderSim(m_leftEncoder);
-        m_rightEncoderSim = new TalonEncoderSim(m_rightEncoder);
+      // The encoder and gyro angle sims let us set simulated sensor readings
+      m_leftEncoderSim = new TalonEncoderSim(m_leftEncoder);
+      m_rightEncoderSim = new TalonEncoderSim(m_rightEncoder);
 
-        // the Field2d class lets us visualize our robot in the simulation GUI.
-        m_fieldSim = new Field2d();
-        SmartDashboard.putData("Field", m_fieldSim);
-      }
-      */
+      // the Field2d class lets us visualize our robot in the simulation GUI.
+      m_fieldSim = new Field2d();
+      SmartDashboard.putData("Field", m_fieldSim);
     }
-
-  public static class Mode {
-
-    public static void arcadeDrive(double throttle, double turn) {
-      // System.out.println("arcade drive");
-      m_leftMotor1.set(ControlMode.PercentOutput, (throttle + turn));
-      m_rightMotor1.set(ControlMode.PercentOutput, (throttle - turn));
-    }
-  
-    public static void tankDrive(double left, double right) {
-      m_leftMotor1.set(ControlMode.PercentOutput, left);
-      m_rightMotor1.set(ControlMode.PercentOutput, right);
-    }
-
-    public static void propDrive(double throttle, double turn){
-      double leftOut =throttle * (1 + turn);
-      double rightOut=throttle * (1 - turn);
-  
-      m_leftMotor1.set(ControlMode.PercentOutput, leftOut);
-      m_rightMotor1.set(ControlMode.PercentOutput, rightOut);
-    }
-  
-    public static void shiftDrive(double throttle, double turn) {
-  
-      System.out.println("throttle: " + throttle);
-      System.out.println("turn: " + turn);
-  
-      double leftOut =throttle;
-      double rightOut=throttle;
-      
-      if (turn > 0){
-        leftOut = leftOut + turn;
-      } else if (turn < 0){
-        rightOut = rightOut - turn;
-      }
-  
-      if (leftOut > 1){
-        rightOut = rightOut - (leftOut - 1);
-        leftOut = 1;
-      }
-      if (rightOut > 1){
-        leftOut = leftOut - (rightOut - 1);
-        rightOut = 1;
-      }    
-  
-      System.out.println("left: " + leftOut);
-      System.out.println("Right: " + rightOut);
-  
-      m_leftMotor1.set(ControlMode.PercentOutput, leftOut);
-      m_rightMotor1.set(ControlMode.PercentOutput, rightOut);
-    }
-
+    */
   }
 
-  //sim stuff (nede more detail)
+  public void arcadeDrive(double throttle, double turn) {
+    // System.out.println("arcade drive");
+    m_leftMotor1.set(ControlMode.PercentOutput, (throttle + turn));
+    m_rightMotor1.set(ControlMode.PercentOutput, (throttle - turn));
+  }
+
+  public void tankDrive(double left, double right) {
+    m_leftMotor1.set(ControlMode.PercentOutput, left);
+    m_rightMotor1.set(ControlMode.PercentOutput, right);
+  }
+
+  public void propDrive(double throttle, double turn){
+    double leftOut = throttle * (1 + turn);
+    double rightOut = throttle * (1 - turn);
+
+    m_leftMotor1.set(ControlMode.PercentOutput, leftOut);
+    m_rightMotor1.set(ControlMode.PercentOutput, rightOut);
+  }
+
+  public void shiftDrive(double throttle, double turn) {
+
+    System.out.println("throttle: " + throttle);
+    System.out.println("turn: " + turn);
+
+    double leftOut = throttle;
+    double rightOut = throttle;
+    
+    if (turn > 0){
+      leftOut = leftOut + turn;
+    } else if (turn < 0){
+      rightOut = rightOut - turn;
+    }
+
+    if (leftOut > 1){
+      rightOut = rightOut - (leftOut - 1);
+      leftOut = 1;
+    }
+    if (rightOut > 1){
+      leftOut = leftOut - (rightOut - 1);
+      rightOut = 1;
+    }    
+
+    System.out.println("left: " + leftOut);
+    System.out.println("Right: " + rightOut);
+
+    m_leftMotor1.set(ControlMode.PercentOutput, leftOut);
+    m_rightMotor1.set(ControlMode.PercentOutput, rightOut);
+  }
+
+  //sim stuff (need more detail)
   /*
   @Override
   public void simulationPeriodic() {
@@ -300,44 +291,6 @@ public class Drivetrain extends SubsystemBase {
     return m_rightVelocityPIDController;
   }
 
-  public void propDrive(double throttle, double turn){
-    double leftOut =throttle * (1 + turn);
-    double rightOut=throttle * (1 - turn);
-
-    m_leftMotor1.set(ControlMode.PercentOutput, leftOut);
-    m_rightMotor1.set(ControlMode.PercentOutput, rightOut);
-  }
-
-  public void shiftDrive(double throttle, double turn) {
-
-    System.out.println("throttle: " + throttle);
-    System.out.println("turn: " + turn);
-
-    double leftOut =throttle;
-    double rightOut=throttle;
-    
-    if (turn > 0){
-      leftOut = leftOut + turn;
-    } else if (turn < 0){
-      rightOut = rightOut - turn;
-    }
-
-    if (leftOut > 1){
-      rightOut = rightOut - (leftOut - 1);
-      leftOut = 1;
-    }
-    if (rightOut > 1){
-      leftOut = leftOut - (rightOut - 1);
-      rightOut = 1;
-    }    
-
-    System.out.println("left: " + leftOut);
-    System.out.println("Right: " + rightOut);
-
-    m_leftMotor1.set(ControlMode.PercentOutput, leftOut);
-    m_rightMotor1.set(ControlMode.PercentOutput, rightOut);
-  }
-
   String driveMode = "arcade";
   public void modDrive(){
     System.out.println("modding drive");
@@ -359,11 +312,11 @@ public class Drivetrain extends SubsystemBase {
     turn = turn * Driver.sensTurn;
     
     if (driveMode == "arcade") {
-      Mode.arcadeDrive(throttle, turn);
-    }if (driveMode == "shift") {
-      Mode.shiftDrive(throttle, turn);
-    }if (driveMode == "prop") {
-      Mode.propDrive(throttle, turn);
+      arcadeDrive(throttle, turn);
+    } if (driveMode == "shift") {
+      shiftDrive(throttle, turn);
+    } if (driveMode == "prop") {
+      propDrive(throttle, turn);
     }
   }
 
