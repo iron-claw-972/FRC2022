@@ -46,27 +46,26 @@ import ctre_shims.TalonEncoder;
 import ctre_shims.TalonEncoderSim;
 
 import frc.robot.Constants.AutoConstants;
-import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants;
 
 public class Drivetrain extends SubsystemBase {
 
-  private static kdClassBot3 drivetrain;
+  public static kdClassBot3 kDrivetrain;
 
-  private static final WPI_TalonFX m_leftMotor1 = ControllerFactory.createTalonFX(drivetrain.kLeftMotor1Port);
-  private static final WPI_TalonFX m_leftMotor2 = ControllerFactory.createTalonFX(drivetrain.kLeftMotor2Port);
+  private static final WPI_TalonFX m_leftMotor1 = ControllerFactory.createTalonFX(kDrivetrain.kLeftMotor1Port);
+  private static final WPI_TalonFX m_leftMotor2 = ControllerFactory.createTalonFX(kDrivetrain.kLeftMotor2Port);
 
-  private static final WPI_TalonFX m_rightMotor1 = ControllerFactory.createTalonFX(drivetrain.kRightMotor1Port);
-  private static final WPI_TalonFX m_rightMotor2 = ControllerFactory.createTalonFX(drivetrain.kRightMotor2Port);
+  private static final WPI_TalonFX m_rightMotor1 = ControllerFactory.createTalonFX(kDrivetrain.kRightMotor1Port);
+  private static final WPI_TalonFX m_rightMotor2 = ControllerFactory.createTalonFX(kDrivetrain.kRightMotor2Port);
 
   private static final PhoenixMotorControllerGroup m_leftMotors = new PhoenixMotorControllerGroup(m_leftMotor1, m_leftMotor2);
   private static final PhoenixMotorControllerGroup m_rightMotors = new PhoenixMotorControllerGroup(m_rightMotor1,m_rightMotor2);
 
   // The left-side drive encoder
-  private final TalonEncoder m_leftEncoder = new TalonEncoder(m_leftMotor1, DriveConstants.kLeftEncoderReversed);
+  private final TalonEncoder m_leftEncoder = new TalonEncoder(m_leftMotor1, kDrivetrain.kLeftEncoderReversed);
 
   // The right-side drive encoder
-  private final TalonEncoder m_rightEncoder = new TalonEncoder(m_rightMotor1, DriveConstants.kRightEncoderReversed);
+  private final TalonEncoder m_rightEncoder = new TalonEncoder(m_rightMotor1, kDrivetrain.kRightEncoderReversed);
 
   private final DifferentialDrive m_dDrive = new DifferentialDrive(m_leftMotors, m_rightMotors);
 
@@ -75,24 +74,24 @@ public class Drivetrain extends SubsystemBase {
   // Odometry class for tracking robot pose
   private final DifferentialDriveOdometry m_odometry;
 
-  private final PIDController m_leftRamsetePIDController = new PIDController(DriveConstants.kRamseteP, 0, 0);
-  private final PIDController m_rightRamsetePIDController = new PIDController(DriveConstants.kRamseteP, 0, 0);
+  private final PIDController m_leftRamsetePIDController = new PIDController(kDrivetrain.kRamseteP, 0, 0);
+  private final PIDController m_rightRamsetePIDController = new PIDController(kDrivetrain.kRamseteP, 0, 0);
 
-  private final PIDController m_leftVelocityPIDController = new PIDController(DriveConstants.kVelocityP,
-      DriveConstants.kVelocityI, DriveConstants.kVelocityD);
-  private final PIDController m_rightVelocityPIDController = new PIDController(DriveConstants.kVelocityP,
-      DriveConstants.kVelocityI, DriveConstants.kVelocityD);
+  private final PIDController m_leftVelocityPIDController = new PIDController(kDrivetrain.kVelocityP,
+      kDrivetrain.kVelocityI, kDrivetrain.kVelocityD);
+  private final PIDController m_rightVelocityPIDController = new PIDController(kDrivetrain.kVelocityP,
+      kDrivetrain.kVelocityI, kDrivetrain.kVelocityD);
 
   private final RamseteController m_ramseteController = new RamseteController(AutoConstants.kRamseteB,
       AutoConstants.kRamseteZeta);
 
   private final SimpleMotorFeedforward m_feedforward = new SimpleMotorFeedforward(
-      DriveConstants.ksVolts,
-      DriveConstants.kvVoltSecondsPerMeter,
-      DriveConstants.kaVoltSecondsSquaredPerMeter);
+      kDrivetrain.ksVolts,
+      kDrivetrain.kvVoltSecondsPerMeter,
+      kDrivetrain.kaVoltSecondsSquaredPerMeter);
 
   private final DifferentialDriveKinematics m_driveKinematics = new DifferentialDriveKinematics(
-      DriveConstants.kTrackWidthMeters);
+      kDrivetrain.kTrackWidthMeters);
 
 /*
   // These classes help us simulate our drivetrain
@@ -125,8 +124,8 @@ public class Drivetrain extends SubsystemBase {
       m_rightMotors.setInverted(false);
 
       // Sets the distance per pulse for the encoders
-      m_leftEncoder.setDistancePerPulse(DriveConstants.kEncoderMetersPerPulse);
-      m_rightEncoder.setDistancePerPulse(DriveConstants.kEncoderMetersPerPulse);
+      m_leftEncoder.setDistancePerPulse(kDrivetrain.kEncoderMetersPerPulse);
+      m_rightEncoder.setDistancePerPulse(kDrivetrain.kEncoderMetersPerPulse);
 
       resetEncoders();
       zeroHeading();
@@ -136,11 +135,11 @@ public class Drivetrain extends SubsystemBase {
       if (RobotBase.isSimulation()) {
         // This class simulates our drivetrain's motion around the field.
         m_drivetrainSim = new DifferentialDrivetrainSim(
-            DriveConstants.kDrivetrainPlant,
-            DriveConstants.kDriveGearbox,
-            DriveConstants.kGearRatio,
-            DriveConstants.kTrackWidthMeters,
-            DriveConstants.kWheelDiameterMeters / 2.0,
+            drivetrain.kDrivetrainPlant,
+            drivetrain.kDriveGearbox,
+            drivetrain.kGearRatio,
+            drivetrain.kTrackWidthMeters,
+            drivetrain.kWheelDiameterMeters / 2.0,
             VecBuilder.fill(0, 0, 0.0001, 0.1, 0.1, 0.005, 0.005));
 
         // The encoder and gyro angle sims let us set simulated sensor readings
