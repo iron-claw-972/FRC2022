@@ -1,5 +1,8 @@
 package frc.robot.commands;
 
+import frc.robot.Constants.ExtenderConstants;
+import frc.robot.subsystems.Extender;
+
 /*
     NOTE: NONE OF THIS IS FINAL UNTIL CLIMBER DESIGN IS FINALIZED
 
@@ -20,7 +23,7 @@ public class AutoClimb {
     /*
         the plan for this climber autonomous:
         the driver presses d-pad right (preferably)
-        the "step" of the autonomous processes increases
+        the "step" of the autonomous process increases
         if d-pad left is pressed, then it goes back a step
         we need to prevent double-press during the autonomous process
     */
@@ -42,20 +45,5 @@ public class AutoClimb {
         }
     }
 
-    public AutoClimb() {
-        /*step-by-step process of going through a routine.
-        be sure to set stepPreventer to true at the start of these processes, but false at the end of them*/
-        switch(curStep) {
-            case 1:
-                break;
-            case 2:
-                break;
-            case 3:
-                break;
-            case 4:
-                break;
-            case 5:
-                break;
-        }
-    }
+    
 }
