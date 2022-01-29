@@ -7,22 +7,11 @@
 
 package frc.robot;
 
-import com.kauailabs.navx.frc.AHRS;
-import edu.wpi.first.wpilibj.GenericHID;
 import frc.robot.subsystems.*;
 import frc.robot.commands.*;
 import frc.robot.controls.*;
-import frc.robot.controls.Functions;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.RunCommand;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.cameraserver.CameraServer;
-
-import edu.wpi.first.cameraserver.CameraServer;
-
-import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj2.command.*;
 
 import frc.robot.Constants.*;
 import frc.robot.autonomous.drivetrain.Pathweaver;
@@ -39,16 +28,12 @@ import frc.robot.autonomous.drivetrain.Pathweaver;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  public static Drivetrain m_drive = new Drivetrain();
+  public static Drivetrain m_drive = Drivetrain.getInstance();
   public static Intake m_intake = new Intake();
 
-  public static Functions m_controller = new Functions();
-
-  public Functions controls;
-
   public RobotContainer() {
-    // Configure the button bindings
 
+    // default command to run in teleop
     m_drive.setDefaultCommand(new TelopDrive(m_drive));
 
     // Start camera stream for driver
@@ -57,16 +42,11 @@ public class RobotContainer {
     // Configure the button bindings
     Driver.configureButtonBindings();
     Operator.configureButtonBindings();
+
     // Attempt to load trajectory from PathWeaver
-    
+    Pathweaver.setupAutonomousTrajectory(AutoConstants.kTrajectoryName);
   }
 
-  /**
-   * a {@link GenericHID} or one of its subclasses
-   * ({@link edu.wpi.first.wpilibj.Joystick}),
-   * and then passing it to a
-   * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
-   */
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
@@ -74,12 +54,6 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    Pathweaver.loadAutonomousTrajectory(AutoConstants.kTrajectoryName);
-    
-    // Run path following command, then stop at the end. At the same time intake.
-    // "Deadline" is the first command, 
-    // meaning the whole group will stop once the first command does.
     return Pathweaver.pathweaverCommand();
-    //return ramseteCommand.andThen(() -> m_drive.tankDriveVolts(0, 0));
   }
 }

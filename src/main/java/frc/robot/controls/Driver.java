@@ -20,16 +20,15 @@ public class Driver{
 
   //driver buttons
   public static void configureButtonBindings() {
-      controller.Button.B().whenPressed(() -> modSensitivity());
-      controller.Button.A().whenPressed(() -> modDrive());
-    }
+    controller.Button.B().whenPressed(() -> modSensitivity());
+    controller.Button.A().whenPressed(() -> modDrive());
+  }
   
-    public static double getThrottleValue() {
+  public static double getThrottleValue() {
     //put any proses in any order of the driver's choseing
     return
       Functions.slewCalculate(5,
-      -// Controllers y-axes are natively up-negative, down-positive
-      getRawThrottleValue()
+      -getRawThrottleValue() // Controllers y-axes are natively up-negative, down-positive
     );
   }
 

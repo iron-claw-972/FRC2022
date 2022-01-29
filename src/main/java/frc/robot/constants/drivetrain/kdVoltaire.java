@@ -1,6 +1,6 @@
 package frc.robot.constants.drivetrain;
 
-public class kdVoltaire extends kdbase {
+public class kdVoltaire extends kdBase {
     public final static int 
     kLeftMotor1Port  = 14, 
     kRightMotor1Port = 1,

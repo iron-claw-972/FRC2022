@@ -6,11 +6,11 @@ import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.system.plant.LinearSystemId;
 import edu.wpi.first.math.util.Units;
 
-public class kdClassBot1 extends kdbase {
+public class kdClassBot1 extends kdBase {
     public final static int 
     kLeftMotor1Port  = 2, 
     kRightMotor1Port = 12,
-    kLeftMotor2Port  = -1, 
+    kLeftMotor2Port  = -1,
     kRightMotor2Port = -1,
     kLeftMotor3Port  = -1, 
     kRightMotor3Port = -1;

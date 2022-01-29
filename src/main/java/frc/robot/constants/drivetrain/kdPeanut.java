@@ -1,6 +1,6 @@
 package frc.robot.constants.drivetrain;
 
-public class kdPeanut extends kdbase {
+public class kdPeanut extends kdBase {
     public final static int 
     kLeftMotor1Port  = 2, 
     kRightMotor1Port = 1,
