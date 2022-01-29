@@ -129,12 +129,12 @@ public class RobotContainer {
         .whenReleased(() -> m_drive.setMaxOutput(1));
     // Extender motor rises
     m_operatorController_DPAD_UP
-        .whenPressed(() -> m_extenders.run(ExtenderConstants.kExtenderPower))
-        .whenReleased(() -> m_extenders.run(0.0));
+        .whenPressed(() -> m_extenders.extendClimberArm(ExtenderConstants.kExtenderPower))
+        .whenReleased(() -> m_extenders.extendClimberArm(0.0));
     // Extender motor lowers
     m_operatorController_DPAD_DOWN
-        .whenPressed(() -> m_extenders.run(-ExtenderConstants.kExtenderPower))
-        .whenReleased(() -> m_extenders.run(0.0));
+        .whenPressed(() -> m_extenders.extendClimberArm(-ExtenderConstants.kExtenderPower))
+        .whenReleased(() -> m_extenders.extendClimberArm(0.0));
     // Rotator motor spins forward
     m_operatorController_DPAD_RIGHT
         .whenPressed(() -> m_rotators.run(RotatorConstants.kRotatorPower))
