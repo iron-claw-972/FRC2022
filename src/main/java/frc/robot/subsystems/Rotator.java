@@ -16,9 +16,14 @@ public class Rotator {
     Encoder m_leftEncoder = new Encoder(0, 1, false, Encoder.EncodingType.k4X);
     Encoder m_rightEncoder = new Encoder(0, 1, false, Encoder.EncodingType.k4X);
 
+    public Rotator() {
+        m_leftMotor.setInverted(true);
+        m_rightMotor.setInverted(false);
+    }
+
     public void run(double pow) {
         // runs but doesn't stop running even if it's at the design limit
-        m_leftMotor.set(pow);
-        m_rightMotor.set(-pow);
+        m_leftMotor.set(-pow);
+        m_rightMotor.set(pow);
     }
 }
