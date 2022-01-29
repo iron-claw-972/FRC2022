@@ -6,14 +6,10 @@ import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.system.plant.LinearSystemId;
 import edu.wpi.first.math.util.Units;
 
-public class kdClassBot4 extends kdBase {
-    public final static int 
-    kLeftMotor1Port  = 0, 
-    kRightMotor1Port = 15,
-    kLeftMotor2Port  = -1, 
-    kRightMotor2Port = -1,
-    kLeftMotor3Port  = -1, 
-    kRightMotor3Port = -1;
+public class kdClassBot4 {
+    
+    public static final int[] rightMotorPorts = {15};
+    public static final int[] leftMotorPorts = {0};
 
     //auto might be off becuse they were calbrated for classbot3
     public static final double kTrackWidthMeters = Units.inchesToMeters(20); // Distance between center of left wheel and center of right wheel in meters

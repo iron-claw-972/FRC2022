@@ -14,12 +14,8 @@ import frc.robot.setup.ControllerFactory;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
-import com.fasterxml.jackson.annotation.JsonCreator.Mode;
 import com.kauailabs.navx.frc.AHRS;
 
-import edu.wpi.first.hal.SimDouble;
-import edu.wpi.first.hal.simulation.SimDeviceDataJNI;
-import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.RamseteController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
@@ -28,10 +24,10 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
-import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.motorcontrol.MotorController;
 import edu.wpi.first.wpilibj.simulation.DifferentialDrivetrainSim;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -52,22 +48,17 @@ public class Drivetrain extends SubsystemBase {
 
   private static Drivetrain instance;
 
-  private final WPI_TalonFX m_leftMotor1 = ControllerFactory.createTalonFX(kDrivetrain.kLeftMotor1Port);
-  private final WPI_TalonFX m_leftMotor2 = ControllerFactory.createTalonFX(kDrivetrain.kLeftMotor2Port);
-
-  private final WPI_TalonFX m_rightMotor1 = ControllerFactory.createTalonFX(kDrivetrain.kRightMotor1Port);
-  private final WPI_TalonFX m_rightMotor2 = ControllerFactory.createTalonFX(kDrivetrain.kRightMotor2Port);
-
-  private final PhoenixMotorControllerGroup m_leftMotors = new PhoenixMotorControllerGroup(m_leftMotor1, m_leftMotor2);
-  private final PhoenixMotorControllerGroup m_rightMotors = new PhoenixMotorControllerGroup(m_rightMotor1,m_rightMotor2);
+  WPI_TalonFX m_leftMotor1 = ControllerFactory.createTalonFX(kDrivetrain.leftMotorPorts[0]);
+  WPI_TalonFX m_rightMotor1 = ControllerFactory.createTalonFX(kDrivetrain.rightMotorPorts[0]);
+  private PhoenixMotorControllerGroup m_leftMotors;
+  private PhoenixMotorControllerGroup m_rightMotors;
+  private final DifferentialDrive m_dDrive;
 
   // The left-side drive encoder
   private final TalonEncoder m_leftEncoder = new TalonEncoder(m_leftMotor1, kDrivetrain.kLeftEncoderReversed);
 
   // The right-side drive encoder
   private final TalonEncoder m_rightEncoder = new TalonEncoder(m_rightMotor1, kDrivetrain.kRightEncoderReversed);
-
-  private final DifferentialDrive m_dDrive = new DifferentialDrive(m_leftMotors, m_rightMotors);
 
   private final AHRS m_navX = new AHRS(SPI.Port.kMXP);
 
@@ -112,6 +103,22 @@ public class Drivetrain extends SubsystemBase {
   }
 
   public Drivetrain() {
+
+    MotorController[] lMotors = new MotorController[kDrivetrain.leftMotorPorts.length];
+    for (int i = 1; i < kDrivetrain.leftMotorPorts.length; i++) {
+      lMotors[i] = ControllerFactory.createTalonFX(kDrivetrain.leftMotorPorts[i]);
+    }
+
+    MotorController[] rMotors = new MotorController[kDrivetrain.rightMotorPorts.length];
+    for (int i = 1; i < kDrivetrain.rightMotorPorts.length; i++) {
+      rMotors[i] = ControllerFactory.createTalonFX(kDrivetrain.rightMotorPorts[i]);
+    }
+
+    m_leftMotors = new PhoenixMotorControllerGroup(m_leftMotor1, lMotors);
+    m_rightMotors = new PhoenixMotorControllerGroup(m_rightMotor1, rMotors);
+
+    m_dDrive = new DifferentialDrive(m_leftMotors, m_rightMotors);
+
     // Inverting one side of the drivetrain as to drive forward
     m_leftMotors.setInverted(true);
     m_rightMotors.setInverted(false);
