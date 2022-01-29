@@ -6,6 +6,7 @@ import frc.robot.Constants.*;
 import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj2.command.button.*;
 import frc.robot.setup.controllers.*;
+import frc.robot.controls.Functions;
 
 public class Driver{
 
@@ -14,12 +15,32 @@ public class Driver{
   public static double lowSensThrottle = 0.2 , lowSensTurn = 0.4, highSensThrottle = 1, highSensTurn = 0.5;
   public static double sensThrottle = lowSensThrottle, sensTurn = lowSensTurn;
   
+  //sets defult drive mode
+  public static String driveMode = "arcade";
+
   //driver buttons
   public static void configureButtonBindings() {
       controller.Button.B().whenPressed(() -> modSensitivity());
       controller.Button.A().whenPressed(() -> modDrive());
     }
   
+    public static double getThrottleValue() {
+    //put any proses in any order of the driver's choseing
+    return
+      Functions.slewCalculate(5,
+      -// Controllers y-axes are natively up-negative, down-positive
+      getRawThrottleValue()
+    );
+  }
+
+  public static double getTurnValue() {
+    //Right is Positive left is negitive
+    return
+      Functions.slewCalculate(5,
+      getRawThrottleValue()
+    );
+  }
+
   public static void modSensitivity(){
     if (sensThrottle == highSensThrottle) {
       sensThrottle = lowSensThrottle;
@@ -32,8 +53,7 @@ public class Driver{
     }
   }
 
-  //sets defult drive mode
-  public static String driveMode = "arcade";
+  
   // cyles drive mode
   public static void modDrive(){
     System.out.println("modding drive");
@@ -50,11 +70,10 @@ public class Driver{
   public static boolean isDrive(String drive){
     return (driveMode == drive);
   }
-  
+
   public static double getRawThrottleValue() {
-    // Controllers y-axes are natively up-negative, down-positive. This method
-    // corrects that by returning the opposite of the y-value
-    return -controller.JoystickAxis.leftY();
+    // Controllers y-axes are natively up-negative, down-positive
+    return controller.JoystickAxis.leftY();
   }
 
   public static double getRawTurnValue() {

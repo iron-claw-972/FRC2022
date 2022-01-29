@@ -16,10 +16,10 @@ import frc.robot.controls.Driver;
 import frc.robot.controls.Functions;
 import frc.robot.subsystems.Drivetrain;
 
-public class RunDrive extends CommandBase {
+public class TelopDrive extends CommandBase {
   private final Drivetrain m_drive;
 
-  public RunDrive(Drivetrain subsystem) {
+  public TelopDrive(Drivetrain subsystem) {
     m_drive = subsystem;
     addRequirements(subsystem);
   }

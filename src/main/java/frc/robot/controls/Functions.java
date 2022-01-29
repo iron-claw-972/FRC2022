@@ -22,7 +22,7 @@ public class Functions {
    * @param deadband The deadband
    * @return the input rescaled and to fit [-1, -deadband], [deadband, 1]
    */
-  public static double deadband(double input, double deadband) {
+  public static double deadband(double deadband, double input) {
     if (Math.abs(input) <= deadband) {
         return 0;
     } else if (Math.abs(input) == 1) {
@@ -33,7 +33,7 @@ public class Functions {
   }
 
   //is an exponetional function that maintains positive or negitive
-  public double expoMS(double base, double exponent){
+  public static double expoMS(double exponent, double base){
     //weird stuff will hapen if you don't put a number > 0
     double finVal = Math.pow(Math.abs(base),exponent);
     if (base < 0) {
@@ -42,7 +42,7 @@ public class Functions {
     return finVal;
   }
 
-  public double slewCalculate(double base , double rate){
-    return new SlewRateLimiter(rate).calculate(base);
+  public static double slewCalculate(double rate, double input ){
+    return new SlewRateLimiter(rate).calculate(input);
   }
 }

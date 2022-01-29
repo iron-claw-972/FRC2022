@@ -49,7 +49,7 @@ public class RobotContainer {
   public RobotContainer() {
     // Configure the button bindings
 
-    m_drive.setDefaultCommand(new RunDrive(m_drive));
+    m_drive.setDefaultCommand(new TelopDrive(m_drive));
 
     // Start camera stream for driver
     CameraServer.startAutomaticCapture();
