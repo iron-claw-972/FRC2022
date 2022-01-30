@@ -26,7 +26,7 @@ public class Extender {
         m_leftMotor.configReverseSoftLimitThreshold(0, 10);
         m_rightMotor.configReverseSoftLimitThreshold(0, 10);
 
-        // converts the length of the arm in feet to ticks and makes that the maximum tick limit, it's checked every 10 milliseconds
+        // converts the length of the arm in inches to ticks and makes that the maximum tick limit, it's checked every 10 milliseconds
         m_leftMotor.configForwardSoftLimitThreshold(ExtenderConstants.kExtenderMaxArmLength / ExtenderConstants.kExtenderTickMultiple, 10);
         m_rightMotor.configForwardSoftLimitThreshold(ExtenderConstants.kExtenderMaxArmLength / ExtenderConstants.kExtenderTickMultiple, 10);
 
@@ -40,6 +40,6 @@ public class Extender {
     public void extendClimberArm(double pow) {
         m_leftMotor.set(pow);
         // a pop-up in shuffleboard that allows you to see how much the arm extended in feet
-        SmartDashboard.putNumber("Extended in Feet", m_rightMotor.getSelectedSensorPosition() * ExtenderConstants.kExtenderTickMultiple);
+        SmartDashboard.putNumber("Current Extension (Inches)", m_rightMotor.getSelectedSensorPosition() * ExtenderConstants.kExtenderTickMultiple);
     }
 } 
