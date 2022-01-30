@@ -1,29 +1,43 @@
 package frc.robot.subsystems;
 
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-import edu.wpi.first.wpilibj.Encoder;
-
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.ControllerFactory;
 import frc.robot.Constants.RotatorConstants;
 
 
 public class Rotator {
-    //TODO: check if whatever is connected to the sparkmax is brush/brushless
-    private final CANSparkMax m_leftMotor = ControllerFactory.createSparkMAX(RotatorConstants.kLeftRotatorPort, MotorType.kBrushless);
-    private final CANSparkMax m_rightMotor = ControllerFactory.createSparkMAX(RotatorConstants.kRightRotatorPort, MotorType.kBrushless);
-    
-    Encoder m_leftEncoder = new Encoder(0, 1, false, Encoder.EncodingType.k4X);
-    Encoder m_rightEncoder = new Encoder(0, 1, false, Encoder.EncodingType.k4X);
+    private final WPI_TalonFX m_leftMotor = ControllerFactory.createTalonFX(RotatorConstants.kLeftRotatorPort);
+    private final WPI_TalonFX m_rightMotor = ControllerFactory.createTalonFX(RotatorConstants.kRightRotatorPort);
 
     public Rotator() {
+        m_rightMotor.follow(m_leftMotor);
+
+        // so that the motors spin in the same direction
         m_leftMotor.setInverted(true);
         m_rightMotor.setInverted(false);
-    }
 
+        // so that encoder values aren't negative
+        m_rightMotor.setSensorPhase(true);
+        m_leftMotor.setSensorPhase(false);
+
+        // the lowest tick limit is 0, and must be checked every 10 milliseconds
+        m_leftMotor.configReverseSoftLimitThreshold(-RotatorConstants.kRotatorDegreeLimit / RotatorConstants.kRotatorTickMultiple, 10);
+        m_rightMotor.configReverseSoftLimitThreshold(-RotatorConstants.kRotatorDegreeLimit / RotatorConstants.kRotatorTickMultiple, 10);
+
+        // converts the length of the arm in feet to ticks and makes that the maximum tick limit, it's checked every 10 milliseconds
+        m_leftMotor.configForwardSoftLimitThreshold(RotatorConstants.kRotatorDegreeLimit / RotatorConstants.kRotatorTickMultiple, 10);
+        m_rightMotor.configForwardSoftLimitThreshold(RotatorConstants.kRotatorDegreeLimit / RotatorConstants.kRotatorTickMultiple, 10);
+
+        // every time the robot is started, it MUST start at maximum compression in order to maintain consistency
+        m_leftMotor.setSelectedSensorPosition(0.0);
+        m_rightMotor.setSelectedSensorPosition(0.0);
+    }
+    
+    // called in RobotContainer by configureButtonBindings()
     public void run(double pow) {
-        // runs but doesn't stop running even if it's at the design limit
-        m_leftMotor.set(-pow);
         m_rightMotor.set(pow);
+        // a pop-up in shuffleboard that allows you to see how much the arm angles in degrees
+        SmartDashboard.putNumber("Extended in Feet", m_rightMotor.getSelectedSensorPosition() * RotatorConstants.kRotatorTickMultiple);
     }
 }
