@@ -104,9 +104,7 @@ public class RobotContainer {
     // Attempt to load trajectory from PathWeaver
     loadAutonomousTrajectory(AutoConstants.kTrajectoryName);
 
-    while (true){
-      System.out.println(m_shooter.ballColor());
-    }
+    
   }
 
   /**

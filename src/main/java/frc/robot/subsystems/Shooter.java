@@ -17,11 +17,19 @@ import com.revrobotics.ColorMatch;
 
 import com.revrobotics.*;
 
-public class Shooter {
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
+
+public class Shooter extends SubsystemBase {
     private final WPI_TalonFX m_motorFront = ControllerFactory.createTalonFX(ShooterConstants.kShooterMotorPortFront);
     private final WPI_TalonFX m_motorBack = ControllerFactory.createTalonFX(ShooterConstants.kShooterMotorPortBack);
 
-    
+    public Shooter() {}
+
+    @Override
+    public void periodic(){
+        ballColor();
+    }
 
 
     public void setSpeed(double speed) {
@@ -66,9 +74,9 @@ public class Shooter {
     }
     
     public String isColor(double r, double g, double b){
-        if (b>.3) {
+        if (b> 0.4) {
           return "blue";
-        } else if (r > .3) {
+        } else if (r > 0.4++++++) {
           return "red";
         }
         return "none";
@@ -82,13 +90,7 @@ public class Shooter {
     }
 
 
-
-
-
-
-
-    /*.setSpeed(double speed) - done
-
+/*
 Getters
 .reachedSetpoint()
 .containsBall()
