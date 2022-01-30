@@ -39,6 +39,6 @@ public class Rotator {
     public void rotateArm(double pow) {
         m_rightMotor.set(pow);
         // a pop-up in shuffleboard that allows you to see how much the arm angles in degrees
-        SmartDashboard.putNumber("Extended in Feet", m_rightMotor.getSelectedSensorPosition() * RotatorConstants.kRotatorTickMultiple);
+        SmartDashboard.putNumber("Current Angle (Degrees)", m_rightMotor.getSelectedSensorPosition() * RotatorConstants.kRotatorTickMultiple);
     }
 }
