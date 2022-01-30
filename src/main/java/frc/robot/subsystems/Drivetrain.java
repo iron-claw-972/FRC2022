@@ -113,8 +113,17 @@ public class Drivetrain extends SubsystemBase {
       rMotors[i] = ControllerFactory.createTalonFX(kDrivetrain.rightMotorPorts[i]);
     }
 
-    m_leftMotors = new PhoenixMotorControllerGroup(m_leftMotor1, lMotors);
-    m_rightMotors = new PhoenixMotorControllerGroup(m_rightMotor1, rMotors);
+    if (kDrivetrain.leftMotorPorts.length > 1) {
+      m_leftMotors = new PhoenixMotorControllerGroup(m_leftMotor1, lMotors);
+    } else {
+      m_leftMotors = new PhoenixMotorControllerGroup(m_leftMotor1);
+    }
+
+    if (kDrivetrain.rightMotorPorts.length > 1) {
+      m_rightMotors = new PhoenixMotorControllerGroup(m_rightMotor1, rMotors);
+    } else {
+      m_rightMotors = new PhoenixMotorControllerGroup(m_rightMotor1);
+    }
 
     m_dDrive = new DifferentialDrive(m_leftMotors, m_rightMotors);
 

@@ -115,6 +115,9 @@ public class ControllerFactory {
   * @return a fully configured TalonFX
   */
   public static WPI_TalonFX createTalonFX(int id) {
+
+    if (id == -1) return null;
+
     TalonFXConfiguration config = new TalonFXConfiguration();
     
     config.statorCurrLimit = new StatorCurrentLimitConfiguration(

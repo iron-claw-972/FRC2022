@@ -6,11 +6,6 @@ the project.
 */
 
 package frc.robot;
-
-import edu.wpi.first.math.numbers.N2;
-import edu.wpi.first.math.system.LinearSystem;
-import edu.wpi.first.math.system.plant.DCMotor;
-import edu.wpi.first.math.system.plant.LinearSystemId;
 import edu.wpi.first.math.util.Units;
 
 /*
@@ -37,7 +32,7 @@ public final class Constants {
   }
 
   public static final class IntakeConstants {
-    public static final int kIntakeMotorPort = 23;
+    public static final int kIntakeMotorPort = -1;
   }
 
   public static final class AutoConstants {

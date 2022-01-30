@@ -19,8 +19,8 @@ import frc.robot.Constants.*;
 
 public class Pathweaver {
 
-    public static Drivetrain m_drive = new Drivetrain();
-    public static Intake m_intake = new Intake();
+    public static Drivetrain m_drive = Drivetrain.getInstance();
+    public static Intake m_intake = Intake.getInstance();
     
     private static Trajectory autonomousTrajectory;
     private static RamseteCommand ramseteCommand;
@@ -84,7 +84,6 @@ public class Pathweaver {
         // "Deadline" is the first command, 
         // meaning the whole group will stop once the first command does.
         return new ParallelDeadlineGroup(
-        ramseteCommand.andThen(() -> m_drive.tankDriveVolts(0, 0)), 
-        new RunCommand(() -> m_intake.run(0.5)));
+        ramseteCommand.andThen(() -> m_drive.tankDriveVolts(0, 0)));
     }
 } 
