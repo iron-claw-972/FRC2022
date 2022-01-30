@@ -95,16 +95,16 @@ public final class Constants {
     public static final double kExtenderPower = 0.10;
 
     // the arm's max height - the arm's lowest height (max extension - max compression);
-    public static final double kExtenderMaxArmLength = 0;
+    public static final double kExtenderMaxArmLength = 63 - 38; // at its highest, it's 63 inches, at its lowest its 38 inches
 
-    // used to convert ticks to feet
+    // used to convert ticks to inches
     public static final double kExtenderTicksPerRotation = 1/2048; // every rotation is 2048 ticks
     public static final double kExtenderGearRatio = 20/1;
     public static final double kExtenderInchesPerRotation = Math.PI * 6; // 6 inches per rotation
 
-    // Tick Multiple * Tick = Feet Travelled
+    // Tick Multiple * Tick = Current Extension (Inches)
     public static final double kExtenderTickMultiple = (
-      kExtenderTicksPerRotation * kExtenderGearRatio * kExtenderInchesPerRotation * (1/12)
+      kExtenderTicksPerRotation * kExtenderGearRatio * kExtenderInchesPerRotation
     );
   }
 
@@ -120,9 +120,9 @@ public final class Constants {
     // used to convert ticks to degrees
     public static final double kRotatorTicksPerRotation = 1/2048; // TODO: What is the tickrate of the motor for the rotator?
     public static final double kRotatorGearRatio = 1/1; // TODO: What is the gear ratio of the rotator?
-    public static final double kRotatorDegreesPerRotation = 360/1;
+    public static final double kRotatorDegreesPerRotation = 360/1; // 1 rotation is 360 degrees
 
-    // Tick Multiple * Tick = Degrees Angled
+    // Tick Multiple * Tick = Current Angle (Degrees)
     public static final double kRotatorTickMultiple = (
       kRotatorTicksPerRotation * kRotatorGearRatio * kRotatorDegreesPerRotation
     );
