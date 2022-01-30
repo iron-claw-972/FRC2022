@@ -38,6 +38,8 @@ import frc.robot.commands.ArcadeDrive;
 import frc.robot.commands.DifferentialDrive;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Shooter;
+
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -53,6 +55,7 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   public static Drivetrain m_drive = new Drivetrain();
   public static Intake m_intake = new Intake();
+  public static Shooter m_shooter = new Shooter();
 
   static Joystick m_driverController = new Joystick(JoyConstants.kDriverJoy);
   static Joystick m_operatorController = new Joystick(JoyConstants.kOperatorJoy);
@@ -100,6 +103,10 @@ public class RobotContainer {
 
     // Attempt to load trajectory from PathWeaver
     loadAutonomousTrajectory(AutoConstants.kTrajectoryName);
+
+    while (true){
+      System.out.println(m_shooter.ballColor());
+    }
   }
 
   /**
