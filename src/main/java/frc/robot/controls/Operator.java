@@ -9,12 +9,12 @@ import frc.robot.setup.controllers.*;
 
 public class Operator{
 
-  public static GameC controler = new GameC(new Joystick(JoyConstants.kOperatorJoy));
+  public static GameC controller = new GameC(new Joystick(JoyConstants.kOperatorJoy));
 
   //operator buttons
   public static void configureButtonBindings() {
-      // controler.Button.B().whenPressed(() -> modSensitivity());
-      // controler.Button.A().whenPressed(() -> modDrive());
+      // controller.Button.B().whenPressed(() -> modSensitivity());
+      // controller.Button.A().whenPressed(() -> modDrive());
     }
 
   }
