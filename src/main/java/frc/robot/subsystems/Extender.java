@@ -31,6 +31,7 @@ public class Extender {
         m_rightMotor.configForwardSoftLimitThreshold(ExtenderConstants.kExtenderMaxArmLength / ExtenderConstants.kExtenderTickMultiple, 10);
 
         // every time the robot is started, it MUST start at maximum compression in order to maintain consistency
+        // TODO: Make this better.
         m_leftMotor.setSelectedSensorPosition(0.0);
         m_rightMotor.setSelectedSensorPosition(0.0);
     }

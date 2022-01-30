@@ -21,15 +21,16 @@ public class Rotator {
         m_rightMotor.setSensorPhase(true);
         m_leftMotor.setSensorPhase(false);
 
-        // the lowest tick limit is 0, and must be checked every 10 milliseconds
+        // converts the minimum angle of the arm and makes that the minimum tick limit, it's checked every 10 milliseconds
         m_leftMotor.configReverseSoftLimitThreshold(-RotatorConstants.kRotatorDegreeLimit / RotatorConstants.kRotatorTickMultiple, 10);
         m_rightMotor.configReverseSoftLimitThreshold(-RotatorConstants.kRotatorDegreeLimit / RotatorConstants.kRotatorTickMultiple, 10);
 
-        // converts the length of the arm in feet to ticks and makes that the maximum tick limit, it's checked every 10 milliseconds
+        // converts the maximum angle of the arm to ticks and makes that the maximum tick limit, it's checked every 10 milliseconds
         m_leftMotor.configForwardSoftLimitThreshold(RotatorConstants.kRotatorDegreeLimit / RotatorConstants.kRotatorTickMultiple, 10);
         m_rightMotor.configForwardSoftLimitThreshold(RotatorConstants.kRotatorDegreeLimit / RotatorConstants.kRotatorTickMultiple, 10);
 
-        // every time the robot is started, it MUST start at maximum compression in order to maintain consistency
+        // every time the robot is started, it MUST start at a 90 degree angle in order to maintain consistency
+        // TODO: Make this better.
         m_leftMotor.setSelectedSensorPosition(0.0);
         m_rightMotor.setSelectedSensorPosition(0.0);
     }
