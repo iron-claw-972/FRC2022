@@ -2,6 +2,8 @@ package frc.robot.subsystems;
 
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.ControllerFactory;
 import frc.robot.Constants.ExtenderConstants;
@@ -11,6 +13,8 @@ public class Extender {
     private final WPI_TalonFX m_leftMotor = ControllerFactory.createTalonFX(ExtenderConstants.kLeftExtenderPort);
     private final WPI_TalonFX m_rightMotor = ControllerFactory.createTalonFX(ExtenderConstants.kRightExtenderPort);
     
+    private final PIDController extenderPID = new PIDController(1, 0, 0);
+
     public Extender() {
         m_rightMotor.follow(m_leftMotor);
 
@@ -37,8 +41,8 @@ public class Extender {
     }
 
     // called in RobotContainer by configureButtonBindings()
-    public void extendClimberArm(double pow) {
-        m_leftMotor.set(pow);
+    public void extendClimberArm(double setpoint) {
+        m_leftMotor.set(extenderPID.calculate(m_rightMotor.getSelectedSensorPosition() * ExtenderConstants.kExtenderTickMultiple, setpoint));
         // a pop-up in shuffleboard that allows you to see how much the arm extended in feet
         SmartDashboard.putNumber("Current Extension (Inches)", m_rightMotor.getSelectedSensorPosition() * ExtenderConstants.kExtenderTickMultiple);
     }

@@ -1,6 +1,8 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.ControllerFactory;
 import frc.robot.Constants.RotatorConstants;
@@ -9,6 +11,8 @@ import frc.robot.Constants.RotatorConstants;
 public class Rotator {
     private final WPI_TalonFX m_leftMotor = ControllerFactory.createTalonFX(RotatorConstants.kLeftRotatorPort);
     private final WPI_TalonFX m_rightMotor = ControllerFactory.createTalonFX(RotatorConstants.kRightRotatorPort);
+
+    private final PIDController rotatorPID = new PIDController(1, 0, 0);
 
     public Rotator() {
         m_rightMotor.follow(m_leftMotor);
@@ -36,8 +40,8 @@ public class Rotator {
     }
     
     // called in RobotContainer by configureButtonBindings()
-    public void rotateArm(double pow) {
-        m_leftMotor.set(pow);
+    public void rotateArm(double setpoint) {
+        m_leftMotor.set(rotatorPID.calculate(m_rightMotor.getSelectedSensorPosition() * RotatorConstants.kRotatorTickMultiple, setpoint));
         // a pop-up in shuffleboard that allows you to see how much the arm angles in degrees
         SmartDashboard.putNumber("Current Angle (Degrees)", m_rightMotor.getSelectedSensorPosition() * RotatorConstants.kRotatorTickMultiple);
     }
