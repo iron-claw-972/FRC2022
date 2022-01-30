@@ -98,20 +98,34 @@ public final class Constants {
     public static final double kExtenderMaxArmLength = 0;
 
     // used to convert ticks to feet
-    public static final double kExtenderTicksPerRotation = 1/2048; //2048 ticks per rotation (talonfx)
-    public static final double kExtenderGearRatio = 20/1; // TODO: correct the gear ratio
+    public static final double kExtenderTicksPerRotation = 1/2048; // every rotation is 2048 ticks
+    public static final double kExtenderGearRatio = 20/1;
     public static final double kExtenderInchesPerRotation = Math.PI * 6; // 6 inches per rotation
-    // kExtenderFeetTravelled * kExtenderTicksDesired = feet travelled
+
+    // Tick Multiple * Tick = Feet Travelled
     public static final double kExtenderTickMultiple = (
       kExtenderTicksPerRotation * kExtenderGearRatio * kExtenderInchesPerRotation * (1/12)
     );
   }
 
   public static final class RotatorConstants {
-    //rotating motors (for climber)
+    // rotating motors (for climber)
     public static final int kRightRotatorPort = -1;
     public static final int kLeftRotatorPort = -1;
     public static final double kRotatorPower = 0.10;
+
+    // maximum degrees in either way based on design constraints
+    public static final double kRotatorDegreeLimit = 30;
+
+    // used to convert ticks to degrees
+    public static final double kRotatorTicksPerRotation = 1/2048; // TODO: What is the tickrate of the motor for the rotator?
+    public static final double kRotatorGearRatio = 1/1; // TODO: What is the gear ratio of the rotator?
+    public static final double kRotatorDegreesPerRotation = 360/1;
+
+    // Tick Multiple * Tick = Degrees Angled
+    public static final double kRotatorTickMultiple = (
+      kRotatorTicksPerRotation * kRotatorGearRatio * kRotatorDegreesPerRotation
+    );
   }
 
   public static final class AutoConstants {
