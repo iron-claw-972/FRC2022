@@ -137,12 +137,12 @@ public class RobotContainer {
         .whenReleased(() -> m_extenders.extendClimberArm(0.0));
     // Rotator motor spins forward
     m_operatorController_DPAD_RIGHT
-        .whenPressed(() -> m_rotators.run(RotatorConstants.kRotatorPower))
-        .whenReleased(() -> m_rotators.run(0.0));
+        .whenPressed(() -> m_rotators.rotateArm(RotatorConstants.kRotatorPower))
+        .whenReleased(() -> m_rotators.rotateArm(0.0));
     // Rotator motor spins backward
     m_operatorController_DPAD_LEFT
-        .whenPressed(() -> m_rotators.run(-RotatorConstants.kRotatorPower))
-        .whenReleased(() -> m_rotators.run(0.0));
+        .whenPressed(() -> m_rotators.rotateArm(-RotatorConstants.kRotatorPower))
+        .whenReleased(() -> m_rotators.rotateArm(0.0));
   }
 
   /**
