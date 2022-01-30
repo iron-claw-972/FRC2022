@@ -87,7 +87,7 @@ public final class Constants {
   }
 
   public static final class ShooterConstants {
-    public static final int kIntakeMotorPort = 23;
+    public static final int kShooterMotorPortTop = 23;
   }
 
   public static final class AutoConstants {
