@@ -58,7 +58,7 @@ public class RobotContainer {
   public static Drivetrain m_drive = new Drivetrain();
   public static Intake m_intake = new Intake();
 
-  //arm objects
+  // arm objects
   public static Extender m_extenders = new Extender();
   public static Rotator m_rotators = new Rotator();
   //-----//
