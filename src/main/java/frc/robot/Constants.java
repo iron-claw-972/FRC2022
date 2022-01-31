@@ -99,4 +99,11 @@ public final class Constants {
     // name without stuff after . ex AutoPath
     public static final String kTrajectoryName = "HangarTest";
   }
+
+  public static final class ArmConstants {
+    public static final int kLeftMotorPort = 1;
+    public static final int kRightMotorPort = 0;
+
+    
+  }
 }
