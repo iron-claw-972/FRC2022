@@ -21,8 +21,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 
 public class Shooter extends SubsystemBase {
-    private final WPI_TalonFX m_motorFront = ControllerFactory.createTalonFX(ShooterConstants.kShooterMotorPortFront);
-    private final WPI_TalonFX m_motorBack = ControllerFactory.createTalonFX(ShooterConstants.kShooterMotorPortBack);
+    private final WPI_TalonFX m_motor = ControllerFactory.createTalonFX(ShooterConstants.kShooterMotorPort);
 
     public Shooter() {}
 
@@ -33,29 +32,32 @@ public class Shooter extends SubsystemBase {
 
 
     public void setSpeed(double speed) {
-        m_motorFront.set(ControlMode.PercentOutput, speed);
-        m_motorBack.set(ControlMode.PercentOutput, speed);
+        m_motor.set(ControlMode.PercentOutput, speed);
 
     }
 
-    public void setBackOutakeSpeed(double speed) {
-        m_motorBack.set(ControlMode.PercentOutput, speed);
+    public void setBackOutakeSpeed() {
+        setSpeed(ShooterConstants.speed);
 
     }
 
-    public void setFrontOutakeSpeed(double speed) {
-        m_motorFront.set(ControlMode.PercentOutput, speed);
+    public void setFrontkOutakeSpeed() {
+        setSpeed(ShooterConstants.speed);
 
     }
 
-    public void setBackOutakeFarSpeed(double speed, double multiplier) {
-        m_motorBack.set(ControlMode.PercentOutput, speed* multiplier);
+    public void setBackOutakeFarSpeed() {
+        setSpeed(ShooterConstants.speed* ShooterConstants.multiplier);
 
     }
 
-    public void setFrontOutakeFarSpeed(double speed, double multiplier) {
-        m_motorFront.set(ControlMode.PercentOutput, speed* multiplier);
+    public void setFrontOutakeFarSpeed() {
+        setSpeed(ShooterConstants.speed* ShooterConstants.multiplier);
 
+    }
+
+    public void intake(){
+        setSpeed(ShooterConstants.speed*-1);
     }
 
     public void stop() {
@@ -76,7 +78,7 @@ public class Shooter extends SubsystemBase {
     public String isColor(double r, double g, double b){
         if (b> 0.4) {
           return "blue";
-        } else if (r > 0.4++++++) {
+        } else if (r > 0.4) {
           return "red";
         }
         return "none";
@@ -86,8 +88,9 @@ public class Shooter extends SubsystemBase {
         Color detectedColor = m_colorSensor.getColor();
         return isColor(detectedColor.red, detectedColor.green, detectedColor.blue);
 
-
     }
+
+    
 
 
 /*

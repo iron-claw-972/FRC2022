@@ -87,8 +87,9 @@ public final class Constants {
   }
 
   public static final class ShooterConstants {
-    public static final int kShooterMotorPortFront = 23;
-    public static final int kShooterMotorPortBack = 23;
+    public static final int kShooterMotorPort = 23;
+    public static final double speed = 10;
+    public static final double multiplier = 5;
 
   }
 
