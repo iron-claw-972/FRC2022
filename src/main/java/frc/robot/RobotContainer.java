@@ -40,7 +40,6 @@ import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
 
-
 /**
  * This class is where the bulk of the robot should be declared. Since
  * Command-based is a
@@ -104,7 +103,6 @@ public class RobotContainer {
     // Attempt to load trajectory from PathWeaver
     loadAutonomousTrajectory(AutoConstants.kTrajectoryName);
 
-    
   }
 
   /**
