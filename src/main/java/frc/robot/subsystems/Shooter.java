@@ -23,7 +23,7 @@ public class Shooter extends SubsystemBase {
 
     @Override
     public void periodic() {
-        System.out.println(containsBall());
+        containsBall();
     }
 
     public void setSpeed(double speed) {
@@ -73,9 +73,11 @@ public class Shooter extends SubsystemBase {
 
     public Boolean containsBall() {
         Integer ballProximity = m_colorSensor.getProximity();
-        if (ballProximity > 1000) {
+        if (ballProximity > ShooterConstants.kMinimumBallProximity) {
+            System.out.println("Object detected, proximity: " + ballProximity);
             return true;
         }
+        System.out.println("No object detected, proximity: " + ballProximity);
         return false;
     }
 

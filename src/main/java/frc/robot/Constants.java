@@ -87,11 +87,13 @@ public final class Constants {
   }
 
   public static final class ShooterConstants {
-    public static final int kShooterMotorPort = -1;
+    public static final int kShooterMotorPort = 1;
     public static final int kFrontOutakeSpeed = 1;
     public static final int kBackOutakeSpeed = 1;
     public static final double kFarMultiplier = 1.5;
     public static final int kIntakeSpeed = 1;
+
+    public static final int kMinimumBallProximity = 250;
 
     // PID Stuff
     public static final double kShooterP = 1;
