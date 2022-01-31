@@ -9,6 +9,8 @@ import frc.robot.ControllerFactory;
 import frc.robot.Constants.ShooterConstants;
 
 import com.revrobotics.ColorSensorV3;
+
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.util.Color;
 
@@ -16,33 +18,36 @@ public class Shooter extends SubsystemBase {
     
     public Shooter() {}
 
-    private final WPI_TalonFX m_motorBack = ControllerFactory.createTalonFX(ShooterConstants.kShooterMotorPortBack);
-    private final WPI_TalonFX m_motorFront = ControllerFactory.createTalonFX(ShooterConstants.kShooterMotorPortFront);
+    private final WPI_TalonFX m_motor = ControllerFactory.createTalonFX(1);
+    private final PIDController shooterPID = new PIDController(ShooterConstants.kShooterP, ShooterConstants.kShooterI, ShooterConstants.kShooterD);
 
     @Override
     public void periodic() {
-        System.out.println(reachedSetpoint(1));
+        System.out.println(containsBall());
     }
 
     public void setSpeed(double speed) {
-        m_motorBack.set(ControlMode.PercentOutput, speed);
-        m_motorFront.set(ControlMode.PercentOutput, speed);
+        m_motor.set(ControlMode.PercentOutput, shooterPID.calculate(speed));
     }
 
-    public void setBackOutakeSpeed(double speed) {
-        m_motorBack.set(ControlMode.PercentOutput, speed);
+    public void intake() {
+        setSpeed(ShooterConstants.kIntakeSpeed);
     }
 
-    public void setFrontOutakeSpeed(double speed) {
-        m_motorFront.set(ControlMode.PercentOutput, speed);
+    public void setBackOutakeSpeed() {
+        setSpeed(ShooterConstants.kBackOutakeSpeed);
     }
 
-    public void setFrontOutakeFarSpeed(double speed, double multiplier) {
-        m_motorFront.set(ControlMode.PercentOutput, speed*multiplier);
+    public void setFrontOutakeSpeed() {
+        setSpeed(ShooterConstants.kFrontOutakeSpeed);
     }
 
-    public void setBackOutakeFarSpeed(double speed, double multiplier) {
-        m_motorBack.set(ControlMode.PercentOutput, speed*multiplier);
+    public void setFrontOutakeFarSpeed() {
+        setSpeed(ShooterConstants.kFrontOutakeSpeed * ShooterConstants.kFarMultiplier);
+    }
+
+    public void setBackOutakeFarSpeed() {
+        setSpeed(ShooterConstants.kBackOutakeSpeed * ShooterConstants.kFarMultiplier);
     }
 
     public void stop() {
@@ -64,6 +69,14 @@ public class Shooter extends SubsystemBase {
     public String ballColor() {
         Color detectedColor = m_colorSensor.getColor();
         return isColor(detectedColor.red, detectedColor.green, detectedColor.blue);
+    }
+
+    public Boolean containsBall() {
+        Integer ballProximity = m_colorSensor.getProximity();
+        if (ballProximity > 1000) {
+            return true;
+        }
+        return false;
     }
 
     public Boolean reachedSetpoint(double targetSpeed) {

@@ -103,10 +103,6 @@ public class RobotContainer {
     // Attempt to load trajectory from PathWeaver
     loadAutonomousTrajectory(AutoConstants.kTrajectoryName);
 
-<<<<<<< HEAD
-=======
-    
->>>>>>> af1226b7fd59458bea3005156398394af4c13d95
   }
 
   /**
