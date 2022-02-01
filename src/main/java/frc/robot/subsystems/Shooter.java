@@ -15,6 +15,9 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.util.Color;
 
+// import edu.wpi.first.math.controller.SimpleMotorFeedforward;
+//SimpleMotorFeedforward feedforward = new SimpleMotorFeedforward(kS, kV, kA);
+
 public class Shooter extends SubsystemBase {
     
     private final WPI_TalonFX m_motor = ControllerFactory.createTalonFX(ShooterConstants.kShooterMotorPort);
