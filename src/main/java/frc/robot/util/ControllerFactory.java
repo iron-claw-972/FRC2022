@@ -20,15 +20,15 @@ public class ControllerFactory {
   private static int talonSRXDefaultPeakLimit = 45;
   private static int talonSRXDefaultPeakDuration = 125;
 
-  public static final boolean talonFXStatorLimitEnable = false;
-  public static final double talonFXStatorCurrentLimit = 100;
-  public static final double talonFXStatorTriggerThreshold = 100;
-  public static final double talonFXStatorTriggerDuration = 0;
+  public static final boolean talonFXStatorLimitEnable = false; // enabled
+  public static final double talonFXStatorCurrentLimit = 100; // Limit(amp)
+  public static final double talonFXStatorTriggerThreshold = 100; // Trigger Threshold(amp)
+  public static final double talonFXStatorTriggerDuration = 0; // Trigger Threshold Time(s)
 
-  public static final boolean talonFXSupplyLimitEnable = false;
-  public static final double talonFXSupplyCurrentLimit = 70;
-  public static final double talonFXSupplyTriggerThreshold = 70;
-  public static final double talonFXSupplyTriggerDuration = 0.7;
+  public static final boolean talonFXSupplyLimitEnable = false; // enabled
+  public static final double talonFXSupplyCurrentLimit = 70; // Limit(amp)
+  public static final double talonFXSupplyTriggerThreshold = 70; // Trigger Threshold(amp)
+  public static final double talonFXSupplyTriggerDuration = 0.7; // Trigger Threshold Time(s)
 
   private static int sparkMAXDefaultCurrentLimit = 60;
 
@@ -121,9 +121,11 @@ public class ControllerFactory {
     TalonFXConfiguration config = new TalonFXConfiguration();
     
     config.statorCurrLimit = new StatorCurrentLimitConfiguration(
+     // enabled                  | Limit(amp)               | Trigger Threshold(amp) |       Trigger Threshold Time(s)  */
         talonFXStatorLimitEnable, talonFXStatorCurrentLimit, talonFXStatorTriggerThreshold, talonFXStatorTriggerDuration);
     config.supplyCurrLimit = new SupplyCurrentLimitConfiguration(
         talonFXSupplyLimitEnable, talonFXSupplyCurrentLimit, talonFXSupplyTriggerThreshold, talonFXSupplyTriggerDuration);
+    
     config.voltageCompSaturation = Constants.kMaxVoltage;
 
     WPI_TalonFX talon = new WPI_TalonFX(id);
