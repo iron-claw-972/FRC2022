@@ -22,7 +22,7 @@ public class Driver{
   }
   
   public static double getThrottleValue() {
-    // put any proses in any order of the driver's choseing
+    // put any proccesses in any order of the driver's chosing
     // Controllers y-axes are natively up-negative, down-positive
     return Functions.slewCalculate(5, -getRawThrottleValue());
   }
