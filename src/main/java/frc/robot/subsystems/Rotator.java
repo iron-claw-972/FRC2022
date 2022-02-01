@@ -14,7 +14,7 @@ public class Rotator {
 
     private final PIDController rotatorPID = new PIDController(1, 0, 0);
 
-    public Rotator(int port) {
+    public Rotator(int port, boolean left) {
         m_rightMotor.follow(m_leftMotor);
 
         // so that the motors spin in the same direction
