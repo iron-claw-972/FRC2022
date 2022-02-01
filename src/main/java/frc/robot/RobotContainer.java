@@ -139,6 +139,8 @@ public class RobotContainer {
     // Rotator motor spins backward
     m_operatorController_DPAD_LEFT
         .whenPressed(() -> m_rotators.rotateArm(-RotatorConstants.kRotatorDegreeLimit));
+    m_operatorController_BACK
+        .whenPressed(() -> m_rotators.rotateArm(0.0));
   }
 
   /**
