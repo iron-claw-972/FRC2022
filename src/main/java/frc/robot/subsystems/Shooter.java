@@ -88,7 +88,7 @@ public class Shooter extends SubsystemBase {
     }
 
     public Boolean reachedSetpoint(double targetSpeed) {
-        if (m_shooterEncoder.getRate() < targetSpeed + ShooterConstants.kShooterVelocityPIDTolerance ||
+        if (m_shooterEncoder.getRate() < targetSpeed + ShooterConstants.kShooterVelocityPIDTolerance &&
          m_shooterEncoder.getRate() > targetSpeed - ShooterConstants.kShooterVelocityPIDTolerance){
             return true;
         }
