@@ -6,12 +6,13 @@ import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.system.plant.LinearSystemId;
 import edu.wpi.first.math.util.Units;
 
-public class kdClassBot3 {
-    
-    public final int[] rightMotorPorts = {0};
-    public final int[] leftMotorPorts = {1};
+public class ClassBot2Constants {
 
+    public final int[] rightMotorPorts = {2};
+    public final int[] leftMotorPorts = {1};
     
+    //auto might be off becuse they were calbrated for classbot3
+
     public final double kTrackWidthMeters = Units.inchesToMeters(20); // Distance between center of left wheel and center of right wheel in meters
 
     public final int kEncoderResolution = 2048; // 2048 for Falcon500 integrated encoder

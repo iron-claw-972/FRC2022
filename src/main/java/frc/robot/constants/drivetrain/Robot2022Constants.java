@@ -6,16 +6,15 @@ import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.system.plant.LinearSystemId;
 import edu.wpi.first.math.util.Units;
 
-public class kdClassBot2 {
+public class Robot2022Constants {
+    public final int[] rightMotorPorts = {3, 4};
+    public final int[] leftMotorPorts = {1, 2};
 
-    public final int[] rightMotorPorts = {2};
-    public final int[] leftMotorPorts = {1};
-    
     //auto might be off becuse they were calbrated for classbot3
 
     public final double kTrackWidthMeters = Units.inchesToMeters(20); // Distance between center of left wheel and center of right wheel in meters
 
-    public final int kEncoderResolution = 2048; // 2048 for Falcon500 integrated encoder
+    public  final int kEncoderResolution = 2048; // 2048 for Falcon500 integrated encoder
     public final double kWheelDiameterMeters = Units.inchesToMeters(4);
     public final double kGearRatio = 62.0 / 8.0;
     public final double kEncoderMetersPerPulse = kWheelDiameterMeters * Math.PI / (double) kEncoderResolution / kGearRatio;

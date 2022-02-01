@@ -6,7 +6,7 @@ import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.system.plant.LinearSystemId;
 import edu.wpi.first.math.util.Units;
 
-public class kdClassBot4 {
+public class ClassBot4Constants {
     
     public final int[] rightMotorPorts = {15};
     public final int[] leftMotorPorts = {0};

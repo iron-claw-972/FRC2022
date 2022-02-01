@@ -40,7 +40,7 @@ import frc.robot.util.ControllerFactory;
 public class Drivetrain extends SubsystemBase {
 
   //change this to use constants from a different robot
-  public static kdClassBot3 kDrivetrain;
+  public static ClassBot3Constants kDrivetrain;
 
   private static Drivetrain instance;
 
