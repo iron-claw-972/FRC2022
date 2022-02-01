@@ -103,7 +103,13 @@ public final class Constants {
   public static final class ArmConstants {
     public static final int kLeftMotorPort = 1;
     public static final int kRightMotorPort = 0;
+    public static final double kGearRatio = 162.0 / 1.0;
+    public static final int kEncoderResolution = 2048; // 2048 for Falcon500 integrated encoder
 
+    public static final double kEncoderRotationsPerPulse = 1 / (double) kEncoderResolution / kGearRatio;
+    public static final double kEncoderRotationsPerSecond = 1 / kGearRatio;
+
+    
     
   }
 }
