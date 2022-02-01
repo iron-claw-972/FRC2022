@@ -1,6 +1,6 @@
 package frc.robot.constants.drivetrain;
 
 public class kdPeanut {
-  public static final int[] rightMotorPorts = {1};
-  public static final int[] leftMotorPorts = {2};
+  public final int[] rightMotorPorts = {1};
+  public final int[] leftMotorPorts = {2};
 }
