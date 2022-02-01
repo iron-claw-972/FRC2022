@@ -9,7 +9,7 @@ public class ShuffleboardUpdate extends CommandBase {
     public void execute() {
 
       //drive mode
-      SmartDashboard.putString("Drive Mode", Driver.driveMode.toString());
+      SmartDashboard.putString("Drive Mode", Driver.getDriveMode().toString());
 
     }
   }

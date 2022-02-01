@@ -303,12 +303,18 @@ public class Drivetrain extends SubsystemBase {
   }
 
   public void runDrive(double throttle, double turn){
-    if (Driver.driveMode == DriveMode.ARCADE) {
-      arcadeDrive(throttle, turn);
-    } if (Driver.driveMode == DriveMode.SHIFT) {
-      shiftDrive(throttle, turn);
-    } if (Driver.driveMode == DriveMode.PROPORTIONAL) {
-      propDrive(throttle, turn);
+    switch (Driver.getDriveMode()) {
+      case ARCADE:
+        arcadeDrive(throttle, turn);
+        break;
+      case PROPORTIONAL:
+        propDrive(throttle, turn);
+        break;
+      case SHIFT:
+        shiftDrive(throttle, turn);
+        break;
+      default:
+        break;
     }
   }
 

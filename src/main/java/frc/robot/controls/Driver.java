@@ -4,15 +4,16 @@ import controllers.*;
 import edu.wpi.first.wpilibj.Joystick;
 import frc.robot.Constants.*;
 import frc.robot.util.DriveMode;
+
 public class Driver{
 
-  public static GameC controller = new GameC(new Joystick(JoyConstants.kDriverJoy));
+  private static GameC controller = new GameC(new Joystick(JoyConstants.kDriverJoy));
 
-  public static double lowSensThrottle = 0.2 , lowSensTurn = 0.4, highSensThrottle = 1, highSensTurn = 0.5;
-  public static double sensThrottle = lowSensThrottle, sensTurn = lowSensTurn;
+  private static double lowSensThrottle = 0.2 , lowSensTurn = 0.4, highSensThrottle = 1, highSensTurn = 0.5;
+  private static double sensThrottle = lowSensThrottle, sensTurn = lowSensTurn;
   
   //sets defult drive mode
-  public static DriveMode driveMode = DriveMode.ARCADE;
+  private static DriveMode driveMode = DriveMode.ARCADE;
 
   //driver buttons
   public static void configureButtonBindings() {
@@ -67,6 +68,10 @@ public class Driver{
   public static double getRawTurnValue() {
     //Right is Positive left is negitive
     return controller.JoystickAxis.rightX();
+  }
+
+  public static DriveMode getDriveMode() {
+    return driveMode;
   }
 
 }
