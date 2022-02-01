@@ -59,8 +59,10 @@ public class RobotContainer {
   public static Intake m_intake = new Intake();
 
   // arm objects
-  public static Extender m_extenders = new Extender();
-  public static Rotator m_rotators = new Rotator();
+  public Extender m_extenderLeft = new Extender(ExtenderConstants.kRightExtenderPort, true);
+  public Extender m_extenderRight = new Extender(ExtenderConstants.kLeftExtenderPort, false);
+  public Rotator m_rotatorLeft = new Rotator(RotatorConstants.kLeftRotatorPort, true);
+  public Rotator m_rotatorRight = new Rotator(RotatorConstants.kRightRotatorPort, false);
   //-----//
 
   static Joystick m_driverController = new Joystick(JoyConstants.kDriverJoy);
@@ -127,20 +129,29 @@ public class RobotContainer {
     m_driverController_RB
         .whenPressed(() -> m_drive.setMaxOutput(0.5))
         .whenReleased(() -> m_drive.setMaxOutput(1));
-    // Extender motor rises
+    // Extender motors spin upwards
     m_operatorController_DPAD_UP
-        .whenPressed(() -> m_extenders.extendClimberArm(ExtenderConstants.kExtenderMaxArmLength));
-    // Extender motor lowers
+        .whenPressed(() -> m_extenderRight.extendClimberArm(ExtenderConstants.kExtenderMaxArmLength))
+        .whenPressed(() -> m_extenderLeft.extendClimberArm(ExtenderConstants.kExtenderMaxArmLength));
+    // Extender motors spin downwards
     m_operatorController_DPAD_DOWN
-        .whenPressed(() -> m_extenders.extendClimberArm(0));
-    // Rotator motor spins forward
+        .whenPressed(() -> m_extenderRight.extendClimberArm(0))
+        .whenPressed(() -> m_extenderLeft.extendClimberArm(0));
+    // Rotator motor spins forward to 30 degrees
     m_operatorController_DPAD_RIGHT
-        .whenPressed(() -> m_rotators.rotateArm(RotatorConstants.kRotatorDegreeLimit));
-    // Rotator motor spins backward
+        .whenPressed(() -> m_rotatorRight.rotateArm(RotatorConstants.kRotatorDegreeLimit))
+        .whenPressed(() -> m_rotatorLeft.rotateArm(RotatorConstants.kRotatorDegreeLimit));
+    // Rotator motor spins backward to -30 degrees
     m_operatorController_DPAD_LEFT
-        .whenPressed(() -> m_rotators.rotateArm(-RotatorConstants.kRotatorDegreeLimit));
+        .whenPressed(() -> m_rotatorRight.rotateArm(-RotatorConstants.kRotatorDegreeLimit))
+        .whenPressed(() -> m_rotatorLeft.rotateArm(-RotatorConstants.kRotatorDegreeLimit));
     m_operatorController_BACK
-        .whenPressed(() -> m_rotators.rotateArm(0.0));
+        .whenPressed(() -> m_rotatorRight.rotateArm(-RotatorConstants.kRotatorDegreeLimit))
+        .whenPressed(() -> m_rotatorLeft.rotateArm(-RotatorConstants.kRotatorDegreeLimit));
+    // Rototor motor spins to the center at 0 degrees
+    m_operatorController_BACK
+        .whenPressed(() -> m_rotatorLeft.rotateArm(0.0))
+        .whenPressed(() -> m_rotatorRight.rotateArm(0.0));
   }
 
   /**
