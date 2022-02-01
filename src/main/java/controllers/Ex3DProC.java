@@ -14,40 +14,40 @@ public class Ex3DProC extends Controller{
     Button Button = new Button();
     public class Button {
         public JoystickButton b1() {
-            return new JoystickButton(controller, kEx3DProC.buttons.k1);
+            return new JoystickButton(getController(), kEx3DProC.buttons.k1);
         }
         public JoystickButton b2() {
-            return new JoystickButton(controller, kEx3DProC.buttons.k2);
+            return new JoystickButton(getController(), kEx3DProC.buttons.k2);
         }
         public JoystickButton b3() {
-            return new JoystickButton(controller, kEx3DProC.buttons.k3);
+            return new JoystickButton(getController(), kEx3DProC.buttons.k3);
         }
         public JoystickButton b4() {
-            return new JoystickButton(controller, kEx3DProC.buttons.k4);
+            return new JoystickButton(getController(), kEx3DProC.buttons.k4);
         }
         public JoystickButton b5() {
-            return new JoystickButton(controller, kEx3DProC.buttons.k5);
+            return new JoystickButton(getController(), kEx3DProC.buttons.k5);
         }
         public JoystickButton b6() {
-            return new JoystickButton(controller, kEx3DProC.buttons.k6);
+            return new JoystickButton(getController(), kEx3DProC.buttons.k6);
         }
         public JoystickButton b7() {
-            return new JoystickButton(controller, kEx3DProC.buttons.k7);
+            return new JoystickButton(getController(), kEx3DProC.buttons.k7);
         }
         public JoystickButton b8() {
-            return new JoystickButton(controller, kEx3DProC.buttons.k8);
+            return new JoystickButton(getController(), kEx3DProC.buttons.k8);
         }
         public JoystickButton b9() {
-            return new JoystickButton(controller, kEx3DProC.buttons.k9);
+            return new JoystickButton(getController(), kEx3DProC.buttons.k9);
         }
         public JoystickButton b10() {
-            return new JoystickButton(controller, kEx3DProC.buttons.k10);
+            return new JoystickButton(getController(), kEx3DProC.buttons.k10);
         }
         public JoystickButton b11() {
-            return new JoystickButton(controller, kEx3DProC.buttons.k11);
+            return new JoystickButton(getController(), kEx3DProC.buttons.k11);
         }
         public JoystickButton b12() {
-            return new JoystickButton(controller, kEx3DProC.buttons.k12);
+            return new JoystickButton(getController(), kEx3DProC.buttons.k12);
         }
     }
 
@@ -55,16 +55,16 @@ public class Ex3DProC extends Controller{
     public JoystickAxis JoystickAxis = new JoystickAxis();
     public class JoystickAxis{
         public double X(){
-            return controller.getRawAxis(kEx3DProC.joystickAxis.kX);
+            return getController().getRawAxis(kEx3DProC.joystickAxis.kX);
         }
         public double Y(){
-            return controller.getRawAxis(kEx3DProC.joystickAxis.kY);
+            return getController().getRawAxis(kEx3DProC.joystickAxis.kY);
         }
         public double Z(){
-            return controller.getRawAxis(kEx3DProC.joystickAxis.kZ);
+            return getController().getRawAxis(kEx3DProC.joystickAxis.kZ);
         }
         public double slider(){
-            return controller.getRawAxis(kEx3DProC.joystickAxis.kSlider);
+            return getController().getRawAxis(kEx3DProC.joystickAxis.kSlider);
         }
     }
 

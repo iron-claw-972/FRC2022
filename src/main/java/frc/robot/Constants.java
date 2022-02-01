@@ -35,6 +35,10 @@ public final class Constants {
     public static final int kIntakeMotorPort = -1;
   }
 
+  public static final class DriveConstants {
+    public static final double kSlowSpeed = 0.5;
+  }
+
   public static final class AutoConstants {
     public static final double kMaxSpeedMetersPerSecond = Units.feetToMeters(3.28); // Max velocity
     public static final double kMaxAccelerationMetersPerSecondSquared = Units.feetToMeters(3.28); // Max acceleration
