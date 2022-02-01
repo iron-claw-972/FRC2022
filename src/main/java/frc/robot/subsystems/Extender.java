@@ -22,6 +22,7 @@ public class Extender {
             port*=-1;
             // so that encoder values aren't negative
             m_motor.setSensorPhase(true);
+            m_motor.setInverted(true);
         }
 
         // the lowest tick limit is 0, and must be checked every 10 milliseconds
@@ -40,19 +41,19 @@ public class Extender {
         m_motor.set(extenderPID.calculate(m_motor.getSelectedSensorPosition() * ExtenderConstants.kExtenderTickMultiple, setpoint));
 
         // if it's within a certain threshold, return true
-        reachedPoint(setpoint);
+        reachedPoint();
 
         // a pop-up in shuffleboard that allows you to see how much the arm extended in feet
         SmartDashboard.putNumber("Current Extension (Inches)", m_motor.getSelectedSensorPosition() * ExtenderConstants.kExtenderTickMultiple);
     }
 
-    public boolean reachedPoint(double max) {
-        // if the current tick value (when negative) is greater than 10 ticks from the setpoint, return true
-        if(m_motor.getSelectedSensorPosition() <= (ExtenderConstants.kExtenderMaxArmLength / ExtenderConstants.kExtenderTickMultiple) + 10 && max < 0.0) {
+    public boolean reachedPoint() {
+        // if the current tick value is greater than the minimum (0) by 10, return true
+        if(m_motor.getSelectedSensorPosition() <= (ExtenderConstants.kExtenderMaxArmLength / ExtenderConstants.kExtenderTickMultiple) + 10) {
             return true;
         }
-        // if the current tick value (when positive) is greater than 10 ticks from the setpoint, return true
-        else if(m_motor.getSelectedSensorPosition() >= (ExtenderConstants.kExtenderMaxArmLength / ExtenderConstants.kExtenderTickMultiple) - 10 && max > 0.0) {
+        // if the current tick value is less than the maximum (135 ticks) by 10, return true
+        else if(m_motor.getSelectedSensorPosition() >= (ExtenderConstants.kExtenderMaxArmLength / ExtenderConstants.kExtenderTickMultiple) - 10) {
             return true;
         }
         //otherwise, return false
