@@ -10,7 +10,7 @@ public class Driver{
 
   private static GameC controller = new GameC(new Joystick(JoyConstants.kDriverJoy));
   
-  //sets defult drive mode
+  //sets default drive mode
   private static DriveMode driveMode = DriveMode.ARCADE;
 
   //driver buttons
@@ -22,7 +22,7 @@ public class Driver{
   }
   
   public static double getThrottleValue() {
-    // put any proccesses in any order of the driver's chosing
+    // put any processes in any order of the driver's choosing
     // Controllers y-axes are natively up-negative, down-positive
     return Functions.slewCalculate(5, -getRawThrottleValue());
   }
@@ -32,7 +32,7 @@ public class Driver{
     return Functions.slewCalculate(5, getRawThrottleValue());
   }
   
-  // cyles drive mode
+  // cycles drive mode
   public static void modDrive(){
     driveMode = driveMode.next();
   }
@@ -48,7 +48,7 @@ public class Driver{
   }
 
   public static double getRawTurnValue() {
-    //Right is Positive left is negitive
+    //Right is Positive left is negative
     return controller.JoystickAxis.rightX();
   }
 

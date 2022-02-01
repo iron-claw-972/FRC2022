@@ -36,7 +36,6 @@ import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants;
 import frc.robot.controls.Driver;
 import frc.robot.util.ControllerFactory;
-import frc.robot.util.DriveMode;
 
 public class Drivetrain extends SubsystemBase {
 
