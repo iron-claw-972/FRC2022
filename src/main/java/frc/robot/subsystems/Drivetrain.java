@@ -101,13 +101,16 @@ public class Drivetrain extends SubsystemBase {
 
   public Drivetrain() {
 
+    // go through non main motors and put them in an array (allows for variable # of motors)
+    // for loop starts at one because the main motor of that side is already accounted for
+
     MotorController[] lMotors = new MotorController[kDrivetrain.leftMotorPorts.length];
-    for (int i = 0; i < kDrivetrain.leftMotorPorts.length; i++) {
+    for (int i = 1; i < kDrivetrain.leftMotorPorts.length; i++) {
       lMotors[i] = ControllerFactory.createTalonFX(kDrivetrain.leftMotorPorts[i]);
     }
 
     MotorController[] rMotors = new MotorController[kDrivetrain.rightMotorPorts.length];
-    for (int i = 0; i < kDrivetrain.rightMotorPorts.length; i++) {
+    for (int i = 1; i < kDrivetrain.rightMotorPorts.length; i++) {
       rMotors[i] = ControllerFactory.createTalonFX(kDrivetrain.rightMotorPorts[i]);
     }
 
