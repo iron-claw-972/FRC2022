@@ -11,10 +11,10 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.controls.Driver;
 import frc.robot.subsystems.Drivetrain;
 
-public class TelopDrive extends CommandBase {
+public class TeleopDrive extends CommandBase {
   private final Drivetrain m_drive;
 
-  public TelopDrive(Drivetrain subsystem) {
+  public TeleopDrive(Drivetrain subsystem) {
     m_drive = subsystem;
     addRequirements(subsystem);
   }
