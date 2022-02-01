@@ -52,7 +52,7 @@ import frc.robot.subsystems.Intake;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   public static Drivetrain m_drive = new Drivetrain();
-  public static Intake m_intake = new Intake();
+  //public static Intake m_intake = new Intake();
 
   static Joystick m_driverController = new Joystick(JoyConstants.kDriverJoy);
   static Joystick m_operatorController = new Joystick(JoyConstants.kOperatorJoy);
@@ -93,7 +93,7 @@ public class RobotContainer {
     configureButtonBindings();
 
     // Arcade drive if no command given
-    m_drive.setDefaultCommand(new DifferentialDrive(m_drive));
+    m_drive.setDefaultCommand(new ArcadeDrive(m_drive));
 
     // Start camera stream for driver
     CameraServer.startAutomaticCapture();
@@ -169,9 +169,7 @@ public class RobotContainer {
     // Run path following command, then stop at the end. At the same time intake.
     // "Deadline" is the first command, 
     // meaning the whole group will stop once the first command does.
-    return new ParallelDeadlineGroup(
-        ramseteCommand.andThen(() -> m_drive.tankDriveVolts(0, 0)), 
-        new RunCommand(() -> m_intake.run(0.5)));
+    return ramseteCommand.andThen(() -> m_drive.tankDriveVolts(0, 0));
     //return ramseteCommand.andThen(() -> m_drive.tankDriveVolts(0, 0));
   }
 
@@ -195,7 +193,7 @@ public class RobotContainer {
   public static double getTurnValue() {
     // 4 represents left/right axis on the right joystick
     // 0 represents ryans thing
-    return deadband(m_driverController.getRawAxis(0), JoyConstants.kJoystickDeadband);
+    return deadband(m_driverController.getRawAxis(4), JoyConstants.kJoystickDeadband);
   }
 
   /**
