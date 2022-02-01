@@ -108,26 +108,6 @@ public final class Constants {
     );
   }
 
-  public static final class RotatorConstants {
-    // rotating motors (for climber)
-    public static final int kRightRotatorPort = -1;
-    public static final int kLeftRotatorPort = -1;
-    public static final double kRotatorPower = 0.10;
-
-    // maximum degrees in either way based on design constraints
-    public static final double kRotatorDegreeLimit = 30;
-
-    // used to convert ticks to degrees
-    public static final double kRotatorTicksPerRotation = 1/2048; // TODO: What is the tickrate of the motor for the rotator?
-    public static final double kRotatorGearRatio = 1/1; // TODO: What is the gear ratio of the rotator?
-    public static final double kRotatorDegreesPerRotation = 360/1; // 1 rotation is 360 degrees
-
-    // Tick Multiple * Tick = Current Angle (Degrees)
-    public static final double kRotatorTickMultiple = (
-      kRotatorTicksPerRotation * kRotatorGearRatio * kRotatorDegreesPerRotation
-    );
-  }
-
   public static final class AutoConstants {
     public static final double kMaxSpeedMetersPerSecond = Units.feetToMeters(3.28); // Max velocity
     public static final double kMaxAccelerationMetersPerSecondSquared = Units.feetToMeters(3.28); // Max acceleration

@@ -39,9 +39,6 @@ import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Extender;
 import frc.robot.Constants.ExtenderConstants;
-import frc.robot.subsystems.Rotator;
-import frc.robot.Constants.RotatorConstants;
-
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -61,8 +58,6 @@ public class RobotContainer {
   // arm objects
   public Extender m_extenderLeft = new Extender(ExtenderConstants.kRightExtenderPort, true);
   public Extender m_extenderRight = new Extender(ExtenderConstants.kLeftExtenderPort, false);
-  public Rotator m_rotatorLeft = new Rotator(RotatorConstants.kLeftRotatorPort, true);
-  public Rotator m_rotatorRight = new Rotator(RotatorConstants.kRightRotatorPort, false);
   //-----//
 
   static Joystick m_driverController = new Joystick(JoyConstants.kDriverJoy);
@@ -137,21 +132,6 @@ public class RobotContainer {
     m_operatorController_DPAD_DOWN
         .whenPressed(() -> m_extenderRight.extendClimberArm(0))
         .whenPressed(() -> m_extenderLeft.extendClimberArm(0));
-    // Rotator motor spins forward to 30 degrees
-    m_operatorController_DPAD_RIGHT
-        .whenPressed(() -> m_rotatorRight.rotateArm(RotatorConstants.kRotatorDegreeLimit))
-        .whenPressed(() -> m_rotatorLeft.rotateArm(RotatorConstants.kRotatorDegreeLimit));
-    // Rotator motor spins backward to -30 degrees
-    m_operatorController_DPAD_LEFT
-        .whenPressed(() -> m_rotatorRight.rotateArm(-RotatorConstants.kRotatorDegreeLimit))
-        .whenPressed(() -> m_rotatorLeft.rotateArm(-RotatorConstants.kRotatorDegreeLimit));
-    m_operatorController_BACK
-        .whenPressed(() -> m_rotatorRight.rotateArm(-RotatorConstants.kRotatorDegreeLimit))
-        .whenPressed(() -> m_rotatorLeft.rotateArm(-RotatorConstants.kRotatorDegreeLimit));
-    // Rototor motor spins to the center at 0 degrees
-    m_operatorController_BACK
-        .whenPressed(() -> m_rotatorLeft.rotateArm(0.0))
-        .whenPressed(() -> m_rotatorRight.rotateArm(0.0));
   }
 
   /**
