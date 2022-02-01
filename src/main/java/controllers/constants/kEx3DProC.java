@@ -1,4 +1,4 @@
-package frc.robot.constants.controller;
+package controllers.constants;
 
 public final class kEx3DProC {
     public final class buttons {

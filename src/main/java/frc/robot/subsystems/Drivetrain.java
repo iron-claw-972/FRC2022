@@ -10,7 +10,6 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.*;
 import frc.robot.constants.drivetrain.*;
-import frc.robot.setup.ControllerFactory;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
@@ -40,6 +39,7 @@ import ctre_shims.TalonEncoderSim;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants;
 import frc.robot.controls.Driver;
+import frc.robot.util.ControllerFactory;
 
 public class Drivetrain extends SubsystemBase {
 
@@ -254,16 +254,16 @@ public class Drivetrain extends SubsystemBase {
     return m_driveKinematics;
   }
 
-  /*
+  
   @Override
   public void periodic() {
     // Update the odometry in the periodic block
     updateOdometry();
-    if (RobotBase.isSimulation()) {
-      m_fieldSim.setRobotPose(getPose());
-    }
+    // if (RobotBase.isSimulation()) {
+    //   m_fieldSim.setRobotPose(getPose());
+    // }
   }
-  */
+  
 
   public void updateOdometry() {
     m_odometry.update(m_navX.getRotation2d(), m_leftEncoder.getDistance(), m_rightEncoder.getDistance());

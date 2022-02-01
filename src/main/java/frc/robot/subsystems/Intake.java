@@ -4,7 +4,7 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import frc.robot.Constants.IntakeConstants;
-import frc.robot.setup.ControllerFactory;
+import frc.robot.util.ControllerFactory;
 
 public class Intake {
     

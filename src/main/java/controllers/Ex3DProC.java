@@ -1,8 +1,8 @@
-package frc.robot.setup.controllers;
+package controllers;
 
+import controllers.constants.kEx3DProC;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.button.*;
-import frc.robot.constants.controller.kEx3DProC;
 
 public class Ex3DProC extends Controller{
     

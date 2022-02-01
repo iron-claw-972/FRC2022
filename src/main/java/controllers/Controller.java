@@ -1,4 +1,4 @@
-package frc.robot.setup.controllers;
+package controllers;
 import edu.wpi.first.wpilibj.Joystick;
 
 public class Controller {

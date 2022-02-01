@@ -1,4 +1,4 @@
-package frc.robot.constants.controller;
+package controllers.constants;
 
 public final class kMadCatzC {
     public final class buttons {
