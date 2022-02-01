@@ -86,6 +86,22 @@ public final class Constants {
     public static final int kIntakeMotorPort = 23;
   }
 
+  public static final class ShooterConstants {
+    public static final int kShooterMotorPort = 11;
+    public static final double kIntakeSpeed = 1;
+    public static final double kFrontOutakeSpeed = 1;
+    public static final double kBackOutakeSpeed = 1;
+    public static final double kFarMultiplier = 1;
+
+    public static final double kShooterVelocityPIDTolerance = 10000;
+    public static final double kMinimumBallProximity = 250;
+
+    // Shooter PID stuff
+    public static final double kShooterP = 0.1;
+    public static final double kShooterI = 0;
+    public static final double kShooterD = 0;
+  }
+
   public static final class AutoConstants {
     public static final double kMaxSpeedMetersPerSecond = Units.feetToMeters(3.28); // Max velocity
     public static final double kMaxAccelerationMetersPerSecondSquared = Units.feetToMeters(3.28); // Max acceleration
