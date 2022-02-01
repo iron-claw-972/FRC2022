@@ -107,9 +107,11 @@ public final class Constants {
     public static final int kEncoderResolution = 2048; // 2048 for Falcon500 integrated encoder
 
     public static final double kEncoderRotationsPerPulse = 1 / (double) kEncoderResolution / kGearRatio;
-    public static final double kEncoderRotationsPerSecond = 1 / kGearRatio;
+    public static final double kEncoderRadiansPerPulse = 2 * Math.PI / (double) kEncoderResolution / kGearRatio;
 
     
+
+
     
   }
 }
