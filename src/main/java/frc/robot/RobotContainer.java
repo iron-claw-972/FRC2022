@@ -145,6 +145,9 @@ public class RobotContainer {
     m_operatorController_DPAD_LEFT
         .whenPressed(() -> m_rotatorRight.rotateArm(-RotatorConstants.kRotatorDegreeLimit))
         .whenPressed(() -> m_rotatorLeft.rotateArm(-RotatorConstants.kRotatorDegreeLimit));
+    m_operatorController_BACK
+        .whenPressed(() -> m_rotatorLeft.rotateArm(0.0))
+        .whenPressed(() -> m_rotatorRight.rotateArm(0.0));
   }
 
   /**
