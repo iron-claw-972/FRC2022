@@ -59,8 +59,10 @@ public class RobotContainer {
   public static Intake m_intake = new Intake();
 
   // arm objects
-  public static Extender m_extenders = new Extender();
-  public static Rotator m_rotators = new Rotator();
+  public Extender m_extenderLeft = new Extender(-1, true);
+  public Extender m_extenderRight = new Extender(-1, false);
+  public Rotator m_rotatorLeft = new Rotator(-1, true);
+  public Rotator m_rotatorRight = new Rotator(-1, false);
   //-----//
 
   static Joystick m_driverController = new Joystick(JoyConstants.kDriverJoy);
@@ -127,18 +129,22 @@ public class RobotContainer {
     m_driverController_RB
         .whenPressed(() -> m_drive.setMaxOutput(0.5))
         .whenReleased(() -> m_drive.setMaxOutput(1));
-    // Extender motor rises
+    // Extender motors spin upwards
     m_operatorController_DPAD_UP
-        .whenPressed(() -> m_extenders.extendClimberArm(ExtenderConstants.kExtenderMaxArmLength));
-    // Extender motor lowers
+        .whenPressed(() -> m_extenderRight.extendClimberArm(ExtenderConstants.kExtenderMaxArmLength))
+        .whenPressed(() -> m_extenderLeft.extendClimberArm(ExtenderConstants.kExtenderMaxArmLength));
+    // Extender motors spin downwards
     m_operatorController_DPAD_DOWN
-        .whenPressed(() -> m_extenders.extendClimberArm(0));
+        .whenPressed(() -> m_extenderRight.extendClimberArm(0))
+        .whenPressed(() -> m_extenderLeft.extendClimberArm(0));
     // Rotator motor spins forward
     m_operatorController_DPAD_RIGHT
-        .whenPressed(() -> m_rotators.rotateArm(RotatorConstants.kRotatorDegreeLimit));
+        .whenPressed(() -> m_rotatorRight.rotateArm(RotatorConstants.kRotatorDegreeLimit))
+        .whenPressed(() -> m_rotatorLeft.rotateArm(RotatorConstants.kRotatorDegreeLimit));
     // Rotator motor spins backward
     m_operatorController_DPAD_LEFT
-        .whenPressed(() -> m_rotators.rotateArm(-RotatorConstants.kRotatorDegreeLimit));
+        .whenPressed(() -> m_rotatorRight.rotateArm(-RotatorConstants.kRotatorDegreeLimit))
+        .whenPressed(() -> m_rotatorLeft.rotateArm(-RotatorConstants.kRotatorDegreeLimit));
   }
 
   /**
