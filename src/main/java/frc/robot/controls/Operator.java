@@ -10,8 +10,8 @@ public class Operator{
 
   //operator buttons
   public static void configureButtonBindings() {
-      // controller.Button.B().whenPressed(() -> modSensitivity());
-      // controller.Button.A().whenPressed(() -> modDrive());
-    }
-
+    // controller.Button.B().whenPressed(() -> modSensitivity());
+    // controller.Button.A().whenPressed(() -> modDrive());
   }
+
+}
