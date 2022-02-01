@@ -26,7 +26,6 @@ public class Extender {
 
         // the lowest tick limit is 0, and must be checked every 10 milliseconds
         m_motor.configReverseSoftLimitThreshold(0, 10);
-        m_motor.configReverseSoftLimitThreshold(0, 10);
 
         // converts the length of the arm in inches to ticks and makes that the maximum tick limit, it's checked every 10 milliseconds
         m_motor.configForwardSoftLimitThreshold(ExtenderConstants.kExtenderMaxArmLength / ExtenderConstants.kExtenderTickMultiple, 10);
