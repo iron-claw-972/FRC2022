@@ -3,6 +3,7 @@ package frc.robot.controls;
 import controllers.*;
 import edu.wpi.first.wpilibj.Joystick;
 import frc.robot.Constants.*;
+import frc.robot.util.DriveMode;
 public class Driver{
 
   public static GameC controller = new GameC(new Joystick(JoyConstants.kDriverJoy));
@@ -11,7 +12,7 @@ public class Driver{
   public static double sensThrottle = lowSensThrottle, sensTurn = lowSensTurn;
   
   //sets defult drive mode
-  public static String driveMode = "arcade";
+  public static DriveMode driveMode = DriveMode.ARCADE;
 
   //driver buttons
   public static void configureButtonBindings() {
@@ -50,18 +51,11 @@ public class Driver{
   
   // cyles drive mode
   public static void modDrive(){
-    System.out.println("modding drive");
-    if (driveMode == "arcade") {
-      driveMode = "prop";
-    }else if (driveMode == "prop") {
-    //   driveMode = "shift";
-    // }else if (driveMode == "shift") {
-      driveMode = "arcade";
-    }
+    driveMode = driveMode.next();
   }
   
   //checks drive mode
-  public static boolean isDrive(String drive){
+  public static boolean isDrive(DriveMode drive){
     return (driveMode == drive);
   }
 

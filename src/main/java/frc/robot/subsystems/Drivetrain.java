@@ -36,6 +36,7 @@ import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants;
 import frc.robot.controls.Driver;
 import frc.robot.util.ControllerFactory;
+import frc.robot.util.DriveMode;
 
 public class Drivetrain extends SubsystemBase {
 
@@ -302,11 +303,11 @@ public class Drivetrain extends SubsystemBase {
   }
 
   public void runDrive(double throttle, double turn){
-    if (Driver.driveMode == "arcade") {
+    if (Driver.driveMode == DriveMode.ARCADE) {
       arcadeDrive(throttle, turn);
-    } if (Driver.driveMode == "shift") {
+    } if (Driver.driveMode == DriveMode.SHIFT) {
       shiftDrive(throttle, turn);
-    } if (Driver.driveMode == "prop") {
+    } if (Driver.driveMode == DriveMode.PROPORTIONAL) {
       propDrive(throttle, turn);
     }
   }

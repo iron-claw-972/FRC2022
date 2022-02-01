@@ -9,12 +9,7 @@ public class ShuffleboardUpdate extends CommandBase {
     public void execute() {
 
       //drive mode
-      SmartDashboard.putBoolean("arcade drive", Driver.isDrive("arcade"));
-      SmartDashboard.putBoolean("prop drive", Driver.isDrive("prop"));
-      SmartDashboard.putBoolean("shift drive", Driver.isDrive("shift"));
-      
-
-
+      SmartDashboard.putString("Drive Mode", Driver.driveMode.toString());
 
     }
   }
