@@ -102,13 +102,13 @@ public final class Constants {
     public static final double kExtenderGearRatio = 20/1;
     public static final double kExtenderInchesPerRotation = Math.PI * 6; // 6 inches per rotation
 
-    // Tick Multiple * Tick = Current Extension (Inches)
+    // Ticks Per Rotation * Gear Ratio * Inches Per Rotation = Tick Multiple
     public static final double kExtenderTickMultiple = (
       kExtenderTicksPerRotation * kExtenderGearRatio * kExtenderInchesPerRotation
     );
 
-    // Setpoint value
-    public static final double kExtenderSetpoint = -1;
+    // Tick Multiple / Extension = Tick
+    public static final double kExtenderSetpoint = kExtenderTickMultiple / kExtenderMaxArmLength;
   }
 
   public static final class AutoConstants {

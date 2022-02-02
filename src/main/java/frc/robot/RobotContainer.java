@@ -125,15 +125,13 @@ public class RobotContainer {
         .whenPressed(() -> m_drive.setMaxOutput(0.5))
         .whenReleased(() -> m_drive.setMaxOutput(1));
     // Extender motors spin upwards
-    /* Not sure how to fix, I'll do it later
     m_operatorController_DPAD_UP
-        .whenPressed(() -> m_extenderRight.extendClimberArm(ExtenderConstants.kExtenderMaxArmLength))
-        .whenPressed(() -> m_extenderLeft.extendClimberArm(ExtenderConstants.kExtenderMaxArmLength));
+        .whenPressed(() -> m_extenderRight.set(ExtenderConstants.kExtenderMaxArmLength))
+        .whenPressed(() -> m_extenderLeft.set(ExtenderConstants.kExtenderMaxArmLength));
     // Extender motors spin downwards
     m_operatorController_DPAD_DOWN
-        .whenPressed(() -> m_extenderRight.extendClimberArm(0))
-        .whenPressed(() -> m_extenderLeft.extendClimberArm(0));
-    */
+        .whenPressed(() -> m_extenderRight.set(0))
+        .whenPressed(() -> m_extenderLeft.set(0));
   }
 
   /**

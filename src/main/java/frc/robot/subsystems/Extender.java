@@ -20,10 +20,9 @@ public class Extender extends SubsystemBase{
         m_motor = ControllerFactory.createTalonFX(port);
 
         if(left == true) {
-            // so that the arm doesn't spin in an opposing direction
-            //port*=-1;
             // so that encoder values aren't negative
             m_motor.setSensorPhase(true);
+            // so that the arm doesn't spin in an opposing direction
             m_motor.setInverted(true);
         }
 
@@ -38,38 +37,34 @@ public class Extender extends SubsystemBase{
         m_motor.setSelectedSensorPosition(0.0);
     }
 
-    // called in RobotContainer by configureButtonBindings()
-    /*
-    public void extendClimberArm(double idkhowtocodetbh) {
-        m_motor.set(extenderPID.calculate(m_motor.getSelectedSensorPosition() * ExtenderConstants.kExtenderTickMultiple, setpoint));
-
-        // if it's within a certain threshold, return true
-        //reachedPoint();
-
-        // a pop-up in shuffleboard that allows you to see how much the arm extended in feet
-        SmartDashboard.putNumber("Current Extension (Inches)", m_motor.getSelectedSensorPosition() * ExtenderConstants.kExtenderTickMultiple);
-    }
-    */
-
-    public boolean reachedPoint() {
-        // if the current tick value is greater than the minimum (0) by 10, return true
-        if(m_motor.getSelectedSensorPosition() <= (ExtenderConstants.kExtenderMaxArmLength / ExtenderConstants.kExtenderTickMultiple) + 10) {
-            return true;
-        }
+    public boolean reachedTopPoint() {
         // if the current tick value is less than the maximum (135 ticks) by 10, return true
-        else if(m_motor.getSelectedSensorPosition() >= (ExtenderConstants.kExtenderMaxArmLength / ExtenderConstants.kExtenderTickMultiple) - 10) {
+        if(m_motor.getSelectedSensorPosition() >= (ExtenderConstants.kExtenderMaxArmLength / ExtenderConstants.kExtenderTickMultiple) - 10) {
             return true;
         }
-        //otherwise, return false
+        // otherwise, return false
+        return false;
+    }
+
+    public boolean reachedBottomPoint() {
+        // if the current tick value is greater than the minimum (0) by 10, return true
+        if(m_motor.getSelectedSensorPosition() <= (10)) {
+            return true;
+        }
+        // otherwise, return false
         return false;
     }
 
     public void set(double distance){
         setpoint = distance;
     }
+
+
     @Override
     public void periodic(){
         m_motor.set(extenderPID.calculate(m_motor.getSelectedSensorPosition() * ExtenderConstants.kExtenderTickMultiple, setpoint));
+
+        // a pop-up in shuffleboard that allows you to see how much the arm extended in feet
         SmartDashboard.putNumber("Current Extension (Inches)", m_motor.getSelectedSensorPosition() * ExtenderConstants.kExtenderTickMultiple);
 
         //so we know the value
