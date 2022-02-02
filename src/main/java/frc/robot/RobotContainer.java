@@ -36,7 +36,6 @@ import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.JoyConstants;
 import frc.robot.commands.ArcadeDrive;
 import frc.robot.subsystems.Drivetrain;
-import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Extender;
 import frc.robot.Constants.ExtenderConstants;
 
@@ -53,7 +52,6 @@ import frc.robot.Constants.ExtenderConstants;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   public static Drivetrain m_drive = new Drivetrain();
-  public static Intake m_intake = new Intake();
 
   // arm objects
   public Extender m_extenderLeft = new Extender(ExtenderConstants.kRightExtenderPort, true);
@@ -188,8 +186,7 @@ public class RobotContainer {
     // "Deadline" is the first command, 
     // meaning the whole group will stop once the first command does.
     return new ParallelDeadlineGroup(
-        ramseteCommand.andThen(() -> m_drive.tankDriveVolts(0, 0)), 
-        new RunCommand(() -> m_intake.run(0.5)));
+        ramseteCommand.andThen(() -> m_drive.tankDriveVolts(0, 0)));
     //return ramseteCommand.andThen(() -> m_drive.tankDriveVolts(0, 0));
   }
 
