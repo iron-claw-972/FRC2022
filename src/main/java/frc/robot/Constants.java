@@ -86,6 +86,10 @@ public final class Constants {
     public static final int kIntakeMotorPort = 23;
   }
 
+  public static final class DetectionConstants {
+    public static final double kMinimumBallProximity = 250;
+  }
+
   public static final class ShooterConstants {
     public static final int kShooterMotorPort = 11;
     public static final double kIntakeSpeed = 1;
@@ -93,13 +97,17 @@ public final class Constants {
     public static final double kBackOutakeSpeed = 1;
     public static final double kFarMultiplier = 1;
 
-    public static final double kShooterVelocityPIDTolerance = 10000;
-    public static final double kMinimumBallProximity = 250;
+    public static final double kBottomVelocityPIDTolerance = 10000;
+    public static final double kTopVelocityPIDTolerance = 10000;
 
     // Shooter PID stuff
-    public static final double kShooterP = 0.1;
-    public static final double kShooterI = 0;
-    public static final double kShooterD = 0;
+    public static final double kTopMotorP = 0.1;
+    public static final double kTopMotorI = 0;
+    public static final double kTopMotorD = 0;
+
+    public static final double kBottomMotorP = 0.1;
+    public static final double kBottomMotorI = 0;
+    public static final double kBottomMotorD = 0;
   }
 
   public static final class AutoConstants {
