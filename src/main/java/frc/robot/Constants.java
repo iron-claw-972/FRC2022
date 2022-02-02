@@ -106,6 +106,9 @@ public final class Constants {
     public static final double kExtenderTickMultiple = (
       kExtenderTicksPerRotation * kExtenderGearRatio * kExtenderInchesPerRotation
     );
+
+    // Setpoint value
+    public static final double kExtenderSetpoint = -1;
   }
 
   public static final class AutoConstants {
