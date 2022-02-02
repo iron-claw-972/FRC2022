@@ -11,50 +11,39 @@ import frc.robot.Constants.ShooterConstants;
 import ctre_shims.TalonEncoder;
 import edu.wpi.first.math.controller.PIDController;
 
-// import edu.wpi.first.math.controller.SimpleMotorFeedforward;
-//SimpleMotorFeedforward feedforward = new SimpleMotorFeedforward(kS, kV, kA);
-
 public class ShooterBottom extends SubsystemBase {
 
-    private final WPI_TalonFX m_bottomMotor = ControllerFactory.createTalonFX(ShooterConstants.kShooterMotorPort);
+    private final WPI_TalonFX m_bottomMotor = ControllerFactory.createTalonFX(ShooterConstants.kBottomShooterMotorPort);
     private final PIDController m_bottomShooterPID = new PIDController(ShooterConstants.kBottomMotorP, ShooterConstants.kBottomMotorI, ShooterConstants.kBottomMotorD);
     private final TalonEncoder m_bottomShooterEncoder = new TalonEncoder(m_bottomMotor);
 
     public ShooterBottom() {
+        m_bottomShooterEncoder.setDistancePerPulse(ShooterConstants.kShooterMotorDistancePerPulse);
         m_bottomShooterEncoder.reset();
     }
-
-    /*
-    @Override
-    public void periodic() {
-        setSpeed(4);
-        if (reachedSetpoint(80000) == true) {
-            System.out.println("Motor has reached speed.");
-        }
-    } */
 
     public void setSpeed(double speed) {
         m_bottomMotor.set(ControlMode.PercentOutput, m_bottomShooterPID.calculate(speed));
     }
 
     public void intake() {
-        setSpeed(ShooterConstants.kIntakeSpeed);
+        setSpeed(ShooterConstants.kBottomIntakeSpeed);
     }
 
     public void setBackOutakeSpeed() {
-        setSpeed(ShooterConstants.kBackOutakeSpeed);
+        setSpeed(ShooterConstants.kBottomBackOutakeSpeed);
     }
 
     public void setFrontOutakeSpeed() {
-        setSpeed(ShooterConstants.kFrontOutakeSpeed);
+        setSpeed(ShooterConstants.kBottomFrontOutakeSpeed);
     }
 
     public void setFrontOutakeFarSpeed() {
-        setSpeed(ShooterConstants.kFrontOutakeSpeed * ShooterConstants.kFarMultiplier);
+        setSpeed(ShooterConstants.kBottomFrontOutakeSpeed * ShooterConstants.kBottomFarMultiplier);
     }
 
     public void setBackOutakeFarSpeed() {
-        setSpeed(ShooterConstants.kBackOutakeSpeed * ShooterConstants.kFarMultiplier);
+        setSpeed(ShooterConstants.kBottomBackOutakeSpeed * ShooterConstants.kBottomFarMultiplier);
     }
 
     public void stop() {

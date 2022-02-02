@@ -36,8 +36,7 @@ import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.JoyConstants;
 import frc.robot.commands.ArcadeDrive;
 import frc.robot.commands.DifferentialDrive;
-import frc.robot.subsystems.Drivetrain;
-import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.*;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -53,6 +52,8 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   public static Drivetrain m_drive = new Drivetrain();
   public static Intake m_intake = new Intake();
+  public static ShooterTop m_shooterTop = new ShooterTop();
+  public static ShooterBottom m_shooterBottom = new ShooterBottom();
 
   static Joystick m_driverController = new Joystick(JoyConstants.kDriverJoy);
   static Joystick m_operatorController = new Joystick(JoyConstants.kOperatorJoy);
