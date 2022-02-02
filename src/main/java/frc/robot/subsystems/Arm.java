@@ -20,33 +20,12 @@ public class Arm {
   // arm encoder
   private final TalonEncoder m_leftEncoder = new TalonEncoder(m_leftMotor);
   private final TalonEncoder m_rightEncoder = new TalonEncoder(m_rightMotor);
+  
 
   public Arm(){
     m_rightMotor.setInverted(true);
   }
-  public double getPosition(){
-    // System.out.println(m_leftEncoder.getDistance();
-    return m_leftEncoder.getDistance() * ArmConstants.kEncoderRadiansPerPulse;
-  }
-
-  public double getVelocity(){
-      // System.out.println(m_leftEncoder.getRate());
-      return m_leftEncoder.getRate();
-  }
-
-  public void moveGoal(double target){
-    armGoal = armGoal + target;
-  }
-
-  public double getGoal(){
-      return armGoal;
-  }
   
-  public void setEncodersRadians(double encoderVal){
-
-  }
-
-
   double maxOutput = 0.1;
   double maxError = 2;
   double error;
@@ -85,5 +64,34 @@ public class Arm {
 
     m_motors.set(outPutVal);
   }
+  
+  public double getPosition(){
+    // System.out.println(m_leftEncoder.getDistance();
+    return m_leftEncoder.getDistance() * ArmConstants.kEncoderRadiansPerPulse;
+  }
+  
+  public double getVelocity(){
+      // System.out.println(m_leftEncoder.getRate());
+      return m_leftEncoder.getRate();
+  }
+
+  public void moveGoal(double target){
+    armGoal = armGoal + target;
+  }
+  
+  public void setGoal(double target){
+    armGoal = target;
+  }
+
+  public double getGoal(){
+      return armGoal;
+  }
+  
+  public void setEncodersRadians(double encoderVal){
+
+  }
+
+
+  
     
 }
