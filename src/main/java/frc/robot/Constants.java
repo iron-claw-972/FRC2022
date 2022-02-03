@@ -86,19 +86,40 @@ public final class Constants {
     public static final int kIntakeMotorPort = 23;
   }
 
-  public static final class ShooterConstants {
-    public static final int kShooterMotorPort = 11;
-    public static final int kFrontOutakeSpeed = 1;
-    public static final int kBackOutakeSpeed = 1;
-    public static final double kFarMultiplier = 1.5;
-    public static final int kIntakeSpeed = 1;
+  public static final class TopShooterMotorConstants {
+    public static final int ktopShooterMotorPort = 11;
+    public static final int ktopFrontOutakeSpeed = 1;
+    public static final int ktopBackOutakeSpeed = 1;
+    public static final double ktopFarMultiplier = 1.5;
+    public static final int ktopIntakeSpeed = 1;
 
     // PID Stuff
-    public static final double kShooterP = 1;
-    public static final double kShooterI = 0;
-    public static final double kShooterD = 0;
-	  public static final double kShooterVelocityPIDTolerance = 0;
+    public static final double ktopShooterP = 1;
+    public static final double ktopShooterI = 0;
+    public static final double ktopShooterD = 0;
+	  public static final double ktopShooterVelocityPIDTolerance = 0;
   }
+
+  
+  public static final class BottomShooterMotorConstants {
+    public static final int kbottomShooterMotorPort = 11;
+    public static final int kbottomFrontOutakeSpeed = 1;
+    public static final int kbottomBackOutakeSpeed = 1;
+    public static final double kbottomFarMultiplier = 1.5;
+    public static final int kbottomIntakeSpeed = 1;
+
+    // PID Stuff
+    public static final double kbottomShooterP = 1;
+    public static final double kbottomShooterI = 0;
+    public static final double kbottomShooterD = 0;
+	  public static final double kbottomShooterVelocityPIDTolerance = 0;
+  }
+
+  public static final class SensorConstants{
+    public static final int kMinimumBallProximity = 250;
+
+  }
+
 
   public static final class AutoConstants {
     public static final double kMaxSpeedMetersPerSecond = Units.feetToMeters(3.28); // Max velocity
