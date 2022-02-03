@@ -5,14 +5,14 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.button.*;
 
 public class GameController extends Controller{
-
+  
   public Button Button = new Button();
   public DPad DPad = new DPad();
-
+  
   public GameController(Joystick joystick_){
-      super(joystick_);
+    super(joystick_);
   }
-
+  
   //returns JoystickButton object
   public final class Button {
     public JoystickButton A() {
@@ -40,7 +40,7 @@ public class GameController extends Controller{
       return new JoystickButton(getController(), GameConstants.buttons.kStart);
     }
   }
-    
+  
   //returns POVButton object
   public class DPad {
     public POVButton unpressed(){
@@ -91,34 +91,34 @@ public class GameController extends Controller{
       .or(downRight()));
     }
   }
-
+  
   //returns Joystick Axis value
   public JoystickAxis JoystickAxis = new JoystickAxis();
   public class JoystickAxis{
-      public double leftX(){
-        return getController().getRawAxis(GameConstants.joystickAxis.kLeftX);
-      }
-      public double leftY(){
-        return getController().getRawAxis(GameConstants.joystickAxis.kLeftY);
-      }
-      public double rightX(){
-        return getController().getRawAxis(GameConstants.joystickAxis.kRightX);
-      }
-      public double rightY(){
-        return getController().getRawAxis(GameConstants.joystickAxis.kRightY);
-        }
+    public double leftX(){
+      return getController().getRawAxis(GameConstants.joystickAxis.kLeftX);
     }
-
+    public double leftY(){
+      return getController().getRawAxis(GameConstants.joystickAxis.kLeftY);
+    }
+    public double rightX(){
+      return getController().getRawAxis(GameConstants.joystickAxis.kRightX);
+    }
+    public double rightY(){
+      return getController().getRawAxis(GameConstants.joystickAxis.kRightY);
+    }
+  }
+  
   //returns Trigger Axis value
   public TriggerAxis TriggerAxis = new TriggerAxis();
   public  class TriggerAxis{
     public double leftTrigger(){
       return getController().getRawAxis(GameConstants.triggers.kLeftT);
-      }
-      public double RightTrigger(){
-          return getController().getRawAxis(GameConstants.triggers.kRightT);
-      }
     }
-    
-    
+    public double RightTrigger(){
+      return getController().getRawAxis(GameConstants.triggers.kRightT);
+    }
+  }
+  
+  
 }
