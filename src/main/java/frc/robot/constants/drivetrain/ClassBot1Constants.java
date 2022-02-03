@@ -8,8 +8,8 @@ import edu.wpi.first.math.util.Units;
 
 public class ClassBot1Constants {
 
-  public final int[] rightMotorPorts = {12};
-  public final int[] leftMotorPorts = {2};
+  public final int[] rightMotorPorts = {2};
+  public final int[] leftMotorPorts = {1};
 
   //auto might be off becuse they were calbrated for classbot3
 
