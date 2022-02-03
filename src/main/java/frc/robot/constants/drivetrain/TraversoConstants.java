@@ -10,7 +10,7 @@ public class TraversoConstants {
   public final int[] rightMotorPorts = {3, 4};
   public final int[] leftMotorPorts = {1, 2};
 
-  //auto might be off becuse they were calbrated for classbot3
+  //auto might be off because they were calibrated for classbot3
 
   public final double kTrackWidthMeters = Units.inchesToMeters(20); // Distance between center of left wheel and center of right wheel in meters
   public  final int kEncoderResolution = 2048; // 2048 for Falcon500 integrated encoder
@@ -32,7 +32,7 @@ public class TraversoConstants {
     kaVoltSecondsSquaredPerMeter,
     kvVoltSecondsPerRadian,
     kaVoltSecondsSquaredPerRadian
-    );
+  );
 
 
   // Velocity PID gain values
