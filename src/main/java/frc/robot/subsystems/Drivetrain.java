@@ -280,6 +280,13 @@ public class Drivetrain extends SubsystemBase {
     setSpeeds(wheelSpeeds);
   }
 
+  public void tankFeedForwardDrive(double left, double right){
+    feedForwardDrive(
+      (left + right)/2,
+      (left - right)/2 
+    );
+  }
+
   public RamseteController getRamseteController() {
     return m_ramseteController;
   }
