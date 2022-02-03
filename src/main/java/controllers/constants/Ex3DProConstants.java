@@ -1,6 +1,6 @@
 package controllers.constants;
 
-public final class kEx3DProC {
+public final class Ex3DProConstants {
     public final class buttons {
         // Trigger Button
         public static final int k1 = 1;

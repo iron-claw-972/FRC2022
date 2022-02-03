@@ -8,7 +8,7 @@ import frc.robot.util.DriveMode;
 
 public class Driver{
 
-  private static GameC controller = new GameC(new Joystick(JoyConstants.kDriverJoy));
+  private static GameController controller = new GameController(new Joystick(JoyConstants.kDriverJoy));
   
   //sets default drive mode
   private static DriveMode driveMode = DriveMode.ARCADE;
@@ -32,9 +32,9 @@ public class Driver{
     return Functions.slewCalculate(5, getRawThrottleValue());
   }
   
-  // cycles drive mode
-  public static void modDrive(){
-    driveMode = driveMode.next();
+  // sets drive mode
+  public static void setDriveMode(DriveMode dm){
+    driveMode = dm;
   }
   
   //checks drive mode

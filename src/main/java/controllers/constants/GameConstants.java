@@ -1,6 +1,6 @@
 package controllers.constants;
 
-public final class kGameC {
+public final class GameConstants {
     public static final class buttons {
         // 4 Buttons on Right of Controller
         public static final int kA = 1;

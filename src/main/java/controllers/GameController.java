@@ -4,9 +4,9 @@ import controllers.constants.*;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.button.*;
 
-public class GameC extends Controller{
+public class GameController extends Controller{
 
-    public GameC(Joystick joystick_){
+    public GameController(Joystick joystick_){
         super(joystick_);
     }
 
@@ -14,28 +14,28 @@ public class GameC extends Controller{
     public Button Button = new Button();
     public final class Button {
         public JoystickButton A() {
-            return new JoystickButton(getController(), kGameC.buttons.kA);
+            return new JoystickButton(getController(), GameConstants.buttons.kA);
         }
         public JoystickButton B() {
-            return new JoystickButton(getController(), kGameC.buttons.kB);
+            return new JoystickButton(getController(), GameConstants.buttons.kB);
         }
         public JoystickButton X() {
-            return new JoystickButton(getController(), kGameC.buttons.kX);
+            return new JoystickButton(getController(), GameConstants.buttons.kX);
         }
         public JoystickButton Y() {
-            return new JoystickButton(getController(), kGameC.buttons.kY);
+            return new JoystickButton(getController(), GameConstants.buttons.kY);
         }
         public JoystickButton LB() {
-            return new JoystickButton(getController(), kGameC.buttons.kLB);
+            return new JoystickButton(getController(), GameConstants.buttons.kLB);
         }
         public JoystickButton RB() {
-            return new JoystickButton(getController(), kGameC.buttons.kRB);
+            return new JoystickButton(getController(), GameConstants.buttons.kRB);
         }
         public JoystickButton back() {
-            return new JoystickButton(getController(), kGameC.buttons.kBack);
+            return new JoystickButton(getController(), GameConstants.buttons.kBack);
         }
         public JoystickButton start() {
-            return new JoystickButton(getController(), kGameC.buttons.kStart);
+            return new JoystickButton(getController(), GameConstants.buttons.kStart);
         }
     }
     
@@ -48,28 +48,28 @@ public class GameC extends Controller{
         }
 
         public POVButton up() {
-            return new POVButton(getController(), kGameC.dPad.kUp);
+            return new POVButton(getController(), GameConstants.dPad.kUp);
         }
         public POVButton upRight() {
-            return new POVButton(getController(), kGameC.dPad.kUpRight);
+            return new POVButton(getController(), GameConstants.dPad.kUpRight);
         }
         public POVButton right() {
-            return new POVButton(getController(), kGameC.dPad.kRight);
+            return new POVButton(getController(), GameConstants.dPad.kRight);
         }
         public POVButton downRight() {
-            return new POVButton(getController(), kGameC.dPad.kDownRight);
+            return new POVButton(getController(), GameConstants.dPad.kDownRight);
         }
         public POVButton down() {
-            return new POVButton(getController(), kGameC.dPad.kDown);
+            return new POVButton(getController(), GameConstants.dPad.kDown);
         }
         public POVButton downLeft() {
-            return new POVButton(getController(), kGameC.dPad.kDownLeft);
+            return new POVButton(getController(), GameConstants.dPad.kDownLeft);
         }
         public POVButton left() {
-            return new POVButton(getController(), kGameC.dPad.kLeft);
+            return new POVButton(getController(), GameConstants.dPad.kLeft);
         }
         public POVButton upLeft() {
-            return new POVButton(getController(), kGameC.dPad.kUpLeft);
+            return new POVButton(getController(), GameConstants.dPad.kUpLeft);
         }
         
         public Trigger allUp(){
@@ -99,16 +99,16 @@ public class GameC extends Controller{
     public JoystickAxis JoystickAxis = new JoystickAxis();
     public class JoystickAxis{
         public double leftX(){
-            return getController().getRawAxis(kGameC.joystickAxis.kLeftX);
+            return getController().getRawAxis(GameConstants.joystickAxis.kLeftX);
         }
         public double leftY(){
-            return getController().getRawAxis(kGameC.joystickAxis.kLeftY);
+            return getController().getRawAxis(GameConstants.joystickAxis.kLeftY);
         }
         public double rightX(){
-            return getController().getRawAxis(kGameC.joystickAxis.kRightX);
+            return getController().getRawAxis(GameConstants.joystickAxis.kRightX);
         }
         public double rightY(){
-            return getController().getRawAxis(kGameC.joystickAxis.kRightY);
+            return getController().getRawAxis(GameConstants.joystickAxis.kRightY);
         }
     }
 
@@ -116,10 +116,10 @@ public class GameC extends Controller{
     public TriggerAxis TriggerAxis = new TriggerAxis();
     public  class TriggerAxis{
         public double leftTrigger(){
-            return getController().getRawAxis(kGameC.triggers.kLeftT);
+            return getController().getRawAxis(GameConstants.triggers.kLeftT);
         }
         public double RightTrigger(){
-            return getController().getRawAxis(kGameC.triggers.kRightT);
+            return getController().getRawAxis(GameConstants.triggers.kRightT);
         }
     }
     

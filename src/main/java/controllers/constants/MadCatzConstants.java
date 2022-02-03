@@ -1,7 +1,7 @@
 package controllers.constants;
 
-public final class kMadCatzC {
-    public final class buttons {
+public final class MadCatzConstants {
+    public final class Buttons {
         // Trigger Button
         public static final int k1 = 1;
 
@@ -16,7 +16,7 @@ public final class kMadCatzC {
         public static final int k7 = 7;
     }
 
-    public final class joystickAxis {
+    public final class JoystickAxis {
         // Joystick axis, X is Right/Left, Y is Up/Down, Z is twist Right/Left
         public static final int kX = 0;
         public static final int kY = 1;
@@ -25,7 +25,7 @@ public final class kMadCatzC {
         public static final int kZAxis = 2;
     }
 
-    public final class thumbstick {
+    public final class Thumbstick {
         // 8 Directional Inputs on Hat Switch
         public static final int kUp = 0;
         public static final int kUpRight = 45;

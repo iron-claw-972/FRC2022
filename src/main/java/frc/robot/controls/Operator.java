@@ -6,12 +6,10 @@ import frc.robot.Constants.*;
 
 public class Operator{
 
-  public static GameC controller = new GameC(new Joystick(JoyConstants.kOperatorJoy));
+  public static GameController controller = new GameController(new Joystick(JoyConstants.kOperatorJoy));
 
   //operator buttons
   public static void configureButtonBindings() {
-    // controller.Button.B().whenPressed(() -> modSensitivity());
-    // controller.Button.A().whenPressed(() -> modDrive());
   }
 
 }
