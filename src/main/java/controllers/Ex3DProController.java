@@ -6,12 +6,14 @@ import edu.wpi.first.wpilibj2.command.button.*;
 
 public class Ex3DProController extends Controller{
     
+    private Button Button = new Button();
+    private JoystickAxis JoystickAxis = new JoystickAxis();
+
     public Ex3DProController(Joystick joystick_){
         super(joystick_);
     }
     
     //returns JoystickButton object
-    Button Button = new Button();
     public class Button {
         public JoystickButton b1() {
             return new JoystickButton(getController(), Ex3DProConstants.buttons.k1);
@@ -52,7 +54,6 @@ public class Ex3DProController extends Controller{
     }
 
     //returns Joystick Axis value
-    public JoystickAxis JoystickAxis = new JoystickAxis();
     public class JoystickAxis{
         public double X(){
             return getController().getRawAxis(Ex3DProConstants.joystickAxis.kX);

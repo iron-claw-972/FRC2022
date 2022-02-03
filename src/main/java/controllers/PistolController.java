@@ -6,6 +6,8 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 public class PistolController extends Controller {
 
+  private Button button = new Button();
+
   public PistolController(Joystick joystick_){
     super(joystick_);
   }
@@ -33,5 +35,9 @@ public class PistolController extends Controller {
   }
   public double WheelAxis(){
     return getController().getRawAxis(PistolConstants.JoystickAxis.kWheelAxis);
+  }
+
+  public Button getButtons() {
+    return button;
   }
 }

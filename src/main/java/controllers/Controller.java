@@ -3,7 +3,7 @@ import edu.wpi.first.wpilibj.Joystick;
 
 public class Controller {
 
-    //for storeing the controller object
+    //for storing the controller object
     private Joystick controller;
     
     //gets controller object used for return methods
