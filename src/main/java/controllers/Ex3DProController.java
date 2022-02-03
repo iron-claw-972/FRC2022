@@ -13,6 +13,14 @@ public class Ex3DProController extends Controller{
         super(joystick_);
     }
     
+    public JoystickAxis getJoystickAxis() {
+        return JoystickAxis;
+    }
+
+    public Button getButton() {
+        return Button;
+    }
+
     //returns JoystickButton object
     public class Button {
       public JoystickButton b1() {
