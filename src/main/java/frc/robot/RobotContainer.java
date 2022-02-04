@@ -29,7 +29,7 @@ import frc.robot.autonomous.drivetrain.Pathweaver;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   public Drivetrain m_drive = Drivetrain.getInstance();
-  public Intake m_intake = Intake.getInstance();
+  //public Intake m_intake = Intake.getInstance();
 
   public RobotContainer() {
 

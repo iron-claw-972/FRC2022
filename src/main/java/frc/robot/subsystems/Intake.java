@@ -8,7 +8,7 @@ import frc.robot.util.ControllerFactory;
 
 public class Intake {
     
-private final WPI_TalonFX m_motor = ControllerFactory.createTalonFX(IntakeConstants.kIntakeMotorPort);
+/*private final WPI_TalonFX m_motor = ControllerFactory.createTalonFX(IntakeConstants.kIntakeMotorPort);
 
   private static Intake instance;
 
@@ -21,5 +21,5 @@ private final WPI_TalonFX m_motor = ControllerFactory.createTalonFX(IntakeConsta
 
   public void run(double pow) {
     m_motor.set(ControlMode.PercentOutput, pow);
-  }
+  }*/
 }

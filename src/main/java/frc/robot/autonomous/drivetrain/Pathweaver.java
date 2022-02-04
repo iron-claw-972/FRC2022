@@ -20,7 +20,7 @@ import frc.robot.Constants.*;
 public class Pathweaver {
 
   public static Drivetrain m_drive = Drivetrain.getInstance();
-  public static Intake m_intake = Intake.getInstance();
+  //public static Intake m_intake = Intake.getInstance();
     
   private static Trajectory autonomousTrajectory;
   private static RamseteCommand ramseteCommand;
