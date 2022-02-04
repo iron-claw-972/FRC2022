@@ -7,6 +7,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.numbers.N2;
 import edu.wpi.first.math.system.LinearSystem;
 import edu.wpi.first.math.system.plant.DCMotor;
@@ -109,6 +110,9 @@ public final class Constants {
 
     // Tick Multiple / Extension = Tick
     public static final double kExtenderSetpoint = kExtenderTickMultiple / kExtenderMaxArmLength;
+
+    // Extender PID
+    public static final PIDController extenderPID = new PIDController(1, 0, 0);
   }
 
   public static final class AutoConstants {

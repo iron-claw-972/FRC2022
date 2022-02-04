@@ -11,15 +11,13 @@ import frc.robot.Constants.ExtenderConstants;
 
 
 public class Extender extends SubsystemBase{
-  final WPI_TalonFX m_motor;
-  double setpoint = ExtenderConstants.kExtenderSetpoint;
-
-  private final PIDController extenderPID = new PIDController(1, 0, 0);
+  private final WPI_TalonFX m_motor;
+  private double setpoint = ExtenderConstants.kExtenderSetpoint;
 
   public Extender(int port, boolean left) {
     m_motor = ControllerFactory.createTalonFX(port);
 
-    if(left == true) {
+    if (left) {
       // so that encoder values aren't negative
       m_motor.setSensorPhase(true);
       // so that the arm doesn't spin in an opposing direction
@@ -38,21 +36,13 @@ public class Extender extends SubsystemBase{
   }
 
   public boolean reachedTopPoint() {
-    // if the current tick value is less than the maximum (135 ticks) by 10, return true
-    if(m_motor.getSelectedSensorPosition() >= (ExtenderConstants.kExtenderMaxArmLength / ExtenderConstants.kExtenderTickMultiple) - 10) {
-      return true;
-    }
-    // otherwise, return false
-    return false;
+    // if the current tick value is less than the maximum (135 ticks) by 10, return true, otherwise return false
+    return (m_motor.getSelectedSensorPosition() >= (ExtenderConstants.kExtenderMaxArmLength / ExtenderConstants.kExtenderTickMultiple) - 10);
   }
 
   public boolean reachedBottomPoint() {
-    // if the current tick value is greater than the minimum (0) by 10, return true
-    if(m_motor.getSelectedSensorPosition() <= (10)) {
-      return true;
-    }
-    // otherwise, return false
-    return false;
+    // if the current tick value is greater than the minimum (0) by 10, return true, otherwise return false
+    return (m_motor.getSelectedSensorPosition() <= 10);
   }
 
   public void set(double distance){
@@ -63,7 +53,7 @@ public class Extender extends SubsystemBase{
   @Override
   public void periodic(){
     // sets the motor to go to a setpoint
-    m_motor.set(extenderPID.calculate(m_motor.getSelectedSensorPosition() * ExtenderConstants.kExtenderTickMultiple, setpoint));
+    m_motor.set(ExtenderConstants.extenderPID.calculate(m_motor.getSelectedSensorPosition() * ExtenderConstants.kExtenderTickMultiple, setpoint));
 
     // a pop-up in shuffleboard that allows you to see how much the arm extended in feet
     SmartDashboard.putNumber("Current Extension (Inches)", m_motor.getSelectedSensorPosition() * ExtenderConstants.kExtenderTickMultiple);
