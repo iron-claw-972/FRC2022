@@ -52,8 +52,8 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   public static Drivetrain m_drive = new Drivetrain();
   public static Intake m_intake = new Intake();
-  public static ShooterTop m_shooterTop = new ShooterTop();
-  public static ShooterBottom m_shooterBottom = new ShooterBottom();
+  public static ShooterWheels m_shooterTop = new ShooterWheels();
+  public static ShooterBelt m_shooterBottom = new ShooterBelt();
 
   static Joystick m_driverController = new Joystick(JoyConstants.kDriverJoy);
   static Joystick m_operatorController = new Joystick(JoyConstants.kOperatorJoy);
