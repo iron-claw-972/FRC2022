@@ -8,8 +8,8 @@ import edu.wpi.first.math.util.Units;
 
 public class ClassBot3Constants {
     
-  public final int[] rightMotorPorts = {0};
-  public final int[] leftMotorPorts = {1};
+  public final int[] rightMotorPorts = {10};
+  public final int[] leftMotorPorts = {12};
 
     
   public final double kTrackWidthMeters = Units.inchesToMeters(20); // Distance between center of left wheel and center of right wheel in meters
