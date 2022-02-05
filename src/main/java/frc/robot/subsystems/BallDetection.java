@@ -8,7 +8,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import frc.robot.ControllerFactory;
 import frc.robot.Constants.DriveConstants;
-import frc.robot.Constants.SensorConstants;
+import frc.robot.Constants.BallDetectionConstants;
 
 import com.revrobotics.ColorSensorV3;
 
@@ -17,9 +17,9 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.util.Color;
 
-public class Sensors extends SubsystemBase {
+public class BallDetection extends SubsystemBase {
 
-    public Sensors() {
+    public BallDetection() {
 
     }
     

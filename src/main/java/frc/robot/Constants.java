@@ -101,18 +101,14 @@ public final class Constants {
   }
 
   
-  public static final class BottomShooterMotorConstants {
-    public static final int kbottomShooterMotorPort = 11;
-    public static final int kbottomFrontOutakeSpeed = 1;
-    public static final int kbottomBackOutakeSpeed = 1;
-    public static final double kbottomFarMultiplier = 1.5;
-    public static final int kbottomIntakeSpeed = 1;
+  public static final class ShooterBeltConstants {
+    public static final int kShooterBeltMotorPort = 11;
 
     // PID Stuff
-    public static final double kbottomShooterP = 1;
-    public static final double kbottomShooterI = 0;
-    public static final double kbottomShooterD = 0;
-	  public static final double kbottomShooterVelocityPIDTolerance = 0;
+    public static final double kShooterBeltP = 1;
+    public static final double kShooterBeltI = 0;
+    public static final double kShooterBeltD = 0;
+	  public static final double kShooterBeltVelocityPIDTolerance = 0;
   }
 
   public static final class SensorConstants{
