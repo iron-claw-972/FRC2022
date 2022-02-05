@@ -1,9 +1,13 @@
 package frc.robot.controls;
 
 import edu.wpi.first.math.filter.SlewRateLimiter;
+import frc.robot.Constants.DriveConstants;
 
 public class Functions {
   
+  private static SlewRateLimiter slewThrottle = new SlewRateLimiter(DriveConstants.kSlewRate);
+  private static SlewRateLimiter slewTurn = new SlewRateLimiter(DriveConstants.kSlewRate);
+
   /*
   public static Functions controls;
   public static Functions getControls(){
@@ -39,7 +43,11 @@ public class Functions {
     return finVal;
   }
 
-  public static double slewCalculate(double rate, double input ){
-    return new SlewRateLimiter(rate).calculate(input);
+  public static double slewCalculateThrottle(double input ){
+    return slewThrottle.calculate(input);
+  }
+
+  public static double slewCalculateTurn(double input ){
+    return slewTurn.calculate(input);
   }
 }

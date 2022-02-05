@@ -40,12 +40,6 @@ public class ClassBot3Constants {
   public final double kVelocityI = 0; // Integral
   public final double kVelocityD = 0; // Derivative
 
-
-  //keep here for later
-  // Teleop max speeds
-  public final double kMaxSpeedMetersPerSecond = Units.feetToMeters(10); // Max velocity
-  public final double kMaxAngularSpeedRadiansPerSecond = Units.rotationsPerMinuteToRadiansPerSecond(60); // Max angular velocity
-
   public final DCMotor kDriveGearbox = DCMotor.getFalcon500(2);
 
   public final boolean kRightEncoderReversed = false;
