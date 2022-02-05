@@ -11,6 +11,7 @@ import frc.robot.subsystems.*;
 import frc.robot.commands.*;
 import frc.robot.controls.*;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.cameraserver.CameraServer;
 
 import frc.robot.Constants.*;
@@ -34,7 +35,7 @@ public class RobotContainer {
   public RobotContainer() {
 
     // default command to run in teleop
-    m_drive.setDefaultCommand(new DifferentialDrive(m_drive));
+    m_drive.setDefaultCommand(new ParallelCommandGroup( new TeleopDrive(m_drive) , new ShuffleboardUpdate()));
 
     // Start camera stream for driver
     CameraServer.startAutomaticCapture();
