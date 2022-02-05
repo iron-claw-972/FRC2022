@@ -27,15 +27,15 @@ public class Extender extends SubsystemBase{
     m_motor.configReverseSoftLimitThreshold(0, 10);
 
     // converts the length of the arm in inches to ticks and makes that the maximum tick limit, it's checked every 10 milliseconds
-    m_motor.configForwardSoftLimitThreshold(ExtenderConstants.kExtenderMaxArmTicks, 10);
+    m_motor.configForwardSoftLimitThreshold((int)ExtenderConstants.kExtenderMaxArmTicks, 10);
 
     // every time the robot is started, arm MUST start at maximum compression in order to maintain consistency
     // TODO: Make this better.
     m_motor.setSelectedSensorPosition(0.0);
 
     // so that the limiters are enabled
-    m_motor.configForwardSoftLimitEnable(true);
-    m_motor.configReverseSoftLimitEnable(true);
+    m_motor.configForwardSoftLimitEnable(true, 10);
+    m_motor.configReverseSoftLimitEnable(true, 10);
   }
 
   public boolean reachedSetpoint() {
