@@ -9,60 +9,66 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import frc.robot.ControllerFactory;
 import frc.robot.Constants.DriveConstants;
-import frc.robot.Constants.TopShooterMotorConstants;
-
-import com.revrobotics.ColorSensorV3;
+import frc.robot.Constants.ShooterWheelConstants;
 
 import ctre_shims.TalonEncoder;
 import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.wpilibj.I2C;
-import edu.wpi.first.wpilibj.util.Color;
 
-public class TopShooterMotor extends SubsystemBase {
+public class ShooterWheel extends SubsystemBase {
 
-    public TopShooterMotor() {
-        m_topShooterEncoder.setDistancePerPulse(DriveConstants.kEncoderMetersPerPulse);
-        m_topShooterEncoder.reset();
+    public ShooterWheel() {
+        m_ShooterWheelEncoder.setDistancePerPulse(DriveConstants.kEncoderMetersPerPulse);
+        m_ShooterWheelEncoder.reset();
 
     }    
 
-    private final WPI_TalonFX m_topMotor = ControllerFactory.createTalonFX(TopShooterMotorConstants.ktopShooterMotorPort);
-    private final TalonEncoder m_topShooterEncoder = new TalonEncoder(m_topMotor);
+    private final WPI_TalonFX m_ShooterWheelMotor = ControllerFactory.createTalonFX(ShooterWheelConstants.kShooterWheelMotorPort);
+    private final TalonEncoder m_ShooterWheelEncoder = new TalonEncoder(m_ShooterWheelMotor);
 
-    private final PIDController topShooterPID = new PIDController(TopShooterMotorConstants.ktopShooterP, TopShooterMotorConstants.ktopShooterI, TopShooterMotorConstants.ktopShooterD);
+    private final PIDController ShooterWheelPID = new PIDController(ShooterWheelConstants.kShooterWheelP, ShooterWheelConstants.kShooterWheelI, ShooterWheelConstants.kShooterWheelD);
 
+    public static double motorSpeed = 1.0;
 
-    public void setSpeed(double speed) {
-        m_topMotor.set(ControlMode.PercentOutput, topShooterPID.calculate(speed));
+    @Override
+    public void periodic() {
+        if (reachedSetpoint(motorSpeed)){
+            stop();    
+        }else{
+            m_ShooterWheelMotor.set(ControlMode.PercentOutput, ShooterWheelPID.calculate(motorSpeed));
+
+        };
+        
     }
 
-    public void intake() {
-        setSpeed(TopShooterMotorConstants.ktopIntakeSpeed);
+    public void setSpeed(double newSpeed) {
+        motorSpeed = newSpeed;
     }
+
 
     public void setBackOutakeSpeed() {
-        setSpeed(TopShooterMotorConstants.ktopBackOutakeSpeed);
+        motorSpeed = 1.4;
     }
 
     public void setFrontOutakeSpeed() {
-        setSpeed(TopShooterMotorConstants.ktopFrontOutakeSpeed);
+        motorSpeed = 1.4;
     }
 
     public void setFrontOutakeFarSpeed() {
-        setSpeed(TopShooterMotorConstants.ktopFrontOutakeSpeed * TopShooterMotorConstants.ktopFarMultiplier);
+        motorSpeed = 1.4;
     }
 
     public void setBackOutakeFarSpeed() {
-        setSpeed(TopShooterMotorConstants.ktopBackOutakeSpeed * TopShooterMotorConstants.ktopFarMultiplier);
+        motorSpeed = 1.4;
     }
+
 
     public void stop() {
         setSpeed(0);
     }
 
     public Boolean reachedSetpoint(double targetSpeed) {
-        if (m_topShooterEncoder.getRate() < targetSpeed + TopShooterMotorConstants.ktopShooterVelocityPIDTolerance &&
-         m_topShooterEncoder.getRate() > targetSpeed - TopShooterMotorConstants.ktopShooterVelocityPIDTolerance){
+        if (m_ShooterWheelEncoder.getRate() < targetSpeed + ShooterWheelConstants.kShooterWheelVelocityPIDTolerance &&
+         m_ShooterWheelEncoder.getRate() > targetSpeed - ShooterWheelConstants.kShooterWheelVelocityPIDTolerance){
             return true;
         }
         return false;

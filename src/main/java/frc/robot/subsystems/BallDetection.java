@@ -2,18 +2,9 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-
-import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
-
-import frc.robot.ControllerFactory;
-import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.BallDetectionConstants;
 
 import com.revrobotics.ColorSensorV3;
-
-import ctre_shims.TalonEncoder;
-import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.util.Color;
 
@@ -48,7 +39,7 @@ public class BallDetection extends SubsystemBase {
 
     public Boolean containsBall() {
         Integer ballProximity = m_colorSensor.getProximity();
-        if (ballProximity > SensorConstants.kMinimumBallProximity) {
+        if (ballProximity > BallDetectionConstants.kMinimumBallProximity) {
             System.out.println("Object detected, proximity: " + ballProximity);
             return true;
         }

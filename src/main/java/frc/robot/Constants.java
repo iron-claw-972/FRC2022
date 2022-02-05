@@ -86,18 +86,18 @@ public final class Constants {
     public static final int kIntakeMotorPort = 23;
   }
 
-  public static final class TopShooterMotorConstants {
-    public static final int ktopShooterMotorPort = 11;
-    public static final int ktopFrontOutakeSpeed = 1;
+  public static final class ShooterWheelConstants {
+    public static final int kShooterWheelMotorPort = 11;
+    public static final int kFrontOutakeSpeed = 1;
     public static final int ktopBackOutakeSpeed = 1;
     public static final double ktopFarMultiplier = 1.5;
     public static final int ktopIntakeSpeed = 1;
 
     // PID Stuff
-    public static final double ktopShooterP = 1;
-    public static final double ktopShooterI = 0;
-    public static final double ktopShooterD = 0;
-	  public static final double ktopShooterVelocityPIDTolerance = 0;
+    public static final double kShooterWheelP = 1;
+    public static final double kShooterWheelI = 0;
+    public static final double kShooterWheelD = 0;
+	  public static final double kShooterWheelVelocityPIDTolerance = 0;
   }
 
   
@@ -111,7 +111,7 @@ public final class Constants {
 	  public static final double kShooterBeltVelocityPIDTolerance = 0;
   }
 
-  public static final class SensorConstants{
+  public static final class BallDetectionConstants{
     public static final int kMinimumBallProximity = 250;
 
   }
