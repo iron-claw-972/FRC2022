@@ -8,13 +8,13 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.controls.Driver;
+import frc.robot.RobotContainer;
 import frc.robot.subsystems.Drivetrain;
 
-public class TeleopDrive extends CommandBase {
+public class ArcadeDrive extends CommandBase {
   private final Drivetrain m_drive;
 
-  public TeleopDrive(Drivetrain subsystem) {
+  public ArcadeDrive(Drivetrain subsystem) {
     m_drive = subsystem;
     addRequirements(subsystem);
   }
@@ -22,6 +22,6 @@ public class TeleopDrive extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_drive.runDrive(Driver.getRawThrottleValue(), Driver.getRawTurnValue());
+    m_drive.arcadeDrive(RobotContainer.getThrottleValue(), RobotContainer.getTurnValue());
   }
 }
