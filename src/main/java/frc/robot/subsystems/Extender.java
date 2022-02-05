@@ -41,7 +41,7 @@ public class Extender extends SubsystemBase{
   public boolean reachedSetpoint() {
     // if the current tick position is within the setpoint's range (setpoint +- 10), return true, otherwise return false
     return(m_motor.getSelectedSensorPosition() >= (setpoint / ExtenderConstants.kExtenderTickMultiple) - ExtenderConstants.kExtenderTolerance
-    && m_motor.getSelectedSensorPosition() <= (setpoint / ExtenderConstants.kExtenderTickMultiple) + 10);
+    && m_motor.getSelectedSensorPosition() <= (setpoint / ExtenderConstants.kExtenderTickMultiple) + ExtenderConstants.kExtenderTolerance);
   }
 
   // called in RobotContainer by button binds
