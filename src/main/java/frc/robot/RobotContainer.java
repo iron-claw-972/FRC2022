@@ -35,6 +35,7 @@ import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.JoyConstants;
 import frc.robot.commands.ArcadeDrive;
+import frc.robot.commands.DifferentialDrive;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Extender;
 import frc.robot.Constants.ExtenderConstants;
@@ -57,6 +58,7 @@ public class RobotContainer {
   public Extender m_extenderLeft = new Extender(ExtenderConstants.kRightExtenderPort, true);
   public Extender m_extenderRight = new Extender(ExtenderConstants.kLeftExtenderPort, false);
   //-----//
+  //public static Intake m_intake = new Intake();
 
   static Joystick m_driverController = new Joystick(JoyConstants.kDriverJoy);
   static Joystick m_operatorController = new Joystick(JoyConstants.kOperatorJoy);
@@ -185,8 +187,7 @@ public class RobotContainer {
     // Run path following command, then stop at the end. At the same time intake.
     // "Deadline" is the first command, 
     // meaning the whole group will stop once the first command does.
-    return new ParallelDeadlineGroup(
-        ramseteCommand.andThen(() -> m_drive.tankDriveVolts(0, 0)));
+    return ramseteCommand.andThen(() -> m_drive.tankDriveVolts(0, 0));
     //return ramseteCommand.andThen(() -> m_drive.tankDriveVolts(0, 0));
   }
 
@@ -199,7 +200,7 @@ public class RobotContainer {
     // Controllers y-axes are natively up-negative, down-positive. This method
     // corrects that by returning the opposite of the y-value
     // 1 represents up/down axis on the left joystick
-    return -deadbandX(m_driverController.getRawAxis(1), JoyConstants.kJoystickDeadband);
+    return -deadband(m_driverController.getRawAxis(1), JoyConstants.kJoystickDeadband);
   }
 
   /**
@@ -209,7 +210,8 @@ public class RobotContainer {
    */
   public static double getTurnValue() {
     // 4 represents left/right axis on the right joystick
-    return deadbandX(m_driverController.getRawAxis(4), JoyConstants.kJoystickDeadband);
+    // 0 represents ryans thing
+    return deadband(m_driverController.getRawAxis(4), JoyConstants.kJoystickDeadband);
   }
 
   /**
@@ -220,7 +222,7 @@ public class RobotContainer {
    * @param deadband The deadband
    * @return the input rescaled and to fit [-1, -deadband], [deadband, 1]
    */
-  public static double deadbandX(double input, double deadband) {
+  public static double deadband(double input, double deadband) {
     if (Math.abs(input) <= deadband) {
       return 0;
     } else if (Math.abs(input) == 1) {

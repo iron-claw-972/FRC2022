@@ -30,21 +30,21 @@ public final class Constants {
   public static final class JoyConstants {
     public static final int kDriverJoy = 0;
     public static final int kOperatorJoy = 0;
-    public static final double kJoystickDeadband = 0.015; // How much of joystick is "dead" zone [0,1]
+    public static final double kJoystickDeadband = 0.06; // How much of joystick is "dead" zone [0,1]
   }
 
   public static final class DriveConstants {
 
     //TODO: Change motor ports accordingly!
     //Drivetrain motor ports, use -1 for unused motors
-    public static final int kLeftMotor1Port = -1;
-    public static final int kLeftMotor2Port = -1;
+    public static final int kLeftMotor1Port = 1;
+    public static final int kLeftMotor2Port = 2;
 
-    public static final int kRightMotor1Port = -1;
-    public static final int kRightMotor2Port = -1;
+    public static final int kRightMotor1Port = 3;
+    public static final int kRightMotor2Port = 4;
 
-    public static final double kSpeedSlewRateLimit = 1;
-    public static final double kRotationSlewRateLimit = 1;
+    public static final double kSpeedSlewRateLimit = 5;
+    public static final double kRotationSlewRateLimit = 5;
 
     public static final double kTrackWidthMeters = Units.inchesToMeters(20); // Distance between center of left wheel and center of right wheel in meters
 
@@ -76,8 +76,8 @@ public final class Constants {
     public static final double kVelocityD = 0; // Derivative
 
     // Teleop max speeds
-    public static final double kMaxSpeedMetersPerSecond = Units.feetToMeters(10); // Max velocity
-    public static final double kMaxAngularSpeedRadiansPerSecond = Units.rotationsPerMinuteToRadiansPerSecond(60); // Max angular velocity
+    public static final double kMaxSpeedMetersPerSecond = Units.feetToMeters(15); // Max velocity
+    public static final double kMaxAngularSpeedRadiansPerSecond = Units.rotationsPerMinuteToRadiansPerSecond(90); // Max angular velocity
 
     public static final DCMotor kDriveGearbox = DCMotor.getFalcon500(2);
 
@@ -125,6 +125,7 @@ public final class Constants {
     public static final double kRamseteZeta = 0.7;
 
     // Trajectories should be placed in src/main/deploy/paths
-    public static final String kTrajectoryName = "TwoBallsToHangarTest";
+    // name without stuff after . ex AutoPath
+    public static final String kTrajectoryName = "HangarTest";
   }
 }
