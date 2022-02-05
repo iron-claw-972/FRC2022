@@ -14,9 +14,9 @@ public class Shuffleboard {
     
 
     SendableChooser<Command> m_chooser = new SendableChooser<>();
-    // m_chooser.setDefaultOption("pathweaver", Pathweaver.pathweaverCommand());
+    m_chooser.setDefaultOption("pathweaver", new PathweaverCommand(Drivetrain.getInstance()));
     // m_chooser.addOption("teleop", new TeleopDrive(Drivetrain.getInstance()));
-    m_chooser.setDefaultOption("pathweaver", new DifferentialDrive(Drivetrain.getInstance()));
+    // m_chooser.setDefaultOption("pathweaver", new DifferentialDrive(Drivetrain.getInstance()));
     m_chooser.addOption("teleop", new TeleopDrive(Drivetrain.getInstance()));
 
     SmartDashboard.putData(m_chooser);
