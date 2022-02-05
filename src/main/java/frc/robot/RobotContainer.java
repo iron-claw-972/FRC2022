@@ -35,7 +35,7 @@ public class RobotContainer {
   public RobotContainer() {
 
     // default command to run in teleop
-    m_drive.setDefaultCommand(new ParallelCommandGroup( new TeleopDrive(m_drive) , new ShuffleboardUpdate()));
+    m_drive.setDefaultCommand(new TeleopDrive(m_drive));
 
     // Start camera stream for driver
     CameraServer.startAutomaticCapture();
