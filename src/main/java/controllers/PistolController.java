@@ -3,6 +3,7 @@ package controllers;
 import controllers.constants.PistolConstants;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 public class PistolController extends Controller {
 
@@ -27,6 +28,19 @@ public class PistolController extends Controller {
     }
     public JoystickButton bottomButton() {
       return new JoystickButton(getController(), PistolConstants.Buttons.kBottomButton);
+    }
+
+    public Trigger backSwitchTopSmart() {
+      return new JoystickButton(getController(), PistolConstants.Buttons.kBackSwitchTop).and(frontSwitchTop().negate());
+    }
+    public Trigger frontSwitchTopSmart() {
+      return new JoystickButton(getController(), PistolConstants.Buttons.kForwardSwitchTop).and(backSwitchTop().negate());
+    }
+    public Trigger backSwitchBottomSmart() {
+      return new JoystickButton(getController(), PistolConstants.Buttons.kBackSwitchBottom).and(frontSwitchBottom().negate());
+    }
+    public Trigger frontSwitchBottomSmart() {
+      return new JoystickButton(getController(), PistolConstants.Buttons.kForwardSwitchBottom).and(frontSwitchBottom().negate());
     }
   }
 
