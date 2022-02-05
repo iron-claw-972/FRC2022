@@ -109,10 +109,16 @@ public final class Constants {
     );
 
     // Tick Multiple / Extension = Tick
-    public static final double kExtenderSetpoint = kExtenderTickMultiple / kExtenderMaxArmLength;
+    public static final double kExtenderSetpoint = 0;
 
     // Extender PID
     public static final PIDController extenderPID = new PIDController(1, 0, 0);
+
+    // the allowed distance from the setpoint
+    public static final double kExtenderTolerance = 10;
+
+    // the arm's length in ticks
+    public static final double kExtenderMaxArmTicks = kExtenderMaxArmLength / kExtenderTickMultiple;
   }
 
   public static final class AutoConstants {
