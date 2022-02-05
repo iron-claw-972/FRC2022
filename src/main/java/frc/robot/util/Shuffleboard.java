@@ -9,11 +9,13 @@ import frc.robot.subsystems.Drivetrain;
 
 public class Shuffleboard {
   
+  SendableChooser<Command> m_chooser = new SendableChooser<>();
   // Command pathweaver = Pathweaver.pathweaverCommand();
+
   public void setup() {
     
 
-    SendableChooser<Command> m_chooser = new SendableChooser<>();
+    
     m_chooser.setDefaultOption("pathweaver", new PathweaverCommand(Drivetrain.getInstance()));
     // m_chooser.addOption("teleop", new TeleopDrive(Drivetrain.getInstance()));
     // m_chooser.setDefaultOption("pathweaver", new DifferentialDrive(Drivetrain.getInstance()));
@@ -26,7 +28,13 @@ public class Shuffleboard {
 
     //drive mode
     SmartDashboard.putString("Drive Mode", Driver.getDriveMode().toString());
+    System.out.println(m_chooser.getSelected().toString());
 
   }
+  
+  public Command getAutonomousCommand() {
+    return m_chooser.getSelected();
+  }
+
 }
   
