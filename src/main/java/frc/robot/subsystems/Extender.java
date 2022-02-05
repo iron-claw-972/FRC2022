@@ -45,6 +45,7 @@ public class Extender extends SubsystemBase{
     return (m_motor.getSelectedSensorPosition() <= 10);
   }
 
+  // called in RobotContainer by button binds
   public void set(double distance){
     setpoint = distance;
   }
@@ -53,6 +54,7 @@ public class Extender extends SubsystemBase{
   @Override
   public void periodic(){
     // sets the motor to go to a setpoint
+    // the sensor position is converted to inches, the setpoint is tick value
     m_motor.set(ExtenderConstants.extenderPID.calculate(m_motor.getSelectedSensorPosition() * ExtenderConstants.kExtenderTickMultiple, setpoint));
 
     // a pop-up in shuffleboard that allows you to see how much the arm extended in feet
