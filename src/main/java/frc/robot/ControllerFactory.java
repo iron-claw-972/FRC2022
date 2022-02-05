@@ -153,4 +153,25 @@ public class ControllerFactory {
 
     return talon;
   }
+
+  public static WPI_TalonFX createTalonFX(int id) {
+    TalonFXConfiguration config = new TalonFXConfiguration();
+    
+    config.statorCurrLimit = new StatorCurrentLimitConfiguration(
+        talonFXStatorLimitEnable, talonFXStatorCurrentLimit, talonFXStatorTriggerThreshold, talonFXStatorTriggerDuration);
+    config.supplyCurrLimit = new SupplyCurrentLimitConfiguration(
+        talonFXSupplyLimitEnable, talonFXSupplyCurrentLimit, talonFXSupplyTriggerThreshold, talonFXSupplyTriggerDuration);
+    config.voltageCompSaturation = Constants.kMaxVoltage;
+
+    WPI_TalonFX talon = new WPI_TalonFX(id);
+    talon.configFactoryDefault();
+    talon.configAllSettings(config);
+    talon.enableVoltageCompensation(true);
+    talon.setNeutralMode(NeutralMode.Brake);
+    talon.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
+
+    return talon;
+
+  }
+  
 }
