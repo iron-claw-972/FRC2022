@@ -17,9 +17,9 @@ public class Driver{
   //driver buttons
   public static void configureButtonBindings() {
     controller.Button.B().whenPressed(
-        () -> Drivetrain.getInstance().setMaxOutput(DriveConstants.kSlowSpeed), Drivetrain.getInstance());
+        () -> setDriveMode(DriveMode.PROPORTIONAL));
     controller.Button.A().whenPressed(
-        () -> Drivetrain.getInstance().setMaxOutput(1.0), Drivetrain.getInstance());
+        () -> setDriveMode(DriveMode.ARCADE));
   }
   
   public static double getThrottleValue() {
