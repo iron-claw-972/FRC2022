@@ -38,7 +38,7 @@ public class Arm {
   double outPutVal;
   double integralPrior;
   double integral =0;
-  double iterationTime = 1;
+  double iterationTime = 0.001;
 
   public void posPID() {
 
@@ -68,6 +68,7 @@ public class Arm {
   public double getPosition(){
     // System.out.println(m_leftEncoder.getDistance();
     return m_leftEncoder.getDistance() * ArmConstants.kEncoderRadiansPerPulse;
+    // might need more operations in order to get the angle ready for PID
   }
   
   public double getVelocity(){
@@ -86,12 +87,10 @@ public class Arm {
   public double getGoal(){
       return armGoal;
   }
-  
-  public void setEncodersRadians(double encoderVal){
 
+  public boolean atGoal(){
+    return (error < errorPrior && errorPrior < maxError);
   }
-
-
   
     
 }
