@@ -8,6 +8,7 @@
 package frc.robot;
 
 import frc.robot.subsystems.*;
+import frc.robot.util.Shuffleboard;
 import frc.robot.commands.*;
 import frc.robot.controls.*;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -33,6 +34,7 @@ public class RobotContainer {
   //public Intake m_intake = Intake.getInstance();
 
   public RobotContainer() {
+    
 
     // default command to run in teleop
     m_drive.setDefaultCommand(new TeleopDrive(m_drive));
@@ -43,6 +45,8 @@ public class RobotContainer {
     // Configure the button bindings
     Driver.configureButtonBindings();
     Operator.configureButtonBindings();
+
+    //sets up shuffle board
   }
 
 
