@@ -25,12 +25,12 @@ public class Driver{
   public static double getThrottleValue() {
     // put any processes in any order of the driver's choosing
     // Controllers y-axes are natively up-negative, down-positive
-    return Functions.slewCalculateTurn(-getRawThrottleValue());
+    return Functions.slewCalculateThrottle(Functions.deadband(0.1, -getRawThrottleValue()));
   }
 
   public static double getTurnValue() {
     // right is positive; left is negative
-    return Functions.slewCalculateTurn(getRawThrottleValue());
+    return Functions.slewCalculateTurn(Functions.deadband(0.1, -getRawTurnValue()));
   }
   
   // sets drive mode
