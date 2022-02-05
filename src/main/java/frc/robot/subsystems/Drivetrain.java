@@ -40,7 +40,7 @@ import frc.robot.util.ControllerFactory;
 public class Drivetrain extends SubsystemBase {
 
   //change this to use constants from a different robot
-  public static ClassBot1Constants kDrivetrain = new ClassBot1Constants();
+  public static ClassBot3Constants kDrivetrain = new ClassBot3Constants();
 
   private static Drivetrain instance;
 
@@ -163,13 +163,11 @@ public class Drivetrain extends SubsystemBase {
 
   public void arcadeDrive(double throttle, double turn) {
     // System.out.println("arcade drive");
-    m_leftMotor1.set(ControlMode.PercentOutput, (throttle + turn));
-    m_rightMotor1.set(ControlMode.PercentOutput, (throttle - turn));
+    m_dDrive.arcadeDrive(throttle, turn);
   }
 
   public void tankDrive(double left, double right) {
-    m_leftMotor1.set(ControlMode.PercentOutput, left);
-    m_rightMotor1.set(ControlMode.PercentOutput, right);
+    m_dDrive.tankDrive(left, right);
   }
 
   public void propDrive(double throttle, double turn){
@@ -178,6 +176,7 @@ public class Drivetrain extends SubsystemBase {
 
     m_leftMotor1.set(ControlMode.PercentOutput, leftOut);
     m_rightMotor1.set(ControlMode.PercentOutput, rightOut);
+    m_dDrive.feed();
   }
 
   public void shiftDrive(double throttle, double turn) {
@@ -208,6 +207,7 @@ public class Drivetrain extends SubsystemBase {
 
     m_leftMotor1.set(ControlMode.PercentOutput, leftOut);
     m_rightMotor1.set(ControlMode.PercentOutput, rightOut);
+    m_dDrive.feed();
   }
 
   //sim stuff (need more detail)

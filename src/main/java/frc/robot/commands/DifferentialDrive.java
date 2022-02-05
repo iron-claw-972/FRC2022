@@ -8,6 +8,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants.DriveConstants;
 import frc.robot.controls.Driver;
 import frc.robot.subsystems.Drivetrain;
 
@@ -26,8 +27,8 @@ public class DifferentialDrive extends CommandBase {
   public void execute() {
 
     //slew ratelimiter removed temp need to move to controls
-    speed = Driver.getThrottleValue() * Drivetrain.kDrivetrain.kMaxSpeedMetersPerSecond;
-    rotation = Driver.getTurnValue() * Drivetrain.kDrivetrain.kMaxAngularSpeedRadiansPerSecond;
+    speed = Driver.getThrottleValue() * DriveConstants.kMaxSpeedMetersPerSecond;
+    rotation = Driver.getTurnValue() * DriveConstants.kMaxAngularSpeedRadiansPerSecond;
 
     m_drive.feedForwardDrive(speed, rotation);
   }

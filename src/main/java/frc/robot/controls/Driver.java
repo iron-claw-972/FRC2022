@@ -2,6 +2,7 @@ package frc.robot.controls;
 
 import controllers.*;
 import edu.wpi.first.wpilibj.Joystick;
+import frc.robot.Constants;
 import frc.robot.Constants.*;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.util.DriveMode;
@@ -24,12 +25,12 @@ public class Driver{
   public static double getThrottleValue() {
     // put any processes in any order of the driver's choosing
     // Controllers y-axes are natively up-negative, down-positive
-    return Functions.slewCalculate(5, -getRawThrottleValue());
+    return Functions.slewCalculateTurn(-getRawThrottleValue());
   }
 
   public static double getTurnValue() {
     // right is positive; left is negative
-    return Functions.slewCalculate(5, getRawThrottleValue());
+    return Functions.slewCalculateTurn(getRawThrottleValue());
   }
   
   // sets drive mode

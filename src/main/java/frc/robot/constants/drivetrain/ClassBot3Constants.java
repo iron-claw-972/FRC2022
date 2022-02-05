@@ -8,8 +8,8 @@ import edu.wpi.first.math.util.Units;
 
 public class ClassBot3Constants {
     
-  public final int[] rightMotorPorts = {0};
-  public final int[] leftMotorPorts = {1};
+  public final int[] rightMotorPorts = {10};
+  public final int[] leftMotorPorts = {12};
 
     
   public final double kTrackWidthMeters = Units.inchesToMeters(20); // Distance between center of left wheel and center of right wheel in meters
@@ -39,12 +39,6 @@ public class ClassBot3Constants {
   public final double kVelocityP = 1; // Proportional
   public final double kVelocityI = 0; // Integral
   public final double kVelocityD = 0; // Derivative
-
-
-  //keep here for later
-  // Teleop max speeds
-  public final double kMaxSpeedMetersPerSecond = Units.feetToMeters(10); // Max velocity
-  public final double kMaxAngularSpeedRadiansPerSecond = Units.rotationsPerMinuteToRadiansPerSecond(60); // Max angular velocity
 
   public final DCMotor kDriveGearbox = DCMotor.getFalcon500(2);
 

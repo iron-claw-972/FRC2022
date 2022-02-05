@@ -37,6 +37,11 @@ public final class Constants {
 
   public static final class DriveConstants {
     public static final double kSlowSpeed = 0.5;
+    public static final double kSlewRate = 3;
+
+    // Teleop max speeds
+    public static final double kMaxSpeedMetersPerSecond = Units.feetToMeters(10); // Max velocity
+    public static final double kMaxAngularSpeedRadiansPerSecond = Units.rotationsPerMinuteToRadiansPerSecond(60); // Max angular velocity
   }
 
   public static final class AutoConstants {
