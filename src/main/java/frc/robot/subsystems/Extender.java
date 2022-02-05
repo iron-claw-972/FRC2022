@@ -39,17 +39,9 @@ public class Extender extends SubsystemBase{
   }
 
   public boolean reachedSetpoint() {
-    // if the setpoint (converted to ticks) is greater than the tolerance AND the current tick position is greater than the setpoint in ticks minus the tolerance
-    if ((setpoint / ExtenderConstants.kExtenderTickMultiple) >= ExtenderConstants.kExtenderTolerance 
-      && m_motor.getSelectedSensorPosition() >= (setpoint / ExtenderConstants.kExtenderTickMultiple) - ExtenderConstants.kExtenderTolerance) {
-      return true;
-    }
-    else {
-      // if the setpoint (converted to ticks) is less than the arm length in ticks AND the current tick position is less than the setpoint minus the tolerance
-      return ((setpoint / ExtenderConstants.kExtenderTickMultiple) <= (ExtenderConstants.kExtenderMaxArmTicks - ExtenderConstants.kExtenderTolerance) 
-      && m_motor.getSelectedSensorPosition() <= (setpoint / ExtenderConstants.kExtenderTickMultiple) - ExtenderConstants.kExtenderTolerance);
-    }
-
+    // if the current tick position is within the setpoint's range (setpoint +- 10), return true, otherwise return false
+    return(m_motor.getSelectedSensorPosition() >= (setpoint / ExtenderConstants.kExtenderTickMultiple) - ExtenderConstants.kExtenderTolerance
+    && m_motor.getSelectedSensorPosition() <= (setpoint / ExtenderConstants.kExtenderTickMultiple) + 10);
   }
 
   // called in RobotContainer by button binds
