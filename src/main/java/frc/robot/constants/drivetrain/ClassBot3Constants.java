@@ -21,10 +21,10 @@ public class ClassBot3Constants {
   public final double kEncoderMetersPerSecond = kWheelDiameterMeters * Math.PI / kGearRatio * 10.0;
 
   // Use the SysId program in WPILib Tools to estimate values
-  public final double ksVolts = 0.59765; // Ks
-  public final double kvVoltSecondsPerMeter = 2.6544; // Kv
-  public final double kaVoltSecondsSquaredPerMeter = 0.15897; // Ka
-  public final double kRamseteP = 2.7489; // Kp for Ramsete PID
+  public final double ksVolts = 0.52734; // Ks
+  public final double kvVoltSecondsPerMeter = 2.6398; // Kv
+  public final double kaVoltSecondsSquaredPerMeter = 0.21913; // Ka
+  public final double kRamseteP = 3.1014; // Kp for Ramsete PID
   public final double kvVoltSecondsPerRadian = 0.05;
   public final double kaVoltSecondsSquaredPerRadian = 0.005;
 
