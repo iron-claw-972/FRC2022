@@ -17,34 +17,45 @@ public class ShooterBelt extends SubsystemBase {
     private final PIDController m_beltPID = new PIDController(ShooterConstants.kBottomMotorP, ShooterConstants.kBottomMotorI, ShooterConstants.kBottomMotorD);
     private final TalonEncoder m_beltEncoder = new TalonEncoder(m_beltMotor);
 
+    public double beltMotorSpeed = 1.0;
+
     public ShooterBelt() {
         m_beltEncoder.setDistancePerPulse(ShooterConstants.kShooterMotorDistancePerPulse);
         m_beltEncoder.reset();
     }
 
-    public void setSpeed(double speed) {
-        m_beltMotor.set(ControlMode.PercentOutput, m_beltPID.calculate(speed));
+    @Override
+    public void periodic() {
+        m_beltMotor.set(ControlMode.PercentOutput, m_beltPID.calculate(beltMotorSpeed));
     }
 
-    public void intake() {
+    public void setSpeed(double speed) {
+        beltMotorSpeed = speed;
+    }
+
+    public void setIntakeSpeed() {
         setSpeed(ShooterConstants.kShooterBeltIntakeSpeed);
     }
 
-    public void setBackOutakeSpeed() {
-        setSpeed(ShooterConstants.kShooterBeltBackOutakeSpeed);
+    public void setOutakeSpeed() {
+        setSpeed(ShooterConstants.kShooterBeltIntakeSpeed);
     }
 
-    public void setFrontOutakeSpeed() {
-        setSpeed(ShooterConstants.kShooterBeltFrontOutakeSpeed);
-    }
+    // public void setBackOutakeSpeed() {
+    //     setSpeed(ShooterConstants.kShooterBeltBackOutakeSpeed);
+    // }
 
-    public void setFrontOutakeFarSpeed() {
-        setSpeed(ShooterConstants.kShooterBeltFrontOutakeSpeed * ShooterConstants.kShooterBeltFarMulti);
-    }
+    // public void setFrontOutakeSpeed() {
+    //     setSpeed(ShooterConstants.kShooterBeltFrontOutakeSpeed);
+    // }
 
-    public void setBackOutakeFarSpeed() {
-        setSpeed(ShooterConstants.kShooterBeltBackOutakeSpeed * ShooterConstants.kShooterBeltFarMulti);
-    }
+    // public void setFrontOutakeFarSpeed() {
+    //     setSpeed(ShooterConstants.kShooterBeltFrontOutakeSpeed * ShooterConstants.kShooterBeltFarMulti);
+    // }
+
+    // public void setBackOutakeFarSpeed() {
+    //     setSpeed(ShooterConstants.kShooterBeltBackOutakeSpeed * ShooterConstants.kShooterBeltFarMulti);
+    // }
 
     public void stop() {
         setSpeed(0);

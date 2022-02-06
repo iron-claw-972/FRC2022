@@ -101,11 +101,9 @@ public final class Constants {
     public static final double kShooterWheelsBackOutakeSpeed = 1;
     public static final double kShooterWheelsFarMulti = 1;
 
-    // Bottom motor
+    // Belt motor
     public static final double kShooterBeltIntakeSpeed = 1;
-    public static final double kShooterBeltFrontOutakeSpeed = 1;
-    public static final double kShooterBeltBackOutakeSpeed = 1;
-    public static final double kShooterBeltFarMulti = 1;
+    public static final double kShooterBeltOutakeSpeed = 1;
 
     public static final double kShooterWheelsVelocityPIDTolerance = 10000;
     public static final double kShooterBeltVelocityPIDTolerance = 10000;

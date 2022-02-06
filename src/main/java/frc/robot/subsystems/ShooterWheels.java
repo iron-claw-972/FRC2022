@@ -17,16 +17,23 @@ public class ShooterWheels extends SubsystemBase {
     private final PIDController m_wheelsPID = new PIDController(ShooterConstants.kTopMotorP, ShooterConstants.kTopMotorI, ShooterConstants.kTopMotorD);
     private final TalonEncoder m_wheelsEncoder = new TalonEncoder(m_wheelsMotor);
 
+    public double wheelsMotorSpeed = 1.0;
+
     public ShooterWheels() {
         m_wheelsEncoder.setDistancePerPulse(ShooterConstants.kShooterMotorDistancePerPulse);
         m_wheelsEncoder.reset();
     }
 
-    public void setSpeed(double speed) {
-        m_wheelsMotor.set(ControlMode.PercentOutput, m_wheelsPID.calculate(speed));
+    @Override
+    public void periodic() {
+        m_wheelsMotor.set(ControlMode.PercentOutput, m_wheelsPID.calculate(wheelsMotorSpeed));
     }
 
-    public void intake() {  
+    public void setSpeed(double speed) {
+        wheelsMotorSpeed = speed;
+    }
+
+    public void setIntakeSpeed() {  
         setSpeed(ShooterConstants.kShooterWheelsIntakeSpeed);
     }
 
@@ -39,11 +46,11 @@ public class ShooterWheels extends SubsystemBase {
     }
 
     public void setFrontOutakeFarSpeed() {
-        setSpeed(ShooterConstants.kShooterWheelsFrontOutakeSpeed * ShooterConstants.kShooterBeltFarMulti);
+        setSpeed(ShooterConstants.kShooterWheelsFrontOutakeSpeed * ShooterConstants.kShooterWheelsFarMulti);
     }
 
     public void setBackOutakeFarSpeed() {
-        setSpeed(ShooterConstants.kShooterWheelsBackOutakeSpeed * ShooterConstants.kShooterBeltFarMulti);
+        setSpeed(ShooterConstants.kShooterWheelsBackOutakeSpeed * ShooterConstants.kShooterWheelsFarMulti);
     }
 
     public void stop() {
