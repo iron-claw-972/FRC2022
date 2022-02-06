@@ -102,15 +102,15 @@ public class Drivetrain extends SubsystemBase {
 
     // go through non main motors and put them in an array (allows for variable # of motors)
     // for loop starts at one because the main motor of that side is already accounted for
-
-    MotorController[] lMotors = new MotorController[kDrivetrain.leftMotorPorts.length];
+    
+    MotorController[] lMotors = new MotorController[kDrivetrain.leftMotorPorts.length - 1];
     for (int i = 1; i < kDrivetrain.leftMotorPorts.length; i++) {
-      lMotors[i] = ControllerFactory.createTalonFX(kDrivetrain.leftMotorPorts[i]);
+      lMotors[i-1] = ControllerFactory.createTalonFX(kDrivetrain.leftMotorPorts[i]);
     }
 
-    MotorController[] rMotors = new MotorController[kDrivetrain.rightMotorPorts.length];
+    MotorController[] rMotors = new MotorController[kDrivetrain.rightMotorPorts.length - 1];
     for (int i = 1; i < kDrivetrain.rightMotorPorts.length; i++) {
-      rMotors[i] = ControllerFactory.createTalonFX(kDrivetrain.rightMotorPorts[i]);
+      rMotors[i-1] = ControllerFactory.createTalonFX(kDrivetrain.rightMotorPorts[i]);
     }
 
     if (kDrivetrain.leftMotorPorts.length > 1) {
@@ -162,7 +162,6 @@ public class Drivetrain extends SubsystemBase {
   }
 
   public void arcadeDrive(double throttle, double turn) {
-    // System.out.println("arcade drive");
     m_dDrive.arcadeDrive(throttle, turn);
   }
 
@@ -180,9 +179,6 @@ public class Drivetrain extends SubsystemBase {
   }
 
   public void shiftDrive(double throttle, double turn) {
-
-    System.out.println("throttle: " + throttle);
-    System.out.println("turn: " + turn);
 
     double leftOut = throttle;
     double rightOut = throttle;
