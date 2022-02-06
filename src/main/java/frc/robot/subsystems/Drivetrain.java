@@ -164,10 +164,12 @@ public class Drivetrain extends SubsystemBase {
   public void arcadeDrive(double throttle, double turn) {
     // System.out.println("arcade drive");
     m_dDrive.arcadeDrive(throttle, turn);
+    m_dDrive.feed();
   }
 
   public void tankDrive(double left, double right) {
     m_dDrive.tankDrive(left, right);
+    m_dDrive.feed();
   }
 
   public void propDrive(double throttle, double turn){
@@ -278,6 +280,7 @@ public class Drivetrain extends SubsystemBase {
   public void feedForwardDrive(double xSpeed, double rot) {
     var wheelSpeeds = m_driveKinematics.toWheelSpeeds(new ChassisSpeeds(xSpeed, 0.0, rot));
     setSpeeds(wheelSpeeds);
+    m_dDrive.feed();
   }
 
   public void tankFeedForwardDrive(double left, double right){
@@ -428,5 +431,9 @@ public class Drivetrain extends SubsystemBase {
    */
   public double getTurnRate() {
     return -m_navX.getRate();
+  }
+
+  public void updateMotors(){
+    m_dDrive.feed();
   }
 }
