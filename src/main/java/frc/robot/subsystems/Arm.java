@@ -10,27 +10,32 @@ import ctre_shims.TalonEncoder;
 import ctre_shims.TalonEncoderSim;
 import frc.robot.ControllerFactory;
 import frc.robot.Constants.ArmConstants;
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Arm extends SubsystemBase {
   private final DutyCycleEncoder dce;
-  private final CANSparkMax m_motor;
+  private final WPI_TalonFX m_motor;
   private double currentTickVal;
 
   private double setpoint = 0;
 
-  public Arm(int motorPort, int dcePort, boolean left) {
-    dce = new DutyCycleEncoder(dcePort);
-    m_motor = ControllerFactory.createSparkMAX(motorPort, MotorType.kBrushless);
+  private PIDController armPID = new PIDController(0.02, 0, 0);
 
-    // if the arm is left, the encoder value is inverted
+  public Arm(boolean left) {
+
+    // if the arm is left, the encoder value is inverted && the 
     if (left) {
+      dce = new DutyCycleEncoder(ArmConstants.kArmLeftEncoder);
+      m_motor = ControllerFactory.createTalonFX(ArmConstants.kArmLeftMotor);
       currentTickVal = dce.get() * -1;
     }
-    // otherwise, use the normal encoder value
+    // otherwise, use the normal encoder value and set the motorports to the right
     else {
+      dce = new DutyCycleEncoder(ArmConstants.kArmRightEncoder);
+      m_motor = ControllerFactory.createTalonFX(ArmConstants.kArmRightMotor);
       currentTickVal = dce.get();
     }
   }
@@ -52,7 +57,7 @@ public class Arm extends SubsystemBase {
     if (reachedSetpoint() == false) {
       // sets the motor to go to a setpoint
       // the setpoint is tick value
-      m_motor.set(ArmConstants.armPID.calculate(currentTickVal, setpoint));
+      m_motor.set(armPID.calculate(currentTickVal, setpoint));
 
       // a pop-up in shuffleboard that allows you to see how much the arm extended in inches
       SmartDashboard.putNumber("Current Angle (Degrees)", dce.get() * ArmConstants.kArmDegreeMultiple);

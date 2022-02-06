@@ -59,8 +59,8 @@ public class RobotContainer {
   public Extender m_extenderLeft = new Extender(ExtenderConstants.kRightExtenderPort, true);
   public Extender m_extenderRight = new Extender(ExtenderConstants.kLeftExtenderPort, false);
 
-  public Arm m_armLeft = new Arm(ArmConstants.kArmLeftMotor, ArmConstants.kArmLeftEncoder, true);
-  public Arm m_armRight = new Arm(ArmConstants.kArmRightMotor, ArmConstants.kArmRightEncoder, false);
+  public Arm m_armLeft = new Arm(true);
+  public Arm m_armRight = new Arm(false);
   //-----//
   //public static Intake m_intake = new Intake();
 

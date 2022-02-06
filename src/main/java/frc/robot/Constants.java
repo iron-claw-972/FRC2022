@@ -136,9 +136,6 @@ public final class Constants {
     // Current Tick Value * Degree Multiple = Current Angle
     public static final double kArmDegreeMultiple = 360;
 
-    // Arm PID
-    public static final PIDController armPID = new PIDController(0.02, 0, 0);
-
     // the distance allowed from the setpoint (IN DECIMAL DEGREES (1 = 360, .5 = 180, .25 = 90))
     public static final double kArmTolerance = .003;
   }
