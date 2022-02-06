@@ -6,13 +6,31 @@ import edu.wpi.first.wpilibj2.command.button.*;
 
 public class GameController extends Controller{
   
-  public Button Button = new Button();
-  public DPad DPad = new DPad();
+  private Button Button = new Button();
+  private DPad DPad = new DPad();
+  private TriggerAxis TriggerAxis = new TriggerAxis();
+  private JoystickAxis JoystickAxis = new JoystickAxis();
   
   public GameController(Joystick joystick_){
     super(joystick_);
   }
   
+  public JoystickAxis getJoystickAxis() {
+    return JoystickAxis;
+  }
+
+  public TriggerAxis getTriggerAxis() {
+    return TriggerAxis;
+  }
+
+  public DPad getDPad() {
+    return DPad;
+  }
+
+  public Button getButtons() {
+    return Button;
+  }
+
   //returns JoystickButton object
   public final class Button {
     public JoystickButton A() {
@@ -93,7 +111,6 @@ public class GameController extends Controller{
   }
   
   //returns Joystick Axis value
-  public JoystickAxis JoystickAxis = new JoystickAxis();
   public class JoystickAxis{
     public double leftX(){
       return getController().getRawAxis(GameConstants.joystickAxis.kLeftX);
@@ -110,12 +127,11 @@ public class GameController extends Controller{
   }
   
   //returns Trigger Axis value
-  public TriggerAxis TriggerAxis = new TriggerAxis();
   public  class TriggerAxis{
     public double leftTrigger(){
       return getController().getRawAxis(GameConstants.triggers.kLeftT);
     }
-    public double RightTrigger(){
+    public double rightTrigger(){
       return getController().getRawAxis(GameConstants.triggers.kRightT);
     }
   }

@@ -29,6 +29,7 @@ public final class Constants {
   public static final class JoyConstants {
     public static final int kDriverJoy = 0;
     public static final int kOperatorJoy = 1;
+    public static final double kDeadband = 0.05;
   }
 
   public static final class IntakeConstants {
