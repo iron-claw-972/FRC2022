@@ -13,6 +13,7 @@ import frc.robot.commands.*;
 import frc.robot.controls.*;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.cameraserver.CameraServer;
 
 import frc.robot.Constants.*;
@@ -32,6 +33,8 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   public Drivetrain m_drive = Drivetrain.getInstance();
   //public Intake m_intake = Intake.getInstance();
+
+  public Shuffleboard m_shuffleboard = new Shuffleboard();
 
   public RobotContainer() {
     
@@ -58,6 +61,7 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     // Attempt to load trajectory from PathWeaver
     Pathweaver.setupAutonomousTrajectory(AutoConstants.kTrajectoryName);
-    return Pathweaver.pathweaverCommand();
+    // return Pathweaver.pathweaverCommand();
+    return m_shuffleboard.getAutonomousCommand();
   }
 }

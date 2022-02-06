@@ -12,12 +12,21 @@ public class PathweaverCommand extends CommandBase {
       m_drive = subsystem;
       addRequirements(subsystem);
     }
-  
-    // Called every time the scheduler runs while the command is scheduled.
+    
+    @Override
+    public void initialize() {
+      Pathweaver.pathweaverCommand().initialize();
+    }
+    
     @Override
     public void execute() {
   
       Pathweaver.pathweaverCommand().execute();
+    }
+
+    @Override
+    public void end(boolean interrupted) {
+      Pathweaver.pathweaverCommand().end(interrupted);
     }
 
     @Override

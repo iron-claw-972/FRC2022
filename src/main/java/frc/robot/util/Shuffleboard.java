@@ -19,7 +19,7 @@ public class Shuffleboard {
     m_chooser.setDefaultOption("pathweaver", new PathweaverCommand(Drivetrain.getInstance()));
     // m_chooser.addOption("teleop", new TeleopDrive(Drivetrain.getInstance()));
     // m_chooser.setDefaultOption("pathweaver", new DifferentialDrive(Drivetrain.getInstance()));
-    m_chooser.addOption("teleop", new TeleopDrive(Drivetrain.getInstance()));
+    m_chooser.addOption("Spn baby spin", new RunCommand(() -> Drivetrain.getInstance().tankDrive(0.5, -0.5), Drivetrain.getInstance()));
 
     SmartDashboard.putData(m_chooser);
   }
@@ -28,7 +28,7 @@ public class Shuffleboard {
 
     //drive mode
     SmartDashboard.putString("Drive Mode", Driver.getDriveMode().toString());
-    System.out.println(m_chooser.getSelected().toString());
+    // System.out.println(m_chooser.getSelected().toString());
 
   }
   
