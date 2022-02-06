@@ -27,6 +27,7 @@ import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.motorcontrol.MotorController;
 import edu.wpi.first.wpilibj.simulation.DifferentialDrivetrainSim;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -38,41 +39,39 @@ import ctre_shims.TalonEncoderSim;
 
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
+import frc.robot.constants.drivetrain.ClassBot3Constants;
 import frc.robot.Constants;
 import frc.robot.ControllerFactory;
 
 public class Drivetrain extends SubsystemBase {
 
-    //change this to use constants from a different robot
-    public static ClassBot3Constants kDrivetrain = new ClassBot3Constants();
+  //change this to use constants from a different robot
+  public static ClassBot3Constants kDrivetrain = new ClassBot3Constants();
 
-    private static Drivetrain instance;
+  private static Drivetrain instance;
+
+  WPI_TalonFX m_leftMotor1 = ControllerFactory.createTalonFX(kDrivetrain.leftMotorPorts[0]);
+  WPI_TalonFX m_rightMotor1 = ControllerFactory.createTalonFX(kDrivetrain.rightMotorPorts[0]);
+  private PhoenixMotorControllerGroup m_leftMotors;
+  private PhoenixMotorControllerGroup m_rightMotors;
+  private final DifferentialDrive m_dDrive;
+
+  // The left-side drive encoder
+  private final TalonEncoder m_leftEncoder = new TalonEncoder(m_leftMotor1, kDrivetrain.kLeftEncoderReversed);
   
-    WPI_TalonFX m_leftMotor1 = ControllerFactory.createTalonFX(kDrivetrain.leftMotorPorts[0]);
-    WPI_TalonFX m_rightMotor1 = ControllerFactory.createTalonFX(kDrivetrain.rightMotorPorts[0]);
-    private PhoenixMotorControllerGroup m_leftMotors;
-    private PhoenixMotorControllerGroup m_rightMotors;
-    private final DifferentialDrive m_dDrive;
+  // The right-side drive encoder
+  private final TalonEncoder m_rightEncoder = new TalonEncoder(m_rightMotor1, kDrivetrain.kRightEncoderReversed);
   
-    // The left-side drive encoder
-    private final TalonEncoder m_leftEncoder = new TalonEncoder(m_leftMotor1, kDrivetrain.kLeftEncoderReversed);
-  
-    // The right-side drive encoder
-    private final TalonEncoder m_rightEncoder = new TalonEncoder(m_rightMotor1, kDrivetrain.kRightEncoderReversed);
-  
-    private final AHRS m_navX = new AHRS(SPI.Port.kMXP);
-  
-    // Odometry class for tracking robot pose
-    private final DifferentialDriveOdometry m_odometry;
-  
-    private final PIDController m_leftRamsetePIDController = new PIDController(kDrivetrain.kRamseteP, 0, 0);
-    private final PIDController m_rightRamsetePIDController = new PIDController(kDrivetrain.kRamseteP, 0, 0);
+  private final AHRS m_navX = new AHRS(SPI.Port.kMXP);
+
+  // Odometry class for tracking robot pose
+  private final DifferentialDriveOdometry m_odometry;
+
+  private final PIDController m_leftRamsetePIDController = new PIDController(kDrivetrain.kRamseteP, 0, 0);
+  private final PIDController m_rightRamsetePIDController = new PIDController(kDrivetrain.kRamseteP, 0, 0);
 
   private final SlewRateLimiter m_speedLimiter = new SlewRateLimiter(DriveConstants.kSpeedSlewRateLimit);
   private final SlewRateLimiter m_rotationLimiter = new SlewRateLimiter(DriveConstants.kRotationSlewRateLimit);
-
-  private final PIDController m_leftRamsetePIDController = new PIDController(DriveConstants.kRamseteP, 0, 0);
-  private final PIDController m_rightRamsetePIDController = new PIDController(DriveConstants.kRamseteP, 0, 0);
 
   private final PIDController m_leftVelocityPIDController = new PIDController(DriveConstants.kVelocityP,
       DriveConstants.kVelocityI, DriveConstants.kVelocityD);
@@ -400,5 +399,9 @@ public class Drivetrain extends SubsystemBase {
    */
   public double getTurnRate() {
     return -m_navX.getRate();
+  }
+
+  public static Drivetrain getInstance() {
+    return null;
   }
 }

@@ -16,7 +16,7 @@ public class Driver{
   //driver buttons
   public static void configureButtonBindings() {
     controller.getButtons().backSwitchTop().whenPressed(
-        () -> Drivetrain.getInstance().setMaxOutput(DriveConstants.kSlowSpeed), Drivetrain.getInstance());
+        () -> Drivetrain.getInstance().setMaxOutput(DriveConstants.kMaxAngularSpeedRadiansPerSecond), Drivetrain.getInstance());
     controller.getButtons().frontSwitchTop().whenPressed(
         () -> Drivetrain.getInstance().setMaxOutput(1.0), Drivetrain.getInstance());
   }
@@ -24,12 +24,12 @@ public class Driver{
   public static double getThrottleValue() {
     // put any processes in any order of the driver's choosing
     // Controllers y-axes are natively up-negative, down-positive
-    return Functions.slewCalculateThrottle(Functions.deadband(JoyConstants.kDeadband, getRawThrottleValue()));
+    return Functions.slewCalculateThrottle(Functions.deadband(JoyConstants.kJoystickDeadband, getRawThrottleValue()));
   }
 
   public static double getTurnValue() {
     // right is positive; left is negative
-    return Functions.slewCalculateTurn(Functions.deadband(JoyConstants.kDeadband, getRawTurnValue()));
+    return Functions.slewCalculateTurn(Functions.deadband(JoyConstants.kJoystickDeadband, getRawTurnValue()));
   }
   
   // sets drive mode
