@@ -7,6 +7,7 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.kauailabs.navx.frc.AHRS;
 
@@ -26,6 +27,7 @@ import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.motorcontrol.MotorController;
 import edu.wpi.first.wpilibj.simulation.DifferentialDrivetrainSim;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -37,39 +39,39 @@ import ctre_shims.TalonEncoderSim;
 
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
+import frc.robot.constants.drivetrain.ClassBot3Constants;
 import frc.robot.Constants;
 import frc.robot.ControllerFactory;
 
 public class Drivetrain extends SubsystemBase {
 
-  private final WPI_TalonFX m_leftMotor1 = ControllerFactory.createTalonFX(DriveConstants.kLeftMotor1Port);
-  private final WPI_TalonFX m_leftMotor2 = ControllerFactory.createTalonFX(DriveConstants.kLeftMotor2Port);
+  //change this to use constants from a different robot
+  public static ClassBot3Constants kDrivetrain = new ClassBot3Constants();
 
-  private final WPI_TalonFX m_rightMotor1 = ControllerFactory.createTalonFX(DriveConstants.kRightMotor1Port);
-  private final WPI_TalonFX m_rightMotor2 = ControllerFactory.createTalonFX(DriveConstants.kRightMotor2Port);
+  private static Drivetrain instance;
 
-  private final PhoenixMotorControllerGroup m_leftMotors = new PhoenixMotorControllerGroup(m_leftMotor1, m_leftMotor2);
-  private final PhoenixMotorControllerGroup m_rightMotors = new PhoenixMotorControllerGroup(m_rightMotor1,
-      m_rightMotor2);
+  WPI_TalonFX m_leftMotor1 = ControllerFactory.createTalonFX(kDrivetrain.leftMotorPorts[0]);
+  WPI_TalonFX m_rightMotor1 = ControllerFactory.createTalonFX(kDrivetrain.rightMotorPorts[0]);
+  private PhoenixMotorControllerGroup m_leftMotors;
+  private PhoenixMotorControllerGroup m_rightMotors;
+  private final DifferentialDrive m_dDrive;
 
   // The left-side drive encoder
-  private final TalonEncoder m_leftEncoder = new TalonEncoder(m_leftMotor1, DriveConstants.kLeftEncoderReversed);
-
+  private final TalonEncoder m_leftEncoder = new TalonEncoder(m_leftMotor1, kDrivetrain.kLeftEncoderReversed);
+  
   // The right-side drive encoder
-  private final TalonEncoder m_rightEncoder = new TalonEncoder(m_rightMotor1, DriveConstants.kRightEncoderReversed);
-
-  private final DifferentialDrive m_dDrive = new DifferentialDrive(m_leftMotors, m_rightMotors);
-
+  private final TalonEncoder m_rightEncoder = new TalonEncoder(m_rightMotor1, kDrivetrain.kRightEncoderReversed);
+  
   private final AHRS m_navX = new AHRS(SPI.Port.kMXP);
 
   // Odometry class for tracking robot pose
   private final DifferentialDriveOdometry m_odometry;
 
+  private final PIDController m_leftRamsetePIDController = new PIDController(kDrivetrain.kRamseteP, 0, 0);
+  private final PIDController m_rightRamsetePIDController = new PIDController(kDrivetrain.kRamseteP, 0, 0);
+
   private final SlewRateLimiter m_speedLimiter = new SlewRateLimiter(DriveConstants.kSpeedSlewRateLimit);
   private final SlewRateLimiter m_rotationLimiter = new SlewRateLimiter(DriveConstants.kRotationSlewRateLimit);
-
-  private final PIDController m_leftRamsetePIDController = new PIDController(DriveConstants.kRamseteP, 0, 0);
-  private final PIDController m_rightRamsetePIDController = new PIDController(DriveConstants.kRamseteP, 0, 0);
 
   private final PIDController m_leftVelocityPIDController = new PIDController(DriveConstants.kVelocityP,
       DriveConstants.kVelocityI, DriveConstants.kVelocityD);
@@ -96,6 +98,34 @@ public class Drivetrain extends SubsystemBase {
   private Field2d m_fieldSim;
 
   public Drivetrain() {
+
+    // go through non main motors and put them in an array (allows for variable # of motors)
+    // for loop starts at one because the main motor of that side is already accounted for
+    
+    MotorController[] lMotors = new MotorController[kDrivetrain.leftMotorPorts.length - 1];
+    for (int i = 1; i < kDrivetrain.leftMotorPorts.length; i++) {
+      lMotors[i-1] = ControllerFactory.createTalonFX(kDrivetrain.leftMotorPorts[i]);
+    }
+
+    MotorController[] rMotors = new MotorController[kDrivetrain.rightMotorPorts.length - 1];
+    for (int i = 1; i < kDrivetrain.rightMotorPorts.length; i++) {
+      rMotors[i-1] = ControllerFactory.createTalonFX(kDrivetrain.rightMotorPorts[i]);
+    }
+
+    if (kDrivetrain.leftMotorPorts.length > 1) {
+      m_leftMotors = new PhoenixMotorControllerGroup(m_leftMotor1, lMotors);
+    } else {
+      m_leftMotors = new PhoenixMotorControllerGroup(m_leftMotor1);
+    }
+
+    if (kDrivetrain.rightMotorPorts.length > 1) {
+      m_rightMotors = new PhoenixMotorControllerGroup(m_rightMotor1, rMotors);
+    } else {
+      m_rightMotors = new PhoenixMotorControllerGroup(m_rightMotor1);
+    }
+
+    m_dDrive = new DifferentialDrive(m_leftMotors, m_rightMotors);
+
     // Inverting one side of the drivetrain as to drive forward
     m_leftMotors.setInverted(true);
     m_rightMotors.setInverted(false);
@@ -127,6 +157,51 @@ public class Drivetrain extends SubsystemBase {
       m_fieldSim = new Field2d();
       SmartDashboard.putData("Field", m_fieldSim);
     }
+  }
+
+  public void arcadeDrive(double throttle, double turn) {
+    m_dDrive.arcadeDrive(throttle, turn);
+  }
+
+  public void tankDrive(double left, double right) {
+    m_dDrive.tankDrive(left, right);
+  }
+
+  public void propDrive(double throttle, double turn){
+    double leftOut = throttle * (1 + turn);
+    double rightOut = throttle * (1 - turn);
+
+    m_leftMotor1.set(ControlMode.PercentOutput, leftOut);
+    m_rightMotor1.set(ControlMode.PercentOutput, rightOut);
+    m_dDrive.feed();
+  }
+
+  public void shiftDrive(double throttle, double turn) {
+
+    double leftOut = throttle;
+    double rightOut = throttle;
+    
+    if (turn > 0){
+      leftOut = leftOut + turn;
+    } else if (turn < 0){
+      rightOut = rightOut - turn;
+    }
+
+    if (leftOut > 1){
+      rightOut = rightOut - (leftOut - 1);
+      leftOut = 1;
+    }
+    if (rightOut > 1){
+      leftOut = leftOut - (rightOut - 1);
+      rightOut = 1;
+    }    
+
+    System.out.println("left: " + leftOut);
+    System.out.println("Right: " + rightOut);
+
+    m_leftMotor1.set(ControlMode.PercentOutput, leftOut);
+    m_rightMotor1.set(ControlMode.PercentOutput, rightOut);
+    m_dDrive.feed();
   }
 
   @Override
@@ -256,14 +331,6 @@ public class Drivetrain extends SubsystemBase {
     return (m_leftEncoder.getDistance() + m_rightEncoder.getDistance()) / 2.0;
   }
 
-  public void tankDrive(double left, double right) {
-    m_dDrive.tankDrive(left, right);
-  }
-
-  public void arcadeDrive(double throttle, double turn) {
-    m_dDrive.arcadeDrive(throttle, turn);
-  }
-
   /**
    * Controls the left and right sides of the drive directly with voltages.
    *
@@ -332,5 +399,9 @@ public class Drivetrain extends SubsystemBase {
    */
   public double getTurnRate() {
     return -m_navX.getRate();
+  }
+
+  public static Drivetrain getInstance() {
+    return null;
   }
 }
