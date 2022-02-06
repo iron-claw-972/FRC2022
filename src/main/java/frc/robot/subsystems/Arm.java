@@ -2,49 +2,43 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+
 import ctre_shims.PhoenixMotorControllerGroup;
 import ctre_shims.TalonEncoder;
 import ctre_shims.TalonEncoderSim;
 import frc.robot.ControllerFactory;
 import frc.robot.Constants.ArmConstants;
+import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class Arm extends SubsystemBase{
-  private final WPI_TalonFX m_motor;
-  private final TalonEncoder m_encoder;
-  private double setpoint = ArmConstants.kRotatorSetpoint;
+public class Arm extends SubsystemBase {
+  private final DutyCycleEncoder dce;
+  private final CANSparkMax m_motor;
+  private double currentTickVal;
 
-  public Arm(int port, boolean left) {
-    m_motor = ControllerFactory.createTalonFX(port);
-    m_encoder= new TalonEncoder(m_motor);
+  private double setpoint = 0;
 
+  public Arm(int motorPort, int dcePort, boolean left) {
+    dce = new DutyCycleEncoder(dcePort);
+    m_motor = ControllerFactory.createSparkMAX(motorPort, MotorType.kBrushless);
+
+    // if the arm is left, the encoder value is inverted
     if (left) {
-      // so that encoder values aren't negative
-      m_motor.setSensorPhase(true);
-      // so that the arm doesn't spin in an opposing direction
-      m_motor.setInverted(true);
+      currentTickVal = dce.get() * -1;
     }
-
-    // the lowest tick limit is 0, and must be checked every 10 milliseconds
-    m_motor.configReverseSoftLimitThreshold(0, 10);
-
-    // converts the length of the arm in inches to ticks and makes that the maximum tick limit, it's checked every 10 milliseconds
-    m_motor.configForwardSoftLimitThreshold(ArmConstants.kRotatorMaxArmTicks, 10);
-
-    // every time the robot is started, arm MUST start at maximum compression in order to maintain consistency
-    // TODO: Make this better.
-    m_encoder.reset();
-
-    // so that the limiters are enabled
-    m_motor.configForwardSoftLimitEnable(true);
-    m_motor.configReverseSoftLimitEnable(true);
+    // otherwise, use the normal encoder value
+    else {
+      currentTickVal = dce.get();
+    }
   }
 
   public boolean reachedSetpoint() {
     // if the current tick position is within the setpoint's range (setpoint +- 10), return true, otherwise return false
-    return(m_encoder.getDistance() >= (setpoint / ArmConstants.kRotatorTickMultiple) - ArmConstants.kRotatorTolerance
-    && m_encoder.getDistance() <= (setpoint / ArmConstants.kRotatorTickMultiple) + ArmConstants.kRotatorTolerance);
+    return(currentTickVal) >= (setpoint / ArmConstants.kArmDegreeMultiple) - ArmConstants.kArmTolerance
+    && currentTickVal <= (setpoint / ArmConstants.kArmDegreeMultiple) + ArmConstants.kArmTolerance;
   }
 
   // called in RobotContainer by button binds
@@ -58,13 +52,10 @@ public class Arm extends SubsystemBase{
     if (reachedSetpoint() == false) {
       // sets the motor to go to a setpoint
       // the setpoint is tick value
-      m_motor.set(ArmConstants.rotatorPID.calculate(m_encoder.getDistance(), setpoint));
+      m_motor.set(ArmConstants.armPID.calculate(currentTickVal, setpoint));
 
       // a pop-up in shuffleboard that allows you to see how much the arm extended in inches
-      SmartDashboard.putNumber("Current Extension (Inches)", m_encoder.getDistance() * ArmConstants.kRotatorTickMultiple);
-
-      // so we know the value
-      // System.out.println(setpoint);
-      System.out.println(m_encoder.getDistance());
+      SmartDashboard.putNumber("Current Angle (Degrees)", dce.get() * ArmConstants.kArmDegreeMultiple);
     }
   }
+}

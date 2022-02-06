@@ -114,13 +114,33 @@ public final class Constants {
     public static final double kExtenderSetpoint = 0;
 
     // Extender PID
-    public static final PIDController extenderPID = new PIDController(1, 0, 0);
+    public static final PIDController extenderPID = new PIDController(0.02, 0, 0);
 
-    // the allowed distance from the setpoint
+    // the allowed distance from the setpoint (IN TICKS)
     public static final double kExtenderTolerance = 10;
 
     // the arm's length in ticks
     public static final double kExtenderMaxArmTicks = kExtenderMaxArmLength / kExtenderTickMultiple;
+  }
+
+  public static final class ArmConstants {
+    // the duty cycle encoder ports of the arm
+    public static final int kArmRightEncoder = -1;
+    public static final int kArmLeftEncoder = -1;
+    // the motor ports of the arm
+    public static final int kArmRightMotor = -1;
+    public static final int kArmLeftMotor = -1;
+
+    public static final double kArmMaxDegree = 30;
+
+    // Current Tick Value * Degree Multiple = Current Angle
+    public static final double kArmDegreeMultiple = 360;
+
+    // Arm PID
+    public static final PIDController armPID = new PIDController(0.02, 0, 0);
+
+    // the distance allowed from the setpoint (IN DECIMAL DEGREES (1 = 360, .5 = 180, .25 = 90))
+    public static final double kArmTolerance = .003;
   }
 
   public static final class AutoConstants {

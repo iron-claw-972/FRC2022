@@ -31,11 +31,12 @@ import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
-
+import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.JoyConstants;
 import frc.robot.commands.ArcadeDrive;
 import frc.robot.commands.DifferentialDrive;
+import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Extender;
 import frc.robot.Constants.ExtenderConstants;
@@ -57,6 +58,9 @@ public class RobotContainer {
   // arm objects
   public Extender m_extenderLeft = new Extender(ExtenderConstants.kRightExtenderPort, true);
   public Extender m_extenderRight = new Extender(ExtenderConstants.kLeftExtenderPort, false);
+
+  public Arm m_armLeft = new Arm(ArmConstants.kArmLeftMotor, ArmConstants.kArmLeftEncoder, true);
+  public Arm m_armRight = new Arm(ArmConstants.kArmRightMotor, ArmConstants.kArmRightEncoder, false);
   //-----//
   //public static Intake m_intake = new Intake();
 
@@ -132,6 +136,12 @@ public class RobotContainer {
     m_operatorController_DPAD_DOWN
       .whenPressed(() -> m_extenderLeft.set(0))
       .whenPressed(() -> m_extenderRight.set(0));
+    m_operatorController_BACK
+      .whenPressed(() -> m_armLeft.set(ArmConstants.kArmMaxDegree))
+      .whenPressed(() -> m_armRight.set(ArmConstants.kArmMaxDegree));
+    m_operatorController_START
+      .whenPressed(() -> m_armLeft.set(-ArmConstants.kArmMaxDegree))
+      .whenPressed(() -> m_armRight.set(-ArmConstants.kArmMaxDegree));
   }
 
   /**

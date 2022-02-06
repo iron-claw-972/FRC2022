@@ -11,7 +11,8 @@ import frc.robot.Constants.ExtenderConstants;
 
 public class Extender extends SubsystemBase{
   private final WPI_TalonFX m_motor;
-  private double setpoint = ExtenderConstants.kExtenderSetpoint;
+  
+  private double setpoint = 0;
 
   // this is initialized in RobotContainer where it uses the respective constants
   // it was requested to use multiple objects for the extender because one might fail
@@ -61,9 +62,6 @@ public class Extender extends SubsystemBase{
 
       // a pop-up in shuffleboard that allows you to see how much the arm extended in inches
       SmartDashboard.putNumber("Current Extension (Inches)", m_motor.getSelectedSensorPosition() * ExtenderConstants.kExtenderTickMultiple);
-
-      // so we know the value
-      System.out.println(setpoint);
     }
   }
 } 
