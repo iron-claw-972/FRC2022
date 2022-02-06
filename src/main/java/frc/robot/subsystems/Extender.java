@@ -13,6 +13,8 @@ public class Extender extends SubsystemBase{
   private final WPI_TalonFX m_motor;
   private double setpoint = ExtenderConstants.kExtenderSetpoint;
 
+  // this is initialized in RobotContainer where it uses the respective constants
+  // it was requested to use multiple objects for the extender because one might fail
   public Extender(int port, boolean left) {
     m_motor = ControllerFactory.createTalonFX(port);
 

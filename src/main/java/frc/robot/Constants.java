@@ -101,7 +101,7 @@ public final class Constants {
     // used to convert ticks to inches
     public static final double kExtenderTicksPerRotation = 1/2048; // every rotation is 2048 ticks
     public static final double kExtenderGearRatio = 20/1;
-    public static final double kExtenderInchesPerRotation = Math.PI * 6; // 6 inches per rotation
+    public static final double kExtenderInchesPerRotation = (Math.PI * 6); // 6 inches per rotation
 
     // Ticks Per Rotation * Gear Ratio * Inches Per Rotation = Tick Multiple
     public static final double kExtenderTickMultiple = (
