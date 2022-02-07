@@ -28,16 +28,18 @@ import frc.robot.autonomous.drivetrain.Pathweaver;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  public Drivetrain m_drive = Drivetrain.getInstance();
+  //public Drivetrain m_drive = Drivetrain.getInstance();
+  public Arm m_arm = new Arm();
   //public Intake m_intake = Intake.getInstance();
 
   public RobotContainer() {
 
     // default command to run in teleop
-    m_drive.setDefaultCommand(new DifferentialDrive(m_drive));
-
+    // m_drive.setDefaultCommand(new DifferentialDrive(m_drive));
+    m_arm.setDefaultCommand(new armPID(m_arm));
+    
     // Start camera stream for driver
-    CameraServer.startAutomaticCapture();
+    //CameraServer.startAutomaticCapture();
     
     // Configure the button bindings
     Driver.configureButtonBindings();
