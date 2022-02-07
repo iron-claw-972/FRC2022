@@ -22,7 +22,7 @@ public class Extender extends SubsystemBase{
     if (left) {
       // so that encoder values aren't negative
       m_motor.setSensorPhase(true);
-      // so that the arm doesn't spin in an opposing direction
+      // so that the extender doesn't extend in an opposing direction
       m_motor.setInverted(true);
     }
 

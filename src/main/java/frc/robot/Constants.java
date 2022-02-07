@@ -138,6 +138,8 @@ public final class Constants {
 
     // the distance allowed from the setpoint (IN DECIMAL DEGREES (1 = 360, .5 = 180, .25 = 90))
     public static final double kArmTolerance = .003;
+
+    public static final double kArmMaxDegreeTicks = kArmMaxDegree / kArmDegreeMultiple;
   }
 
   public static final class AutoConstants {
