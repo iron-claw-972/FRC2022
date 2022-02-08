@@ -3,7 +3,7 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
-import frc.robot.constants.intake.TraversoIntakeConstants;
+import frc.robot.robotConstants.intake.TraversoIntakeConstants;
 import frc.robot.util.ControllerFactory;
 
 public class Intake {

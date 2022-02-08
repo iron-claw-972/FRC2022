@@ -1,4 +1,4 @@
-package frc.robot.constants.shooterWheel;
+package frc.robot.robotConstants.shooterWheel;
 
 import edu.wpi.first.math.util.Units;
 

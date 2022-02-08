@@ -2,7 +2,7 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.constants.colorSensor.TraversoColorSensorConstants;
+import frc.robot.robotConstants.colorSensor.TraversoColorSensorConstants;
 
 import com.revrobotics.ColorSensorV3;
 import edu.wpi.first.wpilibj.I2C;

@@ -1,4 +1,4 @@
-package frc.robot.constants.drivetrain;
+package frc.robot.robotConstants.drivetrain;
 
 public class VoltaireDriveConstants {
   public final int[] rightMotorPorts = {14, 1};
