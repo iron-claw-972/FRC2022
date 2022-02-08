@@ -32,10 +32,11 @@ public class Arm extends SubsystemBase{
   // private final TalonEncoder m_leftEncoder = new TalonEncoder(m_leftMotor);
   // private final TalonEncoder m_rightEncoder = new TalonEncoder(m_rightMotor);
   
-  private final WPI_TalonFX m_motor;
-  private final TalonEncoder m_encoder;
-  private double setpoint = ArmConstants.kRotatorSetpoint;
+  // private final WPI_TalonFX m_motor;
+  // private final TalonEncoder m_encoder;
+  // private double setpoint = ArmConstants.kRotatorSetpoint;
 
+  /*
   public Arm(int port, boolean left) {
     m_motor = ControllerFactory.createTalonFX(port);
     m_encoder= new TalonEncoder(m_motor);
@@ -61,13 +62,16 @@ public class Arm extends SubsystemBase{
     m_motor.configForwardSoftLimitEnable(true);
     m_motor.configReverseSoftLimitEnable(true);
   }
-
+  
+  
+  
   public boolean reachedSetpoint() {
     // if the current tick position is within the setpoint's range (setpoint +- 10), return true, otherwise return false
     return(m_encoder.getDistance() >= (setpoint / ArmConstants.kRotatorTickMultiple) - ArmConstants.kRotatorTolerance
     && m_encoder.getDistance() <= (setpoint / ArmConstants.kRotatorTickMultiple) + ArmConstants.kRotatorTolerance);
   }
-
+  
+  
   // called in RobotContainer by button binds
   public void set(double distance){
     setpoint = distance;
@@ -89,7 +93,8 @@ public class Arm extends SubsystemBase{
       System.out.println(m_encoder.getDistance());
     }
   }
-  /*
+  */
+  
   //Michael's old code that may or may not need to be reused
   public Arm(){
     motor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 100);
@@ -101,9 +106,9 @@ public class Arm extends SubsystemBase{
   double error;
   double derivative;
   double errorPrior;
-  double pGain = 0.5;
-  double iGain = 0;
-  double dGain = 0;
+  double pGain = SmartDashboard.getNumber("P", 0.1);
+  double iGain = SmartDashboard.getNumber("I", 0);
+  double dGain = SmartDashboard.getNumber("D", 0);
 
   //private PIDController pid = new PIDController(pGain, iGain, dGain);
 
@@ -132,6 +137,7 @@ public class Arm extends SubsystemBase{
     }if (maxError > error && error > maxError) {
       outPutVal = 0;
     }
+    */
 
     System.out.println("power: " + outPutVal);
     motor.set(ControlMode.PercentOutput, outPutVal);
@@ -171,6 +177,4 @@ public class Arm extends SubsystemBase{
     motor.setSelectedSensorPosition(radians/(Math.PI*2)*ArmConstants.kEncoderResolution);
   }
     
-}
-  */
 }
