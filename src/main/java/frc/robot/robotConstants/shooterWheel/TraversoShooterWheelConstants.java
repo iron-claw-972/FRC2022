@@ -15,8 +15,12 @@ public class TraversoShooterWheelConstants {
   public final double kEncoderMetersPerPulse = kWheelDiameterMeters * Math.PI / (double) kEncoderResolution / kGearRatio;
 
   // PID Stuff
-  public final double kShooterWheelP = 0.1;
-  public final double kShooterWheelI = 0;
-  public final double kShooterWheelD = 0;
-  public final double kShooterWheelVelocityPIDTolerance = 0;
+  public final double kP = 0.1;
+  public final double kI = 0;
+  public final double kD = 0;
+  public final double kVelocityPIDTolerance = 0;
+  // Feedforward
+  public final double kS = 0;
+  public final double kV = 0;
+  public final double kA = 0;
 }
