@@ -8,19 +8,12 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import frc.robot.ControllerFactory;
-import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.ShooterWheelConstants;
 
 import ctre_shims.TalonEncoder;
 import edu.wpi.first.math.controller.PIDController;
 
-public class ShooterWheel extends SubsystemBase {
-
-    public ShooterWheel() {
-        m_ShooterWheelEncoder.setDistancePerPulse(DriveConstants.kEncoderMetersPerPulse);
-        m_ShooterWheelEncoder.reset();
-
-    }    
+public class ShooterWheel extends SubsystemBase {    
 
     private final WPI_TalonFX m_ShooterWheelMotor = ControllerFactory.createTalonFX(ShooterWheelConstants.kShooterWheelMotorPort);
     private final TalonEncoder m_ShooterWheelEncoder = new TalonEncoder(m_ShooterWheelMotor);
@@ -29,15 +22,13 @@ public class ShooterWheel extends SubsystemBase {
 
     public static double motorSpeed = 1.0;
 
-    @Override
-    public void periodic() {
-        if (reachedSetpoint(motorSpeed)){
-            stop();    
-        }else{
-            m_ShooterWheelMotor.set(ControlMode.PercentOutput, ShooterWheelPID.calculate(motorSpeed));
+    public ShooterWheel() {
+        m_ShooterWheelEncoder.setDistancePerPulse(ShooterWheelConstants.kEncoderMetersPerPulse);
+        m_ShooterWheelEncoder.reset();
+    }
 
-        };
-        
+    public void updatePID() {
+        m_ShooterWheelMotor.set(ControlMode.PercentOutput, ShooterWheelPID.calculate(motorSpeed));
     }
 
     public void setSpeed(double newSpeed) {
@@ -45,33 +36,32 @@ public class ShooterWheel extends SubsystemBase {
     }
 
 
-    public void setBackOutakeSpeed() {
-        motorSpeed = 1.4;
+    public void setBackOuttakeSpeed() {
+        motorSpeed = ShooterWheelConstants.kBackOuttakeSpeed;
     }
 
-    public void setFrontOutakeSpeed() {
-        motorSpeed = 1.4;
+    public void setFrontOuttakeSpeed() {
+        motorSpeed = ShooterWheelConstants.kFrontOuttakeSpeed;
     }
 
-    public void setFrontOutakeFarSpeed() {
-        motorSpeed = 1.4;
+    //TODO: Limelight integration
+    /*
+    public void setFrontOuttakeFarSpeed() {        
+        motorSpeed = 1.0;
     }
 
-    public void setBackOutakeFarSpeed() {
-        motorSpeed = 1.4;
+    public void setBackOuttakeFarSpeed() {
+        motorSpeed = 1.0;
     }
-
+    */
 
     public void stop() {
-        setSpeed(0);
+        m_ShooterWheelMotor.set(ControlMode.PercentOutput, 0);
     }
 
-    public Boolean reachedSetpoint(double targetSpeed) {
-        if (m_ShooterWheelEncoder.getRate() < targetSpeed + ShooterWheelConstants.kShooterWheelVelocityPIDTolerance &&
-         m_ShooterWheelEncoder.getRate() > targetSpeed - ShooterWheelConstants.kShooterWheelVelocityPIDTolerance){
-            return true;
-        }
-        return false;
+    public boolean reachedSetpoint(double targetSpeed) {
+        return (m_ShooterWheelEncoder.getRate() < targetSpeed + ShooterWheelConstants.kShooterWheelVelocityPIDTolerance &&
+                m_ShooterWheelEncoder.getRate() > targetSpeed - ShooterWheelConstants.kShooterWheelVelocityPIDTolerance);
     }
 
 }

@@ -88,13 +88,18 @@ public final class Constants {
 
   public static final class ShooterWheelConstants {
     public static final int kShooterWheelMotorPort = 11;
-    public static final int kFrontOutakeSpeed = 1;
-    public static final int ktopBackOutakeSpeed = 1;
-    public static final double ktopFarMultiplier = 1.5;
-    public static final int ktopIntakeSpeed = 1;
+
+    public static final int kFrontOuttakeSpeed = 1;
+    public static final int kBackOuttakeSpeed = 1;
+    public static final int kIntakeSpeed = 1;
+
+    public static final int kEncoderResolution = 2048; // 2048 for Falcon500 integrated encoder
+    public static final double kWheelDiameterMeters = Units.inchesToMeters(4);
+    public static final double kGearRatio = 1.0;
+    public static final double kEncoderMetersPerPulse = kWheelDiameterMeters * Math.PI / (double) kEncoderResolution / kGearRatio;
 
     // PID Stuff
-    public static final double kShooterWheelP = 1;
+    public static final double kShooterWheelP = 0.1;
     public static final double kShooterWheelI = 0;
     public static final double kShooterWheelD = 0;
 	  public static final double kShooterWheelVelocityPIDTolerance = 0;
@@ -104,8 +109,16 @@ public final class Constants {
   public static final class ShooterBeltConstants {
     public static final int kShooterBeltMotorPort = 11;
 
+    public static final double kOuttakeSpeed = 2.0;
+    public static final double kIntakeSpeed = 2.0;
+
+    public static final int kEncoderResolution = 2048; // 2048 for Falcon500 integrated encoder
+    public static final double kWheelDiameterMeters = Units.inchesToMeters(4);
+    public static final double kGearRatio = 1.0;
+    public static final double kEncoderMetersPerPulse = kWheelDiameterMeters * Math.PI / (double) kEncoderResolution / kGearRatio;
+
     // PID Stuff
-    public static final double kShooterBeltP = 1;
+    public static final double kShooterBeltP = 0.1;
     public static final double kShooterBeltI = 0;
     public static final double kShooterBeltD = 0;
 	  public static final double kShooterBeltVelocityPIDTolerance = 0;

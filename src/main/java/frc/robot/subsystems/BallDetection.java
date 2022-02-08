@@ -9,11 +9,6 @@ import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.util.Color;
 
 public class BallDetection extends SubsystemBase {
-
-    public BallDetection() {
-
-    }
-    
     
     @Override
     public void periodic() {
@@ -23,22 +18,22 @@ public class BallDetection extends SubsystemBase {
     private final I2C.Port i2cPort = I2C.Port.kOnboard;
     private final ColorSensorV3 m_colorSensor = new ColorSensorV3(i2cPort);
 
-    public String isColor(double red, double green, double blue) {
+    public Color isColor(double red, double green, double blue) {
         if (blue > 0.4) {
-            return "blue";
+            return Color.kBlue;
         } else if (red > 0.4) {
-            return "red";
+            return Color.kRed;
         }
-        return "none";
+        return null;
     }
 
-    public String ballColor() {
+    public Color ballColor() {
         Color detectedColor = m_colorSensor.getColor();
         return isColor(detectedColor.red, detectedColor.green, detectedColor.blue);
     }
 
-    public Boolean containsBall() {
-        Integer ballProximity = m_colorSensor.getProximity();
+    public boolean containsBall() {
+        int ballProximity = m_colorSensor.getProximity();
         if (ballProximity > BallDetectionConstants.kMinimumBallProximity) {
             System.out.println("Object detected, proximity: " + ballProximity);
             return true;
