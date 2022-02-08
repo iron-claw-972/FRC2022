@@ -161,7 +161,7 @@ public class Arm extends SubsystemBase{
     armGoal = armGoal + target;
   }
   
-  public void setGoal(double target){
+  public void setGoalRad(double target){
     armGoal = target;
   }
 
@@ -173,7 +173,7 @@ public class Arm extends SubsystemBase{
     return (error < errorPrior && errorPrior < maxError);
   }
   
-  public void setEncoder(double radians){
+  public void setEncoderRad(double radians){
     motor.setSelectedSensorPosition(radians/(Math.PI*2)*ArmConstants.kEncoderResolution);
   }
     
