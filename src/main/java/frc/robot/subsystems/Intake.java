@@ -3,12 +3,13 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
-import frc.robot.Constants.IntakeConstants;
+import frc.robot.constants.intake.TraversoIntakeConstants;
 import frc.robot.util.ControllerFactory;
 
 public class Intake {
-    
-/*private final WPI_TalonFX m_motor = ControllerFactory.createTalonFX(IntakeConstants.kIntakeMotorPort);
+  /*  
+  private TraversoIntakeConstants constants = new TraversoIntakeConstants();
+  private final WPI_TalonFX m_motor = ControllerFactory.createTalonFX(constants.kIntakeMotorPort);
 
   private static Intake instance;
 

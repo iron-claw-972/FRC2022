@@ -28,7 +28,8 @@ import frc.robot.autonomous.drivetrain.Pathweaver;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  public Drivetrain m_drive = Drivetrain.getInstance();
+  private static Drivetrain m_drive = Drivetrain.getInstance();
+  private static BallDetection m_bBallDetection = new BallDetection();
   //public Intake m_intake = Intake.getInstance();
 
   public RobotContainer() {
@@ -42,6 +43,11 @@ public class RobotContainer {
     // Configure the button bindings
     Driver.configureButtonBindings();
     Operator.configureButtonBindings();
+  }
+
+
+  public static BallDetection getBallDetection() {
+    return m_bBallDetection;
   }
 
 
