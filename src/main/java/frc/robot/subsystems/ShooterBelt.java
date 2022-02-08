@@ -26,6 +26,9 @@ public class ShooterBelt extends SubsystemBase {
   public ShooterBelt() {
     m_ShooterBeltEncoder.setDistancePerPulse(constants.kEncoderMetersPerPulse);
     m_ShooterBeltEncoder.reset();
+    ShooterBeltPID.reset();
+    ShooterBeltPID.setTolerance(constants.kShooterBeltVelocityPIDTolerance);
+    ShooterBeltPID.setSetpoint(motorSpeed);
   }
 
   @Override
@@ -34,19 +37,19 @@ public class ShooterBelt extends SubsystemBase {
   }
 
   public void updatePID() {
-    m_ShooterBeltMotor.set(ControlMode.PercentOutput, ShooterBeltPID.calculate(motorSpeed));
+    m_ShooterBeltMotor.set(ControlMode.PercentOutput, ShooterBeltPID.calculate(m_ShooterBeltEncoder.getRate()));
   }
 
   public void setSpeed(double newSpeed) {
-    motorSpeed = newSpeed;
+    ShooterBeltPID.setSetpoint(newSpeed);
   }
 
   public void setIntakeSpeed() {
-    motorSpeed = constants.kIntakeSpeed;
+    setSpeed(constants.kIntakeSpeed);
   }
 
   public void setOuttakeSpeed() {
-    motorSpeed = constants.kOuttakeSpeed;
+    setSpeed(constants.kOuttakeSpeed);
   }
 
   public void stop() {
@@ -54,8 +57,7 @@ public class ShooterBelt extends SubsystemBase {
   }
 
   public boolean reachedSetpoint(double targetSpeed) {
-    return (m_ShooterBeltEncoder.getRate() < targetSpeed + constants.kShooterBeltVelocityPIDTolerance &&
-        m_ShooterBeltEncoder.getRate() > targetSpeed - constants.kShooterBeltVelocityPIDTolerance);
+    return ShooterBeltPID.atSetpoint();
   }
 
 }
