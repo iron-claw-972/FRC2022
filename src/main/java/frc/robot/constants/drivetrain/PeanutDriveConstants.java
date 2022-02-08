@@ -1,6 +1,6 @@
 package frc.robot.constants.drivetrain;
 
-public class PeanutConstants {
+public class PeanutDriveConstants {
   public final int[] rightMotorPorts = {1};
   public final int[] leftMotorPorts = {2};
 }

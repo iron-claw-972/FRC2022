@@ -6,26 +6,25 @@ import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.system.plant.LinearSystemId;
 import edu.wpi.first.math.util.Units;
 
-public class ClassBot1Constants {
+public class ClassBot3DriveConstants {
+    
+  public final int[] rightMotorPorts = {10};
+  public final int[] leftMotorPorts = {12};
 
-  public final int[] rightMotorPorts = {2};
-  public final int[] leftMotorPorts = {1};
-
-  //auto might be off because they were calibrated for classbot3
-
+    
   public final double kTrackWidthMeters = Units.inchesToMeters(20); // Distance between center of left wheel and center of right wheel in meters
 
-  public  final int kEncoderResolution = 2048; // 2048 for Falcon500 integrated encoder
+  public final int kEncoderResolution = 2048; // 2048 for Falcon500 integrated encoder
   public final double kWheelDiameterMeters = Units.inchesToMeters(4);
   public final double kGearRatio = 62.0 / 8.0;
   public final double kEncoderMetersPerPulse = kWheelDiameterMeters * Math.PI / (double) kEncoderResolution / kGearRatio;
   public final double kEncoderMetersPerSecond = kWheelDiameterMeters * Math.PI / kGearRatio * 10.0;
 
   // Use the SysId program in WPILib Tools to estimate values
-  public final double ksVolts = 0.59765; // Ks
-  public final double kvVoltSecondsPerMeter = 2.6544; // Kv
-  public final double kaVoltSecondsSquaredPerMeter = 0.15897; // Ka
-  public final double kRamseteP = 2.7489; // Kp for Ramsete PID
+  public final double ksVolts = 0.52734; // Ks
+  public final double kvVoltSecondsPerMeter = 2.6398; // Kv
+  public final double kaVoltSecondsSquaredPerMeter = 0.21913; // Ka
+  public final double kRamseteP = 3.1014; // Kp for Ramsete PID
   public final double kvVoltSecondsPerRadian = 0.05;
   public final double kaVoltSecondsSquaredPerRadian = 0.005;
 

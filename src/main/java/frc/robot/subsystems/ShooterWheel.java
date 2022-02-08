@@ -8,24 +8,24 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import frc.robot.ControllerFactory;
-import frc.robot.Constants.ShooterWheelConstants;
-
+import frc.robot.constants.shooterWheel.TraversoShooterWheelConstants;
 import ctre_shims.TalonEncoder;
 import edu.wpi.first.math.controller.PIDController;
 
 public class ShooterWheel extends SubsystemBase {
 
-  private final WPI_TalonFX m_ShooterWheelMotor = ControllerFactory
-      .createTalonFX(ShooterWheelConstants.kShooterWheelMotorPort);
+  TraversoShooterWheelConstants constants = new TraversoShooterWheelConstants();
+
+  private final WPI_TalonFX m_ShooterWheelMotor = ControllerFactory.createTalonFX(constants.kShooterWheelMotorPort);
   private final TalonEncoder m_ShooterWheelEncoder = new TalonEncoder(m_ShooterWheelMotor);
 
-  private final PIDController ShooterWheelPID = new PIDController(ShooterWheelConstants.kShooterWheelP,
-      ShooterWheelConstants.kShooterWheelI, ShooterWheelConstants.kShooterWheelD);
+  private final PIDController ShooterWheelPID = new PIDController(constants.kShooterWheelP,
+  constants.kShooterWheelI, constants.kShooterWheelD);
 
   public static double motorSpeed = 1.0;
 
   public ShooterWheel() {
-    m_ShooterWheelEncoder.setDistancePerPulse(ShooterWheelConstants.kEncoderMetersPerPulse);
+    m_ShooterWheelEncoder.setDistancePerPulse(constants.kEncoderMetersPerPulse);
     m_ShooterWheelEncoder.reset();
   }
 
@@ -38,11 +38,11 @@ public class ShooterWheel extends SubsystemBase {
   }
 
   public void setBackOuttakeSpeed() {
-    motorSpeed = ShooterWheelConstants.kBackOuttakeSpeed;
+    motorSpeed = constants.kBackOuttakeSpeed;
   }
 
   public void setFrontOuttakeSpeed() {
-    motorSpeed = ShooterWheelConstants.kFrontOuttakeSpeed;
+    motorSpeed = constants.kFrontOuttakeSpeed;
   }
 
   // TODO: Limelight integration
@@ -61,8 +61,8 @@ public class ShooterWheel extends SubsystemBase {
   }
 
   public boolean reachedSetpoint(double targetSpeed) {
-    return (m_ShooterWheelEncoder.getRate() < targetSpeed + ShooterWheelConstants.kShooterWheelVelocityPIDTolerance &&
-        m_ShooterWheelEncoder.getRate() > targetSpeed - ShooterWheelConstants.kShooterWheelVelocityPIDTolerance);
+    return (m_ShooterWheelEncoder.getRate() < targetSpeed + constants.kShooterWheelVelocityPIDTolerance &&
+            m_ShooterWheelEncoder.getRate() > targetSpeed - constants.kShooterWheelVelocityPIDTolerance);
   }
 
 }

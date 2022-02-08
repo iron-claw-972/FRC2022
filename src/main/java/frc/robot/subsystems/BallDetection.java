@@ -2,13 +2,15 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants.BallDetectionConstants;
+import frc.robot.constants.colorSensor.TraversoColorSensorConstants;
 
 import com.revrobotics.ColorSensorV3;
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.util.Color;
 
 public class BallDetection extends SubsystemBase {
+
+  TraversoColorSensorConstants constants = new TraversoColorSensorConstants();
 
   @Override
   public void periodic() {
@@ -34,7 +36,7 @@ public class BallDetection extends SubsystemBase {
 
   public boolean containsBall() {
     int ballProximity = m_colorSensor.getProximity();
-    if (ballProximity > BallDetectionConstants.kMinimumBallProximity) {
+    if (ballProximity > constants.kMinimumBallProximity) {
       System.out.println("Object detected, proximity: " + ballProximity);
       return true;
     }

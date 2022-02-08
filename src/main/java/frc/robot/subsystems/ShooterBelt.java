@@ -8,24 +8,23 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import frc.robot.ControllerFactory;
-import frc.robot.Constants.ShooterBeltConstants;
-
+import frc.robot.constants.shooterBelt.TraversoBeltConstants;
 import ctre_shims.TalonEncoder;
 import edu.wpi.first.math.controller.PIDController;
 
 public class ShooterBelt extends SubsystemBase {
 
-  private final WPI_TalonFX m_ShooterBeltMotor = ControllerFactory
-      .createTalonFX(ShooterBeltConstants.kShooterBeltMotorPort);
+  TraversoBeltConstants constants = new TraversoBeltConstants();
+
+  private final WPI_TalonFX m_ShooterBeltMotor = ControllerFactory.createTalonFX(constants.kShooterBeltMotorPort);
   private final TalonEncoder m_ShooterBeltEncoder = new TalonEncoder(m_ShooterBeltMotor);
 
-  private final PIDController ShooterBeltPID = new PIDController(ShooterBeltConstants.kShooterBeltP,
-      ShooterBeltConstants.kShooterBeltI, ShooterBeltConstants.kShooterBeltD);
+  private final PIDController ShooterBeltPID = new PIDController(constants.kShooterBeltP, constants.kShooterBeltI, constants.kShooterBeltD);
 
   public static double motorSpeed = 0.0;
 
   public ShooterBelt() {
-    m_ShooterBeltEncoder.setDistancePerPulse(ShooterBeltConstants.kEncoderMetersPerPulse);
+    m_ShooterBeltEncoder.setDistancePerPulse(constants.kEncoderMetersPerPulse);
     m_ShooterBeltEncoder.reset();
   }
 
@@ -38,11 +37,11 @@ public class ShooterBelt extends SubsystemBase {
   }
 
   public void setIntakeSpeed() {
-    motorSpeed = ShooterBeltConstants.kIntakeSpeed;
+    motorSpeed = constants.kIntakeSpeed;
   }
 
   public void setOuttakeSpeed() {
-    motorSpeed = ShooterBeltConstants.kOuttakeSpeed;
+    motorSpeed = constants.kOuttakeSpeed;
   }
 
   public void stop() {
@@ -50,8 +49,8 @@ public class ShooterBelt extends SubsystemBase {
   }
 
   public boolean reachedSetpoint(double targetSpeed) {
-    return (m_ShooterBeltEncoder.getRate() < targetSpeed + ShooterBeltConstants.kShooterBeltVelocityPIDTolerance &&
-        m_ShooterBeltEncoder.getRate() > targetSpeed - ShooterBeltConstants.kShooterBeltVelocityPIDTolerance);
+    return (m_ShooterBeltEncoder.getRate() < targetSpeed + constants.kShooterBeltVelocityPIDTolerance &&
+        m_ShooterBeltEncoder.getRate() > targetSpeed - constants.kShooterBeltVelocityPIDTolerance);
   }
 
 }
