@@ -52,8 +52,8 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   public static Drivetrain m_drive = new Drivetrain();
   public static Intake m_intake = new Intake();
-  public static ShooterWheels m_shooterTop = new ShooterWheels();
-  public static ShooterBelt m_shooterBottom = new ShooterBelt();
+  public static ShooterWheels m_shooterWheels = new ShooterWheels();
+  public static ShooterBelt m_shooterBelt = new ShooterBelt();
 
   static Joystick m_driverController = new Joystick(JoyConstants.kDriverJoy);
   static Joystick m_operatorController = new Joystick(JoyConstants.kOperatorJoy);
@@ -115,6 +115,19 @@ public class RobotContainer {
     m_driverController_RB
         .whenPressed(() -> m_drive.setMaxOutput(0.5))
         .whenReleased(() -> m_drive.setMaxOutput(1));
+
+    m_driverController_A.whenPressed(() -> {
+      m_shooterWheels.setSpeed(0.2);
+      m_shooterBelt.setSpeed(0.2);
+    }).whenReleased(() -> {
+      m_shooterBelt.stop();
+      m_shooterWheels.stop();
+    });
+
+    m_driverController_B
+      .whenPressed(() -> m_shooterWheels.setSpeed(0.2))
+      .whenReleased(() -> m_shooterWheels.stop());
+    
   }
 
   /**

@@ -91,8 +91,8 @@ public final class Constants {
   }
 
   public static final class ShooterConstants {
-    public static final int kShooterWheelsMotorPort = 11;
-    public static final int kShooterBeltMotorPort = 11;
+    public static final int kShooterWheelsMotorPort = 8;
+    public static final int kShooterBeltMotorPort = 4;
     public static final int kShooterMotorDistancePerPulse = 1;
 
     // Wheel motor
