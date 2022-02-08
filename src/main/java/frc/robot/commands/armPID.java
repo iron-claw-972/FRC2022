@@ -23,13 +23,13 @@ public class armPID extends CommandBase {
   @Override
   public void initialize() {
     m_subsystem.setEncoderRad(0.0);
-    m_subsystem.setGoalRad(1.5);
+    m_subsystem.setGoalRad(-1.5);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    // m_subsystem.posPID();
+    //m_subsystem.posPID();
     System.out.println(m_subsystem.getPosition());
   }
 

@@ -54,7 +54,7 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // Attempt to load trajectory from PathWeaver
-    Pathweaver.setupAutonomousTrajectory(AutoConstants.kTrajectoryName);
-    return Pathweaver.pathweaverCommand();
+    //Pathweaver.setupAutonomousTrajectory(AutoConstants.kTrajectoryName);
+    return new armPID(m_arm);
   }
 }
