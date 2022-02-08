@@ -29,6 +29,11 @@ public class ShooterWheel extends SubsystemBase {
     m_ShooterWheelEncoder.reset();
   }
 
+  @Override
+  public void periodic() {
+    updatePID();
+  }
+
   public void updatePID() {
     m_ShooterWheelMotor.set(ControlMode.PercentOutput, ShooterWheelPID.calculate(motorSpeed));
   }

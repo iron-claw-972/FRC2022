@@ -28,6 +28,11 @@ public class ShooterBelt extends SubsystemBase {
     m_ShooterBeltEncoder.reset();
   }
 
+  @Override
+  public void periodic() {
+    updatePID();
+  }
+
   public void updatePID() {
     m_ShooterBeltMotor.set(ControlMode.PercentOutput, ShooterBeltPID.calculate(motorSpeed));
   }
