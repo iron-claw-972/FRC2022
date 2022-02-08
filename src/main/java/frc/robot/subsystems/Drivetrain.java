@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.drivetrain.*;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.kauailabs.navx.frc.AHRS;
 
@@ -40,12 +41,12 @@ import frc.robot.util.ControllerFactory;
 public class Drivetrain extends SubsystemBase {
 
   //change this to use constants from a different robot
-  public static ClassBot3Constants kDrivetrain = new ClassBot3Constants();
+  public static TraversoConstants kDrivetrain = new TraversoConstants();
 
   private static Drivetrain instance;
 
-  WPI_TalonFX m_leftMotor1 = ControllerFactory.createTalonFX(kDrivetrain.leftMotorPorts[0]);
-  WPI_TalonFX m_rightMotor1 = ControllerFactory.createTalonFX(kDrivetrain.rightMotorPorts[0]);
+  WPI_TalonFX m_leftMotor1 = new WPI_TalonFX(kDrivetrain.leftMotorPorts[0]);
+  WPI_TalonFX m_rightMotor1 = new WPI_TalonFX(kDrivetrain.rightMotorPorts[0]);
   private PhoenixMotorControllerGroup m_leftMotors;
   private PhoenixMotorControllerGroup m_rightMotors;
   private final DifferentialDrive m_dDrive;
@@ -103,14 +104,18 @@ public class Drivetrain extends SubsystemBase {
     // go through non main motors and put them in an array (allows for variable # of motors)
     // for loop starts at one because the main motor of that side is already accounted for
     
-    MotorController[] lMotors = new MotorController[kDrivetrain.leftMotorPorts.length - 1];
+ /*   MotorController[] lMotors = new MotorController[kDrivetrain.leftMotorPorts.length - 1];
     for (int i = 1; i < kDrivetrain.leftMotorPorts.length; i++) {
-      lMotors[i-1] = ControllerFactory.createTalonFX(kDrivetrain.leftMotorPorts[i]);
+      WPI_TalonFX talon = new WPI_TalonFX(kDrivetrain.leftMotorPorts[i]);
+      talon.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
+      lMotors[i-1] = talon;
     }
 
     MotorController[] rMotors = new MotorController[kDrivetrain.rightMotorPorts.length - 1];
     for (int i = 1; i < kDrivetrain.rightMotorPorts.length; i++) {
-      rMotors[i-1] = ControllerFactory.createTalonFX(kDrivetrain.rightMotorPorts[i]);
+      WPI_TalonFX talon = new WPI_TalonFX(kDrivetrain.rightMotorPorts[i]);
+      talon.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
+      rMotors[i-1] = talon;
     }
 
     if (kDrivetrain.leftMotorPorts.length > 1) {
@@ -124,12 +129,18 @@ public class Drivetrain extends SubsystemBase {
     } else {
       m_rightMotors = new PhoenixMotorControllerGroup(m_rightMotor1);
     }
+*/
+    m_leftMotors = new PhoenixMotorControllerGroup(m_leftMotor1, ControllerFactory.createTalonFX(kDrivetrain.leftMotorPorts[1]));
+    m_rightMotors = new PhoenixMotorControllerGroup(m_rightMotor1, ControllerFactory.createTalonFX(kDrivetrain.rightMotorPorts[1]));
 
     m_dDrive = new DifferentialDrive(m_leftMotors, m_rightMotors);
 
     // Inverting one side of the drivetrain as to drive forward
     m_leftMotors.setInverted(true);
     m_rightMotors.setInverted(false);
+
+    m_rightMotor1.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
+    m_leftMotor1.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
 
     // Sets the distance per pulse for the encoders
     m_leftEncoder.setDistancePerPulse(kDrivetrain.kEncoderMetersPerPulse);
