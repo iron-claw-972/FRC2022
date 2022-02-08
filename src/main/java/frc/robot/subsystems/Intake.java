@@ -7,7 +7,7 @@ import frc.robot.constants.intake.TraversoIntakeConstants;
 import frc.robot.util.ControllerFactory;
 
 public class Intake {
-    
+  /*  
   private TraversoIntakeConstants constants = new TraversoIntakeConstants();
   private final WPI_TalonFX m_motor = ControllerFactory.createTalonFX(constants.kIntakeMotorPort);
 
@@ -22,5 +22,5 @@ public class Intake {
 
   public void run(double pow) {
     m_motor.set(ControlMode.PercentOutput, pow);
-  }
+  }*/
 }
