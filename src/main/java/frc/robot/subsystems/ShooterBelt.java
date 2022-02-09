@@ -38,24 +38,8 @@ public class ShooterBelt extends SubsystemBase {
     }
 
     public void setOutakeSpeed() {
-        setSpeed(ShooterConstants.kShooterBeltIntakeSpeed);
+        setSpeed(ShooterConstants.kShooterBeltOutakeSpeed);
     }
-
-    // public void setBackOutakeSpeed() {
-    //     setSpeed(ShooterConstants.kShooterBeltBackOutakeSpeed);
-    // }
-
-    // public void setFrontOutakeSpeed() {
-    //     setSpeed(ShooterConstants.kShooterBeltFrontOutakeSpeed);
-    // }
-
-    // public void setFrontOutakeFarSpeed() {
-    //     setSpeed(ShooterConstants.kShooterBeltFrontOutakeSpeed * ShooterConstants.kShooterBeltFarMulti);
-    // }
-
-    // public void setBackOutakeFarSpeed() {
-    //     setSpeed(ShooterConstants.kShooterBeltBackOutakeSpeed * ShooterConstants.kShooterBeltFarMulti);
-    // }
 
     public void stop() {
         setSpeed(0);
