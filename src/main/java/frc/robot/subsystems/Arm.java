@@ -38,19 +38,6 @@ public class Arm extends SubsystemBase {
       m_motor = ControllerFactory.createTalonFX(ArmConstants.kArmRightMotor);
       currentTickVal = dce.get();
     }
-
-    // the lowest tick limit is -30 degrees (1 - .083 ticks), and must be checked every 10 milliseconds
-    m_motor.configReverseSoftLimitThreshold(-(int)ArmConstants.kArmMaxDegreeTicks, 10);
-
-    // the highest tick limit is 30 degrees ()
-    m_motor.configForwardSoftLimitThreshold((int)ArmConstants.kArmMaxDegreeTicks, 10);
-
-    // every time the robot is started, arm MUST start at maximum compression in order to maintain consistency
-    // TODO: Make this better.
-
-    // so that the limiters are enabled
-    m_motor.configForwardSoftLimitEnable(true, 10);
-    m_motor.configReverseSoftLimitEnable(true, 10);
   }
 
   public boolean reachedSetpoint() {
