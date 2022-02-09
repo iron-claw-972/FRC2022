@@ -26,7 +26,7 @@ public class DifferentialDrive extends CommandBase {
   @Override
   public void execute() {
 
-    //slew ratelimiter removed temp need to move to controls
+    //slew rate limiter removed temp need to move to controls
     speed = Driver.getThrottleValue() * DriveConstants.kMaxSpeedMetersPerSecond;
     rotation = Driver.getTurnValue() * DriveConstants.kMaxAngularSpeedRadiansPerSecond;
 
