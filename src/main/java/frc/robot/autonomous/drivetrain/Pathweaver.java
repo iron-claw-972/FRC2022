@@ -1,7 +1,6 @@
 package frc.robot.autonomous.drivetrain;
 
 import frc.robot.subsystems.Drivetrain;
-import frc.robot.subsystems.Intake;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
