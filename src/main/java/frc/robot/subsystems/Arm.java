@@ -16,14 +16,16 @@ import frc.robot.ControllerFactory;
 import frc.robot.Constants.ArmConstants;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj.DutyCycleEncoder;
 
 public class Arm extends SubsystemBase{
   //set to default radian angle probably should set to pi/2
   double armGoal = 0;
+  private final DutyCycleEncoder boreEncoder = new DutyCycleEncoder(0);
   
   // private final WPI_TalonFX m_leftMotor  = ControllerFactory.createTalonFX(ArmConstants.kLeftMotorPort);
   // private final WPI_TalonFX m_rightMotor = ControllerFactory.createTalonFX(ArmConstants.kRightMotorPort);
-  private final WPI_TalonSRX motor  = ControllerFactory.createTalonSRX(3);
+  // private final WPI_TalonSRX motor  = ControllerFactory.createTalonSRX(3);
   
 
   // private final PhoenixMotorControllerGroup m_motors = new PhoenixMotorControllerGroup(m_leftMotor, m_rightMotor);
@@ -32,11 +34,11 @@ public class Arm extends SubsystemBase{
   // private final TalonEncoder m_leftEncoder = new TalonEncoder(m_leftMotor);
   // private final TalonEncoder m_rightEncoder = new TalonEncoder(m_rightMotor);
   
-  // private final WPI_TalonFX m_motor;
-  // private final TalonEncoder m_encoder;
-  // private double setpoint = ArmConstants.kRotatorSetpoint;
+  public final WPI_TalonFX m_motor;
+  private final TalonEncoder m_encoder;
+  private double setpoint = ArmConstants.kRotatorSetpoint;
 
-  /*
+  
   public Arm(int port, boolean left) {
     m_motor = ControllerFactory.createTalonFX(port);
     m_encoder= new TalonEncoder(m_motor);
@@ -93,8 +95,9 @@ public class Arm extends SubsystemBase{
       System.out.println(m_encoder.getDistance());
     }
   }
-  */
   
+  
+  /*
   //Michael's old code that may or may not need to be reused
   public Arm(){
     motor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 100);
@@ -137,7 +140,7 @@ public class Arm extends SubsystemBase{
     }if (maxError > error && error > maxError) {
       outPutVal = 0;
     }
-    */
+    //*
 
     System.out.println("power: " + outPutVal);
     motor.set(ControlMode.PercentOutput, outPutVal);
@@ -176,5 +179,13 @@ public class Arm extends SubsystemBase{
   public void setEncoderRad(double radians){
     motor.setSelectedSensorPosition(radians/(Math.PI*2)*ArmConstants.kEncoderResolution);
   }
-    
+  */
+
+  public double posGetBore(){
+    return boreEncoder.get();
+  }
+
+  public void setRaw(double speed){
+    m_motor.set(speed);
+  }
 }
