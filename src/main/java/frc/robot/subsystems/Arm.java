@@ -40,7 +40,7 @@ public class Arm extends SubsystemBase {
     }
 
     // the lowest tick limit is -30 degrees (1 - .083 ticks), and must be checked every 10 milliseconds
-    m_motor.configReverseSoftLimitThreshold(-(int)ArmConstants.kArmMaxDegreeTicks), 10);
+    m_motor.configReverseSoftLimitThreshold(-(int)ArmConstants.kArmMaxDegreeTicks, 10);
 
     // the highest tick limit is 30 degrees ()
     m_motor.configForwardSoftLimitThreshold((int)ArmConstants.kArmMaxDegreeTicks, 10);
