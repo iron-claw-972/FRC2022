@@ -52,8 +52,8 @@ public final class Constants {
 
   public static final class ArmConstants {
     
-    public static final int kLeftMotorPort = 24;
-    public static final int kRightMotorPort = 24;
+    // public static final int kLeftMotorPort = 1;
+    // public static final int kRightMotorPort = 0;
 
 
     public static final double kGearRatio = 1.0;

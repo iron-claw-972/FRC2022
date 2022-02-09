@@ -30,7 +30,7 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
 
   //public Drivetrain m_drive = Drivetrain.getInstance();
-  public static Arm m_arm = new Arm(ArmConstants.kRightMotorPort, false);
+  public Arm m_arm = new Arm();
   //public Intake m_intake = Intake.getInstance();
 
   public RobotContainer() {
@@ -47,6 +47,12 @@ public class RobotContainer {
     Driver.configureButtonBindings();
     Operator.configureButtonBindings();
   }
+
+
+  public static BallDetection getBallDetection() {
+    return m_bBallDetection;
+  }
+
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
