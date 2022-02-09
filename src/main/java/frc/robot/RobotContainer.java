@@ -28,14 +28,17 @@ import frc.robot.autonomous.drivetrain.Pathweaver;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  private static Drivetrain m_drive = Drivetrain.getInstance();
-  private static BallDetection m_bBallDetection = new BallDetection();
+
+  //public Drivetrain m_drive = Drivetrain.getInstance();
+  public Arm m_arm = new Arm();
   //public Intake m_intake = Intake.getInstance();
 
   public RobotContainer() {
 
     // default command to run in teleop
-    m_drive.setDefaultCommand(new TeleopDrive(m_drive));
+
+    // m_drive.setDefaultCommand(new DifferentialDrive(m_drive));
+    m_arm.setDefaultCommand(new armPID(m_arm));
 
     // Start camera stream for driver
     //CameraServer.startAutomaticCapture();
@@ -58,7 +61,7 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // Attempt to load trajectory from PathWeaver
-    Pathweaver.setupAutonomousTrajectory(AutoConstants.kTrajectoryName);
-    return Pathweaver.pathweaverCommand();
+    //Pathweaver.setupAutonomousTrajectory(AutoConstants.kTrajectoryName);
+    return new armPID(m_arm);
   }
 }
