@@ -65,12 +65,12 @@ public class Arm extends SubsystemBase {
   public void periodic(){
     if(enabled) {
       // if the current tick value falls within the setpoint by 10 ticks
-      if (reachedSetpoint() == false) {
-        // set the arm power according to a PID
-        m_motor.set(armPID.calculate(currentTickVal(), setpoint));
+      if (reachedSetpoint()) {
+        m_motor.set(0);
       }
       else {
-        m_motor.set(0);
+        // set the arm power according to a PID
+        m_motor.set(armPID.calculate(currentTickVal(), setpoint));
       }
     }
     else {
