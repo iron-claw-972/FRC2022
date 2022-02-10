@@ -16,53 +16,62 @@ import edu.wpi.first.math.controller.PIDController;
 
 public class ShooterWheels extends SubsystemBase {
 
-    private final CANSparkMax m_wheelsMotor = new CANSparkMax(ShooterConstants.kShooterWheelsMotorPort, MotorType.kBrushless);
-    private final PIDController m_wheelsPID = new PIDController(ShooterConstants.kBottomMotorP, ShooterConstants.kBottomMotorI, ShooterConstants.kBottomMotorD);
+  private final CANSparkMax m_wheelsMotor = new CANSparkMax(8, MotorType.kBrushless);
+  
+  private final CANSparkMax m_wheelsMotor2 = new CANSparkMax(4, MotorType.kBrushless);
+  private final PIDController m_wheelsPID = new PIDController(ShooterConstants.kBottomMotorP,
+      ShooterConstants.kBottomMotorI, ShooterConstants.kBottomMotorD);
 
-    public double wheelsMotorSpeed = 1.0;
+  private boolean PIDenabled = true;
+  public static double motorSpeed = 0.0;
 
-    public ShooterWheels() {
+  public ShooterWheels() {
+    m_wheelsPID.reset();
+    m_wheelsPID.setSetpoint(motorSpeed);
+    m_wheelsMotor2.follow(m_wheelsMotor);
+  }
+
+  @Override
+  public void periodic() {
+    if (PIDenabled) {
+      updatePID();
     }
+  }
 
-    @Override
-    public void periodic() {
-        m_wheelsMotor.set(m_wheelsPID.calculate(wheelsMotorSpeed));
-    }
+  public void updatePID() {
+    System.out.println("Speed: " + getEncoderVelocity());
+    double pow = m_wheelsPID.calculate(getEncoderVelocity(), motorSpeed);
+    System.out.println("goal: " + motorSpeed);
+    System.out.println("Power: " + ((12.0 / 5676.0)*motorSpeed + pow));
+    m_wheelsMotor.set((12.0 / 5676.0)*motorSpeed + pow);
+  }
 
-    public void setSpeed(double speed) {
-        wheelsMotorSpeed = speed;
-    }
+  public void setSpeed(double speed) {
+    PIDenabled = true;
+    motorSpeed = speed;
+    //m_wheelsMotor.set(0.5);
+  }
 
-    public void setIntakeSpeed() {  
-        setSpeed(ShooterConstants.kShooterWheelsIntakeSpeed);
-    }
+  public void setIntakeSpeed() {
+    setSpeed(ShooterConstants.kShooterBeltIntakeSpeed);
+  }
 
-    public void setBackOutakeSpeed() {
-        setSpeed(ShooterConstants.kShooterWheelsBackOutakeSpeed);
-    }
+  public void setOutakeSpeed() {
+    setSpeed(ShooterConstants.kShooterBeltOutakeSpeed);
+  }
 
-    public void setFrontOutakeSpeed() {
-        setSpeed(ShooterConstants.kShooterWheelsFrontOutakeSpeed);
-    }
+  public void stop() {
+    setSpeed(0);
+    m_wheelsMotor.set(0);
+    PIDenabled = false;
+  }
 
-    public void setFrontOutakeFarSpeed() {
-        setSpeed(ShooterConstants.kShooterWheelsFrontOutakeSpeed * ShooterConstants.kShooterWheelsFarMulti);
-    }
+  public boolean reachedSetpoint(double targetSpeed) {
+    return m_wheelsPID.atSetpoint();
+  }
 
-    public void setBackOutakeFarSpeed() {
-        setSpeed(ShooterConstants.kShooterWheelsBackOutakeSpeed * ShooterConstants.kShooterWheelsFarMulti);
-    }
-
-    public void stop() {
-        setSpeed(0);
-    }
-
-    public Boolean reachedSetpoint(double targetSpeed) {
-        double encoderRate = m_wheelsMotor.getEncoder().getVelocity()*-1;
-        if (encoderRate > targetSpeed - ShooterConstants.kShooterWheelsVelocityPIDTolerance && encoderRate < targetSpeed + ShooterConstants.kShooterWheelsVelocityPIDTolerance) {
-            return true;
-        }
-        return false;
-    }
+  public double getEncoderVelocity() {
+    return m_wheelsMotor.getEncoder().getVelocity();
+  }
 
 }

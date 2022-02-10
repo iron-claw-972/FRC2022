@@ -16,21 +16,27 @@ import edu.wpi.first.math.controller.PIDController;
 
 public class ShooterBelt extends SubsystemBase {
 
-    private final CANSparkMax m_beltMotor = new CANSparkMax(ShooterConstants.kShooterBeltMotorPort, MotorType.kBrushless);
+  /*  private final CANSparkMax m_beltMotor = new CANSparkMax(ShooterConstants.kShooterBeltMotorPort, MotorType.kBrushless);
     private final PIDController m_beltPID = new PIDController(ShooterConstants.kBottomMotorP, ShooterConstants.kBottomMotorI, ShooterConstants.kBottomMotorD);
 
-    public double beltMotorSpeed = 1.0;
+    public static double motorSpeed = 0.0;
 
     public ShooterBelt() {
+      m_beltPID.reset();
+      m_beltPID.setSetpoint(motorSpeed);
     }
 
-    @Override
+    //@Override
     public void periodic() {
-        m_beltMotor.set(m_beltPID.calculate(beltMotorSpeed));
+      updatePID();
+    }
+
+    public void updatePID() {
+      m_beltMotor.set(m_beltPID.calculate(m_beltMotor.getEncoder().getVelocity()));
     }
 
     public void setSpeed(double speed) {
-        beltMotorSpeed = speed;
+        m_beltPID.setSetpoint(speed);
     }
 
     public void setIntakeSpeed() {
@@ -45,12 +51,8 @@ public class ShooterBelt extends SubsystemBase {
         setSpeed(0);
     }
 
-    public Boolean reachedSetpoint(double targetSpeed) {
-        double encoderRate = m_beltMotor.getEncoder().getVelocity()*-1;
-        if (encoderRate > targetSpeed - ShooterConstants.kShooterBeltVelocityPIDTolerance && encoderRate < targetSpeed + ShooterConstants.kShooterBeltVelocityPIDTolerance) {
-            return true;
-        }
-        return false;
-    }
+    public boolean reachedSetpoint(double targetSpeed) {
+        return m_beltPID.atSetpoint();
+    }*/
 
 }
