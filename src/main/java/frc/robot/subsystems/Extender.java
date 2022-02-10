@@ -10,6 +10,7 @@ import frc.robot.Constants.ExtenderConstants;
 
 
 public class Extender extends SubsystemBase{
+  private boolean enabled = true;
   private final WPI_TalonFX m_motor;
   
   private double setpoint = 0;
@@ -52,6 +53,13 @@ public class Extender extends SubsystemBase{
     setpoint = distance;
   }
 
+  public void enable() {
+    enabled = true;
+  }
+  
+  public void disable() {
+    enabled = false;
+  }
 
   @Override
   public void periodic(){
@@ -59,9 +67,11 @@ public class Extender extends SubsystemBase{
       // sets the motor to go to a setpoint
       // the setpoint is tick value
       m_motor.set(ExtenderConstants.extenderPID.calculate(m_motor.getSelectedSensorPosition(), setpoint));
-
-      // a pop-up in shuffleboard that allows you to see how much the arm extended in inches
-      SmartDashboard.putNumber("Current Extension (Inches)", m_motor.getSelectedSensorPosition() * ExtenderConstants.kExtenderTickMultiple);
     }
+    else {
+      m_motor.set(0);
+    }
+    // a pop-up in shuffleboard that allows you to see how much the arm extended in inches
+    SmartDashboard.putNumber("Current Extension (Inches)", m_motor.getSelectedSensorPosition() * ExtenderConstants.kExtenderTickMultiple);
   }
 } 
