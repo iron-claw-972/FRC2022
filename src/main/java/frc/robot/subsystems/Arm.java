@@ -45,7 +45,7 @@ public class Arm extends SubsystemBase {
   }
 
   public boolean reachedSetpoint() {
-    // if the current tick position is within the setpoint's range (setpoint +- 10), return true, otherwise return false
+    // if the current tick position is within the setpoint's range (setpoint +- tolerance), return true, otherwise return false
     return currentTickVal() >= (setpoint / ArmConstants.kArmDegreeMultiple) - ArmConstants.kArmTolerance
     && currentTickVal() <= (setpoint / ArmConstants.kArmDegreeMultiple) + ArmConstants.kArmTolerance;
   }
