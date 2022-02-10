@@ -11,7 +11,7 @@ public class ShuffleboardUpdate extends CommandBase {
 
     //drive mode
     SmartDashboard.putString("Drive Mode", Driver.getDriveMode().toString());
-    SmartDashboard.putBoolean("Has Ball", RobotContainer.getBallDetection().containsBall());
+    SmartDashboard.putBoolean("Has Ball", RobotContainer.m_ballDetection.containsBall());
   }
 }
   

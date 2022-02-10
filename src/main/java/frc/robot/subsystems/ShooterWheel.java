@@ -41,9 +41,6 @@ public class ShooterWheel extends SubsystemBase {
     if (enabled){
       setOutput(ShooterWheelPID.calculate(m_ShooterWheelEncoder.getRate()));
     }
-    else{
-      setOutput(0);
-    }
   }
 
   public void setOutput(double motorPower){
@@ -82,6 +79,7 @@ public class ShooterWheel extends SubsystemBase {
 
   public void disable(){
     enabled=false;
+    setOutput(0);
   }
 
   public boolean reachedSetpoint() {
