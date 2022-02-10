@@ -30,7 +30,8 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   public static Drivetrain m_drive = new Drivetrain();
   public static BallDetection m_ballDetection = new BallDetection();
-  public static TestWheel m_testWheel = new TestWheel();
+  //public static TestWheel m_testWheel = new TestWheel();
+  public static TestArm m_testArm = new TestArm(true);
 
   public RobotContainer() {
 
