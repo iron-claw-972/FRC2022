@@ -25,13 +25,15 @@ public class ShooterWheel extends SubsystemBase {
 
   private final PIDController ShooterWheelPID = new PIDController(constants.kP, constants.kI, constants.kD);
   
+
+
   private boolean enabled = false;
   private double motorSpeed = 0.0;
 
   public ShooterWheel() {
     m_ShooterWheelEncoder.setDistancePerPulse(constants.kEncoderMetersPerPulse);
     m_ShooterWheelEncoder.reset();
-    ShooterWheelPID.setTolerance(0, constants.kVelocityPIDTolerance);
+    ShooterWheelPID.setTolerance(constants.kVelocityPIDTolerance);
     ShooterWheelPID.reset();
     ShooterWheelPID.setSetpoint(motorSpeed);
   }
