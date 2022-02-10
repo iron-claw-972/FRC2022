@@ -17,6 +17,7 @@ import frc.robot.Constants.ArmConstants;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
+import edu.wpi.first.math.MathUtil;
 
 public class Arm extends SubsystemBase{
   //set to default radian angle probably should set to pi/2
@@ -40,7 +41,7 @@ public class Arm extends SubsystemBase{
 
   
   public Arm(int port, boolean left) {
-    m_motor = ControllerFactory.createTalonFX(port);
+    m_motor = new WPI_TalonFX(port);
     m_encoder= new TalonEncoder(m_motor);
 
     if (left) {
@@ -77,23 +78,6 @@ public class Arm extends SubsystemBase{
   // called in RobotContainer by button binds
   public void set(double distance){
     setpoint = distance;
-  }
-
-
-  @Override
-  public void periodic(){
-    if (reachedSetpoint() == false) {
-      // sets the motor to go to a setpoint
-      // the setpoint is tick value
-      m_motor.set(ArmConstants.rotatorPID.calculate(m_encoder.getDistance(), setpoint));
-
-      // a pop-up in shuffleboard that allows you to see how much the arm extended in inches
-      SmartDashboard.putNumber("Current Extension (Inches)", m_encoder.getDistance() * ArmConstants.kRotatorTickMultiple);
-
-      // so we know the value
-      // System.out.println(setpoint);
-      System.out.println(m_encoder.getDistance());
-    }
   }
   
   
@@ -186,6 +170,9 @@ public class Arm extends SubsystemBase{
   }
 
   public void setRaw(double speed){
-    m_motor.set(speed);
+    
+    m_motor.set(ControlMode.PercentOutput, speed);
+    System.out.println("set motor speed to:" + speed);
+
   }
 }

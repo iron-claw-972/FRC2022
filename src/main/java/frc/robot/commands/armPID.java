@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.controls.Operator;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /** An example command that uses an example subsystem. */
 public class armPID extends CommandBase {
@@ -33,9 +34,10 @@ public class armPID extends CommandBase {
   public void execute() {
     // m_subsystem.posPID();
     // System.out.println(m_subsystem.getPosition());
-    if (Operator.controller.getButtons().X().getAsBoolean()){
-      m_subsystem.setRaw(Operator.controller.getJoystickAxis().leftY()*0.05);
-    }
+    //if (Operator.controller.getButtons().X().getAsBoolean()){
+    //   m_subsystem.setRaw(Operator.controller.getJoystickAxis().leftY()*0.05);
+    //}
+    SmartDashboard.putNumber("Bore Encoder", m_subsystem.posGetBore());
   }
 
   @Override
