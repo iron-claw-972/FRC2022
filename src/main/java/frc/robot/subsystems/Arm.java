@@ -13,7 +13,6 @@ public class Arm extends SubsystemBase {
   private boolean enabled = true;
   private final DutyCycleEncoder dce;
   private final WPI_TalonFX m_motor;
-  private double currentTickVal;
   boolean storedLeft = false;
 
   private double setpoint = 0;
@@ -69,6 +68,9 @@ public class Arm extends SubsystemBase {
       if (reachedSetpoint() == false) {
         // set the arm power according to a PID
         m_motor.set(armPID.calculate(currentTickVal(), setpoint));
+      }
+      else {
+        m_motor.set(0);
       }
     }
     else {

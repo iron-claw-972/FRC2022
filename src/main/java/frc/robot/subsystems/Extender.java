@@ -63,10 +63,15 @@ public class Extender extends SubsystemBase{
 
   @Override
   public void periodic(){
-    if (reachedSetpoint() == false) {
-      // sets the motor to go to a setpoint
-      // the setpoint is tick value
-      m_motor.set(ExtenderConstants.extenderPID.calculate(m_motor.getSelectedSensorPosition(), setpoint));
+    if(enabled) {
+      if (reachedSetpoint() == false) {
+        // sets the motor to go to a setpoint
+        // the setpoint is tick value
+        m_motor.set(ExtenderConstants.extenderPID.calculate(m_motor.getSelectedSensorPosition(), setpoint));
+      }
+      else {
+        m_motor.set(0);
+      }
     }
     else {
       m_motor.set(0);
