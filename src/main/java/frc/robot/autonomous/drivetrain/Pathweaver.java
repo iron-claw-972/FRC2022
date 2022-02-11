@@ -1,7 +1,6 @@
 package frc.robot.autonomous.drivetrain;
 
 import frc.robot.subsystems.Drivetrain;
-import frc.robot.subsystems.Intake;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -15,11 +14,12 @@ import java.nio.file.Path;
 import java.util.List;
 
 import frc.robot.Constants;
+import frc.robot.RobotContainer;
 import frc.robot.Constants.*;
 
 public class Pathweaver {
 
-  public static Drivetrain m_drive = Drivetrain.getInstance();
+  public static Drivetrain m_drive = RobotContainer.m_drive;
   //public static Intake m_intake = Intake.getInstance();
     
   private static Trajectory autonomousTrajectory;

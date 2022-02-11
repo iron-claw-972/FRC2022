@@ -3,7 +3,7 @@ package frc.robot.controls;
 import controllers.*;
 import edu.wpi.first.wpilibj.Joystick;
 import frc.robot.Constants.*;
-import frc.robot.subsystems.Drivetrain;
+import frc.robot.RobotContainer;
 import frc.robot.util.DriveMode;
 
 public class Driver{
@@ -16,9 +16,9 @@ public class Driver{
   //driver buttons
   public static void configureButtonBindings() {
     controller.getButtons().backSwitchTop().whenPressed(
-        () -> Drivetrain.getInstance().setMaxOutput(DriveConstants.kSlowSpeed), Drivetrain.getInstance());
+        () -> RobotContainer.m_drive.setMaxOutput(DriveConstants.kSlowSpeed), RobotContainer.m_drive);
     controller.getButtons().frontSwitchTop().whenPressed(
-        () -> Drivetrain.getInstance().setMaxOutput(1.0), Drivetrain.getInstance());
+        () -> RobotContainer.m_drive.setMaxOutput(1.0), RobotContainer.m_drive);
   }
   
   public static double getThrottleValue() {

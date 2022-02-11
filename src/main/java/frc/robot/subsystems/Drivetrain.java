@@ -43,8 +43,6 @@ public class Drivetrain extends SubsystemBase {
   //change this to use constants from a different robot
   public static TraversoDriveConstants constants = new TraversoDriveConstants();
 
-  private static Drivetrain instance;
-
   WPI_TalonFX m_leftMotor1 = new WPI_TalonFX(constants.leftMotorPorts[0]);
   WPI_TalonFX m_rightMotor1 = new WPI_TalonFX(constants.rightMotorPorts[0]);
   private PhoenixMotorControllerGroup m_leftMotors;
@@ -90,14 +88,6 @@ public class Drivetrain extends SubsystemBase {
   // The Field2d class shows the field in the sim GUI
   private Field2d m_fieldSim;
 */
-
-  public static Drivetrain getInstance() {
-    if (instance == null) {
-      instance = new Drivetrain();
-      return instance;
-    }
-    return instance;
-  }
 
   public Drivetrain() {
 
