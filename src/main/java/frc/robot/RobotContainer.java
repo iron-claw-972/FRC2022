@@ -28,15 +28,19 @@ import frc.robot.autonomous.drivetrain.Pathweaver;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  public static Drivetrain m_drive = new Drivetrain();
-  public static BallDetection m_ballDetection = new BallDetection();
+
+  //public static Drivetrain m_drive = new Drivetrain();
+  //public static BallDetection m_ballDetection = new BallDetection();
   //public static TestWheel m_testWheel = new TestWheel();
   public static TestArm m_testArm = new TestArm(true);
+
 
   public RobotContainer() {
 
     // default command to run in teleop
-    //m_drive.setDefaultCommand(new TeleopDrive(m_drive));
+    
+    // m_drive.setDefaultCommand(new DifferentialDrive(m_drive));
+    m_arm.setDefaultCommand(new armPID(m_arm));
 
     // Start camera stream for driver
     //CameraServer.startAutomaticCapture();
@@ -46,7 +50,6 @@ public class RobotContainer {
     Operator.configureButtonBindings();
   }
 
-
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
    *
@@ -54,7 +57,7 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // Attempt to load trajectory from PathWeaver
-    Pathweaver.setupAutonomousTrajectory(AutoConstants.kTrajectoryName);
-    return Pathweaver.pathweaverCommand();
+    //Pathweaver.setupAutonomousTrajectory(AutoConstants.kTrajectoryName);
+    return new armPID(m_arm);
   }
 }
