@@ -1,16 +1,13 @@
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import frc.robot.ControllerFactory;
 import frc.robot.robotConstants.climbArm.TraversoClimbArmConstants;
-import frc.robot.robotConstants.testArm.MaciejTestArmConstants;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
-import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -20,7 +17,7 @@ public class ClimbArm extends SubsystemBase {
   private boolean enabled = false;
   private final DutyCycleEncoder dce;
   private final WPI_TalonFX m_motor;
-  boolean storedLeft = false;
+  boolean storedLeft;
 
   private double setpoint = 0;
 
@@ -35,13 +32,14 @@ public class ClimbArm extends SubsystemBase {
     // otherwise, use the normal encoder value and set the motorports to the right
     else {
         dce = new DutyCycleEncoder(constants.kArmRightEncoder);
-      m_motor = ControllerFactory.createTalonFX(constants.kArmRightMotor);
+        m_motor = ControllerFactory.createTalonFX(constants.kArmRightMotor);
     }
     // store the left boolean in storedLeft
     storedLeft = left;
     armPID.setTolerance(constants.kArmTolerance);
   }
 
+  // returns the current angle of the duty cycle encoder
   public double currentAngle() {
     if(storedLeft) {
       return -(dce.get()*constants.kArmDegreeMultiple-constants.kArmZeroEncoderDegrees);
@@ -84,7 +82,6 @@ public class ClimbArm extends SubsystemBase {
     // a pop-up in shuffleboard that allows you to see how much the arm extended in inches
     SmartDashboard.putNumber("Current Angle (Degrees)", dce.get() * constants.kArmDegreeMultiple);
     System.out.println(currentAngle());
-
   }
   
   }
