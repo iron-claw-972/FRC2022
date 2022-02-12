@@ -35,7 +35,7 @@ public void periodic() {
     energy = PD.getTotalEnergy();
     leftMotor1Current = PD.getCurrent(14);
     System.out.println(leftMotor1Current);
-    leftMotor1.set(ControlMode.PercentOutput, 0.2)
+    leftMotor1.set(ControlMode.PercentOutput, 0.2);
 
 }
 
