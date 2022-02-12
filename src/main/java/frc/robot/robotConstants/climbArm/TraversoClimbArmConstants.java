@@ -16,7 +16,7 @@ public class TraversoClimbArmConstants {
 
     // Current Tick Value * Degree Multiple = Current Angle
     public final double kArmDegreeMultiple = 360.0;
-    public final double kArmZeroEncoderDegrees = 0;
+    // public double kArmZeroEncoderDegrees = 0;
 
     // the distance allowed from the setpoint (in degrees)
     public final double kArmTolerance = 0;

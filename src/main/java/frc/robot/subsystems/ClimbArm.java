@@ -1,6 +1,9 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+
+import java.time.OffsetTime;
+
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
@@ -25,6 +28,7 @@ public class ClimbArm extends SubsystemBase {
   boolean storedLeft = false;
 
   private double setpoint = 0;
+  private double encoderOffset = 0;
 
   private PIDController armPID = new PIDController(0.02, 0.0000, 0.0000);
   
@@ -46,6 +50,7 @@ public class ClimbArm extends SubsystemBase {
     // SmartDashboard.putNumber("P", 0.007);
     // SmartDashboard.putNumber("I", 0.000);
     // SmartDashboard.putNumber("D", 0.000);
+    
   }
 
   public double currentAngleRaw() {
@@ -54,14 +59,15 @@ public class ClimbArm extends SubsystemBase {
 
   public double currentAngle() {
     if(storedLeft) {
-      return -(dce.get()*constants.kArmDegreeMultiple-constants.kArmZeroEncoderDegrees);
+      return -(dce.get() * constants.kArmDegreeMultiple - encoderOffset);
     } else {
-      return dce.get()*constants.kArmDegreeMultiple-constants.kArmZeroEncoderDegrees;
+      return dce.get() * constants.kArmDegreeMultiple - encoderOffset;
     }
   }
 
-  public void setEncoderOffset() {
-    
+  // 80 is all the way forward and  125 is althe way back
+  public void setEncoderOffset(double angle) {
+    encoderOffset = angle / constants.kArmDegreeMultiple;
   }
 
   public boolean reachedSetpoint() {
