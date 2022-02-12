@@ -32,14 +32,15 @@ public class RobotContainer {
   //public static Drivetrain m_drive = new Drivetrain();
   //public static BallDetection m_ballDetection = new BallDetection();
   //public static TestWheel m_testWheel = new TestWheel();
-  public static TestArm m_testArm = new TestArm(true);
+  public static ClimbArm m_arm = new ClimbArm(true);
+  public static Drivetrain m_drive = new Drivetrain();
 
 
   public RobotContainer() {
 
     // default command to run in teleop
     
-    // m_drive.setDefaultCommand(new DifferentialDrive(m_drive));
+    m_drive.setDefaultCommand(new DifferentialDrive(m_drive));
     m_arm.setDefaultCommand(new armPID(m_arm));
 
     // Start camera stream for driver

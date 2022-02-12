@@ -36,14 +36,14 @@ public class Operator{
 
     //arm testing
     controller.getButtons().A().whenPressed(
-      () -> RobotContainer.m_testArm.enable());
+      () -> RobotContainer.m_arm.enable());
 
   controller.getButtons().B().whenPressed(
-      () -> RobotContainer.m_testArm.set(90));
+      () -> RobotContainer.m_arm.set(90));
   controller.getButtons().X().whenPressed(
-        () -> RobotContainer.m_testArm.set(0));
+        () -> RobotContainer.m_arm.set(0));
   controller.getButtons().Y().whenPressed(
-      () -> RobotContainer.m_testArm.disable());
+      () -> RobotContainer.m_arm.disable());
 
   }
 
