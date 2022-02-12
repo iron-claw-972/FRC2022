@@ -80,6 +80,6 @@ public class ExtenderArm extends SubsystemBase{
       set(extenderPID.calculate(currentExtension(), setpoint));
     }
     // a pop-up in shuffleboard that allows you to see how much the arm extended in inches
-    SmartDashboard.putNumber("Current Extension (Inches)", m_motor.getSelectedSensorPosition() * constants.kExtenderTickMultiple);
+    SmartDashboard.putNumber("Current Extension (Inches)", currentExtension());
   }
 } 
