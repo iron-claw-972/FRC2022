@@ -39,7 +39,7 @@ public class ClimbArm extends SubsystemBase {
     }
     // otherwise, use the normal encoder value and set the motorports to the right
     else {
-        dce = new DutyCycleEncoder(constants.kArmRightEncoder);
+      dce = new DutyCycleEncoder(constants.kArmRightEncoder);
       m_motor = ControllerFactory.createTalonFX(constants.kArmRightMotor);
       encoderOffset = constants.kArmRightEncoderOffset;
     }
