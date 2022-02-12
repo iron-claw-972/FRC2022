@@ -19,7 +19,7 @@ public class TraversoClimbArmConstants {
     public final double kArmZeroEncoderDegrees = 0;
 
     // the distance allowed from the setpoint (in degrees)
-    public final double kArmTolerance = 3;
+    public final double kArmTolerance = 0;
 
     //whether the gearbox is flipped
     public final int kFlipped = -1;

@@ -42,9 +42,14 @@ public class Operator{
 
     controller.getButtons().Y().whenPressed(
         () -> RobotContainer.m_testArm.setOutput(0.1));
-    controller.getButtons().X().whenPressed(
-        () -> RobotContainer.m_testArm.setOutput(0));
-      
+    // controller.getButtons().X().whenPressed(
+    //     () -> RobotContainer.m_testArm.setOutput(0));
+
+    controller.getButtons().X().whileHeld(
+        () -> RobotContainer.m_testArm.setOutput(
+        -controller.getJoystickAxis().leftY()));
+    controller.getButtons().X().whenReleased
+        (() -> RobotContainer.m_testArm.setOutput(0));
 
   }
 

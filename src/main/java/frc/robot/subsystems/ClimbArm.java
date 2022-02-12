@@ -5,6 +5,8 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import frc.robot.ControllerFactory;
+import frc.robot.commands.armPID;
+import frc.robot.controls.Operator;
 import frc.robot.robotConstants.climbArm.TraversoClimbArmConstants;
 import frc.robot.robotConstants.testArm.MaciejTestArmConstants;
 import edu.wpi.first.math.MathUtil;
@@ -24,8 +26,8 @@ public class ClimbArm extends SubsystemBase {
 
   private double setpoint = 0;
 
-  private PIDController armPID = new PIDController(0.007, 0.0008, 0.0005);
-
+  private PIDController armPID = new PIDController(0.02, 0.0000, 0.0000);
+  
   public ClimbArm(boolean left) {
     // if the arm is left, the encoder value is inverted && the objects are assigned correctly
     if (left) {
@@ -40,13 +42,26 @@ public class ClimbArm extends SubsystemBase {
     // store the left boolean in storedLeft
     storedLeft = left;
     armPID.setTolerance(constants.kArmTolerance);
+    this.offLoad();
+    // SmartDashboard.putNumber("P", 0.007);
+    // SmartDashboard.putNumber("I", 0.000);
+    // SmartDashboard.putNumber("D", 0.000);
+  }
+
+  public double currentAngleRaw() {
+    return dce.get();
   }
 
   public double currentAngle() {
     if(storedLeft) {
       return -(dce.get()*constants.kArmDegreeMultiple-constants.kArmZeroEncoderDegrees);
+    } else {
+      return dce.get()*constants.kArmDegreeMultiple-constants.kArmZeroEncoderDegrees;
     }
-    return dce.get()*constants.kArmDegreeMultiple-constants.kArmZeroEncoderDegrees;
+  }
+
+  public void setEncoderOffset() {
+    
   }
 
   public boolean reachedSetpoint() {
@@ -76,15 +91,31 @@ public class ClimbArm extends SubsystemBase {
   @Override
   public void periodic(){
     if(enabled) {
+      // armPID.setP(SmartDashboard.getNumber("P", 0.007));
+      // armPID.setI(SmartDashboard.getNumber("I", 0.000));
+      // armPID.setD(SmartDashboard.getNumber("D", 0.000));
+      
       // set the arm power according to a PID
       setOutput(armPID.calculate(currentAngle(), setpoint));
     }
 
-
     // a pop-up in shuffleboard that allows you to see how much the arm extended in inches
-    SmartDashboard.putNumber("Current Angle (Degrees)", dce.get() * constants.kArmDegreeMultiple);
+    SmartDashboard.putNumber("Current Angle (Degrees)", currentAngle());
     // System.out.println(currentAngle());
 
   }
+
+  public void onLoad(){
+    armPID.setP(0.02);
+    armPID.setI(0.00);
+    armPID.setD(0.00);
+  }
+
+  public void offLoad(){
+    armPID.setP(0.02);
+    armPID.setI(0.00);
+    armPID.setD(0.00);
+  }
+
   
   }
