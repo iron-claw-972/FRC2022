@@ -6,6 +6,7 @@ the project.
 */
 
 package frc.robot;
+
 import edu.wpi.first.math.util.Units;
 
 /*
@@ -32,7 +33,9 @@ public final class Constants {
 
     // Teleop max speeds
     public static final double kMaxSpeedMetersPerSecond = Units.feetToMeters(10); // Max velocity
-    public static final double kMaxAngularSpeedRadiansPerSecond = Units.rotationsPerMinuteToRadiansPerSecond(60); // Max angular velocity
+    public static final double kMaxAngularSpeedRadiansPerSecond = Units.rotationsPerMinuteToRadiansPerSecond(60); // Max
+                                                                                                                  // angular
+                                                                                                                  // velocity
   }
 
   public static final class DetectionConstants {
@@ -45,7 +48,7 @@ public final class Constants {
     public static final int kShooterMotorDistancePerPulse = 1;
 
     // Wheel motor
-    public static final double kShooterWheelsIntakeSpeed = 1;
+    public static final double kShooterWheelsIntakeSpeed = -1;
     public static final double kShooterWheelsFrontOutakeSpeed = 1;
     public static final double kShooterWheelsBackOutakeSpeed = 1;
     public static final double kShooterWheelsFarMulti = 1;
@@ -71,7 +74,8 @@ public final class Constants {
     public static final double kMaxSpeedMetersPerSecond = Units.feetToMeters(3.28); // Max velocity
     public static final double kMaxAccelerationMetersPerSecondSquared = Units.feetToMeters(3.28); // Max acceleration
 
-    // Reasonable baseline values for a RAMSETE follower in units of meters and seconds
+    // Reasonable baseline values for a RAMSETE follower in units of meters and
+    // seconds
     // DO NOT MODIFY unless you know what you are doing
     public static final double kRamseteB = 2;
     public static final double kRamseteZeta = 0.7;

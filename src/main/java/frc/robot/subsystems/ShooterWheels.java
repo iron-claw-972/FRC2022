@@ -17,7 +17,7 @@ import edu.wpi.first.math.controller.PIDController;
 public class ShooterWheels extends SubsystemBase {
 
   private final CANSparkMax m_wheelsMotor = new CANSparkMax(8, MotorType.kBrushless);
-  
+
   private final CANSparkMax m_wheelsMotor2 = new CANSparkMax(4, MotorType.kBrushless);
   private final PIDController m_wheelsPID = new PIDController(ShooterConstants.kBottomMotorP,
       ShooterConstants.kBottomMotorI, ShooterConstants.kBottomMotorD);
@@ -42,22 +42,23 @@ public class ShooterWheels extends SubsystemBase {
     System.out.println("Speed: " + getEncoderVelocity());
     double pow = m_wheelsPID.calculate(getEncoderVelocity(), motorSpeed);
     System.out.println("goal: " + motorSpeed);
-    System.out.println("Power: " + ((12.0 / 5676.0)*motorSpeed + pow));
-    m_wheelsMotor.set((12.0 / 5676.0)*motorSpeed + pow);
+    System.out.println("Power: " + ((12.0 / 5676.0) * motorSpeed + pow));
+
+    m_wheelsMotor.set((12.0 / 5676.0) * motorSpeed + pow);
+
   }
 
   public void setSpeed(double speed) {
     PIDenabled = true;
     motorSpeed = speed;
-    //m_wheelsMotor.set(0.5);
   }
 
   public void setIntakeSpeed() {
-    setSpeed(ShooterConstants.kShooterBeltIntakeSpeed);
+    setSpeed(ShooterConstants.kShooterWheelsIntakeSpeed);
   }
 
   public void setOutakeSpeed() {
-    setSpeed(ShooterConstants.kShooterBeltOutakeSpeed);
+    setSpeed(ShooterConstants.kShooterWheelsFrontOutakeSpeed);
   }
 
   public void stop() {
