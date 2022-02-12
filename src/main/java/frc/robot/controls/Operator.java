@@ -4,6 +4,7 @@ import javax.xml.transform.Templates;
 
 import controllers.*;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.RobotContainer;
 import frc.robot.Constants.*;
@@ -22,7 +23,7 @@ public class Operator{
   public static void configureButtonBindings() {
 
     //wheel testing
-    /**
+    /*
     controller.getButtons().A().whenPressed(
         () -> RobotContainer.m_testWheel.enable());
 
@@ -32,9 +33,10 @@ public class Operator{
         () -> RobotContainer.m_testWheel.setStop());
     controller.getButtons().Y().whenPressed(
         () -> RobotContainer.m_testWheel.disable());
- */
+    */
 
     //arm testing
+
     controller.getButtons().A().whenPressed(
         () -> RobotContainer.m_testArm.enable());
     controller.getButtons().B().whenPressed(
@@ -50,6 +52,12 @@ public class Operator{
         -controller.getJoystickAxis().leftY()));
     controller.getButtons().X().whenReleased
         (() -> RobotContainer.m_testArm.setOutput(0));
+        
+    controller.getButtons().RB().whenPressed(
+        () -> RobotContainer.m_testArm.setEncoder(SmartDashboard.getNumber("set encoder", 0)));
+    controller.getButtons().LB().whenPressed(
+        () -> RobotContainer.m_testArm.setGoal(SmartDashboard.getNumber("goal", 0)));
+          
 
   }
 

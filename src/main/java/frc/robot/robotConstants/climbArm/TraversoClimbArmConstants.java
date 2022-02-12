@@ -10,7 +10,7 @@ public class TraversoClimbArmConstants {
 
     // the motor ports of the arm
     public final int kArmRightMotor = 24;
-    public final int kArmLeftMotor = -1;
+    public final int kArmLeftMotor = 24;
 
     public final double kArmMaxDegree = 30;
 
@@ -25,5 +25,8 @@ public class TraversoClimbArmConstants {
     public final int kFlipped = -1;
 
     public final double kArmMaxDegreeTicks = kArmMaxDegree / kArmDegreeMultiple;
+
+    public final double kArmLeftEncoderOffset = 0;
+    public final double kArmRightEncoderOffset = 0;
     
 }

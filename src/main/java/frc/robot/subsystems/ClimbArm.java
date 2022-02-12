@@ -2,8 +2,6 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
-import java.time.OffsetTime;
-
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
@@ -37,20 +35,24 @@ public class ClimbArm extends SubsystemBase {
     if (left) {
       dce = new DutyCycleEncoder(constants.kArmLeftEncoder);
       m_motor = ControllerFactory.createTalonFX(constants.kArmLeftMotor);
+      encoderOffset = constants.kArmLeftEncoderOffset;
     }
     // otherwise, use the normal encoder value and set the motorports to the right
     else {
         dce = new DutyCycleEncoder(constants.kArmRightEncoder);
       m_motor = ControllerFactory.createTalonFX(constants.kArmRightMotor);
+      encoderOffset = constants.kArmRightEncoderOffset;
     }
     // store the left boolean in storedLeft
     storedLeft = left;
     armPID.setTolerance(constants.kArmTolerance);
     this.offLoad();
-    // SmartDashboard.putNumber("P", 0.007);
-    // SmartDashboard.putNumber("I", 0.000);
-    // SmartDashboard.putNumber("D", 0.000);
-    setEncoderOffset(-45);
+    SmartDashboard.putNumber("P", 0.02);
+    SmartDashboard.putNumber("I", 0.000);
+    SmartDashboard.putNumber("D", 0.000);
+    SmartDashboard.putNumber("set encoder", 0);
+    SmartDashboard.putNumber("goal", 0);
+    // setEncoder(-45);
   }
 
   public double currentAngleRaw() {
@@ -59,15 +61,23 @@ public class ClimbArm extends SubsystemBase {
 
   public double currentAngle() {
     if(storedLeft) {
-      return -(dce.get() * constants.kArmDegreeMultiple - encoderOffset);
+      return -(dce.get() * constants.kArmDegreeMultiple + encoderOffset);
     } else {
-      return dce.get() * constants.kArmDegreeMultiple - encoderOffset;
+      return dce.get() * constants.kArmDegreeMultiple + encoderOffset;
     }
   }
 
-  // 80 is all the way forward and  125 is althe way back
-  public void setEncoderOffset(double angle) {
-    encoderOffset = angle / constants.kArmDegreeMultiple;
+  // 80 is all the way forward and  125 is all the way back
+  public void setEncoder(double angle) { 
+    if (storedLeft) {
+      encoderOffset = angle / constants.kArmDegreeMultiple
+           - dce.get() * constants.kArmDegreeMultiple;
+    } else {
+      encoderOffset = angle / constants.kArmDegreeMultiple
+           - dce.get() * constants.kArmDegreeMultiple;
+    }
+    // System.out.println("set encoder");
+
   }
 
   public boolean reachedSetpoint() {
@@ -97,10 +107,10 @@ public class ClimbArm extends SubsystemBase {
   @Override
   public void periodic(){
     if(enabled) {
-      // armPID.setP(SmartDashboard.getNumber("P", 0.007));
+      // armPID.setP(SmartDashboard.getNumber("P", 0.02));
       // armPID.setI(SmartDashboard.getNumber("I", 0.000));
       // armPID.setD(SmartDashboard.getNumber("D", 0.000));
-      
+      // setpoint = SmartDashboard.getNumber("goal", 0);
       // set the arm power according to a PID
       setOutput(armPID.calculate(currentAngle(), setpoint));
     }
@@ -123,5 +133,7 @@ public class ClimbArm extends SubsystemBase {
     armPID.setD(0.00);
   }
 
-  
+  public void setGoal(double goal){
+    setpoint = goal;
   }
+}
