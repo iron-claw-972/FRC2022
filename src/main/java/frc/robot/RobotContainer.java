@@ -30,6 +30,8 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private static Drivetrain m_drive = Drivetrain.getInstance();
   private static BallDetection m_bBallDetection = new BallDetection();
+
+  public static PDPTesting m_pPdpTesting = new PDPTesting();
   //public Intake m_intake = Intake.getInstance();
 
   public RobotContainer() {
