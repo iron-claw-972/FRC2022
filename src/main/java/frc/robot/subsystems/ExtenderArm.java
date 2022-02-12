@@ -1,8 +1,10 @@
 package frc.robot.subsystems;
 
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -14,35 +16,36 @@ public class ExtenderArm extends SubsystemBase{
   TraversoExtenderArmConstants constants = new TraversoExtenderArmConstants();
   private boolean enabled = true;
   private final WPI_TalonFX m_motor;
+  private String smartDashText;
 
-  private PIDController extenderPID = new PIDController(0.0, 0.0, 0.01);
+  // TODO: Change the PID of the extender!
+  private PIDController extenderPID = new PIDController(0.0002, 0.0, 0.0);
   
-  private double setpoint = 0;
+  private double setpoint;
 
-  // this is initialized in RobotContainer where it uses the respective constants
   // it was requested to use multiple objects for the extender because one might fail
   public ExtenderArm(boolean left) {
     // if the arm is left, the tick value is inverted && objects are assigned correctly
     if (left) {
       m_motor = ControllerFactory.createTalonFX(constants.kLeftExtenderPort);
-      // so that encoder values aren't negative
-      m_motor.setSensorPhase(true);
-      // so that the extender doesn't extend in an opposing direction
-      m_motor.setInverted(true);
+      smartDashText = "Current Extension (Left)";
     }
     else {
       // otherwise, just assign the motor object to the right
       m_motor = ControllerFactory.createTalonFX(constants.kRightExtenderPort);
+      smartDashText = "Current Extension (Right)";
+
     }
 
     // the lowest tick limit is 0, and must be checked every 10 milliseconds
-    m_motor.configReverseSoftLimitThreshold(0, 10);
+    // TODO: Update this max reverse limit!
+    m_motor.configReverseSoftLimitThreshold(-5000, 10);
 
     // converts the length of the arm in inches to ticks and makes that the maximum tick limit, it's checked every 10 milliseconds
-    m_motor.configForwardSoftLimitThreshold((int)constants.kExtenderMaxArmTicks, 10);
+    // TODO: Update this max forward limit!
+    m_motor.configForwardSoftLimitThreshold(5000, 10);
 
     // every time the robot is started, arm MUST start at maximum compression in order to maintain consistency
-    // TODO: Make this better.
     m_motor.setSelectedSensorPosition(0.0);
 
     // so that the limiters are enabled
@@ -52,8 +55,7 @@ public class ExtenderArm extends SubsystemBase{
 
   public boolean reachedSetpoint() {
     // if the current tick position is within the setpoint's range (setpoint +- 10), return true, otherwise return false
-    return(m_motor.getSelectedSensorPosition() >= (setpoint / constants.kExtenderTickMultiple) - constants.kExtenderTolerance
-    && m_motor.getSelectedSensorPosition() <= (setpoint / constants.kExtenderTickMultiple) + constants.kExtenderTolerance);
+    return extenderPID.atSetpoint();
   }
 
   // called in RobotContainer by button binds
@@ -61,25 +63,35 @@ public class ExtenderArm extends SubsystemBase{
     setpoint = distance;
   }
 
+  // returns the current extension in inches
   public double currentExtension() {
     return m_motor.getSelectedSensorPosition() * constants.kExtenderTickMultiple;
   }
 
+  // enables the robot (wow!)
   public void enable() {
+    System.out.println();
     enabled = true;
   }
   
+  // disables the robot
   public void disable() {
     enabled = false;
     m_motor.set(0);
   }
 
+  // tells the motor object to drive at a speed that the PID sets the motorPower to be
+  public void setOutput(double motorPower) {
+    m_motor.set(ControlMode.PercentOutput, MathUtil.clamp(motorPower, -constants.kMotorClamp, constants.kMotorClamp));
+  }
+
   @Override
   public void periodic(){
+    // sets the PID to be the motorPower
     if(enabled) {
-      set(extenderPID.calculate(currentExtension(), setpoint));
+      setOutput(extenderPID.calculate(currentExtension(), setpoint));
     }
     // a pop-up in shuffleboard that allows you to see how much the arm extended in inches
-    SmartDashboard.putNumber("Current Extension (Inches)", currentExtension());
+    SmartDashboard.putNumber(smartDashText, currentExtension());
   }
 } 
