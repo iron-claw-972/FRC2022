@@ -39,10 +39,10 @@ public class ShooterWheels extends SubsystemBase {
   }
 
   public void updatePID() {
-    System.out.println("Speed: " + getEncoderVelocity());
+    // System.out.println("Speed: " + getEncoderVelocity());
     double pow = m_wheelsPID.calculate(getEncoderVelocity(), motorSpeed);
-    System.out.println("goal: " + motorSpeed);
-    System.out.println("Power: " + ((12.0 / 5676.0) * motorSpeed + pow));
+    // System.out.println("goal: " + motorSpeed);
+    // System.out.println("Power: " + ((12.0 / 5676.0) * motorSpeed + pow));
 
     m_wheelsMotor.set((12.0 / 5676.0) * motorSpeed + pow);
 
@@ -72,6 +72,7 @@ public class ShooterWheels extends SubsystemBase {
   }
 
   public double getEncoderVelocity() {
+    System.out.println(m_wheelsMotor.getEncoder().getVelocity());
     return m_wheelsMotor.getEncoder().getVelocity();
   }
 
