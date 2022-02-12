@@ -50,7 +50,7 @@ public class ClimbArm extends SubsystemBase {
     // SmartDashboard.putNumber("P", 0.007);
     // SmartDashboard.putNumber("I", 0.000);
     // SmartDashboard.putNumber("D", 0.000);
-    
+    setEncoderOffset(-45);
   }
 
   public double currentAngleRaw() {
