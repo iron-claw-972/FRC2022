@@ -22,6 +22,7 @@ public class ExtenderArm extends SubsystemBase{
   // this is initialized in RobotContainer where it uses the respective constants
   // it was requested to use multiple objects for the extender because one might fail
   public ExtenderArm(boolean left) {
+    // if the arm is left, the tick value is inverted && objects are assigned correctly
     if (left) {
       m_motor = ControllerFactory.createTalonFX(constants.kLeftExtenderPort);
       // so that encoder values aren't negative
@@ -30,6 +31,7 @@ public class ExtenderArm extends SubsystemBase{
       m_motor.setInverted(true);
     }
     else {
+      // otherwise, just assign the motor object to the right
       m_motor = ControllerFactory.createTalonFX(constants.kRightExtenderPort);
     }
 

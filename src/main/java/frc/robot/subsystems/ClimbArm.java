@@ -31,8 +31,8 @@ public class ClimbArm extends SubsystemBase {
     }
     // otherwise, use the normal encoder value and set the motorports to the right
     else {
-        dce = new DutyCycleEncoder(constants.kArmRightEncoder);
-        m_motor = ControllerFactory.createTalonFX(constants.kArmRightMotor);
+      dce = new DutyCycleEncoder(constants.kArmRightEncoder);
+      m_motor = ControllerFactory.createTalonFX(constants.kArmRightMotor);
     }
     // store the left boolean in storedLeft
     storedLeft = left;
@@ -83,5 +83,4 @@ public class ClimbArm extends SubsystemBase {
     SmartDashboard.putNumber("Current Angle (Degrees)", dce.get() * constants.kArmDegreeMultiple);
     System.out.println(currentAngle());
   }
-  
-  }
+}
