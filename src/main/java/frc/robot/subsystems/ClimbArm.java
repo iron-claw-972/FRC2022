@@ -101,7 +101,11 @@ public class ClimbArm extends SubsystemBase {
   }
 
   public void setOutput(double motorPower){
-    m_motor.set(ControlMode.PercentOutput, constants.kFlipped * MathUtil.clamp(motorPower, -constants.kMotorClamp, constants.kMotorClamp));
+    if (storedLeft) {
+      m_motor.set(ControlMode.PercentOutput, MathUtil.clamp(motorPower, -constants.kMotorClamp, constants.kMotorClamp));
+    } else {
+      m_motor.set(ControlMode.PercentOutput, -MathUtil.clamp(motorPower, -constants.kMotorClamp, constants.kMotorClamp));
+    }
   }
 
   @Override

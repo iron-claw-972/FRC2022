@@ -2,8 +2,8 @@ package frc.robot.robotConstants.climbArm;
 
 public class TraversoClimbArmConstants {
     // the duty cycle encoder ports of the arm
+    public final int kArmLeftEncoder = 0;
     public final int kArmRightEncoder = 0;
-    public final int kArmLeftEncoder = 1;
 
     // motor clamping
     public final double kMotorClamp = 0.3;
@@ -20,9 +20,6 @@ public class TraversoClimbArmConstants {
 
     // the distance allowed from the setpoint (in degrees)
     public final double kArmTolerance = 0;
-
-    //whether the gearbox is flipped
-    public final int kFlipped = -1;
 
     public final double kArmMaxDegreeTicks = kArmMaxDegree / kArmDegreeMultiple;
 
