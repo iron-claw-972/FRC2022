@@ -1,6 +1,6 @@
 package frc.robot.commands;
 
-import frc.robot.subsystems.Arm;
+import frc.robot.subsystems.TestArm;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -9,14 +9,14 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /** An example command that uses an example subsystem. */
 public class armPID extends CommandBase {
-  private final Arm m_subsystem;
+  private final TestArm m_subsystem;
 
   /**
    * Creates a new ExampleCommand.
    *
    * @param subsystem The subsystem used by this command.
    */
-  public armPID(Arm subsystem) {
+  public armPID(TestArm subsystem) {
     m_subsystem = subsystem;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(subsystem);
@@ -37,7 +37,7 @@ public class armPID extends CommandBase {
     //if (Operator.controller.getButtons().X().getAsBoolean()){
     //   m_subsystem.setRaw(Operator.controller.getJoystickAxis().leftY()*0.05);
     //}
-    SmartDashboard.putNumber("Bore Encoder", m_subsystem.posGetBore());
+    SmartDashboard.putNumber("Bore Encoder", m_subsystem.currentAngle());
   }
 
   @Override
