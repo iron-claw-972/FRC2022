@@ -10,10 +10,10 @@ public class Driver{
 
   private static PistolController controller = new PistolController(new Joystick(JoyConstants.kDriverJoy));
   
-  //sets default drive mode
+  // sets default drive mode
   private static DriveMode driveMode = DriveMode.ARCADE;
 
-  //driver buttons
+  // driver buttons
   public static void configureButtonBindings() {
     controller.getButtons().backSwitchTop().whenPressed(
         () -> RobotContainer.m_drive.setMaxOutput(DriveConstants.kSlowSpeed), RobotContainer.m_drive);
@@ -48,7 +48,7 @@ public class Driver{
   }
 
   public static double getRawTurnValue() {
-    //Right is Positive left is negative
+    // Right is Positive left is negative
     return controller.WheelAxis();
   }
 
