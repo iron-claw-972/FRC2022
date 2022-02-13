@@ -4,7 +4,6 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import frc.robot.ControllerFactory;
-import frc.robot.commands.armPID;
 import frc.robot.controls.Operator;
 import frc.robot.robotConstants.climbArm.TraversoClimbArmConstants;
 import edu.wpi.first.math.MathUtil;
@@ -66,13 +65,8 @@ public class ClimbArm extends SubsystemBase {
 
   // 80 is all the way forward and  125 is all the way back
   public void setEncoder(double angle) { 
-    if (storedLeft) {
-      encoderOffset = angle / constants.kArmDegreeMultiple
-           - dce.get() * constants.kArmDegreeMultiple;
-    } else {
-      encoderOffset = angle / constants.kArmDegreeMultiple
-           - dce.get() * constants.kArmDegreeMultiple;
-    }
+    encoderOffset = angle / constants.kArmDegreeMultiple
+          - dce.get() * constants.kArmDegreeMultiple;
     // System.out.println("set encoder");
 
   }

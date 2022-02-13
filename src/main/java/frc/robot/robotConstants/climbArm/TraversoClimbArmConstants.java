@@ -15,16 +15,16 @@ public class TraversoClimbArmConstants {
     public final static double kArmMaxDegree = 30;
 
     // Current Tick Value * Degree Multiple = Current Angle
-    public final double kArmDegreeMultiple = 360.0;
-    // public double kArmZeroEncoderDegrees = 0;
+    public final static double kArmDegreeMultiple = 360.0;
+    public final static double kArmZeroEncoderDegrees = 0;
 
     // the distance allowed from the setpoint (in degrees)
-    public final double kArmTolerance = 0;
+    public final static double kArmTolerance = 0;
 
-    public final double kArmMaxDegreeTicks = kArmMaxDegree / kArmDegreeMultiple;
+    public final static double kArmMaxDegreeTicks = kArmMaxDegree / kArmDegreeMultiple;
 
-    public final double kArmLeftEncoderOffset = 0;
-    public final double kArmRightEncoderOffset = 0;
+    public final static double kArmLeftEncoderOffset = 0;
+    public final static double kArmRightEncoderOffset = 0;
     
     // locations
     public final static double kNinetyDeg = 90;

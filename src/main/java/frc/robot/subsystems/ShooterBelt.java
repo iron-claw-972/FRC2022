@@ -51,8 +51,11 @@ public class ShooterBelt extends SubsystemBase {
   }
 
   public void enable() {
+    enabled = true;
   }
 
   public void disable() {
     enabled = false;
     setOutput(0);
+  }
+}

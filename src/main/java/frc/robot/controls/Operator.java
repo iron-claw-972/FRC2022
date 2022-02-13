@@ -39,26 +39,25 @@ public class Operator{
     //arm testing
 
     controller.getButtons().A().whenPressed(
-        () -> RobotContainer.m_testArm.enable());
+        () -> RobotContainer.m_climbArmR.enable());
     controller.getButtons().B().whenPressed(
-        () -> RobotContainer.m_testArm.disable());
+        () -> RobotContainer.m_climbArmR.disable());
 
     controller.getButtons().Y().whenPressed(
-        () -> RobotContainer.m_testArm.setOutput(0.1));
+        () -> RobotContainer.m_climbArmR.setOutput(0.1));
     // controller.getButtons().X().whenPressed(
     //     () -> RobotContainer.m_testArm.setOutput(0));
 
     controller.getButtons().X().whileHeld(
-        () -> RobotContainer.m_testArm.setOutput(
+        () -> RobotContainer.m_climbArmR.setOutput(
         -controller.getJoystickAxis().leftY()));
     controller.getButtons().X().whenReleased
-        (() -> RobotContainer.m_testArm.setOutput(0));
+        (() -> RobotContainer.m_climbArmR.setOutput(0));
         
     controller.getButtons().RB().whenPressed(
-        () -> RobotContainer.m_testArm.setEncoder(SmartDashboard.getNumber("set encoder", 0)));
+        () -> RobotContainer.m_climbArmR.setEncoder(SmartDashboard.getNumber("set encoder", 0)));
     controller.getButtons().LB().whenPressed(
-        () -> RobotContainer.m_testArm.setGoal(SmartDashboard.getNumber("goal", 0)));
-          
+        () -> RobotContainer.m_climbArmR.setGoal(SmartDashboard.getNumber("goal", 0)));
 
   }
 }
