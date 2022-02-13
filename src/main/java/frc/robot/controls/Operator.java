@@ -8,6 +8,9 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.RobotContainer;
 import frc.robot.Constants.*;
+import frc.robot.robotConstants.extenderArm.*;
+import frc.robot.robotConstants.climbArm.*;
+
 
 public class Operator{
 
