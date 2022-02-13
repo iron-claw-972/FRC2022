@@ -32,7 +32,7 @@ public class RobotContainer {
   //public static Drivetrain m_drive = new Drivetrain();
   //public static BallDetection m_ballDetection = new BallDetection();
   //public static TestWheel m_testWheel = new TestWheel();
-  public static ClimbArm m_arm = new ClimbArm(true);
+  public static ClimbArm m_climbArm = new ClimbArm(true);
   public static Drivetrain m_drive = new Drivetrain();
 
 
@@ -41,7 +41,7 @@ public class RobotContainer {
     // default command to run in teleop
     
     m_drive.setDefaultCommand(new DifferentialDrive(m_drive));
-    m_arm.setDefaultCommand(new armPID(m_arm));
+    m_climbArm.setDefaultCommand(new armPID(m_climbArm));
 
     // Start camera stream for driver
     //CameraServer.startAutomaticCapture();
@@ -59,6 +59,6 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     // Attempt to load trajectory from PathWeaver
     //Pathweaver.setupAutonomousTrajectory(AutoConstants.kTrajectoryName);
-    return new armPID(m_arm);
+    return new armPID(m_climbArm);
   }
 }

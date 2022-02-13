@@ -10,7 +10,7 @@ import frc.robot.Constants.*;
 import frc.robot.RobotContainer;
 
 
-public class Operator{
+public class Operator {
 
   public static GameController controller = new GameController(new Joystick(JoyConstants.kOperatorJoy));
   private int step;
@@ -26,7 +26,7 @@ public class Operator{
     // another button = traverse a bar (angle the arm, extend, angle back slightly, compress extender)
     // start = resume
     // back = decrease step / e-stop
-        
-    controller.getButtons().LT().whenpressed(() -> RobotContainer.m_arm.set(90));
+    
+    controller.getButtons().LT().whenpressed(() -> RobotContainer.m_climbArm.set(90));
   }
 }

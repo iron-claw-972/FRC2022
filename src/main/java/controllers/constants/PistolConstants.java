@@ -1,7 +1,7 @@
 package controllers.constants;
 
 public class PistolConstants {
-  public final class Buttons   {
+  public final class Buttons {
     // Top Buttons 
     public static final int kBackSwitchTop = 1;
     public static final int kForwardSwitchTop = 2;

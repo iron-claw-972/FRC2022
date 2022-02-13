@@ -4,13 +4,13 @@ import controllers.constants.MadCatzConstants;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.button.*;
 
-public class MadCatzController extends Controller{
+public class MadCatzController extends Controller {
 
   private Button button = new Button();
   private HatSwitch hatSwitch = new HatSwitch();
   private JoystickAxis joystickAxis = new JoystickAxis();
 
-  public MadCatzController(Joystick joystick_){
+  public MadCatzController(Joystick joystick_) {
     super(joystick_);
   }
 
@@ -66,22 +66,22 @@ public class MadCatzController extends Controller{
       return new POVButton(getController(), MadCatzConstants.Thumbstick.kUpLeft);
     }
     
-    public Trigger allUp(){
+    public Trigger allUp() {
       return up()
       .or(upRight()
       .or(upLeft()));
     }
-    public Trigger allDown(){
+    public Trigger allDown() {
       return down()
       .or(downRight()
       .or(downLeft()));
     }
-    public Trigger allLeft(){
+    public Trigger allLeft() {
       return left()
       .or(upLeft()
       .or(downLeft()));
     }
-    public Trigger allRight(){
+    public Trigger allRight() {
       return right()
       .or(upRight()
       .or(downRight()));
@@ -89,17 +89,17 @@ public class MadCatzController extends Controller{
   }
 
   //returns JoystickButton object
-  public class JoystickAxis{
-    public double X(){
+  public class JoystickAxis {
+    public double X() {
       return getController().getRawAxis(MadCatzConstants.JoystickAxis.kX);
     }
-    public double Y(){
+    public double Y() {
       return getController().getRawAxis(MadCatzConstants.JoystickAxis.kY);
     }
-    public double zRotate(){
+    public double zRotate() {
       return getController().getRawAxis(MadCatzConstants.JoystickAxis.kZRotate);
     }
-    public double zAxis(){
+    public double zAxis() {
       return getController().getRawAxis(MadCatzConstants.JoystickAxis.kZAxis);
     }
   }

@@ -33,9 +33,9 @@ public class Functions {
     }
   }
 
-  //is an exponetional function that maintains positive or negitive
-  public static double expoMS(double exponent, double base){
-    //weird stuff will hapen if you don't put a number > 0
+  //is an exponential function that maintains positive or negative
+  public static double expoMS(double exponent, double base) {
+    //weird stuff will happen if you don't put a number > 0
     double finVal = Math.pow(Math.abs(base),exponent);
     if (base < 0) {
       finVal *= -1;
@@ -43,11 +43,11 @@ public class Functions {
     return finVal;
   }
 
-  public static double slewCalculateThrottle(double input ){
+  public static double slewCalculateThrottle(double input ) {
     return slewThrottle.calculate(input);
   }
 
-  public static double slewCalculateTurn(double input ){
+  public static double slewCalculateTurn(double input ) {
     return slewTurn.calculate(input);
   }
 }
