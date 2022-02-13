@@ -13,6 +13,7 @@ import frc.robot.RobotContainer;
 public class Operator{
 
   public static GameController controller = new GameController(new Joystick(JoyConstants.kOperatorJoy));
+  private int step;
 
   static Joystick tempJoy = new Joystick(JoyConstants.kOperatorJoy);
   static JoystickButton tempButton = new JoystickButton(tempJoy, 1);
@@ -20,31 +21,12 @@ public class Operator{
 
   //operator buttons
   public static void configureButtonBindings() {
-
-    //wheel testing
-    /**
-    controller.getButtons().A().whenPressed(
-        () -> RobotContainer.m_testWheel.enable());
-
-    controller.getButtons().B().whenPressed(
-        () -> RobotContainer.m_testWheel.setIntakeSpeed());
-    controller.getButtons().X().whenPressed(
-        () -> RobotContainer.m_testWheel.setStop());
-    controller.getButtons().Y().whenPressed(
-        () -> RobotContainer.m_testWheel.disable());
- */
-
-    //arm testing
-    controller.getButtons().A().whenPressed(
-      () -> RobotContainer.m_arm.enable());
-
-  controller.getButtons().B().whenPressed(
-      () -> RobotContainer.m_arm.set(90));
-  controller.getButtons().X().whenPressed(
-        () -> RobotContainer.m_arm.set(0));
-  controller.getButtons().Y().whenPressed(
-      () -> RobotContainer.m_arm.disable());
-
+    // left trigger = extend extender
+    // left bumper =  stop shooter, retract intake arm, lower extender, extends upwards slightly
+    // another button = traverse a bar (angle the arm, extend, angle back slightly, compress extender)
+    // start = resume
+    // back = decrease step / e-stop
+        
+    controller.getButtons().LT().whenpressed( () -> RobotContainer.m_arm.set(90));
   }
-
 }
