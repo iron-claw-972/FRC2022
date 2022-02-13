@@ -16,6 +16,9 @@ public class Operator{
 
   public static GameController controller = new GameController(new Joystick(JoyConstants.kOperatorJoy));
 
+  TraversoExtenderArmConstants excon = new TraversoExtenderArmConstants();
+  TraversoClimbArmConstants clcon = new TraversoClimbArmConstants();
+
   static Joystick tempJoy = new Joystick(JoyConstants.kOperatorJoy);
   static JoystickButton tempButton = new JoystickButton(tempJoy, 1);
   
