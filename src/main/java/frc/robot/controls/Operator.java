@@ -25,10 +25,7 @@ public class Operator{
 
   //operator buttons
   public static void configureButtonBindings() {
-    // left trigger = extend extender
-    // left bumper =  stop shooter, retract intake arm, lower extender, extends upwards slightly
-    // another button = traverse a bar (angle the arm, extend, angle back slightly, compress extender)W
-    // start = resume
-    // back = decrease step / e-stop
+    
+
   }
 }
