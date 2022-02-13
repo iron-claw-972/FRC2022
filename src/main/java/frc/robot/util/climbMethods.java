@@ -1,4 +1,4 @@
-package frc.robot.robotConstants;
+package frc.robot.util;
 
 import frc.robot.RobotContainer;
 import frc.robot.robotConstants.extenderArm.TraversoExtenderArmConstants;
