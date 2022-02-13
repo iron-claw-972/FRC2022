@@ -4,11 +4,11 @@ import javax.xml.transform.Templates;
 
 import controllers.*;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.RobotContainer;
 import frc.robot.Constants.*;
-import frc.robot.RobotContainer;
-
+import frc.robot.commands.autoClimb;
 
 public class Operator{
 
@@ -27,6 +27,6 @@ public class Operator{
     // start = resume
     // back = decrease step / e-stop
         
-    controller.getButtons().LT().whenpressed( () -> RobotContainer.m_arm.set(90));
+    controller.getTriggerAxis().leftTrigger().whenPressed(new InstantCommand(RobotContainer.m_extenderR.set(25))));
   }
 }

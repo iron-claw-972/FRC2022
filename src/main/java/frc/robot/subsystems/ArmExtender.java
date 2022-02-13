@@ -12,7 +12,7 @@ import frc.robot.ControllerFactory;
 import frc.robot.robotConstants.extenderArm.TraversoExtenderArmConstants;
 
 
-public class ExtenderArm extends SubsystemBase{
+public class ArmExtender extends SubsystemBase{
   TraversoExtenderArmConstants constants = new TraversoExtenderArmConstants();
   private boolean enabled = true;
   private final WPI_TalonFX m_motor;
@@ -24,7 +24,7 @@ public class ExtenderArm extends SubsystemBase{
   private double setpoint;
 
   // it was requested to use multiple objects for the extender because one might fail
-  public ExtenderArm(boolean left) {
+  public ArmExtender(boolean left) {
     // if the arm is left, the tick value is inverted && objects are assigned correctly
     if (left) {
       m_motor = ControllerFactory.createTalonFX(constants.kLeftExtenderPort);
