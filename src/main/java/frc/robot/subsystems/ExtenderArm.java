@@ -68,6 +68,10 @@ public class ExtenderArm extends SubsystemBase{
     return m_motor.getSelectedSensorPosition() * constants.kExtenderTickMultiple;
   }
 
+  public double currentExtensionRaw() {
+    return m_motor.getSelectedSensorPosition();
+  }
+
   // enables the robot (wow!)
   public void enable() {
     System.out.println();
