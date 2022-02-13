@@ -141,7 +141,7 @@ public class ControllerFactory {
     talon.configFactoryDefault();
     talon.configAllSettings(config);
     talon.enableVoltageCompensation(true);
-    talon.setNeutralMode(NeutralMode.Brake);
+    talon.setNeutralMode(NeutralMode.Coast);
     talon.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
 
     return talon;

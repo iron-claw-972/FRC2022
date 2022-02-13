@@ -7,6 +7,9 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.RelativeEncoder;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import frc.robot.ControllerFactory;
 import frc.robot.robotConstants.shooterWheel.TraversoShooterWheelConstants;
@@ -19,16 +22,16 @@ public class ShooterWheel extends SubsystemBase {
 
   TraversoShooterWheelConstants constants = new TraversoShooterWheelConstants();
 
-  private final WPI_TalonFX m_ShooterWheelMotor = ControllerFactory.createTalonFX(constants.kShooterWheelMotorPort);
-  private final TalonEncoder m_ShooterWheelEncoder = new TalonEncoder(m_ShooterWheelMotor);
+  private final CANSparkMax m_ShooterWheelMotor = ControllerFactory.createSparkMAX(constants.kShooterWheelMotorPort, MotorType.kBrushless);
+
+  RelativeEncoder m_ShooterWheelEncoder = m_ShooterWheelMotor.getEncoder();
 
   private final PIDController ShooterWheelPID = new PIDController(constants.kP, constants.kI, constants.kD);
 
   public static double motorSpeed = 0.0;
 
   public ShooterWheel() {
-    m_ShooterWheelEncoder.setDistancePerPulse(constants.kEncoderMetersPerPulse);
-    m_ShooterWheelEncoder.reset();
+    m_ShooterWheelEncoder.setPosition(0);
     ShooterWheelPID.setTolerance(0, constants.kVelocityPIDTolerance);
     ShooterWheelPID.reset();
     ShooterWheelPID.setSetpoint(motorSpeed);
@@ -40,7 +43,7 @@ public class ShooterWheel extends SubsystemBase {
   }
 
   public void updatePID() {
-    m_ShooterWheelMotor.set(ControlMode.PercentOutput, ShooterWheelPID.calculate(m_ShooterWheelEncoder.getRate()));
+    m_ShooterWheelMotor.set(ShooterWheelPID.calculate(m_ShooterWheelEncoder.getVelocity()));
   }
 
   public void setSpeed(double newSpeed) {
@@ -63,9 +66,8 @@ public class ShooterWheel extends SubsystemBase {
    * public void setBackOuttakeFarSpeed() {
    * }
    */
-
   public void stop() {
-    m_ShooterWheelMotor.set(ControlMode.PercentOutput, 0);
+    m_ShooterWheelMotor.set(0);
   }
 
   public boolean reachedSetpoint() {

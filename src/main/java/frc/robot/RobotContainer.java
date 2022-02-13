@@ -12,7 +12,8 @@ import frc.robot.commands.*;
 import frc.robot.controls.*;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.cameraserver.CameraServer;
-
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.*;
 import frc.robot.autonomous.drivetrain.Pathweaver;
 
@@ -29,12 +30,14 @@ import frc.robot.autonomous.drivetrain.Pathweaver;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private static Drivetrain m_drive = Drivetrain.getInstance();
-  private static BallDetection m_bBallDetection = new BallDetection();
+  //private static BallDetection m_bBallDetection = new BallDetection();
   //public Intake m_intake = Intake.getInstance();
+  
 
   public RobotContainer() {
 
     // default command to run in teleop
+    //m_drive.setDefaultCommand(new DifferentialDrive(m_drive));
     m_drive.setDefaultCommand(new TeleopDrive(m_drive));
 
     // Start camera stream for driver
@@ -45,11 +48,11 @@ public class RobotContainer {
     Operator.configureButtonBindings();
   }
 
-
+/*
   public static BallDetection getBallDetection() {
     return m_bBallDetection;
   }
-
+*/
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.

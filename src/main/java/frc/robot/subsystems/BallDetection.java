@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.util.Color;
 
 public class BallDetection extends SubsystemBase {
-
+/*
   TraversoColorSensorConstants constants = new TraversoColorSensorConstants();
 
   @Override
@@ -43,5 +43,5 @@ public class BallDetection extends SubsystemBase {
     //System.out.println("No object detected, proximity: " + ballProximity);
     return false;
   }
-
+*/
 }
