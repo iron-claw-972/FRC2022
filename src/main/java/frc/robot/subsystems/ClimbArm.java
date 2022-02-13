@@ -53,7 +53,7 @@ public class ClimbArm extends SubsystemBase {
   }
 
   // called in RobotContainer by button binds
-  public void set(double distance){
+  public void set(double distance) {
     setpoint = distance;
   }
 
@@ -67,20 +67,19 @@ public class ClimbArm extends SubsystemBase {
     // if the subsystem is disabled, do not spin the motor
   }
 
-  public void setOutput(double motorPower){
+  public void setOutput(double motorPower) {
     m_motor.set(ControlMode.PercentOutput, constants.kFlipped * MathUtil.clamp(motorPower, -constants.kMotorClamp, constants.kMotorClamp));
   }
 
   @Override
-  public void periodic(){
+  public void periodic() {
     if(enabled) {
       // set the arm power according to a PID
       setOutput(armPID.calculate(currentAngle(), setpoint));
     }
-
-
     // a pop-up in shuffleboard that allows you to see how much the arm extended in inches
     SmartDashboard.putNumber("Current Angle (Degrees)", dce.get() * constants.kArmDegreeMultiple);
     System.out.println(currentAngle());
   }
+  
 }

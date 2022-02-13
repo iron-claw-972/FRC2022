@@ -7,7 +7,7 @@ import frc.robot.controls.Driver;
 
 public class ShuffleboardUpdate extends CommandBase {
   @Override
-  public void initialize(){
+  public void initialize() {
     SmartDashboard.putNumber("P", 0.1);
     SmartDashboard.putNumber("I", 0);
     SmartDashboard.putNumber("D", 0);
@@ -22,5 +22,6 @@ public class ShuffleboardUpdate extends CommandBase {
 
     //SmartDashboard.putBoolean("Has Ball", RobotContainer.m_ballDetection.containsBall());
   }
+  
 }
   

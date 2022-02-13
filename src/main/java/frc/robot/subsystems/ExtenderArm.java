@@ -12,7 +12,7 @@ import frc.robot.ControllerFactory;
 import frc.robot.robotConstants.extenderArm.TraversoExtenderArmConstants;
 
 
-public class ExtenderArm extends SubsystemBase{
+public class ExtenderArm extends SubsystemBase {
   TraversoExtenderArmConstants constants = new TraversoExtenderArmConstants();
   private boolean enabled = true;
   private final WPI_TalonFX m_motor;
@@ -59,7 +59,7 @@ public class ExtenderArm extends SubsystemBase{
   }
 
   // called in RobotContainer by button binds
-  public void set(double distance){
+  public void set(double distance) {
     setpoint = distance;
   }
 
@@ -90,7 +90,7 @@ public class ExtenderArm extends SubsystemBase{
   }
 
   @Override
-  public void periodic(){
+  public void periodic() {
     // sets the PID to be the motorPower
     if(enabled) {
       setOutput(extenderPID.calculate(currentExtension(), setpoint));
@@ -98,4 +98,5 @@ public class ExtenderArm extends SubsystemBase{
     // a pop-up in shuffleboard that allows you to see how much the arm extended in inches
     SmartDashboard.putNumber(smartDashText, currentExtension());
   }
+  
 } 

@@ -27,6 +27,6 @@ public class Operator{
     // start = resume
     // back = decrease step / e-stop
         
-    controller.getButtons().LT().whenpressed( () -> RobotContainer.m_arm.set(90));
+    controller.getButtons().LT().whenpressed(() -> RobotContainer.m_arm.set(90));
   }
 }

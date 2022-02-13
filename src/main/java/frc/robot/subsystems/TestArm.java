@@ -54,7 +54,7 @@ public class TestArm extends SubsystemBase {
   }
 
   // called in RobotContainer by button binds
-  public void set(double distance){
+  public void set(double distance) {
     setpoint = distance;
   }
 
@@ -68,12 +68,12 @@ public class TestArm extends SubsystemBase {
     // if the subsystem is disabled, do not spin the motor
   }
 
-  public void setOutput(double motorPower){
+  public void setOutput(double motorPower) {
     m_motor.set(ControlMode.PercentOutput, constants.kFlipped * MathUtil.clamp(motorPower, -constants.kMotorClamp, constants.kMotorClamp));
   }
 
   @Override
-  public void periodic(){
+  public void periodic() {
     if(enabled) {
       // set the arm power according to a PID
       setOutput(armPID.calculate(currentAngle(), setpoint));
@@ -86,4 +86,4 @@ public class TestArm extends SubsystemBase {
 
   }
   
-  }
+}

@@ -76,7 +76,7 @@ public class Arm extends SubsystemBase{
   
   
   // called in RobotContainer by button binds
-  public void set(double distance){
+  public void set(double distance) {
     setpoint = distance;
   }
   
@@ -117,7 +117,7 @@ public class Arm extends SubsystemBase{
     integralPrior = integral;
 
     /*
-    if (outPutVal > maxOutput){
+    if (outPutVal > maxOutput) {
       outPutVal = maxOutput;
     }if (outPutVal < -maxOutput) {
       outPutVal = -maxOutput;
@@ -138,41 +138,40 @@ public class Arm extends SubsystemBase{
     // might need more operations in order to get the angle ready for PID
   }
   
-  public double getVelocity(){
+  public double getVelocity() {
       // System.out.println(m_leftEncoder.getRate());
       // return m_leftEncoder.getRate();
       return motor.getSelectedSensorVelocity();
   }
 
-  public void moveGoal(double target){
+  public void moveGoal(double target) {
     armGoal = armGoal + target;
   }
   
-  public void setGoalRad(double target){
+  public void setGoalRad(double target) {
     armGoal = target;
   }
 
-  public double getGoal(){
+  public double getGoal() {
       return armGoal;
   }
 
-  public boolean atGoal(){
+  public boolean atGoal() {
     return (error < errorPrior && errorPrior < maxError);
   }
   
-  public void setEncoderRad(double radians){
+  public void setEncoderRad(double radians) {
     motor.setSelectedSensorPosition(radians/(Math.PI*2)*ArmConstants.kEncoderResolution);
   }
   */
 
-  public double posGetBore(){
+  public double posGetBore() {
     return boreEncoder.get();
   }
 
-  public void setRaw(double speed){
-    
+  public void setRaw(double speed) {
     m_motor.set(ControlMode.PercentOutput, speed);
     System.out.println("set motor speed to:" + speed);
-
   }
+  
 }

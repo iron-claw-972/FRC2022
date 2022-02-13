@@ -170,7 +170,7 @@ public class Drivetrain extends SubsystemBase {
     m_dDrive.tankDrive(left, right);
   }
 
-  public void propDrive(double throttle, double turn){
+  public void propDrive(double throttle, double turn) {
     double leftOut = throttle * (1 + turn);
     double rightOut = throttle * (1 - turn);
 
@@ -277,7 +277,7 @@ public class Drivetrain extends SubsystemBase {
     setSpeeds(wheelSpeeds);
   }
 
-  public void tankFeedForwardDrive(double left, double right){
+  public void tankFeedForwardDrive(double left, double right) {
     feedForwardDrive(
       (left + right)/2,
       (left - right)/2 
@@ -308,7 +308,7 @@ public class Drivetrain extends SubsystemBase {
     return m_rightVelocityPIDController;
   }
 
-  public void runDrive(double throttle, double turn){
+  public void runDrive(double throttle, double turn) {
     switch (Driver.getDriveMode()) {
       case ARCADE:
         arcadeDrive(throttle, turn);

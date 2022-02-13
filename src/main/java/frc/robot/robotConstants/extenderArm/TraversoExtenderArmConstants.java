@@ -24,4 +24,5 @@ public class TraversoExtenderArmConstants {
 
   // motor clamps
   public final double kMotorClamp = .1;
+  
 }
