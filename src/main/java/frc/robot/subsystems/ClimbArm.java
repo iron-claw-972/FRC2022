@@ -1,7 +1,5 @@
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
-
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
@@ -9,11 +7,9 @@ import frc.robot.ControllerFactory;
 import frc.robot.commands.armPID;
 import frc.robot.controls.Operator;
 import frc.robot.robotConstants.climbArm.TraversoClimbArmConstants;
-import frc.robot.robotConstants.testArm.MaciejTestArmConstants;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
-import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -23,7 +19,7 @@ public class ClimbArm extends SubsystemBase {
   private boolean enabled = false;
   private final DutyCycleEncoder dce;
   private final WPI_TalonFX m_motor;
-  boolean storedLeft = false;
+  boolean storedLeft;
 
   private double setpoint = 0;
   private double encoderOffset = 0;
@@ -59,6 +55,7 @@ public class ClimbArm extends SubsystemBase {
     return dce.get();
   }
 
+  // returns the current angle of the duty cycle encoder
   public double currentAngle() {
     if(storedLeft) {
       return -(dce.get() * constants.kArmDegreeMultiple + encoderOffset);
@@ -86,7 +83,7 @@ public class ClimbArm extends SubsystemBase {
   }
 
   // called in RobotContainer by button binds
-  public void set(double distance){
+  public void set(double distance) {
     setpoint = distance;
   }
 
@@ -109,7 +106,7 @@ public class ClimbArm extends SubsystemBase {
   }
 
   @Override
-  public void periodic(){
+  public void periodic() {
     if(enabled) {
       // armPID.setP(SmartDashboard.getNumber("P", 0.02));
       // armPID.setI(SmartDashboard.getNumber("I", 0.000));

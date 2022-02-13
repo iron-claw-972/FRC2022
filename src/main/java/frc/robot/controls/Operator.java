@@ -5,19 +5,20 @@ import javax.xml.transform.Templates;
 import controllers.*;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.RobotContainer;
 import frc.robot.Constants.*;
-import frc.robot.RobotContainer;
+import frc.robot.robotConstants.extenderArm.*;
+import frc.robot.robotConstants.climbArm.*;
 
 
 public class Operator{
 
   public static GameController controller = new GameController(new Joystick(JoyConstants.kOperatorJoy));
 
-  static Joystick tempJoy = new Joystick(JoyConstants.kOperatorJoy);
-  static JoystickButton tempButton = new JoystickButton(tempJoy, 1);
-  
+  TraversoExtenderArmConstants excon = new TraversoExtenderArmConstants();
+  TraversoClimbArmConstants clcon = new TraversoClimbArmConstants();
 
   //operator buttons
   public static void configureButtonBindings() {
@@ -60,5 +61,4 @@ public class Operator{
           
 
   }
-
 }

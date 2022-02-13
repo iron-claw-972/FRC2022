@@ -11,6 +11,7 @@ import frc.robot.subsystems.*;
 import frc.robot.commands.*;
 import frc.robot.controls.*;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import frc.robot.Constants.*;
@@ -32,8 +33,11 @@ public class RobotContainer {
   public static Drivetrain m_drive = new Drivetrain();
   //public static BallDetection m_ballDetection = new BallDetection();
   //public static TestWheel m_testWheel = new TestWheel();
-  public static ClimbArm m_testArm = new ClimbArm(false);
 
+  public static ClimbArm m_climbArmR = new ClimbArm(false);
+  public static ClimbArm m_climbArmL = new ClimbArm(true);
+  public static ArmExtender m_extenderR = new ArmExtender(false);
+  public static ArmExtender m_extenderL = new ArmExtender(true);
 
   public RobotContainer() {
 
@@ -51,7 +55,7 @@ public class RobotContainer {
   }
 
   /**
-   * Use this to pass the autonomous command to the main {@link Robot} class.
+  //  * Use this to pass the autonomous command to the main {@link Robot} class.
    *
    * @return the command to run in autonomous
    */

@@ -6,14 +6,14 @@ import frc.robot.Constants.*;
 import frc.robot.RobotContainer;
 import frc.robot.util.DriveMode;
 
-public class Driver{
+public class Driver {
 
   private static PistolController controller = new PistolController(new Joystick(JoyConstants.kDriverJoy));
   
-  //sets default drive mode
+  // sets default drive mode
   private static DriveMode driveMode = DriveMode.ARCADE;
 
-  //driver buttons
+  // driver buttons
   public static void configureButtonBindings() {
     controller.getButtons().backSwitchTop().whenPressed(
         () -> RobotContainer.m_drive.setMaxOutput(DriveConstants.kSlowSpeed), RobotContainer.m_drive);
@@ -33,12 +33,12 @@ public class Driver{
   }
   
   // sets drive mode
-  public static void setDriveMode(DriveMode dm){
+  public static void setDriveMode(DriveMode dm) {
     driveMode = dm;
   }
   
   //checks drive mode
-  public static boolean isDrive(DriveMode drive){
+  public static boolean isDrive(DriveMode drive) {
     return (driveMode == drive);
   }
 
@@ -48,7 +48,7 @@ public class Driver{
   }
 
   public static double getRawTurnValue() {
-    //Right is Positive left is negative
+    // Right is Positive left is negative
     return controller.WheelAxis();
   }
 

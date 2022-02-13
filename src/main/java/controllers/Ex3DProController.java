@@ -4,12 +4,12 @@ import controllers.constants.Ex3DProConstants;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.button.*;
 
-public class Ex3DProController extends Controller{
+public class Ex3DProController extends Controller {
   
   private Button Button = new Button();
   private JoystickAxis JoystickAxis = new JoystickAxis();
   
-  public Ex3DProController(Joystick joystick_){
+  public Ex3DProController(Joystick joystick_) {
     super(joystick_);
   }
   
