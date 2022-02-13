@@ -25,4 +25,9 @@ public class TraversoExtenderArmConstants {
   // motor clamps
   public final static double kMotorClamp = .1;
   
+  // locations
+  public final static double kMaxUpwards = kExtenderMaxArmLength;
+  public final static double kMaxDownwards = 0;
+  public final static double kHalfway = kExtenderMaxArmLength / 2;
+  public final static double kSlightlyUpward = 6;
 }
