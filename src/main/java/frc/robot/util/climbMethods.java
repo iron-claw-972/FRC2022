@@ -47,19 +47,11 @@ public class climbMethods {
 
   public boolean extenderSetCheck() {
     // if the extenders reached their setpoint, return true
-    if(RobotContainer.m_extenderL.reachedSetpoint() && RobotContainer.m_extenderR.reachedSetpoint()) {
-      return true;
-    }
-    // otherwise, return false
-    return false;
+    return RobotContainer.m_extenderL.reachedSetpoint() && RobotContainer.m_extenderR.reachedSetpoint();
   }
 
   public boolean rotatorSetCheck() {
     // if the rotators reached their setpoint, return true
-    if(RobotContainer.m_climbArmR.reachedSetpoint() && RobotContainer.m_climbArmL.reachedSetpoint()) {
-      return true;
-    }
-    // otherwise, return false
-    return false;
+    return RobotContainer.m_climbArmR.reachedSetpoint() && RobotContainer.m_climbArmL.reachedSetpoint();
   }
 }
