@@ -20,6 +20,11 @@ public class climbMethods {
     RobotContainer.m_extenderR.set(6); // in inches
   }
 
+  public void extenderHardExtend(double inches) {
+    RobotContainer.m_extenderL.set(inches);
+    RobotContainer.m_extenderR.set(inches);
+  }
+
   public void rotatorResetAngle() {
     RobotContainer.m_climbArmL.set(90); // in degrees
     RobotContainer.m_climbArmR.set(90); // in degrees
@@ -33,6 +38,11 @@ public class climbMethods {
   public void rotatorWhenExtendedToBar() {
     RobotContainer.m_climbArmL.set(29); // in degrees
     RobotContainer.m_climbArmR.set(29); // in degrees
+  }
+
+  public void rotatorHardAngle(double angle) {
+    RobotContainer.m_climbArmL.set(angle);
+    RobotContainer.m_climbArmR.set(angle);
   }
 
   public boolean extenderSetCheck() {
