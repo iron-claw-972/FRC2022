@@ -48,7 +48,6 @@ public class ClimbMethods {
   public boolean extenderSetCheck() {
     // if the extenders reached their setpoint, return true
     return RobotContainer.m_extenderL.reachedSetpoint() && RobotContainer.m_extenderR.reachedSetpoint();
-
   }
 
   public boolean rotatorSetCheck() {
