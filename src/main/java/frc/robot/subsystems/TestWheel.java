@@ -34,7 +34,7 @@ public class TestWheel extends SubsystemBase {
   }
 
 
-  public void setOutput(double motorPower){
+  public void setOutput(double motorPower) {
     m_TestWheelMotor.set(ControlMode.PercentOutput, MathUtil.clamp(motorPower, -constants.kMotorClamp, constants.kMotorClamp));
   }
 
@@ -50,11 +50,11 @@ public class TestWheel extends SubsystemBase {
     motorPower = 0;
   }
 
-  public void enable(){
+  public void enable() {
     enabled=true;
   }
 
-  public void disable(){
+  public void disable() {
     enabled=false;
     setOutput(0);
   }

@@ -6,7 +6,7 @@ import frc.robot.Constants.*;
 import frc.robot.RobotContainer;
 import frc.robot.util.DriveMode;
 
-public class Driver{
+public class Driver {
 
   private static PistolController controller = new PistolController(new Joystick(JoyConstants.kDriverJoy));
   
@@ -33,12 +33,12 @@ public class Driver{
   }
   
   // sets drive mode
-  public static void setDriveMode(DriveMode dm){
+  public static void setDriveMode(DriveMode dm) {
     driveMode = dm;
   }
   
   //checks drive mode
-  public static boolean isDrive(DriveMode drive){
+  public static boolean isDrive(DriveMode drive) {
     return (driveMode == drive);
   }
 

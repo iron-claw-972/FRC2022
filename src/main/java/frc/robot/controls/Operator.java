@@ -8,7 +8,6 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.RobotContainer;
 import frc.robot.Constants.*;
-import frc.robot.commands.autoClimb;
 
 public class Operator{
 
@@ -23,10 +22,8 @@ public class Operator{
   public static void configureButtonBindings() {
     // left trigger = extend extender
     // left bumper =  stop shooter, retract intake arm, lower extender, extends upwards slightly
-    // another button = traverse a bar (angle the arm, extend, angle back slightly, compress extender)
+    // another button = traverse a bar (angle the arm, extend, angle back slightly, compress extender)W
     // start = resume
     // back = decrease step / e-stop
-        
-    controller.getTriggerAxis().leftTrigger().whenPressed(new InstantCommand(RobotContainer.m_extenderR.set(25))));
   }
 }
