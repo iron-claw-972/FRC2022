@@ -1,43 +1,11 @@
 package frc.robot.util;
 
 import frc.robot.RobotContainer;
-import frc.robot.robotConstants.extenderArm.TraversoExtenderArmConstants;
 
-public class ClimbMethods {
-
-  public void extenderMaxExtension() {
-    RobotContainer.m_extenderL.set(TraversoExtenderArmConstants.kExtenderMaxArmLength); // in inches
-    RobotContainer.m_extenderR.set(TraversoExtenderArmConstants.kExtenderMaxArmLength); // in inches
-  }
-
-  public void extenderMaxCompression() {
-    RobotContainer.m_extenderL.set(0);
-    RobotContainer.m_extenderR.set(0);
-  }
-
-  public void extenderWhenAtBar() {
-    RobotContainer.m_extenderL.set(6); // in inches
-    RobotContainer.m_extenderR.set(6); // in inches
-  }
-
+public class climbMethods {
   public void extenderHardExtend(double inches) {
     RobotContainer.m_extenderL.set(inches);
     RobotContainer.m_extenderR.set(inches);
-  }
-
-  public void rotatorResetAngle() {
-    RobotContainer.m_climbArmL.set(90); // in degrees
-    RobotContainer.m_climbArmR.set(90); // in degrees
-  }
-
-  public void rotatorAngleToBar() {
-    RobotContainer.m_climbArmL.set(33); // in degrees
-    RobotContainer.m_climbArmR.set(33); // in degrees
-  }
-
-  public void rotatorWhenExtendedToBar() {
-    RobotContainer.m_climbArmL.set(29); // in degrees
-    RobotContainer.m_climbArmR.set(29); // in degrees
   }
 
   public void rotatorHardAngle(double angle) {
