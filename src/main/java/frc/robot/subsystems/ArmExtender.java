@@ -68,17 +68,18 @@ public class ArmExtender extends SubsystemBase {
     return m_motor.getSelectedSensorPosition() * constants.kExtenderTickMultiple;
   }
 
+  // returns te current extension in ticks
   public double currentExtensionRaw() {
     return m_motor.getSelectedSensorPosition();
   }
 
-  // enables the robot (wow!)
+  // enables the extender (wow!)
   public void enable() {
     System.out.println();
     enabled = true;
   }
   
-  // disables the robot
+  // disables the extender
   public void disable() {
     enabled = false;
     m_motor.set(0);
