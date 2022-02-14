@@ -35,7 +35,7 @@ public class RobotContainer {
   //public static TestWheel m_testWheel = new TestWheel();
 
   public static ClimbArm m_climbArmR = new ClimbArm(false);
-  public static ClimbArm m_climbArmL = new ClimbArm(true);
+  // public static ClimbArm m_climbArmL = new ClimbArm(true);
   public static ArmExtender m_extenderR = new ArmExtender(false);
   public static ArmExtender m_extenderL = new ArmExtender(true);
 

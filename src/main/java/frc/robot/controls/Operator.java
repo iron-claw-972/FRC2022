@@ -50,7 +50,7 @@ public class Operator{
 
     controller.getButtons().X().whileHeld(
         () -> RobotContainer.m_climbArmR.setOutput(
-        -controller.getJoystickAxis().leftY()));
+        controller.getJoystickAxis().leftY()));
     controller.getButtons().X().whenReleased
         (() -> RobotContainer.m_climbArmR.setOutput(0));
         

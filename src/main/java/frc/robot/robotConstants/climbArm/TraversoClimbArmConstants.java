@@ -28,6 +28,6 @@ public class TraversoClimbArmConstants {
     
     // locations
     public final static double kNinetyDeg = 90;
-    public final static double kMaxBackward = 135;
+    public final static double kMaxBackward = 125;
     public final static double kMaxForward = 80;
 }

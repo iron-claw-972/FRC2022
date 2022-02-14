@@ -20,7 +20,7 @@ public class ClimbArm extends SubsystemBase {
   private final WPI_TalonFX m_motor;
   boolean storedLeft;
 
-  private double setpoint = 0;
+  private double setpoint = 90;
   private double encoderOffset = 0;
 
   private PIDController armPID = new PIDController(0.02, 0.0000, 0.0000);
@@ -47,7 +47,7 @@ public class ClimbArm extends SubsystemBase {
     SmartDashboard.putNumber("D", 0.000);
     SmartDashboard.putNumber("set encoder", 0);
     SmartDashboard.putNumber("goal", 0);
-    // setEncoder(-45);
+    setEncoder(80);
   }
 
   public double currentAngleRaw() {
@@ -65,9 +65,9 @@ public class ClimbArm extends SubsystemBase {
 
   // 80 is all the way forward and  125 is all the way back
   public void setEncoder(double angle) { 
-    encoderOffset = angle / constants.kArmDegreeMultiple
+    encoderOffset = angle // constants.kArmDegreeMultiple
           - dce.get() * constants.kArmDegreeMultiple;
-    // System.out.println("set encoder");
+    System.out.println("set encoder");
 
   }
 
@@ -93,18 +93,18 @@ public class ClimbArm extends SubsystemBase {
 
   public void setOutput(double motorPower){
     if (storedLeft) {
-      m_motor.set(ControlMode.PercentOutput, MathUtil.clamp(motorPower, -constants.kMotorClamp, constants.kMotorClamp));
-    } else {
       m_motor.set(ControlMode.PercentOutput, -MathUtil.clamp(motorPower, -constants.kMotorClamp, constants.kMotorClamp));
+    } else {
+      m_motor.set(ControlMode.PercentOutput, MathUtil.clamp(motorPower, -constants.kMotorClamp, constants.kMotorClamp));
     }
   }
 
   @Override
   public void periodic() {
     if(enabled) {
-      // armPID.setP(SmartDashboard.getNumber("P", 0.02));
-      // armPID.setI(SmartDashboard.getNumber("I", 0.000));
-      // armPID.setD(SmartDashboard.getNumber("D", 0.000));
+      armPID.setP(SmartDashboard.getNumber("P", 0.02));
+      armPID.setI(SmartDashboard.getNumber("I", 0.000));
+      armPID.setD(SmartDashboard.getNumber("D", 0.000));
       // setpoint = SmartDashboard.getNumber("goal", 0);
       // set the arm power according to a PID
       setOutput(armPID.calculate(currentAngle(), setpoint));
