@@ -34,10 +34,10 @@ public class RobotContainer {
   //public static BallDetection m_ballDetection = new BallDetection();
   public static Drivetrain m_drive = new Drivetrain();
 
-  public static ClimbArm m_climbArmR = new ClimbArm(false);
-  public static ClimbArm m_climbArmL = new ClimbArm(true);
-  public static ArmExtender m_extenderR = new ArmExtender(false);
-  public static ArmExtender m_extenderL = new ArmExtender(true);
+  public static ClimbRotator m_climbArmR = new ClimbRotator(false);
+  public static ClimbRotator m_climbArmL = new ClimbRotator(true);
+  public static ClimbExtender m_extenderR = new ClimbExtender(false);
+  public static ClimbExtender m_extenderL = new ClimbExtender(true);
 
   public RobotContainer() {
 

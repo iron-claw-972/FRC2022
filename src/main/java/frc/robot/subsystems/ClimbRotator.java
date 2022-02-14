@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class ClimbArm extends SubsystemBase {
+public class ClimbRotator extends SubsystemBase {
   TraversoClimbArmConstants constants = new TraversoClimbArmConstants();
 
   private boolean enabled = false;
@@ -23,7 +23,7 @@ public class ClimbArm extends SubsystemBase {
 
   private PIDController armPID = new PIDController(0.007, 0.0008, 0.0005);
 
-  public ClimbArm(boolean left) {
+  public ClimbRotator(boolean left) {
     // if the arm is left, the encoder value is inverted && the objects are assigned correctly
     if (left) {
       encoder = new DutyCycleEncoder(constants.kArmLeftEncoder);
