@@ -1,6 +1,6 @@
 package frc.robot.robotConstants.extenderArm;
 
-public class TraversoExtenderArmConstants {
+public class TraversoClimbExtenderConstants {
   // extending motors (for climber)
   // TODO: Change these ports!
   public final int kRightExtenderPort = 2;

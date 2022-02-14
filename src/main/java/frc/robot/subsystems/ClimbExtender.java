@@ -9,11 +9,11 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.ControllerFactory;
-import frc.robot.robotConstants.extenderArm.TraversoExtenderArmConstants;
+import frc.robot.robotConstants.extenderArm.TraversoClimbExtenderConstants;
 
 
 public class ClimbExtender extends SubsystemBase {
-  TraversoExtenderArmConstants constants = new TraversoExtenderArmConstants();
+  TraversoClimbExtenderConstants constants = new TraversoClimbExtenderConstants();
   private boolean enabled = true;
   private final WPI_TalonFX m_motor;
   private String smartDashText;

@@ -13,8 +13,8 @@ public class Operator{
 
   public static GameController controller = new GameController(new Joystick(JoyConstants.kOperatorJoy));
 
-  public static TraversoExtenderArmConstants excon = new TraversoExtenderArmConstants();
-  public static TraversoClimbArmConstants clcon = new TraversoClimbArmConstants();
+  public static TraversoClimbExtenderConstants excon = new TraversoClimbExtenderConstants();
+  public static TraversoClimbRotatorConstants rotcon = new TraversoClimbRotatorConstants();
 
   static Joystick tempJoy = new Joystick(JoyConstants.kOperatorJoy);
   static JoystickButton tempButton = new JoystickButton(tempJoy, 1);
@@ -47,7 +47,7 @@ public class Operator{
         new WaitUntilCommand(ClimbMethods::extenderSetCheck)
       ),
       // rotate to the maximum backwards
-      new InstantCommand(() -> ClimbMethods.rotatorHardAngle(clcon.kMaxBackward))
+      new InstantCommand(() -> ClimbMethods.rotatorHardAngle(rotcon.kMaxBackward))
       .andThen(
         // wait until both reach their setpoints
         new WaitUntilCommand(ClimbMethods::rotatorSetCheck)
@@ -63,7 +63,7 @@ public class Operator{
     // this rotates the arm to the next bar, straightens the arm to 90 degrees while also compressing
     controller.getButtons().X().whenPressed(new SequentialCommandGroup(
       // rotate the arm to the bar
-      new InstantCommand(()-> ClimbMethods.rotatorHardAngle(clcon.kToBar))
+      new InstantCommand(()-> ClimbMethods.rotatorHardAngle(rotcon.kToBar))
       .andThen(
         // wait until the rotator reaches it setpoint
         new WaitUntilCommand(ClimbMethods::rotatorSetCheck)
@@ -71,7 +71,7 @@ public class Operator{
       // extender goes to its lowest point
       new InstantCommand(() -> ClimbMethods.extenderHardExtend(excon.kMaxDownwards)),
       // rotator goes to 90 degrees
-      new InstantCommand(() -> ClimbMethods.rotatorHardAngle(clcon.kNinetyDeg))
+      new InstantCommand(() -> ClimbMethods.rotatorHardAngle(rotcon.kNinetyDeg))
       .andThen(
         // wait until both reach their setpoints
         new WaitUntilCommand(ClimbMethods::extenderSetCheck),
