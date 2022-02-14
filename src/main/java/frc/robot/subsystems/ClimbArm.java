@@ -15,7 +15,7 @@ public class ClimbArm extends SubsystemBase {
   TraversoClimbArmConstants constants = new TraversoClimbArmConstants();
 
   private boolean enabled = false;
-  private final DutyCycleEncoder dce;
+  private final DutyCycleEncoder encoder;
   private final WPI_TalonFX m_motor;
   boolean storedLeft;
 
@@ -26,12 +26,12 @@ public class ClimbArm extends SubsystemBase {
   public ClimbArm(boolean left) {
     // if the arm is left, the encoder value is inverted && the objects are assigned correctly
     if (left) {
-      dce = new DutyCycleEncoder(constants.kArmLeftEncoder);
+      encoder = new DutyCycleEncoder(constants.kArmLeftEncoder);
       m_motor = ControllerFactory.createTalonFX(constants.kArmLeftMotor);
     }
     // otherwise, use the normal encoder value and set the motorports to the right
     else {
-      dce = new DutyCycleEncoder(constants.kArmRightEncoder);
+      encoder = new DutyCycleEncoder(constants.kArmRightEncoder);
       m_motor = ControllerFactory.createTalonFX(constants.kArmRightMotor);
     }
     // store the left boolean in storedLeft
@@ -42,9 +42,9 @@ public class ClimbArm extends SubsystemBase {
   // returns the current angle of the duty cycle encoder
   public double currentAngle() {
     if(storedLeft) {
-      return -(dce.get()*constants.kArmDegreeMultiple-constants.kArmZeroEncoderDegrees);
+      return -(encoder.get()*constants.kArmDegreeMultiple-constants.kArmZeroEncoderDegrees);
     }
-    return dce.get()*constants.kArmDegreeMultiple-constants.kArmZeroEncoderDegrees;
+    return encoder.get()*constants.kArmDegreeMultiple-constants.kArmZeroEncoderDegrees;
   }
 
   public boolean reachedSetpoint() {
@@ -78,7 +78,7 @@ public class ClimbArm extends SubsystemBase {
       setOutput(armPID.calculate(currentAngle(), setpoint));
     }
     // a pop-up in shuffleboard that allows you to see how much the arm extended in inches
-    SmartDashboard.putNumber("Current Angle (Degrees)", dce.get() * constants.kArmDegreeMultiple);
+    SmartDashboard.putNumber("Current Angle (Degrees)", encoder.get() * constants.kArmDegreeMultiple);
     System.out.println(currentAngle());
   }
   
