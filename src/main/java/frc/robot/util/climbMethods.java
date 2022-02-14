@@ -1,7 +1,5 @@
 package frc.robot.util;
 
-import java.util.function.BooleanSupplier;
-
 import frc.robot.RobotContainer;
 
 public class ClimbMethods {
