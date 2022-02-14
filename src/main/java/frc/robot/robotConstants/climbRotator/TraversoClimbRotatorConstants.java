@@ -1,4 +1,4 @@
-package frc.robot.robotConstants.climbArm;
+package frc.robot.robotConstants.climbRotator;
 
 public class TraversoClimbRotatorConstants {
     // the duty cycle encoder ports of the arm

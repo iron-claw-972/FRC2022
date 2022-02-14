@@ -9,7 +9,7 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.ControllerFactory;
-import frc.robot.robotConstants.extenderArm.TraversoClimbExtenderConstants;
+import frc.robot.robotConstants.climbExtender.TraversoClimbExtenderConstants;
 
 
 public class ClimbExtender extends SubsystemBase {
@@ -93,8 +93,8 @@ public class ClimbExtender extends SubsystemBase {
 
   @Override
   public void periodic() {
-    // sets the PID to be the motorPower
     if(enabled) {
+      // sets the PID to be the motorPower
       setOutput(extenderPID.calculate(currentExtension(), setpoint));
     }
     // a pop-up in shuffleboard that allows you to see how much the arm extended in inches

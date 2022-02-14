@@ -1,4 +1,4 @@
-package frc.robot.robotConstants.extenderArm;
+package frc.robot.robotConstants.climbExtender;
 
 public class TraversoClimbExtenderConstants {
   // extending motors (for climber)

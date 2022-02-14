@@ -5,8 +5,8 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.*;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.*;
-import frc.robot.robotConstants.extenderArm.*;
-import frc.robot.robotConstants.climbArm.*;
+import frc.robot.robotConstants.climbExtender.*;
+import frc.robot.robotConstants.climbRotator.*;
 import frc.robot.util.ClimbMethods;
 
 public class Operator{

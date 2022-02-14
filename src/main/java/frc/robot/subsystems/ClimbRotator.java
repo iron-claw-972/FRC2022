@@ -4,7 +4,7 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import frc.robot.ControllerFactory;
-import frc.robot.robotConstants.climbArm.TraversoClimbRotatorConstants;
+import frc.robot.robotConstants.climbRotator.TraversoClimbRotatorConstants;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
@@ -20,6 +20,7 @@ public class ClimbRotator extends SubsystemBase {
   private String smartDashText;
   boolean storedLeft;
 
+  // this is set by the method "set" called later on
   private double setpoint = 0;
 
   private PIDController armPID = new PIDController(0.007, 0.0008, 0.0005);
@@ -47,13 +48,15 @@ public class ClimbRotator extends SubsystemBase {
   // returns the current angle of the duty cycle encoder
   public double currentAngle() {
     if(storedLeft) {
+      // if it's the left motor, give the opposite value
       return -(encoder.get()*constants.kArmDegreeMultiple-constants.kArmZeroEncoderDegrees);
     }
+    // if it's the right motor, give the normal value
     return encoder.get()*constants.kArmDegreeMultiple-constants.kArmZeroEncoderDegrees;
   }
 
   public boolean reachedSetpoint() {
-    // if the current tick position is within the setpoint's range (setpoint +- tolerance), return true, otherwise return false
+    // checks if the arm is at its setpoint
     return armPID.atSetpoint();
   }
 
@@ -62,14 +65,15 @@ public class ClimbRotator extends SubsystemBase {
     setpoint = distance;
   }
 
+  // allows the motor to be spun
   public void enable() {
     enabled = true;
   }
 
   public void disable() {
     enabled = false;
-    m_motor.set(0);
     // if the subsystem is disabled, do not spin the motor
+    m_motor.set(0);
   }
 
   public void setOutput(double motorPower) {
