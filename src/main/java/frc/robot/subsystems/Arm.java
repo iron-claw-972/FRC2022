@@ -11,9 +11,9 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Arm extends SubsystemBase {
   private boolean enabled = true;
-  private final DutyCycleEncoder dce;
+  private final DutyCycleEncoder dceEncoder;
   private final WPI_TalonFX m_motor;
-  boolean storedLeft = false;
+  private boolean isLeft = false;
 
   private double setpoint = 0;
 
@@ -23,23 +23,23 @@ public class Arm extends SubsystemBase {
 
     // if the arm is left, the encoder value is inverted && the objects are assigned correctly
     if (left) {
-      dce = new DutyCycleEncoder(ArmConstants.kArmLeftEncoder);
+      dceEncoder = new DutyCycleEncoder(ArmConstants.kArmLeftEncoder);
       m_motor = ControllerFactory.createTalonFX(ArmConstants.kArmLeftMotor);
     }
-    // otherwise, use the normal encoder value and set the motorports to the right
+    // otherwise, use the normal encoder value and set the motor ports to the right
     else {
-      dce = new DutyCycleEncoder(ArmConstants.kArmRightEncoder);
+      dceEncoder = new DutyCycleEncoder(ArmConstants.kArmRightEncoder);
       m_motor = ControllerFactory.createTalonFX(ArmConstants.kArmRightMotor);
     }
-    // store the left boolean in storedLeft
-    storedLeft = left;
+    // store the left boolean in isLeft
+    isLeft = left;
   }
 
   public double currentTickVal() {
-    if(storedLeft) {
-      return -dce.get();
+    if(isLeft) {
+      return -dceEncoder.get();
     }
-    return dce.get();
+    return dceEncoder.get();
   }
 
   public boolean reachedSetpoint() {
@@ -62,7 +62,7 @@ public class Arm extends SubsystemBase {
   }
 
   @Override
-  public void periodic(){
+  public void periodic() {
     if(enabled) {
       // if the current tick value falls within the setpoint by 10 ticks
       if (reachedSetpoint()) {
@@ -78,6 +78,6 @@ public class Arm extends SubsystemBase {
       m_motor.set(0);
     }
     // a pop-up in shuffleboard that allows you to see how much the arm extended in inches
-    SmartDashboard.putNumber("Current Angle (Degrees)", dce.get() * ArmConstants.kArmDegreeMultiple);
+    SmartDashboard.putNumber("Current Angle (Degrees)", dceEncoder.get() * ArmConstants.kArmDegreeMultiple);
   }
 }
