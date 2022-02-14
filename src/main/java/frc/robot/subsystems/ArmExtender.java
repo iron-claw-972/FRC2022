@@ -68,7 +68,7 @@ public class ArmExtender extends SubsystemBase {
     return m_motor.getSelectedSensorPosition() * constants.kExtenderTickMultiple;
   }
 
-  // returns te current extension in ticks
+  // returns the current extension in ticks
   public double currentExtensionRaw() {
     return m_motor.getSelectedSensorPosition();
   }
