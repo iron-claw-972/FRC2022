@@ -24,7 +24,6 @@ public class Operator{
   // operator buttons
   public static void configureButtonBindings() {
 
-    // tl;dr:
     // extender goes up a little bit for the driver to go hook onto the mid-bar
     controller.getButtons().A().whenPressed(new SequentialCommandGroup(
       // the extender goes up a small amount
@@ -35,7 +34,6 @@ public class Operator{
       )
     ));
 
-    // tl;dr:
     // this extends the arm to its lowest point, extends the arm upwards a little,
     // the arm rotates backwards to its maximum, and the arm extends to its maxium
     controller.getButtons().B().whenPressed(new SequentialCommandGroup(
@@ -63,8 +61,6 @@ public class Operator{
       )
     ));
 
-
-    // tl;dr:
     // this rotates the arm to the next bar, straightens the arm to 90 degrees while also compressing
     controller.getButtons().X().whenPressed(new SequentialCommandGroup(
       // rotate the arm to the bar
