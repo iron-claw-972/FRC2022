@@ -17,6 +17,7 @@ public class ClimbRotator extends SubsystemBase {
   private boolean enabled = false;
   private final DutyCycleEncoder encoder;
   private final WPI_TalonFX m_motor;
+  private String smartDashText;
   boolean storedLeft;
 
   private double setpoint = 0;
@@ -28,14 +29,18 @@ public class ClimbRotator extends SubsystemBase {
     if (left) {
       encoder = new DutyCycleEncoder(constants.kArmLeftEncoder);
       m_motor = ControllerFactory.createTalonFX(constants.kArmLeftMotor);
+      smartDashText = "Current Angle (Left)";
     }
     // otherwise, use the normal encoder value and set the motorports to the right
     else {
       encoder = new DutyCycleEncoder(constants.kArmRightEncoder);
       m_motor = ControllerFactory.createTalonFX(constants.kArmRightMotor);
+      smartDashText = "Current Angle (Right)";
     }
     // store the left boolean in storedLeft
     storedLeft = left;
+
+    // set the tolerance allowed for the PID
     armPID.setTolerance(constants.kArmTolerance);
   }
 
@@ -78,7 +83,7 @@ public class ClimbRotator extends SubsystemBase {
       setOutput(armPID.calculate(currentAngle(), setpoint));
     }
     // a pop-up in shuffleboard that allows you to see how much the arm extended in inches
-    SmartDashboard.putNumber("Current Angle (Degrees)", currentAngle());
+    SmartDashboard.putNumber(smartDashText, currentAngle());
   }
   
 }

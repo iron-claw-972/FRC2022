@@ -18,12 +18,13 @@ public class TraversoClimbRotatorConstants {
     public final double kArmDegreeMultiple = 360.0;
     public final double kArmZeroEncoderDegrees = 0;
 
-    // the distance allowed from the setpoint (IN DECIMAL DEGREES (1 = 360, .5 = 180, .25 = 90))
+    // the distance allowed from the setpoint (in degrees)
     public final double kArmTolerance = 3;
 
     // whether the gearbox is flipped
     public final int kFlipped = 1;
 
+    // maximum degrees the arm can go in ticks
     public final double kArmMaxDegreeTicks = kArmMaxDegree / kArmDegreeMultiple;
     
     // locations

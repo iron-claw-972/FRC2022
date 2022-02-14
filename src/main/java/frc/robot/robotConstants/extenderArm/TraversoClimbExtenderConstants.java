@@ -22,6 +22,9 @@ public class TraversoClimbExtenderConstants {
   // the arm's length in ticks
   public final double kExtenderMaxArmTicks = kExtenderMaxArmLength / kExtenderTickMultiple;
 
+  // tolerance allowed to the PID (inches)
+  public final double kExtenderTolerance = 1;
+
   // motor clamps
   public final double kMotorClamp = .1;
   

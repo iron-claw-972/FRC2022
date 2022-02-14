@@ -34,7 +34,6 @@ public class ClimbExtender extends SubsystemBase {
       // otherwise, just assign the motor object to the right
       m_motor = ControllerFactory.createTalonFX(constants.kRightExtenderPort);
       smartDashText = "Current Extension (Right)";
-
     }
 
     // the lowest tick limit is 0, and must be checked every 10 milliseconds
@@ -51,6 +50,9 @@ public class ClimbExtender extends SubsystemBase {
     // so that the limiters are enabled
     m_motor.configForwardSoftLimitEnable(true, 10);
     m_motor.configReverseSoftLimitEnable(true, 10);
+
+    // set the PID's tolerance
+    extenderPID.setTolerance(constants.kExtenderTolerance);
   }
 
   public boolean reachedSetpoint() {
