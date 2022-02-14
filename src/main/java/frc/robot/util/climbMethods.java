@@ -4,7 +4,7 @@ import java.util.function.BooleanSupplier;
 
 import frc.robot.RobotContainer;
 
-public class climbMethods {
+public class ClimbMethods {
   public static void extenderHardExtend(double inches) {
     RobotContainer.m_extenderL.set(inches);
     RobotContainer.m_extenderR.set(inches);
