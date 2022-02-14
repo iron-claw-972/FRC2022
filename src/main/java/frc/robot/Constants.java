@@ -136,8 +136,8 @@ public final class Constants {
     // Current Tick Value * Degree Multiple = Current Angle
     public static final double kArmDegreeMultiple = 360;
 
-    // the distance allowed from the setpoint (IN DECIMAL DEGREES (1 = 360, .5 = 180, .25 = 90))
-    public static final double kArmTolerance = .003;
+    // the distance allowed from the setpoint in degrees
+    public static final double kArmTolerance = 1.0;
 
     public static final double kArmMaxDegreeTicks = kArmMaxDegree / kArmDegreeMultiple;
   }

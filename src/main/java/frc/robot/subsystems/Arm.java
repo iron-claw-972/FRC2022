@@ -31,7 +31,6 @@ public class Arm extends SubsystemBase {
       dceEncoder = new DutyCycleEncoder(ArmConstants.kArmRightEncoder);
       m_motor = ControllerFactory.createTalonFX(ArmConstants.kArmRightMotor);
     }
-    // store the left boolean in isLeft
     isLeft = left;
   }
 
@@ -41,11 +40,14 @@ public class Arm extends SubsystemBase {
     }
     return dceEncoder.get();
   }
+  
+  public double getDegrees() {
+    return currentTickVal() * ArmConstants.kArmDegreeMultiple;
+  }
 
   public boolean reachedSetpoint() {
     // if the current tick position is within the setpoint's range (setpoint +- tolerance), return true, otherwise return false
-    return currentTickVal() >= (setpoint / ArmConstants.kArmDegreeMultiple) - ArmConstants.kArmTolerance
-    && currentTickVal() <= (setpoint / ArmConstants.kArmDegreeMultiple) + ArmConstants.kArmTolerance;
+    return getDegrees() >= setpoint - ArmConstants.kArmTolerance && getDegrees() <= setpoint + ArmConstants.kArmTolerance;
   }
 
   // called in RobotContainer by button binds
@@ -64,20 +66,19 @@ public class Arm extends SubsystemBase {
   @Override
   public void periodic() {
     if(enabled) {
-      // if the current tick value falls within the setpoint by 10 ticks
+      // if the current tick value falls within the setpoint by ArmConstants.kArmTolerance degrees
       if (reachedSetpoint()) {
         m_motor.set(0);
-      }
-      else {
+      } else {
         // set the arm power according to a PID
-        m_motor.set(armPID.calculate(currentTickVal(), setpoint));
+        // TODO: add feedforward, account for gravity. Should be on one of the other branches
+        m_motor.set(armPID.calculate(getDegrees(), setpoint));
       }
-    }
-    else {
+    } else {
       // if the subsystem is disabled, do not spin the motor
       m_motor.set(0);
     }
-    // a pop-up in shuffleboard that allows you to see how much the arm extended in inches
-    SmartDashboard.putNumber("Current Angle (Degrees)", dceEncoder.get() * ArmConstants.kArmDegreeMultiple);
+    // a pop-up in shuffleboard that allows you to see how much the arm rotated in degrees
+    SmartDashboard.putNumber("Current Angle (Degrees)", getDegrees());
   }
 }
