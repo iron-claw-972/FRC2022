@@ -75,7 +75,6 @@ public class ClimbExtender extends SubsystemBase {
 
   // enables the extender (wow!)
   public void enable() {
-    System.out.println();
     enabled = true;
   }
   

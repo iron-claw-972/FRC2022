@@ -199,8 +199,8 @@ public class Drivetrain extends SubsystemBase {
       rightOut = 1;
     }    
 
-    System.out.println("left: " + leftOut);
-    System.out.println("Right: " + rightOut);
+    //System.out.println("left: " + leftOut);
+    //System.out.println("Right: " + rightOut);
 
     m_leftMotor1.set(ControlMode.PercentOutput, leftOut);
     m_rightMotor1.set(ControlMode.PercentOutput, rightOut);

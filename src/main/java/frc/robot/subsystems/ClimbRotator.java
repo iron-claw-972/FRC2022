@@ -78,8 +78,7 @@ public class ClimbRotator extends SubsystemBase {
       setOutput(armPID.calculate(currentAngle(), setpoint));
     }
     // a pop-up in shuffleboard that allows you to see how much the arm extended in inches
-    SmartDashboard.putNumber("Current Angle (Degrees)", encoder.get() * constants.kArmDegreeMultiple);
-    System.out.println(currentAngle());
+    SmartDashboard.putNumber("Current Angle (Degrees)", currentAngle());
   }
   
 }
