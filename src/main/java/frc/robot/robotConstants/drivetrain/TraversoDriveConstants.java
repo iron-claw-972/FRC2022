@@ -21,20 +21,10 @@ public class TraversoDriveConstants {
   public final double kEncoderMetersPerSecond = kWheelDiameterMeters * Math.PI / kGearRatio * 10.0;
 
   // Use the SysId program in WPILib Tools to estimate values
-  public final double ksVolts = 0.59765; // Ks
-  public final double kvVoltSecondsPerMeter = 2.6544; // Kv
-  public final double kaVoltSecondsSquaredPerMeter = 0.15897; // Ka
-  public final double kRamseteP = 2.7489; // Kp for Ramsete PID
-  public final double kvVoltSecondsPerRadian = 0.05;
-  public final double kaVoltSecondsSquaredPerRadian = 0.005;
-
-  public final LinearSystem<N2, N2, N2> kDrivetrainPlant = LinearSystemId.identifyDrivetrainSystem(
-    kvVoltSecondsPerMeter,
-    kaVoltSecondsSquaredPerMeter,
-    kvVoltSecondsPerRadian,
-    kaVoltSecondsSquaredPerRadian
-  );
-
+  public final double ksVolts = 0.61763; // Ks
+  public final double kvVoltSecondsPerMeter = 2.4394; // Kv
+  public final double kaVoltSecondsSquaredPerMeter = 0.19755; // Ka
+  public final double kRamseteP = 2.8662; // Kp for Ramsete PID
 
   // Velocity PID gain values
   public final double kVelocityP = 1; // Proportional

@@ -10,6 +10,7 @@ public class Operator{
 
   //operator buttons
   public static void configureButtonBindings() {
+    
   }
 
 }
