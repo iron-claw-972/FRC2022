@@ -51,16 +51,11 @@ public class ShooterBelt extends SubsystemBase {
   }
 
   public void enable() {
-    enabled=true;
+    enabled = true;
   }
 
   public void disable() {
-    enabled=false;
+    enabled = false;
     setOutput(0);
   }
-
-  public boolean reachedSetpoint(double targetSpeed) {
-    return enabled;
-  }
-
 }

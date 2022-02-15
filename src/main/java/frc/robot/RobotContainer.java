@@ -1,9 +1,9 @@
-/*----------------------------------------------------------------------------*/
-/* Copyright (c) 2018-2019 FIRST. All Rights Reserved.                        */
-/* Open Source Software - may be modified and shared by FRC teams. The code   */
-/* must be accompanied by the FIRST BSD license file in the root directory of */
-/* the project.                                                               */
-/*----------------------------------------------------------------------------*/
+/*----------------------------------------------------------------------------
+Copyright (c) 2018-2019 FIRST. All Rights Reserved.                        
+Open Source Software - may be modified and shared by FRC teams. The code   
+must be accompanied by the FIRST BSD license file in the root directory of 
+the project.                                                               
+----------------------------------------------------------------------------*/
 
 package frc.robot;
 
@@ -13,7 +13,7 @@ import frc.robot.controls.*;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.cameraserver.CameraServer;
-
+import edu.wpi.first.wpilibj.PowerDistribution;
 import frc.robot.Constants.*;
 import frc.robot.autonomous.drivetrain.Pathweaver;
 
@@ -30,9 +30,9 @@ import frc.robot.autonomous.drivetrain.Pathweaver;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
 
-  //public static Drivetrain m_drive = new Drivetrain();
-  //public static BallDetection m_ballDetection = new BallDetection();
   public static Drivetrain m_drive = new Drivetrain();
+  //public static BallDetection m_ballDetection = new BallDetection();
+  //public static TestWheel m_testWheel = new TestWheel();
 
   public static ClimbRotator m_climbArmR = new ClimbRotator(false);
   public static ClimbRotator m_climbArmL = new ClimbRotator(true);
@@ -43,8 +43,8 @@ public class RobotContainer {
 
     // default command to run in teleop
     
-    m_drive.setDefaultCommand(new DifferentialDrive(m_drive));
-    //.setDefaultCommand(new armPID(m_climbArm));
+    // m_drive.setDefaultCommand(new DifferentialDrive(m_drive));
+    // m_testArm.setDefaultCommand(new armPID(m_testArm));
 
     // Start camera stream for driver
     //CameraServer.startAutomaticCapture();
@@ -60,9 +60,8 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    // Pathweaver.setupAutonomousTrajectory(AutoConstants.kTrajectoryName);
-
-    // dummy command
-    return new InstantCommand(() -> new ShuffleboardUpdate());
+    // Attempt to load trajectory from PathWeaver
+    //Pathweaver.setupAutonomousTrajectory(AutoConstants.kTrajectoryName);
+    return new ShuffleboardUpdate();
   }
 }

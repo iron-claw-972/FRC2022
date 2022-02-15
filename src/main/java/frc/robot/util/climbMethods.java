@@ -3,14 +3,14 @@ package frc.robot.util;
 import frc.robot.RobotContainer;
 
 public class ClimbMethods {
-  public static void extenderHardExtend(double inches) {
+  public void extenderHardExtend(double inches) {
     RobotContainer.m_extenderL.set(inches);
     RobotContainer.m_extenderR.set(inches);
   }
 
   public static void rotatorHardAngle(double angle) {
-    RobotContainer.m_climbArmL.set(angle);
-    RobotContainer.m_climbArmR.set(angle);
+    RobotContainer.m_climbArmL.setGoal(angle);
+    RobotContainer.m_climbArmR.setGoal(angle);
   }
 
   public static boolean extenderSetCheck() {
