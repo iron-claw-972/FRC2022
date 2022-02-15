@@ -38,7 +38,7 @@ public class TraversoClimbRotatorConstants {
     public final double kOnLoadI = 0.00;
     public final double kOnLoadD = 0.00;
 
-    //encoder offset
+    // encoder offset
     public final double kArmLeftEncoderOffset = 0;
     public final double kArmRightEncoderOffset = 0;
 }

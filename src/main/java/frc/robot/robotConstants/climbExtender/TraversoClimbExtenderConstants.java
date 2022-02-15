@@ -33,4 +33,18 @@ public class TraversoClimbExtenderConstants {
   public final double kMaxDownwards = 0;
   public final double kHalfway = kExtenderMaxArmLength / 2;
   public final double kSlightlyUpward = 6;
+  
+  // off load PID constants
+  public final double kOffLoadP = 0.02;
+  public final double kOffLoadI = 0.00;
+  public final double kOffLoadD = 0.00;
+
+  // on load PID constants
+  public final double kOnLoadP = 0.02;
+  public final double kOnLoadI = 0.00;
+  public final double kOnLoadD = 0.00;
+
+  // encoder offset
+  public final double kArmLeftEncoderOffset = 0;
+  public final double kArmRightEncoderOffset = 0;
 }
