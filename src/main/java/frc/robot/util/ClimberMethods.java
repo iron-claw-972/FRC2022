@@ -3,7 +3,7 @@ package frc.robot.util;
 import frc.robot.RobotContainer;
 
 public class ClimberMethods {
-  public void extenderHardExtend(double inches) {
+  public static void extenderHardExtend(double inches) {
     RobotContainer.m_extenderL.set(inches);
     RobotContainer.m_extenderR.set(inches);
   }
