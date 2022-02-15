@@ -32,8 +32,6 @@ public class RobotContainer {
 
   public static Drivetrain m_drive = new Drivetrain();
   //public static BallDetection m_ballDetection = new BallDetection();
-  //public static TestWheel m_testWheel = new TestWheel();
-
   public static ClimbRotator m_climbArmR = new ClimbRotator(false);
   public static ClimbRotator m_climbArmL = new ClimbRotator(true);
   public static ClimbExtender m_extenderR = new ClimbExtender(false);

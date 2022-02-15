@@ -19,22 +19,6 @@ public class Operator{
 
   //operator buttons
   public static void configureButtonBindings() {
-
-    //wheel testing
-    /*
-    controller.getButtons().A().whenPressed(
-        () -> RobotContainer.m_testWheel.enable());
-
-    controller.getButtons().B().whenPressed(
-        () -> RobotContainer.m_testWheel.setIntakeSpeed());
-    controller.getButtons().X().whenPressed(
-        () -> RobotContainer.m_testWheel.setStop());
-    controller.getButtons().Y().whenPressed(
-        () -> RobotContainer.m_testWheel.disable());
-    */
-
-
-
     
     //arm testing
 
