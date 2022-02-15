@@ -100,5 +100,16 @@ public class ClimbExtender extends SubsystemBase {
     // a pop-up in shuffleboard that allows you to see how much the arm extended in inches
     SmartDashboard.putNumber(smartDashText, currentExtension());
   }
-  
+
+  public void offLoad(){
+    extenderPID.setP(constants.kOffLoadP);
+    extenderPID.setI(constants.kOffLoadI);
+    extenderPID.setD(constants.kOffLoadD);
+  }
+
+  public void onLoad(){
+    extenderPID.setP(constants.kOnLoadP);
+    extenderPID.setI(constants.kOnLoadI);
+    extenderPID.setD(constants.kOnLoadD);
+  }
 } 

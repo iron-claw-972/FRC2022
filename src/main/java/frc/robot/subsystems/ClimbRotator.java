@@ -92,10 +92,7 @@ public class ClimbRotator extends SubsystemBase {
 
   // 80 is all the way forward and  125 is all the way back
   public void setEncoder(double angle) { 
-    encoderOffset = angle // constants.kArmDegreeMultiple
-          - encoder.get() * constants.kArmDegreeMultiple;
-    System.out.println("set encoder");
-
+    encoderOffset = angle /*constants.kArmDegreeMultiple*/ - encoder.get() * constants.kArmDegreeMultiple;
   }
 
   public boolean reachedSetpoint() {
@@ -117,7 +114,6 @@ public class ClimbRotator extends SubsystemBase {
   public void setOutput(double motorPower){
     m_motor.set(ControlMode.PercentOutput, MathUtil.clamp(motorPower, -constants.kMotorClamp, constants.kMotorClamp));
   }
-
 
   public void offLoad(){
     armPID.setP(constants.kOffLoadP);
