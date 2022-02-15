@@ -13,12 +13,12 @@ public class ClimberMethods {
     RobotContainer.m_climbArmR.setGoal(angle);
   }
 
-  public static boolean extenderSetCheck() {
+  public static boolean isExtenderAtSetpoint() {
     // if the extenders reached their setpoint, return true
     return RobotContainer.m_extenderL.reachedSetpoint() && RobotContainer.m_extenderR.reachedSetpoint();
   }
 
-  public static boolean rotatorSetCheck() {
+  public static boolean isRotatorAtSetpoint() {
     // if the rotators reached their setpoint, return true
     return RobotContainer.m_climbArmR.reachedSetpoint() && RobotContainer.m_climbArmL.reachedSetpoint();
   }
