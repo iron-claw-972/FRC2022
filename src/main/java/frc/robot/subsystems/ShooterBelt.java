@@ -9,8 +9,6 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import frc.robot.ControllerFactory;
-import frc.robot.Constants.ShooterConstants;
-
 import ctre_shims.TalonEncoder;
 import edu.wpi.first.math.controller.PIDController;
 
