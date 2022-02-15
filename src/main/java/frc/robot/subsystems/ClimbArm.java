@@ -4,7 +4,6 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import frc.robot.ControllerFactory;
-import frc.robot.controls.Operator;
 import frc.robot.robotConstants.climbArm.TraversoClimbArmConstants;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
@@ -20,16 +19,17 @@ public class ClimbArm extends SubsystemBase {
   private final WPI_TalonFX m_motor;
   boolean storedLeft;
 
-  private double setpoint = 90;
-  private double encoderOffset = 0;
+  private double setPoint = 90;
+  private double encoderOffset;
 
-  private PIDController armPID = new PIDController(0.02, 0.0000, 0.0000);
+  private PIDController armPID = new PIDController(constants.kOffLoadP , constants.kOffLoadI , constants.kOffLoadD);
   
   public ClimbArm(boolean left) {
     // if the arm is left, the encoder value is inverted && the objects are assigned correctly
     if (left) {
       dce = new DutyCycleEncoder(constants.kArmLeftEncoder);
       m_motor = ControllerFactory.createTalonFX(constants.kArmLeftMotor);
+      m_motor.setInverted(true);
       encoderOffset = constants.kArmLeftEncoderOffset;
     }
     // otherwise, use the normal encoder value and set the motorports to the right
@@ -42,19 +42,40 @@ public class ClimbArm extends SubsystemBase {
     storedLeft = left;
     armPID.setTolerance(constants.kArmTolerance);
     this.offLoad();
-    SmartDashboard.putNumber("P", 0.02);
-    SmartDashboard.putNumber("I", 0.000);
-    SmartDashboard.putNumber("D", 0.000);
-    SmartDashboard.putNumber("set encoder", 0);
-    SmartDashboard.putNumber("goal", 0);
+    //Puts PID values on shuffle board for tuning the PID (to be commented out later)
+    SmartDashboard.putNumber("P", constants.kOffLoadP);
+    SmartDashboard.putNumber("I", constants.kOffLoadI);
+    SmartDashboard.putNumber("D", constants.kOffLoadD);
+    SmartDashboard.putNumber("set encoder", 80);
+    SmartDashboard.putNumber("goal", 90);
     setEncoder(80);
+  }
+
+  @Override
+  public void periodic() {
+    if(enabled) {
+
+      // gets PID values from shuffle board for tuning the PID (to be commented out later)
+      armPID.setP(SmartDashboard.getNumber("P", constants.kOffLoadP));
+      armPID.setI(SmartDashboard.getNumber("I", constants.kOffLoadI));
+      armPID.setD(SmartDashboard.getNumber("D", constants.kOffLoadD));
+      // setpoint = SmartDashboard.getNumber("goal", 0);
+
+      // set the arm power according to a PID
+      setOutput(armPID.calculate(currentAngle(), setPoint));
+    }
+
+    // a pop-up in shuffleboard that allows you to see how much the arm extended in inches
+    SmartDashboard.putNumber("Current Angle (Degrees)", currentAngle());
+    // System.out.println(currentAngle());
+
   }
 
   public double currentAngleRaw() {
     return dce.get();
   }
 
-  // returns the current angle of the duty cycle encoder
+  // returns the current angle of the duty cycle encoder with offset accounted for
   public double currentAngle() {
     if(storedLeft) {
       return -(dce.get() * constants.kArmDegreeMultiple + encoderOffset);
@@ -76,11 +97,6 @@ public class ClimbArm extends SubsystemBase {
     return armPID.atSetpoint();
   }
 
-  // called in RobotContainer by button binds
-  public void set(double distance) {
-    setpoint = distance;
-  }
-
   public void enable() {
     enabled = true;
   }
@@ -92,43 +108,24 @@ public class ClimbArm extends SubsystemBase {
   }
 
   public void setOutput(double motorPower){
-    if (storedLeft) {
-      m_motor.set(ControlMode.PercentOutput, -MathUtil.clamp(motorPower, -constants.kMotorClamp, constants.kMotorClamp));
-    } else {
-      m_motor.set(ControlMode.PercentOutput, MathUtil.clamp(motorPower, -constants.kMotorClamp, constants.kMotorClamp));
-    }
+    m_motor.set(ControlMode.PercentOutput, MathUtil.clamp(motorPower, -constants.kMotorClamp, constants.kMotorClamp));
   }
 
-  @Override
-  public void periodic() {
-    if(enabled) {
-      armPID.setP(SmartDashboard.getNumber("P", 0.02));
-      armPID.setI(SmartDashboard.getNumber("I", 0.000));
-      armPID.setD(SmartDashboard.getNumber("D", 0.000));
-      // setpoint = SmartDashboard.getNumber("goal", 0);
-      // set the arm power according to a PID
-      setOutput(armPID.calculate(currentAngle(), setpoint));
-    }
 
-    // a pop-up in shuffleboard that allows you to see how much the arm extended in inches
-    SmartDashboard.putNumber("Current Angle (Degrees)", currentAngle());
-    // System.out.println(currentAngle());
-
+  public void offLoad(){
+    armPID.setP(constants.kOffLoadP);
+    armPID.setI(constants.kOffLoadI);
+    armPID.setD(constants.kOffLoadD);
   }
 
   public void onLoad(){
-    armPID.setP(0.02);
-    armPID.setI(0.00);
-    armPID.setD(0.00);
+    armPID.setP(constants.kOnLoadP);
+    armPID.setI(constants.kOnLoadI);
+    armPID.setD(constants.kOnLoadD);
   }
 
-  public void offLoad(){
-    armPID.setP(0.02);
-    armPID.setI(0.00);
-    armPID.setD(0.00);
-  }
-
+  // sets PID Goal
   public void setGoal(double goal){
-    setpoint = goal;
+    setPoint = goal;
   }
 }
