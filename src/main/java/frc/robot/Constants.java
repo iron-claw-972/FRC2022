@@ -84,4 +84,32 @@ public final class Constants {
     // name without stuff after . ex AutoPath
     public static final String kTrajectoryName = "HangarTest";
   }
+
+  public static final class TraversoShooterWheelConstants {
+    public static final int kShooterWheelMotorPort = 11;
+
+    public static final int kFrontOuttakeSpeed = 1;
+    public static final int kBackOuttakeSpeed = 1;
+    public static final int kIntakeSpeed = 1;
+
+    public static final int kEncoderResolution = 2048; // 2048 for Falcon500 integrated encoder
+    public static final double kWheelDiameterMeters = Units.inchesToMeters(4);
+    public static final double kGearRatio = 1.0;
+    public static final double kEncoderMetersPerPulse = kWheelDiameterMeters * Math.PI / (double) kEncoderResolution
+        / kGearRatio;
+
+    // PID Stuff
+    public static final double kP = 0.1;
+    public static final double kI = 0;
+    public static final double kD = 0;
+    public static final double kVelocityPIDTolerance = 0;
+
+    // Feedforward
+    public static final double kS = 0;
+    public static final double kV = 0;
+    public static final double kA = 0;
+    public static final double kVolts = 12.0;
+    public static final double kRPM = 5676.0;
+  }
+
 }

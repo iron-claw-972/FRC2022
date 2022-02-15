@@ -4,13 +4,14 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import frc.robot.ControllerFactory;
 import frc.robot.Constants.ShooterConstants;
-
+import frc.robot.Constants.TraversoShooterWheelConstants;
 import ctre_shims.TalonEncoder;
 import edu.wpi.first.math.controller.PIDController;
 
@@ -21,6 +22,9 @@ public class ShooterWheels extends SubsystemBase {
   private final CANSparkMax m_wheelsMotor2 = new CANSparkMax(4, MotorType.kBrushless);
   private final PIDController m_wheelsPID = new PIDController(ShooterConstants.kBottomMotorP,
       ShooterConstants.kBottomMotorI, ShooterConstants.kBottomMotorD);
+  private final SimpleMotorFeedforward ShooterWheelFeedForward = new SimpleMotorFeedforward(
+      TraversoShooterWheelConstants.kS, TraversoShooterWheelConstants.kV,
+      TraversoShooterWheelConstants.kA);
 
   private boolean PIDenabled = true;
   public static double motorSpeed = 0.0;
