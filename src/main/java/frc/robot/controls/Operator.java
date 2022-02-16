@@ -48,7 +48,7 @@ public class Operator{
     controller.getButtons().A().whenPressed(new SequentialCommandGroup(
 
       // the extender goes up a small amount
-      new InstantCommand(() -> ClimberMethods.extenderHardExtend(extend.kSlightlyUpward)),
+      new InstantCommand(() -> ClimberMethods.setExtension(extend.kSlightlyUpward)),
 
       // wait until it reaches its setpoint
       new WaitUntilCommand(ClimberMethods::isExtenderAtSetpoint)
@@ -58,25 +58,25 @@ public class Operator{
     // the arm rotates backwards to its maximum, and the arm extends to its maxium
     controller.getButtons().B().whenPressed(new SequentialCommandGroup(
 
-      new InstantCommand(() -> ClimberMethods.extenderHardExtend(extend.kMaxDownwards)),
+      new InstantCommand(() -> ClimberMethods.setExtension(extend.kMaxDownwards)),
 
       // wait until it reaches its setpoint
       new WaitUntilCommand(ClimberMethods::isExtenderAtSetpoint),
 
       // extend slightly upwards
-      new InstantCommand(() -> ClimberMethods.extenderHardExtend(extend.kSlightlyUpward)),
+      new InstantCommand(() -> ClimberMethods.setExtension(extend.kSlightlyUpward)),
 
       // wait until it reaches its setpoint
       new WaitUntilCommand(ClimberMethods::isExtenderAtSetpoint),
 
       // rotate to the maximum backwards
-      new InstantCommand(() -> ClimberMethods.rotatorHardAngle(rotate.kMaxBackward)),
+      new InstantCommand(() -> ClimberMethods.setAngle(rotate.kMaxBackward)),
 
       // wait until both reach their setpoints
       new WaitUntilCommand(ClimberMethods::isRotatorAtSetpoint),
 
       // extender goes to its maximum point
-      new InstantCommand(() -> ClimberMethods.extenderHardExtend(extend.kMaxUpwards)),
+      new InstantCommand(() -> ClimberMethods.setExtension(extend.kMaxUpwards)),
 
       // wait until the extender reaches its maximum point
       new WaitUntilCommand(ClimberMethods::isExtenderAtSetpoint)
@@ -86,16 +86,16 @@ public class Operator{
     controller.getButtons().X().whenPressed(new SequentialCommandGroup(
 
       // rotate the arm to the bar
-      new InstantCommand(()-> ClimberMethods.rotatorHardAngle(rotate.kToBar)),
+      new InstantCommand(()-> ClimberMethods.setAngle(rotate.kToBar)),
 
       // wait until the rotator reaches it setpoint
       new WaitUntilCommand(ClimberMethods::isRotatorAtSetpoint),
 
       // extender goes to its lowest point
-      new InstantCommand(() -> ClimberMethods.extenderHardExtend(extend.kMaxDownwards)),
+      new InstantCommand(() -> ClimberMethods.setExtension(extend.kMaxDownwards)),
 
       // rotator goes to 90 degrees
-      new InstantCommand(() -> ClimberMethods.rotatorHardAngle(rotate.kNinetyDeg))
+      new InstantCommand(() -> ClimberMethods.setAngle(rotate.kNinetyDeg))
       .andThen(
         // wait until both reach their setpoints
         new WaitUntilCommand(ClimberMethods::isExtenderAtSetpoint),
