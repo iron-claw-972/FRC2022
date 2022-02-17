@@ -20,9 +20,8 @@ public class TraversoShooterWheelConstants {
   public final double kD = 0;
   public final double kVelocityPIDTolerance = 0;
   // Feedforward
-  public final double kS = 0;
-  public final double kV = 0;
-  public final double kA = 0;
+  public final double kVolts = 12.0;
+  public final double kRPM = 5676.0;
 
   public final double kMotorClamp = 0.9;
 }

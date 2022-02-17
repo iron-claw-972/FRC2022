@@ -14,6 +14,7 @@ import ctre_shims.TalonEncoder;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
+import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 
 public class ShooterWheel extends SubsystemBase {
@@ -23,34 +24,35 @@ public class ShooterWheel extends SubsystemBase {
   private final WPI_TalonFX m_ShooterWheelMotor = ControllerFactory.createTalonFX(constants.kShooterWheelMotorPort);
   private final TalonEncoder m_ShooterWheelEncoder = new TalonEncoder(m_ShooterWheelMotor);
 
-  private final PIDController ShooterWheelPID = new PIDController(constants.kP, constants.kI, constants.kD);
+  private final PIDController m_ShooterWheelPID = new PIDController(constants.kP, constants.kI, constants.kD);
   
-
-
   private boolean enabled = false;
   private double motorSpeed = 0.0;
+  private double clampedPower;
 
   public ShooterWheel() {
     m_ShooterWheelEncoder.setDistancePerPulse(constants.kEncoderMetersPerPulse);
     m_ShooterWheelEncoder.reset();
-    ShooterWheelPID.setTolerance(constants.kVelocityPIDTolerance);
-    ShooterWheelPID.reset();
-    ShooterWheelPID.setSetpoint(motorSpeed);
+    m_ShooterWheelPID.setTolerance(constants.kVelocityPIDTolerance);
+    m_ShooterWheelPID.reset();
+    m_ShooterWheelPID.setSetpoint(motorSpeed);
   }
 
   @Override
   public void periodic() {
     if (enabled){
-      setOutput(ShooterWheelPID.calculate(m_ShooterWheelEncoder.getRate()));
+      setOutput(m_ShooterWheelPID.calculate(m_ShooterWheelEncoder.getRate()));
     }
   }
 
   public void setOutput(double motorPower) {
-    m_ShooterWheelMotor.set(ControlMode.PercentOutput, MathUtil.clamp(motorPower, -constants.kMotorClamp, constants.kMotorClamp));
+    clampedPower = MathUtil.clamp(motorPower, -constants.kMotorClamp, constants.kMotorClamp);
+    // (constants.kVolts / constants.kRPM)*motorSpeed + ShooterWheelPID.calculate(m_shooterMotor.getEncoder().getVelocity(), motorSpeed)
+    m_ShooterWheelMotor.setVoltage((constants.kVolts / constants.kRPM)*clampedPower + m_ShooterWheelPID.calculate(m_ShooterWheelEncoder.getRate(), clampedPower));
   }
 
   public void setSpeed(double newSpeed) {
-    ShooterWheelPID.setSetpoint(newSpeed);
+    m_ShooterWheelPID.setSetpoint(newSpeed);
   }
 
   public void setBackOuttakeSpeed() {
@@ -85,7 +87,7 @@ public class ShooterWheel extends SubsystemBase {
   }
 
   public boolean reachedSetpoint() {
-    return ShooterWheelPID.atSetpoint();
+    return m_ShooterWheelPID.atSetpoint();
   }
 
 
