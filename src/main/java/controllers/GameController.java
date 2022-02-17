@@ -51,11 +51,17 @@ public class GameController extends Controller {
     public JoystickButton RB() {
       return new JoystickButton(getController(), GameConstants.buttons.kRB);
     }
-    public JoystickButton back() {
+    public JoystickButton BACK() {
       return new JoystickButton(getController(), GameConstants.buttons.kBack);
     }
-    public JoystickButton start() {
+    public JoystickButton START() {
       return new JoystickButton(getController(), GameConstants.buttons.kStart);
+    }
+    public JoystickButton LT() {
+      return new JoystickButton(getController(), GameConstants.triggers.kLeftT);
+    }
+    public JoystickButton RT() {
+      return new JoystickButton(getController(), GameConstants.triggers.kRightT);
     }
   }
   
@@ -136,5 +142,5 @@ public class GameController extends Controller {
     }
   }
   
-  
+
 }
