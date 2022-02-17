@@ -17,7 +17,7 @@ public class ClimbRotator extends SubsystemBase {
   private boolean enabled = false;
   private final DutyCycleEncoder encoder;
   private final WPI_TalonFX m_motor;
-  private String smartDashText;
+  private String direction;
   boolean storedLeft;
 
   private double setPoint = 90;
@@ -28,18 +28,18 @@ public class ClimbRotator extends SubsystemBase {
   public ClimbRotator(boolean left) {
     // if the arm is left, the encoder value is inverted && the objects are assigned correctly
     if (left) {
-      encoder = new DutyCycleEncoder(constants.kArmLeftEncoder);
-      m_motor = ControllerFactory.createTalonFX(constants.kArmLeftMotor);
-      smartDashText = "Current Angle (Left)";
-      m_motor.setInverted(true);
-      encoderOffset = constants.kArmLeftEncoderOffset;
+      encoder = new DutyCycleEncoder(constants.kArmLeftEncoder); // initializes the through bore
+      m_motor = ControllerFactory.createTalonFX(constants.kArmLeftMotor); // initializes the motor
+      direction = "(Left)"; // the direction for shuffleboard's use
+      m_motor.setInverted(true); // inverts the motor
+      encoderOffset = constants.kArmLeftEncoderOffset; // sets an offset for the encoder
     }
     // otherwise, use the normal encoder value and set the motorports to the right
     else {
-      encoder = new DutyCycleEncoder(constants.kArmRightEncoder);
-      m_motor = ControllerFactory.createTalonFX(constants.kArmRightMotor);
-      smartDashText = "Current Angle (Right)";
-      encoderOffset = constants.kArmRightEncoderOffset;
+      encoder = new DutyCycleEncoder(constants.kArmRightEncoder); // initializes the through bore
+      m_motor = ControllerFactory.createTalonFX(constants.kArmRightMotor); // initializes the motor
+      direction = "(Right)"; // the direction for shuffleboard's use
+      encoderOffset = constants.kArmRightEncoderOffset; // sets an offset for the encoder
     }
     // store the left boolean in storedLeft
     storedLeft = left;
@@ -66,15 +66,15 @@ public class ClimbRotator extends SubsystemBase {
       armPID.setD(SmartDashboard.getNumber("D", constants.kOffLoadD));
       // setpoint = SmartDashboard.getNumber("goal", 0);
 
-      // set the arm power according to a PID
+      // set the arm power according to the PID
       setOutput(armPID.calculate(currentAngle(), setPoint));
-      SmartDashboard.putNumber(smartDashText, currentAngle());
     }
 
     // a pop-up in shuffleboard that allows you to see how much the arm extended in inches
-    SmartDashboard.putNumber("Current Angle (Degrees)", currentAngle());
+    SmartDashboard.putNumber("Current Angle " + direction, currentAngle());
     // System.out.println(currentAngle());
-
+    // a pop-up in shuffleboard that states if the rotator is on/off
+    SmartDashboard.putBoolean("Rotator On/Off" + direction, enabled);
   }
 
   public double currentAngleRaw() {
