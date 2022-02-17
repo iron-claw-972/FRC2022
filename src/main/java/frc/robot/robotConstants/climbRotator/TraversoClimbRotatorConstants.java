@@ -12,7 +12,6 @@ public class TraversoClimbRotatorConstants {
     public final int kArmRightMotor = 24;
     public final int kArmLeftMotor = -1;
 
-
     // Current Tick Value * Degree Multiple = Current Angle
     public final double kArmDegreeMultiple = 360.0;
     public final double kArmZeroEncoderDegrees = 0;
@@ -20,13 +19,11 @@ public class TraversoClimbRotatorConstants {
     // the distance allowed from the setpoint (in degrees)
     public final double kArmTolerance = 3;
 
-
-    
     // locations
     public final double kNinetyDeg = 90;
     public final double kMaxBackward = 135;
     public final double kMaxForward = 80;
-    public final double kToBar = 110;
+    public final double kToBar = 120;
 
     // off load PID constants
     public final double kOffLoadP = 0.02;
