@@ -1,6 +1,5 @@
 package frc.robot.util;
 
-import frc.robot.Robot;
 import frc.robot.RobotContainer;
 
 public class ClimberMethods {
