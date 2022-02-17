@@ -16,24 +16,27 @@ public class ClimbExtender extends SubsystemBase {
   TraversoClimbExtenderConstants constants = new TraversoClimbExtenderConstants();
   private boolean enabled = true;
   private final WPI_TalonFX m_motor;
-  private String smartDashText;
+  private String direction;
 
   // TODO: Change the PID of the extender!
   private PIDController extenderPID = new PIDController(0.0002, 0.0, 0.0);
   
   private double setpoint;
+  private double encoderOffset;
 
   // it was requested to use multiple objects for the extender because one might fail
   public ClimbExtender(boolean left) {
     // if the arm is left, the tick value is inverted && objects are assigned correctly
     if (left) {
-      m_motor = ControllerFactory.createTalonFX(constants.kLeftExtenderPort);
-      smartDashText = "Current Extension (Left)";
+      m_motor = ControllerFactory.createTalonFX(constants.kLeftExtenderPort); // initializes the motor
+      direction = "(Left)"; // the direction for shuffleboard's use
+      encoderOffset = constants.kArmLeftEncoderOffset; // sets an offset for the encoder
     }
     else {
       // otherwise, just assign the motor object to the right
-      m_motor = ControllerFactory.createTalonFX(constants.kRightExtenderPort);
-      smartDashText = "Current Extension (Right)";
+      m_motor = ControllerFactory.createTalonFX(constants.kRightExtenderPort); // initializes the motor
+      direction = "(Right)"; // the direction for shuffleboard's use
+      encoderOffset = constants.kArmRightEncoderOffset; // sets an offset for the encoder
     }
 
     // the lowest tick limit is 0, and must be checked every 10 milliseconds
@@ -94,11 +97,13 @@ public class ClimbExtender extends SubsystemBase {
   @Override
   public void periodic() {
     if(enabled) {
-      // sets the PID to be the motorPower
+      // set the extender power according to the PID
       setOutput(extenderPID.calculate(currentExtension(), setpoint));
     }
     // a pop-up in shuffleboard that allows you to see how much the arm extended in inches
-    SmartDashboard.putNumber(smartDashText, currentExtension());
+    SmartDashboard.putNumber("Current Extension " + direction, currentExtension());
+    // a pop-up in shuffleboard that states if the extender is on/off
+    SmartDashboard.putBoolean("Extender On/Off" + direction, enabled);
   }
 
   public void offLoad(){
