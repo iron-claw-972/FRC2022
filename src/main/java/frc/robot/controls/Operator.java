@@ -1,10 +1,12 @@
 package frc.robot.controls;
 
+import java.time.Instant;
+
 import controllers.*;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.*;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.Robot;
+import frc.robot.RobotContainer;
 import frc.robot.Constants.*;
 import frc.robot.robotConstants.climbExtender.*;
 import frc.robot.robotConstants.climbRotator.*;
@@ -23,83 +25,122 @@ public class Operator{
     //arm testing
 
     // controller.getButtons().A().whenPressed(
-    //     () -> RobotContainer.m_climbArmR.enable());
+    //     () -> RobotContainer.m_rotatorR.enable());
     // controller.getButtons().B().whenPressed(
-    //     () -> RobotContainer.m_climbArmR.disable());
+    //     () -> RobotContainer.m_rotatorR.disable());
 
     // controller.getButtons().Y().whenPressed(
-    //     () -> RobotContainer.m_climbArmR.setOutput(0.1));
+    //     () -> RobotContainer.m_rotatorR.setOutput(0.1));
     // // controller.getButtons().X().whenPressed(
     // //     () -> RobotContainer.m_testArm.setOutput(0));
 
     // controller.getButtons().X().whileHeld(
-    //     () -> RobotContainer.m_climbArmR.setOutput(
+    //     () -> RobotContainer.m_rotatorR.setOutput(
     //     controller.getJoystickAxis().leftY()));
     // controller.getButtons().X().whenReleased
-    //     (() -> RobotContainer.m_climbArmR.setOutput(0));
+    //     (() -> RobotContainer.m_rotatorR.setOutput(0));
         
     // controller.getButtons().RB().whenPressed(
-    //     () -> RobotContainer.m_climbArmR.setEncoder(SmartDashboard.getNumber("set encoder", 0)));
+    //     () -> RobotContainer.m_rotatorR.setEncoder(SmartDashboard.getNumber("set encoder", 0)));
     // controller.getButtons().LB().whenPressed(
-    //     () -> RobotContainer.m_climbArmR.setGoal(SmartDashboard.getNumber("goal", 0)));
+    //     () -> RobotContainer.m_rotatorR.setGoal(SmartDashboard.getNumber("goal", 0)));
 
 
-    // extender goes up a little bit for the driver to go hook onto the mid-bar
-    controller.getButtons().A().whenPressed(new SequentialCommandGroup(
-
-      // the extender goes up a small amount
-      new InstantCommand(() -> ClimberMethods.setExtension(extend.kSlightlyUpward)),
-
-      // wait until it reaches its setpoint
-      new WaitUntilCommand(ClimberMethods::isExtenderAtSetpoint)
+    controller.getDPad().up().whenPressed(new SequentialCommandGroup(
+      // extender goes up a little bit for the driver to go hook onto the mid-bar
+      new FunctionalCommand(
+        // on initialization of the command, do:
+        ClimberMethods::enableExtender, 
+        // when executed, do:
+        () -> ClimberMethods.setExtension(extend.kSlightlyUpward),
+        // when the command is ended, do:
+        interrupted -> ClimberMethods.disableExtender(), 
+        // when this is true, end
+        () -> ClimberMethods.isExtenderAtSetpoint(), 
+        // object requirements
+        RobotContainer.m_extenderL, RobotContainer.m_extenderR
+      )
     ));
 
-    // this extends the arm to its lowest point, extends the arm upwards a little,
-    // the arm rotates backwards to its maximum, and the arm extends to its maxium
-    controller.getButtons().B().whenPressed(new SequentialCommandGroup(
+    // this extends the arm to its lowest point and extends the arm upwards a little,
+    controller.getDPad().down().whenPressed(new SequentialCommandGroup(    
+      // extender goes to its lowest position
+      new FunctionalCommand(
+        ClimberMethods::enableExtender, // on init, do this
+        () -> ClimberMethods.setExtension(extend.kMaxDownwards), // on execute, do this
+        interrupted -> ClimberMethods.disableExtender(), // on end, do this
+        () -> ClimberMethods.isExtenderAtSetpoint(), // end command when this is true
+        RobotContainer.m_extenderL, RobotContainer.m_extenderR // object requirements
+      ),
 
-      new InstantCommand(() -> ClimberMethods.setExtension(extend.kMaxDownwards)),
+      // static hook should be hooked on now
 
-      // wait until it reaches its setpoint
-      new WaitUntilCommand(ClimberMethods::isExtenderAtSetpoint),
+      // extender goes up a little
+      new FunctionalCommand(
+        ClimberMethods::enableExtender, // on init, do this
+        () -> ClimberMethods.setExtension(extend.kSlightlyUpward), // on execute, do this
+        interrupted -> ClimberMethods.disableExtender(), // on end, do this
+        () -> ClimberMethods.isExtenderAtSetpoint(), // end command when this is true
+        RobotContainer.m_extenderL, RobotContainer.m_extenderR // object requirements
+      )
+    ));
 
-      // extend slightly upwards
-      new InstantCommand(() -> ClimberMethods.setExtension(extend.kSlightlyUpward)),
+    // the arm rotates backwards, extends, angles to the bar, compresses, && returns to 90 degrees
+    controller.getDPad().right().whenPressed(new SequentialCommandGroup(
 
-      // wait until it reaches its setpoint
-      new WaitUntilCommand(ClimberMethods::isExtenderAtSetpoint),
-
-      // rotate to the maximum backwards
-      new InstantCommand(() -> ClimberMethods.setAngle(rotate.kMaxBackward)),
-
-      // wait until both reach their setpoints
-      new WaitUntilCommand(ClimberMethods::isRotatorAtSetpoint),
+      // arm rotates max backwards
+      new FunctionalCommand(
+        ClimberMethods::enableRotator, // on init, do this
+        () -> ClimberMethods.setAngle(rotate.kMaxBackward), // on execute, do this
+        interrupted -> ClimberMethods.disableRotator(), // on end, do this
+        () -> ClimberMethods.isRotatorAtSetpoint(), // end command when this is true
+        RobotContainer.m_rotatorL, RobotContainer.m_rotatorR // object requirements
+      ),
 
       // extender goes to its maximum point
-      new InstantCommand(() -> ClimberMethods.setExtension(extend.kMaxUpwards)),
-
-      // wait until the extender reaches its maximum point
-      new WaitUntilCommand(ClimberMethods::isExtenderAtSetpoint)
-    ));
-
-    // this rotates the arm to the next bar, straightens the arm to 90 degrees while also compressing
-    controller.getButtons().X().whenPressed(new SequentialCommandGroup(
+      new FunctionalCommand(
+        ClimberMethods::enableExtender, // on init, do this
+        () -> ClimberMethods.setExtension(extend.kMaxUpwards), // on execute, do this
+        interrupted -> ClimberMethods.disableExtender(), // on end, do this
+        () -> ClimberMethods.isExtenderAtSetpoint(), // end command when this is true
+        RobotContainer.m_extenderL, RobotContainer.m_extenderR // object requirements
+      ),
 
       // rotate the arm to the bar
-      new InstantCommand(()-> ClimberMethods.setAngle(rotate.kToBar)),
+      new FunctionalCommand(
+        ClimberMethods::enableRotator, // on init, do this
+        () -> ClimberMethods.setAngle(rotate.kToBar), // on execute, do this
+        interrupted -> ClimberMethods.disableRotator(), // on end, do this
+        () -> ClimberMethods.isRotatorAtSetpoint(), // end command when this is true
+        RobotContainer.m_rotatorL, RobotContainer.m_rotatorR // object requirements
+      ),
 
-      // wait until the rotator reaches it setpoint
-      new WaitUntilCommand(ClimberMethods::isRotatorAtSetpoint),
+      // enable the extender and set it to go downwards
+      new StartEndCommand(
+        () -> ClimberMethods.enableExtender(),
+        () -> ClimberMethods.setExtension(extend.kMaxDownwards),
+        RobotContainer.m_extenderR, RobotContainer.m_extenderL
+      ),
+      // enable the rotator and set it to go to 90 degrees
+      new StartEndCommand(
+        () -> ClimberMethods.enableRotator(),
+        () -> ClimberMethods.setAngle(rotate.kNinetyDeg),
+        RobotContainer.m_rotatorL, RobotContainer.m_rotatorR
+      ),
 
-      // extender goes to its lowest point
-      new InstantCommand(() -> ClimberMethods.setExtension(extend.kMaxDownwards)),
+      // wait until the extender and rotator reaches their setpoints
+      new WaitUntilCommand(
+        ClimberMethods::isExtenderAtSetpoint
+      ),
+      new WaitUntilCommand(
+        ClimberMethods::isRotatorAtSetpoint
+      ),
 
-      // rotator goes to 90 degrees
-      new InstantCommand(() -> ClimberMethods.setAngle(rotate.kNinetyDeg))
-      .andThen(
-        // wait until both reach their setpoints
-        new WaitUntilCommand(ClimberMethods::isExtenderAtSetpoint),
-        new WaitUntilCommand(ClimberMethods::isRotatorAtSetpoint)
+      // disable everything upon reaching the setpoints
+      new StartEndCommand(
+        () -> ClimberMethods.disableExtender(), 
+        () -> ClimberMethods.disableRotator(), 
+        RobotContainer.m_rotatorL, RobotContainer.m_rotatorR, RobotContainer.m_extenderR, RobotContainer.m_extenderL
       )
     ));
   }
