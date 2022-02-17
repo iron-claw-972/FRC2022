@@ -9,8 +9,8 @@ public class ClimbMethods {
   }
 
   public void rotatorHardAngle(double angle) {
-    RobotContainer.m_climbArmL.set(angle);
-    RobotContainer.m_climbArmR.set(angle);
+    RobotContainer.m_climbArmL.setGoal(angle);
+    RobotContainer.m_climbArmR.setGoal(angle);
   }
 
   public boolean extenderSetCheck() {

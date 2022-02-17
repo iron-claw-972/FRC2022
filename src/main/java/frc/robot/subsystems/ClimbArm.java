@@ -5,8 +5,11 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import frc.robot.ControllerFactory;
 import frc.robot.robotConstants.climbArm.TraversoClimbArmConstants;
+import frc.robot.util.LimitSwitch;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.filter.Debouncer;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -24,6 +27,8 @@ public class ClimbArm extends SubsystemBase {
 
   private PIDController armPID = new PIDController(constants.kOffLoadP , constants.kOffLoadI , constants.kOffLoadD);
   
+  LimitSwitch limitSwitchLower, limitSwitchUpper;
+  
   public ClimbArm(boolean left) {
     // if the arm is left, the encoder value is inverted && the objects are assigned correctly
     if (left) {
@@ -31,12 +36,18 @@ public class ClimbArm extends SubsystemBase {
       m_motor = ControllerFactory.createTalonFX(constants.kArmLeftMotor);
       m_motor.setInverted(true);
       encoderOffset = constants.kArmLeftEncoderOffset;
+
+      limitSwitchLower = new LimitSwitch(constants.kLeftLimitSwitchLower , constants.kLimitSwitchDebouncer);
+      limitSwitchUpper = new LimitSwitch(constants.kLeftLimitSwitchUpper , constants.kLimitSwitchDebouncer);
     }
     // otherwise, use the normal encoder value and set the motorports to the right
     else {
       dce = new DutyCycleEncoder(constants.kArmRightEncoder);
       m_motor = ControllerFactory.createTalonFX(constants.kArmRightMotor);
       encoderOffset = constants.kArmRightEncoderOffset;
+      
+      limitSwitchLower = new LimitSwitch(constants.kRightLimitSwitchLower , constants.kLimitSwitchDebouncer);
+      limitSwitchUpper = new LimitSwitch(constants.kRightLimitSwitchUpper , constants.kLimitSwitchDebouncer);
     }
     // store the left boolean in storedLeft
     storedLeft = left;
@@ -53,6 +64,7 @@ public class ClimbArm extends SubsystemBase {
 
   @Override
   public void periodic() {
+
     if(enabled) {
 
       // gets PID values from shuffle board for tuning the PID (to be commented out later)
@@ -63,7 +75,12 @@ public class ClimbArm extends SubsystemBase {
 
       // set the arm power according to a PID
       setOutput(armPID.calculate(currentAngle(), setPoint));
+
+      
     }
+    // SmartDashboard.putBoolean("limit switch", limitSwitch.get());
+    // System.out.println(limitSwitch.get());
+    
 
     // a pop-up in shuffleboard that allows you to see how much the arm extended in inches
     SmartDashboard.putNumber("Current Angle (Degrees)", currentAngle());
@@ -128,4 +145,5 @@ public class ClimbArm extends SubsystemBase {
   public void setGoal(double goal){
     setPoint = goal;
   }
+
 }

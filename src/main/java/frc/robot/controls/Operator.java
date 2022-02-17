@@ -37,7 +37,7 @@ public class Operator{
     */
 
     //arm testing
-
+    /*
     controller.getButtons().A().whenPressed(
         () -> RobotContainer.m_climbArmR.enable());
     controller.getButtons().B().whenPressed(
@@ -58,6 +58,6 @@ public class Operator{
         () -> RobotContainer.m_climbArmR.setEncoder(SmartDashboard.getNumber("set encoder", 0)));
     controller.getButtons().LB().whenPressed(
         () -> RobotContainer.m_climbArmR.setGoal(SmartDashboard.getNumber("goal", 0)));
-
+    */
   }
 }
