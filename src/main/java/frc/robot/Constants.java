@@ -36,38 +36,6 @@ public final class Constants {
     public static final double kMaxAngularSpeedRadiansPerSecond = Units.rotationsPerMinuteToRadiansPerSecond(60); // Max angular velocity
   }
 
-  public static final class DetectionConstants {
-    public static final double kMinimumBallProximity = 250;
-  }
-
-  public static final class ShooterConstants {
-    public static final int kShooterWheelsMotorPort = 11;
-    public static final int kShooterBeltMotorPort = 11;
-    public static final int kShooterMotorDistancePerPulse = 1;
-
-    // Wheel motor
-    public static final double kShooterWheelsIntakeSpeed = 1;
-    public static final double kShooterWheelsFrontOutakeSpeed = 1;
-    public static final double kShooterWheelsBackOutakeSpeed = 1;
-    public static final double kShooterWheelsFarMulti = 1;
-
-    // Belt motor
-    public static final double kShooterBeltIntakeSpeed = 1;
-    public static final double kShooterBeltOutakeSpeed = 1;
-
-    public static final double kShooterWheelsVelocityPIDTolerance = 10000;
-    public static final double kShooterBeltVelocityPIDTolerance = 10000;
-
-    // Shooter PID stuff
-    public static final double kTopMotorP = 0.1;
-    public static final double kTopMotorI = 0;
-    public static final double kTopMotorD = 0;
-
-    public static final double kBottomMotorP = 0.1;
-    public static final double kBottomMotorI = 0;
-    public static final double kBottomMotorD = 0;
-  }
-
   public static final class AutoConstants {
     public static final double kMaxSpeedMetersPerSecond = Units.feetToMeters(3.28); // Max velocity
     public static final double kMaxAccelerationMetersPerSecondSquared = Units.feetToMeters(3.28); // Max acceleration
