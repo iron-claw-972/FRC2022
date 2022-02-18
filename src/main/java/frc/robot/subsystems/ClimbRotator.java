@@ -5,7 +5,6 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import frc.robot.ControllerFactory;
 import frc.robot.robotConstants.climbRotator.TraversoClimbRotatorConstants;
-import frc.robot.robotConstants.climbArm.TraversoClimbArmConstants;
 import frc.robot.util.LimitSwitch;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
@@ -28,7 +27,9 @@ public class ClimbRotator extends SubsystemBase {
   private double encoderOffset;
 
   private PIDController armPID = new PIDController(constants.kOffLoadP , constants.kOffLoadI , constants.kOffLoadD);
-  
+  private LimitSwitch limitSwitchLower;
+  private LimitSwitch limitSwitchUpper;
+
   public ClimbRotator(boolean left) {
     // if the arm is left, the encoder value is inverted && the objects are assigned correctly
     if (left) {
@@ -113,7 +114,27 @@ public class ClimbRotator extends SubsystemBase {
 
   public boolean reachedSetpoint() {
     // checks if the arm is at its setpoint
-    return armPID.atSetpoint();
+  
+    // PLEASE NOTE:
+    // LimitSwitch.java returns .get() as true WHEN THE ARM ISN'T BEYOND THE SETPOINT
+    // it returns as FALSE when the limit has been exceeded
+
+    // if the PID isn't at the setpoint, check if the upper limit switch
+    if(armPID.atSetpoint() == false) {
+      // if the upper limit switch returns as true (NOT AT SETPOINT), check the lower limit switch
+      if(limitSwitchUpper.get()) {
+        // if the lower limit switch returns as true (NOT AT SETPOINT), return as false (did not reach setpoint)
+        if(limitSwitchLower.get()) {
+          return false;
+        }
+        // if the upper limit switch hasn't reached the setpoint but the lower did, return true
+        return true;
+      }
+      // if the PID didn't reach the setpoint but the upper limit switch did, return true
+      return true;
+    }
+    // if the PID reached its setpoint, return true
+    return true;
   }
 
   //enables PID
