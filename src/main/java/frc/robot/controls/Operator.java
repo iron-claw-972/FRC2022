@@ -47,6 +47,15 @@ public class Operator{
 
 
     controller.getDPad().up().whenPressed(new SequentialCommandGroup(
+      // arm rotates to 90 degrees
+      new FunctionalCommand(
+        ClimberMethods::enableRotator, // on init, do this
+        () -> ClimberMethods.setAngle(rotate.kNinetyDeg), // on execute, do this
+        interrupted -> ClimberMethods.disableRotator(), // on end, do this
+        () -> ClimberMethods.isRotatorAtSetpoint(), // end command when this is true
+        RobotContainer.m_rotatorL, RobotContainer.m_rotatorR // object requirements
+      ),
+
       // extender goes all the way up
       new FunctionalCommand(
         // on initialization of the command, do:
