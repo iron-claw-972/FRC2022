@@ -2,8 +2,8 @@ package frc.robot.robotConstants.climbRotator;
 
 public class TraversoClimbRotatorConstants {
     // the duty cycle encoder ports of the arm
-    public final int kArmRightEncoder = 1;
-    public final int kArmLeftEncoder = 0;
+    public final int kArmRightEncoder = 0;
+    public final int kArmLeftEncoder = 1;
 
     // motor clamping
     public final double kMotorClamp = 0.3;
@@ -38,4 +38,15 @@ public class TraversoClimbRotatorConstants {
     // encoder offset
     public final double kArmLeftEncoderOffset = 0;
     public final double kArmRightEncoderOffset = 0;
+    
+    // upper limit switches
+    public final int kLeftLimitSwitchUpper = 3;
+    public final int kRightLimitSwitchUpper = 6;
+    
+    // lower limit switches
+    public final int kLeftLimitSwitchLower = 7;
+    public final int kRightLimitSwitchLower = 8;
+
+    public final double kLimitSwitchDebouncer = 0.01;
+
 }

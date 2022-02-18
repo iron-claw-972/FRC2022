@@ -5,8 +5,12 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import frc.robot.ControllerFactory;
 import frc.robot.robotConstants.climbRotator.TraversoClimbRotatorConstants;
+import frc.robot.robotConstants.climbArm.TraversoClimbArmConstants;
+import frc.robot.util.LimitSwitch;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.filter.Debouncer;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -33,6 +37,9 @@ public class ClimbRotator extends SubsystemBase {
       direction = "(Left)"; // the direction for shuffleboard's use
       m_motor.setInverted(true); // inverts the motor
       encoderOffset = constants.kArmLeftEncoderOffset; // sets an offset for the encoder
+
+      limitSwitchLower = new LimitSwitch(constants.kLeftLimitSwitchLower , constants.kLimitSwitchDebouncer);
+      limitSwitchUpper = new LimitSwitch(constants.kLeftLimitSwitchUpper , constants.kLimitSwitchDebouncer);
     }
     // otherwise, use the normal encoder value and set the motorports to the right
     else {
@@ -40,6 +47,9 @@ public class ClimbRotator extends SubsystemBase {
       m_motor = ControllerFactory.createTalonFX(constants.kArmRightMotor); // initializes the motor
       direction = "(Right)"; // the direction for shuffleboard's use
       encoderOffset = constants.kArmRightEncoderOffset; // sets an offset for the encoder
+
+      limitSwitchLower = new LimitSwitch(constants.kRightLimitSwitchLower , constants.kLimitSwitchDebouncer);
+      limitSwitchUpper = new LimitSwitch(constants.kRightLimitSwitchUpper , constants.kLimitSwitchDebouncer);
     }
     // store the left boolean in storedLeft
     storedLeft = left;
@@ -58,6 +68,7 @@ public class ClimbRotator extends SubsystemBase {
 
   @Override
   public void periodic() {
+
     if(enabled) {
 
       // gets PID values from shuffle board for tuning the PID (to be commented out later)
@@ -68,7 +79,12 @@ public class ClimbRotator extends SubsystemBase {
 
       // set the arm power according to the PID
       setOutput(armPID.calculate(currentAngle(), setPoint));
+
+      
     }
+    // SmartDashboard.putBoolean("limit switch", limitSwitch.get());
+    // System.out.println(limitSwitch.get());
+    
 
     // a pop-up in shuffleboard that allows you to see how much the arm extended in inches
     SmartDashboard.putNumber("Current Angle " + direction, currentAngle());
@@ -131,4 +147,5 @@ public class ClimbRotator extends SubsystemBase {
   public void setGoal(double goal){
     setPoint = goal;
   }
+
 }
