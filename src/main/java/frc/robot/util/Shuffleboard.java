@@ -22,7 +22,7 @@ public class Shuffleboard {
     autoCommand.setDefaultOption("pathweaver", Pathweaver.pathweaverCommand(AutoConstants.kTrajectoryName));
     // m_chooser.addOption("teleop", new TeleopDrive(Drivetrain.getInstance()));
     // m_chooser.setDefaultOption("pathweaver", new DifferentialDrive(Drivetrain.getInstance()));
-    autoCommand.addOption("Spin baby spin", new RunCommand(() -> Drivetrain.getInstance().tankDrive(0.5, -0.5), Drivetrain.getInstance()));
+    autoCommand.addOption("Spin baby spin", new RunCommand(() -> RobotContainer.m_drive.tankDrive(0.5, -0.5), RobotContainer.m_drive));
     // adds atuo to shuffle board
     SmartDashboard.putData(autoCommand);
     SmartDashboard.putNumber("Auto Wait", 0);
