@@ -22,7 +22,6 @@ public class ClimbExtender extends SubsystemBase {
   private PIDController extenderPID = new PIDController(constants.kOffLoadP, constants.kOffLoadI, constants.kOffLoadD);
   
   private double setpoint;
-  private double encoderOffset;
 
   // it was requested to use multiple objects for the extender because one might fail
   public ClimbExtender(boolean left) {
@@ -30,14 +29,12 @@ public class ClimbExtender extends SubsystemBase {
     if (left) {
       m_motor = ControllerFactory.createTalonFX(constants.kLeftExtenderPort); // initializes the motor
       direction = "(Left)"; // the direction for shuffleboard's use
-      encoderOffset = constants.kArmLeftEncoderOffset; // sets an offset for the encoder
       m_motor.setInverted(true);
     }
     else {
       // otherwise, just assign the motor object to the right
       m_motor = ControllerFactory.createTalonFX(constants.kRightExtenderPort); // initializes the motor
       direction = "(Right)"; // the direction for shuffleboard's use
-      encoderOffset = constants.kArmRightEncoderOffset; // sets an offset for the encoder
     }
 
     // the lowest tick limit is 0, and must be checked every 10 milliseconds
@@ -103,10 +100,11 @@ public class ClimbExtender extends SubsystemBase {
   @Override
   public void periodic() {
     if(enabled) {
-      extenderPID.setP(SmartDashboard.getNumber("P(e)", constants.kOffLoadP));
-      extenderPID.setI(SmartDashboard.getNumber("I(e)", constants.kOffLoadI));
-      extenderPID.setD(SmartDashboard.getNumber("D(e)", constants.kOffLoadD));
-      setpoint = SmartDashboard.getNumber("Goal(e)", .1);
+      extenderPID.setP(SmartDashboard.getNumber("P(e)", constants.kOnLoadP));
+      extenderPID.setI(SmartDashboard.getNumber("I(e)", constants.kOnLoadI));
+      extenderPID.setD(SmartDashboard.getNumber("D(e)", constants.kOnLoadD));
+
+      setpoint = SmartDashboard.getNumber("Goal(e)", 0);
       
       // set the extender power according to the PID
       setOutput(extenderPID.calculate(currentExtension(), setpoint));
@@ -128,5 +126,14 @@ public class ClimbExtender extends SubsystemBase {
     extenderPID.setP(constants.kOnLoadP);
     extenderPID.setI(constants.kOnLoadI);
     extenderPID.setD(constants.kOnLoadD);
+  }
+
+  public void loadCheck() {
+    if(setpoint < currentExtension()) {
+      onLoad();
+    }
+    else {
+      offLoad();
+    }
   }
 } 
