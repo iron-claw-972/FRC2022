@@ -56,7 +56,7 @@ public class Robot extends TimedRobot {
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
     m_robotContainer.m_shuffleboard.update();
-    RobotContainer.m_drive.updateMotors();
+    //RobotContainer.m_drive.updateMotors();
      
   }
 
