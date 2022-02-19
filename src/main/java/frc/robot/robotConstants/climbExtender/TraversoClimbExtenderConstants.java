@@ -3,8 +3,8 @@ package frc.robot.robotConstants.climbExtender;
 public class TraversoClimbExtenderConstants {
   // extending motors (for climber)
   // TODO: Change these ports!
-  public final int kRightExtenderPort = 10;
-  public final int kLeftExtenderPort = 12;
+  public final int kRightExtenderPort = 6;
+  public final int kLeftExtenderPort = 1;
 
   // the arm's max height - the arm's lowest height (max extension - max compression);
   // TODO: Check the robot's arm length!
