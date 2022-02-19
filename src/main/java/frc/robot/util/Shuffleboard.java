@@ -6,9 +6,7 @@ import edu.wpi.first.wpilibj2.command.*;
 import frc.robot.RobotContainer;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.autonomous.drivetrain.Pathweaver;
-import frc.robot.commands.*;
 import frc.robot.controls.Driver;
-import frc.robot.subsystems.Drivetrain;
 
 public class Shuffleboard {
   
