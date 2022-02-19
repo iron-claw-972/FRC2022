@@ -1,7 +1,6 @@
 package frc.robot.subsystems;
 
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import edu.wpi.first.math.MathUtil;
@@ -43,7 +42,7 @@ public class ClimbExtender extends SubsystemBase {
 
     // converts the length of the arm in inches to ticks and makes that the maximum tick limit, it's checked every 10 milliseconds
     // TODO: Update this max forward limit!
-    m_motor.configForwardSoftLimitThreshold(265000, 10);
+    m_motor.configForwardSoftLimitThreshold(5000, 10);
 
     // every time the robot is started, arm MUST start at maximum compression in order to maintain consistency
     m_motor.setSelectedSensorPosition(0.0);
@@ -105,15 +104,19 @@ public class ClimbExtender extends SubsystemBase {
       extenderPID.setD(SmartDashboard.getNumber("D(e)", constants.kOnLoadD));
 
       setpoint = SmartDashboard.getNumber("Goal(e)", 0);
+
+      loadCheck();
       
       // set the extender power according to the PID
       setOutput(extenderPID.calculate(currentExtension(), setpoint));
     }
 
     // a pop-up in shuffleboard that allows you to see how much the arm extended in inches
-    SmartDashboard.putNumber("Current Extension " + direction, currentExtension());
+    SmartDashboard.putNumber("(e)Current Extension " + direction, currentExtension());
     // a pop-up in shuffleboard that states if the extender is on/off
-    SmartDashboard.putBoolean("Extender On/Off" + direction, enabled);
+    SmartDashboard.putBoolean("(e)On/Off " + direction, enabled);
+    // a pop-up in shuffleboard that shows the tick value of the motor
+    SmartDashboard.putNumber("(e)Current Raw Extension " + direction, currentExtensionRaw());
   }
 
   public void offLoad(){
