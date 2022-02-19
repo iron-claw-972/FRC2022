@@ -5,6 +5,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import frc.robot.ControllerFactory;
 import frc.robot.robotConstants.climbRotator.TraversoClimbRotatorConstants;
+import frc.robot.util.LimitSwitch;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
@@ -24,7 +25,9 @@ public class ClimbRotator extends SubsystemBase {
   private double encoderOffset;
 
   private PIDController armPID = new PIDController(constants.kOffLoadP , constants.kOffLoadI , constants.kOffLoadD);
-  
+  private LimitSwitch limitSwitchLower;
+  private LimitSwitch limitSwitchUpper;
+
   public ClimbRotator(boolean left) {
     // if the arm is left, the encoder value is inverted && the objects are assigned correctly
     if (left) {
@@ -33,6 +36,9 @@ public class ClimbRotator extends SubsystemBase {
       direction = "(Left)"; // the direction for shuffleboard's use
       m_motor.setInverted(true); // inverts the motor
       encoderOffset = constants.kArmLeftEncoderOffset; // sets an offset for the encoder
+
+      limitSwitchLower = new LimitSwitch(constants.kLeftLimitSwitchLower , constants.kLimitSwitchDebouncer);
+      limitSwitchUpper = new LimitSwitch(constants.kLeftLimitSwitchUpper , constants.kLimitSwitchDebouncer);
     }
     // otherwise, use the normal encoder value and set the motorports to the right
     else {
@@ -40,6 +46,9 @@ public class ClimbRotator extends SubsystemBase {
       m_motor = ControllerFactory.createTalonFX(constants.kArmRightMotor); // initializes the motor
       direction = "(Right)"; // the direction for shuffleboard's use
       encoderOffset = constants.kArmRightEncoderOffset; // sets an offset for the encoder
+
+      limitSwitchLower = new LimitSwitch(constants.kRightLimitSwitchLower , constants.kLimitSwitchDebouncer);
+      limitSwitchUpper = new LimitSwitch(constants.kRightLimitSwitchUpper , constants.kLimitSwitchDebouncer);
     }
     // store the left boolean in storedLeft
     storedLeft = left;
@@ -58,6 +67,7 @@ public class ClimbRotator extends SubsystemBase {
 
   @Override
   public void periodic() {
+
     if(enabled) {
 
       // gets PID values from shuffle board for tuning the PID (to be commented out later)
@@ -68,7 +78,12 @@ public class ClimbRotator extends SubsystemBase {
 
       // set the arm power according to the PID
       setOutput(armPID.calculate(currentAngle(), setPoint));
+
+      
     }
+    // SmartDashboard.putBoolean("limit switch", limitSwitch.get());
+    // System.out.println(limitSwitch.get());
+    
 
     // a pop-up in shuffleboard that allows you to see how much the arm extended in inches
     SmartDashboard.putNumber("Current Angle " + direction, currentAngle());
@@ -97,7 +112,27 @@ public class ClimbRotator extends SubsystemBase {
 
   public boolean reachedSetpoint() {
     // checks if the arm is at its setpoint
-    return armPID.atSetpoint();
+  
+    // PLEASE NOTE:
+    // LimitSwitch.java returns .get() as true WHEN THE ARM ISN'T BEYOND THE SETPOINT
+    // it returns as FALSE when the limit has been exceeded
+
+    // if the PID isn't at the setpoint, check if the upper limit switch
+    if(armPID.atSetpoint() == false) {
+      // if the upper limit switch returns as true (NOT AT SETPOINT), check the lower limit switch
+      if(limitSwitchUpper.get()) {
+        // if the lower limit switch returns as true (NOT AT SETPOINT), return as false (did not reach setpoint)
+        if(limitSwitchLower.get()) {
+          return false;
+        }
+        // if the upper limit switch hasn't reached the setpoint but the lower did, return true
+        return true;
+      }
+      // if the PID didn't reach the setpoint but the upper limit switch did, return true
+      return true;
+    }
+    // if the PID reached its setpoint, return true
+    return true;
   }
 
   //enables PID
@@ -112,7 +147,7 @@ public class ClimbRotator extends SubsystemBase {
   }
 
   public void setOutput(double motorPower){
-    m_motor.set(ControlMode.PercentOutput, MathUtil.clamp(motorPower, -constants.kMotorClamp, constants.kMotorClamp));
+    m_motor.set(MathUtil.clamp(motorPower, -constants.kMotorClamp, constants.kMotorClamp));
   }
 
   public void offLoad(){
@@ -131,4 +166,5 @@ public class ClimbRotator extends SubsystemBase {
   public void setGoal(double goal){
     setPoint = goal;
   }
+
 }
