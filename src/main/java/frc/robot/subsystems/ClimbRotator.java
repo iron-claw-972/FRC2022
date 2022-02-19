@@ -18,7 +18,7 @@ public class ClimbRotator extends SubsystemBase {
   private final DutyCycleEncoder encoder;
   private final WPI_TalonFX m_motor;
   private String direction;
-  boolean storedLeft;
+  boolean left;
 
   private double setPoint = 90;
   private double encoderOffset;
@@ -27,9 +27,9 @@ public class ClimbRotator extends SubsystemBase {
   private LimitSwitch limitSwitchLower;
   private LimitSwitch limitSwitchUpper;
 
-  public ClimbRotator(boolean left) {
+  public ClimbRotator(boolean isLeft) {
     // if the arm is left, the encoder value is inverted && the objects are assigned correctly
-    if (left) {
+    if (isLeft) {
       encoder = new DutyCycleEncoder(constants.kArmLeftEncoder); // initializes the through bore
       m_motor = ControllerFactory.createTalonFX(constants.kArmLeftMotor); // initializes the motor
       direction = "(Left)"; // the direction for shuffleboard's use
@@ -49,8 +49,8 @@ public class ClimbRotator extends SubsystemBase {
       limitSwitchLower = new LimitSwitch(constants.kRightLimitSwitchLower , constants.kLimitSwitchDebouncer);
       limitSwitchUpper = new LimitSwitch(constants.kRightLimitSwitchUpper , constants.kLimitSwitchDebouncer);
     }
-    // store the left boolean in storedLeft
-    storedLeft = left;
+    // store the left boolean in left
+    left = isLeft;
 
     // set the tolerance allowed for the PID
     armPID.setTolerance(constants.kArmTolerance);
@@ -98,7 +98,7 @@ public class ClimbRotator extends SubsystemBase {
 
   // returns the current angle of the duty cycle encoder with offset accounted for
   public double currentAngle() {
-    if(storedLeft) {
+    if(left) {
       return -(encoder.get() * constants.kArmDegreeMultiple + encoderOffset);
     } else {
       return encoder.get() * constants.kArmDegreeMultiple + encoderOffset;
