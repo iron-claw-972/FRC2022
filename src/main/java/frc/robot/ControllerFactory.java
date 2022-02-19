@@ -112,11 +112,7 @@ public class ControllerFactory {
   * 
   * @return a fully configured TalonFX
   */
-
-  // 40A is max High Power
-  // 30A is max Low Power
-
-  public static WPI_TalonFX createTalonFXPowerLim(int id, double highPower) {
+  public static WPI_TalonFX createTalonFX(int id) {
     TalonFXConfiguration config = new TalonFXConfiguration();
     
     config.statorCurrLimit = new StatorCurrentLimitConfiguration(
@@ -126,31 +122,12 @@ public class ControllerFactory {
     config.voltageCompSaturation = Constants.kMaxVoltage;
 
     WPI_TalonFX talon = new WPI_TalonFX(id);
-    talon.configFactoryDefault();
-    talon.configAllSettings(config);
+    //talon.configFactoryDefault();
+    //talon.configAllSettings(config);
     talon.enableVoltageCompensation(true);
     talon.setNeutralMode(NeutralMode.Brake);
-    talon.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
 
     return talon;
   }
-
-  public static WPI_TalonFX createTalonFXAmpLim(int id, double amperage) {
-    TalonFXConfiguration config = new TalonFXConfiguration();
-    
-    config.statorCurrLimit = new StatorCurrentLimitConfiguration(
-        talonFXStatorLimitEnable, talonFXStatorCurrentLimit, talonFXStatorTriggerThreshold, talonFXStatorTriggerDuration);
-    config.supplyCurrLimit = new SupplyCurrentLimitConfiguration(
-        talonFXSupplyLimitEnable, talonFXSupplyCurrentLimit, talonFXSupplyTriggerThreshold, talonFXSupplyTriggerDuration);
-    config.voltageCompSaturation = Constants.kMaxVoltage;
-
-    WPI_TalonFX talon = new WPI_TalonFX(id);
-    talon.configFactoryDefault();
-    talon.configAllSettings(config);
-    talon.enableVoltageCompensation(true);
-    talon.setNeutralMode(NeutralMode.Brake);
-    talon.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
-
-    return talon;
-  }
+  
 }

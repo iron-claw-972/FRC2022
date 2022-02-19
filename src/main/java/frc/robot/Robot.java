@@ -1,9 +1,9 @@
-/*----------------------------------------------------------------------------*/
-/* Copyright (c) 2017-2019 FIRST. All Rights Reserved.                        */
-/* Open Source Software - may be modified and shared by FRC teams. The code   */
-/* must be accompanied by the FIRST BSD license file in the root directory of */
-/* the project.                                                               */
-/*----------------------------------------------------------------------------*/
+/*----------------------------------------------------------------------------
+ Copyright (c) 2017-2019 FIRST. All Rights Reserved.                        
+ Open Source Software - may be modified and shared by FRC teams. The code   
+ must be accompanied by the FIRST BSD license file in the root directory of 
+ the project.                                                               
+----------------------------------------------------------------------------*/
 
 package frc.robot;
 
@@ -81,7 +81,8 @@ public class Robot extends TimedRobot {
 
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {
-      m_autonomousCommand.schedule();
+      // m_autonomousCommand.schedule();
+      //commented out for safety so that no one dies
     }
   }
 
