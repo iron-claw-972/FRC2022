@@ -15,10 +15,10 @@ public class Driver {
 
   // driver buttons
   public static void configureButtonBindings() {
-    controller.getButtons().backSwitchTop().whenPressed(
-        () -> RobotContainer.m_drive.setMaxOutput(DriveConstants.kSlowSpeed), RobotContainer.m_drive);
-    controller.getButtons().frontSwitchTop().whenPressed(
-        () -> RobotContainer.m_drive.setMaxOutput(1.0), RobotContainer.m_drive);
+    controller.Button.B().whenPressed(
+        () -> setDriveMode(DriveMode.PROPORTIONAL));
+    controller.Button.A().whenPressed(
+        () -> setDriveMode(DriveMode.ARCADE));
   }
   
   public static double getThrottleValue() {

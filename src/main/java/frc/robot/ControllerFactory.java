@@ -130,4 +130,33 @@ public class ControllerFactory {
     return talon;
   }
   
+  /**
+  * Create a configured TalonFX 
+  * 
+  * @param id the ID of the motor
+  * 
+  * @return a fully configured TalonFX
+  */
+  public static WPI_TalonFX createTalonFX(int id, boolean coast) {
+    TalonFXConfiguration config = new TalonFXConfiguration();
+    
+    config.statorCurrLimit = new StatorCurrentLimitConfiguration(
+        talonFXStatorLimitEnable, talonFXStatorCurrentLimit, talonFXStatorTriggerThreshold, talonFXStatorTriggerDuration);
+    config.supplyCurrLimit = new SupplyCurrentLimitConfiguration(
+        talonFXSupplyLimitEnable, talonFXSupplyCurrentLimit, talonFXSupplyTriggerThreshold, talonFXSupplyTriggerDuration);
+    config.voltageCompSaturation = Constants.kMaxVoltage;
+
+    WPI_TalonFX talon = new WPI_TalonFX(id);
+    //talon.configFactoryDefault();
+    //talon.configAllSettings(config);
+    talon.enableVoltageCompensation(true);
+
+    if (coast) {
+      talon.setNeutralMode(NeutralMode.Coast);
+    } else {
+      talon.setNeutralMode(NeutralMode.Brake);
+    }
+    
+    return talon;
+  }
 }

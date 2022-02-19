@@ -79,11 +79,13 @@ public class Pathweaver {
   }
 
   // returns auto command group
-  public static Command pathweaverCommand() {
+  public static Command pathweaverCommand(String path) {
     // Run path following command, then stop at the end. At the same time intake.
     // "Deadline" is the first command,
     // meaning the whole group will stop once the first command does.
+    setupAutonomousTrajectory(path);
     return new ParallelDeadlineGroup(
-        ramseteCommand.andThen(() -> m_drive.tankDriveVolts(0, 0)));
+        ramseteCommand.andThen(new InstantCommand(() -> m_drive.tankDriveVolts(0, 0))));
+        // new RunCommand(() -> Drivetrain.getInstance().tankDrive(0.5, -0.5), Drivetrain.getInstance()));
   }
 }

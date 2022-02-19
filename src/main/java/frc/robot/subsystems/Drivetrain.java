@@ -120,8 +120,8 @@ public class Drivetrain extends SubsystemBase {
       m_rightMotors = new PhoenixMotorControllerGroup(m_rightMotor1);
     }
 */
-    m_leftMotors = new PhoenixMotorControllerGroup(m_leftMotor1, ControllerFactory.createTalonFX(constants.leftMotorPorts[1]));
-    m_rightMotors = new PhoenixMotorControllerGroup(m_rightMotor1, ControllerFactory.createTalonFX(constants.rightMotorPorts[1]));
+    m_leftMotors = new PhoenixMotorControllerGroup(m_leftMotor1, new WPI_TalonFX(constants.leftMotorPorts[1]));
+    m_rightMotors = new PhoenixMotorControllerGroup(m_rightMotor1, new WPI_TalonFX(constants.rightMotorPorts[1]));
 
     m_dDrive = new DifferentialDrive(m_leftMotors, m_rightMotors);
 
@@ -164,10 +164,12 @@ public class Drivetrain extends SubsystemBase {
 
   public void arcadeDrive(double throttle, double turn) {
     m_dDrive.arcadeDrive(throttle, turn);
+    m_dDrive.feed();
   }
 
   public void tankDrive(double left, double right) {
     m_dDrive.tankDrive(left, right);
+    m_dDrive.feed();
   }
 
   public void propDrive(double throttle, double turn) {
@@ -275,6 +277,7 @@ public class Drivetrain extends SubsystemBase {
   public void feedForwardDrive(double xSpeed, double rot) {
     var wheelSpeeds = m_driveKinematics.toWheelSpeeds(new ChassisSpeeds(xSpeed, 0.0, rot));
     setSpeeds(wheelSpeeds);
+    m_dDrive.feed();
   }
 
   public void tankFeedForwardDrive(double left, double right) {
@@ -425,5 +428,9 @@ public class Drivetrain extends SubsystemBase {
    */
   public double getTurnRate() {
     return -m_navX.getRate();
+  }
+
+  public void updateMotors(){
+    m_dDrive.feed();
   }
 }

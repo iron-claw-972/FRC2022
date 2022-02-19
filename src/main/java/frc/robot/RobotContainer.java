@@ -8,10 +8,11 @@ the project.
 package frc.robot;
 
 import frc.robot.subsystems.*;
+import frc.robot.util.Shuffleboard;
 import frc.robot.commands.*;
 import frc.robot.controls.*;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.*;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import frc.robot.Constants.*;
@@ -31,14 +32,17 @@ import frc.robot.autonomous.drivetrain.Pathweaver;
  public class RobotContainer {
   // The robot's subsystems and commands are defined here...
 
-  public static Drivetrain m_drive = new Drivetrain();
+  public static Shuffleboard m_shuffleboard = new Shuffleboard();
   //public static BallDetection m_ballDetection = new BallDetection();
+
+  public static Drivetrain m_drive = new Drivetrain();
   public static ClimbRotator m_rotatorR = new ClimbRotator(false);
   public static ClimbRotator m_rotatorL = new ClimbRotator(true);
   public static ClimbExtender m_extenderR = new ClimbExtender(false);
   public static ClimbExtender m_extenderL = new ClimbExtender(true);
 
   public RobotContainer() {
+    
 
     // default command to run in teleop
     
@@ -46,11 +50,13 @@ import frc.robot.autonomous.drivetrain.Pathweaver;
     // m_testArm.setDefaultCommand(new armPID(m_testArm));
 
     // Start camera stream for driver
-    //CameraServer.startAutomaticCapture();
+    CameraServer.startAutomaticCapture();
     
     // Configure the button bindings
     Driver.configureButtonBindings();
     Operator.configureButtonBindings();
+
+    //sets up shuffle board
   }
 
   /**
@@ -60,7 +66,10 @@ import frc.robot.autonomous.drivetrain.Pathweaver;
    */
   public Command getAutonomousCommand() {
     // Attempt to load trajectory from PathWeaver
-    //Pathweaver.setupAutonomousTrajectory(AutoConstants.kTrajectoryName);
-    return new ShuffleboardUpdate();
+    // return Pathweaver.pathweaverCommand();
+    return new SequentialCommandGroup(
+      m_shuffleboard.getAutonomousWaitCommand()
+      ,m_shuffleboard.getAutonomousCommand());
+    // return m_shuffleboard.getAutonomousCommand();
   }
 }
