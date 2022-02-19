@@ -2,15 +2,15 @@ package frc.robot.robotConstants.climbRotator;
 
 public class TraversoClimbRotatorConstants {
     // the duty cycle encoder ports of the arm
-    public final int kArmRightEncoder = 1;
-    public final int kArmLeftEncoder = 0;
+    public final int kArmRightEncoder = 0;
+    public final int kArmLeftEncoder = 6;
 
     // motor clamping
     public final double kMotorClamp = 0.3;
 
     // the motor ports of the arm
     public final int kArmRightMotor = 24;
-    public final int kArmLeftMotor = -1;
+    public final int kArmLeftMotor = 19;
 
     // Current Tick Value * Degree Multiple = Current Angle
     public final double kArmDegreeMultiple = 360.0;
