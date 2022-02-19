@@ -49,7 +49,7 @@ public class ClimbRotator extends SubsystemBase {
       limitSwitchLower = new LimitSwitch(constants.kRightLimitSwitchLower , constants.kLimitSwitchDebouncer);
       limitSwitchUpper = new LimitSwitch(constants.kRightLimitSwitchUpper , constants.kLimitSwitchDebouncer);
     }
-    // store the left boolean in left
+   
     left = isLeft;
 
     // set the tolerance allowed for the PID
