@@ -16,6 +16,7 @@ public class ClimbExtender extends SubsystemBase {
   private boolean enabled = true;
   private final WPI_TalonFX m_motor;
   private String direction;
+  private double motorClamp = constants.kMotorClampOffLoad;
 
   // TODO: Change the PID of the extender!
   private PIDController extenderPID = new PIDController(constants.kOffLoadP, constants.kOffLoadI, constants.kOffLoadD);
@@ -93,7 +94,7 @@ public class ClimbExtender extends SubsystemBase {
 
   // tells the motor object to drive at a speed that the PID sets the motorPower to be
   public void setOutput(double motorPower) {
-    m_motor.set(MathUtil.clamp(motorPower, -constants.kMotorClamp, constants.kMotorClamp));
+    m_motor.set(MathUtil.clamp(motorPower, -motorClamp, motorClamp));
   }
 
   @Override
@@ -120,12 +121,15 @@ public class ClimbExtender extends SubsystemBase {
     extenderPID.setP(constants.kOffLoadP);
     extenderPID.setI(constants.kOffLoadI);
     extenderPID.setD(constants.kOffLoadD);
+    motorClamp = constants.kMotorClampOffLoad;
+
   }
 
   public void onLoad(){
     extenderPID.setP(constants.kOnLoadP);
     extenderPID.setI(constants.kOnLoadI);
     extenderPID.setD(constants.kOnLoadD);
+    motorClamp = constants.kMotorClampOnLoad;
   }
 
   public void loadCheck() {
