@@ -26,24 +26,19 @@ import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
-import edu.wpi.first.wpilibj.motorcontrol.MotorController;
 import edu.wpi.first.wpilibj.simulation.DifferentialDrivetrainSim;
 
 import ctre_shims.PhoenixMotorControllerGroup;
 import ctre_shims.TalonEncoder;
-import ctre_shims.TalonEncoderSim;
 
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants;
 import frc.robot.controls.Driver;
-import frc.robot.util.ControllerFactory;
 
 public class Drivetrain extends SubsystemBase {
 
   //change this to use constants from a different robot
   public static ClassBot3DriveConstants constants = new ClassBot3DriveConstants();
-
-  private static Drivetrain instance;
 
   WPI_TalonFX m_leftMotor1 = new WPI_TalonFX(constants.leftMotorPorts[0]);
   WPI_TalonFX m_rightMotor1 = new WPI_TalonFX(constants.rightMotorPorts[0]);
@@ -91,14 +86,6 @@ public class Drivetrain extends SubsystemBase {
   private Field2d m_fieldSim;
 */
 
-  public static Drivetrain getInstance() {
-    if (instance == null) {
-      instance = new Drivetrain();
-      return instance;
-    }
-    return instance;
-  }
-
   public Drivetrain() {
 
     // go through non main motors and put them in an array (allows for variable # of motors)
@@ -130,12 +117,8 @@ public class Drivetrain extends SubsystemBase {
       m_rightMotors = new PhoenixMotorControllerGroup(m_rightMotor1);
     }
 */
-    // m_leftMotors = new PhoenixMotorControllerGroup(m_leftMotor1, ControllerFactory.createTalonFX(constants.leftMotorPorts[1]));
-    // m_rightMotors = new PhoenixMotorControllerGroup(m_rightMotor1, ControllerFactory.createTalonFX(constants.rightMotorPorts[1]));
-
-    m_leftMotors = new PhoenixMotorControllerGroup(m_leftMotor1);
-    m_rightMotors = new PhoenixMotorControllerGroup(m_rightMotor1);
-
+    m_leftMotors = new PhoenixMotorControllerGroup(m_leftMotor1, new WPI_TalonFX(constants.leftMotorPorts[1]));
+    m_rightMotors = new PhoenixMotorControllerGroup(m_rightMotor1, new WPI_TalonFX(constants.rightMotorPorts[1]));
 
     m_dDrive = new DifferentialDrive(m_leftMotors, m_rightMotors);
 
@@ -178,13 +161,15 @@ public class Drivetrain extends SubsystemBase {
 
   public void arcadeDrive(double throttle, double turn) {
     m_dDrive.arcadeDrive(throttle, turn);
+    m_dDrive.feed();
   }
 
   public void tankDrive(double left, double right) {
     m_dDrive.tankDrive(left, right);
+    m_dDrive.feed();
   }
 
-  public void propDrive(double throttle, double turn){
+  public void propDrive(double throttle, double turn) {
     double leftOut = throttle * (1 + turn);
     double rightOut = throttle * (1 - turn);
 
@@ -213,8 +198,8 @@ public class Drivetrain extends SubsystemBase {
       rightOut = 1;
     }    
 
-    System.out.println("left: " + leftOut);
-    System.out.println("Right: " + rightOut);
+    //System.out.println("left: " + leftOut);
+    //System.out.println("Right: " + rightOut);
 
     m_leftMotor1.set(ControlMode.PercentOutput, leftOut);
     m_rightMotor1.set(ControlMode.PercentOutput, rightOut);
@@ -289,9 +274,10 @@ public class Drivetrain extends SubsystemBase {
   public void feedForwardDrive(double xSpeed, double rot) {
     var wheelSpeeds = m_driveKinematics.toWheelSpeeds(new ChassisSpeeds(xSpeed, 0.0, rot));
     setSpeeds(wheelSpeeds);
+    m_dDrive.feed();
   }
 
-  public void tankFeedForwardDrive(double left, double right){
+  public void tankFeedForwardDrive(double left, double right) {
     feedForwardDrive(
       (left + right)/2,
       (left - right)/2 
@@ -322,7 +308,7 @@ public class Drivetrain extends SubsystemBase {
     return m_rightVelocityPIDController;
   }
 
-  public void runDrive(double throttle, double turn){
+  public void runDrive(double throttle, double turn) {
     switch (Driver.getDriveMode()) {
       case ARCADE:
         arcadeDrive(throttle, turn);
@@ -439,5 +425,9 @@ public class Drivetrain extends SubsystemBase {
    */
   public double getTurnRate() {
     return -m_navX.getRate();
+  }
+
+  public void updateMotors(){
+    m_dDrive.feed();
   }
 }

@@ -3,22 +3,21 @@ package frc.robot.controls;
 import controllers.*;
 import edu.wpi.first.wpilibj.Joystick;
 import frc.robot.Constants.*;
-import frc.robot.subsystems.Drivetrain;
 import frc.robot.util.DriveMode;
 
-public class Driver{
+public class Driver {
 
-  private static PistolController controller = new PistolController(new Joystick(JoyConstants.kDriverJoy));
+  private static GameController controller = new GameController(new Joystick(JoyConstants.kDriverJoy));
   
-  //sets default drive mode
+  // sets default drive mode
   private static DriveMode driveMode = DriveMode.ARCADE;
 
-  //driver buttons
+  // driver buttons
   public static void configureButtonBindings() {
-    controller.getButtons().backSwitchTop().whenPressed(
-        () -> Drivetrain.getInstance().setMaxOutput(DriveConstants.kSlowSpeed), Drivetrain.getInstance());
-    controller.getButtons().frontSwitchTop().whenPressed(
-        () -> Drivetrain.getInstance().setMaxOutput(1.0), Drivetrain.getInstance());
+    controller.getButtons().B().whenPressed(
+        () -> setDriveMode(DriveMode.PROPORTIONAL));
+    controller.getButtons().A().whenPressed(
+        () -> setDriveMode(DriveMode.ARCADE));
   }
   
   public static double getThrottleValue() {
@@ -33,23 +32,23 @@ public class Driver{
   }
   
   // sets drive mode
-  public static void setDriveMode(DriveMode dm){
+  public static void setDriveMode(DriveMode dm) {
     driveMode = dm;
   }
   
   //checks drive mode
-  public static boolean isDrive(DriveMode drive){
+  public static boolean isDrive(DriveMode drive) {
     return (driveMode == drive);
   }
 
   public static double getRawThrottleValue() {
     // Controllers y-axes are natively up-negative, down-positive
-    return controller.TriggerAxis();
+    return controller.getJoystickAxis().leftY();
   }
 
   public static double getRawTurnValue() {
-    //Right is Positive left is negative
-    return controller.WheelAxis();
+    // Right is Positive left is negative
+    return controller.getJoystickAxis().rightX();
   }
 
   public static DriveMode getDriveMode() {

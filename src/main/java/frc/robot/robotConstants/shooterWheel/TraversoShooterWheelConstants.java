@@ -23,4 +23,6 @@ public class TraversoShooterWheelConstants {
   public final double kS = 0;
   public final double kV = 0;
   public final double kA = 0;
+
+  public final double kMotorClamp = 0.9;
 }

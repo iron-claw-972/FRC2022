@@ -4,14 +4,14 @@ import controllers.constants.*;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.button.*;
 
-public class GameController extends Controller{
+public class GameController extends Controller {
   
   private Button Button = new Button();
   private DPad DPad = new DPad();
   private TriggerAxis TriggerAxis = new TriggerAxis();
   private JoystickAxis JoystickAxis = new JoystickAxis();
   
-  public GameController(Joystick joystick_){
+  public GameController(Joystick joystick_) {
     super(joystick_);
   }
   
@@ -51,17 +51,23 @@ public class GameController extends Controller{
     public JoystickButton RB() {
       return new JoystickButton(getController(), GameConstants.buttons.kRB);
     }
-    public JoystickButton back() {
+    public JoystickButton BACK() {
       return new JoystickButton(getController(), GameConstants.buttons.kBack);
     }
-    public JoystickButton start() {
+    public JoystickButton START() {
       return new JoystickButton(getController(), GameConstants.buttons.kStart);
+    }
+    public JoystickButton LT() {
+      return new JoystickButton(getController(), GameConstants.triggers.kLeftT);
+    }
+    public JoystickButton RT() {
+      return new JoystickButton(getController(), GameConstants.triggers.kRightT);
     }
   }
   
   //returns POVButton object
   public class DPad {
-    public POVButton unpressed(){
+    public POVButton unpressed() {
       return new POVButton(getController(), -1);
     }
     public POVButton up() {
@@ -88,22 +94,22 @@ public class GameController extends Controller{
     public POVButton upLeft() {
       return new POVButton(getController(), GameConstants.dPad.kUpLeft);
     }   
-    public Trigger allUp(){
+    public Trigger allUp() {
       return up()
       .or(upRight()
       .or(upLeft()));
     }
-    public Trigger allDown(){
+    public Trigger allDown() {
       return down()
       .or(downRight()
       .or(downLeft()));
     }
-    public Trigger allLeft(){
+    public Trigger allLeft() {
       return left()
       .or(upLeft()
       .or(downLeft()));
     }
-    public Trigger allRight(){
+    public Trigger allRight() {
       return right()
       .or(upRight()
       .or(downRight()));
@@ -112,29 +118,29 @@ public class GameController extends Controller{
   
   //returns Joystick Axis value
   public class JoystickAxis{
-    public double leftX(){
+    public double leftX() {
       return getController().getRawAxis(GameConstants.joystickAxis.kLeftX);
     }
-    public double leftY(){
+    public double leftY() {
       return getController().getRawAxis(GameConstants.joystickAxis.kLeftY);
     }
-    public double rightX(){
+    public double rightX() {
       return getController().getRawAxis(GameConstants.joystickAxis.kRightX);
     }
-    public double rightY(){
+    public double rightY() {
       return getController().getRawAxis(GameConstants.joystickAxis.kRightY);
     }
   }
   
   //returns Trigger Axis value
-  public  class TriggerAxis{
-    public double leftTrigger(){
+  public class TriggerAxis {
+    public double leftTrigger() {
       return getController().getRawAxis(GameConstants.triggers.kLeftT);
     }
-    public double rightTrigger(){
+    public double rightTrigger() {
       return getController().getRawAxis(GameConstants.triggers.kRightT);
     }
   }
   
-  
+
 }

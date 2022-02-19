@@ -9,55 +9,51 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import frc.robot.ControllerFactory;
 import frc.robot.robotConstants.shooterBelt.TraversoBeltConstants;
-import ctre_shims.TalonEncoder;
-import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.MathUtil;
 
 public class ShooterBelt extends SubsystemBase {
 
   TraversoBeltConstants constants = new TraversoBeltConstants();
 
   private final WPI_TalonFX m_ShooterBeltMotor = ControllerFactory.createTalonFX(constants.kShooterBeltMotorPort);
-  private final TalonEncoder m_ShooterBeltEncoder = new TalonEncoder(m_ShooterBeltMotor);
 
-  private final PIDController ShooterBeltPID = new PIDController(constants.kShooterBeltP, constants.kShooterBeltI, constants.kShooterBeltD);
-
-  public static double motorSpeed = 0.0;
+  private boolean enabled = false;
+  private double motorPower = 0.0;
 
   public ShooterBelt() {
-    m_ShooterBeltEncoder.setDistancePerPulse(constants.kEncoderMetersPerPulse);
-    m_ShooterBeltEncoder.reset();
-    ShooterBeltPID.reset();
-    ShooterBeltPID.setTolerance(constants.kShooterBeltVelocityPIDTolerance);
-    ShooterBeltPID.setSetpoint(motorSpeed);
+
   }
 
   @Override
   public void periodic() {
-    updatePID();
+    if (enabled){
+      setOutput(motorPower);
+    }
   }
 
-  public void updatePID() {
-    m_ShooterBeltMotor.set(ControlMode.PercentOutput, ShooterBeltPID.calculate(m_ShooterBeltEncoder.getRate()));
-  }
 
-  public void setSpeed(double newSpeed) {
-    ShooterBeltPID.setSetpoint(newSpeed);
+  public void setOutput(double motorPower) {
+    m_ShooterBeltMotor.set(ControlMode.PercentOutput, MathUtil.clamp(motorPower, -constants.kMotorClamp, constants.kMotorClamp));
   }
 
   public void setIntakeSpeed() {
-    setSpeed(constants.kIntakeSpeed);
+    motorPower = constants.kIntakeSpeed;
   }
 
   public void setOuttakeSpeed() {
-    setSpeed(constants.kOuttakeSpeed);
+    motorPower = constants.kOuttakeSpeed;
   }
 
-  public void stop() {
-    m_ShooterBeltMotor.set(ControlMode.PercentOutput, 0);
+  public void setStop() {
+    motorPower = 0;
   }
 
-  public boolean reachedSetpoint(double targetSpeed) {
-    return ShooterBeltPID.atSetpoint();
+  public void enable() {
+    enabled = true;
   }
 
+  public void disable() {
+    enabled = false;
+    setOutput(0);
+  }
 }
