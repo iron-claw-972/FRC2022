@@ -21,10 +21,6 @@ public class ShooterBelt extends SubsystemBase {
   private boolean enabled = false;
   private double motorPower = 0.0;
 
-  public ShooterBelt() {
-
-  }
-
   @Override
   public void periodic() {
     if (enabled){

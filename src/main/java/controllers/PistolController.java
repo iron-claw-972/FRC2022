@@ -30,6 +30,13 @@ public class PistolController extends Controller {
       return new JoystickButton(getController(), PistolConstants.Buttons.kBottomButton);
     }
 
+    public Trigger switchBottom() {
+      return backSwitchBottom().or(frontSwitchBottom());
+    }
+    public Trigger switchTop() {
+      return backSwitchTop().or(frontSwitchTop());
+    }
+
     public Trigger backSwitchTopSmart() {
       return new JoystickButton(getController(), PistolConstants.Buttons.kBackSwitchTop).and(frontSwitchTop().negate());
     }

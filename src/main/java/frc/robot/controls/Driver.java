@@ -2,6 +2,7 @@ package frc.robot.controls;
 
 import controllers.*;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.Constants.*;
 import frc.robot.RobotContainer;
 import frc.robot.util.DriveMode;
@@ -15,10 +16,21 @@ public class Driver {
 
   // driver buttons
   public static void configureButtonBindings() {
-    controller.getButtons().backSwitchTop().whenPressed(
-        () -> RobotContainer.m_drive.setMaxOutput(DriveConstants.kSlowSpeed), RobotContainer.m_drive);
     controller.getButtons().frontSwitchTop().whenPressed(
-        () -> RobotContainer.m_drive.setMaxOutput(1.0), RobotContainer.m_drive);
+      new InstantCommand(() -> setDriveMode(DriveMode.ARCADE))
+    );
+
+    controller.getButtons().backSwitchTop().whenPressed(
+      new InstantCommand(() -> setDriveMode(DriveMode.ARCADE))
+    );
+
+    //TODO: Add limelight align to hub and chase ball with limelight on 
+    // controller.getButtons().switchBottom().whenPressed(
+    //   align to hub
+    // );
+    // controller.getButtons().bottomButton().whenPressed(
+    //   chase ball
+    // );
   }
   
   public static double getThrottleValue() {
