@@ -17,8 +17,8 @@ public class ClimbRotator extends SubsystemBase {
   private boolean enabled = false;
   private final DutyCycleEncoder encoder;
   private final WPI_TalonFX m_motor;
-  private String direction;
-  boolean storedLeft;
+  private final String direction;
+  private boolean storedLeft;
 
   private double setPoint = 90;
   private double encoderOffset;
