@@ -19,7 +19,7 @@ public class ClimbExtender extends SubsystemBase {
   private String direction;
 
   // TODO: Change the PID of the extender!
-  private PIDController extenderPID = new PIDController(0.0002, 0.0, 0.0);
+  private PIDController extenderPID = new PIDController(constants.kOffLoadP, constants.kOffLoadI, constants.kOffLoadD);
   
   private double setpoint;
   private double encoderOffset;
@@ -31,6 +31,7 @@ public class ClimbExtender extends SubsystemBase {
       m_motor = ControllerFactory.createTalonFX(constants.kLeftExtenderPort); // initializes the motor
       direction = "(Left)"; // the direction for shuffleboard's use
       encoderOffset = constants.kArmLeftEncoderOffset; // sets an offset for the encoder
+      m_motor.setInverted(true);
     }
     else {
       // otherwise, just assign the motor object to the right
@@ -41,11 +42,11 @@ public class ClimbExtender extends SubsystemBase {
 
     // the lowest tick limit is 0, and must be checked every 10 milliseconds
     // TODO: Update this max reverse limit!
-    m_motor.configReverseSoftLimitThreshold(-5000, 10);
+    m_motor.configReverseSoftLimitThreshold(0, 10);
 
     // converts the length of the arm in inches to ticks and makes that the maximum tick limit, it's checked every 10 milliseconds
     // TODO: Update this max forward limit!
-    m_motor.configForwardSoftLimitThreshold(5000, 10);
+    m_motor.configForwardSoftLimitThreshold(265000, 10);
 
     // every time the robot is started, arm MUST start at maximum compression in order to maintain consistency
     m_motor.setSelectedSensorPosition(0.0);
@@ -56,6 +57,11 @@ public class ClimbExtender extends SubsystemBase {
 
     // set the PID's tolerance
     extenderPID.setTolerance(constants.kExtenderTolerance);
+
+    SmartDashboard.putNumber("P(e)", constants.kOffLoadP);
+    SmartDashboard.putNumber("I(e)", constants.kOffLoadI);
+    SmartDashboard.putNumber("D(e)", constants.kOffLoadD);
+    SmartDashboard.putNumber("Goal(e)", 0);
   }
 
   public boolean reachedSetpoint() {
@@ -91,15 +97,21 @@ public class ClimbExtender extends SubsystemBase {
 
   // tells the motor object to drive at a speed that the PID sets the motorPower to be
   public void setOutput(double motorPower) {
-    m_motor.set(ControlMode.PercentOutput, MathUtil.clamp(motorPower, -constants.kMotorClamp, constants.kMotorClamp));
+    m_motor.set(MathUtil.clamp(motorPower, -constants.kMotorClamp, constants.kMotorClamp));
   }
 
   @Override
   public void periodic() {
     if(enabled) {
+      extenderPID.setP(SmartDashboard.getNumber("P(e)", constants.kOffLoadP));
+      extenderPID.setI(SmartDashboard.getNumber("I(e)", constants.kOffLoadI));
+      extenderPID.setD(SmartDashboard.getNumber("D(e)", constants.kOffLoadD));
+      setpoint = SmartDashboard.getNumber("Goal(e)", .1);
+      
       // set the extender power according to the PID
       setOutput(extenderPID.calculate(currentExtension(), setpoint));
     }
+
     // a pop-up in shuffleboard that allows you to see how much the arm extended in inches
     SmartDashboard.putNumber("Current Extension " + direction, currentExtension());
     // a pop-up in shuffleboard that states if the extender is on/off
