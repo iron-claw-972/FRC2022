@@ -32,7 +32,7 @@ public class ClimbRotator extends SubsystemBase {
     if (isLeft) {
       encoder = new DutyCycleEncoder(constants.kArmLeftEncoder); // initializes the through bore
       m_motor = ControllerFactory.createTalonFX(constants.kArmLeftMotor); // initializes the motor
-      direction = "(Left)"; // the direction for shuffleboard's use
+      direction = "Left"; // the direction for shuffleboard's use
       m_motor.setInverted(true); // inverts the motor
       encoderOffset = constants.kArmLeftEncoderOffset; // sets an offset for the encoder
 
@@ -43,7 +43,7 @@ public class ClimbRotator extends SubsystemBase {
     else {
       encoder = new DutyCycleEncoder(constants.kArmRightEncoder); // initializes the through bore
       m_motor = ControllerFactory.createTalonFX(constants.kArmRightMotor); // initializes the motor
-      direction = "(Right)"; // the direction for shuffleboard's use
+      direction = "Right"; // the direction for shuffleboard's use
       encoderOffset = constants.kArmRightEncoderOffset; // sets an offset for the encoder
 
       limitSwitchLower = new LimitSwitch(constants.kRightLimitSwitchLower , constants.kLimitSwitchDebouncer);
@@ -86,10 +86,10 @@ public class ClimbRotator extends SubsystemBase {
     disable();
 
     // a pop-up in shuffleboard that allows you to see how much the arm extended in inches
-    SmartDashboard.putNumber("(r)Current Angle " + direction, currentAngle());
+    SmartDashboard.putNumber(direction + " Angle", currentAngle());
     // System.out.println(currentAngle());
     // a pop-up in shuffleboard that states if the rotator is on/off
-    SmartDashboard.putBoolean("(r)On/Off " + direction, enabled);
+    SmartDashboard.putBoolean(direction + " Rotator", enabled);
   }
 
   public double currentAngleRaw() {

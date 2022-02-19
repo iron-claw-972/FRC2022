@@ -28,13 +28,13 @@ public class ClimbExtender extends SubsystemBase {
     // if the arm is left, the tick value is inverted && objects are assigned correctly
     if (left) {
       m_motor = ControllerFactory.createTalonFX(constants.kLeftExtenderPort); // initializes the motor
-      direction = "(Left)"; // the direction for shuffleboard's use
+      direction = "Left"; // the direction for shuffleboard's use
       m_motor.setInverted(true);
     }
     else {
       // otherwise, just assign the motor object to the right
       m_motor = ControllerFactory.createTalonFX(constants.kRightExtenderPort); // initializes the motor
-      direction = "(Right)"; // the direction for shuffleboard's use
+      direction = "Right"; // the direction for shuffleboard's use
     }
 
     // the lowest tick limit is 0, and must be checked every 10 milliseconds
@@ -110,11 +110,9 @@ public class ClimbExtender extends SubsystemBase {
     }
 
     // a pop-up in shuffleboard that allows you to see how much the arm extended in inches
-    SmartDashboard.putNumber("(e)Current Extension " + direction, currentExtension());
+    SmartDashboard.putNumber(direction + " Extension", currentExtension());
     // a pop-up in shuffleboard that states if the extender is on/off
-    SmartDashboard.putBoolean("(e)On/Off " + direction, enabled);
-    // a pop-up in shuffleboard that shows the tick value of the motor
-    SmartDashboard.putNumber("(e)Current Raw Extension " + direction, currentExtensionRaw());
+    SmartDashboard.putBoolean(direction + " Extender", enabled);
   }
 
   public void offLoad(){
