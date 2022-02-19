@@ -9,7 +9,9 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandGroupBase;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import frc.robot.util.Shuffleboard;
 import frc.robot.autonomous.drivetrain.Pathweaver;
 import frc.robot.subsystems.Drivetrain;
@@ -34,8 +36,9 @@ public class Robot extends TimedRobot {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
-    m_autonomousCommand = m_robotContainer.getAutonomousCommand();
     m_robotContainer.m_shuffleboard.setup();
+    m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+    
   }
 
   /**
