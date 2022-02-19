@@ -106,9 +106,6 @@ public class ClimbExtender extends SubsystemBase {
       setpoint = SmartDashboard.getNumber("Goal(e)", 0);
 
       loadCheck();
-      
-      // set the extender power according to the PID
-      setOutput(extenderPID.calculate(currentExtension(), setpoint));
     }
 
     // a pop-up in shuffleboard that allows you to see how much the arm extended in inches

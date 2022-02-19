@@ -1,6 +1,5 @@
 package frc.robot.robotConstants.shooterBelt;
 
-import edu.wpi.first.math.util.Units;
 
 public class TraversoBeltConstants {
   public final int kShooterBeltMotorPort = 11;
