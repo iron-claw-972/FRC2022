@@ -18,7 +18,7 @@ public class ClimbRotator extends SubsystemBase {
   private final DutyCycleEncoder encoder;
   private final WPI_TalonFX m_motor;
   private String direction;
-  boolean left;
+  private boolean left;
 
   private double setPoint = 90;
   private double encoderOffset;
@@ -49,7 +49,7 @@ public class ClimbRotator extends SubsystemBase {
       limitSwitchLower = new LimitSwitch(constants.kRightLimitSwitchLower , constants.kLimitSwitchDebouncer);
       limitSwitchUpper = new LimitSwitch(constants.kRightLimitSwitchUpper , constants.kLimitSwitchDebouncer);
     }
-    // store the left boolean in left
+   
     left = isLeft;
 
     // set the tolerance allowed for the PID

@@ -133,6 +133,7 @@ public class ControllerFactory {
   * Create a configured TalonFX 
   * 
   * @param id the ID of the motor
+  * @param coast true if the motor should coast, brakes otherwise
   * 
   * @return a fully configured TalonFX
   */
