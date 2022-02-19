@@ -1,6 +1,5 @@
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import frc.robot.ControllerFactory;
@@ -57,11 +56,11 @@ public class ClimbRotator extends SubsystemBase {
     armPID.setTolerance(constants.kArmTolerance);
     this.offLoad();
     //Puts PID values on shuffle board for tuning the PID (to be commented out later)
-    SmartDashboard.putNumber("P", constants.kOffLoadP);
-    SmartDashboard.putNumber("I", constants.kOffLoadI);
-    SmartDashboard.putNumber("D", constants.kOffLoadD);
-    SmartDashboard.putNumber("set encoder", 80);
-    SmartDashboard.putNumber("goal", 90);
+    SmartDashboard.putNumber("P(r)", constants.kOffLoadP);
+    SmartDashboard.putNumber("I(r)", constants.kOffLoadI);
+    SmartDashboard.putNumber("D(r)", constants.kOffLoadD);
+    SmartDashboard.putNumber("Zero Encoder(r)", 80);
+    SmartDashboard.putNumber("Goal(r)", 90);
     setEncoder(80);
   }
 
@@ -71,9 +70,9 @@ public class ClimbRotator extends SubsystemBase {
     if(enabled) {
 
       // gets PID values from shuffle board for tuning the PID (to be commented out later)
-      armPID.setP(SmartDashboard.getNumber("P", constants.kOffLoadP));
-      armPID.setI(SmartDashboard.getNumber("I", constants.kOffLoadI));
-      armPID.setD(SmartDashboard.getNumber("D", constants.kOffLoadD));
+      armPID.setP(SmartDashboard.getNumber("P(r)", constants.kOffLoadP));
+      armPID.setI(SmartDashboard.getNumber("I(r)", constants.kOffLoadI));
+      armPID.setD(SmartDashboard.getNumber("D(r)", constants.kOffLoadD));
       // setpoint = SmartDashboard.getNumber("goal", 0);
 
       // set the arm power according to the PID
@@ -84,12 +83,13 @@ public class ClimbRotator extends SubsystemBase {
     // SmartDashboard.putBoolean("limit switch", limitSwitch.get());
     // System.out.println(limitSwitch.get());
     
+    disable();
 
     // a pop-up in shuffleboard that allows you to see how much the arm extended in inches
-    SmartDashboard.putNumber("Current Angle " + direction, currentAngle());
+    SmartDashboard.putNumber("(r)Current Angle " + direction, currentAngle());
     // System.out.println(currentAngle());
     // a pop-up in shuffleboard that states if the rotator is on/off
-    SmartDashboard.putBoolean("Rotator On/Off" + direction, enabled);
+    SmartDashboard.putBoolean("(r)On/Off " + direction, enabled);
   }
 
   public double currentAngleRaw() {
@@ -112,27 +112,7 @@ public class ClimbRotator extends SubsystemBase {
 
   public boolean reachedSetpoint() {
     // checks if the arm is at its setpoint
-  
-    // PLEASE NOTE:
-    // LimitSwitch.java returns .get() as true WHEN THE ARM ISN'T BEYOND THE SETPOINT
-    // it returns as FALSE when the limit has been exceeded
-
-    // if the PID isn't at the setpoint, check if the upper limit switch
-    if(armPID.atSetpoint() == false) {
-      // if the upper limit switch returns as true (NOT AT SETPOINT), check the lower limit switch
-      if(limitSwitchUpper.get()) {
-        // if the lower limit switch returns as true (NOT AT SETPOINT), return as false (did not reach setpoint)
-        if(limitSwitchLower.get()) {
-          return false;
-        }
-        // if the upper limit switch hasn't reached the setpoint but the lower did, return true
-        return true;
-      }
-      // if the PID didn't reach the setpoint but the upper limit switch did, return true
-      return true;
-    }
-    // if the PID reached its setpoint, return true
-    return true;
+    return armPID.atSetpoint() || limitSwitchLower.risingEdge() || limitSwitchUpper.risingEdge();
   }
 
   //enables PID
