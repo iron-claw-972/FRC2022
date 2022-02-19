@@ -99,4 +99,12 @@ public class PhoenixMotorControllerGroup implements MotorController, Sendable, A
     builder.setSafeState(this::stopMotor);
     builder.addDoubleProperty("Value", this::get, this::set);
   }
+
+  @Override
+  public void setVoltage(double outputVolts) {
+    m_leadMotorController.setVoltage(outputVolts);
+    for (MotorController motorController : m_motorControllers) {
+      motorController.setVoltage(outputVolts);
+    }
+  }
 }
