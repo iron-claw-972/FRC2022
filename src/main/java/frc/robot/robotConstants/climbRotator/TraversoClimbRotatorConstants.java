@@ -31,7 +31,7 @@ public class TraversoClimbRotatorConstants {
     public final double kOffLoadD = 0.00;
 
     // on load PID constants
-    public final double kOnLoadP = 0.02;
+    public final double kOnLoadP = 0.08;
     public final double kOnLoadI = 0.00;
     public final double kOnLoadD = 0.00;
 

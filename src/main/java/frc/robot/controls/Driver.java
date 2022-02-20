@@ -15,9 +15,9 @@ public class Driver {
 
   // driver buttons
   public static void configureButtonBindings() {
-    controller.Button.B().whenPressed(
+    controller.getButtons().frontSwitchTop().whenPressed(
         () -> setDriveMode(DriveMode.PROPORTIONAL));
-    controller.Button.A().whenPressed(
+    controller.getButtons().backSwitchTop().whenPressed(
         () -> setDriveMode(DriveMode.ARCADE));
   }
   

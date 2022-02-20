@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandGroupBase;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
-import frc.robot.util.Shuffleboard;
+import frc.robot.util.ShuffleboardManager;
 import frc.robot.autonomous.drivetrain.Pathweaver;
 import frc.robot.subsystems.Drivetrain;
 
@@ -56,7 +56,7 @@ public class Robot extends TimedRobot {
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
     m_robotContainer.m_shuffleboard.update();
-    Drivetrain.getInstance().updateMotors();
+    m_robotContainer.m_drive.updateMotors();
      
   }
 

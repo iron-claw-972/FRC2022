@@ -57,23 +57,23 @@ public class ClimbRotator extends SubsystemBase {
     armPID.setTolerance(constants.kArmTolerance);
     this.offLoad();
     //Puts PID values on shuffle board for tuning the PID (to be commented out later)
-    SmartDashboard.putNumber("P", constants.kOffLoadP);
-    SmartDashboard.putNumber("I", constants.kOffLoadI);
-    SmartDashboard.putNumber("D", constants.kOffLoadD);
-    SmartDashboard.putNumber("set encoder", 80);
-    SmartDashboard.putNumber("goal", 90);
-    setEncoder(80);
+    // SmartDashboard.putNumber("P", constants.kOffLoadP);
+    // SmartDashboard.putNumber("I", constants.kOffLoadI);
+    // SmartDashboard.putNumber("D", constants.kOffLoadD);
+    // SmartDashboard.putNumber("set encoder", 80);
+    // SmartDashboard.putNumber("goal", 90);
+    // setEncoder(80);
   }
 
   @Override
   public void periodic() {
-
+    SmartDashboard.putData(direction + " PID", armPID);
     if(enabled) {
 
       // gets PID values from shuffle board for tuning the PID (to be commented out later)
-      armPID.setP(SmartDashboard.getNumber("P", constants.kOffLoadP));
-      armPID.setI(SmartDashboard.getNumber("I", constants.kOffLoadI));
-      armPID.setD(SmartDashboard.getNumber("D", constants.kOffLoadD));
+      // armPID.setP(SmartDashboard.getNumber("P", constants.kOffLoadP));
+      // armPID.setI(SmartDashboard.getNumber("I", constants.kOffLoadI));
+      // armPID.setD(SmartDashboard.getNumber("D", constants.kOffLoadD));
       // setpoint = SmartDashboard.getNumber("goal", 0);
 
       // set the arm power according to the PID

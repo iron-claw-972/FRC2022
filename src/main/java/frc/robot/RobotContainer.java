@@ -8,7 +8,7 @@ the project.
 package frc.robot;
 
 import frc.robot.subsystems.*;
-import frc.robot.util.Shuffleboard;
+import frc.robot.util.ShuffleboardManager;
 import frc.robot.commands.*;
 import frc.robot.controls.*;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -32,7 +32,7 @@ import frc.robot.autonomous.drivetrain.Pathweaver;
  public class RobotContainer {
   // The robot's subsystems and commands are defined here...
 
-  public static Shuffleboard m_shuffleboard = new Shuffleboard();
+  public static ShuffleboardManager m_shuffleboard = new ShuffleboardManager();
   //public static BallDetection m_ballDetection = new BallDetection();
 
   public static Drivetrain m_drive = new Drivetrain();
