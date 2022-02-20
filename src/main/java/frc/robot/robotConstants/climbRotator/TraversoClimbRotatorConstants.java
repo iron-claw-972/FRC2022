@@ -6,7 +6,7 @@ public class TraversoClimbRotatorConstants {
     public final int kArmLeftEncoder = 6;
 
     // motor clamping
-    public final double kMotorClamp = 0.3;
+    public final double kMotorClamp = 0.6;
 
     // the motor ports of the arm
     public final int kArmRightMotor = 24;

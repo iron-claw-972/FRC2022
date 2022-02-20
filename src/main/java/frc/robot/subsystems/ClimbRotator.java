@@ -31,7 +31,7 @@ public class ClimbRotator extends SubsystemBase {
     // if the arm is left, the encoder value is inverted && the objects are assigned correctly
     if (isLeft) {
       encoder = new DutyCycleEncoder(constants.kArmLeftEncoder); // initializes the through bore
-      m_motor = ControllerFactory.createTalonFX(constants.kArmLeftMotor); // initializes the motor
+      m_motor = ControllerFactory.createTalonFX(constants.kArmLeftMotor, false); // initializes the motor
       direction = "Left"; // the direction for shuffleboard's use
       m_motor.setInverted(true); // inverts the motor
       encoderOffset = constants.kArmLeftEncoderOffset; // sets an offset for the encoder
@@ -42,7 +42,7 @@ public class ClimbRotator extends SubsystemBase {
     // otherwise, use the normal encoder value and set the motorports to the right
     else {
       encoder = new DutyCycleEncoder(constants.kArmRightEncoder); // initializes the through bore
-      m_motor = ControllerFactory.createTalonFX(constants.kArmRightMotor); // initializes the motor
+      m_motor = ControllerFactory.createTalonFX(constants.kArmRightMotor, false); // initializes the motor
       direction = "Right"; // the direction for shuffleboard's use
       encoderOffset = constants.kArmRightEncoderOffset; // sets an offset for the encoder
 

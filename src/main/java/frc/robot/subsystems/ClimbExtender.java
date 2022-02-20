@@ -28,13 +28,13 @@ public class ClimbExtender extends SubsystemBase {
   public ClimbExtender(boolean isLeft) {
     // if the arm is left, the tick value is inverted && objects are assigned correctly
     if (isLeft) {
-      m_motor = ControllerFactory.createTalonFX(constants.kLeftExtenderPort); // initializes the motor
+      m_motor = ControllerFactory.createTalonFX(constants.kLeftExtenderPort, false); // initializes the motor
       direction = "Left"; // the direction for shuffleboard's use
       m_motor.setInverted(true);
     }
     else {
       // otherwise, just assign the motor object to the right
-      m_motor = ControllerFactory.createTalonFX(constants.kRightExtenderPort); // initializes the motor
+      m_motor = ControllerFactory.createTalonFX(constants.kRightExtenderPort, false); // initializes the motor
       direction = "Right"; // the direction for shuffleboard's use
     }
 
