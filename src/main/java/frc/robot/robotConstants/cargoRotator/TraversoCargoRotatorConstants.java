@@ -2,13 +2,13 @@ package frc.robot.robotConstants.cargoRotator;
 
 public class TraversoCargoRotatorConstants {
     // the duty cycle encoder ports of the arm
-    public final int kArmEncoder = -1;
+    public final int kArmEncoder = 2;
 
     // motor clamping
     public final double kMotorClamp = 0.3;
 
     // the motor ports of the arm
-    public final int kArmMotor = -1;
+    public final int kArmMotor = 2;
 
 
     // Current Tick Value * Degree Multiple = Current Angle
