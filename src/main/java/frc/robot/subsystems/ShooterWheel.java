@@ -85,6 +85,7 @@ public class ShooterWheel extends SubsystemBase {
     return ShooterWheelPID.atSetpoint();
   }
 
-
+  // public double getVelocity(double distance, boolean isFront) {
+  // }
 
 }

@@ -27,12 +27,12 @@ public class ShooterBelt extends SubsystemBase {
   @Override
   public void periodic() {
     if (enabled){
-      setOutput(motorPower);
+      setSpeed(motorPower);
     }
   }
 
 
-  public void setOutput(double motorPower) {
+  public void setSpeed(double motorPower) {
     m_ShooterBeltMotor.set(ControlMode.PercentOutput, MathUtil.clamp(motorPower, -constants.kMotorClamp, constants.kMotorClamp));
   }
 
@@ -44,7 +44,7 @@ public class ShooterBelt extends SubsystemBase {
     motorPower = constants.kOuttakeSpeed;
   }
 
-  public void setStop() {
+  public void stop() {
     motorPower = 0;
   }
 
@@ -54,6 +54,6 @@ public class ShooterBelt extends SubsystemBase {
 
   public void disable() {
     enabled = false;
-    setOutput(0);
+    setSpeed(0);
   }
 }
