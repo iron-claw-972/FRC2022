@@ -49,4 +49,9 @@ public class TraversoClimbRotatorConstants {
 
     public final double kLimitSwitchDebouncer = 0.01;
 
+    public final double kSupplyCurrentLimit = 30;
+    public final double kSupplyTriggerThreshold = 30;
+    public final double kSupplyTriggerDuration = 0;
+    public final boolean kCoast = false;
+
 }
