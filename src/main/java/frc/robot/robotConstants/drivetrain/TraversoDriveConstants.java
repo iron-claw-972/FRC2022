@@ -9,14 +9,14 @@ import edu.wpi.first.math.util.Units;
 public class TraversoDriveConstants {
 
   public final int[] rightMotorPorts = {3, 4};
-  public final int[] leftMotorPorts = {1, 2};
+  public final int[] leftMotorPorts = {28, 30};
 
   //auto might be off because they were calibrated for classbot3
 
-  public final double kTrackWidthMeters = Units.inchesToMeters(20); // Distance between center of left wheel and center of right wheel in meters
+  public final double kTrackWidthMeters = Units.inchesToMeters(23); // Distance between center of left wheel and center of right wheel in meters
   public  final int kEncoderResolution = 2048; // 2048 for Falcon500 integrated encoder
-  public final double kWheelDiameterMeters = Units.inchesToMeters(4);
-  public final double kGearRatio = 62.0 / 8.0;
+  public final double kWheelDiameterMeters = Units.inchesToMeters(6);
+  public final double kGearRatio = 11.25;
   public final double kEncoderMetersPerPulse = kWheelDiameterMeters * Math.PI / (double) kEncoderResolution / kGearRatio;
   public final double kEncoderMetersPerSecond = kWheelDiameterMeters * Math.PI / kGearRatio * 10.0;
 

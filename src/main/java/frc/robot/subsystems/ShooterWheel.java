@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
-import frc.robot.ControllerFactory;
+import frc.robot.util.ControllerFactory;
 import frc.robot.robotConstants.shooterWheel.TraversoShooterWheelConstants;
 import ctre_shims.TalonEncoder;
 import edu.wpi.first.math.controller.PIDController;

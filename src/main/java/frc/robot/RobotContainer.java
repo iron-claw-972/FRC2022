@@ -12,7 +12,7 @@ import frc.robot.commands.*;
 import frc.robot.controls.*;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.cameraserver.CameraServer;
-
+import edu.wpi.first.wpilibj.PowerDistribution;
 import frc.robot.Constants.*;
 import frc.robot.autonomous.drivetrain.Pathweaver;
 
@@ -30,12 +30,14 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private static Drivetrain m_drive = Drivetrain.getInstance();
   private static BallDetection m_bBallDetection = new BallDetection();
+  private static PowerManagement m_power = new PowerManagement();
   //public Intake m_intake = Intake.getInstance();
 
   public RobotContainer() {
 
     // default command to run in teleop
     m_drive.setDefaultCommand(new TeleopDrive(m_drive));
+    m_power.setDefaultCommand(new PrintPower(m_power));
 
     // Start camera stream for driver
     //CameraServer.startAutomaticCapture();

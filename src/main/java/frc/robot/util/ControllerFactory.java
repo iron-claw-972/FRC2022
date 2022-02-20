@@ -20,27 +20,19 @@ public class ControllerFactory {
   private static int talonSRXDefaultPeakLimit = 45;
   private static int talonSRXDefaultPeakDuration = 125;
 
+  public static final boolean talonFXStatorLimitEnable = false;
+  public static final double talonFXStatorCurrentLimit = 100;
+  public static final double talonFXStatorTriggerThreshold = 100;
+  public static final double talonFXStatorTriggerDuration = 0;
 
-  /*
-  * Talon Sator / Supply Limits explanation 
-  * Supply current is current that’s being drawn at the input bus voltage. Stator current is current that’s being drawn by the motor.
-  * Supply limiting (supported by Talon SRX and FX) is useful for preventing breakers from tripping in the PDP.
-  * Stator limiting (supported by Talon FX) is useful for limiting acceleration/heat.
-  */
-
-  public static final boolean talonFXStatorLimitEnable = false; // enabled?
-  public static final double talonFXStatorCurrentLimit = 100; // Limit(amp)
-  public static final double talonFXStatorTriggerThreshold = 100; // Trigger Threshold(amp)
-  public static final double talonFXStatorTriggerDuration = 0; // Trigger Threshold Time(s)
-
-  public static final boolean talonFXSupplyLimitEnable = false;  // enabled?
-  public static final double talonFXSupplyCurrentLimit = 40;     // Limit(amp), usual current to hold after trigger hit
-  public static final double talonFXSupplyTriggerThreshold = 55; // Trigger Threshold(amp), amps to activate trigger 
-  public static final double talonFXSupplyTriggerDuration = 3; // Trigger Threshold Time(s), how long after trigger before reducing
+  public static final boolean talonFXSupplyLimitEnable = true;
+  public static final double talonFXSupplyCurrentLimit = 40;
+  public static final double talonFXSupplyTriggerThreshold = 50;
+  public static final double talonFXSupplyTriggerDuration = 0.3;
 
   private static int sparkMAXDefaultCurrentLimit = 60;
 
-  private static double voltageCompensation = Constants.kMaxVoltage; 
+  private static double voltageCompensation = Constants.kMaxVoltage;
 
   /**
    * Create a TalonSRX with current limiting enabled, using parameters
@@ -52,6 +44,7 @@ public class ControllerFactory {
    * 
    * @return a fully configured TalonSRX object
    */
+
   public static WPI_TalonSRX createTalonSRX(int id, int continuousCurrentLimit, int peakCurrentLimit, int peakCurrentDuration) {
     TalonSRXConfiguration config = new TalonSRXConfiguration();
     config.continuousCurrentLimit = continuousCurrentLimit;
@@ -115,26 +108,21 @@ public class ControllerFactory {
     return createSparkMAX(id, motortype, sparkMAXDefaultCurrentLimit);
   }
 
+
   /**
   * Create a configured TalonFX 
-  * https://motors.vex.com/vexpro-motors/falcon
   * 
   * @param id the ID of the motor
   * 
   * @return a fully configured TalonFX
   */
   public static WPI_TalonFX createTalonFX(int id) {
-
-    if (id == -1) return null;
-
     TalonFXConfiguration config = new TalonFXConfiguration();
     
     config.statorCurrLimit = new StatorCurrentLimitConfiguration(
-     // enabled                  | Limit(amp)               | Trigger Threshold(amp) |       Trigger Threshold Time(s)  */
         talonFXStatorLimitEnable, talonFXStatorCurrentLimit, talonFXStatorTriggerThreshold, talonFXStatorTriggerDuration);
     config.supplyCurrLimit = new SupplyCurrentLimitConfiguration(
         talonFXSupplyLimitEnable, talonFXSupplyCurrentLimit, talonFXSupplyTriggerThreshold, talonFXSupplyTriggerDuration);
-    
     config.voltageCompSaturation = Constants.kMaxVoltage;
 
     WPI_TalonFX talon = new WPI_TalonFX(id);
@@ -142,9 +130,7 @@ public class ControllerFactory {
     talon.configAllSettings(config);
     talon.enableVoltageCompensation(true);
     talon.setNeutralMode(NeutralMode.Brake);
-    talon.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
 
     return talon;
-
   }
 }
