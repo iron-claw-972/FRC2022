@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.*;
 import frc.robot.RobotContainer;
 import frc.robot.Constants.*;
+import frc.robot.robotConstants.cargoRotator.TraversoCargoRotatorConstants;
 import frc.robot.robotConstants.climbExtender.*;
 import frc.robot.robotConstants.climbRotator.*;
 import frc.robot.util.ClimberMethods;
@@ -14,36 +15,20 @@ public class Operator{
 
   public static GameController controller = new GameController(new Joystick(JoyConstants.kOperatorJoy));
 
+  // these two are named a little weirdly because the command group for this needs to be at least a little readable
   public static TraversoClimbExtenderConstants extend = new TraversoClimbExtenderConstants();
   public static TraversoClimbRotatorConstants rotate = new TraversoClimbRotatorConstants();
 
+  // constants for the arm rotator (yanis claw)
+  public static TraversoCargoRotatorConstants cargoconstants = new TraversoCargoRotatorConstants();
+
   //operator buttons
   public static void configureButtonBindings() {
+    climbBinds();
     
-    //arm testing
+  }
 
-    // controller.getButtons().A().whenPressed(
-    //     () -> RobotContainer.m_rotatorR.enable());
-    // controller.getButtons().B().whenPressed(
-    //     () -> RobotContainer.m_rotatorR.disable());
-
-    // controller.getButtons().Y().whenPressed(
-    //     () -> RobotContainer.m_rotatorR.setOutput(0.1));
-    // // controller.getButtons().X().whenPressed(
-    // //     () -> RobotContainer.m_testArm.setOutput(0));
-
-    // controller.getButtons().X().whileHeld(
-    //     () -> RobotContainer.m_rotatorR.setOutput(
-    //     controller.getJoystickAxis().leftY()));
-    // controller.getButtons().X().whenReleased
-    //     (() -> RobotContainer.m_rotatorR.setOutput(0));
-        
-    // controller.getButtons().RB().whenPressed(
-    //     () -> RobotContainer.m_rotatorR.setEncoder(SmartDashboard.getNumber("set encoder", 0)));
-    // controller.getButtons().LB().whenPressed(
-    //     () -> RobotContainer.m_rotatorR.setGoal(SmartDashboard.getNumber("goal", 0)));
-
-
+  public static void climbBinds() {
     controller.getDPad().up().whenPressed(new SequentialCommandGroup(
       // arm rotates to 90 degrees
       new FunctionalCommand(
@@ -140,11 +125,24 @@ public class Operator{
           () -> ClimberMethods.isRotatorAtSetpoint(), // end command when this is true
           RobotContainer.m_rotatorL, RobotContainer.m_rotatorR // object requirements
         )
-      ),
+      )
+    ));
 
-      // as an extra precaution
+    // resume the sequence
+    controller.getButtons().START().whenPressed((new ParallelCommandGroup(
+      new InstantCommand(() -> ClimberMethods.enableExtender()),
+      new InstantCommand(() -> ClimberMethods.enableRotator())
+    )));
+
+    // end the sequence
+    controller.getButtons().BACK().whenPressed((new ParallelCommandGroup(
       new InstantCommand(() -> ClimberMethods.disableExtender()),
       new InstantCommand(() -> ClimberMethods.disableRotator())
+    )));
+  }
+
+  public static void armBinds() {
+    controller.getButtons().RB().whenPressed(new SequentialCommandGroup(
     ));
   }
 }
