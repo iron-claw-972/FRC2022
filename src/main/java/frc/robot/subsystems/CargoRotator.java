@@ -6,13 +6,14 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import frc.robot.ControllerFactory;
 import frc.robot.robotConstants.cargoRotator.TraversoCargoRotatorConstants;
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class CargoRotator extends SubsystemBase {
-  TraversoCargoRotatorConstants constants = new TraversoCargoRotatorConstants();
+  private TraversoCargoRotatorConstants constants = new TraversoCargoRotatorConstants();
 
   private boolean enabled = false;
   private final DutyCycleEncoder encoder;
@@ -22,6 +23,7 @@ public class CargoRotator extends SubsystemBase {
   private double encoderOffset;
 
   private PIDController armPID = new PIDController(constants.kP , constants.kI , constants.kD);
+  ArmFeedforward feedforward = new ArmFeedforward(constants.kS, constants.kG, constants.kV, constants.kA);
   
   public CargoRotator() {
     encoder = new DutyCycleEncoder(constants.kArmEncoder);
@@ -40,7 +42,9 @@ public class CargoRotator extends SubsystemBase {
   public void periodic() {
     if(enabled) {
       // set the arm power according to a PID
-      setOutput(armPID.calculate(currentAngle(), setPoint));
+      // setOutput(armPID.calculate(currentAngle(), setPoint));
+      setVoltage(armPID.calculate(currentAngle(), setPoint) + feedforward.calculate(setPoint*(Math.PI/180), 0));
+      SmartDashboard.putNumber("Cargo Arm Angle", currentAngle());
     }
 
     // a pop-up in shuffleboard that allows you to see how much the arm extended in inches
@@ -81,6 +85,10 @@ public class CargoRotator extends SubsystemBase {
 
   public void setOutput(double motorPower){
     m_motor.set(ControlMode.PercentOutput, MathUtil.clamp(motorPower, -constants.kMotorClamp, constants.kMotorClamp));
+  }
+
+  public void setVoltage(double motorPower){
+    m_motor.setVoltage(MathUtil.clamp(motorPower, -constants.kMotorClamp*12, constants.kMotorClamp*12));
   }
 
   // sets PID Goal

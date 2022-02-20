@@ -29,5 +29,11 @@ public class TraversoCargoRotatorConstants {
     public final double kP = 0.03;
     public final double kI = 0.00;
     public final double kD = 0.00;
+
+    // feed forward constants
+    public final double kS = 0;
+    public final double kG = 0.15;
+    public final double kV = 2.91;
+    public final double kA = 0.01;
     
 }

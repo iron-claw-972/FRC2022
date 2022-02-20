@@ -24,8 +24,7 @@ public class ClimbRotator extends SubsystemBase {
   private double encoderOffset;
 
   private PIDController armPID = new PIDController(constants.kOffLoadP , constants.kOffLoadI , constants.kOffLoadD);
-  private LimitSwitch limitSwitchLower;
-  private LimitSwitch limitSwitchUpper;
+  private LimitSwitch limitSwitchLower, limitSwitchUpper;
 
   public ClimbRotator(boolean isLeft) {
     // if the arm is left, the encoder value is inverted && the objects are assigned correctly
