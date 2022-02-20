@@ -8,8 +8,8 @@ import edu.wpi.first.math.util.Units;
 
 public class TraversoDriveConstants {
 
-  public final int[] rightMotorPorts = {3, 4};
-  public final int[] leftMotorPorts = {1, 2};
+  public final int[] rightMotorPorts = {10};
+  public final int[] leftMotorPorts = {12};
 
   //auto might be off because they were calibrated for classbot3
 
@@ -31,7 +31,7 @@ public class TraversoDriveConstants {
   public final double kVelocityI = 0; // Integral
   public final double kVelocityD = 0; // Derivative
 
-  public final DCMotor kDriveGearbox = DCMotor.getFalcon500(2);
+  public final DCMotor kDriveGearbox = DCMotor.getFalcon500(1);
 
   public final boolean kRightEncoderReversed = false;
   public final boolean kLeftEncoderReversed = true;

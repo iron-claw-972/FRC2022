@@ -1,5 +1,6 @@
 package frc.robot.commands;
 
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Drivetrain;
@@ -9,6 +10,8 @@ public class AlignToUpperHub extends CommandBase {
   private final Limelight m_limelight;
   private final Drivetrain m_drive;
 
+  private final PIDController alignPID = new PIDController(0.02, 0, 0);
+
   public AlignToUpperHub(Limelight limelight, Drivetrain drivetrain) {
     m_limelight = limelight;
     m_drive = drivetrain;
@@ -17,6 +20,6 @@ public class AlignToUpperHub extends CommandBase {
 
   @Override
   public void execute() {
-    m_drive.runDrive(0, m_limelight.getHubHorizontalAngularOffset()*0.02);
+    m_drive.runDrive(0, alignPID.calculate(-m_limelight.getHubHorizontalAngularOffset(), 0));
   }
 }

@@ -29,22 +29,25 @@ import frc.robot.autonomous.drivetrain.Pathweaver;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  private static Drivetrain m_drive = Drivetrain.getInstance();
+  public static Drivetrain m_drive = Drivetrain.getInstance();
   //private static BallDetection m_bBallDetection = new BallDetection();
   //public Intake m_intake = Intake.getInstance();
+  public static Limelight m_limelight = Limelight.getInstance(() -> true);
   
 
   public RobotContainer() {
 
     // default command to run in teleop
     //m_drive.setDefaultCommand(new DifferentialDrive(m_drive));
-    m_drive.setDefaultCommand(new TeleopDrive(m_drive));
+    //m_drive.setDefaultCommand(new TeleopDrive(m_drive));
+    // m_limelight.setDefaultCommand(new GetDistance(m_limelight));
+
 
     // Start camera stream for driver
-    //CameraServer.startAutomaticCapture();
+    // CameraServer.startAutomaticCapture();
     
     // Configure the button bindings
-    Driver.configureButtonBindings();
+    //Driver.configureButtonBindings();
     Operator.configureButtonBindings();
   }
 
