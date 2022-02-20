@@ -9,7 +9,6 @@ package frc.robot;
 
 import frc.robot.subsystems.*;
 import frc.robot.util.ShuffleboardManager;
-import frc.robot.commands.*;
 import frc.robot.controls.*;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.*;
@@ -37,6 +36,7 @@ import edu.wpi.first.cameraserver.CameraServer;
   public static ClimbRotator m_rotatorL = new ClimbRotator(true);
   public static ClimbExtender m_extenderR = new ClimbExtender(false);
   public static ClimbExtender m_extenderL = new ClimbExtender(true);
+  public static CargoRotator m_cargoArm = new CargoRotator();
 
   public RobotContainer() {
     
