@@ -17,7 +17,7 @@ public class ShooterWheel extends SubsystemBase {
 
   TraversoShooterWheelConstants constants = new TraversoShooterWheelConstants();
 
-  private final WPI_TalonFX m_ShooterWheelMotor = ControllerFactory.createTalonFX(constants.kShooterWheelMotorPort , constants.kSupplyCurrentLimit, constants.kSupplyTriggerThreshold, constants.kSupplyTriggerDuration, false);
+  private final WPI_TalonFX m_ShooterWheelMotor = ControllerFactory.createTalonFX(constants.kShooterWheelMotorPort , constants.kSupplyCurrentLimit, constants.kSupplyTriggerThreshold, constants.kSupplyTriggerDuration, constants.kCoast);
   private final TalonEncoder m_ShooterWheelEncoder = new TalonEncoder(m_ShooterWheelMotor);
 
   private final PIDController ShooterWheelPID = new PIDController(constants.kP, constants.kI, constants.kD);

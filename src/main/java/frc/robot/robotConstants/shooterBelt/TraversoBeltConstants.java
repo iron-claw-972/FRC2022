@@ -10,6 +10,7 @@ public class TraversoBeltConstants {
   public final double kMotorClamp = 0.8;
 
   public final double kSupplyCurrentLimit = 15;
-    public final double kSupplyTriggerThreshold = 15;
-    public final double kSupplyTriggerDuration = 0;
+  public final double kSupplyTriggerThreshold = 15;
+  public final double kSupplyTriggerDuration = 0;
+  public final boolean kCoast = true;
 }

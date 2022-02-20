@@ -15,7 +15,7 @@ public class ShooterBelt extends SubsystemBase {
 
   TraversoBeltConstants constants = new TraversoBeltConstants();
 
-  private final WPI_TalonFX m_ShooterBeltMotor = ControllerFactory.createTalonFX(constants.kShooterBeltMotorPort , constants.kSupplyCurrentLimit, constants.kSupplyTriggerThreshold, constants.kSupplyTriggerDuration, false);
+  private final WPI_TalonFX m_ShooterBeltMotor = ControllerFactory.createTalonFX(constants.kShooterBeltMotorPort , constants.kSupplyCurrentLimit, constants.kSupplyTriggerThreshold, constants.kSupplyTriggerDuration, constants.kCoast);
 
   private boolean enabled = false;
   private double motorPower = 0.0;

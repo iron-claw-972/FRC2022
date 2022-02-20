@@ -27,7 +27,7 @@ public class CargoRotator extends SubsystemBase {
   
   public CargoRotator() {
     encoder = new DutyCycleEncoder(constants.kArmEncoder);
-    m_motor = ControllerFactory.createTalonFX(constants.kArmMotor, constants.kSupplyCurrentLimit, constants.kSupplyTriggerThreshold, constants.kSupplyTriggerDuration, false);
+    m_motor = ControllerFactory.createTalonFX(constants.kArmMotor, constants.kSupplyCurrentLimit, constants.kSupplyTriggerThreshold, constants.kSupplyTriggerDuration, constants.kCoast);
     encoderOffset = constants.kArmEncoderOffset;
     
     // set the tolerance allowed for the PID

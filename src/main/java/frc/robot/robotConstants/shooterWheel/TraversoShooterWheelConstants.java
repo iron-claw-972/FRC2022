@@ -27,6 +27,7 @@ public class TraversoShooterWheelConstants {
   public final double kMotorClamp = 0.9;
 
   public final double kSupplyCurrentLimit = 40;
-    public final double kSupplyTriggerThreshold = 40;
-    public final double kSupplyTriggerDuration = 0;
+  public final double kSupplyTriggerThreshold = 40;
+  public final double kSupplyTriggerDuration = 0;
+  public final boolean kCoast = true;
 }

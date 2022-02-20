@@ -43,8 +43,8 @@ public class Drivetrain extends SubsystemBase {
   //change this to use constants from a different robot
   public static TraversoDriveConstants constants = new TraversoDriveConstants();
 
-  WPI_TalonFX m_leftMotor1 = ControllerFactory.createTalonFX(constants.leftMotorPorts[0], constants.kSupplyCurrentLimit, constants.kSupplyTriggerThreshold, constants.kSupplyTriggerDuration, false);
-  WPI_TalonFX m_rightMotor1 = ControllerFactory.createTalonFX(constants.rightMotorPorts[0], constants.kSupplyCurrentLimit, constants.kSupplyTriggerThreshold, constants.kSupplyTriggerDuration, false);
+  WPI_TalonFX m_leftMotor1 = ControllerFactory.createTalonFX(constants.leftMotorPorts[0], constants.kSupplyCurrentLimit, constants.kSupplyTriggerThreshold, constants.kSupplyTriggerDuration, constants.kCoast);
+  WPI_TalonFX m_rightMotor1 = ControllerFactory.createTalonFX(constants.rightMotorPorts[0], constants.kSupplyCurrentLimit, constants.kSupplyTriggerThreshold, constants.kSupplyTriggerDuration, constants.kCoast);
   private PhoenixMotorControllerGroup m_leftMotors;
   private PhoenixMotorControllerGroup m_rightMotors;
   private final DifferentialDrive m_dDrive;
