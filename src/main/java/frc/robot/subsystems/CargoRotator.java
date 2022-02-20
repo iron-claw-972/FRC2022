@@ -92,7 +92,7 @@ public class CargoRotator extends SubsystemBase {
   }
 
   // sets PID Goal
-  public void setGoal(double goal){
+  public void setPosition(double goal){
     setPoint = goal;
   }
 }
