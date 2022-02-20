@@ -31,33 +31,22 @@ public class CargoRotator extends SubsystemBase {
     // set the tolerance allowed for the PID
     armPID.setTolerance(constants.kArmTolerance);
     //Puts PID values on shuffle board for tuning the PID (to be commented out later)
-    SmartDashboard.putNumber("P", constants.kP);
-    SmartDashboard.putNumber("I", constants.kI);
-    SmartDashboard.putNumber("D", constants.kD);
-    SmartDashboard.putNumber("set encoder", 80);
-    SmartDashboard.putNumber("goal", 90);
+    SmartDashboard.putData("Cargo Rotator PID", armPID);
+    SmartDashboard.putNumber("Zero CargoR", 80);
     setEncoder(80);
   }
 
   @Override
   public void periodic() {
     if(enabled) {
-
-      // gets PID values from shuffle board for tuning the PID (to be commented out later)
-      armPID.setP(SmartDashboard.getNumber("P", constants.kP));
-      armPID.setI(SmartDashboard.getNumber("I", constants.kI));
-      armPID.setD(SmartDashboard.getNumber("D", constants.kD));
-      // setpoint = SmartDashboard.getNumber("goal", 0);
-
       // set the arm power according to a PID
       setOutput(armPID.calculate(currentAngle(), setPoint));
-      SmartDashboard.putNumber("Cargo Arm Angle", currentAngle());
     }
 
     // a pop-up in shuffleboard that allows you to see how much the arm extended in inches
     SmartDashboard.putNumber("Current Angle (Degrees)", currentAngle());
-    // System.out.println(currentAngle());
 
+    SmartDashboard.putBoolean("Cargo Rotator", enabled);
   }
 
   public double currentAngleRaw() {
@@ -71,10 +60,7 @@ public class CargoRotator extends SubsystemBase {
 
   // 80 is all the way forward and  125 is all the way back
   public void setEncoder(double angle) { 
-    encoderOffset = angle // constants.kArmDegreeMultiple
-          - encoder.get() * constants.kArmDegreeMultiple;
-    System.out.println("set encoder");
-
+    encoderOffset = angle - encoder.get() * constants.kArmDegreeMultiple;
   }
 
   public boolean reachedSetpoint() {

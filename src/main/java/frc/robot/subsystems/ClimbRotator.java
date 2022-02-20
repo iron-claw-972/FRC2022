@@ -56,37 +56,24 @@ public class ClimbRotator extends SubsystemBase {
     armPID.setTolerance(constants.kArmTolerance);
 
     this.offLoad();
-    //Puts PID values on shuffle board for tuning the PID (to be commented out later)
-    SmartDashboard.putNumber("P(r)", constants.kOffLoadP);
-    SmartDashboard.putNumber("I(r)", constants.kOffLoadI);
-    SmartDashboard.putNumber("D(r)", constants.kOffLoadD);
-    SmartDashboard.putNumber("Zero Encoder(r)", 80);
-    SmartDashboard.putNumber("Goal(r)", 90);
+    // Puts PID values on shuffle board for tuning the PID (to be commented out later)
+    SmartDashboard.putData("Climb Rotator PID", armPID);
+    SmartDashboard.putNumber("Zero ClimbR", 80);
     setEncoder(80);
   }
 
   @Override
   public void periodic() {
-    SmartDashboard.putData(direction + " PID", armPID);
     if(enabled) {
-
-      // gets PID values from shuffle board for tuning the PID (to be commented out later)
-      armPID.setP(SmartDashboard.getNumber("P(r)", constants.kOffLoadP));
-      armPID.setI(SmartDashboard.getNumber("I(r)", constants.kOffLoadI));
-      armPID.setD(SmartDashboard.getNumber("D(r)", constants.kOffLoadD));
-      // setpoint = SmartDashboard.getNumber("goal", 0);
-
       // set the arm power according to the PID
       setOutput(armPID.calculate(currentAngle(), setPoint));
 
       
     }
     // SmartDashboard.putBoolean("limit switch", limitSwitch.get());
-    // System.out.println(limitSwitch.get());
     
     // a pop-up in shuffleboard that allows you to see how much the arm extended in inches
     SmartDashboard.putNumber(direction + " Angle", currentAngle());
-    // System.out.println(currentAngle());
     // a pop-up in shuffleboard that states if the rotator is on/off
     SmartDashboard.putBoolean(direction + " Rotator", enabled);
   }
@@ -107,10 +94,10 @@ public class ClimbRotator extends SubsystemBase {
   // 80 is all the way forward and  125 is all the way back
   public void setEncoder(double angle) { 
     if(left) {
-    encoderOffset = angle /*constants.kArmDegreeMultiple*/ + encoder.get() * constants.kArmDegreeMultiple;
+    encoderOffset = angle + encoder.get() * constants.kArmDegreeMultiple;
     }
     else {
-      encoderOffset = angle /*constants.kArmDegreeMultiple*/ - encoder.get() * constants.kArmDegreeMultiple;
+      encoderOffset = angle - encoder.get() * constants.kArmDegreeMultiple;
     }
   }
 

@@ -57,10 +57,7 @@ public class ClimbExtender extends SubsystemBase {
     // set the PID's tolerance
     extenderPID.setTolerance(constants.kExtenderTolerance);
 
-    SmartDashboard.putNumber("P(e)", constants.kOffLoadP);
-    SmartDashboard.putNumber("I(e)", constants.kOffLoadI);
-    SmartDashboard.putNumber("D(e)", constants.kOffLoadD);
-    SmartDashboard.putNumber("Goal(e)", 0);
+    SmartDashboard.putData("Climb Extender PID", extenderPID);
 
     left = isLeft;
   }
@@ -109,14 +106,7 @@ public class ClimbExtender extends SubsystemBase {
   @Override
   public void periodic() {
     if(enabled) {
-      extenderPID.setP(SmartDashboard.getNumber("P(e)", constants.kOnLoadP));
-      extenderPID.setI(SmartDashboard.getNumber("I(e)", constants.kOnLoadI));
-      extenderPID.setD(SmartDashboard.getNumber("D(e)", constants.kOnLoadD));
-
-      // setpoint = SmartDashboard.getNumber("Goal(e)", 0);
-
-      // loadCheck();
-
+      // motor power is set to the extenderpid's calculation
       setOutput(extenderPID.calculate(currentExtension(), setpoint));
     }
 
