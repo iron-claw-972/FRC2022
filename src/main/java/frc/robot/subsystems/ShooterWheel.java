@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
-import frc.robot.ControllerFactory;
+import frc.robot.util.ControllerFactory;
 import frc.robot.robotConstants.shooterWheel.TraversoShooterWheelConstants;
 import ctre_shims.TalonEncoder;
 import edu.wpi.first.math.MathUtil;
@@ -17,7 +17,7 @@ public class ShooterWheel extends SubsystemBase {
 
   TraversoShooterWheelConstants constants = new TraversoShooterWheelConstants();
 
-  private final WPI_TalonFX m_ShooterWheelMotor = ControllerFactory.createTalonFX(constants.kShooterWheelMotorPort);
+  private final WPI_TalonFX m_ShooterWheelMotor = ControllerFactory.createTalonFX(constants.kShooterWheelMotorPort , constants.kSupplyCurrentLimit, constants.kSupplyTriggerThreshold, constants.kSupplyTriggerDuration, constants.kCoast);
   private final TalonEncoder m_ShooterWheelEncoder = new TalonEncoder(m_ShooterWheelMotor);
 
   private final PIDController ShooterWheelPID = new PIDController(constants.kP, constants.kI, constants.kD);
