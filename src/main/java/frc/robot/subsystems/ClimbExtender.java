@@ -7,7 +7,7 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.ControllerFactory;
+import frc.robot.util.ControllerFactory;
 import frc.robot.robotConstants.climbExtender.TraversoClimbExtenderConstants;
 
 
@@ -28,13 +28,13 @@ public class ClimbExtender extends SubsystemBase {
   public ClimbExtender(boolean isLeft) {
     // if the arm is left, the tick value is inverted && objects are assigned correctly
     if (isLeft) {
-      m_motor = ControllerFactory.createTalonFX(constants.kLeftExtenderPort, false); // initializes the motor
+      m_motor = ControllerFactory.createTalonFX(constants.kLeftExtenderPort, constants.kSupplyCurrentLimit, constants.kSupplyTriggerThreshold, constants.kSupplyTriggerDuration, false); // initializes the motor
       direction = "Left"; // the direction for shuffleboard's use
       m_motor.setInverted(true);
     }
     else {
       // otherwise, just assign the motor object to the right
-      m_motor = ControllerFactory.createTalonFX(constants.kRightExtenderPort, false); // initializes the motor
+      m_motor = ControllerFactory.createTalonFX(constants.kRightExtenderPort, constants.kSupplyCurrentLimit, constants.kSupplyTriggerThreshold, constants.kSupplyTriggerDuration, false); // initializes the motor
       direction = "Right"; // the direction for shuffleboard's use
     }
 

@@ -3,7 +3,7 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
-import frc.robot.ControllerFactory;
+import frc.robot.util.ControllerFactory;
 import frc.robot.robotConstants.cargoRotator.TraversoCargoRotatorConstants;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.ArmFeedforward;
@@ -27,7 +27,7 @@ public class CargoRotator extends SubsystemBase {
   
   public CargoRotator() {
     encoder = new DutyCycleEncoder(constants.kArmEncoder);
-    m_motor = ControllerFactory.createTalonFX(constants.kArmMotor);
+    m_motor = ControllerFactory.createTalonFX(constants.kArmMotor, constants.kSupplyCurrentLimit, constants.kSupplyTriggerThreshold, constants.kSupplyTriggerDuration, false);
     encoderOffset = constants.kArmEncoderOffset;
     
     // set the tolerance allowed for the PID

@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
-import frc.robot.ControllerFactory;
+import frc.robot.util.ControllerFactory;
 import frc.robot.robotConstants.shooterBelt.TraversoBeltConstants;
 import edu.wpi.first.math.MathUtil;
 
@@ -15,7 +15,7 @@ public class ShooterBelt extends SubsystemBase {
 
   TraversoBeltConstants constants = new TraversoBeltConstants();
 
-  private final WPI_TalonFX m_ShooterBeltMotor = ControllerFactory.createTalonFX(constants.kShooterBeltMotorPort);
+  private final WPI_TalonFX m_ShooterBeltMotor = ControllerFactory.createTalonFX(constants.kShooterBeltMotorPort , constants.kSupplyCurrentLimit, constants.kSupplyTriggerThreshold, constants.kSupplyTriggerDuration, false);
 
   private boolean enabled = false;
   private double motorPower = 0.0;

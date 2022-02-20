@@ -48,4 +48,8 @@ public class TraversoClimbExtenderConstants {
   // encoder offset
   public final double kArmLeftEncoderOffset = 0;
   public final double kArmRightEncoderOffset = 0;
+
+  public final double kSupplyCurrentLimit = 40;
+    public final double kSupplyTriggerThreshold = 40;
+    public final double kSupplyTriggerDuration = 0;
 }

@@ -35,5 +35,9 @@ public class TraversoCargoRotatorConstants {
     public final double kG = 0.15;
     public final double kV = 2.91;
     public final double kA = 0.01;
+
+    public final double kSupplyCurrentLimit = 30;
+    public final double kSupplyTriggerThreshold = 30;
+    public final double kSupplyTriggerDuration = 0;
     
 }
