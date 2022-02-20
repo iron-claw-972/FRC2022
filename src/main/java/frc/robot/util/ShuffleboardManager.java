@@ -19,7 +19,6 @@ public class ShuffleboardManager {
   // Command pathweaver = Pathweaver.pathweaverCommand();
 
   public void setup() {
-    Shuffleboard.getTab("new tab").add("numeuro", 0).getEntry();
     
     // add auto commands here.
     autoCommand.setDefaultOption("pathweaver", Pathweaver.pathweaverCommand(AutoConstants.kTrajectoryName));
