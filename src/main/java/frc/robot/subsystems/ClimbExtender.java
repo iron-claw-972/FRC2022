@@ -13,10 +13,11 @@ import frc.robot.robotConstants.climbExtender.TraversoClimbExtenderConstants;
 
 public class ClimbExtender extends SubsystemBase {
   TraversoClimbExtenderConstants constants = new TraversoClimbExtenderConstants();
-  private boolean enabled = true;
+  private boolean enabled = false;
   private final WPI_TalonFX m_motor;
   private String direction;
   private double motorClamp = constants.kMotorClampOffLoad;
+  private boolean left;
 
   // TODO: Change the PID of the extender!
   private PIDController extenderPID = new PIDController(constants.kOffLoadP, constants.kOffLoadI, constants.kOffLoadD);
@@ -24,9 +25,9 @@ public class ClimbExtender extends SubsystemBase {
   private double setpoint;
 
   // it was requested to use multiple objects for the extender because one might fail
-  public ClimbExtender(boolean left) {
+  public ClimbExtender(boolean isLeft) {
     // if the arm is left, the tick value is inverted && objects are assigned correctly
-    if (left) {
+    if (isLeft) {
       m_motor = ControllerFactory.createTalonFX(constants.kLeftExtenderPort); // initializes the motor
       direction = "Left"; // the direction for shuffleboard's use
       m_motor.setInverted(true);
@@ -49,8 +50,9 @@ public class ClimbExtender extends SubsystemBase {
     m_motor.setSelectedSensorPosition(0.0);
 
     // so that the limiters are enabled
-    m_motor.configForwardSoftLimitEnable(true, 10);
-    m_motor.configReverseSoftLimitEnable(true, 10);
+    // TODO: If the motors don't move, CHECK TO SEE IF THE LIMITER IS TOO LOW!
+    m_motor.configForwardSoftLimitEnable(false, 10);
+    m_motor.configReverseSoftLimitEnable(false, 10);
 
     // set the PID's tolerance
     extenderPID.setTolerance(constants.kExtenderTolerance);
@@ -59,6 +61,8 @@ public class ClimbExtender extends SubsystemBase {
     SmartDashboard.putNumber("I(e)", constants.kOffLoadI);
     SmartDashboard.putNumber("D(e)", constants.kOffLoadD);
     SmartDashboard.putNumber("Goal(e)", 0);
+
+    left = isLeft;
   }
 
   public boolean reachedSetpoint() {
@@ -73,7 +77,12 @@ public class ClimbExtender extends SubsystemBase {
 
   // returns the current extension in inches
   public double currentExtension() {
-    return m_motor.getSelectedSensorPosition() * constants.kExtenderTickMultiple;
+    if(left) {
+      return m_motor.getSelectedSensorPosition() * constants.kExtenderTickMultiple;
+    }
+    else {
+      return m_motor.getSelectedSensorPosition() * constants.kExtenderTickMultiple;
+    }
   }
 
   // returns the current extension in ticks
@@ -104,9 +113,11 @@ public class ClimbExtender extends SubsystemBase {
       extenderPID.setI(SmartDashboard.getNumber("I(e)", constants.kOnLoadI));
       extenderPID.setD(SmartDashboard.getNumber("D(e)", constants.kOnLoadD));
 
-      setpoint = SmartDashboard.getNumber("Goal(e)", 0);
+      // setpoint = SmartDashboard.getNumber("Goal(e)", 0);
 
-      loadCheck();
+      // loadCheck();
+
+      setOutput(extenderPID.calculate(currentExtension(), setpoint));
     }
 
     // a pop-up in shuffleboard that allows you to see how much the arm extended in inches

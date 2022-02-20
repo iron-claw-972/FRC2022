@@ -54,6 +54,7 @@ public class ClimbRotator extends SubsystemBase {
 
     // set the tolerance allowed for the PID
     armPID.setTolerance(constants.kArmTolerance);
+
     this.offLoad();
     //Puts PID values on shuffle board for tuning the PID (to be commented out later)
     SmartDashboard.putNumber("P(r)", constants.kOffLoadP);
@@ -83,8 +84,6 @@ public class ClimbRotator extends SubsystemBase {
     // SmartDashboard.putBoolean("limit switch", limitSwitch.get());
     // System.out.println(limitSwitch.get());
     
-    disable();
-
     // a pop-up in shuffleboard that allows you to see how much the arm extended in inches
     SmartDashboard.putNumber(direction + " Angle", currentAngle());
     // System.out.println(currentAngle());
@@ -99,7 +98,7 @@ public class ClimbRotator extends SubsystemBase {
   // returns the current angle of the duty cycle encoder with offset accounted for
   public double currentAngle() {
     if(left) {
-      return -(encoder.get() * constants.kArmDegreeMultiple + encoderOffset);
+      return -(encoder.get() * constants.kArmDegreeMultiple) + encoderOffset;
     } else {
       return encoder.get() * constants.kArmDegreeMultiple + encoderOffset;
     }
@@ -107,7 +106,12 @@ public class ClimbRotator extends SubsystemBase {
 
   // 80 is all the way forward and  125 is all the way back
   public void setEncoder(double angle) { 
-    encoderOffset = angle /*constants.kArmDegreeMultiple*/ - encoder.get() * constants.kArmDegreeMultiple;
+    if(left) {
+    encoderOffset = angle /*constants.kArmDegreeMultiple*/ + encoder.get() * constants.kArmDegreeMultiple;
+    }
+    else {
+      encoderOffset = angle /*constants.kArmDegreeMultiple*/ - encoder.get() * constants.kArmDegreeMultiple;
+    }
   }
 
   public boolean reachedSetpoint() {

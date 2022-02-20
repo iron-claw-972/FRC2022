@@ -4,7 +4,7 @@ public class TraversoClimbExtenderConstants {
   // extending motors (for climber)
   // TODO: Change these ports!
   public final int kRightExtenderPort = 6;
-  public final int kLeftExtenderPort = -1;
+  public final int kLeftExtenderPort = 23;
 
   // the arm's max height - the arm's lowest height (max extension - max compression);
   // TODO: Check the robot's arm length!
@@ -26,8 +26,8 @@ public class TraversoClimbExtenderConstants {
   public final double kExtenderTolerance = 1;
 
   // motor clamps
-  public final double kMotorClampOnLoad = .15;
-  public final double kMotorClampOffLoad = .1;
+  public final double kMotorClampOnLoad = .2;
+  public final double kMotorClampOffLoad = .2;
   
   // locations
   public final double kMaxUpwards = kExtenderMaxArmLength;
@@ -36,7 +36,7 @@ public class TraversoClimbExtenderConstants {
   public final double kSlightlyUpward = 6;
   
   // off load PID constants
-  public final double kOffLoadP = 0.0002;
+  public final double kOffLoadP = 0.1;
   public final double kOffLoadI = 0.00;
   public final double kOffLoadD = 0.00;
 
