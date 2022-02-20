@@ -44,11 +44,10 @@ public class CargoRotator extends SubsystemBase {
       // set the arm power according to a PID
       // setOutput(armPID.calculate(currentAngle(), setPoint));
       setVoltage(armPID.calculate(currentAngle(), setPoint) + feedforward.calculate(setPoint*(Math.PI/180), 0));
-      SmartDashboard.putNumber("Cargo Arm Angle", currentAngle());
     }
 
     // a pop-up in shuffleboard that allows you to see how much the arm extended in inches
-    SmartDashboard.putNumber("Current Angle (Degrees)", currentAngle());
+    SmartDashboard.putNumber("Cargo Arm Angle", currentAngle());
 
     SmartDashboard.putBoolean("Cargo Rotator", enabled);
   }

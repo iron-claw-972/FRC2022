@@ -22,9 +22,7 @@ public class TraversoCargoRotatorConstants {
     public final double kArmEncoderOffset = 0;
     
     // locations
-    public final double kNinetyDeg = 90;
-    public final double kMaxBackward = 135;
-    public final double kMaxForward = 80;
+
     
     public final double kP = 0.03;
     public final double kI = 0.00;
