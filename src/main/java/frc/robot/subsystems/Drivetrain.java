@@ -26,17 +26,14 @@ import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
-import edu.wpi.first.wpilibj.motorcontrol.MotorController;
 import edu.wpi.first.wpilibj.simulation.DifferentialDrivetrainSim;
 
 import ctre_shims.PhoenixMotorControllerGroup;
 import ctre_shims.TalonEncoder;
-import ctre_shims.TalonEncoderSim;
 
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants;
 import frc.robot.controls.Driver;
-import frc.robot.util.ControllerFactory;
 
 public class Drivetrain extends SubsystemBase {
 
@@ -120,8 +117,8 @@ public class Drivetrain extends SubsystemBase {
       m_rightMotors = new PhoenixMotorControllerGroup(m_rightMotor1);
     }
 */
-    m_leftMotors = new PhoenixMotorControllerGroup(m_leftMotor1, ControllerFactory.createTalonFX(constants.leftMotorPorts[1]));
-    m_rightMotors = new PhoenixMotorControllerGroup(m_rightMotor1, ControllerFactory.createTalonFX(constants.rightMotorPorts[1]));
+    m_leftMotors = new PhoenixMotorControllerGroup(m_leftMotor1, new WPI_TalonFX(constants.leftMotorPorts[1]));
+    m_rightMotors = new PhoenixMotorControllerGroup(m_rightMotor1, new WPI_TalonFX(constants.rightMotorPorts[1]));
 
     m_dDrive = new DifferentialDrive(m_leftMotors, m_rightMotors);
 

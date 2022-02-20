@@ -2,7 +2,6 @@
 
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj2.command.ProfiledPIDCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
@@ -13,8 +12,6 @@ import frc.robot.robotConstants.shooterWheel.TraversoShooterWheelConstants;
 import ctre_shims.TalonEncoder;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.math.controller.ProfiledPIDController;
-import edu.wpi.first.math.trajectory.TrapezoidProfile;
 
 public class ShooterWheel extends SubsystemBase {
 

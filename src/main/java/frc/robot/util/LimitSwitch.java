@@ -23,8 +23,8 @@ public class LimitSwitch {
 
   public boolean get() {
     //updates debounce and last read
-    lastRead = debouncer.calculate(limitSwitch.get());
-    return debouncer.calculate(limitSwitch.get());
+    lastRead = !debouncer.calculate(limitSwitch.get());
+    return !debouncer.calculate(limitSwitch.get());
   }
 
   public boolean fallingEdge() {

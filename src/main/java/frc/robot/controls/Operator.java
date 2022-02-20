@@ -1,11 +1,9 @@
 package frc.robot.controls;
 
-import java.time.Instant;
 
 import controllers.*;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.*;
-import frc.robot.Robot;
 import frc.robot.RobotContainer;
 import frc.robot.Constants.*;
 import frc.robot.robotConstants.climbExtender.*;

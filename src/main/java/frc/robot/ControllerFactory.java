@@ -1,6 +1,5 @@
 package frc.robot;
 
-import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.StatorCurrentLimitConfiguration;
 import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
@@ -130,4 +129,34 @@ public class ControllerFactory {
     return talon;
   }
   
+  /**
+  * Create a configured TalonFX 
+  * 
+  * @param id the ID of the motor
+  * @param coast true if the motor should coast, brakes otherwise
+  * 
+  * @return a fully configured TalonFX
+  */
+  public static WPI_TalonFX createTalonFX(int id, boolean coast) {
+    TalonFXConfiguration config = new TalonFXConfiguration();
+    
+    config.statorCurrLimit = new StatorCurrentLimitConfiguration(
+        talonFXStatorLimitEnable, talonFXStatorCurrentLimit, talonFXStatorTriggerThreshold, talonFXStatorTriggerDuration);
+    config.supplyCurrLimit = new SupplyCurrentLimitConfiguration(
+        talonFXSupplyLimitEnable, talonFXSupplyCurrentLimit, talonFXSupplyTriggerThreshold, talonFXSupplyTriggerDuration);
+    config.voltageCompSaturation = Constants.kMaxVoltage;
+
+    WPI_TalonFX talon = new WPI_TalonFX(id);
+    //talon.configFactoryDefault();
+    //talon.configAllSettings(config);
+    talon.enableVoltageCompensation(true);
+
+    if (coast) {
+      talon.setNeutralMode(NeutralMode.Coast);
+    } else {
+      talon.setNeutralMode(NeutralMode.Brake);
+    }
+    
+    return talon;
+  }
 }

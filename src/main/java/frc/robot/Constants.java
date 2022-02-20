@@ -6,7 +6,6 @@ the project.
 */
 
 package frc.robot;
-import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.util.Units;
 
 /*
@@ -48,36 +47,5 @@ public final class Constants {
     // Trajectories should be placed in src/main/deploy/paths
     // name without stuff after . ex AutoPath
     public static final String kTrajectoryName = "HangarTest";
-  }
-
-  public static final class ArmConstants {
-    
-    public static final int kLeftMotorPort = 24;
-    public static final int kRightMotorPort = 24;
-
-
-    public static final double kGearRatio = 1.0;
-    public static final int kEncoderResolution = 4096; // 2048 for Falcon500 integrated encoder
-
-    // public static final double kGearRatio = 162.0 / 1.0;
-    // public static final int kEncoderResolution = 2048; // 2048 for Falcon500 integrated encoder
-    
-
-    
-    public static final double kEncoderRotationsPerPulse = 1 / (double) kEncoderResolution / kGearRatio;
-    public static final double kEncoderRadiansPerPulse = 2 * Math.PI / (double) kEncoderResolution / kGearRatio;
-    
-
-    public static final double kRotatorInchesPerRotation = Math.PI * 6;
-    public static final double kRotatorGearRatio = 40.1;
-    //Dante said two different gear ratios, I think 40.1 is the one being used? Idk leaving this one here just incase.
-    //public static final double kRotatorGearRatio = 20.25;
-    public static final double kRotatorSetpoint = 0;
-    public static final double kRotatorTicksPerRotation = 1/2048;
-    public static final double kRotatorTolerance = 5;
-
-    public static final double kRotatorTickMultiple = (kRotatorTicksPerRotation * kRotatorGearRatio * kRotatorInchesPerRotation);
-    public static final PIDController rotatorPID = new PIDController(1, 0, 0);
-    public static final double kRotatorMaxArmTicks = 171;
   }
 }
