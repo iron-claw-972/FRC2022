@@ -1,6 +1,7 @@
 package frc.robot.util;
 
 import frc.robot.RobotContainer;
+import frc.robot.subsystems.BallDetection;
 
 public class ShooterMethods {
   // cargo arm methods
@@ -70,5 +71,12 @@ public class ShooterMethods {
     RobotContainer.m_cargoArm.disable();
     RobotContainer.m_shooterBelt.disable();
     RobotContainer.m_shooterWheel.disable();
+  }
+
+  public static boolean isBallContained() {
+    return RobotContainer.m_balldetecter.containsBall();
+  }
+  public static boolean isBallShot() {
+    return RobotContainer.m_balldetecter.ballShot();
   }
 }
