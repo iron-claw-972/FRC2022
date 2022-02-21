@@ -156,7 +156,7 @@ public class Operator{
       // rotate the arm to a certain degree to prep for shoot
       new FunctionalCommand(
         ShooterMethods::enableArm, 
-        () -> ShooterMethods.setAngle(cargoConstants.kFrontOutakePos), 
+        () -> ShooterMethods.setAngle(cargoConstants.kFrontOutakeNearPos), 
         interrupted -> ShooterMethods.disableArm(), 
         () -> ShooterMethods.isArmAtSetpoint(), 
         RobotContainer.m_cargoRotator

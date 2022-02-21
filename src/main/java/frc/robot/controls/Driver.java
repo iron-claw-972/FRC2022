@@ -1,34 +1,38 @@
 package frc.robot.controls;
 
 import controllers.*;
+import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj.Joystick;
 import frc.robot.Constants.*;
 import frc.robot.util.DriveMode;
 
 public class Driver {
 
-  private static GameController controller = new GameController(new Joystick(JoyConstants.kDriverJoy));
+  private static PistolController controller = new PistolController(new Joystick(JoyConstants.kDriverJoy));
+
+  private static SlewRateLimiter slewThrottle = new SlewRateLimiter(DriveConstants.kSlewRate);
+  private static SlewRateLimiter slewTurn = new SlewRateLimiter(DriveConstants.kSlewRate);
   
   // sets default drive mode
   private static DriveMode driveMode = DriveMode.ARCADE;
 
   // driver buttons
   public static void configureButtonBindings() {
-    controller.getButtons().B().whenPressed(
+    controller.getButtons().frontSwitchTop().whenPressed(
         () -> setDriveMode(DriveMode.PROPORTIONAL));
-    controller.getButtons().A().whenPressed(
+    controller.getButtons().backSwitchTop().whenPressed(
         () -> setDriveMode(DriveMode.ARCADE));
   }
   
   public static double getThrottleValue() {
     // put any processes in any order of the driver's choosing
     // Controllers y-axes are natively up-negative, down-positive
-    return Functions.slewCalculateThrottle(Functions.deadband(JoyConstants.kDeadband, getRawThrottleValue()));
+    return slewThrottle.calculate(Functions.deadband(JoyConstants.kDeadband, getRawThrottleValue()));
   }
 
   public static double getTurnValue() {
     // right is positive; left is negative
-    return Functions.slewCalculateTurn(Functions.deadband(JoyConstants.kDeadband, getRawTurnValue()));
+    return slewTurn.calculate(Functions.deadband(JoyConstants.kDeadband, getRawTurnValue()));
   }
   
   // sets drive mode
@@ -43,12 +47,12 @@ public class Driver {
 
   public static double getRawThrottleValue() {
     // Controllers y-axes are natively up-negative, down-positive
-    return controller.getJoystickAxis().leftY();
+    return controller.getTriggerAxis();
   }
 
   public static double getRawTurnValue() {
     // Right is Positive left is negative
-    return controller.getJoystickAxis().rightX();
+    return controller.getWheelAxis();
   }
 
   public static DriveMode getDriveMode() {

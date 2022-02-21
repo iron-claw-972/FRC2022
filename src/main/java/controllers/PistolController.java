@@ -44,10 +44,10 @@ public class PistolController extends Controller {
     }
   }
 
-  public double TriggerAxis() {
+  public double getTriggerAxis() {
     return getController().getRawAxis(PistolConstants.JoystickAxis.kTriggerAxis);
   }
-  public double WheelAxis() {
+  public double getWheelAxis() {
     return getController().getRawAxis(PistolConstants.JoystickAxis.kWheelAxis);
   }
 

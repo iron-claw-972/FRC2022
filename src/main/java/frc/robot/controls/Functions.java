@@ -4,9 +4,6 @@ import edu.wpi.first.math.filter.SlewRateLimiter;
 import frc.robot.Constants.DriveConstants;
 
 public class Functions {
-  
-  private static SlewRateLimiter slewThrottle = new SlewRateLimiter(DriveConstants.kSlewRate);
-  private static SlewRateLimiter slewTurn = new SlewRateLimiter(DriveConstants.kSlewRate);
 
   /*
   public static Functions controls;
@@ -41,13 +38,5 @@ public class Functions {
       finVal *= -1;
     }
     return finVal;
-  }
-
-  public static double slewCalculateThrottle(double input ) {
-    return slewThrottle.calculate(input);
-  }
-
-  public static double slewCalculateTurn(double input ) {
-    return slewTurn.calculate(input);
   }
 }
