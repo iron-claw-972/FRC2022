@@ -27,7 +27,11 @@ public class ShooterBelt extends SubsystemBase {
       setOutput(motorPower);
     }
   }
-
+  
+  public void setPower(double power) {
+    motorPower = power;
+  }
+  
   public void setOutput(double motorPower) {
     m_ShooterBeltMotor.set(ControlMode.PercentOutput, MathUtil.clamp(motorPower, -constants.kMotorClamp, constants.kMotorClamp));
   }
