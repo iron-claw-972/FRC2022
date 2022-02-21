@@ -1,7 +1,5 @@
 package frc.robot.controls;
 
-import edu.wpi.first.math.filter.SlewRateLimiter;
-import frc.robot.Constants.DriveConstants;
 
 public class Functions {
 
