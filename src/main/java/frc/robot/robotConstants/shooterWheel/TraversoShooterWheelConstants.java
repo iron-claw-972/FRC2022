@@ -3,7 +3,7 @@ package frc.robot.robotConstants.shooterWheel;
 import edu.wpi.first.math.util.Units;
 
 public class TraversoShooterWheelConstants {
-  public final int kShooterWheelMotorPort = 11;
+  public final int kShooterWheelMotorPort = 19;
 
   public final int kFrontOuttakeSpeed = 1;
   public final int kBackOuttakeSpeed = 1;
@@ -24,7 +24,7 @@ public class TraversoShooterWheelConstants {
   public final double kV = 0;
   public final double kA = 0;
 
-  public final double kMotorClamp = 0.9;
+  public final double kMotorClamp = 1;
 
   public final double kSupplyCurrentLimit = 40;
   public final double kSupplyTriggerThreshold = 40;

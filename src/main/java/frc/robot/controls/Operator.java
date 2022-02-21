@@ -1,10 +1,9 @@
 package frc.robot.controls;
 
 
-import javax.swing.RootPaneContainer;
-
 import controllers.*;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.*;
 import frc.robot.RobotContainer;
 import frc.robot.Constants.*;
@@ -12,7 +11,7 @@ import frc.robot.robotConstants.cargoRotator.TraversoCargoRotatorConstants;
 import frc.robot.robotConstants.climbExtender.*;
 import frc.robot.robotConstants.climbRotator.*;
 import frc.robot.robotConstants.shooterBelt.TraversoBeltConstants;
-import frc.robot.robotConstants.shooterWheel.TraversoShooterWheelConstants;
+import frc.robot.robotConstants.shooterWheel.TraversoCargoShooterConstants;
 import frc.robot.util.ClimberMethods;
 import frc.robot.util.ShooterMethods;
 
@@ -26,7 +25,7 @@ public class Operator{
 
   public static TraversoCargoRotatorConstants cargoConstants = new TraversoCargoRotatorConstants();
   public static TraversoBeltConstants beltConstants = new TraversoBeltConstants();
-  public static TraversoShooterWheelConstants wheelConstants = new TraversoShooterWheelConstants();
+  public static TraversoCargoShooterConstants wheelConstants = new TraversoCargoShooterConstants();
 
   //operator buttons
   public static void configureButtonBindings() {
@@ -42,7 +41,7 @@ public class Operator{
         () -> ClimberMethods.setAngle(rotate.kNinetyDeg), // on execute, do this
         interrupted -> ClimberMethods.disableRotator(), // on end, do this
         () -> ClimberMethods.isRotatorAtSetpoint(), // end command when this is true
-        RobotContainer.m_rotatorL, RobotContainer.m_rotatorR // object requirements
+        RobotContainer.m_climbRotatorL, RobotContainer.m_climbRotatorR // object requirements
       ),
 
       // stow the arm
@@ -51,7 +50,7 @@ public class Operator{
         () -> ShooterMethods.setAngle(cargoConstants.kStowPos), 
         interrupted -> ShooterMethods.disableWheel(), 
         () -> ShooterMethods.isWheelAtSetpoint(), 
-        RobotContainer.m_cargoArm
+        RobotContainer.m_cargoRotator
       ),
 
       // disable the wheel && belt
@@ -105,7 +104,7 @@ public class Operator{
         () -> ClimberMethods.setAngle(rotate.kMaxBackward), // on execute, do this
         interrupted -> ClimberMethods.disableRotator(), // on end, do this
         () -> ClimberMethods.isRotatorAtSetpoint(), // end command when this is true
-        RobotContainer.m_rotatorL, RobotContainer.m_rotatorR // object requirements
+        RobotContainer.m_climbRotatorL, RobotContainer.m_climbRotatorR // object requirements
       ),
 
       // extender goes to its maximum point
@@ -123,7 +122,7 @@ public class Operator{
         () -> ClimberMethods.setAngle(rotate.kToBar), // on execute, do this
         interrupted -> ClimberMethods.disableRotator(), // on end, do this
         () -> ClimberMethods.isRotatorAtSetpoint(), // end command when this is true
-        RobotContainer.m_rotatorL, RobotContainer.m_rotatorR // object requirements
+        RobotContainer.m_climbRotatorL, RobotContainer.m_climbRotatorR // object requirements
       ),
 
       // run two commands at once
@@ -142,7 +141,7 @@ public class Operator{
           () -> ClimberMethods.setAngle(rotate.kNinetyDeg), // on execute, do this
           interrupted -> ClimberMethods.disableRotator(), // on end, do this
           () -> ClimberMethods.isRotatorAtSetpoint(), // end command when this is true
-          RobotContainer.m_rotatorL, RobotContainer.m_rotatorR // object requirements
+          RobotContainer.m_climbRotatorL, RobotContainer.m_climbRotatorR // object requirements
         )
       )
     ));
@@ -169,7 +168,7 @@ public class Operator{
         () -> ShooterMethods.setAngle(cargoConstants.kFrontOutakePos), 
         interrupted -> ShooterMethods.disableArm(), 
         () -> ShooterMethods.isArmAtSetpoint(), 
-        RobotContainer.m_cargoArm
+        RobotContainer.m_cargoRotator
       ),
       // spin the wheel and afterwards spin the belt
       new FunctionalCommand(
@@ -177,7 +176,7 @@ public class Operator{
         () -> ShooterMethods.setWheelSpeed(wheelConstants.kFrontOuttakeSpeed), 
         interrupted -> ShooterMethods.setBeltSpeed(beltConstants.kOuttakeSpeed), 
         () -> ShooterMethods.isWheelAtSetpoint(),
-        RobotContainer.m_shooterWheel, RobotContainer.m_shooterBelt
+        RobotContainer.m_cargoShooter, RobotContainer.m_cargoBelt
       ),
       // keep outtaking until the ball is gone
       new WaitUntilCommand(ShooterMethods::isBallShot),
@@ -192,7 +191,7 @@ public class Operator{
         () -> ShooterMethods.setAngle(cargoConstants.kBackOutakePos), 
         interrupted -> ShooterMethods.disableArm(), 
         () -> ShooterMethods.isArmAtSetpoint(), 
-        RobotContainer.m_cargoArm
+        RobotContainer.m_cargoRotator
       )
     );
 
@@ -203,7 +202,7 @@ public class Operator{
         () -> ShooterMethods.setAngle(cargoConstants.kFrontOutakePos),
         interrupted -> ShooterMethods.disableArm(), 
         () -> ShooterMethods.isArmAtSetpoint(), 
-        RobotContainer.m_cargoArm
+        RobotContainer.m_cargoRotator
       )
     );
 
@@ -233,8 +232,36 @@ public class Operator{
         () -> ShooterMethods.setAngle(cargoConstants.kStowPos), 
         interrupted -> ShooterMethods.disableWheel(), 
         () -> ShooterMethods.isWheelAtSetpoint(), 
-        RobotContainer.m_cargoArm
+        RobotContainer.m_cargoRotator
       )
     ));
+  }
+
+  public static void cargoTestBinds() {
+    // controller.getButtons().RB().whenPressed(new SequentialCommandGroup(
+    // ));
+
+    controller.getButtons().LB().whileHeld(new InstantCommand(() -> RobotContainer.m_cargoShooter.setOutput(controller.getJoystickAxis().leftY())));
+    controller.getButtons().LB().whenReleased(new InstantCommand(() -> RobotContainer.m_cargoShooter.setOutput(0)));
+    
+    controller.getButtons().RB().whileHeld(new InstantCommand(() -> RobotContainer.m_cargoBelt.setOutput(-controller.getJoystickAxis().rightY())));
+    controller.getButtons().RB().whenReleased(new InstantCommand(() -> RobotContainer.m_cargoBelt.setOutput(0)));
+
+
+    SmartDashboard.putNumber("Shooter", 0);
+    controller.getButtons().X().whileHeld(new InstantCommand(() -> RobotContainer.m_cargoShooter.setOutput(SmartDashboard.getNumber("Shooter X", 0))));
+    controller.getButtons().X().whenReleased(new InstantCommand(() -> RobotContainer.m_cargoShooter.setOutput(0)));
+
+    SmartDashboard.putNumber("belt", 0);
+    controller.getButtons().B().whileHeld(new InstantCommand(() -> RobotContainer.m_cargoBelt.setOutput(-SmartDashboard.getNumber("belt B", 0))));
+    controller.getButtons().B().whenReleased(new InstantCommand(() -> RobotContainer.m_cargoBelt.setOutput(0)));
+
+    SmartDashboard.putNumber("Shooter", 0);
+    controller.getButtons().Y().whileHeld(new InstantCommand(() -> RobotContainer.m_cargoShooter.setOutput(SmartDashboard.getNumber("Shooter Y", 0))));
+    controller.getButtons().Y().whenReleased(new InstantCommand(() -> RobotContainer.m_cargoShooter.setOutput(0)));
+
+    SmartDashboard.putNumber("belt", 0);
+    controller.getButtons().A().whileHeld(new InstantCommand(() -> RobotContainer.m_cargoBelt.setOutput(-SmartDashboard.getNumber("belt A", 0))));
+    controller.getButtons().A().whenReleased(new InstantCommand(() -> RobotContainer.m_cargoBelt.setOutput(0)));
   }
 }

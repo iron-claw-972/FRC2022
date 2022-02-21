@@ -9,8 +9,8 @@ public class ClimberMethods {
   }
 
   public static void setAngle(double angle) {
-    RobotContainer.m_rotatorL.setGoal(angle);
-    RobotContainer.m_rotatorR.setGoal(angle);
+    RobotContainer.m_climbRotatorL.setGoal(angle);
+    RobotContainer.m_climbRotatorR.setGoal(angle);
   }
 
   public static boolean isExtenderAtSetpoint() {
@@ -20,7 +20,7 @@ public class ClimberMethods {
 
   public static boolean isRotatorAtSetpoint() {
     // if the rotators reached their setpoint, return true
-    return RobotContainer.m_rotatorR.reachedSetpoint() && RobotContainer.m_rotatorL.reachedSetpoint();
+    return RobotContainer.m_climbRotatorR.reachedSetpoint() && RobotContainer.m_climbRotatorL.reachedSetpoint();
   }
 
   public static void enableExtender() {
@@ -34,12 +34,12 @@ public class ClimberMethods {
   }
 
   public static void enableRotator() {
-    RobotContainer.m_rotatorL.enable();
-    RobotContainer.m_rotatorR.enable();
+    RobotContainer.m_climbRotatorL.enable();
+    RobotContainer.m_climbRotatorR.enable();
   }
 
   public static void disableRotator() {
-    RobotContainer.m_rotatorL.disable();
-    RobotContainer.m_rotatorR.disable();
+    RobotContainer.m_climbRotatorL.disable();
+    RobotContainer.m_climbRotatorR.disable();
   }
 }

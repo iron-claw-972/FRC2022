@@ -11,15 +11,19 @@ import frc.robot.util.ControllerFactory;
 import frc.robot.robotConstants.shooterBelt.TraversoBeltConstants;
 import edu.wpi.first.math.MathUtil;
 
-public class ShooterBelt extends SubsystemBase {
+public class CargoBelt extends SubsystemBase {
 
   TraversoBeltConstants constants = new TraversoBeltConstants();
 
-  private final WPI_TalonFX m_ShooterBeltMotor = ControllerFactory.createTalonFX(constants.kShooterBeltMotorPort , constants.kSupplyCurrentLimit, constants.kSupplyTriggerThreshold, constants.kSupplyTriggerDuration, constants.kCoast);
+  private final WPI_TalonFX m_ShooterBeltMotor = ControllerFactory.createTalonFX(
+    constants.kShooterBeltMotorPort , 
+    constants.kSupplyCurrentLimit,
+    constants.kSupplyTriggerThreshold, 
+    constants.kSupplyTriggerDuration,
+    constants.kCoast);
 
   private boolean enabled = false;
   private double motorPower = 0.0;
-
 
   @Override
   public void periodic() {
