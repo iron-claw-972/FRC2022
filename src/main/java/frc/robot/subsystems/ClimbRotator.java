@@ -17,7 +17,7 @@ public class ClimbRotator extends SubsystemBase {
   private boolean enabled = false;
   private final DutyCycleEncoder encoder;
   private final WPI_TalonFX m_motor;
-  private final String direction;
+  public final String direction;
   private boolean left;
 
   private double setPoint = 90;
@@ -55,9 +55,6 @@ public class ClimbRotator extends SubsystemBase {
     armPID.setTolerance(constants.kArmTolerance);
 
     this.offLoad();
-    // Puts PID values on shuffle board for tuning the PID (to be commented out later)
-    SmartDashboard.putData("Climb Rotator PID", armPID);
-    SmartDashboard.putNumber("Zero ClimbR", 80);
     setEncoder(80);
   }
 
@@ -66,15 +63,7 @@ public class ClimbRotator extends SubsystemBase {
     if(enabled) {
       // set the arm power according to the PID
       setOutput(armPID.calculate(currentAngle(), setPoint));
-
-      
     }
-    // SmartDashboard.putBoolean("limit switch", limitSwitch.get());
-    
-    // a pop-up in shuffleboard that allows you to see how much the arm extended in inches
-    SmartDashboard.putNumber(direction + " Angle", currentAngle());
-    // a pop-up in shuffleboard that states if the rotator is on/off
-    SmartDashboard.putBoolean(direction + " Rotator", enabled);
   }
 
   public double currentAngleRaw() {
@@ -137,4 +126,14 @@ public class ClimbRotator extends SubsystemBase {
     setPoint = goal;
   }
 
+  public void loadRotatorShuffleboard() {
+    // a pop-up in shuffleboard that allows you to see how much the arm extended in inches
+    SmartDashboard.putNumber(direction + " Angle", currentAngle());
+    // a pop-up in shuffleboard that states if the rotator is on/off
+    SmartDashboard.putBoolean(direction + " Rotator", enabled);
+    // PID values that can be modified in shuffleboard
+    SmartDashboard.putData("Climb Rotator PID", armPID);
+    // zero value that can be modified in shuffleboard
+    SmartDashboard.putNumber("Zero ClimbR", 80);
+  }
 }
