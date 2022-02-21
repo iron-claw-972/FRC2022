@@ -10,6 +10,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import frc.robot.util.ControllerFactory;
 import frc.robot.robotConstants.shooterBelt.TraversoBeltConstants;
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class CargoBelt extends SubsystemBase {
 
@@ -51,5 +52,9 @@ public class CargoBelt extends SubsystemBase {
   public void disable() {
     enabled = false;
     setOutput(0);
+  }
+
+  public void loadCargoBeltShuffleboard() {
+    SmartDashboard.putBoolean("Cargo Belt", enabled);
   }
 }

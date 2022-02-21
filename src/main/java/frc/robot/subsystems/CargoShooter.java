@@ -12,6 +12,7 @@ import frc.robot.robotConstants.shooterWheel.TraversoCargoShooterConstants;
 import ctre_shims.TalonEncoder;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class CargoShooter extends SubsystemBase {
 
@@ -21,8 +22,6 @@ public class CargoShooter extends SubsystemBase {
   private final TalonEncoder m_CargoShooterEncoder = new TalonEncoder(m_CargoShooterMotor);
 
   private final PIDController CargoShooterPID = new PIDController(constants.kP, constants.kI, constants.kD);
-  
-
 
   private boolean enabled = false;
   private double motorSpeed = 0.0;
@@ -87,5 +86,9 @@ public class CargoShooter extends SubsystemBase {
 
   // public double getVelocity(double distance, boolean isFront) {
   // }
+
+  public void loadCargoShooterShuffleboard() {
+    SmartDashboard.putBoolean("Cargo Shooter", enabled);
+  }
 
 }

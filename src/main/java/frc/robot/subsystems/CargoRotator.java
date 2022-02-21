@@ -32,9 +32,6 @@ public class CargoRotator extends SubsystemBase {
     
     // set the tolerance allowed for the PID
     armPID.setTolerance(constants.kArmTolerance);
-    //Puts PID values on shuffle board for tuning the PID (to be commented out later)
-    SmartDashboard.putData("Cargo Rotator PID", armPID);
-    SmartDashboard.putNumber("Zero CargoR", 80);
     setEncoder(80);
   }
 
@@ -45,11 +42,6 @@ public class CargoRotator extends SubsystemBase {
       // setOutput(armPID.calculate(currentAngle(), setPoint));
       setVoltage(armPID.calculate(currentAngle(), setPoint) + feedforward.calculate(setPoint*(Math.PI/180), 0));
     }
-
-    // a pop-up in shuffleboard that allows you to see how much the arm extended in inches
-    SmartDashboard.putNumber("Cargo Arm Angle", currentAngle());
-
-    SmartDashboard.putBoolean("Cargo Rotator", enabled);
   }
 
   public double currentAngleRaw() {
@@ -151,5 +143,14 @@ public class CargoRotator extends SubsystemBase {
     return (constants.kBackOutakeFarPos == setPoint);
   }
 
-
+  public void loadCargoRotatorShuffleboard() {
+    // puts the PID into shuffleboard
+    SmartDashboard.putData(armPID);
+    // a pop-up in shuffleboard that allows you to see how much the arm extended in inches
+    SmartDashboard.putNumber("Cargo Arm Angle", currentAngle());
+    // shows if the rotator is enabled/disabled
+    SmartDashboard.putBoolean("Cargo Rotator", enabled);
+    // for zeroing the angle
+    SmartDashboard.putNumber("Zero CargoR", 80);
+  }
 }
