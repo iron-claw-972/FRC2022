@@ -31,12 +31,7 @@ public class BallDetection extends SubsystemBase {
 
   public boolean containsBall() {
     int ballProximity = m_colorSensor.getProximity();
-    if (ballProximity > constants.kMinimumBallProximity) {
-      //System.out.println("Object detected, proximity: " + ballProximity);
-      return true;
-    }
-    //System.out.println("No object detected, proximity: " + ballProximity);
-    return false;
+    return (ballProximity > constants.kMinimumBallProximity);
   }
 
   public boolean ballShot() {
