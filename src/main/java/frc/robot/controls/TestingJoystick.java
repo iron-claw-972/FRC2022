@@ -17,31 +17,6 @@ public class TestingJoystick {
 
   //operator buttons
   public static void configureButtonBindings() {
-    
-    //arm testing
-
-    // controller.getButtons().A().whenPressed(
-    //     () -> RobotContainer.m_rotatorR.enable());
-    // controller.getButtons().B().whenPressed(
-    //     () -> RobotContainer.m_rotatorR.disable());
-
-    // controller.getButtons().Y().whenPressed(
-    //     () -> RobotContainer.m_rotatorR.setOutput(0.1));
-    // // controller.getButtons().X().whenPressed(
-    // //     () -> RobotContainer.m_testArm.setOutput(0));
-
-    // controller.getButtons().X().whileHeld(
-    //     () -> RobotContainer.m_rotatorR.setOutput(
-    //     controller.getJoystickAxis().leftY()));
-    // controller.getButtons().X().whenReleased
-    //     (() -> RobotContainer.m_rotatorR.setOutput(0));
-        
-    // controller.getButtons().RB().whenPressed(
-    //     () -> RobotContainer.m_rotatorR.setEncoder(SmartDashboard.getNumber("set encoder", 0)));
-    // controller.getButtons().LB().whenPressed(
-    //     () -> RobotContainer.m_rotatorR.setGoal(SmartDashboard.getNumber("goal", 0)));
-
-
     controller.getDPad().up().whenPressed(new SequentialCommandGroup (
       new InstantCommand(() -> ClimberMethods.enableExtender()),
       new InstantCommand(() -> ClimberMethods.setExtension(24))));
