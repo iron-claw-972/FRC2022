@@ -39,4 +39,8 @@ public class BallDetection extends SubsystemBase {
     return false;
   }
 
+  public boolean ballShot() {
+    return !containsBall();
+  }
+
 }
