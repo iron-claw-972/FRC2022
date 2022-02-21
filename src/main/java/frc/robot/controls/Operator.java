@@ -9,7 +9,10 @@ import frc.robot.Constants.*;
 import frc.robot.robotConstants.cargoRotator.TraversoCargoRotatorConstants;
 import frc.robot.robotConstants.climbExtender.*;
 import frc.robot.robotConstants.climbRotator.*;
+import frc.robot.robotConstants.shooterBelt.TraversoBeltConstants;
+import frc.robot.robotConstants.shooterWheel.TraversoShooterWheelConstants;
 import frc.robot.util.ClimberMethods;
+import frc.robot.util.ShooterMethods;
 
 public class Operator{
 
@@ -19,13 +22,14 @@ public class Operator{
   public static TraversoClimbExtenderConstants extend = new TraversoClimbExtenderConstants();
   public static TraversoClimbRotatorConstants rotate = new TraversoClimbRotatorConstants();
 
-  // constants for the arm rotator (yanis claw)
-  public static TraversoCargoRotatorConstants cargoconstants = new TraversoCargoRotatorConstants();
+  public static TraversoCargoRotatorConstants cargoConstants = new TraversoCargoRotatorConstants();
+  public static TraversoBeltConstants beltConstants = new TraversoBeltConstants();
+  public static TraversoShooterWheelConstants wheelConstants = new TraversoShooterWheelConstants();
 
   //operator buttons
   public static void configureButtonBindings() {
     climbBinds();
-    
+    yanis();
   }
 
   public static void climbBinds() {
@@ -141,8 +145,23 @@ public class Operator{
     )));
   }
 
-  public static void armBinds() {
+  public static void yanis() {
+    // get to the shooting position
     controller.getButtons().RB().whenPressed(new SequentialCommandGroup(
+      // rotate the arm to a certain degree to prep for shoot
+      new FunctionalCommand(
+        ShooterMethods::enableArm, 
+        () -> ShooterMethods.setAngle(cargoConstants.kFrontOutakePos), 
+        interrupted -> ShooterMethods.disableArm(), 
+        () -> ShooterMethods.isArmAtSetpoint(), 
+        RobotContainer.m_cargoArm
+      ),
+      // spin the wheel to a desired power
+      new InstantCommand(() -> ShooterMethods.setWheelSpeed(wheelConstants.kFrontOuttakeSpeed)),
+      // wait for the wheel to spin up
+      new WaitCommand(.1),
+      // launch the ball with the belt
+      new InstantCommand(() -> ShooterMethods.setBeltSpeed(beltConstants.kOuttakeSpeed))
     ));
   }
 }
