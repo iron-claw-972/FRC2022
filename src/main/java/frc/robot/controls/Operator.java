@@ -11,7 +11,7 @@ import frc.robot.robotConstants.cargoRotator.TraversoCargoRotatorConstants;
 import frc.robot.robotConstants.climbExtender.*;
 import frc.robot.robotConstants.climbRotator.*;
 import frc.robot.robotConstants.shooterBelt.TraversoBeltConstants;
-import frc.robot.robotConstants.shooterWheel.TraversoShooterWheelConstants;
+import frc.robot.robotConstants.shooterWheel.TraversoCargoShooterConstants;
 import frc.robot.util.ClimberMethods;
 import frc.robot.util.ShooterMethods;
 
@@ -25,20 +25,16 @@ public class Operator{
 
   public static TraversoCargoRotatorConstants cargoConstants = new TraversoCargoRotatorConstants();
   public static TraversoBeltConstants beltConstants = new TraversoBeltConstants();
-  public static TraversoShooterWheelConstants wheelConstants = new TraversoShooterWheelConstants();
+  public static TraversoCargoShooterConstants wheelConstants = new TraversoCargoShooterConstants();
 
   //operator buttons
   public static void configureButtonBindings() {
-    // climbBinds();
-    // yanis();
-    // cargoTestBinds();
-
-
-    
+    climbBinds();
+    shootBinds();
   }
 
   public static void climbBinds() {
-    controller.getDPad().up().whenPressed(new SequentialCommandGroup(
+    controller.getDPad().up().whenPressed(new SequentialCommandGroup( new ParallelCommandGroup(
       // arm rotates to 90 degrees
       new FunctionalCommand(
         ClimberMethods::enableRotator, // on init, do this
@@ -47,6 +43,19 @@ public class Operator{
         () -> ClimberMethods.isRotatorAtSetpoint(), // end command when this is true
         RobotContainer.m_climbRotatorL, RobotContainer.m_climbRotatorR // object requirements
       ),
+
+      // stow the arm
+      new FunctionalCommand(
+        ShooterMethods::enableWheel, 
+        () -> ShooterMethods.setAngle(cargoConstants.kStowPos), 
+        interrupted -> ShooterMethods.disableWheel(), 
+        () -> ShooterMethods.isWheelAtSetpoint(), 
+        RobotContainer.m_cargoRotator
+      ),
+
+      // disable the wheel && belt
+      new InstantCommand(() -> ShooterMethods.disableWheel()),
+      new InstantCommand(() -> ShooterMethods.disableBelt()),
 
       // extender goes all the way up
       new FunctionalCommand(
@@ -61,7 +70,7 @@ public class Operator{
         // object requirements
         RobotContainer.m_extenderL, RobotContainer.m_extenderR
       )
-    ));
+    )));
 
     // this extends the arm to its lowest point and extends the arm upwards a little
     controller.getDPad().down().whenPressed(new SequentialCommandGroup(    
@@ -150,10 +159,10 @@ public class Operator{
     )));
   }
 
-  public static void yanis() {
-    // get to the shooting position
+  public static void shootBinds() {
+    // get to the shooting position and shoot the ball
     controller.getButtons().RB().whenPressed(new SequentialCommandGroup(
-      // rotate the arm to a certain degree to prep for shoot
+      // move the arm to the shooting position
       new FunctionalCommand(
         ShooterMethods::enableArm, 
         () -> ShooterMethods.setAngle(cargoConstants.kFrontOutakeNearPos), 
@@ -161,12 +170,70 @@ public class Operator{
         () -> ShooterMethods.isArmAtSetpoint(), 
         RobotContainer.m_cargoRotator
       ),
-      // spin the wheel to a desired power
-      new InstantCommand(() -> ShooterMethods.setWheelSpeed(wheelConstants.kFrontOuttakeSpeed)),
-      // wait for the wheel to spin up
-      new WaitCommand(.1),
-      // launch the ball with the belt
-      new InstantCommand(() -> ShooterMethods.setBeltSpeed(beltConstants.kOuttakeSpeed))
+      // spin the wheel and afterwards spin the belt
+      new FunctionalCommand(
+        ShooterMethods::enableWheel, 
+        () -> ShooterMethods.setWheelSpeed(wheelConstants.kFrontOuttakeSpeed), 
+        interrupted -> ShooterMethods.setBeltSpeed(beltConstants.kOuttakeSpeed), 
+        () -> ShooterMethods.isWheelAtSetpoint(),
+        RobotContainer.m_cargoShooter, RobotContainer.m_cargoBelt
+      ),
+      // keep outtaking until the ball is gone
+      new WaitUntilCommand(ShooterMethods::isBallShot),
+      // when the ball is gone, disable all shooter subsystems
+      new InstantCommand(() -> ShooterMethods.disableAll())
+    ));
+
+    controller.getButtons().A().whenPressed(
+      // move cargo arm to the back
+      new FunctionalCommand(
+        ShooterMethods::enableArm, 
+        () -> ShooterMethods.setAngle(cargoConstants.kBackOutakePos), 
+        interrupted -> ShooterMethods.disableArm(), 
+        () -> ShooterMethods.isArmAtSetpoint(), 
+        RobotContainer.m_cargoRotator
+      )
+    );
+
+    controller.getButtons().B().whenPressed(
+      // move cargo arm to the front
+      new FunctionalCommand(
+        ShooterMethods::enableArm, 
+        () -> ShooterMethods.setAngle(cargoConstants.kFrontOutakePos),
+        interrupted -> ShooterMethods.disableArm(), 
+        () -> ShooterMethods.isArmAtSetpoint(), 
+        RobotContainer.m_cargoRotator
+      )
+    );
+
+    // start intaking
+    controller.getButtons().X().whenPressed(new SequentialCommandGroup(
+      // enable both subsystems
+      new InstantCommand(() -> ShooterMethods.enableBelt()),
+      new InstantCommand(() -> ShooterMethods.enableWheel()),
+      // set the wheel speed
+      new InstantCommand(() -> ShooterMethods.setWheelSpeed(wheelConstants.kIntakeSpeed)),
+      // set the belt speed
+      new InstantCommand(() -> ShooterMethods.setBeltSpeed(beltConstants.kIntakeSpeed))
+    ));
+
+    // stop intaking (after x is released)
+    controller.getButtons().X().whenReleased(new SequentialCommandGroup(
+      // disable the belt
+      new InstantCommand(() -> ShooterMethods.disableBelt()),
+      // disable the wheel
+      new InstantCommand(() -> ShooterMethods.disableWheel())
+    ));
+
+    controller.getButtons().Y().whenPressed(new SequentialCommandGroup(
+      // stow the arm
+      new FunctionalCommand(
+        ShooterMethods::enableWheel, 
+        () -> ShooterMethods.setAngle(cargoConstants.kStowPos), 
+        interrupted -> ShooterMethods.disableWheel(), 
+        () -> ShooterMethods.isWheelAtSetpoint(), 
+        RobotContainer.m_cargoRotator
+      )
     ));
   }
 

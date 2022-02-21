@@ -33,6 +33,10 @@ public class ShooterMethods {
   public static void disableBelt() {
     RobotContainer.m_cargoBelt.disable();
   }
+
+  public static void stopBelt() {
+    RobotContainer.m_cargoShooter.setStop();
+  }
   //
 
   // wheel methods
@@ -46,6 +50,14 @@ public class ShooterMethods {
   public static void disableWheel() {
     RobotContainer.m_cargoShooter.disable();
   }
+
+  public static boolean isWheelAtSetpoint() {
+    return RobotContainer.m_cargoShooter.reachedSetpoint();
+  }
+
+  public static void stopWheel() {
+    RobotContainer.m_cargoShooter.setStop();
+  }
   //
 
   public static void enableAll() {
@@ -58,5 +70,12 @@ public class ShooterMethods {
     RobotContainer.m_cargoRotator.disable();
     RobotContainer.m_cargoBelt.disable();
     RobotContainer.m_cargoShooter.disable();
+  }
+
+  public static boolean isBallContained() {
+    return RobotContainer.m_balldetecter.containsBall();
+  }
+  public static boolean isBallShot() {
+    return RobotContainer.m_balldetecter.ballShot();
   }
 }

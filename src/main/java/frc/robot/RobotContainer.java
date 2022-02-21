@@ -37,10 +37,10 @@ import edu.wpi.first.cameraserver.CameraServer;
   public static ClimbRotator m_climbRotatorL = new ClimbRotator(true);
   public static ClimbExtender m_extenderR = new ClimbExtender(false);
   public static ClimbExtender m_extenderL = new ClimbExtender(true);
-
   public static CargoRotator m_cargoRotator = new CargoRotator();
-  public static CargoShooter m_cargoShooter = new CargoShooter();
   public static CargoBelt m_cargoBelt = new CargoBelt();
+  public static CargoShooter m_cargoShooter = new CargoShooter();
+  public static BallDetection m_balldetecter = new BallDetection();
 
   public RobotContainer() {
     
