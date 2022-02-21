@@ -22,11 +22,11 @@ public class TraversoCargoRotatorConstants {
     public final double kArmEncoderOffset = 0;
     
     // locations
-    public final double kIntakePos = 0;
-    public final double kbBckOutakePos = 135;
-    public final double kFrontOutakePos = 80;
-    public final double kFrontOutakeFarPos = 30;
-    public final double kStowPos = 20;
+    public final double kIntakePos = -1;
+    public final double kbBckOutakePos = -1;
+    public final double kFrontOutakePos = -1;
+    public final double kFrontOutakeFarPos = -1;
+    public final double kStowPos = -1;
     
     public final double kP = 0.03;
     public final double kI = 0.00;
