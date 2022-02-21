@@ -19,8 +19,7 @@ public class ClimbExtender extends SubsystemBase {
   private double motorClamp = constants.kMotorClampOffLoad;
   private boolean left;
 
-  // TODO: Change the PID of the extender!
-  private PIDController extenderPID = new PIDController(constants.kOffLoadP, constants.kOffLoadI, constants.kOffLoadD);
+  private PIDController extenderPID = new PIDController(constants.kP, constants.kI, constants.kD);
   
   private double setpoint;
 
@@ -39,7 +38,6 @@ public class ClimbExtender extends SubsystemBase {
     }
 
     // the lowest tick limit is 0, and must be checked every 10 milliseconds
-    // TODO: Update this max reverse limit!
     m_motor.configReverseSoftLimitThreshold(0, 10);
 
     // converts the length of the arm in inches to ticks and makes that the maximum tick limit, it's checked every 10 milliseconds
@@ -56,8 +54,6 @@ public class ClimbExtender extends SubsystemBase {
 
     // set the PID's tolerance
     extenderPID.setTolerance(constants.kExtenderTolerance);
-
-    SmartDashboard.putData("Climb Extender PID", extenderPID);
 
     left = isLeft;
   }
@@ -109,34 +105,13 @@ public class ClimbExtender extends SubsystemBase {
       // motor power is set to the extenderpid's calculation
       setOutput(extenderPID.calculate(currentExtension(), setpoint));
     }
+  }
 
+  public void loadExtenderShuffleboard() {
+    SmartDashboard.putData("Climb Extender PID", extenderPID);
     // a pop-up in shuffleboard that allows you to see how much the arm extended in inches
     SmartDashboard.putNumber(direction + " Extension", currentExtension());
     // a pop-up in shuffleboard that states if the extender is on/off
     SmartDashboard.putBoolean(direction + " Extender", enabled);
-  }
-
-  public void offLoad(){
-    extenderPID.setP(constants.kOffLoadP);
-    extenderPID.setI(constants.kOffLoadI);
-    extenderPID.setD(constants.kOffLoadD);
-    motorClamp = constants.kMotorClampOffLoad;
-
-  }
-
-  public void onLoad(){
-    extenderPID.setP(constants.kOnLoadP);
-    extenderPID.setI(constants.kOnLoadI);
-    extenderPID.setD(constants.kOnLoadD);
-    motorClamp = constants.kMotorClampOnLoad;
-  }
-
-  public void loadCheck() {
-    if(setpoint < currentExtension()) {
-      onLoad();
-    }
-    else {
-      offLoad();
-    }
   }
 } 
