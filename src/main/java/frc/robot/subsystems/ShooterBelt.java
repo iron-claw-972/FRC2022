@@ -24,7 +24,7 @@ public class ShooterBelt extends SubsystemBase {
   @Override
   public void periodic() {
     if (enabled){
-      setOutput(motorPower);
+      setSpeed(motorPower);
     }
   }
 
@@ -42,6 +42,6 @@ public class ShooterBelt extends SubsystemBase {
 
   public void disable() {
     enabled = false;
-    setOutput(0);
+    setSpeed(0);
   }
 }
