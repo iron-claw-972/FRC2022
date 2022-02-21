@@ -38,6 +38,12 @@ public class ShuffleboardManager {
     SmartDashboard.putNumber("Time Left", DriverStation.getMatchTime());
     SmartDashboard.putNumber("Time Left Until Endgame", DriverStation.getMatchTime() - 30);
 
+    RobotContainer.m_extenderL.loadExtenderShuffleboard();
+    RobotContainer.m_extenderR.loadExtenderShuffleboard();
+
+    RobotContainer.m_rotatorL.loadRotatorShuffleboard();
+    RobotContainer.m_rotatorR.loadRotatorShuffleboard();
+
   }
   
   public Command getAutonomousCommand() {
@@ -48,6 +54,5 @@ public class ShuffleboardManager {
   public Command getAutonomousWaitCommand() {
     return new WaitCommand(SmartDashboard.getNumber("Auto Wait", 0));
   }
-
 }
   
