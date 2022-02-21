@@ -33,6 +33,10 @@ public class ShooterMethods {
   public static void disableBelt() {
     RobotContainer.m_shooterBelt.disable();
   }
+
+  public static void stopBelt() {
+    RobotContainer.m_shooterBelt.setStop();
+  }
   //
 
   // wheel methods
@@ -45,6 +49,14 @@ public class ShooterMethods {
   }
   public static void disableWheel() {
     RobotContainer.m_shooterWheel.disable();
+  }
+
+  public static boolean isWheelAtSetpoint() {
+    return RobotContainer.m_shooterWheel.reachedSetpoint();
+  }
+
+  public static void stopWheel() {
+    RobotContainer.m_shooterWheel.setStop();
   }
   //
 
