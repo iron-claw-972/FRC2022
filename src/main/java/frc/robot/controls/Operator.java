@@ -188,7 +188,7 @@ public class Operator{
       // move cargo arm to the back
       new FunctionalCommand(
         ShooterMethods::enableArm, 
-        () -> ShooterMethods.setAngle(cargoConstants.kBackOutakePos), 
+        () -> ShooterMethods.setAngle(cargoConstants.kBackOutakeNearPos), 
         interrupted -> ShooterMethods.disableArm(), 
         () -> ShooterMethods.isArmAtSetpoint(), 
         RobotContainer.m_cargoRotator
@@ -199,7 +199,7 @@ public class Operator{
       // move cargo arm to the front
       new FunctionalCommand(
         ShooterMethods::enableArm, 
-        () -> ShooterMethods.setAngle(cargoConstants.kFrontOutakePos),
+        () -> ShooterMethods.setAngle(cargoConstants.kFrontOutakeNearPos),
         interrupted -> ShooterMethods.disableArm(), 
         () -> ShooterMethods.isArmAtSetpoint(), 
         RobotContainer.m_cargoRotator
