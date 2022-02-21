@@ -118,8 +118,8 @@ public class Drivetrain extends SubsystemBase {
       m_rightMotors = new PhoenixMotorControllerGroup(m_rightMotor1);
     }
 */
-    m_leftMotors = new PhoenixMotorControllerGroup(m_leftMotor1, new WPI_TalonFX(constants.leftMotorPorts[1]));
-    m_rightMotors = new PhoenixMotorControllerGroup(m_rightMotor1, new WPI_TalonFX(constants.rightMotorPorts[1]));
+    m_leftMotors = new PhoenixMotorControllerGroup(m_leftMotor1, ControllerFactory.createTalonFX(constants.leftMotorPorts[1], constants.kSupplyCurrentLimit, constants.kSupplyTriggerThreshold, constants.kSupplyTriggerDuration, constants.kCoast));
+    m_rightMotors = new PhoenixMotorControllerGroup(m_rightMotor1, ControllerFactory.createTalonFX(constants.rightMotorPorts[1], constants.kSupplyCurrentLimit, constants.kSupplyTriggerThreshold, constants.kSupplyTriggerDuration, constants.kCoast));
 
     m_dDrive = new DifferentialDrive(m_leftMotors, m_rightMotors);
 
