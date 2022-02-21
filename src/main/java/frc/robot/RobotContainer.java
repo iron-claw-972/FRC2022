@@ -39,7 +39,7 @@ public class RobotContainer {
 
     // default command to run in teleop
     //m_drive.setDefaultCommand(new DifferentialDrive(m_drive));
-    //m_drive.setDefaultCommand(new TeleopDrive(m_drive));
+    m_drive.setDefaultCommand(new TeleopDrive(m_drive));
     // m_limelight.setDefaultCommand(new GetDistance(m_limelight));
 
 
@@ -47,7 +47,7 @@ public class RobotContainer {
     // CameraServer.startAutomaticCapture();
     
     // Configure the button bindings
-    //Driver.configureButtonBindings();
+    Driver.configureButtonBindings();
     Operator.configureButtonBindings();
   }
 

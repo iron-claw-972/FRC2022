@@ -16,7 +16,7 @@ public class TraversoDriveConstants {
   public final double kTrackWidthMeters = Units.inchesToMeters(23); // Distance between center of left wheel and center of right wheel in meters
   public  final int kEncoderResolution = 2048; // 2048 for Falcon500 integrated encoder
   public final double kWheelDiameterMeters = Units.inchesToMeters(6);
-  public final double kGearRatio = 11.25;
+  public final double kGearRatio = 62/8;
   public final double kEncoderMetersPerPulse = kWheelDiameterMeters * Math.PI / (double) kEncoderResolution / kGearRatio;
   public final double kEncoderMetersPerSecond = kWheelDiameterMeters * Math.PI / kGearRatio * 10.0;
 

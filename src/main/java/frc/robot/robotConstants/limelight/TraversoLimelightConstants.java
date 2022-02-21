@@ -11,6 +11,6 @@ public class TraversoLimelightConstants {
   public final int kBlueCargoPipeline = 1;
   public final int kUpperHubPipeline = 2;
 
-  public final double kPivotToLimelightDistance = 0.0;
+  public final double kPivotToLimelightDistance = Units.inchesToMeters(0);
   public final double kPivotHeight = Units.inchesToMeters(4.5);
 }

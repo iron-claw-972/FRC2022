@@ -51,7 +51,8 @@ public class Limelight extends SubsystemBase {
   }
 
   @Override
-  public void periodic() {}
+  public void periodic() {
+  }
 
   private void updateData() {
     setCameraMode(m_isDriverCamera);
@@ -107,7 +108,7 @@ public class Limelight extends SubsystemBase {
   }
 
   public void setLedMode(LEDMode ledMode) {
-    switch(ledMode) {
+    switch (ledMode) {
       case PIPELINE:
         m_table.getEntry("ledMode").setNumber(0);
         m_ledMode = LEDMode.PIPELINE;
@@ -179,7 +180,7 @@ public class Limelight extends SubsystemBase {
 
   public Pipeline getPipeline() {
     double pipeline = m_table.getEntry("getpipe").getDouble(Double.NaN);
-    switch((int) Math.round(pipeline)) {
+    switch ((int) Math.round(pipeline)) {
       case 0:
         return Pipeline.RED_CARGO;
       case 1:
@@ -258,8 +259,9 @@ public class Limelight extends SubsystemBase {
 
   public double getDistance(double armAngle, double targetHeight) {
     double distance = ((targetHeight - getLimelightHeight(armAngle))
-        / (Math.tan(Units.degreesToRadians(getLimelightAngle(armAngle) + m_verticalAngularOffset)))) - (constants.kPivotToLimelightDistance*Math.cos(Units.degreesToRadians(armAngle)));
-      
+        / (Math.tan(Units.degreesToRadians(getLimelightAngle(armAngle) + m_verticalAngularOffset))))
+        - (constants.kPivotToLimelightDistance * Math.cos(Units.degreesToRadians(armAngle)));
+
     return distance;
   }
 

@@ -8,17 +8,17 @@ import frc.robot.util.DriveMode;
 
 public class Driver{
 
-  private static PistolController controller = new PistolController(new Joystick(JoyConstants.kDriverJoy));
+  private static GameController controller = new GameController(new Joystick(JoyConstants.kDriverJoy));
   
   //sets default drive mode
   private static DriveMode driveMode = DriveMode.ARCADE;
 
   //driver buttons
   public static void configureButtonBindings() {
-    controller.getButtons().backSwitchTop().whenPressed(
-        () -> Drivetrain.getInstance().setMaxOutput(DriveConstants.kSlowSpeed), Drivetrain.getInstance());
-    controller.getButtons().frontSwitchTop().whenPressed(
-        () -> Drivetrain.getInstance().setMaxOutput(1.0), Drivetrain.getInstance());
+    // controller.getButtons().backSwitchTop().whenPressed(
+    //     () -> Drivetrain.getInstance().setMaxOutput(DriveConstants.kSlowSpeed), Drivetrain.getInstance());
+    // controller.getButtons().frontSwitchTop().whenPressed(
+    //     () -> Drivetrain.getInstance().setMaxOutput(1.0), Drivetrain.getInstance());
   }
   
   public static double getThrottleValue() {
@@ -44,12 +44,12 @@ public class Driver{
 
   public static double getRawThrottleValue() {
     // Controllers y-axes are natively up-negative, down-positive
-    return controller.TriggerAxis();
+    return -controller.getJoystickAxis().leftY();
   }
 
   public static double getRawTurnValue() {
     //Right is Positive left is negative
-    return controller.WheelAxis();
+    return -controller.getJoystickAxis().rightX();
   }
 
   public static DriveMode getDriveMode() {
