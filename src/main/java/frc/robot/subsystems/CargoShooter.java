@@ -13,7 +13,7 @@ import ctre_shims.TalonEncoder;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 
-public class ShooterWheel extends SubsystemBase {
+public class CargoShooter extends SubsystemBase {
 
   TraversoShooterWheelConstants constants = new TraversoShooterWheelConstants();
 
@@ -27,7 +27,7 @@ public class ShooterWheel extends SubsystemBase {
   private boolean enabled = false;
   private double motorSpeed = 0.0;
 
-  public ShooterWheel() {
+  public CargoShooter() {
     m_ShooterWheelEncoder.setDistancePerPulse(constants.kEncoderMetersPerPulse);
     m_ShooterWheelEncoder.reset();
     ShooterWheelPID.setTolerance(constants.kVelocityPIDTolerance);

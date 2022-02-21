@@ -32,13 +32,15 @@ import edu.wpi.first.cameraserver.CameraServer;
   //public static BallDetection m_ballDetection = new BallDetection();
 
   public static Drivetrain m_drive = new Drivetrain();
-  public static ClimbRotator m_rotatorR = new ClimbRotator(false);
-  public static ClimbRotator m_rotatorL = new ClimbRotator(true);
+
+  public static ClimbRotator m_climbRotatorR = new ClimbRotator(false);
+  public static ClimbRotator m_climbRotatorL = new ClimbRotator(true);
   public static ClimbExtender m_extenderR = new ClimbExtender(false);
   public static ClimbExtender m_extenderL = new ClimbExtender(true);
-  public static CargoRotator m_cargoArm = new CargoRotator();
-  public static ShooterBelt m_shooterBelt = new ShooterBelt();
-  public static ShooterWheel m_shooterWheel = new ShooterWheel();
+
+  public static CargoRotator m_cargoRotator = new CargoRotator();
+  public static CargoShooter m_cargoShooter = new CargoShooter();
+  public static CargoBelt m_cargoBelt = new CargoBelt();
 
   public RobotContainer() {
     
