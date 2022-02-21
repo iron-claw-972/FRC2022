@@ -2,12 +2,10 @@ package frc.robot.robotConstants.climbExtender;
 
 public class TraversoClimbExtenderConstants {
   // extending motors (for climber)
-  // TODO: Change these ports!
   public final int kRightExtenderPort = 6;
   public final int kLeftExtenderPort = 23;
 
   // the arm's max height - the arm's lowest height (max extension - max compression);
-  // TODO: Check the robot's arm length!
   public final double kExtenderMaxArmLength = 63 - 38; // at its highest, it's 63 inches, at its lowest its 38 inches
 
   // used to convert ticks to inches
@@ -36,21 +34,12 @@ public class TraversoClimbExtenderConstants {
   public final double kSlightlyUpward = 6;
   
   // off load PID constants
-  public final double kOffLoadP = 0.1;
-  public final double kOffLoadI = 0.00;
-  public final double kOffLoadD = 0.00;
-
-  // on load PID constants
-  public final double kOnLoadP = 0.0002;
-  public final double kOnLoadI = 0.00;
-  public final double kOnLoadD = 0.00;
-
-  // encoder offset
-  public final double kArmLeftEncoderOffset = 0;
-  public final double kArmRightEncoderOffset = 0;
+  public final double kP = 0.1;
+  public final double kI = 0.00;
+  public final double kD = 0.00;
 
   public final double kSupplyCurrentLimit = 40;
-    public final double kSupplyTriggerThreshold = 40;
-    public final double kSupplyTriggerDuration = 0;
-    public final boolean kCoast = false;
+  public final double kSupplyTriggerThreshold = 40;
+  public final double kSupplyTriggerDuration = 0;
+  public final boolean kCoast = false;
 }
