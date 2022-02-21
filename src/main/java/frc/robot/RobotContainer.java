@@ -29,7 +29,7 @@ import edu.wpi.first.cameraserver.CameraServer;
   // The robot's subsystems and commands are defined here...
 
   public static ShuffleboardManager m_shuffleboard = new ShuffleboardManager();
-  //public static BallDetection m_ballDetection = new BallDetection();
+  public static BallDetection m_ballDetection = new BallDetection();
 
   public static Drivetrain m_drive = new Drivetrain();
 
