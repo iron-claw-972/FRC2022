@@ -15,8 +15,8 @@ public class CargoBelt extends SubsystemBase {
 
   TraversoBeltConstants constants = new TraversoBeltConstants();
 
-  private final WPI_TalonFX m_ShooterBeltMotor = ControllerFactory.createTalonFX(
-    constants.kShooterBeltMotorPort , 
+  private final WPI_TalonFX m_CargoBeltMotor = ControllerFactory.createTalonFX(
+    constants.kCargoBeltMotorPort , 
     constants.kSupplyCurrentLimit,
     constants.kSupplyTriggerThreshold, 
     constants.kSupplyTriggerDuration,
@@ -37,7 +37,7 @@ public class CargoBelt extends SubsystemBase {
   }
   
   public void setOutput(double motorPower) {
-    m_ShooterBeltMotor.set(ControlMode.PercentOutput, MathUtil.clamp(motorPower, -constants.kMotorClamp, constants.kMotorClamp));
+    m_CargoBeltMotor.set(ControlMode.PercentOutput, MathUtil.clamp(motorPower, -constants.kMotorClamp, constants.kMotorClamp));
   }
 
   public void setStop() {

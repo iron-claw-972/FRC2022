@@ -41,8 +41,8 @@ public class ShuffleboardManager {
     RobotContainer.m_extenderL.loadExtenderShuffleboard();
     RobotContainer.m_extenderR.loadExtenderShuffleboard();
 
-    RobotContainer.m_rotatorL.loadRotatorShuffleboard();
-    RobotContainer.m_rotatorR.loadRotatorShuffleboard();
+    RobotContainer.m_climbRotatorL.loadRotatorShuffleboard();
+    RobotContainer.m_climbRotatorR.loadRotatorShuffleboard();
 
   }
   

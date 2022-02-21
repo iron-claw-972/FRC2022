@@ -1,7 +1,6 @@
 package frc.robot.util;
 
 import frc.robot.RobotContainer;
-import frc.robot.subsystems.BallDetection;
 
 public class ShooterMethods {
   // cargo arm methods
@@ -36,7 +35,7 @@ public class ShooterMethods {
   }
 
   public static void stopBelt() {
-    RobotContainer.m_shooterBelt.setStop();
+    RobotContainer.m_cargoShooter.setStop();
   }
   //
 
@@ -53,11 +52,11 @@ public class ShooterMethods {
   }
 
   public static boolean isWheelAtSetpoint() {
-    return RobotContainer.m_shooterWheel.reachedSetpoint();
+    return RobotContainer.m_cargoShooter.reachedSetpoint();
   }
 
   public static void stopWheel() {
-    RobotContainer.m_shooterWheel.setStop();
+    RobotContainer.m_cargoShooter.setStop();
   }
   //
 

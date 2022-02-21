@@ -2,8 +2,8 @@ package frc.robot.robotConstants.shooterWheel;
 
 import edu.wpi.first.math.util.Units;
 
-public class TraversoShooterWheelConstants {
-  public final int kShooterWheelMotorPort = 19;
+public class TraversoCargoShooterConstants {
+  public final int kCargoShooterMotorPort = 19;
 
   public final int kFrontOuttakeSpeed = 1;
   public final int kBackOuttakeSpeed = 1;
