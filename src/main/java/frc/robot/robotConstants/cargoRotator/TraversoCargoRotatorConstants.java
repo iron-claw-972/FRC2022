@@ -23,8 +23,9 @@ public class TraversoCargoRotatorConstants {
     
     // locations
     public final double kIntakePos = -1;
-    public final double kbBckOutakePos = -1;
-    public final double kFrontOutakePos = -1;
+    public final double kBackOutakeNearPos = -1;
+    public final double kBackOutakeFarPos = -1;
+    public final double kFrontOutakeNearPos = -1;
     public final double kFrontOutakeFarPos = -1;
     public final double kStowPos = -1;
     

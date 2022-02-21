@@ -94,4 +94,62 @@ public class CargoRotator extends SubsystemBase {
   public void setPosition(double angle){
     setPoint = angle;
   }
+
+/*
+  public boolean isIntake(){
+    return (constants.kIntakePos - constants.kArmTolerance < currentAngle() &&
+        currentAngle() < constants.kIntakePos + constants.kArmTolerance);
+  }
+  
+  public boolean isStow(){
+    return (constants.kStowPos - constants.kArmTolerance < currentAngle() &&
+        currentAngle() < constants.kStowPos + constants.kArmTolerance);
+  }
+
+  public boolean isFrontOutakeNear(){
+    return (constants.kFrontOutakeNearPos - constants.kArmTolerance < currentAngle() &&
+        currentAngle() < constants.kFrontOutakeNearPos + constants.kArmTolerance);
+  }
+
+  public boolean isFrontOutakeFar(){
+    return (constants.kFrontOutakeFarPos - constants.kArmTolerance < currentAngle() &&
+        currentAngle() < constants.kFrontOutakeFarPos + constants.kArmTolerance);
+  }
+
+  public boolean isBackOutakeNear(){
+    return (constants.kBackOutakeNearPos - constants.kArmTolerance < currentAngle() &&
+        currentAngle() < constants.kBackOutakeNearPos + constants.kArmTolerance);
+  }
+
+  public boolean isBackOutakeFar(){
+    return (constants.kBackOutakeFarPos - constants.kArmTolerance < currentAngle() &&
+        currentAngle() < constants.kBackOutakeFarPos + constants.kArmTolerance);
+  }
+*/
+
+  public boolean isIntake(){
+    return (constants.kIntakePos == setPoint);
+  }
+
+  public boolean isStow(){
+      return (constants.kStowPos == setPoint);
+  }
+
+  public boolean isFrontOutakeNear(){
+    return (constants.kFrontOutakeNearPos == setPoint);
+  }
+
+  public boolean isFrontOutakeFar(){
+    return (constants.kFrontOutakeFarPos == setPoint);
+  }
+
+  public boolean isBackOutakeNear(){
+    return (constants.kBackOutakeNearPos == setPoint);
+  }
+
+  public boolean isBackOutakeFar(){
+    return (constants.kBackOutakeFarPos == setPoint);
+  }
+
+
 }
