@@ -47,6 +47,8 @@ public class Drivetrain extends SubsystemBase {
 
   WPI_TalonFX m_leftMotor1 = ControllerFactory.createTalonFX(constants.leftMotorPorts[0]);
   WPI_TalonFX m_rightMotor1 = ControllerFactory.createTalonFX(constants.rightMotorPorts[0]);
+  WPI_TalonFX m_leftMotor2 = ControllerFactory.createTalonFX(constants.leftMotorPorts[1]);
+  WPI_TalonFX m_rightMotor2 = ControllerFactory.createTalonFX(constants.rightMotorPorts[1]);
   private PhoenixMotorControllerGroup m_leftMotors;
   private PhoenixMotorControllerGroup m_rightMotors;
   private final DifferentialDrive m_dDrive;
@@ -130,8 +132,8 @@ public class Drivetrain extends SubsystemBase {
       m_rightMotors = new PhoenixMotorControllerGroup(m_rightMotor1);
     }
 */
-    m_leftMotors = new PhoenixMotorControllerGroup(m_leftMotor1);
-    m_rightMotors = new PhoenixMotorControllerGroup(m_rightMotor1);
+    m_leftMotors = new PhoenixMotorControllerGroup(m_leftMotor1, m_leftMotor2);
+    m_rightMotors = new PhoenixMotorControllerGroup(m_rightMotor1, m_rightMotor2);
 
     m_dDrive = new DifferentialDrive(m_leftMotors, m_rightMotors);
 
