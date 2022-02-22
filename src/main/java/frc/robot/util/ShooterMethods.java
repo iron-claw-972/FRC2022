@@ -1,5 +1,7 @@
 package frc.robot.util;
 
+import com.kauailabs.navx.AHRSProtocol.TuningVar;
+
 import frc.robot.RobotContainer;
 
 public class ShooterMethods {
@@ -73,9 +75,9 @@ public class ShooterMethods {
   }
 
   public static boolean isBallContained() {
-    return RobotContainer.m_balldetecter.containsBall();
+    return true;
   }
   public static boolean isBallShot() {
-    return RobotContainer.m_balldetecter.ballShot();
+    return true;
   }
 }

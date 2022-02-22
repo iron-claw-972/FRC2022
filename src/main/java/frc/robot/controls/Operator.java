@@ -29,8 +29,19 @@ public class Operator{
 
   //operator buttons
   public static void configureButtonBindings() {
-    climbBinds();
-    shootBinds();
+    // climbBinds();
+    // shootBinds();
+
+    SmartDashboard.putNumber("Voltage output", 0);
+    controller.getButtons().Y().whileHeld(new InstantCommand(() -> RobotContainer.m_cargoShooter.setVoltage(SmartDashboard.getNumber("Voltage output", 0))));
+    controller.getButtons().Y().whenReleased(new InstantCommand(() -> RobotContainer.m_cargoShooter.setVoltage(0)));
+
+    SmartDashboard.putNumber("set speed", 0);
+    controller.getButtons().X().whenPressed(new InstantCommand(() -> RobotContainer.m_cargoShooter.setSpeed(SmartDashboard.getNumber("set speed", 0))));
+
+    controller.getButtons().B().whenPressed(new InstantCommand(()-> RobotContainer.m_cargoShooter.disable()));
+    controller.getButtons().A().whenPressed(new InstantCommand(()-> RobotContainer.m_cargoShooter.enable()));
+
   }
 
   public static void climbBinds() {
