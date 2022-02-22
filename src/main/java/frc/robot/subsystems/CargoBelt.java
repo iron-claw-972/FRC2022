@@ -28,6 +28,7 @@ public class CargoBelt extends SubsystemBase {
 
   @Override
   public void periodic() {
+    enable();
     if (enabled){
       setOutput(motorPower);
     }
