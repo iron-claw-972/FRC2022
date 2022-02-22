@@ -197,8 +197,8 @@ public class Limelight extends SubsystemBase {
   }
 
   private void setPipeline(Pipeline pipeline) {
-    setCameraMode(false);
-    setLedMode(LEDMode.PIPELINE);
+    m_isDriverCamera = false;
+    m_ledMode = LEDMode.PIPELINE;
 
     switch (pipeline) {
       case RED_CARGO:
@@ -257,10 +257,9 @@ public class Limelight extends SubsystemBase {
     return getDistance(armAngle, constants.kBallTargetHeight);
   }
 
-  public double getDistance(double armAngle, double targetHeight) {
+  private double getDistance(double armAngle, double targetHeight) {
     double distance = ((targetHeight - getLimelightHeight(armAngle))
-        / (Math.tan(Units.degreesToRadians(getLimelightAngle(armAngle) + m_verticalAngularOffset))))
-        - (constants.kPivotToLimelightDistance * Math.cos(Units.degreesToRadians(armAngle)));
+        / (Math.tan(Units.degreesToRadians(getLimelightAngle(armAngle) + m_verticalAngularOffset))));
 
     return distance;
   }
