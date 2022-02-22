@@ -27,16 +27,13 @@ public class CargoShooter extends SubsystemBase {
 
   private boolean enabled = false;
   private double motorSpeed = 0.0;
-  private double feedforward = 0;
 
   public CargoShooter() {
-    // m_CargoShooterEncoder.setDistancePerPulse(constants.kEncoderMetersPerPulse);
-    m_CargoShooterEncoder.setDistancePerPulse(100.0/2048.0);
+    m_CargoShooterEncoder.setDistancePerPulse(constants.kDistancePerPulse);
     m_CargoShooterEncoder.reset();
     CargoShooterPID.setTolerance(constants.kVelocityPIDTolerance);
     CargoShooterPID.reset();
     CargoShooterPID.setSetpoint(motorSpeed);
-    SmartDashboard.putNumber("F", 0.0013);
   }
 
   @Override
@@ -46,9 +43,8 @@ public class CargoShooter extends SubsystemBase {
     SmartDashboard.putNumber("vel", getVelocity());
 
     if (enabled){
-      feedforward = SmartDashboard.getNumber("F", 0) * motorSpeed;
       CargoShooterPID.setSetpoint(motorSpeed);
-      setVoltage(CargoShooterPID.calculate(getVelocity()) + feedforward);
+      setVoltage(CargoShooterPID.calculate(getVelocity()) + constants.kF * motorSpeed);
     }
   }
 
@@ -59,24 +55,6 @@ public class CargoShooter extends SubsystemBase {
   public void setSpeed(double newSpeed) {
     motorSpeed = newSpeed;
   }
-
-  public void setBackOuttakeSpeed() {
-    setSpeed(constants.kBackOuttakeSpeed);
-  }
-
-  public void setFrontOuttakeSpeed() {
-    setSpeed(constants.kFrontOuttakeSpeed);
-  }
-
-  
-  // TODO: Limelight integration
-  /*
-   * public void setFrontOuttakeFarSpeed() {
-   * }
-   * 
-   * public void setBackOuttakeFarSpeed() {
-   * }
-   */
 
   public void setStop() {
     setSpeed(0);
@@ -94,10 +72,6 @@ public class CargoShooter extends SubsystemBase {
   public boolean reachedSetpoint() {
     return CargoShooterPID.atSetpoint();
   }
-
-  // public double getVelocity(double distance, boolean isFront) {
-  // }
-
 
   public void loadCargoShooterShuffleboard() {
     SmartDashboard.putBoolean("Cargo Shooter", enabled);

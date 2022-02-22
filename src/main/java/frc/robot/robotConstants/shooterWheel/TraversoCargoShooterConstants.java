@@ -5,20 +5,24 @@ import edu.wpi.first.math.util.Units;
 public class TraversoCargoShooterConstants {
   public final int kCargoShooterMotorPort = 19;
 
-  public final int kFrontOuttakeSpeed = 1;
-  public final int kBackOuttakeSpeed = 1;
-  public final int kIntakeSpeed = 1;
+  public final int kFrontOuttakeFarSpeed = -2050;
+  public final int kBackOuttakeFarSpeed = -2150;
+
+  public final int kFrontOuttakeNearSpeed = -1500;
+  public final int kBackOuttakeNearSpeed = -1500; //70 degrees
+  
+  public final int kIntakeSpeed = 1500;
 
   public final int kEncoderResolution = 2048; // 2048 for Falcon500 integrated encoder
-  public final double kWheelDiameterMeters = Units.inchesToMeters(4);
-  public final double kGearRatio = 1.0;
-  public final double kEncoderMetersPerPulse = kWheelDiameterMeters * Math.PI / (double) kEncoderResolution / kGearRatio;
+  public final double kDistancePerPulse = 100.0 / kEncoderResolution;
 
   // PID Stuff
-  public final double kP = 0.01;
-  public final double kI = 0;
-  public final double kD = 0;
-  public final double kVelocityPIDTolerance = 0;
+  public final double kP = 0.0035;
+  public final double kI = 0.0016;
+  public final double kD = 0.0004;
+  public final double kF = 0.0013;
+  public final double kVelocityPIDTolerance = 50;
+
   // Feedforward
   public final double kS = 0;
   public final double kV = 0;
