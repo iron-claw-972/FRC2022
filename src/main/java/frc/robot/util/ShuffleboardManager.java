@@ -15,14 +15,14 @@ public class ShuffleboardManager {
   // Command pathweaver = Pathweaver.pathweaverCommand();
 
   public void setup() {
-    autoCommand.setDefaultOption("pathweaver", Pathweaver.pathweaverCommand(AutoConstants.kTrajectoryName));
+    // autoCommand.setDefaultOption("pathweaver", Pathweaver.pathweaverCommand(AutoConstants.kTrajectoryName));
     // m_chooser.setDefaultOption("pathweaver", new DifferentialDrive(Drivetrain.getInstance()));
 
     // time();
   }
 
   public void update() {
-    driveMode();
+    // driveMode();
     subsystemSpam();
   }
 
@@ -51,8 +51,8 @@ public class ShuffleboardManager {
     // RobotContainer.m_climbRotatorL.loadRotatorShuffleboard();
     // RobotContainer.m_climbRotatorR.loadRotatorShuffleboard();
 
-    RobotContainer.m_cargoBelt.loadCargoBeltShuffleboard();
-    RobotContainer.m_cargoShooter.loadCargoShooterShuffleboard();
+    // RobotContainer.m_cargoBelt.loadCargoBeltShuffleboard();
+    // RobotContainer.m_cargoShooter.loadCargoShooterShuffleboard();
     RobotContainer.m_cargoRotator.loadCargoRotatorShuffleboard();
   }
 

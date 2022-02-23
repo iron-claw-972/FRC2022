@@ -2,24 +2,25 @@ package frc.robot.robotConstants.cargoRotator;
 
 public class TraversoCargoRotatorConstants {
     // the duty cycle encoder ports of the arm
-    public final int kArmEncoder = 2;
+    public final int kArmEncoder = 4;
 
     // motor clamping
-    public final double kMotorClamp = 0.3;
+    public final double kMotorClamp = 6;
 
     // the motor ports of the arm
-    public final int kArmMotor = 2;
+    public final int kArmMotor = 5;
+
 
 
     // Current Tick Value * Degree Multiple = Current Angle
     public final double kArmDegreeMultiple = 360.0;
-    public final double kArmZeroEncoderDegrees = 0;
+    public final double kArmZeroEncoderDegrees = 0.0;
 
     // the distance allowed from the setpoint (IN DECIMAL DEGREES (1 = 360, .5 = 180, .25 = 90))
     public final double kArmTolerance = 3;
 
-
-    public final double kArmEncoderOffset = 0;
+    public final double kOffset = 0.17114160427854;
+    public final double kFeedForward = 0.525;
     
     // locations
     public final double kIntakePos = 0; // 0 degrees (when on hardstops)

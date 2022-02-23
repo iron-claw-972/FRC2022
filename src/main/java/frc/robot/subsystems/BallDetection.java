@@ -38,7 +38,7 @@ public class BallDetection extends SubsystemBase {
 
 
     SmartDashboard.putNumber("proximity",m_colorSensor.getProximity());
-    System.out.println(m_colorSensor.getProximity());
+    // System.out.println(m_colorSensor.getProximity());
 
   }
 
