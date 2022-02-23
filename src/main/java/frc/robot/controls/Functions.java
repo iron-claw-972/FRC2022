@@ -1,12 +1,7 @@
 package frc.robot.controls;
 
-import edu.wpi.first.math.filter.SlewRateLimiter;
-import frc.robot.Constants.DriveConstants;
 
 public class Functions {
-  
-  private static SlewRateLimiter slewThrottle = new SlewRateLimiter(DriveConstants.kSlewRate);
-  private static SlewRateLimiter slewTurn = new SlewRateLimiter(DriveConstants.kSlewRate);
 
   /*
   public static Functions controls;
@@ -33,21 +28,13 @@ public class Functions {
     }
   }
 
-  //is an exponetional function that maintains positive or negitive
-  public static double expoMS(double exponent, double base){
-    //weird stuff will hapen if you don't put a number > 0
+  //is an exponential function that maintains positive or negative
+  public static double expoMS(double exponent, double base) {
+    //weird stuff will happen if you don't put a number > 0
     double finVal = Math.pow(Math.abs(base),exponent);
     if (base < 0) {
       finVal *= -1;
     }
     return finVal;
-  }
-
-  public static double slewCalculateThrottle(double input ){
-    return slewThrottle.calculate(input);
-  }
-
-  public static double slewCalculateTurn(double input ){
-    return slewTurn.calculate(input);
   }
 }

@@ -147,4 +147,30 @@ public class ControllerFactory {
     return talon;
 
   }
+
+  public static WPI_TalonFX createTalonFX(int id, double supplyCurrentLimit, double supplyTriggerThreshold, double supplyTriggerDuration , boolean coast) {
+
+    if (id == -1) return null;
+
+    TalonFXConfiguration config = new TalonFXConfiguration();
+    
+    config.supplyCurrLimit = new SupplyCurrentLimitConfiguration(
+        true, supplyCurrentLimit, supplyTriggerThreshold, supplyTriggerDuration);
+    
+    config.voltageCompSaturation = Constants.kMaxVoltage;
+
+    WPI_TalonFX talon = new WPI_TalonFX(id);
+    talon.configFactoryDefault();
+    talon.configAllSettings(config);
+    talon.enableVoltageCompensation(true);
+    if (coast) {
+      talon.setNeutralMode(NeutralMode.Coast);
+    } else {
+      talon.setNeutralMode(NeutralMode.Brake);
+    }
+    talon.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
+
+    return talon;
+
+  }
 }

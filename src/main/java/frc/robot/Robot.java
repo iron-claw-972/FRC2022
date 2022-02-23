@@ -1,9 +1,9 @@
-/*----------------------------------------------------------------------------*/
-/* Copyright (c) 2017-2019 FIRST. All Rights Reserved.                        */
-/* Open Source Software - may be modified and shared by FRC teams. The code   */
-/* must be accompanied by the FIRST BSD license file in the root directory of */
-/* the project.                                                               */
-/*----------------------------------------------------------------------------*/
+/*----------------------------------------------------------------------------
+ Copyright (c) 2017-2019 FIRST. All Rights Reserved.                        
+ Open Source Software - may be modified and shared by FRC teams. The code   
+ must be accompanied by the FIRST BSD license file in the root directory of 
+ the project.                                                               
+----------------------------------------------------------------------------*/
 
 package frc.robot;
 
@@ -31,6 +31,8 @@ public class Robot extends TimedRobot {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
+    RobotContainer.m_shuffleboard.setup();
+    m_autonomousCommand = m_robotContainer.getAutonomousCommand();
   }
 
   /**
@@ -47,6 +49,9 @@ public class Robot extends TimedRobot {
     // and running subsystem periodic() methods.  This must be called from the robot's periodic
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
+    RobotContainer.m_shuffleboard.update();
+    //RobotContainer.m_drive.updateMotors();
+     
   }
 
   /**
@@ -65,11 +70,13 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
+    // m_autonomousCommand = m_robotContainer.getAutonomousCommand();
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {
-      m_autonomousCommand.schedule();
+      // m_autonomousCommand.schedule();
+      //commented out for safety so that no one dies
     }
   }
 

@@ -1,7 +1,6 @@
 package frc.robot.autonomous.drivetrain;
 
 import frc.robot.subsystems.Drivetrain;
-import frc.robot.subsystems.Intake;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -15,11 +14,12 @@ import java.nio.file.Path;
 import java.util.List;
 
 import frc.robot.Constants;
+import frc.robot.RobotContainer;
 import frc.robot.Constants.*;
 
 public class Pathweaver {
 
-  public static Drivetrain m_drive = Drivetrain.getInstance();
+  public static Drivetrain m_drive = RobotContainer.m_drive;
   //public static Intake m_intake = Intake.getInstance();
     
   private static Trajectory autonomousTrajectory;
@@ -80,11 +80,13 @@ public class Pathweaver {
   }
 
   // returns auto command group
-  public static Command pathweaverCommand() {
+  public static Command pathweaverCommand(String path) {
     // Run path following command, then stop at the end. At the same time intake.
     // "Deadline" is the first command,
     // meaning the whole group will stop once the first command does.
+    setupAutonomousTrajectory(path);
     return new ParallelDeadlineGroup(
-        ramseteCommand.andThen(() -> m_drive.tankDriveVolts(0, 0)));
+        ramseteCommand.andThen(new InstantCommand(() -> m_drive.tankDriveVolts(0, 0))));
+        // new RunCommand(() -> Drivetrain.getInstance().tankDrive(0.5, -0.5), Drivetrain.getInstance()));
   }
 }

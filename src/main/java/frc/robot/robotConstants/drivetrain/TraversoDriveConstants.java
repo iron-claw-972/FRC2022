@@ -35,4 +35,10 @@ public class TraversoDriveConstants {
 
   public final boolean kRightEncoderReversed = false;
   public final boolean kLeftEncoderReversed = true;
+
+
+  public final double kSupplyCurrentLimit = 40;
+  public final double kSupplyTriggerThreshold = 50;
+  public final double kSupplyTriggerDuration = 0.3;
+  public final boolean kCoast = false;
 }

@@ -7,7 +7,7 @@ public class Controller {
   private Joystick controller;
     
   //gets controller object used for return methods
-  public Controller(Joystick joystick_){
+  public Controller(Joystick joystick_) {
     controller = joystick_;
   }
 
