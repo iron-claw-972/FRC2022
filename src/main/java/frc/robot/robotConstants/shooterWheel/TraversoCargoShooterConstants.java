@@ -3,7 +3,7 @@ package frc.robot.robotConstants.shooterWheel;
 import edu.wpi.first.math.util.Units;
 
 public class TraversoCargoShooterConstants {
-  public final int kCargoShooterMotorPort = 19;
+  public final int kCargoShooterMotorPort = 7;
 
   public final int kFrontOuttakeFarSpeed = -2050;
   public final int kBackOuttakeFarSpeed = -2150;
