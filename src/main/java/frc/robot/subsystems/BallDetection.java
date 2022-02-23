@@ -42,15 +42,15 @@ public class BallDetection extends SubsystemBase {
   }
 
   public boolean hasBlueBall() {
-    return containsBallSecurely() && detectedColor.blue >= constants.kBlueBallThreshold;
+    return containsBall() && detectedColor.blue >= constants.kBlueBallThreshold;
   }
 
   public boolean hasRedBallSecure() {
-    return containsBall() && detectedColor.red >= constants.kRedBallThreshold;
+    return containsBallSecurely() && detectedColor.red >= constants.kRedBallThreshold;
   }
 
   public boolean hasBlueBallSecure() {
-    return containsBall() && detectedColor.blue >= constants.kBlueBallThreshold;
+    return containsBallSecurely() && detectedColor.blue >= constants.kBlueBallThreshold;
   }
 
   public boolean containsBall() {
