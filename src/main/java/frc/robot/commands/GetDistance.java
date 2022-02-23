@@ -17,7 +17,6 @@ public class GetDistance extends CommandBase {
     // double angle = Units.radiansToDegrees(Math.asin(8.5/22));
     double angle = 7;
     double distance = Units.metersToInches(m_limelight.getHubDistance(angle));
-    System.out.println("Distance: " + distance);
   }
 }
   

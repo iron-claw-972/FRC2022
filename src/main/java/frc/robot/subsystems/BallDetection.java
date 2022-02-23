@@ -12,9 +12,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color;
 
 import com.revrobotics.*;
-import com.revrobotics.Rev2mDistanceSensor.Port;
-import com.revrobotics.Rev2mDistanceSensor.RangeProfile;
-import com.revrobotics.Rev2mDistanceSensor.Unit;
+// import com.revrobotics.Rev2mDistanceSensor.Port;
+// import com.revrobotics.Rev2mDistanceSensor.RangeProfile;
+// import com.revrobotics.Rev2mDistanceSensor.Unit;
 
 public class BallDetection extends SubsystemBase {
 /*
@@ -71,5 +71,5 @@ public class BallDetection extends SubsystemBase {
     return !containsBall();
   }
 
-
+*/
 }

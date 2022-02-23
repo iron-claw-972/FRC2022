@@ -15,7 +15,6 @@
         },
         {},
         {
-          "decKey": 65,
           "incKey": 68
         }
       ],
@@ -23,7 +22,7 @@
       "buttonCount": 6,
       "buttonKeys": [
         90,
-        88,
+        -1,
         67,
         86,
         -1,
@@ -54,13 +53,13 @@
           "incKey": 75
         }
       ],
-      "axisCount": 2,
+      "axisCount": 0,
       "buttonCount": 4,
       "buttonKeys": [
-        77,
-        44,
-        46,
-        47
+        65,
+        66,
+        88,
+        89
       ],
       "povCount": 0
     },
@@ -96,6 +95,9 @@
   "robotJoysticks": [
     {
       "guid": "Keyboard0"
+    },
+    {
+      "guid": "Keyboard1"
     }
   ]
 }

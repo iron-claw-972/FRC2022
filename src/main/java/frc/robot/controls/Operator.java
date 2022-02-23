@@ -23,11 +23,6 @@ public class Operator {
 
   public static GameController controller = new GameController(new Joystick(JoyConstants.kOperatorJoy));
 
-  // operator buttons
-  public static void configureButtonBindings() {
-    controller.getButtons().A().whileHeld(new GetDistance(RobotContainer.m_limelight));
-    controller.getButtons().Y().whileHeld(new AlignToUpperHub(RobotContainer.m_limelight, RobotContainer.m_drive));
-  }
   // these two are named a little weirdly because the command group for this needs to be at least a little readable
   public static TraversoClimbExtenderConstants extend = new TraversoClimbExtenderConstants();
   public static TraversoClimbRotatorConstants rotate = new TraversoClimbRotatorConstants();
@@ -40,6 +35,9 @@ public class Operator {
   public static void configureButtonBindings() {
     // climbBinds();
     // shootBinds();
+
+    controller.getButtons().A().whileHeld(new GetDistance(RobotContainer.m_limelight));
+    controller.getButtons().Y().whileHeld(new AlignToUpperHub(RobotContainer.m_limelight, RobotContainer.m_drive));
 
     SmartDashboard.putNumber("Voltage output", 0);
     controller.getButtons().Y().whileHeld(new InstantCommand(() -> RobotContainer.m_cargoShooter.setVoltage(SmartDashboard.getNumber("Voltage output", 0))));
@@ -197,7 +195,7 @@ public class Operator {
       // spin the wheel and afterwards spin the belt
       new FunctionalCommand(
         ShooterMethods::enableWheel, 
-        () -> ShooterMethods.setWheelSpeed(wheelConstants.kFrontOuttakeSpeed), 
+        () -> ShooterMethods.setWheelSpeed(wheelConstants.kFrontOuttakeNearSpeed), 
         interrupted -> ShooterMethods.setBeltSpeed(beltConstants.kOuttakeSpeed), 
         () -> ShooterMethods.isWheelAtSetpoint(),
         RobotContainer.m_cargoShooter, RobotContainer.m_cargoBelt

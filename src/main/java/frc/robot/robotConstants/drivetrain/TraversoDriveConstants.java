@@ -13,25 +13,42 @@ public class TraversoDriveConstants {
 
   //auto might be off because they were calibrated for classbot3
 
-  public final double kTrackWidthMeters = Units.inchesToMeters(23); // Distance between center of left wheel and center of right wheel in meters
+  public final double kTrackWidth = Units.inchesToMeters(23); // Distance between center of left wheel and center of right wheel in meters
   public  final int kEncoderResolution = 2048; // 2048 for Falcon500 integrated encoder
-  public final double kWheelDiameterMeters = Units.inchesToMeters(6);
+  public final double kWheelDiameter = Units.inchesToMeters(6); // In meters
   public final double kGearRatio = 11.25;
-  public final double kEncoderMetersPerPulse = kWheelDiameterMeters * Math.PI / (double) kEncoderResolution / kGearRatio;
-  public final double kEncoderMetersPerSecond = kWheelDiameterMeters * Math.PI / kGearRatio * 10.0;
+  public final double kDistancePerPulse = kWheelDiameter * Math.PI / (double) kEncoderResolution / kGearRatio;
 
   // Use the SysId program in WPILib Tools to estimate values
-  public final double ksVolts = 0.61763; // Ks
-  public final double kvVoltSecondsPerMeter = 2.4394; // Kv
-  public final double kaVoltSecondsSquaredPerMeter = 0.19755; // Ka
-  public final double kRamseteP = 2.8662; // Kp for Ramsete PID
+  // Drivetrain
+  public final double KsLinear = 0.61763; // Ks
+  public final double KvLinear = 2.4394; // Kv
+  public final double KaLinear = 0.19755; // Ka
+
+  // Drivetrain (Angular)
+  public final double KsAngular = 0.61763; // Ks
+  public final double KvAngular = 2.4394; // Kv
+  public final double KaAngular = 0.19755; // Ka
+
+  // Position PID gain values
+  public final double KpPosition = 2.8662; // Kp for Ramsete PID
+  public final double KiPosition = 2.8662; // Kp for Ramsete PID
+  public final double KdPosition = 2.8662; // Kp for Ramsete PID
 
   // Velocity PID gain values
-  public final double kVelocityP = 1; // Proportional
-  public final double kVelocityI = 0; // Integral
-  public final double kVelocityD = 0; // Derivative
+  public final double KpVelocity = 1; // Proportional
+  public final double KiVelocity = 0; // Integral
+  public final double KdVelocity = 0; // Derivative
 
   public final DCMotor kDriveGearbox = DCMotor.getFalcon500(2);
+
+  public final LinearSystem<N2, N2, N2> kDrivetrainPlant =
+    LinearSystemId.identifyDrivetrainSystem(
+      KvLinear,
+      KaLinear,
+      KvAngular,
+      KaAngular
+    );
 
   public final boolean kRightEncoderReversed = false;
   public final boolean kLeftEncoderReversed = true;
@@ -40,5 +57,5 @@ public class TraversoDriveConstants {
   public final double kSupplyCurrentLimit = 40;
   public final double kSupplyTriggerThreshold = 50;
   public final double kSupplyTriggerDuration = 0.3;
-  public final boolean kCoast = false;
+  public final boolean kIsCoast = false;
 }

@@ -39,7 +39,6 @@ public class CargoShooter extends SubsystemBase {
   @Override
   public void periodic() {
     SmartDashboard.putData("CargoShooterPID",CargoShooterPID);
-    System.out.println(getVelocity());
     SmartDashboard.putNumber("vel", getVelocity());
 
     if (enabled){

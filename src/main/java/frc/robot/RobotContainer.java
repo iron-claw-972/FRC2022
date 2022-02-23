@@ -9,6 +9,7 @@ package frc.robot;
 
 import frc.robot.subsystems.*;
 import frc.robot.util.ShuffleboardManager;
+import frc.robot.commands.DifferentialDrive;
 import frc.robot.controls.*;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.*;
@@ -33,6 +34,8 @@ import edu.wpi.first.cameraserver.CameraServer;
 
   public static Drivetrain m_drive = new Drivetrain();
 
+  public static Limelight m_limelight = new Limelight(() -> true);
+
   public static ClimbRotator m_climbRotatorR = new ClimbRotator(false);
   public static ClimbRotator m_climbRotatorL = new ClimbRotator(true);
   public static ClimbExtender m_extenderR = new ClimbExtender(false);
@@ -47,7 +50,7 @@ import edu.wpi.first.cameraserver.CameraServer;
 
     // default command to run in teleop
     
-    // m_drive.setDefaultCommand(new DifferentialDrive(m_drive));
+    m_drive.setDefaultCommand(new DifferentialDrive(m_drive));
     // m_testArm.setDefaultCommand(new armPID(m_testArm));
 
     // Start camera stream for driver
@@ -70,8 +73,9 @@ import edu.wpi.first.cameraserver.CameraServer;
     // Attempt to load trajectory from PathWeaver
     // return Pathweaver.pathweaverCommand();
     return new SequentialCommandGroup(
-      m_shuffleboard.getAutonomousWaitCommand()
-      ,m_shuffleboard.getAutonomousCommand());
+      m_shuffleboard.getAutonomousWaitCommand(),
+      m_shuffleboard.getAutonomousCommand()
+    );
     // return m_shuffleboard.getAutonomousCommand();
   }
 }

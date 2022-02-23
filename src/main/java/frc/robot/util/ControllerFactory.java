@@ -148,7 +148,7 @@ public class ControllerFactory {
 
   }
 
-  public static WPI_TalonFX createTalonFX(int id, double supplyCurrentLimit, double supplyTriggerThreshold, double supplyTriggerDuration , boolean coast) {
+  public static WPI_TalonFX createTalonFX(int id, double supplyCurrentLimit, double supplyTriggerThreshold, double supplyTriggerDuration , boolean isCoast) {
 
     if (id == -1) return null;
 
@@ -163,7 +163,7 @@ public class ControllerFactory {
     talon.configFactoryDefault();
     talon.configAllSettings(config);
     talon.enableVoltageCompensation(true);
-    if (coast) {
+    if (isCoast) {
       talon.setNeutralMode(NeutralMode.Coast);
     } else {
       talon.setNeutralMode(NeutralMode.Brake);

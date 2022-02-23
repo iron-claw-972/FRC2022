@@ -11,7 +11,7 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
-import frc.robot.ControllerFactory;
+import frc.robot.util.ControllerFactory;
 import frc.robot.robotConstants.shooterWheel.TraversoShooterWheelConstants;
 import ctre_shims.TalonEncoder;
 import edu.wpi.first.math.controller.PIDController;
