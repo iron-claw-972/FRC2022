@@ -188,7 +188,7 @@ public class Operator{
       // spin the wheel and afterwards spin the belt
       new FunctionalCommand(
         ShooterMethods::enableWheel, 
-        () -> ShooterMethods.setWheelSpeed(wheelConstants.kFrontOuttakeSpeed), 
+        () -> ShooterMethods.setWheelSpeed(wheelConstants.kFrontOuttakeNearSpeed), 
         interrupted -> ShooterMethods.setBeltSpeed(beltConstants.kOuttakeSpeed), 
         () -> ShooterMethods.isWheelAtSetpoint(),
         RobotContainer.m_cargoShooter, RobotContainer.m_cargoBelt

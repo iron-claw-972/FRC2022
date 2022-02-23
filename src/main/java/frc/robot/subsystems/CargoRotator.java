@@ -18,7 +18,6 @@ public class CargoRotator extends SubsystemBase {
   private final WPI_TalonFX m_motor;
 
   private double setpoint = 0;
-  private double feedForward = 0;
 
   private PIDController armPID = new PIDController(constants.kP, constants.kI, constants.kD);
 
@@ -30,16 +29,15 @@ public class CargoRotator extends SubsystemBase {
     // set the tolerance allowed for the PID
     armPID.setTolerance(constants.kArmTolerance);
     SmartDashboard.putNumber("cargo rotator setpoint", 0);
-    SmartDashboard.putNumber("cargo feed forward", 0);
     SmartDashboard.putData("Cargo Rotator PID", armPID);
   }
 
   @Override
   public void periodic() {
     enable();
-    double ff = cosineOfAngle(setpoint - 30.0) * feedForward * ((currentAngle() < 5.0) ? 0.0 : 1.0);
+    double ff = cosineOfAngle(setpoint - 30.0) * constants.kFeedForward * ((currentAngle() < 5.0) ? 0.0 : 1.0);
     System.out.println("cos: " + cosineOfAngle(setpoint - 30.0));
-    System.out.println("ff: " + feedForward);
+    System.out.println("ff: " + constants.kFeedForward);
     double yeehaw = -(armPID.calculate(currentAngle(), setpoint) + ff);
     SmartDashboard.putNumber("voltage", yeehaw);
     if (enabled) {
@@ -162,6 +160,5 @@ public class CargoRotator extends SubsystemBase {
     SmartDashboard.putBoolean("Cargo Rotator", enabled);
     SmartDashboard.putNumber("Raw Angle", currentAngleRaw());
     setpoint = SmartDashboard.getNumber("cargo rotator setpoint", 0);
-    feedForward = SmartDashboard.getNumber("cargo feed forward", 0);
   }
 }
