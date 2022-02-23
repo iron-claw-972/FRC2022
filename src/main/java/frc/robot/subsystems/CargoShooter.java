@@ -7,8 +7,6 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
-import org.opencv.features2d.Features2d;
-
 import frc.robot.util.ControllerFactory;
 import frc.robot.robotConstants.shooterWheel.TraversoCargoShooterConstants;
 import ctre_shims.TalonEncoder;
@@ -38,12 +36,9 @@ public class CargoShooter extends SubsystemBase {
 
   @Override
   public void periodic() {
-    SmartDashboard.putData("CargoShooterPID",CargoShooterPID);
-    SmartDashboard.putNumber("vel", getVelocity());
-
     if (enabled){
       CargoShooterPID.setSetpoint(motorSpeed);
-      setVoltage(CargoShooterPID.calculate(getVelocity()) + constants.kF * motorSpeed);
+      setVoltage(CargoShooterPID.calculate(getVelocity()) + constants.kForward * motorSpeed);
     }
   }
 
@@ -74,6 +69,9 @@ public class CargoShooter extends SubsystemBase {
 
   public void loadCargoShooterShuffleboard() {
     SmartDashboard.putBoolean("Cargo Shooter", enabled);
+    SmartDashboard.putData("CargoShooterPID",CargoShooterPID);
+    SmartDashboard.putNumber("vel", getVelocity());
+    SmartDashboard.putNumber("F", 0.0013);
   }
 
   public void setVoltage(double volts){

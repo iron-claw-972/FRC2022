@@ -1,6 +1,5 @@
 package frc.robot.util;
 
-import com.kauailabs.navx.AHRSProtocol.TuningVar;
 
 import frc.robot.RobotContainer;
 

@@ -11,7 +11,6 @@ import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color;
 
-
 public class BallDetection extends SubsystemBase {
 
   TraversoColorSensorConstants constants = new TraversoColorSensorConstants();
