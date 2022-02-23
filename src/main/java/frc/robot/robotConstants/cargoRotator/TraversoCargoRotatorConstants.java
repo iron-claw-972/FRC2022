@@ -22,10 +22,10 @@ public class TraversoCargoRotatorConstants {
     public final double kArmEncoderOffset = 0;
     
     // locations
-    public final double kIntakePos = -1;
+    public final double kIntakePos = 0; // 0 degrees (when on hardstops)
     public final double kBackOutakeNearPos = -1;
     public final double kBackOutakeFarPos = -1;
-    public final double kFrontOutakeNearPos = -1;
+    public final double kFrontOutakeNearPos = 90; // or -90? or 270?
     public final double kFrontOutakeFarPos = -1;
     public final double kStowPos = -1;
     
@@ -43,5 +43,4 @@ public class TraversoCargoRotatorConstants {
     public final double kSupplyTriggerThreshold = 30;
     public final double kSupplyTriggerDuration = 0;
     public final boolean kCoast = false;
-    
 }

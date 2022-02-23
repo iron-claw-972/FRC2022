@@ -1,6 +1,5 @@
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import frc.robot.util.ControllerFactory;
@@ -19,7 +18,7 @@ public class CargoRotator extends SubsystemBase {
   private final DutyCycleEncoder encoder;
   private final WPI_TalonFX m_motor;
 
-  private double setPoint = 90;
+  private double setPoint = 0;
   private double encoderOffset;
 
   private PIDController armPID = new PIDController(constants.kP , constants.kI , constants.kD);
@@ -32,7 +31,7 @@ public class CargoRotator extends SubsystemBase {
     
     // set the tolerance allowed for the PID
     armPID.setTolerance(constants.kArmTolerance);
-    setEncoder(80);
+    setEncoder(0);
   }
 
   @Override
@@ -40,6 +39,7 @@ public class CargoRotator extends SubsystemBase {
     if(enabled) {
       // set the arm power according to a PID
       // setOutput(armPID.calculate(currentAngle(), setPoint));
+      setPoint = SmartDashboard.getNumber("cargo rotator setpoint", 0);
       setVoltage(armPID.calculate(currentAngle(), setPoint) + feedforward.calculate(setPoint*(Math.PI/180), 0));
     }
   }
@@ -74,9 +74,9 @@ public class CargoRotator extends SubsystemBase {
     m_motor.set(0);
   }
 
-  public void setOutput(double motorPower){
-    m_motor.set(ControlMode.PercentOutput, MathUtil.clamp(motorPower, -constants.kMotorClamp, constants.kMotorClamp));
-  }
+  // public void setOutput(double motorPower){
+  //   m_motor.set(ControlMode.PercentOutput, MathUtil.clamp(motorPower, -constants.kMotorClamp, constants.kMotorClamp));
+  // }
 
   public void setVoltage(double motorPower){
     m_motor.setVoltage(MathUtil.clamp(motorPower, -constants.kMotorClamp*12, constants.kMotorClamp*12));
@@ -152,5 +152,7 @@ public class CargoRotator extends SubsystemBase {
     SmartDashboard.putBoolean("Cargo Rotator", enabled);
     // for zeroing the angle
     SmartDashboard.putNumber("Zero CargoR", 80);
+
+    SmartDashboard.putNumber("cargo rotator setpoint", 0);
   }
 }
