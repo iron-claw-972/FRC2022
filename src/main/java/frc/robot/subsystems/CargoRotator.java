@@ -1,12 +1,10 @@
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import frc.robot.util.ControllerFactory;
 import frc.robot.robotConstants.cargoRotator.TraversoCargoRotatorConstants;
 import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -19,43 +17,47 @@ public class CargoRotator extends SubsystemBase {
   private final DutyCycleEncoder encoder;
   private final WPI_TalonFX m_motor;
 
-  private double setPoint = 90;
-  private double encoderOffset;
+  private double setpoint = 0;
+  private double feedForward = 0;
 
-  private PIDController armPID = new PIDController(constants.kP , constants.kI , constants.kD);
-  ArmFeedforward feedforward = new ArmFeedforward(constants.kS, constants.kG, constants.kV, constants.kA);
-  
+  private PIDController armPID = new PIDController(constants.kP, constants.kI, constants.kD);
+
   public CargoRotator() {
     encoder = new DutyCycleEncoder(constants.kArmEncoder);
-    m_motor = ControllerFactory.createTalonFX(constants.kArmMotor, constants.kSupplyCurrentLimit, constants.kSupplyTriggerThreshold, constants.kSupplyTriggerDuration, constants.kCoast);
-    encoderOffset = constants.kArmEncoderOffset;
-    
+    m_motor = ControllerFactory.createTalonFX(constants.kArmMotor, constants.kSupplyCurrentLimit,
+        constants.kSupplyTriggerThreshold, constants.kSupplyTriggerDuration, constants.kCoast);
+
     // set the tolerance allowed for the PID
     armPID.setTolerance(constants.kArmTolerance);
-    setEncoder(80);
+    SmartDashboard.putNumber("cargo rotator setpoint", 0);
+    SmartDashboard.putNumber("cargo feed forward", 0);
+    SmartDashboard.putData("Cargo Rotator PID", armPID);
   }
 
   @Override
   public void periodic() {
-    if(enabled) {
-      // set the arm power according to a PID
-      // setOutput(armPID.calculate(currentAngle(), setPoint));
-      setVoltage(armPID.calculate(currentAngle(), setPoint) + feedforward.calculate(setPoint*(Math.PI/180), 0));
+    enable();
+    double ff = cosineOfAngle(setpoint - 30.0) * feedForward * ((currentAngle() < 5.0) ? 0.0 : 1.0);
+    System.out.println("cos: " + cosineOfAngle(setpoint - 30.0));
+    System.out.println("ff: " + feedForward);
+    double yeehaw = -(armPID.calculate(currentAngle(), setpoint) + ff);
+    SmartDashboard.putNumber("voltage", yeehaw);
+    if (enabled) {
+      setVoltage(yeehaw);
     }
   }
 
   public double currentAngleRaw() {
-    return encoder.get();
+    if (encoder.get() > 0.5) {
+      return encoder.get() - 1.0;
+    } else {
+      return encoder.get();
+    }
   }
 
   // returns the current angle of the duty cycle encoder with offset accounted for
   public double currentAngle() {
-    return encoder.get() * constants.kArmDegreeMultiple + encoderOffset;
-  }
-
-  // 80 is all the way forward and  125 is all the way back
-  public void setEncoder(double angle) { 
-    encoderOffset = angle - encoder.get() * constants.kArmDegreeMultiple;
+    return (currentAngleRaw() * constants.kArmDegreeMultiple) + (constants.kOffset * constants.kArmDegreeMultiple);
   }
 
   public boolean reachedSetpoint() {
@@ -63,7 +65,7 @@ public class CargoRotator extends SubsystemBase {
     return armPID.atSetpoint();
   }
 
-  //enables PID
+  // enables PID
   public void enable() {
     enabled = true;
   }
@@ -74,83 +76,92 @@ public class CargoRotator extends SubsystemBase {
     m_motor.set(0);
   }
 
-  public void setOutput(double motorPower){
-    m_motor.set(ControlMode.PercentOutput, MathUtil.clamp(motorPower, -constants.kMotorClamp, constants.kMotorClamp));
-  }
+  // public void setOutput(double motorPower){
+  // m_motor.set(ControlMode.PercentOutput, MathUtil.clamp(motorPower,
+  // -constants.kMotorClamp, constants.kMotorClamp));
+  // }
 
-  public void setVoltage(double motorPower){
-    m_motor.setVoltage(MathUtil.clamp(motorPower, -constants.kMotorClamp*12, constants.kMotorClamp*12));
+  public void setVoltage(double motorPower) {
+    m_motor.setVoltage(MathUtil.clamp(motorPower, -constants.kMotorClamp, constants.kMotorClamp));
   }
 
   // sets PID Goal
-  public void setPosition(double angle){
-    setPoint = angle;
+  public void setPosition(double angle) {
+    setpoint = angle;
   }
 
-/*
-  public boolean isIntake(){
-    return (constants.kIntakePos - constants.kArmTolerance < currentAngle() &&
-        currentAngle() < constants.kIntakePos + constants.kArmTolerance);
-  }
-  
-  public boolean isStow(){
-    return (constants.kStowPos - constants.kArmTolerance < currentAngle() &&
-        currentAngle() < constants.kStowPos + constants.kArmTolerance);
+  public double cosineOfAngle(double angle) {
+    return Math.cos(angle * (Math.PI / 180.0));
   }
 
-  public boolean isFrontOutakeNear(){
-    return (constants.kFrontOutakeNearPos - constants.kArmTolerance < currentAngle() &&
-        currentAngle() < constants.kFrontOutakeNearPos + constants.kArmTolerance);
+  /*
+   * public boolean isIntake(){
+   * return (constants.kIntakePos - constants.kArmTolerance < currentAngle() &&
+   * currentAngle() < constants.kIntakePos + constants.kArmTolerance);
+   * }
+   * 
+   * public boolean isStow(){
+   * return (constants.kStowPos - constants.kArmTolerance < currentAngle() &&
+   * currentAngle() < constants.kStowPos + constants.kArmTolerance);
+   * }
+   * 
+   * public boolean isFrontOutakeNear(){
+   * return (constants.kFrontOutakeNearPos - constants.kArmTolerance <
+   * currentAngle() &&
+   * currentAngle() < constants.kFrontOutakeNearPos + constants.kArmTolerance);
+   * }
+   * 
+   * public boolean isFrontOutakeFar(){
+   * return (constants.kFrontOutakeFarPos - constants.kArmTolerance <
+   * currentAngle() &&
+   * currentAngle() < constants.kFrontOutakeFarPos + constants.kArmTolerance);
+   * }
+   * 
+   * public boolean isBackOutakeNear(){
+   * return (constants.kBackOutakeNearPos - constants.kArmTolerance <
+   * currentAngle() &&
+   * currentAngle() < constants.kBackOutakeNearPos + constants.kArmTolerance);
+   * }
+   * 
+   * public boolean isBackOutakeFar(){
+   * return (constants.kBackOutakeFarPos - constants.kArmTolerance <
+   * currentAngle() &&
+   * currentAngle() < constants.kBackOutakeFarPos + constants.kArmTolerance);
+   * }
+   */
+
+  public boolean isIntake() {
+    return (constants.kIntakePos == setpoint);
   }
 
-  public boolean isFrontOutakeFar(){
-    return (constants.kFrontOutakeFarPos - constants.kArmTolerance < currentAngle() &&
-        currentAngle() < constants.kFrontOutakeFarPos + constants.kArmTolerance);
+  public boolean isStow() {
+    return (constants.kStowPos == setpoint);
   }
 
-  public boolean isBackOutakeNear(){
-    return (constants.kBackOutakeNearPos - constants.kArmTolerance < currentAngle() &&
-        currentAngle() < constants.kBackOutakeNearPos + constants.kArmTolerance);
+  public boolean isFrontOutakeNear() {
+    return (constants.kFrontOutakeNearPos == setpoint);
   }
 
-  public boolean isBackOutakeFar(){
-    return (constants.kBackOutakeFarPos - constants.kArmTolerance < currentAngle() &&
-        currentAngle() < constants.kBackOutakeFarPos + constants.kArmTolerance);
-  }
-*/
-
-  public boolean isIntake(){
-    return (constants.kIntakePos == setPoint);
+  public boolean isFrontOutakeFar() {
+    return (constants.kFrontOutakeFarPos == setpoint);
   }
 
-  public boolean isStow(){
-      return (constants.kStowPos == setPoint);
+  public boolean isBackOutakeNear() {
+    return (constants.kBackOutakeNearPos == setpoint);
   }
 
-  public boolean isFrontOutakeNear(){
-    return (constants.kFrontOutakeNearPos == setPoint);
-  }
-
-  public boolean isFrontOutakeFar(){
-    return (constants.kFrontOutakeFarPos == setPoint);
-  }
-
-  public boolean isBackOutakeNear(){
-    return (constants.kBackOutakeNearPos == setPoint);
-  }
-
-  public boolean isBackOutakeFar(){
-    return (constants.kBackOutakeFarPos == setPoint);
+  public boolean isBackOutakeFar() {
+    return (constants.kBackOutakeFarPos == setpoint);
   }
 
   public void loadCargoRotatorShuffleboard() {
-    // puts the PID into shuffleboard
-    SmartDashboard.putData(armPID);
-    // a pop-up in shuffleboard that allows you to see how much the arm extended in inches
+    // a pop-up in shuffleboard that allows you to see how much the arm extended in
+    // inches
     SmartDashboard.putNumber("Cargo Arm Angle", currentAngle());
     // shows if the rotator is enabled/disabled
     SmartDashboard.putBoolean("Cargo Rotator", enabled);
-    // for zeroing the angle
-    SmartDashboard.putNumber("Zero CargoR", 80);
+    SmartDashboard.putNumber("Raw Angle", currentAngleRaw());
+    setpoint = SmartDashboard.getNumber("cargo rotator setpoint", 0);
+    feedForward = SmartDashboard.getNumber("cargo feed forward", 0);
   }
 }

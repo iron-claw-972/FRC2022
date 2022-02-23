@@ -21,14 +21,14 @@ public class CargoBelt extends SubsystemBase {
     constants.kSupplyCurrentLimit,
     constants.kSupplyTriggerThreshold, 
     constants.kSupplyTriggerDuration,
-    constants.kCoast);
+    constants.kCoast
+  );
 
   private boolean enabled = false;
   private double motorPower = 0.0;
 
   @Override
   public void periodic() {
-    enable();
     if (enabled){
       setOutput(motorPower);
     }

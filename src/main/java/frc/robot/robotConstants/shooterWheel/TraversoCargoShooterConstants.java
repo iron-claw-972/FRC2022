@@ -1,8 +1,7 @@
 package frc.robot.robotConstants.shooterWheel;
 
-import edu.wpi.first.math.util.Units;
-
 public class TraversoCargoShooterConstants {
+
   public final int kCargoShooterMotorPort = 7;
 
   public final int kFrontOuttakeFarSpeed = -2050;
@@ -17,11 +16,11 @@ public class TraversoCargoShooterConstants {
   public final double kDistancePerPulse = 100.0 / kEncoderResolution;
 
   // PID Stuff
-  public final double kP = 0.0035;
+  public final double kP = 0.004;
   public final double kI = 0.0016;
   public final double kD = 0.0004;
-  public final double kF = 0.0013;
-  public final double kVelocityPIDTolerance = 50;
+  public final double kForward = 0.0013;
+  public final double kVelocityPIDTolerance = 0;
 
   // Feedforward
   public final double kS = 0;
