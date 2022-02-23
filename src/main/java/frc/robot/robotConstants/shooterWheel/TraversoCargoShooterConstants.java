@@ -15,9 +15,10 @@ public class TraversoCargoShooterConstants {
   public final double kEncoderMetersPerPulse = kWheelDiameterMeters * Math.PI / (double) kEncoderResolution / kGearRatio;
 
   // PID Stuff
-  public final double kP = 0.01;
-  public final double kI = 0;
-  public final double kD = 0;
+  public final double kP = 0.004;
+  public final double kI = 0.0016;
+  public final double kD = 0.0004;
+  public final double kForward = 0.0013;
   public final double kVelocityPIDTolerance = 0;
   // Feedforward
   public final double kS = 0;
