@@ -1,12 +1,10 @@
 package frc.robot.util;
 
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.*;
 import edu.wpi.first.wpilibj2.command.*;
 import frc.robot.RobotContainer;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.autonomous.drivetrain.Pathweaver;
-import frc.robot.controls.Driver;
 
 public class ShuffleboardManager {
 
