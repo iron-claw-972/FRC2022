@@ -8,7 +8,7 @@ public class TraversoCargoRotatorConstants {
     public final double kMotorClamp = 0.3;
 
     // the motor ports of the arm
-    public final int kArmMotor = 2;
+    public final int kArmMotor = 5;
 
 
     // Current Tick Value * Degree Multiple = Current Angle
