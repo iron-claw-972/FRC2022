@@ -123,8 +123,13 @@ public class Drivetrain extends SubsystemBase {
     m_dDrive = new DifferentialDrive(m_leftMotors, m_rightMotors);
 
     // Inverting one side of the drivetrain as to drive forward
-    m_leftMotors.setInverted(true);
-    m_rightMotors.setInverted(false);
+    if (RobotBase.isSimulation()) {
+      m_leftMotors.setInverted(false);
+      m_rightMotors.setInverted(false);
+    } else {
+      m_leftMotors.setInverted(true);
+      m_rightMotors.setInverted(false);
+    }
 
     m_rightMotor1.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
     m_leftMotor1.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
@@ -140,13 +145,21 @@ public class Drivetrain extends SubsystemBase {
 
     if (RobotBase.isSimulation()) {
       // This class simulates our drivetrain's motion around the field.
+      // m_drivetrainSim = new DifferentialDrivetrainSim(
+      //     constants.kDrivetrainPlant,
+      //     constants.kDriveGearbox,
+      //     constants.kGearRatio,
+      //     constants.kTrackWidth,
+      //     constants.kWheelDiameter / 2.0,
+      //     VecBuilder.fill(0, 0, 0.0001, 0.1, 0.1, 0.005, 0.005));
       m_drivetrainSim = new DifferentialDrivetrainSim(
-          constants.kDrivetrainPlant,
-          constants.kDriveGearbox,
-          constants.kGearRatio,
-          constants.kTrackWidth,
-          constants.kWheelDiameter / 2.0,
-          VecBuilder.fill(0, 0, 0.0001, 0.1, 0.1, 0.005, 0.005));
+        constants.kDriveGearbox,       // 2 NEO motors on each side of the drivetrain.
+        constants.kGearRatio,                    // 7.29:1 gearing reduction.
+        7.5,                     // MOI of 7.5 kg m^2 (from CAD model).
+        120,                    // The mass of the robot is 60 kg.
+        constants.kWheelDiameter / 2.0, // The robot uses 3" radius wheels.
+        constants.kTrackWidth,                  // The track width is 0.7112 meters.
+        VecBuilder.fill(0.001, 0.001, 0.001, 0.1, 0.1, 0.005, 0.005));
 
       // The encoder and gyro angle sims let us set simulated sensor readings
       m_leftEncoderSim = new TalonEncoderSim(m_leftEncoder);
