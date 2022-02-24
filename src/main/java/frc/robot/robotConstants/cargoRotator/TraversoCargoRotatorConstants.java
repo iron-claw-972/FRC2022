@@ -21,7 +21,7 @@ public class TraversoCargoRotatorConstants {
     public final double kFeedForward = 0.58;
     
     // locations
-    public final double kIntakePos = 0; // 0 degrees (when on hardstops)
+    public final double kIntakePos = 2; // 0 degrees (when on hardstops)
     public final double kBackOutakeNearPos = 132;
     public final double kBackOutakeFarPos = 147;
     public final double kFrontOutakeNearPos = 100; // TODO: Update this value
