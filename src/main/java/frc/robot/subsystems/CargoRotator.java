@@ -18,6 +18,8 @@ public class CargoRotator extends SubsystemBase {
   private final WPI_TalonFX m_motor;
 
   private double setpoint = constants.kIntakePos;
+  private double feedforward;
+  private double outputVoltage;
 
   private PIDController armPID = new PIDController(constants.kP, constants.kI, constants.kD);
 
@@ -36,17 +38,27 @@ public class CargoRotator extends SubsystemBase {
   @Override
   public void periodic() {
     setpoint = SmartDashboard.getNumber("cargo rotator setpoint", 2);
-    double ff = cosineOfAngle(setpoint - 30.0) * constants.kFeedForward * ((currentAngle() < 5.0) ? 0.0 : 1.0);
-    System.out.println("cos: " + cosineOfAngle(setpoint - 30.0));
-    System.out.println("ff: " + constants.kFeedForward);
-    double yeehaw = -(armPID.calculate(currentAngle(), setpoint) + ff);
-    SmartDashboard.putNumber("voltage", yeehaw);
+    feedforward = calculateFeedForward(setpoint);
+    outputVoltage = -(armPID.calculate(currentAngle(), setpoint) + feedforward);
+    SmartDashboard.putNumber("voltage", outputVoltage);
     if (enabled) {
-      setVoltage(yeehaw);
+      setVoltage(outputVoltage);
+    }
+  }
+
+  public double calculateFeedForward(double setpoint){
+    // adjusts for the center of mass. only does feedforward if its not on the hardstop
+    if (currentAngle() > (constants.kIntakePos + constants.kFeedForwardHardstopTolerance) && 
+        currentAngle() < (constants.kStowPos - constants.kFeedForwardHardstopTolerance)){
+      return cosineOfAngle(setpoint - constants.kFeedForwardOffsetAngle) * constants.kFeedForward;
+    }
+    else{
+      return 0;
     }
   }
 
   public double currentAngleRaw() {
+    //fixes position of encoder when starting on wrong side of 0 position
     if (encoder.get() > 0.5) {
       return encoder.get() - 1.0;
     } else {
@@ -56,7 +68,7 @@ public class CargoRotator extends SubsystemBase {
 
   // returns the current angle of the duty cycle encoder with offset accounted for
   public double currentAngle() {
-    return (currentAngleRaw() * constants.kArmDegreeMultiple) + (constants.kOffset * constants.kArmDegreeMultiple);
+    return (currentAngleRaw() + constants.kOffset) * constants.kArmDegreeMultiple;
   }
 
   public boolean reachedSetpoint() {
@@ -92,42 +104,6 @@ public class CargoRotator extends SubsystemBase {
   public double cosineOfAngle(double angle) {
     return Math.cos(angle * (Math.PI / 180.0));
   }
-
-  /*
-   * public boolean isIntake(){
-   * return (constants.kIntakePos - constants.kArmTolerance < currentAngle() &&
-   * currentAngle() < constants.kIntakePos + constants.kArmTolerance);
-   * }
-   * 
-   * public boolean isStow(){
-   * return (constants.kStowPos - constants.kArmTolerance < currentAngle() &&
-   * currentAngle() < constants.kStowPos + constants.kArmTolerance);
-   * }
-   * 
-   * public boolean isFrontOutakeNear(){
-   * return (constants.kFrontOutakeNearPos - constants.kArmTolerance <
-   * currentAngle() &&
-   * currentAngle() < constants.kFrontOutakeNearPos + constants.kArmTolerance);
-   * }
-   * 
-   * public boolean isFrontOutakeFar(){
-   * return (constants.kFrontOutakeFarPos - constants.kArmTolerance <
-   * currentAngle() &&
-   * currentAngle() < constants.kFrontOutakeFarPos + constants.kArmTolerance);
-   * }
-   * 
-   * public boolean isBackOutakeNear(){
-   * return (constants.kBackOutakeNearPos - constants.kArmTolerance <
-   * currentAngle() &&
-   * currentAngle() < constants.kBackOutakeNearPos + constants.kArmTolerance);
-   * }
-   * 
-   * public boolean isBackOutakeFar(){
-   * return (constants.kBackOutakeFarPos - constants.kArmTolerance <
-   * currentAngle() &&
-   * currentAngle() < constants.kBackOutakeFarPos + constants.kArmTolerance);
-   * }
-   */
 
   public boolean isIntake() {
     return (constants.kIntakePos == setpoint);
