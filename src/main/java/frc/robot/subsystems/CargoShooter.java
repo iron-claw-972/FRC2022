@@ -27,6 +27,7 @@ public class CargoShooter extends SubsystemBase {
   private double motorSpeed = 0.0;
 
   public CargoShooter() {
+    enable();
     m_CargoShooterEncoder.setDistancePerPulse(constants.kDistancePerPulse);
     m_CargoShooterEncoder.reset();
     CargoShooterPID.setTolerance(constants.kVelocityPIDTolerance);

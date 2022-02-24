@@ -22,6 +22,7 @@ public class CargoRotator extends SubsystemBase {
   private PIDController armPID = new PIDController(constants.kP, constants.kI, constants.kD);
 
   public CargoRotator() {
+    enable();
     encoder = new DutyCycleEncoder(constants.kArmEncoder);
     m_motor = ControllerFactory.createTalonFX(constants.kArmMotor, constants.kSupplyCurrentLimit,
         constants.kSupplyTriggerThreshold, constants.kSupplyTriggerDuration, constants.kCoast);
@@ -34,7 +35,6 @@ public class CargoRotator extends SubsystemBase {
 
   @Override
   public void periodic() {
-    enable();
     double ff = cosineOfAngle(setpoint - 30.0) * constants.kFeedForward * ((currentAngle() < 5.0) ? 0.0 : 1.0);
     System.out.println("cos: " + cosineOfAngle(setpoint - 30.0));
     System.out.println("ff: " + constants.kFeedForward);

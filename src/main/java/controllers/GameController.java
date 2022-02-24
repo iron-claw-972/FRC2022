@@ -57,11 +57,11 @@ public class GameController extends Controller {
     public JoystickButton START() {
       return new JoystickButton(getController(), GameConstants.buttons.kStart);
     }
-    public JoystickButton LT() {
-      return new JoystickButton(getController(), GameConstants.triggers.kLeftT);
+    public Trigger LT() {
+      return new Trigger(TriggerAxis::leftTriggerButton);
     }
-    public JoystickButton RT() {
-      return new JoystickButton(getController(), GameConstants.triggers.kRightT);
+    public Trigger RT() {
+      return new Trigger(TriggerAxis::rightTriggerButton);
     }
   }
   
@@ -137,10 +137,15 @@ public class GameController extends Controller {
     public double leftTrigger() {
       return getController().getRawAxis(GameConstants.triggers.kLeftT);
     }
+    public boolean leftTriggerButton() {
+      return getController().getRawAxis(GameConstants.triggers.kLeftT) > 0.5;
+    }
     public double rightTrigger() {
       return getController().getRawAxis(GameConstants.triggers.kRightT);
     }
-  }
-  
+    public boolean rightTriggerButton() {
+      return getController().getRawAxis(GameConstants.triggers.kRightT) > 0.5;
+    }
 
+  }
 }

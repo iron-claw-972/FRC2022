@@ -67,16 +67,22 @@ public class ShooterMethods {
     RobotContainer.m_cargoShooter.enable();
   }
 
-  public static void disableAll() {
-    RobotContainer.m_cargoRotator.disable();
+  public static void disableShooter() {
     RobotContainer.m_cargoBelt.disable();
     RobotContainer.m_cargoShooter.disable();
   }
 
   public static boolean isBallContained() {
-    return true;
+    return RobotContainer.m_balldetector.containsBallSecurely();
   }
+
   public static boolean isBallShot() {
-    return true;
+    return !isBallContained();
+  }
+
+  public static void multiSetter(double armAngle, double beltPower, double shooterSpeed) {
+    RobotContainer.m_cargoRotator.setPosition(armAngle);
+    RobotContainer.m_cargoBelt.setOutput(beltPower);
+    RobotContainer.m_cargoShooter.setSpeed(shooterSpeed);
   }
 }

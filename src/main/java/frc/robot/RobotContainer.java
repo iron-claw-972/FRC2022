@@ -40,7 +40,7 @@ import edu.wpi.first.cameraserver.CameraServer;
   public static CargoRotator m_cargoRotator = new CargoRotator();
   public static CargoBelt m_cargoBelt = new CargoBelt();
   public static CargoShooter m_cargoShooter = new CargoShooter();
-  public static BallDetection m_balldetecter = new BallDetection();
+  public static BallDetection m_balldetector = new BallDetection();
 
   public RobotContainer() {
     
