@@ -27,9 +27,9 @@ public class ShuffleboardManager {
   }
 
   public void time() {
-    SmartDashboard.putNumber("Time Left", DriverStation.getMatchTime());
-    SmartDashboard.putNumber("Time Left Until Endgame", DriverStation.getMatchTime() - 30);
-    SmartDashboard.putNumber("Auto Wait", 0);
+    // SmartDashboard.putNumber("Time Left", DriverStation.getMatchTime());
+    // SmartDashboard.putNumber("Time Left Until Endgame", DriverStation.getMatchTime() - 30);
+    // SmartDashboard.putNumber("Auto Wait", 0);
   }
 
   public void driveMode() {
@@ -39,7 +39,7 @@ public class ShuffleboardManager {
     SmartDashboard.putData(autoCommand);
      
     // SmartDashboard.putString("Drive Mode", Driver.getDriveMode().toString());
-    SmartDashboard.putBoolean("Teleop", DriverStation.isTeleop());
+    // SmartDashboard.putBoolean("Teleop", DriverStation.isTeleop());
   }
 
   public void subsystemSpam() {

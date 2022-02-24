@@ -5,6 +5,7 @@ import java.util.function.BooleanSupplier;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.robotConstants.limelight.TraversoLimelightConstants;
 
@@ -52,6 +53,7 @@ public class Limelight extends SubsystemBase {
 
   @Override
   public void periodic() {
+    
   }
 
   private void updateData() {
@@ -249,6 +251,7 @@ public class Limelight extends SubsystemBase {
 
   public double getHubDistance(double armAngle) {
     setUpperHubPipeline();
+    SmartDashboard.putNumber("Horizontal Error", m_horizontalAngularOffset);
     return getDistance(armAngle, constants.kHubTargetHeight);
   }
 

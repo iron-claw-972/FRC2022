@@ -13,11 +13,11 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class CargoRotator extends SubsystemBase {
   private TraversoCargoRotatorConstants constants = new TraversoCargoRotatorConstants();
 
-  private boolean enabled = false;
+  private boolean enabled = true;
   private final DutyCycleEncoder encoder;
   private final WPI_TalonFX m_motor;
 
-  private double setpoint = 0;
+  private double setpoint = 80;
 
   private PIDController armPID = new PIDController(constants.kP, constants.kI, constants.kD);
 
@@ -28,16 +28,19 @@ public class CargoRotator extends SubsystemBase {
 
     // set the tolerance allowed for the PID
     armPID.setTolerance(constants.kArmTolerance);
-    SmartDashboard.putNumber("cargo rotator setpoint", 0);
+    SmartDashboard.putNumber("cargo rotator setpoint", setpoint);
     SmartDashboard.putData("Cargo Rotator PID", armPID);
   }
 
   @Override
   public void periodic() {
     enable();
+    SmartDashboard.putNumber("cos: ", cosineOfAngle(setpoint - 30.0));
+    SmartDashboard.putNumber("ff: ", constants.kFeedForward);
+    SmartDashboard.putNumber("SETPOINT: ", setpoint);
+    SmartDashboard.putNumber("ENCODER VALUE: ", currentAngle());
+    setpoint = SmartDashboard.getNumber("cargo rotator setpoint", 0);
     double ff = cosineOfAngle(setpoint - 30.0) * constants.kFeedForward * ((currentAngle() < 5.0) ? 0.0 : 1.0);
-    System.out.println("cos: " + cosineOfAngle(setpoint - 30.0));
-    System.out.println("ff: " + constants.kFeedForward);
     double yeehaw = -(armPID.calculate(currentAngle(), setpoint) + ff);
     SmartDashboard.putNumber("voltage", yeehaw);
     if (enabled) {
@@ -85,6 +88,7 @@ public class CargoRotator extends SubsystemBase {
 
   // sets PID Goal
   public void setPosition(double angle) {
+    System.out.println("called set position to angle: " + angle);
     setpoint = angle;
   }
 

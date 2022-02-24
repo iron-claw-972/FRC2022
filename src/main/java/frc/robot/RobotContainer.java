@@ -10,8 +10,8 @@ package frc.robot;
 import frc.robot.subsystems.*;
 import frc.robot.util.ShuffleboardManager;
 import frc.robot.commands.DifferentialDrive;
+import frc.robot.commands.GetDistance;
 import frc.robot.controls.*;
-import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.*;
 import edu.wpi.first.cameraserver.CameraServer;
 
@@ -34,16 +34,17 @@ import edu.wpi.first.cameraserver.CameraServer;
 
   public static Drivetrain m_drive = new Drivetrain();
 
-  public static Limelight m_limelight = new Limelight(() -> true);
-
-  public static ClimbRotator m_climbRotatorR = new ClimbRotator(false);
-  public static ClimbRotator m_climbRotatorL = new ClimbRotator(true);
-  public static ClimbExtender m_extenderR = new ClimbExtender(false);
-  public static ClimbExtender m_extenderL = new ClimbExtender(true);
+  // public static ClimbRotator m_climbRotatorR = new ClimbRotator(false);
+  // public static ClimbRotator m_climbRotatorL = new ClimbRotator(true);
+  // public static ClimbExtender m_extenderR = new ClimbExtender(false);
+  // public static ClimbExtender m_extenderL = new ClimbExtender(true);
   public static CargoRotator m_cargoRotator = new CargoRotator();
   public static CargoBelt m_cargoBelt = new CargoBelt();
   public static CargoShooter m_cargoShooter = new CargoShooter();
   public static BallDetection m_balldetecter = new BallDetection();
+
+  public static Limelight m_limelight = new Limelight(() -> true);
+
 
   public RobotContainer() {
     
@@ -52,6 +53,10 @@ import edu.wpi.first.cameraserver.CameraServer;
     
     m_drive.setDefaultCommand(new DifferentialDrive(m_drive));
     // m_testArm.setDefaultCommand(new armPID(m_testArm));
+    m_cargoShooter.setDefaultCommand(new RunCommand(() -> RobotContainer.m_cargoShooter.setOutput(Operator.controller.getJoystickAxis().leftY()), m_cargoShooter));
+    m_cargoBelt.setDefaultCommand(new RunCommand(() -> RobotContainer.m_cargoBelt.setOutput(-Operator.controller.getJoystickAxis().rightY()), m_cargoBelt));
+    m_limelight.setDefaultCommand(new GetDistance(m_limelight, m_cargoRotator));
+
 
     // Start camera stream for driver
     CameraServer.startAutomaticCapture();
@@ -59,7 +64,7 @@ import edu.wpi.first.cameraserver.CameraServer;
     // Configure the button bindings
     Driver.configureButtonBindings();
     Operator.configureButtonBindings();
-    TestingJoystick.configureButtonBindings();
+    // TestingJoystick.configureButtonBindings();
 
     //sets up shuffle board
   }
@@ -71,11 +76,11 @@ import edu.wpi.first.cameraserver.CameraServer;
    */
   public Command getAutonomousCommand() {
     // Attempt to load trajectory from PathWeaver
-    // return Pathweaver.pathweaverCommand();
-    return new SequentialCommandGroup(
-      m_shuffleboard.getAutonomousWaitCommand(),
-      m_shuffleboard.getAutonomousCommand()
-    );
+    return new InstantCommand();
+    // return new SequentialCommandGroup(
+    //   m_shuffleboard.getAutonomousWaitCommand(),
+    //   m_shuffleboard.getAutonomousCommand()
+    // );
     // return m_shuffleboard.getAutonomousCommand();
   }
 }

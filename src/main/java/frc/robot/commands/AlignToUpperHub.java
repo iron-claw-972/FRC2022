@@ -11,7 +11,7 @@ public class AlignToUpperHub extends CommandBase {
   private final Limelight m_limelight;
   private final Drivetrain m_drive;
 
-  private PIDController alignPID = new PIDController(0.02, 0.02, 0.05);
+  private PIDController alignPID = new PIDController(0.2, 0, 0);
 
   public AlignToUpperHub(Limelight limelight, Drivetrain drivetrain) {
     m_limelight = limelight;
@@ -21,6 +21,6 @@ public class AlignToUpperHub extends CommandBase {
 
   @Override
   public void execute() {
-    m_drive.runDrive(0, alignPID.calculate(-m_limelight.getHubHorizontalAngularOffset(), 0));
+    m_drive.runDrive(0, alignPID.calculate(m_limelight.getHubHorizontalAngularOffset(), 0));
   }
 }

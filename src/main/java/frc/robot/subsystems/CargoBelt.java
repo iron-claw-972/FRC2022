@@ -24,7 +24,7 @@ public class CargoBelt extends SubsystemBase {
     constants.kCoast
   );
 
-  private boolean enabled = false;
+  private boolean enabled = true;
   private double motorPower = 0.0;
 
   @Override

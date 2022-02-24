@@ -140,7 +140,7 @@ public class ControllerFactory {
     WPI_TalonFX talon = new WPI_TalonFX(id);
     talon.configFactoryDefault();
     talon.configAllSettings(config);
-    talon.enableVoltageCompensation(true);
+    talon.enableVoltageCompensation(false);
     talon.setNeutralMode(NeutralMode.Coast);
     talon.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
 
@@ -162,7 +162,7 @@ public class ControllerFactory {
     WPI_TalonFX talon = new WPI_TalonFX(id);
     talon.configFactoryDefault();
     talon.configAllSettings(config);
-    talon.enableVoltageCompensation(true);
+    talon.enableVoltageCompensation(false);
     if (isCoast) {
       talon.setNeutralMode(NeutralMode.Coast);
     } else {

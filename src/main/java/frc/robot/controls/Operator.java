@@ -24,8 +24,8 @@ public class Operator {
   public static GameController controller = new GameController(new Joystick(JoyConstants.kOperatorJoy));
 
   // these two are named a little weirdly because the command group for this needs to be at least a little readable
-  public static TraversoClimbExtenderConstants extend = new TraversoClimbExtenderConstants();
-  public static TraversoClimbRotatorConstants rotate = new TraversoClimbRotatorConstants();
+  // public static TraversoClimbExtenderConstants extend = new TraversoClimbExtenderConstants();
+  // public static TraversoClimbRotatorConstants rotate = new TraversoClimbRotatorConstants();
 
   public static TraversoCargoRotatorConstants cargoConstants = new TraversoCargoRotatorConstants();
   public static TraversoBeltConstants beltConstants = new TraversoBeltConstants();
@@ -36,149 +36,151 @@ public class Operator {
     // climbBinds();
     // shootBinds();
 
-    controller.getButtons().A().whileHeld(new GetDistance(RobotContainer.m_limelight));
-    controller.getButtons().Y().whileHeld(new AlignToUpperHub(RobotContainer.m_limelight, RobotContainer.m_drive));
+    controller.getButtons().A().whileHeld(new AlignToUpperHub(RobotContainer.m_limelight, RobotContainer.m_drive));
+    // controller.getButtons().X().whenPressed(new InstantCommand(() -> RobotContainer.m_cargoRotator.setPosition(0)));
+    // controller.getButtons().Y().whenPressed(new InstantCommand(() -> RobotContainer.m_cargoRotator.setPosition(90)));
+    
 
-    SmartDashboard.putNumber("Voltage output", 0);
-    controller.getButtons().Y().whileHeld(new InstantCommand(() -> RobotContainer.m_cargoShooter.setVoltage(SmartDashboard.getNumber("Voltage output", 0))));
-    controller.getButtons().Y().whenReleased(new InstantCommand(() -> RobotContainer.m_cargoShooter.setVoltage(0)));
+    // SmartDashboard.putNumber("Voltage output", 0);
+    // controller.getButtons().Y().whileHeld(new InstantCommand(() -> RobotContainer.m_cargoShooter.setVoltage(SmartDashboard.getNumber("Voltage output", 0))));
+    // controller.getButtons().Y().whenReleased(new InstantCommand(() -> RobotContainer.m_cargoShooter.setVoltage(0)));
 
-    SmartDashboard.putNumber("set speed", 0);
-    controller.getButtons().X().whenPressed(new InstantCommand(() -> RobotContainer.m_cargoShooter.setSpeed(SmartDashboard.getNumber("set speed", 0))));
+    // SmartDashboard.putNumber("set speed", 0);
+    // controller.getButtons().X().whenPressed(new InstantCommand(() -> RobotContainer.m_cargoShooter.setSpeed(SmartDashboard.getNumber("set speed", 0))));
 
-    controller.getButtons().B().whenPressed(new InstantCommand(()-> RobotContainer.m_cargoShooter.disable()));
-    controller.getButtons().A().whenPressed(new InstantCommand(()-> RobotContainer.m_cargoShooter.enable()));
+    // controller.getButtons().B().whenPressed(new InstantCommand(()-> RobotContainer.m_cargoShooter.disable()));
+    // controller.getButtons().A().whenPressed(new InstantCommand(()-> RobotContainer.m_cargoShooter.enable()));
 
-    SmartDashboard.putNumber("belt speed", 0);
-    controller.getButtons().RB().whileHeld(new InstantCommand(() -> RobotContainer.m_cargoBelt.setOutput(SmartDashboard.getNumber("belt speed", 0))));
-    controller.getButtons().RB().whenReleased(new InstantCommand(() -> RobotContainer.m_cargoBelt.setOutput(0)));
+    // SmartDashboard.putNumber("belt speed", 0);
+    // controller.getButtons().RB().whileHeld(new InstantCommand(() -> RobotContainer.m_cargoBelt.setOutput(SmartDashboard.getNumber("belt speed", 0))));
+    // controller.getButtons().RB().whenReleased(new InstantCommand(() -> RobotContainer.m_cargoBelt.setOutput(0)));
 
   }
 
   public static void climbBinds() {
-    controller.getDPad().up().whenPressed(new SequentialCommandGroup( new ParallelCommandGroup(
-      // arm rotates to 90 degrees
-      new FunctionalCommand(
-        ClimberMethods::enableRotator, // on init, do this
-        () -> ClimberMethods.setAngle(rotate.kNinetyDeg), // on execute, do this
-        interrupted -> ClimberMethods.disableRotator(), // on end, do this
-        () -> ClimberMethods.isRotatorAtSetpoint(), // end command when this is true
-        RobotContainer.m_climbRotatorL, RobotContainer.m_climbRotatorR // object requirements
-      ),
+    // controller.getDPad().up().whenPressed(new SequentialCommandGroup( new ParallelCommandGroup(
+    //   // arm rotates to 90 degrees
+    //   new FunctionalCommand(
+    //     ClimberMethods::enableRotator, // on init, do this
+    //     () -> ClimberMethods.setAngle(rotate.kNinetyDeg), // on execute, do this
+    //     interrupted -> ClimberMethods.disableRotator(), // on end, do this
+    //     () -> ClimberMethods.isRotatorAtSetpoint(), // end command when this is true
+    //     RobotContainer.m_climbRotatorL, RobotContainer.m_climbRotatorR // object requirements
+    //   ),
 
-      // stow the arm
-      new FunctionalCommand(
-        ShooterMethods::enableWheel, 
-        () -> ShooterMethods.setAngle(cargoConstants.kStowPos), 
-        interrupted -> ShooterMethods.disableWheel(), 
-        () -> ShooterMethods.isWheelAtSetpoint(), 
-        RobotContainer.m_cargoRotator
-      ),
+    //   // stow the arm
+    //   new FunctionalCommand(
+    //     ShooterMethods::enableWheel, 
+    //     () -> ShooterMethods.setAngle(cargoConstants.kStowPos), 
+    //     interrupted -> ShooterMethods.disableWheel(), 
+    //     () -> ShooterMethods.isWheelAtSetpoint(), 
+    //     RobotContainer.m_cargoRotator
+    //   ),
 
-      // disable the wheel && belt
-      new InstantCommand(() -> ShooterMethods.disableWheel()),
-      new InstantCommand(() -> ShooterMethods.disableBelt()),
+    //   // disable the wheel && belt
+    //   new InstantCommand(() -> ShooterMethods.disableWheel()),
+    //   new InstantCommand(() -> ShooterMethods.disableBelt()),
 
-      // extender goes all the way up
-      new FunctionalCommand(
-        // on initialization of the command, do:
-        ClimberMethods::enableExtender, 
-        // when executed, do:
-        () -> ClimberMethods.setExtension(extend.kMaxUpwards),
-        // when the command is ended, do:
-        interrupted -> ClimberMethods.disableExtender(), 
-        // when this is true, end
-        () -> ClimberMethods.isExtenderAtSetpoint(), 
-        // object requirements
-        RobotContainer.m_extenderL, RobotContainer.m_extenderR
-      )
-    )));
+    //   // extender goes all the way up
+    //   new FunctionalCommand(
+    //     // on initialization of the command, do:
+    //     ClimberMethods::enableExtender, 
+    //     // when executed, do:
+    //     () -> ClimberMethods.setExtension(extend.kMaxUpwards),
+    //     // when the command is ended, do:
+    //     interrupted -> ClimberMethods.disableExtender(), 
+    //     // when this is true, end
+    //     () -> ClimberMethods.isExtenderAtSetpoint(), 
+    //     // object requirements
+    //     RobotContainer.m_extenderL, RobotContainer.m_extenderR
+    //   )
+    // )));
 
-    // this extends the arm to its lowest point and extends the arm upwards a little
-    controller.getDPad().down().whenPressed(new SequentialCommandGroup(    
-      // extender goes to its lowest position
-      new FunctionalCommand(
-        ClimberMethods::enableExtender, // on init, do this
-        () -> ClimberMethods.setExtension(extend.kMaxDownwards), // on execute, do this
-        interrupted -> ClimberMethods.disableExtender(), // on end, do this
-        () -> ClimberMethods.isExtenderAtSetpoint(), // end command when this is true
-        RobotContainer.m_extenderL, RobotContainer.m_extenderR // object requirements
-      ),
+    // // this extends the arm to its lowest point and extends the arm upwards a little
+    // controller.getDPad().down().whenPressed(new SequentialCommandGroup(    
+    //   // extender goes to its lowest position
+    //   new FunctionalCommand(
+    //     ClimberMethods::enableExtender, // on init, do this
+    //     () -> ClimberMethods.setExtension(extend.kMaxDownwards), // on execute, do this
+    //     interrupted -> ClimberMethods.disableExtender(), // on end, do this
+    //     () -> ClimberMethods.isExtenderAtSetpoint(), // end command when this is true
+    //     RobotContainer.m_extenderL, RobotContainer.m_extenderR // object requirements
+    //   ),
 
-      // static hook should be hooked on now
+    //   // static hook should be hooked on now
 
-      // extender goes up a little
-      new FunctionalCommand(
-        ClimberMethods::enableExtender, // on init, do this
-        () -> ClimberMethods.setExtension(extend.kSlightlyUpward), // on execute, do this
-        interrupted -> ClimberMethods.disableExtender(), // on end, do this
-        () -> ClimberMethods.isExtenderAtSetpoint(), // end command when this is true
-        RobotContainer.m_extenderL, RobotContainer.m_extenderR // object requirements
-      )
-    ));
+    //   // extender goes up a little
+    //   new FunctionalCommand(
+    //     ClimberMethods::enableExtender, // on init, do this
+    //     () -> ClimberMethods.setExtension(extend.kSlightlyUpward), // on execute, do this
+    //     interrupted -> ClimberMethods.disableExtender(), // on end, do this
+    //     () -> ClimberMethods.isExtenderAtSetpoint(), // end command when this is true
+    //     RobotContainer.m_extenderL, RobotContainer.m_extenderR // object requirements
+    //   )
+    // ));
 
-    // the arm rotates backwards, extends, angles to the bar, compresses, && returns to 90 degrees
-    controller.getDPad().right().whenPressed(new SequentialCommandGroup(
+    // // the arm rotates backwards, extends, angles to the bar, compresses, && returns to 90 degrees
+    // controller.getDPad().right().whenPressed(new SequentialCommandGroup(
 
-      // arm rotates max backwards
-      new FunctionalCommand(
-        ClimberMethods::enableRotator, // on init, do this
-        () -> ClimberMethods.setAngle(rotate.kMaxBackward), // on execute, do this
-        interrupted -> ClimberMethods.disableRotator(), // on end, do this
-        () -> ClimberMethods.isRotatorAtSetpoint(), // end command when this is true
-        RobotContainer.m_climbRotatorL, RobotContainer.m_climbRotatorR // object requirements
-      ),
+    //   // arm rotates max backwards
+    //   new FunctionalCommand(
+    //     ClimberMethods::enableRotator, // on init, do this
+    //     () -> ClimberMethods.setAngle(rotate.kMaxBackward), // on execute, do this
+    //     interrupted -> ClimberMethods.disableRotator(), // on end, do this
+    //     () -> ClimberMethods.isRotatorAtSetpoint(), // end command when this is true
+    //     RobotContainer.m_climbRotatorL, RobotContainer.m_climbRotatorR // object requirements
+    //   ),
 
-      // extender goes to its maximum point
-      new FunctionalCommand(
-        ClimberMethods::enableExtender, // on init, do this
-        () -> ClimberMethods.setExtension(extend.kMaxUpwards), // on execute, do this
-        interrupted -> ClimberMethods.disableExtender(), // on end, do this
-        () -> ClimberMethods.isExtenderAtSetpoint(), // end command when this is true
-        RobotContainer.m_extenderL, RobotContainer.m_extenderR // object requirements
-      ),
+    //   // extender goes to its maximum point
+    //   new FunctionalCommand(
+    //     ClimberMethods::enableExtender, // on init, do this
+    //     () -> ClimberMethods.setExtension(extend.kMaxUpwards), // on execute, do this
+    //     interrupted -> ClimberMethods.disableExtender(), // on end, do this
+    //     () -> ClimberMethods.isExtenderAtSetpoint(), // end command when this is true
+    //     RobotContainer.m_extenderL, RobotContainer.m_extenderR // object requirements
+    //   ),
 
-      // rotate the arm to the bar
-      new FunctionalCommand(
-        ClimberMethods::enableRotator, // on init, do this
-        () -> ClimberMethods.setAngle(rotate.kToBar), // on execute, do this
-        interrupted -> ClimberMethods.disableRotator(), // on end, do this
-        () -> ClimberMethods.isRotatorAtSetpoint(), // end command when this is true
-        RobotContainer.m_climbRotatorL, RobotContainer.m_climbRotatorR // object requirements
-      ),
+    //   // rotate the arm to the bar
+    //   new FunctionalCommand(
+    //     ClimberMethods::enableRotator, // on init, do this
+    //     () -> ClimberMethods.setAngle(rotate.kToBar), // on execute, do this
+    //     interrupted -> ClimberMethods.disableRotator(), // on end, do this
+    //     () -> ClimberMethods.isRotatorAtSetpoint(), // end command when this is true
+    //     RobotContainer.m_climbRotatorL, RobotContainer.m_climbRotatorR // object requirements
+    //   ),
 
-      // run two commands at once
-      new ParallelCommandGroup(
-        // extender goes max downwards
-        new FunctionalCommand(
-          ClimberMethods::enableExtender, // on init, do this
-          () -> ClimberMethods.setExtension(extend.kMaxDownwards), // on execute, do this
-          interrupted -> ClimberMethods.disableExtender(), // on end, do this
-          () -> ClimberMethods.isExtenderAtSetpoint(), // end command when this is true
-          RobotContainer.m_extenderL, RobotContainer.m_extenderR // object requirements
-        ),
-        // arm rotates to 90 degrees
-        new FunctionalCommand(
-          ClimberMethods::enableRotator, // on init, do this
-          () -> ClimberMethods.setAngle(rotate.kNinetyDeg), // on execute, do this
-          interrupted -> ClimberMethods.disableRotator(), // on end, do this
-          () -> ClimberMethods.isRotatorAtSetpoint(), // end command when this is true
-          RobotContainer.m_climbRotatorL, RobotContainer.m_climbRotatorR // object requirements
-        )
-      )
-    ));
+    //   // run two commands at once
+    //   new ParallelCommandGroup(
+    //     // extender goes max downwards
+    //     new FunctionalCommand(
+    //       ClimberMethods::enableExtender, // on init, do this
+    //       () -> ClimberMethods.setExtension(extend.kMaxDownwards), // on execute, do this
+    //       interrupted -> ClimberMethods.disableExtender(), // on end, do this
+    //       () -> ClimberMethods.isExtenderAtSetpoint(), // end command when this is true
+    //       RobotContainer.m_extenderL, RobotContainer.m_extenderR // object requirements
+    //     ),
+    //     // arm rotates to 90 degrees
+    //     new FunctionalCommand(
+    //       ClimberMethods::enableRotator, // on init, do this
+    //       () -> ClimberMethods.setAngle(rotate.kNinetyDeg), // on execute, do this
+    //       interrupted -> ClimberMethods.disableRotator(), // on end, do this
+    //       () -> ClimberMethods.isRotatorAtSetpoint(), // end command when this is true
+    //       RobotContainer.m_climbRotatorL, RobotContainer.m_climbRotatorR // object requirements
+    //     )
+    //   )
+    // ));
 
-    // resume the sequence
-    controller.getButtons().START().whenPressed((new ParallelCommandGroup(
-      new InstantCommand(() -> ClimberMethods.enableExtender()),
-      new InstantCommand(() -> ClimberMethods.enableRotator())
-    )));
+    // // resume the sequence
+    // controller.getButtons().START().whenPressed((new ParallelCommandGroup(
+    //   new InstantCommand(() -> ClimberMethods.enableExtender()),
+    //   new InstantCommand(() -> ClimberMethods.enableRotator())
+    // )));
 
-    // end the sequence
-    controller.getButtons().BACK().whenPressed((new ParallelCommandGroup(
-      new InstantCommand(() -> ClimberMethods.disableExtender()),
-      new InstantCommand(() -> ClimberMethods.disableRotator())
-    )));
+    // // end the sequence
+    // controller.getButtons().BACK().whenPressed((new ParallelCommandGroup(
+    //   new InstantCommand(() -> ClimberMethods.disableExtender()),
+    //   new InstantCommand(() -> ClimberMethods.disableRotator())
+    // )));
   }
 
   public static void shootBinds() {

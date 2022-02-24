@@ -32,6 +32,7 @@ public class CargoShooter extends SubsystemBase {
     CargoShooterPID.setTolerance(constants.kVelocityPIDTolerance);
     CargoShooterPID.reset();
     CargoShooterPID.setSetpoint(motorSpeed);
+    enable();
   }
 
   @Override
