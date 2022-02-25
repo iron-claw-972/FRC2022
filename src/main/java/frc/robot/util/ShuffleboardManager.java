@@ -10,10 +10,7 @@ import frc.robot.commands.DriveDistance;
 
 public class ShuffleboardManager {
 
-  
   SendableChooser<Command> autoCommand = new SendableChooser<>();
-
-  // Command pathweaver = Pathweaver.pathweaverCommand();
 
   public void setup() {
     update();
@@ -59,7 +56,7 @@ public class ShuffleboardManager {
   }
 
   public Command getAutonomousCommand() {
-    autoCommand.setDefaultOption("pathweaver", Pathweaver.pathweaverCommand(AutoConstants.kTrajectoryName));
+    driveMode();
     return autoCommand.getSelected();
   }
 
