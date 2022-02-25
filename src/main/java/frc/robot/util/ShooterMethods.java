@@ -86,7 +86,7 @@ public class ShooterMethods {
   }
 
   public static boolean isBallShot() {
-    return !isBallContained();
+    return !RobotContainer.m_balldetector.containsBall();
   }
 
   public static void multiSetter(double armAngle, double beltPower, double shooterSpeed) {

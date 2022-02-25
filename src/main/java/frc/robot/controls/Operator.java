@@ -30,7 +30,7 @@ public class Operator{
   //operator buttons
   public static void configureButtonBindings() {
     // climbBinds();
-    shootBinds();
+    shiitakeBinds();
   }
 
   public static void climbBinds() {
