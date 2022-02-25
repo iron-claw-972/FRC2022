@@ -123,8 +123,13 @@ public class Drivetrain extends SubsystemBase {
     m_dDrive = new DifferentialDrive(m_leftMotors, m_rightMotors);
 
     // Inverting one side of the drivetrain as to drive forward
-    m_leftMotors.setInverted(true);
-    m_rightMotors.setInverted(false);
+    if (RobotBase.isSimulation()) {
+      m_leftMotors.setInverted(false);
+      m_rightMotors.setInverted(false);
+    } else {
+      m_leftMotors.setInverted(true);
+      m_rightMotors.setInverted(false);
+    }
 
     m_rightMotor1.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
     m_leftMotor1.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);

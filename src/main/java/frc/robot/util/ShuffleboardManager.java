@@ -6,30 +6,28 @@ import edu.wpi.first.wpilibj2.command.*;
 import frc.robot.RobotContainer;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.autonomous.drivetrain.Pathweaver;
+import frc.robot.controls.Driver;
 
 public class ShuffleboardManager {
 
   
   SendableChooser<Command> autoCommand = new SendableChooser<>();
 
-  // Command pathweaver = Pathweaver.pathweaverCommand();
-
   public void setup() {
-    // autoCommand.setDefaultOption("pathweaver", Pathweaver.pathweaverCommand(AutoConstants.kTrajectoryName));
-    // m_chooser.setDefaultOption("pathweaver", new DifferentialDrive(Drivetrain.getInstance()));
+    autoCommand.setDefaultOption("pathweaver", Pathweaver.pathweaverCommand(AutoConstants.kTrajectoryName));
 
-    // time();
+    time();
   }
 
   public void update() {
-    // driveMode();
+    driveMode();
     subsystemSpam();
   }
 
   public void time() {
-    // SmartDashboard.putNumber("Time Left", DriverStation.getMatchTime());
-    // SmartDashboard.putNumber("Time Left Until Endgame", DriverStation.getMatchTime() - 30);
-    // SmartDashboard.putNumber("Auto Wait", 0);
+    SmartDashboard.putNumber("Time Left", DriverStation.getMatchTime());
+    SmartDashboard.putNumber("Time Left Until Endgame", DriverStation.getMatchTime() - 30);
+    SmartDashboard.putNumber("Auto Wait", 0);
   }
 
   public void driveMode() {
@@ -38,8 +36,8 @@ public class ShuffleboardManager {
     // adds auto to shuffle board
     SmartDashboard.putData(autoCommand);
      
-    // SmartDashboard.putString("Drive Mode", Driver.getDriveMode().toString());
-    // SmartDashboard.putBoolean("Teleop", DriverStation.isTeleop());
+    SmartDashboard.putString("Drive Mode", Driver.getDriveMode().toString());
+    SmartDashboard.putBoolean("Teleop", DriverStation.isTeleop());
   }
 
   public void subsystemSpam() {
@@ -51,8 +49,8 @@ public class ShuffleboardManager {
     // RobotContainer.m_climbRotatorL.loadRotatorShuffleboard();
     // RobotContainer.m_climbRotatorR.loadRotatorShuffleboard();
 
-    // RobotContainer.m_cargoBelt.loadCargoBeltShuffleboard();
-    // RobotContainer.m_cargoShooter.loadCargoShooterShuffleboard();
+    RobotContainer.m_cargoBelt.loadCargoBeltShuffleboard();
+    RobotContainer.m_cargoShooter.loadCargoShooterShuffleboard();
     RobotContainer.m_cargoRotator.loadCargoRotatorShuffleboard();
   }
 

@@ -11,6 +11,7 @@ import frc.robot.subsystems.*;
 import frc.robot.util.ShuffleboardManager;
 import frc.robot.commands.DifferentialDrive;
 import frc.robot.commands.GetDistance;
+import frc.robot.commands.TeleopDrive;
 import frc.robot.controls.*;
 import edu.wpi.first.wpilibj2.command.*;
 import edu.wpi.first.cameraserver.CameraServer;
@@ -76,11 +77,10 @@ import edu.wpi.first.cameraserver.CameraServer;
    */
   public Command getAutonomousCommand() {
     // Attempt to load trajectory from PathWeaver
-    return new InstantCommand();
+    return m_shuffleboard.getAutonomousCommand();
     // return new SequentialCommandGroup(
     //   m_shuffleboard.getAutonomousWaitCommand(),
     //   m_shuffleboard.getAutonomousCommand()
     // );
-    // return m_shuffleboard.getAutonomousCommand();
   }
 }

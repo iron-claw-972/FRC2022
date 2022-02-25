@@ -13,27 +13,28 @@ public class TraversoDriveConstants {
 
   //auto might be off because they were calibrated for classbot3
 
-  public final double kTrackWidth = Units.inchesToMeters(23); // Distance between center of left wheel and center of right wheel in meters
-  public  final int kEncoderResolution = 2048; // 2048 for Falcon500 integrated encoder
+  public final double kTrackWidth = Units.inchesToMeters(31); // Distance between center of left wheel and center of right wheel in meters
+  public final int kEncoderResolution = 2048; // 2048 for Falcon500 integrated encoder
   public final double kWheelDiameter = Units.inchesToMeters(6); // In meters
   public final double kGearRatio = 11.25;
-  public final double kDistancePerPulse = kWheelDiameter * Math.PI / (double) kEncoderResolution / kGearRatio;
+  public final double kWheelCircumference = kWheelDiameter * Math.PI;
+  public final double kDistancePerPulse = (kWheelCircumference * kGearRatio) / (double) kEncoderResolution;
 
   // Use the SysId program in WPILib Tools to estimate values
   // Drivetrain
-  public final double KsLinear = 0.61763; // Ks
-  public final double KvLinear = 2.4394; // Kv
-  public final double KaLinear = 0.19755; // Ka
+  public final double KsLinear = 0.56072; // Ks
+  public final double KvLinear = 2.5044; // Kv
+  public final double KaLinear = 0.15592; // Ka
 
   // Drivetrain (Angular)
-  public final double KsAngular = 0.61763; // Ks
-  public final double KvAngular = 2.4394; // Kv
-  public final double KaAngular = 0.19755; // Ka
+  public final double KsAngular = 0.68983; // Ks
+  public final double KvAngular = 183.65; // Kv
+  public final double KaAngular = 20.98; // Ka
 
   // Position PID gain values
-  public final double KpPosition = 2.8662; // Kp for Ramsete PID
-  public final double KiPosition = 2.8662; // Kp for Ramsete PID
-  public final double KdPosition = 2.8662; // Kp for Ramsete PID
+  public final double KpPosition = 78.212; // Kp for Ramsete PID
+  public final double KiPosition = 0; // Kp for Ramsete PID
+  public final double KdPosition = 4.3924; // Kp for Ramsete PID
 
   // Velocity PID gain values
   public final double KpVelocity = 1; // Proportional

@@ -10,42 +10,68 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import frc.robot.util.ControllerFactory;
 import frc.robot.robotConstants.shooterWheel.TraversoCargoShooterConstants;
 import ctre_shims.TalonEncoder;
+import ctre_shims.TalonEncoderSim;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj.RobotBase;
+import edu.wpi.first.wpilibj.RobotController;
+import edu.wpi.first.wpilibj.simulation.FlywheelSim;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class CargoShooter extends SubsystemBase {
 
   TraversoCargoShooterConstants constants = new TraversoCargoShooterConstants();
 
-  private final WPI_TalonFX m_CargoShooterMotor = ControllerFactory.createTalonFX(constants.kCargoShooterMotorPort , constants.kSupplyCurrentLimit, constants.kSupplyTriggerThreshold, constants.kSupplyTriggerDuration, constants.kCoast);
-  private final TalonEncoder m_CargoShooterEncoder = new TalonEncoder(m_CargoShooterMotor);
+  private final WPI_TalonFX m_cargoShooterMotor = ControllerFactory.createTalonFX(constants.kCargoShooterMotorPort , constants.kSupplyCurrentLimit, constants.kSupplyTriggerThreshold, constants.kSupplyTriggerDuration, constants.kCoast);
+  private final TalonEncoder m_cargoShooterEncoder = new TalonEncoder(m_cargoShooterMotor);
 
-  private final PIDController CargoShooterPID = new PIDController(constants.kP, constants.kI, constants.kD);
+  private final PIDController cargoShooterPID = new PIDController(constants.kP, constants.kI, constants.kD);
+
+  private FlywheelSim m_flywheelSim;
+  private TalonEncoderSim m_flywheelEncoderSim;
 
   private boolean enabled = false;
   private double motorSpeed = 0.0;
 
   public CargoShooter() {
-    enable();
-    m_CargoShooterEncoder.setDistancePerPulse(constants.kDistancePerPulse);
-    m_CargoShooterEncoder.reset();
-    CargoShooterPID.setTolerance(constants.kVelocityPIDTolerance);
-    CargoShooterPID.reset();
-    CargoShooterPID.setSetpoint(motorSpeed);
+    m_cargoShooterEncoder.setDistancePerPulse(constants.kDistancePerPulse);
+    m_cargoShooterEncoder.reset();
+    cargoShooterPID.setTolerance(constants.kVelocityPIDTolerance);
+    cargoShooterPID.reset();
+    cargoShooterPID.setSetpoint(motorSpeed);
+
+    if (RobotBase.isSimulation()) {
+      m_flywheelSim = new FlywheelSim(
+        constants.kFlywheelPlant,
+        constants.kFlywheelGearbox,
+        constants.kGearRatio
+      );
+
+      m_flywheelEncoderSim = new TalonEncoderSim(m_cargoShooterEncoder);
+    }
+
     enable();
   }
 
   @Override
   public void periodic() {
     if (enabled){
-      CargoShooterPID.setSetpoint(motorSpeed);
-      setVoltage(CargoShooterPID.calculate(getVelocity()) + constants.kForward * motorSpeed);
+      cargoShooterPID.setSetpoint(motorSpeed);
+      setVoltage(cargoShooterPID.calculate(getVelocity()) + constants.kForward * motorSpeed);
     }
   }
 
+  @Override
+  public void simulationPeriodic() {
+    m_flywheelSim.setInput(m_cargoShooterMotor.get() * RobotController.getBatteryVoltage());
+    m_flywheelSim.update(0.020);
+
+    m_flywheelEncoderSim.setRate(m_flywheelSim.getAngularVelocityRPM() / 60);
+    SmartDashboard.putNumber("Velocity (RPM)", m_flywheelSim.getAngularVelocityRPM());
+  }
+
   public void setOutput(double motorPower) {
-    m_CargoShooterMotor.set(ControlMode.PercentOutput, MathUtil.clamp(motorPower, -constants.kMotorClamp, constants.kMotorClamp));
+    m_cargoShooterMotor.set(ControlMode.PercentOutput, MathUtil.clamp(motorPower, -constants.kMotorClamp, constants.kMotorClamp));
   }
 
   public void setSpeed(double newSpeed) {
@@ -66,22 +92,22 @@ public class CargoShooter extends SubsystemBase {
   }
 
   public boolean reachedSetpoint() {
-    return CargoShooterPID.atSetpoint();
+    return cargoShooterPID.atSetpoint();
   }
 
   public void loadCargoShooterShuffleboard() {
     SmartDashboard.putBoolean("Cargo Shooter", enabled);
-    SmartDashboard.putData("CargoShooterPID",CargoShooterPID);
+    SmartDashboard.putData("CargoShooterPID",cargoShooterPID);
     SmartDashboard.putNumber("vel", getVelocity());
     SmartDashboard.putNumber("F", 0.0013);
   }
 
   public void setVoltage(double volts){
-    m_CargoShooterMotor.setVoltage(volts);
+    m_cargoShooterMotor.setVoltage(volts);
   }
 
   public double getVelocity(){
-    return m_CargoShooterEncoder.getRate();
+    return m_cargoShooterEncoder.getRate();
 
   }
 

@@ -1,86 +1,15 @@
 {
   "HALProvider": {
     "Other Devices": {
-      "Talon FX[-1]": {
+      "Talon FX[7]": {
         "header": {
           "open": true
         }
       },
-      "Talon FX[-1]/Fwd Limit": {
+      "Talon FX[7]/Integrated Sensor": {
         "header": {
           "open": true
         }
-      },
-      "Talon FX[-1]/Integrated Sensor": {
-        "header": {
-          "open": true
-        }
-      },
-      "Talon FX[-1]/Rev Limit": {
-        "header": {
-          "open": true
-        }
-      },
-      "Talon FX[1]": {
-        "header": {
-          "open": true
-        }
-      },
-      "Talon FX[1]/Integrated Sensor": {
-        "header": {
-          "open": true
-        }
-      },
-      "Talon FX[28]": {
-        "header": {
-          "open": true
-        }
-      },
-      "Talon FX[28]/Integrated Sensor": {
-        "header": {
-          "open": true
-        }
-      },
-      "Talon FX[2]": {
-        "header": {
-          "open": true
-        }
-      },
-      "Talon FX[2]/Integrated Sensor": {
-        "header": {
-          "open": true
-        }
-      },
-      "Talon FX[30]": {
-        "header": {
-          "open": true
-        }
-      },
-      "Talon FX[3]": {
-        "header": {
-          "open": true
-        }
-      },
-      "Talon FX[4]": {
-        "header": {
-          "open": true
-        }
-      },
-      "navX-Sensor[0]": {
-        "header": {
-          "open": true
-        }
-      }
-    },
-    "RoboRIO": {
-      "6V Rail": {
-        "open": true
-      },
-      "RoboRIO Input": {
-        "open": true
-      },
-      "window": {
-        "visible": true
       }
     }
   },
@@ -91,20 +20,10 @@
       "/LiveWindow/CargoBelt": "Subsystem",
       "/LiveWindow/CargoRotator": "Subsystem",
       "/LiveWindow/CargoShooter": "Subsystem",
-      "/LiveWindow/ClimbExtender": "Subsystem",
-      "/LiveWindow/ClimbRotator": "Subsystem",
       "/LiveWindow/Drivetrain": "Subsystem",
       "/LiveWindow/Limelight": "Subsystem",
       "/LiveWindow/Ungrouped/DifferentialDrive[1]": "DifferentialDrive",
-      "/LiveWindow/Ungrouped/DigitalInput[0]": "Digital Input",
-      "/LiveWindow/Ungrouped/DigitalInput[2]": "Digital Input",
-      "/LiveWindow/Ungrouped/DigitalInput[3]": "Digital Input",
-      "/LiveWindow/Ungrouped/DigitalInput[5]": "Digital Input",
-      "/LiveWindow/Ungrouped/DigitalInput[6]": "Digital Input",
-      "/LiveWindow/Ungrouped/DigitalInput[7]": "Digital Input",
-      "/LiveWindow/Ungrouped/DigitalInput[8]": "Digital Input",
-      "/LiveWindow/Ungrouped/PIDController[10]": "PIDController",
-      "/LiveWindow/Ungrouped/PIDController[11]": "PIDController",
+      "/LiveWindow/Ungrouped/DigitalInput[4]": "Digital Input",
       "/LiveWindow/Ungrouped/PIDController[1]": "PIDController",
       "/LiveWindow/Ungrouped/PIDController[2]": "PIDController",
       "/LiveWindow/Ungrouped/PIDController[3]": "PIDController",
@@ -112,45 +31,20 @@
       "/LiveWindow/Ungrouped/PIDController[5]": "PIDController",
       "/LiveWindow/Ungrouped/PIDController[6]": "PIDController",
       "/LiveWindow/Ungrouped/PIDController[7]": "PIDController",
-      "/LiveWindow/Ungrouped/PIDController[8]": "PIDController",
-      "/LiveWindow/Ungrouped/PIDController[9]": "PIDController",
       "/LiveWindow/Ungrouped/Scheduler": "Scheduler",
-      "/LiveWindow/Ungrouped/Talon FX [19]": "Motor Controller",
-      "/LiveWindow/Ungrouped/Talon FX [23]": "Motor Controller",
-      "/LiveWindow/Ungrouped/Talon FX [24]": "Motor Controller",
-      "/LiveWindow/Ungrouped/Talon FX [26]": "Motor Controller",
-      "/LiveWindow/Ungrouped/Talon FX [2]": "Motor Controller",
+      "/LiveWindow/Ungrouped/Talon FX [5]": "Motor Controller",
       "/LiveWindow/Ungrouped/Talon FX [6]": "Motor Controller",
+      "/LiveWindow/Ungrouped/Talon FX [7]": "Motor Controller",
       "/LiveWindow/Ungrouped/navX-Sensor[4]": "Gyro",
+      "/SmartDashboard/Cargo Rotator PID": "PIDController",
       "/SmartDashboard/CargoShooterPID": "PIDController",
       "/SmartDashboard/Field": "Field2d",
-      "/SmartDashboard/PIDController[9]": "PIDController",
       "/SmartDashboard/SendableChooser[0]": "String Chooser"
-    },
-    "windows": {
-      "/SmartDashboard/Field": {
-        "height": 8.229599952697754,
-        "image": "C:\\Users\\richi\\Documents\\Code\\FRC2022\\assets\\2022-field.png",
-        "units": "feet",
-        "width": 16.459199905395508,
-        "window": {
-          "visible": true
-        }
-      }
     }
   },
   "NetworkTables": {
-    "CameraPublisher": {
-      "USB Camera 0": {
-        "open": true
-      },
-      "open": true
-    },
     "SmartDashboard": {
       "open": true
     }
-  },
-  "NetworkTables View": {
-    "visible": false
   }
 }
