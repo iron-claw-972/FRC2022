@@ -183,7 +183,7 @@ public class Operator{
         // keep outtaking until the ball is gone
         new WaitUntilCommand(ShooterMethods::isBallShot),
         // when the ball is gone, disable all shooter subsystems other than the rotator
-        new InstantCommand(() -> ShooterMethods.disableShittake())
+        new InstantCommand(() -> ShooterMethods.disableShooter())
     ),
     new SequentialCommandGroup(
       // move the arm to the shooting position
@@ -205,7 +205,7 @@ public class Operator{
       // keep outtaking until the ball is gone
       new WaitUntilCommand(ShooterMethods::isBallShot),
       // when the ball is gone, disable all shooter subsystems other than the rotator
-      new InstantCommand(() -> ShooterMethods.disableShittake())
+      new InstantCommand(() -> ShooterMethods.disableShooter())
       ),
       ShooterMethods::isArmFront
     ));
@@ -228,7 +228,7 @@ public class Operator{
       new FunctionalCommand(
         ShooterMethods::enableAll,
         () -> ShooterMethods.multiSetter(cargoConstants.kIntakePos, beltConstants.kIntakeSpeed, wheelConstants.kIntakeSpeed),
-        interrupted -> ShooterMethods.disableShittake(),
+        interrupted -> ShooterMethods.disableShooter(),
         () -> ShooterMethods.isBallContained(),
         RobotContainer.m_cargoBelt, RobotContainer.m_cargoShooter, RobotContainer.m_cargoRotator
       ),
