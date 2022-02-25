@@ -298,12 +298,6 @@ public class Operator{
       new InstantCommand(() -> ShooterMethods.setAngle(cargoConstants.kFrontOuttakeFarPos))
     )); 
 
-    // stop intaking (after x is released)
-    // controller.getButtons().X().whenReleased(new SequentialCommandGroup(
-    //   new InstantCommand(() -> ShooterMethods.setAngle(cargoConstants.kFrontOutakeFarPos))
-    // ));
-
-
     //stow arm
     controller.getButtons().Y().whenPressed(new SequentialCommandGroup(
       new FunctionalCommand(
