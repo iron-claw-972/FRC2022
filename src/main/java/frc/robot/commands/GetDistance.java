@@ -19,7 +19,7 @@ public class GetDistance extends CommandBase {
   @Override
   public void execute() {
     // double angle = Units.radiansToDegrees(Math.asin(8.5/22));
-    double angle = m_cargoRotator.currentAngle()-33;
+    double angle = m_cargoRotator.currentAngle();
     double distance = Units.metersToInches(m_limelight.getHubDistance(angle));
     SmartDashboard.putNumber("Distance", distance);
   }

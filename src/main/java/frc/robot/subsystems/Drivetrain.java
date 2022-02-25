@@ -145,21 +145,13 @@ public class Drivetrain extends SubsystemBase {
 
     if (RobotBase.isSimulation()) {
       // This class simulates our drivetrain's motion around the field.
-      // m_drivetrainSim = new DifferentialDrivetrainSim(
-      //     constants.kDrivetrainPlant,
-      //     constants.kDriveGearbox,
-      //     constants.kGearRatio,
-      //     constants.kTrackWidth,
-      //     constants.kWheelDiameter / 2.0,
-      //     VecBuilder.fill(0, 0, 0.0001, 0.1, 0.1, 0.005, 0.005));
       m_drivetrainSim = new DifferentialDrivetrainSim(
-        constants.kDriveGearbox,       // 2 NEO motors on each side of the drivetrain.
-        constants.kGearRatio,                    // 7.29:1 gearing reduction.
-        7.5,                     // MOI of 7.5 kg m^2 (from CAD model).
-        120,                    // The mass of the robot is 60 kg.
-        constants.kWheelDiameter / 2.0, // The robot uses 3" radius wheels.
-        constants.kTrackWidth,                  // The track width is 0.7112 meters.
-        VecBuilder.fill(0.001, 0.001, 0.001, 0.1, 0.1, 0.005, 0.005));
+          constants.kDrivetrainPlant,
+          constants.kDriveGearbox,
+          constants.kGearRatio,
+          constants.kTrackWidth,
+          constants.kWheelDiameter / 2.0,
+          VecBuilder.fill(0, 0, 0.0001, 0.1, 0.1, 0.005, 0.005));
 
       // The encoder and gyro angle sims let us set simulated sensor readings
       m_leftEncoderSim = new TalonEncoderSim(m_leftEncoder);

@@ -1,5 +1,10 @@
 package frc.robot.robotConstants.shooterWheel;
 
+import edu.wpi.first.math.numbers.N1;
+import edu.wpi.first.math.system.LinearSystem;
+import edu.wpi.first.math.system.plant.DCMotor;
+import edu.wpi.first.math.system.plant.LinearSystemId;
+
 public class TraversoCargoShooterConstants {
 
   public final int kCargoShooterMotorPort = 7;
@@ -14,6 +19,8 @@ public class TraversoCargoShooterConstants {
 
   public final int kEncoderResolution = 2048; // 2048 for Falcon500 integrated encoder
   public final double kDistancePerPulse = 100.0 / kEncoderResolution;
+  public final double kGearRatio = (double) 18 / 30;
+
 
   // PID Stuff
   public final double kP = 0.004;
@@ -23,9 +30,17 @@ public class TraversoCargoShooterConstants {
   public final double kVelocityPIDTolerance = 0;
 
   // Feedforward
-  public final double kS = 0;
-  public final double kV = 0;
-  public final double kA = 0;
+  public final double kS = 1.0734;
+  public final double kV = 0.24225;
+  public final double kA = 0.02524;
+
+  public final LinearSystem<N1, N1, N1> kFlywheelPlant =
+    LinearSystemId.identifyVelocitySystem(
+      kV,
+      kA
+    );
+
+  public final DCMotor kFlywheelGearbox = DCMotor.getFalcon500(1);
 
   public final double kMotorClamp = 1;
 

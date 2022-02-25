@@ -13,7 +13,7 @@ public class TraversoDriveConstants {
 
   //auto might be off because they were calibrated for classbot3
 
-  public final double kTrackWidth = Units.inchesToMeters(23); // Distance between center of left wheel and center of right wheel in meters
+  public final double kTrackWidth = Units.inchesToMeters(31); // Distance between center of left wheel and center of right wheel in meters
   public final int kEncoderResolution = 2048; // 2048 for Falcon500 integrated encoder
   public final double kWheelDiameter = Units.inchesToMeters(6); // In meters
   public final double kGearRatio = 11.25;
@@ -27,9 +27,9 @@ public class TraversoDriveConstants {
   public final double KaLinear = 0.15592; // Ka
 
   // Drivetrain (Angular)
-  public final double KsAngular = 0.61763; // Ks
-  public final double KvAngular = 2.4394; // Kv
-  public final double KaAngular = 0.19755; // Ka
+  public final double KsAngular = 0.68983; // Ks
+  public final double KvAngular = 183.65; // Kv
+  public final double KaAngular = 20.98; // Ka
 
   // Position PID gain values
   public final double KpPosition = 78.212; // Kp for Ramsete PID

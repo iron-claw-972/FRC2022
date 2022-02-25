@@ -2,6 +2,9 @@ package frc.robot.subsystems;
 
 import java.util.function.BooleanSupplier;
 
+import edu.wpi.first.math.filter.Debouncer;
+import edu.wpi.first.math.filter.MedianFilter;
+import edu.wpi.first.math.filter.Debouncer.DebounceType;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
@@ -26,6 +29,10 @@ public class Limelight extends SubsystemBase {
   private double m_latency;
   private boolean m_isDriverCamera = true;
   private LEDMode m_ledMode = LEDMode.OFF;
+
+  private MedianFilter m_TxMedianFilter = new MedianFilter(5);
+  private MedianFilter m_TyMedianFilter = new MedianFilter(5);
+  private Debouncer m_TvDebouncer = new Debouncer(0.1, DebounceType.kBoth);
 
   BooleanSupplier m_getIsFacingFront;
 
@@ -63,7 +70,7 @@ public class Limelight extends SubsystemBase {
 
     if (!m_isDriverCamera) {
       m_pipeline = getPipeline();
-      m_hasValidTarget = (getTv() == 1.0);
+      m_hasValidTarget = m_TvDebouncer.calculate(getTv() == 1.0);
 
       if (m_hasValidTarget) {
         m_targetArea = getTa();
@@ -113,19 +120,15 @@ public class Limelight extends SubsystemBase {
     switch (ledMode) {
       case PIPELINE:
         m_table.getEntry("ledMode").setNumber(0);
-        m_ledMode = LEDMode.PIPELINE;
         break;
       case OFF:
         m_table.getEntry("ledMode").setNumber(1);
-        m_ledMode = LEDMode.OFF;
         break;
       case BLINK:
         m_table.getEntry("ledMode").setNumber(2);
-        m_ledMode = LEDMode.BLINK;
         break;
       case ON:
         m_table.getEntry("ledMode").setNumber(3);
-        m_ledMode = LEDMode.ON;
         break;
       default:
         m_table.getEntry("ledMode").setNumber(0);
@@ -136,10 +139,8 @@ public class Limelight extends SubsystemBase {
   public void setCameraMode(boolean isDriverCamera) {
     if (isDriverCamera) {
       m_table.getEntry("camMode").setNumber(1);
-      m_isDriverCamera = true;
     } else {
       m_table.getEntry("camMode").setNumber(0);
-      m_isDriverCamera = false;
     }
   }
 
@@ -159,12 +160,12 @@ public class Limelight extends SubsystemBase {
 
   private double getTx() {
     double tx = m_table.getEntry("tx").getDouble(Double.NaN);
-    return tx;
+    return m_TxMedianFilter.calculate(tx);
   }
 
   private double getTy() {
     double ty = m_table.getEntry("ty").getDouble(Double.NaN);
-    return ty;
+    return m_TyMedianFilter.calculate(ty);
   }
 
   private double getTa() {
@@ -224,7 +225,7 @@ public class Limelight extends SubsystemBase {
   }
 
   private double getLimelightAngle(double armAngle) {
-    return armAngle;
+    return armAngle + constants.kPivotToLimelightAngleDifference;
   }
 
   public double getTargetArea() {
