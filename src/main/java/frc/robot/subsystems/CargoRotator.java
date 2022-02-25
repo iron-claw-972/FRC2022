@@ -17,38 +17,48 @@ public class CargoRotator extends SubsystemBase {
   private final DutyCycleEncoder encoder;
   private final WPI_TalonFX m_motor;
 
-  private double setpoint = 80;
+  private double setpoint = constants.kIntakePos;
+  private double feedforward;
+  private double outputVoltage;
 
   private PIDController armPID = new PIDController(constants.kP, constants.kI, constants.kD);
 
   public CargoRotator() {
+    enable();
     encoder = new DutyCycleEncoder(constants.kArmEncoder);
     m_motor = ControllerFactory.createTalonFX(constants.kArmMotor, constants.kSupplyCurrentLimit,
         constants.kSupplyTriggerThreshold, constants.kSupplyTriggerDuration, constants.kCoast);
 
     // set the tolerance allowed for the PID
     armPID.setTolerance(constants.kArmTolerance);
-    SmartDashboard.putNumber("cargo rotator setpoint", setpoint);
+    SmartDashboard.putNumber("cargo rotator setpoint", constants.kIntakePos);
     SmartDashboard.putData("Cargo Rotator PID", armPID);
   }
 
   @Override
   public void periodic() {
-    enable();
-    SmartDashboard.putNumber("cos: ", cosineOfAngle(setpoint - 30.0));
-    SmartDashboard.putNumber("ff: ", constants.kFeedForward);
-    SmartDashboard.putNumber("SETPOINT: ", setpoint);
-    SmartDashboard.putNumber("ENCODER VALUE: ", currentAngle());
-    setpoint = SmartDashboard.getNumber("cargo rotator setpoint", 0);
-    double ff = cosineOfAngle(setpoint - 30.0) * constants.kFeedForward * ((currentAngle() < 5.0) ? 0.0 : 1.0);
-    double yeehaw = -(armPID.calculate(currentAngle(), setpoint) + ff);
-    SmartDashboard.putNumber("voltage", yeehaw);
+    setpoint = SmartDashboard.getNumber("cargo rotator setpoint", 2);
+    feedforward = calculateFeedForward(setpoint);
+    outputVoltage = -(armPID.calculate(currentAngle(), setpoint) + feedforward);
+    SmartDashboard.putNumber("voltage", outputVoltage);
     if (enabled) {
-      setVoltage(yeehaw);
+      setVoltage(outputVoltage);
+    }
+  }
+
+  public double calculateFeedForward(double setpoint){
+    // adjusts for the center of mass. only does feedforward if its not on the hardstop
+    if (currentAngle() > (constants.kIntakePos + constants.kFeedForwardHardstopTolerance) && 
+        currentAngle() < (constants.kStowPos - constants.kFeedForwardHardstopTolerance)){
+      return cosineOfAngle(setpoint - constants.kFeedForwardOffsetAngle) * constants.kFeedForward;
+    }
+    else{
+      return 0;
     }
   }
 
   public double currentAngleRaw() {
+    //fixes position of encoder when starting on wrong side of 0 position
     if (encoder.get() > 0.5) {
       return encoder.get() - 1.0;
     } else {
@@ -58,7 +68,7 @@ public class CargoRotator extends SubsystemBase {
 
   // returns the current angle of the duty cycle encoder with offset accounted for
   public double currentAngle() {
-    return (currentAngleRaw() * constants.kArmDegreeMultiple) + (constants.kOffset * constants.kArmDegreeMultiple);
+    return (currentAngleRaw() + constants.kOffset) * constants.kArmDegreeMultiple;
   }
 
   public boolean reachedSetpoint() {
@@ -96,42 +106,6 @@ public class CargoRotator extends SubsystemBase {
     return Math.cos(angle * (Math.PI / 180.0));
   }
 
-  /*
-   * public boolean isIntake(){
-   * return (constants.kIntakePos - constants.kArmTolerance < currentAngle() &&
-   * currentAngle() < constants.kIntakePos + constants.kArmTolerance);
-   * }
-   * 
-   * public boolean isStow(){
-   * return (constants.kStowPos - constants.kArmTolerance < currentAngle() &&
-   * currentAngle() < constants.kStowPos + constants.kArmTolerance);
-   * }
-   * 
-   * public boolean isFrontOutakeNear(){
-   * return (constants.kFrontOutakeNearPos - constants.kArmTolerance <
-   * currentAngle() &&
-   * currentAngle() < constants.kFrontOutakeNearPos + constants.kArmTolerance);
-   * }
-   * 
-   * public boolean isFrontOutakeFar(){
-   * return (constants.kFrontOutakeFarPos - constants.kArmTolerance <
-   * currentAngle() &&
-   * currentAngle() < constants.kFrontOutakeFarPos + constants.kArmTolerance);
-   * }
-   * 
-   * public boolean isBackOutakeNear(){
-   * return (constants.kBackOutakeNearPos - constants.kArmTolerance <
-   * currentAngle() &&
-   * currentAngle() < constants.kBackOutakeNearPos + constants.kArmTolerance);
-   * }
-   * 
-   * public boolean isBackOutakeFar(){
-   * return (constants.kBackOutakeFarPos - constants.kArmTolerance <
-   * currentAngle() &&
-   * currentAngle() < constants.kBackOutakeFarPos + constants.kArmTolerance);
-   * }
-   */
-
   public boolean isIntake() {
     return (constants.kIntakePos == setpoint);
   }
@@ -141,19 +115,23 @@ public class CargoRotator extends SubsystemBase {
   }
 
   public boolean isFrontOutakeNear() {
-    return (constants.kFrontOutakeNearPos == setpoint);
+    return (constants.kFrontOuttakeNearPos == setpoint);
   }
 
   public boolean isFrontOutakeFar() {
-    return (constants.kFrontOutakeFarPos == setpoint);
+    return (constants.kFrontOuttakeFarPos == setpoint);
+  }
+
+  public boolean isFront(){
+    return isFrontOutakeFar() || isFrontOutakeNear();
   }
 
   public boolean isBackOutakeNear() {
-    return (constants.kBackOutakeNearPos == setpoint);
+    return (constants.kBackOuttakeNearPos == setpoint);
   }
 
   public boolean isBackOutakeFar() {
-    return (constants.kBackOutakeFarPos == setpoint);
+    return (constants.kBackOuttakeFarPos == setpoint);
   }
 
   public void loadCargoRotatorShuffleboard() {
