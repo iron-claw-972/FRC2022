@@ -25,10 +25,10 @@ public class TraversoCargoRotatorConstants {
     
     // locations
     public final double kIntakePos = 2; // 0 degrees (when on hardstops)
-    public final double kBackOutakeNearPos = 132;
-    public final double kBackOutakeFarPos = 147;
-    public final double kFrontOutakeNearPos = 100; // TODO: Update this value
-    public final double kFrontOutakeFarPos = 90;
+    public final double kBackOuttakeNearPos = 132;
+    public final double kBackOuttakeFarPos = 147;
+    public final double kFrontOuttakeNearPos = 100; // TODO: Update this value
+    public final double kFrontOuttakeFarPos = 90;
     public final double kStowPos = 170;
     
     // pid constants

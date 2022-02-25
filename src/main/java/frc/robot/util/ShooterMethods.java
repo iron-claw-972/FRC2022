@@ -20,6 +20,15 @@ public class ShooterMethods {
   public static boolean isArmAtSetpoint() {
     return RobotContainer.m_cargoRotator.reachedSetpoint();
   }
+
+  public static boolean isArmBack(){
+    return RobotContainer.m_cargoRotator.isBackOutakeFar() || RobotContainer.m_cargoRotator.isBackOutakeNear();
+  }
+
+  public static boolean isArmFront(){
+    return RobotContainer.m_cargoRotator.isFrontOutakeFar() || RobotContainer.m_cargoRotator.isFrontOutakeNear();
+  }
+
   //
 
   // belt methods
@@ -67,7 +76,7 @@ public class ShooterMethods {
     RobotContainer.m_cargoShooter.enable();
   }
 
-  public static void disableShooter() {
+  public static void disableShittake() {
     RobotContainer.m_cargoBelt.disable();
     RobotContainer.m_cargoShooter.disable();
   }
@@ -85,4 +94,5 @@ public class ShooterMethods {
     RobotContainer.m_cargoBelt.setOutput(beltPower);
     RobotContainer.m_cargoShooter.setSpeed(shooterSpeed);
   }
+
 }

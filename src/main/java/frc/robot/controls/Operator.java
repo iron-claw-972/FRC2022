@@ -162,11 +162,34 @@ public class Operator{
   public static void shootBinds() {
     // RT -> shoot
     // get to the shooting position and shoot the ball
-    controller.getButtons().RB().whenPressed(new SequentialCommandGroup(
+    controller.getButtons().RB().whenPressed(new ConditionalCommand(
+      new SequentialCommandGroup(
+        // move the arm to the shooting position
+        new FunctionalCommand(
+          ShooterMethods::enableArm, 
+          () -> ShooterMethods.setAngle(cargoConstants.kFrontOuttakeFarPos), 
+          interrupted -> {}, 
+          () -> ShooterMethods.isArmAtSetpoint(), 
+          RobotContainer.m_cargoRotator
+        ),
+        // spin the wheel and afterwards spin the belt
+        new FunctionalCommand(
+          ShooterMethods::enableWheel, 
+          () -> ShooterMethods.setWheelSpeed(wheelConstants.kFrontOuttakeFarSpeed), 
+          interrupted -> ShooterMethods.setBeltSpeed(beltConstants.kOuttakeSpeed), 
+          () -> ShooterMethods.isWheelAtSetpoint(),
+          RobotContainer.m_cargoShooter, RobotContainer.m_cargoBelt
+        ),
+        // keep outtaking until the ball is gone
+        new WaitUntilCommand(ShooterMethods::isBallShot),
+        // when the ball is gone, disable all shooter subsystems other than the rotator
+        new InstantCommand(() -> ShooterMethods.disableShittake())
+    ),
+    new SequentialCommandGroup(
       // move the arm to the shooting position
       new FunctionalCommand(
         ShooterMethods::enableArm, 
-        () -> ShooterMethods.setAngle(cargoConstants.kFrontOutakeFarPos), 
+        () -> ShooterMethods.setAngle(cargoConstants.kBackOuttakeFarPos), 
         interrupted -> {}, 
         () -> ShooterMethods.isArmAtSetpoint(), 
         RobotContainer.m_cargoRotator
@@ -174,7 +197,7 @@ public class Operator{
       // spin the wheel and afterwards spin the belt
       new FunctionalCommand(
         ShooterMethods::enableWheel, 
-        () -> ShooterMethods.setWheelSpeed(wheelConstants.kFrontOuttakeFarSpeed), 
+        () -> ShooterMethods.setWheelSpeed(wheelConstants.kBackOuttakeFarSpeed), 
         interrupted -> ShooterMethods.setBeltSpeed(beltConstants.kOuttakeSpeed), 
         () -> ShooterMethods.isWheelAtSetpoint(),
         RobotContainer.m_cargoShooter, RobotContainer.m_cargoBelt
@@ -182,25 +205,17 @@ public class Operator{
       // keep outtaking until the ball is gone
       new WaitUntilCommand(ShooterMethods::isBallShot),
       // when the ball is gone, disable all shooter subsystems other than the rotator
-      new InstantCommand(() -> ShooterMethods.disableShooter())
+      new InstantCommand(() -> ShooterMethods.disableShittake())
+      ),
+      ShooterMethods::isArmFront
     ));
 
-    controller.getButtons().A().whenPressed(
-      // move cargo arm to the back
-      new FunctionalCommand(
-        ShooterMethods::enableArm, 
-        () -> ShooterMethods.setAngle(cargoConstants.kBackOutakeFarPos), 
-        interrupted -> {}, 
-        () -> ShooterMethods.isArmAtSetpoint(), 
-        RobotContainer.m_cargoRotator
-      )
-    );
 
     controller.getButtons().B().whenPressed(
       // move cargo arm to the front
       new FunctionalCommand(
         ShooterMethods::enableArm, 
-        () -> ShooterMethods.setAngle(cargoConstants.kFrontOutakeFarPos),
+        () -> ShooterMethods.setAngle(cargoConstants.kFrontOuttakeFarPos),
         interrupted -> {}, 
         () -> ShooterMethods.isArmAtSetpoint(), 
         RobotContainer.m_cargoRotator
@@ -213,17 +228,17 @@ public class Operator{
       new FunctionalCommand(
         ShooterMethods::enableAll,
         () -> ShooterMethods.multiSetter(cargoConstants.kIntakePos, beltConstants.kIntakeSpeed, wheelConstants.kIntakeSpeed),
-        interrupted -> ShooterMethods.disableShooter(),
+        interrupted -> ShooterMethods.disableShittake(),
         () -> ShooterMethods.isBallContained(),
         RobotContainer.m_cargoBelt, RobotContainer.m_cargoShooter, RobotContainer.m_cargoRotator
       ),
-      new InstantCommand(() -> ShooterMethods.setAngle(cargoConstants.kFrontOutakeFarPos))
+      new InstantCommand(() -> ShooterMethods.setAngle(cargoConstants.kFrontOuttakeFarPos))
     )); 
 
     // stop intaking (after x is released)
-    controller.getButtons().X().whenReleased(new SequentialCommandGroup(
-      new InstantCommand(() -> ShooterMethods.setAngle(cargoConstants.kFrontOutakeFarPos))
-    ));
+    // controller.getButtons().X().whenReleased(new SequentialCommandGroup(
+    //   new InstantCommand(() -> ShooterMethods.setAngle(cargoConstants.kFrontOutakeFarPos))
+    // ));
 
     controller.getButtons().Y().whenPressed(new SequentialCommandGroup(
       // stow the arm

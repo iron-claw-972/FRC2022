@@ -114,19 +114,23 @@ public class CargoRotator extends SubsystemBase {
   }
 
   public boolean isFrontOutakeNear() {
-    return (constants.kFrontOutakeNearPos == setpoint);
+    return (constants.kFrontOuttakeNearPos == setpoint);
   }
 
   public boolean isFrontOutakeFar() {
-    return (constants.kFrontOutakeFarPos == setpoint);
+    return (constants.kFrontOuttakeFarPos == setpoint);
+  }
+
+  public boolean isFront(){
+    return isFrontOutakeFar() || isFrontOutakeNear();
   }
 
   public boolean isBackOutakeNear() {
-    return (constants.kBackOutakeNearPos == setpoint);
+    return (constants.kBackOuttakeNearPos == setpoint);
   }
 
   public boolean isBackOutakeFar() {
-    return (constants.kBackOutakeFarPos == setpoint);
+    return (constants.kBackOuttakeFarPos == setpoint);
   }
 
   public void loadCargoRotatorShuffleboard() {

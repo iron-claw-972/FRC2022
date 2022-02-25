@@ -137,8 +137,14 @@ public class GameController extends Controller {
     public double leftTrigger() {
       return getController().getRawAxis(GameConstants.triggers.kLeftT);
     }
+    public boolean leftTriggerButton(){
+      return leftTrigger() > 0.5;
+    }
     public double rightTrigger() {
       return getController().getRawAxis(GameConstants.triggers.kRightT);
+    }
+    public boolean rightTriggerButton(){
+      return rightTrigger() > 0.5;
     }
   }
 }
