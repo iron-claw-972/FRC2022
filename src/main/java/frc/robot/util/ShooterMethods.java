@@ -76,7 +76,7 @@ public class ShooterMethods {
     RobotContainer.m_cargoShooter.enable();
   }
 
-  public static void disableShooter() {
+  public static void disableShiitake() {
     RobotContainer.m_cargoBelt.disable();
     RobotContainer.m_cargoShooter.disable();
   }
