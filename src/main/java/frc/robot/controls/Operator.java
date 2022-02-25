@@ -30,7 +30,7 @@ public class Operator{
   //operator buttons
   public static void configureButtonBindings() {
     // climbBinds();
-    shootBinds();
+    shiitakeBinds();
   }
 
   public static void climbBinds() {
@@ -159,7 +159,7 @@ public class Operator{
     )));
   }
 
-  public static void shootBinds() {
+  public static void shiitakeBinds() {
     // RT -> shoot
     // get to the shooting position and shoot the ball
     controller.getButtons().RB().whenPressed(new ConditionalCommand(
@@ -234,11 +234,6 @@ public class Operator{
       ),
       new InstantCommand(() -> ShooterMethods.setAngle(cargoConstants.kFrontOuttakeFarPos))
     )); 
-
-    // stop intaking (after x is released)
-    // controller.getButtons().X().whenReleased(new SequentialCommandGroup(
-    //   new InstantCommand(() -> ShooterMethods.setAngle(cargoConstants.kFrontOutakeFarPos))
-    // ));
 
     controller.getButtons().Y().whenPressed(new SequentialCommandGroup(
       // stow the arm
