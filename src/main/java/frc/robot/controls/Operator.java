@@ -161,6 +161,8 @@ public class Operator{
 
   public static void shootBinds() {
     // RT -> shoot
+    
+
     // get to the shooting position and shoot the ball
     controller.getButtons().RB().whenPressed(new ConditionalCommand(
       new SequentialCommandGroup(
@@ -240,8 +242,9 @@ public class Operator{
     //   new InstantCommand(() -> ShooterMethods.setAngle(cargoConstants.kFrontOutakeFarPos))
     // ));
 
+
+    //stow arm
     controller.getButtons().Y().whenPressed(new SequentialCommandGroup(
-      // stow the arm
       new FunctionalCommand(
         ShooterMethods::enableArm, 
         () -> ShooterMethods.setAngle(cargoConstants.kStowPos), 
