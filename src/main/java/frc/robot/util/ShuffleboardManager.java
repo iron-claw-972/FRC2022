@@ -7,6 +7,9 @@ import frc.robot.RobotContainer;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.autonomous.drivetrain.Pathweaver;
 import frc.robot.commands.DriveDistance;
+import frc.robot.subsystems.CargoShooter;
+import frc.robot.subsystems.ClimbExtender;
+import frc.robot.subsystems.ClimbRotator;
 
 public class ShuffleboardManager {
 
@@ -21,6 +24,7 @@ public class ShuffleboardManager {
     // driveMode();
     // subsystemSpam();
     // time();
+
   }
 
   public void time() {
@@ -44,15 +48,17 @@ public class ShuffleboardManager {
   public void subsystemSpam() {
     // put subsystem shuffleboard things in here!
 
-    RobotContainer.m_extenderL.loadExtenderShuffleboard();
-    RobotContainer.m_extenderR.loadExtenderShuffleboard();
+    loadClimbExtenderShuffleboard(RobotContainer.m_extenderL);
+    loadClimbExtenderShuffleboard(RobotContainer.m_extenderR);
 
-    RobotContainer.m_climbRotatorL.loadRotatorShuffleboard();
-    RobotContainer.m_climbRotatorR.loadRotatorShuffleboard();
+    loadClimbRotatorShuffleboard(RobotContainer.m_climbRotatorL);
+    loadClimbRotatorShuffleboard(RobotContainer.m_climbRotatorR);
 
-    RobotContainer.m_cargoBelt.loadCargoBeltShuffleboard();
-    RobotContainer.m_cargoShooter.loadCargoShooterShuffleboard();
-    RobotContainer.m_cargoRotator.loadCargoRotatorShuffleboard();
+    loadCargoShooterShuffleboard();
+    loadCargoRotatorShuffleboard();
+    loadCargoBeltShuffleboard();
+    
+
   }
 
   public Command getAutonomousCommand() {
@@ -62,6 +68,49 @@ public class ShuffleboardManager {
 
   public Command getAutonomousWaitCommand() {
     return new WaitCommand(SmartDashboard.getNumber("Auto Wait", 0));
+  }
+
+  public void loadCargoRotatorShuffleboard() {
+    SmartDashboard.putNumber("Cargo Arm Angle", RobotContainer.m_cargoRotator.currentAngle());
+    SmartDashboard.putBoolean("Cargo Rotator", RobotContainer.m_cargoRotator.isEnabled());
+    SmartDashboard.putNumber("Raw Angle", RobotContainer.m_cargoRotator.currentAngleRaw());
+    SmartDashboard.putData(RobotContainer.m_cargoRotator.cargoRotatorPID);
+    SmartDashboard.putNumber("cargo rotator setpoint", RobotContainer.m_cargoRotator.getSetpoint());
+  }
+
+  public void loadCargoShooterShuffleboard() {
+    SmartDashboard.putBoolean("Cargo Shooter", RobotContainer.m_cargoShooter.isEnabled());
+    SmartDashboard.putData("CargoShooterPID", RobotContainer.m_cargoShooter.cargoShooterPID);
+    SmartDashboard.putNumber("vel", RobotContainer.m_cargoShooter.getVelocity());
+  }
+
+  public void loadClimbExtenderShuffleboard(ClimbExtender extender) {
+    SmartDashboard.putData("Climb Extender PID", extender.extenderPID);
+    // a pop-up in shuffleboard that allows you to see how much the arm extended in inches
+    SmartDashboard.putNumber(extender.getDirection() + " Extension", extender.currentExtension());
+    // a pop-up in shuffleboard that states if the extender is on/off
+    SmartDashboard.putBoolean(extender.getDirection() + " Extender", extender.isEnabled());
+  }
+
+  public void loadClimbRotatorShuffleboard(ClimbRotator rotator) {
+    // a pop-up in shuffleboard that allows you to see how much the arm extended in inches
+    SmartDashboard.putNumber(rotator.getDirection() + " Angle", rotator.currentAngle());
+    // a pop-up in shuffleboard that states if the rotator is on/off
+    SmartDashboard.putBoolean(rotator.getDirection() + " Rotator", rotator.isEnabled());
+    // PID values that can be modified in shuffleboard
+    SmartDashboard.putData("Climb Rotator PID", rotator.armPID);
+    // zero value that can be modified in shuffleboard
+    SmartDashboard.putNumber("Zero ClimbR", 80);
+  }
+
+  public void loadCargoBeltShuffleboard(){
+    SmartDashboard.putBoolean("Cargo Belt", RobotContainer.m_cargoBelt.isEnabled());
+  }
+
+  public void loadBallDetectionShuffleboard(){
+    SmartDashboard.putBoolean("Has Red Ball", RobotContainer.m_ballDetection.hasRedBall());
+    SmartDashboard.putBoolean("Has Blue Ball", RobotContainer.m_ballDetection.hasBlueBall());
+    SmartDashboard.putBoolean("Has Ball", RobotContainer.m_ballDetection.containsBall());
   }
 }
   

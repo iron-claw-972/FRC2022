@@ -21,7 +21,7 @@ public class CargoShooter extends SubsystemBase {
   private final WPI_TalonFX m_CargoShooterMotor = ControllerFactory.createTalonFX(constants.kCargoShooterMotorPort , constants.kSupplyCurrentLimit, constants.kSupplyTriggerThreshold, constants.kSupplyTriggerDuration, constants.kCoast);
   private final TalonEncoder m_CargoShooterEncoder = new TalonEncoder(m_CargoShooterMotor);
 
-  private final PIDController CargoShooterPID = new PIDController(constants.kP, constants.kI, constants.kD);
+  public PIDController cargoShooterPID = new PIDController(constants.kP, constants.kI, constants.kD);
 
   private boolean enabled = false;
   private double motorSpeed = 0.0;
@@ -30,16 +30,16 @@ public class CargoShooter extends SubsystemBase {
     enable();
     m_CargoShooterEncoder.setDistancePerPulse(constants.kDistancePerPulse);
     m_CargoShooterEncoder.reset();
-    CargoShooterPID.setTolerance(constants.kVelocityPIDTolerance);
-    CargoShooterPID.reset();
-    CargoShooterPID.setSetpoint(motorSpeed);
+    cargoShooterPID.setTolerance(constants.kVelocityPIDTolerance);
+    cargoShooterPID.reset();
+    cargoShooterPID.setSetpoint(motorSpeed);
   }
 
   @Override
   public void periodic() {
     if (enabled){
-      CargoShooterPID.setSetpoint(motorSpeed);
-      setVoltage(CargoShooterPID.calculate(getVelocity()) + constants.kForward * motorSpeed);
+      cargoShooterPID.setSetpoint(motorSpeed);
+      setVoltage(cargoShooterPID.calculate(getVelocity()) + constants.kForward * motorSpeed);
     }
   }
 
@@ -65,14 +65,7 @@ public class CargoShooter extends SubsystemBase {
   }
 
   public boolean reachedSetpoint() {
-    return CargoShooterPID.atSetpoint();
-  }
-
-  public void loadCargoShooterShuffleboard() {
-    SmartDashboard.putBoolean("Cargo Shooter", enabled);
-    SmartDashboard.putData("CargoShooterPID",CargoShooterPID);
-    SmartDashboard.putNumber("vel", getVelocity());
-    SmartDashboard.putNumber("F", 0.0013);
+    return cargoShooterPID.atSetpoint();
   }
 
   public void setVoltage(double volts){
@@ -81,7 +74,10 @@ public class CargoShooter extends SubsystemBase {
 
   public double getVelocity(){
     return m_CargoShooterEncoder.getRate();
+  }
 
+  public boolean isEnabled() {
+    return enabled;
   }
 
 }

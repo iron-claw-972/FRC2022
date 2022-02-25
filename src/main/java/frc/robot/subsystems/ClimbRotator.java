@@ -8,7 +8,6 @@ import frc.robot.util.LimitSwitch;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class ClimbRotator extends SubsystemBase {
@@ -23,7 +22,7 @@ public class ClimbRotator extends SubsystemBase {
   private double setPoint = 90;
   private double encoderOffset;
 
-  private PIDController armPID = new PIDController(constants.kOffLoadP , constants.kOffLoadI , constants.kOffLoadD);
+  public PIDController armPID = new PIDController(constants.kOffLoadP , constants.kOffLoadI , constants.kOffLoadD);
   private LimitSwitch limitSwitchLower, limitSwitchUpper;
 
   public ClimbRotator(boolean isLeft) {
@@ -126,14 +125,11 @@ public class ClimbRotator extends SubsystemBase {
     setPoint = goal;
   }
 
-  public void loadRotatorShuffleboard() {
-    // a pop-up in shuffleboard that allows you to see how much the arm extended in inches
-    SmartDashboard.putNumber(direction + " Angle", currentAngle());
-    // a pop-up in shuffleboard that states if the rotator is on/off
-    SmartDashboard.putBoolean(direction + " Rotator", enabled);
-    // PID values that can be modified in shuffleboard
-    SmartDashboard.putData("Climb Rotator PID", armPID);
-    // zero value that can be modified in shuffleboard
-    SmartDashboard.putNumber("Zero ClimbR", 80);
+  public boolean isEnabled() {
+    return enabled;
+  }
+
+  public String getDirection() {
+      return direction;
   }
 }
