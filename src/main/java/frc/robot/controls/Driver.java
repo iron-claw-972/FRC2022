@@ -5,6 +5,8 @@ import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj.Joystick;
 import frc.robot.Constants.*;
 import frc.robot.Constants;
+import frc.robot.RobotContainer;
+import frc.robot.commands.AlignToUpperHub;
 import frc.robot.commands.Intake;
 import frc.robot.robotConstants.cargoRotator.TraversoCargoRotatorConstants;
 import frc.robot.robotConstants.shooterBelt.TraversoBeltConstants;
@@ -32,6 +34,7 @@ public class Driver {
     controller.getButtons().backSwitchTop().whenPressed(
         () -> setDriveMode(DriveMode.ARCADE));
     controller.getButtons().backSwitchBottom().whenPressed(new Intake(cargoConstants.kIntakePos, beltConstants.kIntakeSpeed, wheelConstants.kIntakeSpeed, cargoConstants.kFrontOuttakeFarPos, true, Constants.kIsRedAlliance));
+    controller.getButtons().frontSwitchBottom().whenPressed(new AlignToUpperHub(RobotContainer.m_limelight, RobotContainer.m_drive));
   }
   
   public static double getThrottleValue() {
