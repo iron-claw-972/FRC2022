@@ -23,7 +23,7 @@ public class CargoShooter extends SubsystemBase {
   private final WPI_TalonFX m_cargoShooterMotor = ControllerFactory.createTalonFX(constants.kCargoShooterMotorPort , constants.kSupplyCurrentLimit, constants.kSupplyTriggerThreshold, constants.kSupplyTriggerDuration, constants.kCoast);
   private final TalonEncoder m_cargoShooterEncoder = new TalonEncoder(m_cargoShooterMotor);
 
-  private final PIDController cargoShooterPID = new PIDController(constants.kP, constants.kI, constants.kD);
+  public final PIDController cargoShooterPID = new PIDController(constants.kP, constants.kI, constants.kD);
 
   private FlywheelSim m_flywheelSim;
   private TalonEncoderSim m_flywheelEncoderSim;
@@ -91,20 +91,16 @@ public class CargoShooter extends SubsystemBase {
     return cargoShooterPID.atSetpoint();
   }
 
-  public void loadCargoShooterShuffleboard() {
-    SmartDashboard.putBoolean("Cargo Shooter", enabled);
-    SmartDashboard.putData("CargoShooterPID",cargoShooterPID);
-    SmartDashboard.putNumber("vel", getVelocity());
-    SmartDashboard.putNumber("F", 0.0013);
-  }
-
   public void setVoltage(double volts){
     m_cargoShooterMotor.setVoltage(volts);
   }
 
   public double getVelocity(){
     return m_cargoShooterEncoder.getRate();
+  }
 
+  public boolean isEnabled() {
+    return enabled;
   }
 
 }

@@ -1,6 +1,10 @@
 package frc.robot.util;
 
+import java.util.function.DoubleSupplier;
+
+import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.shuffleboard.*;
 import edu.wpi.first.wpilibj.smartdashboard.*;
 import edu.wpi.first.wpilibj2.command.*;
 import frc.robot.RobotContainer;
@@ -8,26 +12,41 @@ import frc.robot.Constants.AutoConstants;
 import frc.robot.autonomous.drivetrain.Pathweaver;
 import frc.robot.controls.Driver;
 import frc.robot.commands.DriveDistance;
+import frc.robot.subsystems.CargoShooter;
+import frc.robot.subsystems.ClimbExtender;
+import frc.robot.subsystems.ClimbRotator;
 
 public class ShuffleboardManager {
 
   SendableChooser<Command> autoCommand = new SendableChooser<>();
+  ShuffleboardTab primaryTab = Shuffleboard.getTab("main");
+  ShuffleboardTab pidTab = Shuffleboard.getTab("PID config");
+  
+  NetworkTableEntry autoWait = primaryTab.add("Auto Wait", 0).getEntry();
 
   public void setup() {
+    primaryTab.addBoolean("Teleop", DriverStation::isTeleop);
+    // driveMode();
+    // subsystemSpam();
+    // time();
     update();
 
   }
 
   public void update() {
-    driveMode();
-    subsystemSpam();
-    time();
+    // driveMode();
+    // subsystemSpam();
+    // time();
   }
 
   public void time() {
-    SmartDashboard.putNumber("Time Left", DriverStation.getMatchTime());
-    SmartDashboard.putNumber("Time Left Until Endgame", DriverStation.getMatchTime() - 30);
-    SmartDashboard.putNumber("Auto Wait", 0);
+    primaryTab.addNumber("Time Left", DriverStation::getMatchTime);
+    primaryTab.addNumber("Time Left Until Endgame" , this::getDriverStationTimeTillEndGame);
+    // primaryTab.add("Auto Wait", 0);
+  }
+
+  private double getDriverStationTimeTillEndGame(){
+    return DriverStation.getMatchTime() -30;
   }
 
   public void driveMode() {
@@ -36,7 +55,8 @@ public class ShuffleboardManager {
     autoCommand.addOption("Spin baby spin", new RunCommand(() -> RobotContainer.m_drive.tankDrive(0.5, -0.5), RobotContainer.m_drive));
     autoCommand.addOption("fetch me my paper boy", new SequentialCommandGroup(new DriveDistance(9000, RobotContainer.m_drive), new DriveDistance(-9000, RobotContainer.m_drive)));
     // adds auto to shuffle board
-    SmartDashboard.putData(autoCommand);
+    primaryTab.add("Auto Chooser",autoCommand);
+    // SmartDashboard.putData("Auto Chooser",autoCommand);
      
     SmartDashboard.putString("Drive Mode", Driver.getDriveMode().toString());
     SmartDashboard.putBoolean("Teleop", DriverStation.isTeleop());
@@ -45,15 +65,17 @@ public class ShuffleboardManager {
   public void subsystemSpam() {
     // put subsystem shuffleboard things in here!
 
-    // RobotContainer.m_extenderL.loadExtenderShuffleboard();
-    // RobotContainer.m_extenderR.loadExtenderShuffleboard();
+    // loadClimbExtenderShuffleboard(RobotContainer.m_extenderL);
+    // loadClimbExtenderShuffleboard(RobotContainer.m_extenderR);
 
-    // RobotContainer.m_climbRotatorL.loadRotatorShuffleboard();
-    // RobotContainer.m_climbRotatorR.loadRotatorShuffleboard();
+    // loadClimbRotatorShuffleboard(RobotContainer.m_climbRotatorL);
+    // loadClimbRotatorShuffleboard(RobotContainer.m_climbRotatorR);
 
-    RobotContainer.m_cargoBelt.loadCargoBeltShuffleboard();
-    RobotContainer.m_cargoShooter.loadCargoShooterShuffleboard();
-    RobotContainer.m_cargoRotator.loadCargoRotatorShuffleboard();
+    loadCargoShooterShuffleboard();
+    loadCargoRotatorShuffleboard();
+    loadCargoBeltShuffleboard();
+    
+
   }
 
   public Command getAutonomousCommand() {
@@ -62,7 +84,55 @@ public class ShuffleboardManager {
   }
 
   public Command getAutonomousWaitCommand() {
-    return new WaitCommand(SmartDashboard.getNumber("Auto Wait", 0));
+    System.out.println(autoWait.getDouble(0));
+    return new WaitCommand(autoWait.getDouble(0));
   }
+
+  public void loadCargoRotatorShuffleboard() {
+    primaryTab.addNumber("Cargo Arm Angle", RobotContainer.m_cargoRotator::currentAngle);
+    primaryTab.addBoolean("Cargo Rotator", RobotContainer.m_cargoRotator::isEnabled);
+    primaryTab.addNumber("Raw Angle", RobotContainer.m_cargoRotator::currentAngleRaw);
+    primaryTab.addNumber("cargo rotator setpoint", RobotContainer.m_cargoRotator::getSetpoint);
+
+    pidTab.add("Cargo Rotator PID",RobotContainer.m_cargoRotator.cargoRotatorPID);
+  }
+
+  public void loadCargoShooterShuffleboard() {
+    primaryTab.addBoolean("Cargo Shooter", RobotContainer.m_cargoShooter::isEnabled);
+    primaryTab.addNumber("vel", RobotContainer.m_cargoShooter::getVelocity);
+    primaryTab.addNumber("cargo rotator setpoint", RobotContainer.m_cargoRotator::getSetpoint);
+    
+    pidTab.add("CargoShooterPID", RobotContainer.m_cargoShooter.cargoShooterPID);
+  }
+
+  public void loadClimbExtenderShuffleboard(ClimbExtender extender) {
+    // a pop-up in shuffleboard that allows you to see how much the arm extended in inches
+    primaryTab.addNumber(extender.getDirection() + " Extension", extender::currentExtension);
+    // a pop-up in shuffleboard that states if the extender is on/off
+    primaryTab.addBoolean(extender.getDirection() + " Extender", extender::isEnabled);
+    
+    pidTab.add("Climb Extender PID", extender.extenderPID);
+  }
+
+  public void loadClimbRotatorShuffleboard(ClimbRotator rotator) {
+    // a pop-up in shuffleboard that allows you to see how much the arm extended in inches
+    primaryTab.addNumber(rotator.getDirection() + " Angle", rotator::currentAngle);
+    // a pop-up in shuffleboard that states if the rotator is on/off
+    primaryTab.addBoolean(rotator.getDirection() + " Rotator", rotator::isEnabled);
+    
+    // PID values that can be modified in shuffleboard
+    pidTab.add("Climb Rotator PID", rotator.armPID);
+  }
+
+  public void loadCargoBeltShuffleboard(){
+    primaryTab.addBoolean("Cargo Belt", RobotContainer.m_cargoBelt::isEnabled);
+  }
+
+  public void loadBallDetectionShuffleboard(){
+    primaryTab.addBoolean("Has Red Ball", RobotContainer.m_ballDetection::hasRedBall);
+    primaryTab.addBoolean("Has Blue Ball", RobotContainer.m_ballDetection::hasBlueBall);
+    primaryTab.addBoolean("Has Ball", RobotContainer.m_ballDetection::containsBall);
+  }
+
 }
   

@@ -8,7 +8,6 @@ import frc.robot.robotConstants.colorSensor.TraversoColorSensorConstants;
 import com.revrobotics.ColorSensorV3;
 
 import edu.wpi.first.wpilibj.I2C;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color;
 
 public class BallDetection extends SubsystemBase {
@@ -29,13 +28,13 @@ public class BallDetection extends SubsystemBase {
     detectedColor = m_colorSensor.getColor();
     proximity = m_colorSensor.getProximity();
 
-    boolean hasRedBall = hasRedBall();
-    boolean hasBlueBall = hasBlueBall();
+    // boolean hasRedBall = hasRedBall();
+    // boolean hasBlueBall = hasBlueBall();
     
-    SmartDashboard.putBoolean("Has Red Ball", hasRedBall);
-    SmartDashboard.putBoolean("Has Blue Ball", hasBlueBall);
-    SmartDashboard.putBoolean("Has Ball Securely", containsBallSecurely());
-    SmartDashboard.putBoolean("Has Ball", containsBall());
+    // SmartDashboard.putBoolean("Has Red Ball", hasRedBall);
+    // SmartDashboard.putBoolean("Has Blue Ball", hasBlueBall);
+    // SmartDashboard.putBoolean("Has Ball Securely", containsBallSecurely());
+    // SmartDashboard.putBoolean("Has Ball", containsBall());
   }
 
   public boolean hasRedBall() {
