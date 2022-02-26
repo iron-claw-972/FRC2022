@@ -32,6 +32,11 @@ public class AlignToUpperHub extends CommandBase {
 
   @Override
   public boolean isFinished() {
-    return m_limelight.isAlignedToTarget();
+    return alignPID.atSetpoint();
+  }
+
+  @Override
+  public void end(boolean interrupted) {
+    m_limelight.setCameraMode(true);
   }
 }

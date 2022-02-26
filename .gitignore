@@ -164,3 +164,4 @@ bin/
 /sim/**
 
 shuffleboarddebug.json
+/sim*.json

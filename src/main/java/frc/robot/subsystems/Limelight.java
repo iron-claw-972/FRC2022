@@ -139,8 +139,10 @@ public class Limelight extends SubsystemBase {
   public void setCameraMode(boolean isDriverCamera) {
     if (isDriverCamera) {
       m_table.getEntry("camMode").setNumber(1);
+      m_isDriverCamera = true;
     } else {
       m_table.getEntry("camMode").setNumber(0);
+      m_isDriverCamera = false;
     }
   }
 
@@ -248,10 +250,6 @@ public class Limelight extends SubsystemBase {
 
   private void setUpperHubPipeline() {
     setPipeline(Pipeline.UPPER_HUB);
-  }
-
-  public boolean isAlignedToTarget() {
-    return m_horizontalAngularOffset < 2;
   }
 
   public double getHubDistance(double armAngle) {
