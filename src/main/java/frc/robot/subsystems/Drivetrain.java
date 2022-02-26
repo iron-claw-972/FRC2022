@@ -431,4 +431,12 @@ public class Drivetrain extends SubsystemBase {
   public void updateMotors(){
     m_dDrive.feed();
   }
+
+  public double getLeftPosition(){
+    return m_leftEncoder.getDistance();
+  }
+
+  public double getRightPosition(){
+    return m_rightEncoder.getDistance();
+  }
 }

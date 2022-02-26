@@ -7,21 +7,21 @@ import frc.robot.RobotContainer;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.autonomous.drivetrain.Pathweaver;
 import frc.robot.controls.Driver;
+import frc.robot.commands.DriveDistance;
 
 public class ShuffleboardManager {
 
-  
   SendableChooser<Command> autoCommand = new SendableChooser<>();
 
   public void setup() {
-    autoCommand.setDefaultOption("pathweaver", Pathweaver.pathweaverCommand(AutoConstants.kTrajectoryName));
+    update();
 
-    time();
   }
 
   public void update() {
     driveMode();
     subsystemSpam();
+    time();
   }
 
   public void time() {
@@ -31,8 +31,10 @@ public class ShuffleboardManager {
   }
 
   public void driveMode() {
+    autoCommand.setDefaultOption("pathweaver", Pathweaver.pathweaverCommand(AutoConstants.kTrajectoryName));
     // m_chooser.addOption("teleop", new TeleopDrive(Drivetrain.getInstance()));
     autoCommand.addOption("Spin baby spin", new RunCommand(() -> RobotContainer.m_drive.tankDrive(0.5, -0.5), RobotContainer.m_drive));
+    autoCommand.addOption("fetch me my paper boy", new SequentialCommandGroup(new DriveDistance(9000, RobotContainer.m_drive), new DriveDistance(-9000, RobotContainer.m_drive)));
     // adds auto to shuffle board
     SmartDashboard.putData(autoCommand);
      
@@ -55,6 +57,7 @@ public class ShuffleboardManager {
   }
 
   public Command getAutonomousCommand() {
+    driveMode();
     return autoCommand.getSelected();
   }
 
