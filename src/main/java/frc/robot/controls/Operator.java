@@ -10,6 +10,9 @@ import frc.robot.RobotContainer;
 import frc.robot.Constants.*;
 import frc.robot.commands.AlignToUpperHub;
 import frc.robot.commands.GetDistance;
+import frc.robot.commands.Intake;
+import frc.robot.commands.PositionArm;
+import frc.robot.commands.Shoot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.*;
 import frc.robot.RobotContainer;
@@ -188,71 +191,21 @@ public class Operator {
   }
 
   public static void shootBinds() {
-    // RT -> shoot
-    // get to the shooting position and shoot the ball
     controller.getButtons().RB().whenPressed(new ConditionalCommand(
-      new SequentialCommandGroup(
-        new InstantCommand(() -> ShooterMethods.enableArm()),
-        new InstantCommand(() -> ShooterMethods.setAngle(cargoConstants.kFrontOuttakeFarPos)),
-        new WaitUntilCommand(() -> ShooterMethods.isArmAtSetpoint()),
-        new AlignToUpperHub(RobotContainer.m_limelight, RobotContainer.m_drive),
-        new InstantCommand(() -> ShooterMethods.enableWheel()),
-        new InstantCommand(() -> ShooterMethods.setBeltSpeed(beltConstants.kIntakeSpeed)),
-        new InstantCommand(() -> ShooterMethods.setWheelSpeed(wheelConstants.kFrontOuttakeFarSpeed)),
-        new WaitUntilCommand(() -> ShooterMethods.isWheelAtSetpoint()),
-        new InstantCommand(() -> ShooterMethods.setBeltSpeed(beltConstants.kOuttakeSpeed)),
-        new WaitUntilCommand(() -> ShooterMethods.isBallShot()),
-        new WaitCommand(0.5),
-        new InstantCommand(() -> ShooterMethods.disableShooter()),
-        new InstantCommand(() -> ShooterMethods.disableBelt())
-      ),
-      new SequentialCommandGroup(
-        new InstantCommand(() -> ShooterMethods.enableArm()),
-        new InstantCommand(() -> ShooterMethods.setAngle(cargoConstants.kBackOuttakeFarPos)),
-        new WaitUntilCommand(() -> ShooterMethods.isArmAtSetpoint()),
-        new AlignToUpperHub(RobotContainer.m_limelight, RobotContainer.m_drive),
-        new InstantCommand(() -> ShooterMethods.enableWheel()),
-        new InstantCommand(() -> ShooterMethods.setBeltSpeed(beltConstants.kIntakeSpeed)),
-        new InstantCommand(() -> ShooterMethods.setWheelSpeed(wheelConstants.kBackOuttakeFarSpeed)),
-        new WaitUntilCommand(() -> ShooterMethods.isWheelAtSetpoint()),
-        new InstantCommand(() -> ShooterMethods.setBeltSpeed(beltConstants.kOuttakeSpeed)),
-        new WaitUntilCommand(() -> ShooterMethods.isBallShot()),
-        new WaitCommand(0.5),
-        new InstantCommand(() -> ShooterMethods.disableShooter()),
-        new InstantCommand(() -> ShooterMethods.disableBelt())
-      ),
+      new Shoot(cargoConstants.kFrontOuttakeFarPos, beltConstants.kIntakeSpeed, wheelConstants.kFrontOuttakeFarSpeed, beltConstants.kOuttakeSpeed, true),
+      new Shoot(cargoConstants.kBackOuttakeFarPos, beltConstants.kIntakeSpeed, wheelConstants.kBackOuttakeFarSpeed, beltConstants.kOuttakeSpeed, true),
+      ShooterMethods::isArmFront
+    ));
+    controller.getButtons().RT().whenActive(new ConditionalCommand(
+      new Shoot(cargoConstants.kFrontOuttakeNearPos, beltConstants.kIntakeSpeed, wheelConstants.kFrontOuttakeNearSpeed, beltConstants.kOuttakeSpeed, false),
+      new Shoot(cargoConstants.kBackOuttakeNearPos, beltConstants.kIntakeSpeed, wheelConstants.kBackOuttakeNearSpeed, beltConstants.kOuttakeSpeed, false),
       ShooterMethods::isArmFront
     ));
 
-
-    controller.getButtons().B().whenPressed(new SequentialCommandGroup(
-      new InstantCommand(() -> ShooterMethods.enableArm()),
-      new InstantCommand(() -> ShooterMethods.setAngle(cargoConstants.kFrontOuttakeFarPos)),
-      new WaitUntilCommand(() -> ShooterMethods.isArmAtSetpoint())
-    ));
-
-    // start intaking
-    controller.getButtons().X().whenPressed(new SequentialCommandGroup(
-      new InstantCommand(() -> ShooterMethods.enableAll()),
-      new InstantCommand(() -> ShooterMethods.multiSetter(cargoConstants.kIntakePos, beltConstants.kIntakeSpeed, wheelConstants.kIntakeSpeed)),
-      new WaitUntilCommand(() -> ShooterMethods.isBallContained()),
-      new InstantCommand(() -> ShooterMethods.disableShooter()),
-      new InstantCommand(() -> ShooterMethods.setBeltSpeed(beltConstants.kIntakeSpeed)),
-      new InstantCommand(() -> ShooterMethods.setAngle(cargoConstants.kFrontOuttakeFarPos)),
-      new WaitUntilCommand(() -> ShooterMethods.isArmAtSetpoint()),
-      new InstantCommand(() -> ShooterMethods.disableBelt())
-    )); 
-
-    // stop intaking (after x is released)
-    // controller.getButtons().X().whenReleased(new SequentialCommandGroup(
-    //   new InstantCommand(() -> ShooterMethods.setAngle(cargoConstants.kFrontOutakeFarPos))
-    // ));
-
-    controller.getButtons().Y().whenPressed(new SequentialCommandGroup(
-      new InstantCommand(() -> ShooterMethods.enableArm()),
-      new InstantCommand(() -> ShooterMethods.setAngle(cargoConstants.kStowPos)),
-      new WaitUntilCommand(() -> ShooterMethods.isArmAtSetpoint())
-    ));
+    controller.getButtons().A().whenPressed(new PositionArm(cargoConstants.kBackOuttakeFarPos));
+    controller.getButtons().B().whenPressed(new PositionArm(cargoConstants.kFrontOuttakeFarPos));
+    controller.getButtons().X().whenPressed(new Intake(cargoConstants.kIntakePos, beltConstants.kIntakeSpeed, wheelConstants.kIntakeSpeed, cargoConstants.kFrontOuttakeFarPos)); 
+    controller.getButtons().Y().whenPressed(new PositionArm(cargoConstants.kStowPos));
   }
 
   // public static void cargoTestBinds() {
