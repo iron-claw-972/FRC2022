@@ -1,6 +1,7 @@
 package frc.robot.util;
 
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.shuffleboard.*;
 import edu.wpi.first.wpilibj.smartdashboard.*;
 import edu.wpi.first.wpilibj2.command.*;
 import frc.robot.RobotContainer;
@@ -14,8 +15,11 @@ import frc.robot.subsystems.ClimbRotator;
 public class ShuffleboardManager {
 
   SendableChooser<Command> autoCommand = new SendableChooser<>();
+  ShuffleboardTab primaryTab = Shuffleboard.getTab("main");
+  ShuffleboardTab pidTab = Shuffleboard.getTab("PID config");
 
   public void setup() {
+    primaryTab.addBoolean("Teleop", DriverStation::isTeleop);
     update();
 
   }
@@ -24,13 +28,14 @@ public class ShuffleboardManager {
     // driveMode();
     // subsystemSpam();
     // time();
-
+    
+    
   }
 
   public void time() {
-    SmartDashboard.putNumber("Time Left", DriverStation.getMatchTime());
-    SmartDashboard.putNumber("Time Left Until Endgame", DriverStation.getMatchTime() - 30);
-    SmartDashboard.putNumber("Auto Wait", 0);
+    primaryTab.addNumber("Time Left", DriverStation::getMatchTime);
+    primaryTab.add("Time Left Until Endgame", DriverStation.getMatchTime() - 30);
+    // primaryTab.add("Auto Wait", 0);
   }
 
   public void driveMode() {
@@ -39,10 +44,9 @@ public class ShuffleboardManager {
     autoCommand.addOption("Spin baby spin", new RunCommand(() -> RobotContainer.m_drive.tankDrive(0.5, -0.5), RobotContainer.m_drive));
     autoCommand.addOption("fetch me my paper boy", new SequentialCommandGroup(new DriveDistance(9000, RobotContainer.m_drive), new DriveDistance(-9000, RobotContainer.m_drive)));
     // adds auto to shuffle board
-    SmartDashboard.putData(autoCommand);
+    primaryTab.add("Auto Chooser",autoCommand);
      
     // SmartDashboard.putString("Drive Mode", Driver.getDriveMode().toString());
-    SmartDashboard.putBoolean("Teleop", DriverStation.isTeleop());
   }
 
   public void subsystemSpam() {
@@ -67,14 +71,16 @@ public class ShuffleboardManager {
   }
 
   public Command getAutonomousWaitCommand() {
-    return new WaitCommand(SmartDashboard.getNumber("Auto Wait", 0));
+    System.out.println(primaryTab.add("Auto Wait", 0).getEntry().getDouble(0));
+    return new WaitCommand(primaryTab.add("Auto Wait", 0).getEntry().getDouble(0));
   }
+
 
   public void loadCargoRotatorShuffleboard() {
     SmartDashboard.putNumber("Cargo Arm Angle", RobotContainer.m_cargoRotator.currentAngle());
     SmartDashboard.putBoolean("Cargo Rotator", RobotContainer.m_cargoRotator.isEnabled());
     SmartDashboard.putNumber("Raw Angle", RobotContainer.m_cargoRotator.currentAngleRaw());
-    SmartDashboard.putData(RobotContainer.m_cargoRotator.cargoRotatorPID);
+    SmartDashboard.putData("Cargo Rotator PID",RobotContainer.m_cargoRotator.cargoRotatorPID);
     SmartDashboard.putNumber("cargo rotator setpoint", RobotContainer.m_cargoRotator.getSetpoint());
   }
 
@@ -112,5 +118,6 @@ public class ShuffleboardManager {
     SmartDashboard.putBoolean("Has Blue Ball", RobotContainer.m_ballDetection.hasBlueBall());
     SmartDashboard.putBoolean("Has Ball", RobotContainer.m_ballDetection.containsBall());
   }
+
 }
   
