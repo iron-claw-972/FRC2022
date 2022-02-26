@@ -36,10 +36,10 @@ import edu.wpi.first.cameraserver.CameraServer;
 
   public static Drivetrain m_drive = new Drivetrain();
 
-  // public static ClimbRotator m_climbRotatorR = new ClimbRotator(false);
-  // public static ClimbRotator m_climbRotatorL = new ClimbRotator(true);
-  // public static ClimbExtender m_extenderR = new ClimbExtender(false);
-  // public static ClimbExtender m_extenderL = new ClimbExtender(true);
+  public static ClimbRotator m_climbRotatorR = new ClimbRotator(false);
+  public static ClimbRotator m_climbRotatorL = new ClimbRotator(true);
+  public static ClimbExtender m_extenderR = new ClimbExtender(false);
+  public static ClimbExtender m_extenderL = new ClimbExtender(true);
   public static CargoRotator m_cargoRotator = new CargoRotator();
   public static CargoBelt m_cargoBelt = new CargoBelt();
   public static CargoShooter m_cargoShooter = new CargoShooter();
