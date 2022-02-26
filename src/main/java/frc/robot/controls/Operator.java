@@ -1,8 +1,11 @@
 package frc.robot.controls;
 
 
+import java.time.Instant;
+
 import controllers.*;
 import edu.wpi.first.wpilibj.Joystick;
+import frc.robot.Robot;
 import frc.robot.RobotContainer;
 import frc.robot.Constants.*;
 import frc.robot.commands.AlignToUpperHub;
@@ -34,9 +37,10 @@ public class Operator {
   //operator buttons
   public static void configureButtonBindings() {
     // climbBinds();
-    // shootBinds();
+    shootBinds();
+    //controller.getButtons().LB().whenPressed(new InstantCommand(() -> ShooterMethods.enableAll()));
 
-    controller.getButtons().A().whileHeld(new AlignToUpperHub(RobotContainer.m_limelight, RobotContainer.m_drive));
+    //controller.getButtons().A().whileHeld(new AlignToUpperHub(RobotContainer.m_limelight, RobotContainer.m_drive));
     // controller.getButtons().X().whenPressed(new InstantCommand(() -> RobotContainer.m_cargoRotator.setPosition(0)));
     // controller.getButtons().Y().whenPressed(new InstantCommand(() -> RobotContainer.m_cargoRotator.setPosition(90)));
     
@@ -55,7 +59,6 @@ public class Operator {
     // controller.getButtons().RB().whileHeld(new InstantCommand(() -> RobotContainer.m_cargoBelt.setOutput(SmartDashboard.getNumber("belt speed", 0))));
     // controller.getButtons().RB().whenReleased(new InstantCommand(() -> RobotContainer.m_cargoBelt.setOutput(0)));
 
-    shootBinds();
   }
 
   public static void climbBinds() {
@@ -189,75 +192,65 @@ public class Operator {
     // get to the shooting position and shoot the ball
     controller.getButtons().RB().whenPressed(new ConditionalCommand(
       new SequentialCommandGroup(
-        // move the arm to the shooting position
-        new FunctionalCommand(
-          ShooterMethods::enableArm, 
-          () -> ShooterMethods.setAngle(cargoConstants.kFrontOuttakeFarPos), 
-          interrupted -> {}, 
-          () -> ShooterMethods.isArmAtSetpoint(), 
-          RobotContainer.m_cargoRotator
-        ),
-        // spin the wheel and afterwards spin the belt
-        new FunctionalCommand(
-          ShooterMethods::enableWheel, 
-          () -> ShooterMethods.setWheelSpeed(wheelConstants.kFrontOuttakeFarSpeed), 
-          interrupted -> ShooterMethods.setBeltSpeed(beltConstants.kOuttakeSpeed), 
-          () -> ShooterMethods.isWheelAtSetpoint(),
-          RobotContainer.m_cargoShooter, RobotContainer.m_cargoBelt
-        ),
-        // keep outtaking until the ball is gone
-        new WaitUntilCommand(ShooterMethods::isBallShot),
-        // when the ball is gone, disable all shooter subsystems other than the rotator
-        new InstantCommand(() -> ShooterMethods.disableShooter())
-    ),
-    new SequentialCommandGroup(
-      // move the arm to the shooting position
-      new FunctionalCommand(
-        ShooterMethods::enableArm, 
-        () -> ShooterMethods.setAngle(cargoConstants.kBackOuttakeFarPos), 
-        interrupted -> {}, 
-        () -> ShooterMethods.isArmAtSetpoint(), 
-        RobotContainer.m_cargoRotator
+        new InstantCommand(() -> ShooterMethods.enableArm()),
+        new InstantCommand(() -> ShooterMethods.setAngle(cargoConstants.kFrontOuttakeFarPos)),
+        new WaitUntilCommand(() -> ShooterMethods.isArmAtSetpoint()),
+        //new AlignToUpperHub(RobotContainer.m_limelight, RobotContainer.m_drive),
+        //new WaitUntilCommand(() -> RobotContainer.m_limelight.alignedToTarget()),
+        new InstantCommand(() -> ShooterMethods.enableWheel()),
+        new InstantCommand(() -> ShooterMethods.setBeltSpeed(beltConstants.kIntakeSpeed)),
+        new InstantCommand(() -> ShooterMethods.setWheelSpeed(wheelConstants.kFrontOuttakeFarSpeed)),
+        new WaitUntilCommand(() -> ShooterMethods.isWheelAtSetpoint()),
+        new InstantCommand(() -> ShooterMethods.setBeltSpeed(beltConstants.kOuttakeSpeed)),
+        new WaitUntilCommand(() -> ShooterMethods.isBallShot()),
+        new WaitCommand(0.5),
+        new InstantCommand(() -> ShooterMethods.disableShooter()),
+        new InstantCommand(() -> ShooterMethods.disableBelt())
       ),
-      // spin the wheel and afterwards spin the belt
-      new FunctionalCommand(
-        ShooterMethods::enableWheel, 
-        () -> ShooterMethods.setWheelSpeed(wheelConstants.kBackOuttakeFarSpeed), 
-        interrupted -> ShooterMethods.setBeltSpeed(beltConstants.kOuttakeSpeed), 
-        () -> ShooterMethods.isWheelAtSetpoint(),
-        RobotContainer.m_cargoShooter, RobotContainer.m_cargoBelt
-      ),
-      // keep outtaking until the ball is gone
-      new WaitUntilCommand(ShooterMethods::isBallShot),
-      // when the ball is gone, disable all shooter subsystems other than the rotator
-      new InstantCommand(() -> ShooterMethods.disableShooter())
+      new SequentialCommandGroup(
+        new InstantCommand(() -> ShooterMethods.enableArm()),
+        new InstantCommand(() -> ShooterMethods.setAngle(cargoConstants.kBackOuttakeFarPos)),
+        new WaitUntilCommand(() -> ShooterMethods.isArmAtSetpoint()),
+        //new AlignToUpperHub(RobotContainer.m_limelight, RobotContainer.m_drive),
+        //new WaitUntilCommand(() -> RobotContainer.m_limelight.alignedToTarget()),
+        new InstantCommand(() -> ShooterMethods.enableWheel()),
+        new InstantCommand(() -> ShooterMethods.setBeltSpeed(beltConstants.kIntakeSpeed)),
+        new InstantCommand(() -> ShooterMethods.setWheelSpeed(wheelConstants.kBackOuttakeFarSpeed)),
+        new WaitUntilCommand(() -> ShooterMethods.isWheelAtSetpoint()),
+        new InstantCommand(() -> ShooterMethods.setBeltSpeed(beltConstants.kOuttakeSpeed)),
+        new WaitUntilCommand(() -> ShooterMethods.isBallShot()),
+        new WaitCommand(0.5),
+        new InstantCommand(() -> ShooterMethods.disableShooter()),
+        new InstantCommand(() -> ShooterMethods.disableBelt())
       ),
       ShooterMethods::isArmFront
     ));
 
 
-    controller.getButtons().B().whenPressed(
-      // move cargo arm to the front
-      new FunctionalCommand(
-        ShooterMethods::enableArm, 
-        () -> ShooterMethods.setAngle(cargoConstants.kFrontOuttakeFarPos),
-        interrupted -> {}, 
-        () -> ShooterMethods.isArmAtSetpoint(), 
-        RobotContainer.m_cargoRotator
-      )
-    );
+    controller.getButtons().B().whenPressed(new SequentialCommandGroup(
+      new InstantCommand(() -> ShooterMethods.enableArm()),
+      new InstantCommand(() -> ShooterMethods.setAngle(cargoConstants.kFrontOuttakeFarPos)),
+      new WaitUntilCommand(() -> ShooterMethods.isArmAtSetpoint())
+    ));
 
     // start intaking
     controller.getButtons().X().whenPressed(new SequentialCommandGroup(
+      new InstantCommand(() -> ShooterMethods.enableAll()),
+      new InstantCommand(() -> ShooterMethods.multiSetter(cargoConstants.kIntakePos, beltConstants.kIntakeSpeed, wheelConstants.kIntakeSpeed)),
+      new WaitUntilCommand(() -> ShooterMethods.isBallContained()),
+      new InstantCommand(() -> ShooterMethods.disableShooter()),
       // enable every subsystem, set their speeds and positions, and stop when the ball is contained
-      new FunctionalCommand(
-        ShooterMethods::enableAll,
-        () -> ShooterMethods.multiSetter(cargoConstants.kIntakePos, beltConstants.kIntakeSpeed, wheelConstants.kIntakeSpeed),
-        interrupted -> ShooterMethods.disableShooter(),
-        () -> ShooterMethods.isBallContained(),
-        RobotContainer.m_cargoBelt, RobotContainer.m_cargoShooter, RobotContainer.m_cargoRotator
-      ),
-      new InstantCommand(() -> ShooterMethods.setAngle(cargoConstants.kFrontOuttakeFarPos))
+      // new FunctionalCommand(
+      //   ShooterMethods::enableAll,
+      //   () -> ShooterMethods.multiSetter(cargoConstants.kIntakePos, beltConstants.kIntakeSpeed, wheelConstants.kIntakeSpeed),
+      //   interrupted -> ShooterMethods.disableShooter(),
+      //   () -> ShooterMethods.isBallContained(),
+      //   RobotContainer.m_cargoBelt, RobotContainer.m_cargoShooter, RobotContainer.m_cargoRotator
+      // ),
+      new InstantCommand(() -> ShooterMethods.setBeltSpeed(beltConstants.kIntakeSpeed)),
+      new InstantCommand(() -> ShooterMethods.setAngle(cargoConstants.kFrontOuttakeFarPos)),
+      new WaitUntilCommand(() -> ShooterMethods.isArmAtSetpoint()),
+      new InstantCommand(() -> ShooterMethods.disableBelt())
     )); 
 
     // stop intaking (after x is released)
@@ -266,42 +259,37 @@ public class Operator {
     // ));
 
     controller.getButtons().Y().whenPressed(new SequentialCommandGroup(
-      // stow the arm
-      new FunctionalCommand(
-        ShooterMethods::enableArm, 
-        () -> ShooterMethods.setAngle(cargoConstants.kStowPos), 
-        interrupted -> {}, 
-        () -> ShooterMethods.isArmAtSetpoint(), 
-        RobotContainer.m_cargoRotator
-      )
+      new InstantCommand(() -> ShooterMethods.enableArm()),
+      new InstantCommand(() -> ShooterMethods.setAngle(cargoConstants.kStowPos)),
+      new WaitUntilCommand(() -> ShooterMethods.isArmAtSetpoint())
     ));
   }
 
-  public static void cargoTestBinds() {
-    // controller.getButtons().RB().whenPressed(new SequentialCommandGroup(
-    // ));
+  // public static void cargoTestBinds() {
+  //   // controller.getButtons().RB().whenPressed(new SequentialCommandGroup(
+  //   // ));
 
-    controller.getButtons().LB().whileHeld(new InstantCommand(() -> RobotContainer.m_cargoShooter.setOutput(controller.getJoystickAxis().leftY())));
-    controller.getButtons().LB().whenReleased(new InstantCommand(() -> RobotContainer.m_cargoShooter.setOutput(0)));
+  //   controller.getButtons().LB().whileHeld(new InstantCommand(() -> RobotContainer.m_cargoShooter.setOutput(controller.getJoystickAxis().leftY())));
+  //   controller.getButtons().LB().whenReleased(new InstantCommand(() -> RobotContainer.m_cargoShooter.setOutput(0)));
     
-    controller.getButtons().RB().whileHeld(new InstantCommand(() -> RobotContainer.m_cargoBelt.setOutput(-controller.getJoystickAxis().rightY())));
-    controller.getButtons().RB().whenReleased(new InstantCommand(() -> RobotContainer.m_cargoBelt.setOutput(0)));
+  //   controller.getButtons().RB().whileHeld(new InstantCommand(() -> RobotContainer.m_cargoBelt.setOutput(-controller.getJoystickAxis().rightY())));
+  //   controller.getButtons().RB().whenReleased(new InstantCommand(() -> RobotContainer.m_cargoBelt.setOutput(0)));
 
 
-    SmartDashboard.putNumber("Shooter", 0);
-    controller.getButtons().X().whileHeld(new InstantCommand(() -> RobotContainer.m_cargoShooter.setOutput(SmartDashboard.getNumber("Shooter X", 0))));
-    controller.getButtons().X().whenReleased(new InstantCommand(() -> RobotContainer.m_cargoShooter.setOutput(0)));
+  //   SmartDashboard.putNumber("Shooter", 0);
+  //   controller.getButtons().X().whileHeld(new InstantCommand(() -> RobotContainer.m_cargoShooter.setOutput(SmartDashboard.getNumber("Shooter X", 0))));
+  //   controller.getButtons().X().whenReleased(new InstantCommand(() -> RobotContainer.m_cargoShooter.setOutput(0)));
 
-    SmartDashboard.putNumber("belt", 0);
-    controller.getButtons().B().whileHeld(new InstantCommand(() -> RobotContainer.m_cargoBelt.setOutput(-SmartDashboard.getNumber("belt B", 0))));
-    controller.getButtons().B().whenReleased(new InstantCommand(() -> RobotContainer.m_cargoBelt.setOutput(0)));
+  //   SmartDashboard.putNumber("belt", 0);
+  //   controller.getButtons().B().whileHeld(new InstantCommand(() -> RobotContainer.m_cargoBelt.setOutput(-SmartDashboard.getNumber("belt B", 0))));
+  //   controller.getButtons().B().whenReleased(new InstantCommand(() -> RobotContainer.m_cargoBelt.setOutput(0)));
 
-    SmartDashboard.putNumber("Shooter", 0);
-    controller.getButtons().Y().whileHeld(new InstantCommand(() -> RobotContainer.m_cargoShooter.setOutput(SmartDashboard.getNumber("Shooter Y", 0))));
-    controller.getButtons().Y().whenReleased(new InstantCommand(() -> RobotContainer.m_cargoShooter.setOutput(0)));
+  //   SmartDashboard.putNumber("Shooter", 0);
+  //   controller.getButtons().Y().whileHeld(new InstantCommand(() -> RobotContainer.m_cargoShooter.setOutput(SmartDashboard.getNumber("Shooter Y", 0))));
+  //   controller.getButtons().Y().whenReleased(new InstantCommand(() -> RobotContainer.m_cargoShooter.setOutput(0)));
 
-    SmartDashboard.putNumber("belt", 0);
-    controller.getButtons().A().whileHeld(new InstantCommand(() -> RobotContainer.m_cargoBelt.setOutput(-SmartDashboard.getNumber("belt A", 0))));
-    controller.getButtons().A().whenReleased(new InstantCommand(() -> RobotContainer.m_cargoBelt.setOutput(0)));
-  }
+  //   SmartDashboard.putNumber("belt", 0);
+  //   controller.getButtons().A().whileHeld(new InstantCommand(() -> RobotContainer.m_cargoBelt.setOutput(-SmartDashboard.getNumber("belt A", 0))));
+  //   controller.getButtons().A().whenReleased(new InstantCommand(() -> RobotContainer.m_cargoBelt.setOutput(0)));
+  // }
 }

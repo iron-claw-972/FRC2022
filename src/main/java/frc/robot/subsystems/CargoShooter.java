@@ -49,8 +49,6 @@ public class CargoShooter extends SubsystemBase {
 
       m_flywheelEncoderSim = new TalonEncoderSim(m_cargoShooterEncoder);
     }
-
-    enable();
   }
 
   @Override
@@ -67,12 +65,12 @@ public class CargoShooter extends SubsystemBase {
     m_flywheelSim.update(0.020);
 
     m_flywheelEncoderSim.setRate(m_flywheelSim.getAngularVelocityRPM() / 60);
-    SmartDashboard.putNumber("Velocity (RPM)", m_flywheelSim.getAngularVelocityRPM());
+    // SmartDashboard.putNumber("Velocity (RPM)", m_flywheelSim.getAngularVelocityRPM());
   }
 
-  public void setOutput(double motorPower) {
-    m_cargoShooterMotor.set(ControlMode.PercentOutput, MathUtil.clamp(motorPower, -constants.kMotorClamp, constants.kMotorClamp));
-  }
+  // public void setOutput(double motorPower) {
+  //   m_cargoShooterMotor.set(ControlMode.PercentOutput, MathUtil.clamp(motorPower, -constants.kMotorClamp, constants.kMotorClamp));
+  // }
 
   public void setSpeed(double newSpeed) {
     motorSpeed = newSpeed;
@@ -88,7 +86,7 @@ public class CargoShooter extends SubsystemBase {
 
   public void disable() {
     enabled=false;
-    setOutput(0);
+    setVoltage(0);
   }
 
   public boolean reachedSetpoint() {

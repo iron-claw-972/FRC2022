@@ -250,6 +250,10 @@ public class Limelight extends SubsystemBase {
     setPipeline(Pipeline.UPPER_HUB);
   }
 
+  public boolean alignedToTarget() {
+    return m_horizontalAngularOffset < 2;
+  }
+
   public double getHubDistance(double armAngle) {
     setUpperHubPipeline();
     SmartDashboard.putNumber("Horizontal Error", m_horizontalAngularOffset);

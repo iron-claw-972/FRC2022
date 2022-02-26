@@ -11,7 +11,7 @@ public class AlignToUpperHub extends CommandBase {
   private final Limelight m_limelight;
   private final Drivetrain m_drive;
 
-  private PIDController alignPID = new PIDController(0.2, 0, 0);
+  private PIDController alignPID = new PIDController(0.03, 0, 0);
 
   public AlignToUpperHub(Limelight limelight, Drivetrain drivetrain) {
     m_limelight = limelight;

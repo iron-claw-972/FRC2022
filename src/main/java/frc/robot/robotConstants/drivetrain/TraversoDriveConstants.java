@@ -32,9 +32,9 @@ public class TraversoDriveConstants {
   public final double KaAngular = 20.98; // Ka
 
   // Position PID gain values
-  public final double KpPosition = 78.212; // Kp for Ramsete PID
+  public final double KpPosition = 0.01; // Kp for Ramsete PID
   public final double KiPosition = 0; // Kp for Ramsete PID
-  public final double KdPosition = 4.3924; // Kp for Ramsete PID
+  public final double KdPosition = 0; // Kp for Ramsete PID
 
   // Velocity PID gain values
   public final double KpVelocity = 1; // Proportional

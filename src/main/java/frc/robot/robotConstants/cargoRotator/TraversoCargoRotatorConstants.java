@@ -5,7 +5,7 @@ public class TraversoCargoRotatorConstants {
     public final int kArmEncoder = 4;
 
     // motor clamping
-    public final double kMotorClamp = 10;
+    public final double kMotorClamp = 12;
 
     // the motor ports of the arm
     public final int kArmMotor = 5;
@@ -24,11 +24,11 @@ public class TraversoCargoRotatorConstants {
     public final double kFeedForwardHardstopTolerance = 3.0;
     
     // locations
-    public final double kIntakePos = 2; // 0 degrees (when on hardstops)
+    public final double kIntakePos = 1; // 0 degrees (when on hardstops)
     public final double kBackOuttakeNearPos = 132;
-    public final double kBackOuttakeFarPos = 147;
+    public final double kBackOuttakeFarPos = 155;
     public final double kFrontOuttakeNearPos = 100; // TODO: Update this value
-    public final double kFrontOuttakeFarPos = 90;
+    public final double kFrontOuttakeFarPos = 95;
     public final double kStowPos = 170;
     
     // pid constants

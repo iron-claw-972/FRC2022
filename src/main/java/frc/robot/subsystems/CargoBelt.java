@@ -24,12 +24,11 @@ public class CargoBelt extends SubsystemBase {
     constants.kCoast
   );
 
-  private boolean enabled = true;
+  private boolean enabled = false;
   private double motorPower = 0.0;
 
   @Override
   public void periodic() {
-    enable();
     if (enabled){
       setOutput(motorPower);
     }

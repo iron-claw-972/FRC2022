@@ -8,6 +8,7 @@ the project.
 package frc.robot;
 
 import frc.robot.subsystems.*;
+import frc.robot.util.ShooterMethods;
 import frc.robot.util.ShuffleboardManager;
 import frc.robot.commands.DifferentialDrive;
 import frc.robot.commands.GetDistance;
@@ -44,7 +45,7 @@ import edu.wpi.first.cameraserver.CameraServer;
   public static CargoShooter m_cargoShooter = new CargoShooter();
   public static BallDetection m_balldetector = new BallDetection();
 
-  public static Limelight m_limelight = new Limelight(() -> true);
+  public static Limelight m_limelight = new Limelight(() -> ShooterMethods.isArmFront());
 
 
   public RobotContainer() {
@@ -52,10 +53,10 @@ import edu.wpi.first.cameraserver.CameraServer;
 
     // default command to run in teleop
     
-    m_drive.setDefaultCommand(new DifferentialDrive(m_drive));
+    m_drive.setDefaultCommand(new TeleopDrive(m_drive));
     // m_testArm.setDefaultCommand(new armPID(m_testArm));
-    m_cargoShooter.setDefaultCommand(new RunCommand(() -> RobotContainer.m_cargoShooter.setOutput(Operator.controller.getJoystickAxis().leftY()), m_cargoShooter));
-    m_cargoBelt.setDefaultCommand(new RunCommand(() -> RobotContainer.m_cargoBelt.setOutput(-Operator.controller.getJoystickAxis().rightY()), m_cargoBelt));
+    //m_cargoShooter.setDefaultCommand(new RunCommand(() -> RobotContainer.m_cargoShooter.setOutput(Operator.controller.getJoystickAxis().leftY()), m_cargoShooter));
+    //m_cargoBelt.setDefaultCommand(new RunCommand(() -> RobotContainer.m_cargoBelt.setOutput(-Operator.controller.getJoystickAxis().rightY()), m_cargoBelt));
     m_limelight.setDefaultCommand(new GetDistance(m_limelight, m_cargoRotator));
 
 

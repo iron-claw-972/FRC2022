@@ -34,6 +34,8 @@ public class BallDetection extends SubsystemBase {
     
     SmartDashboard.putBoolean("Has Red Ball", hasRedBall);
     SmartDashboard.putBoolean("Has Blue Ball", hasBlueBall);
+    SmartDashboard.putBoolean("Has Ball Securely", containsBallSecurely());
+    SmartDashboard.putBoolean("Has Ball", containsBall());
   }
 
   public boolean hasRedBall() {

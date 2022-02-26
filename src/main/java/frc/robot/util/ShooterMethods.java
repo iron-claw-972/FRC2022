@@ -6,6 +6,7 @@ import frc.robot.RobotContainer;
 public class ShooterMethods {
   // cargo arm methods
   public static void setAngle(double angle) {
+    System.out.println("set angle");
     RobotContainer.m_cargoRotator.setPosition(angle);
   }
 
@@ -71,17 +72,20 @@ public class ShooterMethods {
   //
 
   public static void enableAll() {
+    System.out.println("enabled");
     RobotContainer.m_cargoRotator.enable();
     RobotContainer.m_cargoBelt.enable();
     RobotContainer.m_cargoShooter.enable();
   }
 
   public static void disableShooter() {
+    System.out.println("interrupted");
     RobotContainer.m_cargoBelt.disable();
     RobotContainer.m_cargoShooter.disable();
   }
 
   public static boolean isBallContained() {
+    System.out.println(RobotContainer.m_balldetector.containsBallSecurely());
     return RobotContainer.m_balldetector.containsBallSecurely();
   }
 
@@ -90,8 +94,9 @@ public class ShooterMethods {
   }
 
   public static void multiSetter(double armAngle, double beltPower, double shooterSpeed) {
+    System.out.println("setting");
     RobotContainer.m_cargoRotator.setPosition(armAngle);
-    RobotContainer.m_cargoBelt.setOutput(beltPower);
+    RobotContainer.m_cargoBelt.setPower(beltPower);
     RobotContainer.m_cargoShooter.setSpeed(shooterSpeed);
   }
 
