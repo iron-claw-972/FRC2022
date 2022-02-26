@@ -250,7 +250,7 @@ public class Limelight extends SubsystemBase {
     setPipeline(Pipeline.UPPER_HUB);
   }
 
-  public boolean alignedToTarget() {
+  public boolean isAlignedToTarget() {
     return m_horizontalAngularOffset < 2;
   }
 

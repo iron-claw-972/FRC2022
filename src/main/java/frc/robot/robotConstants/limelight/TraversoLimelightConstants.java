@@ -3,6 +3,11 @@ package frc.robot.robotConstants.limelight;
 import edu.wpi.first.math.util.Units;
 
 public class TraversoLimelightConstants {
+  public final double kAlignPIDTolerance = 0.5;
+  public final double kAlignP = 0.04;
+  public final double kAlignI = 0;
+  public final double kAlignD = 0;
+
   public final double kPivotToLimelightAngleDifference = -33;
   public final double kHubTargetHeight = Units.inchesToMeters(104);
   public final double kBallTargetHeight = Units.inchesToMeters(9.5/2);
