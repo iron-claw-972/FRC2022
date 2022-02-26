@@ -24,11 +24,12 @@ public class ShuffleboardManager {
 
   public void setup() {
     primaryTab.addBoolean("Teleop", DriverStation::isTeleop);
-    // driveMode();
-    // subsystemSpam();
-    // time();
+    driveMode();
+    subsystemSpam();
+    time();
     update();
 
+    primaryTab.add("Auto Chooser",autoCommand);
   }
 
   public void update() {
@@ -53,7 +54,6 @@ public class ShuffleboardManager {
     autoCommand.addOption("Spin baby spin", new RunCommand(() -> RobotContainer.m_drive.tankDrive(0.5, -0.5), RobotContainer.m_drive));
     autoCommand.addOption("fetch me my paper boy", new SequentialCommandGroup(new DriveDistance(9000, RobotContainer.m_drive), new DriveDistance(-9000, RobotContainer.m_drive)));
     // adds auto to shuffle board
-    primaryTab.add("Auto Chooser",autoCommand);
     // SmartDashboard.putData("Auto Chooser",autoCommand);
      
     SmartDashboard.putString("Drive Mode", Driver.getDriveMode().toString());
@@ -109,7 +109,7 @@ public class ShuffleboardManager {
     // a pop-up in shuffleboard that states if the extender is on/off
     primaryTab.addBoolean(extender.getDirection() + " Extender", extender::isEnabled);
     
-    pidTab.add("Climb Extender PID", extender.extenderPID);
+    pidTab.add(extender.getDirection() + "Climb Extender PID", extender.extenderPID);
   }
 
   public void loadClimbRotatorShuffleboard(ClimbRotator rotator) {
@@ -119,7 +119,7 @@ public class ShuffleboardManager {
     primaryTab.addBoolean(rotator.getDirection() + " Rotator", rotator::isEnabled);
     
     // PID values that can be modified in shuffleboard
-    pidTab.add("Climb Rotator PID", rotator.armPID);
+    pidTab.add(rotator.getDirection() + " Climb Rotator PID", rotator.armPID);
   }
 
   public void loadCargoBeltShuffleboard(){
