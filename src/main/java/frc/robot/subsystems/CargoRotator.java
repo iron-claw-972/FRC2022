@@ -7,7 +7,6 @@ import frc.robot.robotConstants.cargoRotator.TraversoCargoRotatorConstants;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class CargoRotator extends SubsystemBase {
@@ -21,7 +20,7 @@ public class CargoRotator extends SubsystemBase {
   private double feedforward;
   private double outputVoltage;
 
-  private PIDController armPID = new PIDController(constants.kP, constants.kI, constants.kD);
+  public PIDController cargoRotatorPID = new PIDController(constants.kP, constants.kI, constants.kD);
 
   public CargoRotator() {
     encoder = new DutyCycleEncoder(constants.kArmEncoder);
@@ -29,16 +28,13 @@ public class CargoRotator extends SubsystemBase {
         constants.kSupplyTriggerThreshold, constants.kSupplyTriggerDuration, constants.kCoast);
 
     // set the tolerance allowed for the PID
-    armPID.setTolerance(constants.kArmTolerance);
-    SmartDashboard.putNumber("cargo rotator setpoint", constants.kIntakePos);
-    SmartDashboard.putData("Cargo Rotator PID", armPID);
+    cargoRotatorPID.setTolerance(constants.kArmTolerance);
   }
 
   @Override
   public void periodic() {
     feedforward = calculateFeedForward(setpoint);
-    outputVoltage = -(armPID.calculate(currentAngle(), setpoint) + feedforward);
-    SmartDashboard.putNumber("voltage", outputVoltage);
+    outputVoltage = -(cargoRotatorPID.calculate(currentAngle(), setpoint) + feedforward);
     if (enabled) {
       setVoltage(outputVoltage);
     }
@@ -71,7 +67,7 @@ public class CargoRotator extends SubsystemBase {
 
   public boolean reachedSetpoint() {
     // checks if the arm is at its setpoint
-    return armPID.atSetpoint();
+    return cargoRotatorPID.atSetpoint();
   }
 
   // enables PID
@@ -98,6 +94,10 @@ public class CargoRotator extends SubsystemBase {
   public void setPosition(double angle) {
     SmartDashboard.putNumber("cargo rotator setpoint", angle);
     setpoint = angle;
+  }
+
+  public double getSetpoint() {
+    return setpoint;
   }
 
   public double cosineOfAngle(double angle) {
@@ -131,14 +131,8 @@ public class CargoRotator extends SubsystemBase {
   public boolean isBackOutakeFar() {
     return (constants.kBackOuttakeFarPos == setpoint);
   }
-
-  public void loadCargoRotatorShuffleboard() {
-    // a pop-up in shuffleboard that allows you to see how much the arm extended in
-    // inches
-    SmartDashboard.putNumber("Cargo Arm Angle", currentAngle());
-    // shows if the rotator is enabled/disabled
-    SmartDashboard.putBoolean("Cargo Rotator", enabled);
-    SmartDashboard.putNumber("Raw Angle", currentAngleRaw());
-    setpoint = SmartDashboard.getNumber("cargo rotator setpoint", 0);
+  public boolean isEnabled() {
+    return enabled;
   }
+
 }

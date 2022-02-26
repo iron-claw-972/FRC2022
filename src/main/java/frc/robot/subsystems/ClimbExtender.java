@@ -5,7 +5,6 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.util.ControllerFactory;
 import frc.robot.robotConstants.climbExtender.TraversoClimbExtenderConstants;
@@ -19,7 +18,7 @@ public class ClimbExtender extends SubsystemBase {
   private double motorClamp = constants.kMotorClampOffLoad;
   private boolean left;
 
-  private PIDController extenderPID = new PIDController(constants.kP, constants.kI, constants.kD);
+  public PIDController extenderPID = new PIDController(constants.kP, constants.kI, constants.kD);
   
   private double setpoint;
 
@@ -107,11 +106,11 @@ public class ClimbExtender extends SubsystemBase {
     }
   }
 
-  public void loadExtenderShuffleboard() {
-    SmartDashboard.putData("Climb Extender PID", extenderPID);
-    // a pop-up in shuffleboard that allows you to see how much the arm extended in inches
-    SmartDashboard.putNumber(direction + " Extension", currentExtension());
-    // a pop-up in shuffleboard that states if the extender is on/off
-    SmartDashboard.putBoolean(direction + " Extender", enabled);
+  public boolean isEnabled() {
+    return enabled;
+  }
+
+  public String getDirection() {
+      return direction;
   }
 } 

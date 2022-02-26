@@ -15,7 +15,7 @@ public class DriveDistance extends CommandBase {
   private final Drivetrain m_drive; 
   double setpoint, error;
 
-  PIDController PID = new PIDController(0.2, 0, 0);
+  public static PIDController PID = new PIDController(0.2, 0, 0);
 
   public DriveDistance(double setpoint_, Drivetrain subsystem) {
     m_drive = subsystem;

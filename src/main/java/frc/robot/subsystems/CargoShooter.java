@@ -93,20 +93,16 @@ public class CargoShooter extends SubsystemBase {
     return cargoShooterPID.atSetpoint();
   }
 
-  public void loadCargoShooterShuffleboard() {
-    SmartDashboard.putBoolean("Cargo Shooter", enabled);
-    SmartDashboard.putData("CargoShooterPID",cargoShooterPID);
-    SmartDashboard.putNumber("vel", getVelocity());
-    SmartDashboard.putNumber("F", 0.0013);
-  }
-
   public void setVoltage(double volts){
     m_cargoShooterMotor.setVoltage(volts);
   }
 
   public double getVelocity(){
     return m_cargoShooterEncoder.getRate();
+  }
 
+  public boolean isEnabled() {
+    return enabled;
   }
 
 }
