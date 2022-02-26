@@ -5,6 +5,7 @@ import java.time.Instant;
 
 import controllers.*;
 import edu.wpi.first.wpilibj.Joystick;
+import frc.robot.Constants;
 import frc.robot.Robot;
 import frc.robot.RobotContainer;
 import frc.robot.Constants.*;
@@ -204,7 +205,7 @@ public class Operator {
 
     controller.getButtons().A().whenPressed(new PositionArm(cargoConstants.kBackOuttakeFarPos));
     controller.getButtons().B().whenPressed(new PositionArm(cargoConstants.kFrontOuttakeFarPos));
-    controller.getButtons().X().whenPressed(new Intake(cargoConstants.kIntakePos, beltConstants.kIntakeSpeed, wheelConstants.kIntakeSpeed, cargoConstants.kFrontOuttakeFarPos)); 
+    controller.getButtons().X().whenPressed(new Intake(cargoConstants.kIntakePos, beltConstants.kIntakeSpeed, wheelConstants.kIntakeSpeed, cargoConstants.kFrontOuttakeFarPos, false, Constants.kIsRedAlliance)); 
     controller.getButtons().Y().whenPressed(new PositionArm(cargoConstants.kStowPos));
   }
 

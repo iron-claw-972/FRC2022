@@ -8,6 +8,11 @@ public class TraversoLimelightConstants {
   public final double kAlignI = 0;
   public final double kAlignD = 0;
 
+  public final double kChasePIDTolerance = 0.5;
+  public final double kChaseP = 0.04;
+  public final double kChaseI = 0;
+  public final double kChaseD = 0;
+
   public final double kPivotToLimelightAngleDifference = -33;
   public final double kHubTargetHeight = Units.inchesToMeters(104);
   public final double kBallTargetHeight = Units.inchesToMeters(9.5/2);

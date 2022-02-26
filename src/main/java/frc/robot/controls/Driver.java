@@ -4,6 +4,11 @@ import controllers.*;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj.Joystick;
 import frc.robot.Constants.*;
+import frc.robot.Constants;
+import frc.robot.commands.Intake;
+import frc.robot.robotConstants.cargoRotator.TraversoCargoRotatorConstants;
+import frc.robot.robotConstants.shooterBelt.TraversoBeltConstants;
+import frc.robot.robotConstants.shooterWheel.TraversoCargoShooterConstants;
 import frc.robot.util.DriveMode;
 
 public class Driver {
@@ -12,6 +17,10 @@ public class Driver {
 
   private static SlewRateLimiter slewThrottle = new SlewRateLimiter(DriveConstants.kSlewRate);
   private static SlewRateLimiter slewTurn = new SlewRateLimiter(DriveConstants.kSlewRate);
+
+  public static TraversoCargoRotatorConstants cargoConstants = new TraversoCargoRotatorConstants();
+  public static TraversoBeltConstants beltConstants = new TraversoBeltConstants();
+  public static TraversoCargoShooterConstants wheelConstants = new TraversoCargoShooterConstants();
   
   // sets default drive mode
   private static DriveMode driveMode = DriveMode.ARCADE;
@@ -22,6 +31,7 @@ public class Driver {
         () -> setDriveMode(DriveMode.PROPORTIONAL));
     controller.getButtons().backSwitchTop().whenPressed(
         () -> setDriveMode(DriveMode.ARCADE));
+    controller.getButtons().backSwitchBottom().whenPressed(new Intake(cargoConstants.kIntakePos, beltConstants.kIntakeSpeed, wheelConstants.kIntakeSpeed, cargoConstants.kFrontOuttakeFarPos, true, Constants.kIsRedAlliance));
   }
   
   public static double getThrottleValue() {

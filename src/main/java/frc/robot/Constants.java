@@ -19,6 +19,7 @@ constants are needed, to reduce verbosity.
 public final class Constants {
 
   public static final double kMaxVoltage = 12.0;
+  public static final boolean kIsRedAlliance = true;
 
   public static final class JoyConstants {
     public static final int kDriverJoy = 0;
