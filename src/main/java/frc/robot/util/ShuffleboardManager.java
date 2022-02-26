@@ -1,6 +1,5 @@
 package frc.robot.util;
 
-import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -12,7 +11,6 @@ import frc.robot.Constants.AutoConstants;
 import frc.robot.autonomous.drivetrain.Pathweaver;
 import frc.robot.controls.Driver;
 import frc.robot.commands.DriveDistance;
-import frc.robot.subsystems.CargoShooter;
 import frc.robot.subsystems.ClimbExtender;
 import frc.robot.subsystems.ClimbRotator;
 
