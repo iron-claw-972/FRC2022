@@ -4,14 +4,19 @@ import edu.wpi.first.math.util.Units;
 
 public class TraversoLimelightConstants {
   public final double kAlignPIDTolerance = 0.5;
-  public final double kAlignP = 0.04;
-  public final double kAlignI = 0;
+  public final double kAlignP = 0.026;
+  public final double kAlignI = 0.03;
   public final double kAlignD = 0;
 
   public final double kChasePIDTolerance = 0.5;
-  public final double kChaseP = 0.04;
-  public final double kChaseI = 0;
+  public final double kChaseP = 0.03;
+  public final double kChaseI = 0.03;
   public final double kChaseD = 0;
+
+  public final double kFollowPIDTolerance = 0.5;
+  public final double kFollowP = 0.2;
+  public final double kFollowI = 0.03;
+  public final double kFollowD = 0;
 
   public final double kPivotToLimelightAngleDifference = -33;
   public final double kHubTargetHeight = Units.inchesToMeters(104);
