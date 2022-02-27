@@ -74,11 +74,7 @@ public class ClimbRotator extends SubsystemBase {
   }
 
   public double currentAngleRaw() {
-    // if (encoder.get() > 0.6) {
-    //   return encoder.get() - 1.0;
-    // } else {
-      return encoder.get();
-    // }
+    return encoder.get();
   }
 
   // returns the current angle of the duty cycle encoder with offset accounted for
