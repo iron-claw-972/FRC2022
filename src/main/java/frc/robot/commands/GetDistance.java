@@ -21,7 +21,8 @@ public class GetDistance extends CommandBase {
     // double angle = Units.radiansToDegrees(Math.asin(8.5/22));
     double angle = m_cargoRotator.currentAngle();
     double distance = Units.metersToInches(m_limelight.getHubDistance(angle));
-    SmartDashboard.putNumber("Distance", distance);
+    // SmartDashboard.putNumber("Distance", distance);
+    // System.out.println(distance);
   }
 }
   

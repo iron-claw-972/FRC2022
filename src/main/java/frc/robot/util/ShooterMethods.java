@@ -1,12 +1,23 @@
 package frc.robot.util;
 
 
+import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.RobotContainer;
 
 public class ShooterMethods {
   // cargo arm methods
   public static void setAngle(double angle) {
     RobotContainer.m_cargoRotator.setPosition(angle);
+  }
+
+  public static double getOptimalShooterSpeed() {
+    double distance = Units.metersToInches(RobotContainer.m_limelight.getHubDistance(RobotContainer.m_cargoRotator.currentAngle()));
+    SmartDashboard.putNumber("Distance", distance);
+    double speed = -(9.6*distance + 1405);
+    System.out.println("Speed: " + speed);
+    System.out.println("Distance: " + distance);
+    return speed;
   }
 
   public static void enableArm() {
@@ -26,7 +37,8 @@ public class ShooterMethods {
   }
 
   public static boolean isArmFront(){
-    return RobotContainer.m_cargoRotator.isFrontOutakeFar() || RobotContainer.m_cargoRotator.isFrontOutakeNear();
+    // return RobotContainer.m_cargoRotator.isFrontOutakeFar() || RobotContainer.m_cargoRotator.isFrontOutakeNear();
+    return RobotContainer.m_cargoRotator.currentAngle() < 123;
   }
 
   //
@@ -86,7 +98,7 @@ public class ShooterMethods {
   }
 
   public static boolean isBallContained() {
-    System.out.println(RobotContainer.m_balldetector.containsBallSecurely());
+    // System.out.println(RobotContainer.m_balldetector.containsBallSecurely());
     return RobotContainer.m_balldetector.containsBallSecurely();
   }
 

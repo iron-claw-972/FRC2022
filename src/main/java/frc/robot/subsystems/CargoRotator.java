@@ -37,6 +37,7 @@ public class CargoRotator extends SubsystemBase {
   @Override
   public void periodic() {
     feedforward = calculateFeedForward(setpoint);
+    // System.out.println("Setpoint: " + setpoint);
     outputVoltage = -(armPID.calculate(currentAngle(), setpoint) + feedforward);
     SmartDashboard.putNumber("voltage", outputVoltage);
     if (enabled) {

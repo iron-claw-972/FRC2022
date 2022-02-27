@@ -193,8 +193,10 @@ public class Operator {
 
   public static void shootBinds() {
     controller.getButtons().RB().whenPressed(new ConditionalCommand(
-      new Shoot(cargoConstants.kFrontOuttakeFarPos, beltConstants.kIntakeSpeed, wheelConstants.kFrontOuttakeFarSpeed, beltConstants.kOuttakeSpeed, true),
-      new Shoot(cargoConstants.kBackOuttakeFarPos, beltConstants.kIntakeSpeed, wheelConstants.kBackOuttakeFarSpeed, beltConstants.kOuttakeSpeed, true),
+      // new Shoot(cargoConstants.kFrontOuttakeFarPos, beltConstants.kIntakeSpeed, wheelConstants.kFrontOuttakeFarSpeed, beltConstants.kOuttakeSpeed, true),
+      // new Shoot(cargoConstants.kBackOuttakeFarPos, beltConstants.kIntakeSpeed, wheelConstants.kBackOuttakeFarSpeed, beltConstants.kOuttakeSpeed, true),
+      new Shoot(cargoConstants.kFrontOuttakeFarPos, beltConstants.kIntakeSpeed, ShooterMethods.getOptimalShooterSpeed(), beltConstants.kOuttakeSpeed, true),
+      new Shoot(cargoConstants.kBackOuttakeFarPos, beltConstants.kIntakeSpeed, ShooterMethods.getOptimalShooterSpeed(), beltConstants.kOuttakeSpeed, true),
       ShooterMethods::isArmFront
     ));
     controller.getButtons().RT().whenActive(new ConditionalCommand(
@@ -205,8 +207,10 @@ public class Operator {
 
     controller.getButtons().A().whenPressed(new PositionArm(cargoConstants.kBackOuttakeFarPos));
     controller.getButtons().B().whenPressed(new PositionArm(cargoConstants.kFrontOuttakeFarPos));
-    controller.getButtons().X().whenPressed(new Intake(cargoConstants.kIntakePos, beltConstants.kIntakeSpeed, wheelConstants.kIntakeSpeed, cargoConstants.kFrontOuttakeFarPos, false, Constants.kIsRedAlliance)); 
-    controller.getButtons().Y().whenPressed(new PositionArm(cargoConstants.kStowPos));
+    controller.getButtons().X().whenPressed(new Intake(cargoConstants.kIntakePos, beltConstants.kIntakeSpeed, wheelConstants.kIntakeSpeed, cargoConstants.kFrontOuttakeFarPos, true, Constants.kIsRedAlliance)); 
+    // controller.getButtons().Y().whenPressed(new PositionArm(cargoConstants.kStowPos));
+    controller.getButtons().Y().whenPressed(new AlignToUpperHub(RobotContainer.m_limelight, RobotContainer.m_drive));
+    // controller.getButtons().RB().whenPressed(new GetDistance(RobotContainer.m_limelight, RobotContainer.m_cargoRotator));
   }
 
   // public static void cargoTestBinds() {
