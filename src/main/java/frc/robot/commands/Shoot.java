@@ -10,6 +10,7 @@ import frc.robot.util.ShooterMethods;
 
 public class Shoot extends SequentialCommandGroup {
     public Shoot(double outtakeArmPosition, double beltIntakeSpeed, double shooterWheelOuttakeSpeed, double beltOuttakeSpeed, boolean doesAlign) {
+        addRequirements(RobotContainer.m_cargoShooter, RobotContainer.m_cargoRotator, RobotContainer.m_cargoBelt, RobotContainer.m_limelight);
         addCommands(
             new InstantCommand(() -> ShooterMethods.enableArm()),
             new InstantCommand(() -> ShooterMethods.setAngle(outtakeArmPosition)),

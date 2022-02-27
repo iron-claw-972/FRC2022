@@ -9,6 +9,7 @@ import frc.robot.util.ShooterMethods;
 
 public class Intake extends SequentialCommandGroup {
   public Intake(double intakeArmPosition, double beltIntakeSpeed, double shooterWheelIntakeSpeed, double postIntakeArmPosition, boolean doesChaseBall, boolean isRedBall) {
+    addRequirements(RobotContainer.m_cargoShooter, RobotContainer.m_cargoRotator, RobotContainer.m_cargoBelt, RobotContainer.m_limelight);
     addCommands(
         new InstantCommand(() -> ShooterMethods.enableAll()),
         new InstantCommand(() -> ShooterMethods.setWheelSpeed(shooterWheelIntakeSpeed)),
