@@ -14,7 +14,8 @@ public class ShooterMethods {
   public static double getOptimalShooterSpeed() {
     double distance = Units.metersToInches(RobotContainer.m_limelight.getHubDistance(RobotContainer.m_cargoRotator.currentAngle()));
     SmartDashboard.putNumber("Distance", distance);
-    double speed = -(9.6*distance + 1405);
+
+    double speed = ShooterMethods.isArmBack() ? -(9.6 * distance + 1405) : -(8.53 * distance + 1304);
     System.out.println("Speed: " + speed);
     System.out.println("Distance: " + distance);
     return speed;
