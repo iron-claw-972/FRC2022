@@ -12,7 +12,14 @@ import frc.robot.util.ShuffleboardManager;
 import frc.robot.controls.*;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.*;
+
+import java.lang.reflect.Array;
+
 import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.cscore.UsbCamera;
+import edu.wpi.first.cscore.VideoSink;
+import edu.wpi.first.wpilibj.shuffleboard.SendableCameraWrapper;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /*
   This class is where the bulk of the robot should be declared. Since
@@ -41,18 +48,29 @@ import edu.wpi.first.cameraserver.CameraServer;
   public static CargoBelt m_cargoBelt = new CargoBelt();
   public static CargoShooter m_cargoShooter = new CargoShooter();
   public static BallDetection m_balldetector = new BallDetection();
-
+  
+  UsbCamera camera0;
+  UsbCamera camera1;
+  
   public RobotContainer() {
+    //setup cameras 
+    camera0 = CameraServer.startAutomaticCapture();
+    camera1 = CameraServer.startAutomaticCapture();
+
+    int factor = 10; // max is 80
+    int width = 16 * factor;
+    int height = 9 * factor;
     
+    camera0.setFPS(30);
+    camera0.setResolution(width, height);
+    camera1.setFPS(30);
+    camera1.setResolution(width, height);
 
     // default command to run in teleop
     
     // m_drive.setDefaultCommand(new DifferentialDrive(m_drive));
     // m_testArm.setDefaultCommand(new armPID(m_testArm));
 
-    // Start camera stream for driver
-    CameraServer.startAutomaticCapture();
-    
     // Configure the button bindings
     Driver.configureButtonBindings();
     Operator.configureButtonBindings();
