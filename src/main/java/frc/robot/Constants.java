@@ -7,6 +7,8 @@ the project.
 
 package frc.robot;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 
 /*
 The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
@@ -19,7 +21,7 @@ constants are needed, to reduce verbosity.
 public final class Constants {
 
   public static final double kMaxVoltage = 12.0;
-  public static final boolean kIsRedAlliance = true;
+  public static final boolean kIsRedAlliance = DriverStation.getAlliance() == Alliance.Red;
 
   public static final class JoyConstants {
     public static final int kDriverJoy = 0;
