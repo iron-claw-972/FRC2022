@@ -89,20 +89,21 @@ public class ShuffleboardManager {
   public void loadCargoRotatorShuffleboard() {
     primaryTab.addNumber("Cargo Arm Angle", RobotContainer.m_cargoRotator::currentAngle);
     primaryTab.addBoolean("Cargo Rotator", RobotContainer.m_cargoRotator::isEnabled);
-    primaryTab.addNumber("Raw Angle", RobotContainer.m_cargoRotator::currentAngleRaw);
+    primaryTab.addNumber("Cargo Arm Raw Angle", RobotContainer.m_cargoRotator::currentAngleRaw);
     primaryTab.addNumber("cargo rotator setpoint", RobotContainer.m_cargoRotator::getSetpoint);
 
     pidTab.add("Cargo Rotator PID",RobotContainer.m_cargoRotator.cargoRotatorPID);
   }
   public void loadCargoShooterShuffleboard() {
     primaryTab.addBoolean("Cargo Shooter", RobotContainer.m_cargoShooter::isEnabled);
-    primaryTab.addNumber("vel", RobotContainer.m_cargoShooter::getVelocity);
+    primaryTab.addNumber("Cargo Shooter Velocity", RobotContainer.m_cargoShooter::getVelocity);
     
     pidTab.add("CargoShooterPID", RobotContainer.m_cargoShooter.cargoShooterPID);
   }
   public void loadCargoBeltShuffleboard(){
     primaryTab.addBoolean("Cargo Belt", RobotContainer.m_cargoBelt::isEnabled);
   }
+
   public void loadClimbExtenderShuffleboard(ClimbExtender extender) {
     // a pop-up in shuffleboard that allows you to see how much the arm extended in inches
     primaryTab.addNumber(extender.getDirection() + " Extension", extender::currentExtension);
