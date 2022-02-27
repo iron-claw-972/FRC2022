@@ -28,7 +28,7 @@ public class BallDetection extends SubsystemBase {
     detectedColor = m_colorSensor.getColor();
     proximity = m_colorSensor.getProximity();
 
-z  }
+  }
 
   public boolean hasRedBall() {
     return containsBall() && detectedColor.red >= constants.kRedBallThreshold;

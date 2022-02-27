@@ -51,7 +51,7 @@ public class ShuffleboardManager {
     autoCommand.setDefaultOption("pathweaver", Pathweaver.pathweaverCommand(AutoConstants.kTrajectoryName));
     // m_chooser.addOption("teleop", new TeleopDrive(Drivetrain.getInstance()));
     autoCommand.addOption("Spin baby spin", new RunCommand(() -> RobotContainer.m_drive.tankDrive(0.5, -0.5), RobotContainer.m_drive));
-    autoCommand.addOption("fetch me my paper boy", new SequentialCommandGroup(new DriveDistance(9000, RobotContainer.m_drive), new DriveDistance(-9000, RobotContainer.m_drive)));
+    autoCommand.addOption("fetch me my paper boy", new SequentialCommandGroup(new DriveDistance(100), new DriveDistance(-100)));
     // adds auto to shuffle board
     // SmartDashboard.putData("Auto Chooser",autoCommand);
      
@@ -61,11 +61,11 @@ public class ShuffleboardManager {
   public void subsystemSpam() {
     // put subsystem shuffleboard things in here!
 
-    loadClimbExtenderShuffleboard(RobotContainer.m_extenderL);
-    loadClimbExtenderShuffleboard(RobotContainer.m_extenderR);
+    // loadClimbExtenderShuffleboard(RobotContainer.m_extenderL);
+    // loadClimbExtenderShuffleboard(RobotContainer.m_extenderR);
 
-    loadClimbRotatorShuffleboard(RobotContainer.m_climbRotatorL);
-    loadClimbRotatorShuffleboard(RobotContainer.m_climbRotatorR);
+    // loadClimbRotatorShuffleboard(RobotContainer.m_climbRotatorL);
+    // loadClimbRotatorShuffleboard(RobotContainer.m_climbRotatorR);
 
     loadCargoShooterShuffleboard();
     loadCargoRotatorShuffleboard();
