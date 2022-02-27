@@ -17,60 +17,60 @@ public class TestingJoystick {
 
   //operator buttons
   public static void configureButtonBindings() {
-    controller.getDPad().up().whenPressed(new SequentialCommandGroup (
-      new InstantCommand(() -> ClimberMethods.enableExtender()),
-      new InstantCommand(() -> ClimberMethods.setExtension(24))));
+  //   controller.getDPad().up().whenPressed(new SequentialCommandGroup (
+  //     new InstantCommand(() -> ClimberMethods.enableExtender()),
+  //     new InstantCommand(() -> ClimberMethods.setExtension(24))));
    
 
-    controller.getDPad().down().whenPressed(new SequentialCommandGroup (
-      new InstantCommand(() -> ClimberMethods.enableExtender()),
-      new InstantCommand(() -> ClimberMethods.setExtension(0))));
+  //   controller.getDPad().down().whenPressed(new SequentialCommandGroup (
+  //     new InstantCommand(() -> ClimberMethods.enableExtender()),
+  //     new InstantCommand(() -> ClimberMethods.setExtension(0))));
    
 
-    controller.getDPad().right().whenPressed(new SequentialCommandGroup (
-      new InstantCommand(() -> ClimberMethods.enableRotator()),
-      new InstantCommand(() -> ClimberMethods.setAngle(80))));
+  //   controller.getDPad().right().whenPressed(new SequentialCommandGroup (
+  //     new InstantCommand(() -> ClimberMethods.enableRotator()),
+  //     new InstantCommand(() -> ClimberMethods.setAngle(80))));
     
     
-    controller.getDPad().left().whenPressed(new SequentialCommandGroup (
-      new InstantCommand(() -> ClimberMethods.enableRotator()),
-      new InstantCommand(() -> ClimberMethods.setAngle(125))));
-    
-
-    controller.getDPad().upRight().whenPressed(new SequentialCommandGroup(
-     new InstantCommand(() -> ClimberMethods.enableExtender()),
-     new InstantCommand(() -> ClimberMethods.enableRotator()), 
-     new InstantCommand(() -> ClimberMethods.setExtension(24)),
-     new InstantCommand(() -> ClimberMethods.setAngle(80)) 
-    ));
+  //   controller.getDPad().left().whenPressed(new SequentialCommandGroup (
+  //     new InstantCommand(() -> ClimberMethods.enableRotator()),
+  //     new InstantCommand(() -> ClimberMethods.setAngle(125))));
     
 
-    controller.getDPad().downRight().whenPressed(new SequentialCommandGroup(
-     new InstantCommand(() -> ClimberMethods.enableExtender()),
-     new InstantCommand(() -> ClimberMethods.enableRotator()), 
-     new InstantCommand(() -> ClimberMethods.setExtension(0)),
-     new InstantCommand(() -> ClimberMethods.setAngle(80)) 
-    ));
+  //   controller.getDPad().upRight().whenPressed(new SequentialCommandGroup(
+  //    new InstantCommand(() -> ClimberMethods.enableExtender()),
+  //    new InstantCommand(() -> ClimberMethods.enableRotator()), 
+  //    new InstantCommand(() -> ClimberMethods.setExtension(24)),
+  //    new InstantCommand(() -> ClimberMethods.setAngle(80)) 
+  //   ));
     
 
-    controller.getDPad().upLeft().whenPressed(new SequentialCommandGroup(
-     new InstantCommand(() -> ClimberMethods.enableExtender()),
-     new InstantCommand(() -> ClimberMethods.enableRotator()), 
-     new InstantCommand(() -> ClimberMethods.setExtension(24)),
-     new InstantCommand(() -> ClimberMethods.setAngle(125)) 
-    ));
+  //   controller.getDPad().downRight().whenPressed(new SequentialCommandGroup(
+  //    new InstantCommand(() -> ClimberMethods.enableExtender()),
+  //    new InstantCommand(() -> ClimberMethods.enableRotator()), 
+  //    new InstantCommand(() -> ClimberMethods.setExtension(0)),
+  //    new InstantCommand(() -> ClimberMethods.setAngle(80)) 
+  //   ));
     
 
-    controller.getDPad().downLeft().whenPressed(new SequentialCommandGroup(
-     new InstantCommand(() -> ClimberMethods.enableExtender()),
-     new InstantCommand(() -> ClimberMethods.enableRotator()), 
-     new InstantCommand(() -> ClimberMethods.setExtension(0)),
-     new InstantCommand(() -> ClimberMethods.setAngle(125)) 
-    ));
+  //   controller.getDPad().upLeft().whenPressed(new SequentialCommandGroup(
+  //    new InstantCommand(() -> ClimberMethods.enableExtender()),
+  //    new InstantCommand(() -> ClimberMethods.enableRotator()), 
+  //    new InstantCommand(() -> ClimberMethods.setExtension(24)),
+  //    new InstantCommand(() -> ClimberMethods.setAngle(125)) 
+  //   ));
     
 
-    controller.getDPad().unpressed().whenPressed(new SequentialCommandGroup(
-      new InstantCommand(() -> ClimberMethods.disableExtender()),
-      new InstantCommand(() -> ClimberMethods.disableRotator())));
+  //   controller.getDPad().downLeft().whenPressed(new SequentialCommandGroup(
+  //    new InstantCommand(() -> ClimberMethods.enableExtender()),
+  //    new InstantCommand(() -> ClimberMethods.enableRotator()), 
+  //    new InstantCommand(() -> ClimberMethods.setExtension(0)),
+  //    new InstantCommand(() -> ClimberMethods.setAngle(125)) 
+  //   ));
+    
+
+  //   controller.getDPad().unpressed().whenPressed(new SequentialCommandGroup(
+  //     new InstantCommand(() -> ClimberMethods.disableExtender()),
+  //     new InstantCommand(() -> ClimberMethods.disableRotator())));
   }
 }

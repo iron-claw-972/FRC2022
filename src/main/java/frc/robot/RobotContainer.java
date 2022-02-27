@@ -8,9 +8,13 @@ the project.
 package frc.robot;
 
 import frc.robot.subsystems.*;
+import frc.robot.util.ShooterMethods;
 import frc.robot.util.ShuffleboardManager;
+import frc.robot.commands.DifferentialDrive;
+import frc.robot.commands.FlexibleAuto;
+import frc.robot.commands.GetDistance;
+import frc.robot.commands.TeleopDrive;
 import frc.robot.controls.*;
-import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.*;
 
 import java.lang.reflect.Array;
@@ -40,10 +44,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
   public static Drivetrain m_drive = new Drivetrain();
 
-  public static ClimbRotator m_climbRotatorR = new ClimbRotator(false);
-  public static ClimbRotator m_climbRotatorL = new ClimbRotator(true);
-  public static ClimbExtender m_extenderR = new ClimbExtender(false);
-  public static ClimbExtender m_extenderL = new ClimbExtender(true);
+  // public static ClimbRotator m_climbRotatorR = new ClimbRotator(false);
+  // public static ClimbRotator m_climbRotatorL = new ClimbRotator(true);
+  // public static ClimbExtender m_extenderR = new ClimbExtender(false);
+  // public static ClimbExtender m_extenderL = new ClimbExtender(true);
   public static CargoRotator m_cargoRotator = new CargoRotator();
   public static CargoBelt m_cargoBelt = new CargoBelt();
   public static CargoShooter m_cargoShooter = new CargoShooter();
@@ -51,7 +55,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
   
   UsbCamera camera0;
   UsbCamera camera1;
-  
+
+  public static Limelight m_limelight = new Limelight(() -> ShooterMethods.isArmFront());
+
+
   public RobotContainer() {
     //setup cameras 
     camera0 = CameraServer.startAutomaticCapture();
@@ -68,13 +75,17 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
     // default command to run in teleop
     
-    // m_drive.setDefaultCommand(new DifferentialDrive(m_drive));
+    m_drive.setDefaultCommand(new TeleopDrive(m_drive));
     // m_testArm.setDefaultCommand(new armPID(m_testArm));
+    //m_cargoShooter.setDefaultCommand(new RunCommand(() -> RobotContainer.m_cargoShooter.setOutput(Operator.controller.getJoystickAxis().leftY()), m_cargoShooter));
+    //m_cargoBelt.setDefaultCommand(new RunCommand(() -> RobotContainer.m_cargoBelt.setOutput(-Operator.controller.getJoystickAxis().rightY()), m_cargoBelt));
+    m_limelight.setDefaultCommand(new GetDistance(m_limelight, m_cargoRotator));
+
 
     // Configure the button bindings
     Driver.configureButtonBindings();
     Operator.configureButtonBindings();
-    TestingJoystick.configureButtonBindings();
+    // TestingJoystick.configureButtonBindings();
 
     //sets up shuffle board
   }
@@ -86,10 +97,11 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
    */
   public Command getAutonomousCommand() {
     // Attempt to load trajectory from PathWeaver
-    // return Pathweaver.pathweaverCommand();
-    return new SequentialCommandGroup(
-      m_shuffleboard.getAutonomousWaitCommand()
-      ,m_shuffleboard.getAutonomousCommand());
+    return new FlexibleAuto(true, 1, true);
     // return m_shuffleboard.getAutonomousCommand();
+    // return new SequentialCommandGroup(
+    //   m_shuffleboard.getAutonomousWaitCommand(),
+    //   m_shuffleboard.getAutonomousCommand()
+    // );
   }
 }

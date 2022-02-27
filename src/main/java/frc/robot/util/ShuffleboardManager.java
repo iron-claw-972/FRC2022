@@ -13,6 +13,7 @@ import frc.robot.autonomous.drivetrain.Pathweaver;
 import frc.robot.commands.DriveDistance;
 import frc.robot.subsystems.ClimbExtender;
 import frc.robot.subsystems.ClimbRotator;
+import frc.robot.controls.Driver;
 
 public class ShuffleboardManager {
 

@@ -23,7 +23,6 @@ public class CargoRotator extends SubsystemBase {
   public PIDController cargoRotatorPID = new PIDController(constants.kP, constants.kI, constants.kD);
 
   public CargoRotator() {
-    enable();
     encoder = new DutyCycleEncoder(constants.kArmEncoder);
     m_motor = ControllerFactory.createTalonFX(constants.kArmMotor, constants.kSupplyCurrentLimit,
         constants.kSupplyTriggerThreshold, constants.kSupplyTriggerDuration, constants.kCoast);
@@ -93,6 +92,7 @@ public class CargoRotator extends SubsystemBase {
 
   // sets PID Goal
   public void setPosition(double angle) {
+    SmartDashboard.putNumber("cargo rotator setpoint", angle);
     setpoint = angle;
   }
 
