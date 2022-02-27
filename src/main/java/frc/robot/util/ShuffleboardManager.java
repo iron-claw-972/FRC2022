@@ -11,7 +11,6 @@ import frc.robot.RobotContainer;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.autonomous.drivetrain.Pathweaver;
 import frc.robot.commands.DriveDistance;
-import frc.robot.subsystems.CargoShooter;
 import frc.robot.subsystems.ClimbExtender;
 import frc.robot.subsystems.ClimbRotator;
 
@@ -34,8 +33,6 @@ public class ShuffleboardManager {
   }
 
   public void update() {
-    
-    
     
   }
 
@@ -113,7 +110,7 @@ public class ShuffleboardManager {
 
   public void loadClimbRotatorShuffleboard(ClimbRotator rotator) {
     // a pop-up in shuffleboard that allows you to see how much the arm extended in inches
-    primaryTab.addNumber(rotator.getDirection() + " Angle", rotator::currentAngle);
+    primaryTab.addNumber(rotator.getDirection() + "current Angle", rotator::currentAngle);
     // a pop-up in shuffleboard that states if the rotator is on/off
     primaryTab.addBoolean(rotator.getDirection() + " Rotator", rotator::isEnabled);
     
