@@ -42,15 +42,15 @@ public class ClimbExtender extends SubsystemBase {
 
     // converts the length of the arm in inches to ticks and makes that the maximum tick limit, it's checked every 10 milliseconds
     // TODO: Update this max forward limit!
-    m_motor.configForwardSoftLimitThreshold(5000, 10);
+    m_motor.configForwardSoftLimitThreshold(488400, 10);
 
     // every time the robot is started, arm MUST start at maximum compression in order to maintain consistency
     m_motor.setSelectedSensorPosition(0.0);
 
     // so that the limiters are enabled
     // TODO: If the motors don't move, CHECK TO SEE IF THE LIMITER IS TOO LOW!
-    m_motor.configForwardSoftLimitEnable(false, 10);
-    m_motor.configReverseSoftLimitEnable(false, 10);
+    m_motor.configForwardSoftLimitEnable(true, 10);
+    m_motor.configReverseSoftLimitEnable(true, 10);
 
     // set the PID's tolerance
     extenderPID.setTolerance(constants.kExtenderTolerance);
