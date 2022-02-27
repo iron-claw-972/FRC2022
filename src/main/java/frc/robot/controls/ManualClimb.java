@@ -18,29 +18,29 @@ public class ManualClimb {
   public static void configureButtonBindings() {
     controller.getDPad().up().whenPressed(new SequentialCommandGroup (
       new InstantCommand(() -> ClimberMethods.enableExtender()),
-      new InstantCommand(() -> ClimberMethods.setExtension(24))));
+      new InstantCommand(() -> ClimberMethods.setExtension(extend.kMaxUpwards))));
    
 
     controller.getDPad().down().whenPressed(new SequentialCommandGroup (
       new InstantCommand(() -> ClimberMethods.enableExtender()),
-      new InstantCommand(() -> ClimberMethods.setExtension(0))));
+      new InstantCommand(() -> ClimberMethods.setExtension(extend.kMaxDownwards))));
    
 
     controller.getDPad().right().whenPressed(new SequentialCommandGroup (
       new InstantCommand(() -> ClimberMethods.enableRotator()),
-      new InstantCommand(() -> ClimberMethods.setAngle(80))));
+      new InstantCommand(() -> ClimberMethods.setAngle(rotate.kMaxForward))));
     
     
     controller.getDPad().left().whenPressed(new SequentialCommandGroup (
       new InstantCommand(() -> ClimberMethods.enableRotator()),
-      new InstantCommand(() -> ClimberMethods.setAngle(125))));
+      new InstantCommand(() -> ClimberMethods.setAngle(rotate.kMaxBackward))));
     
 
     controller.getDPad().upRight().whenPressed(new SequentialCommandGroup(
      new InstantCommand(() -> ClimberMethods.enableExtender()),
      new InstantCommand(() -> ClimberMethods.enableRotator()), 
-     new InstantCommand(() -> ClimberMethods.setExtension(24)),
-     new InstantCommand(() -> ClimberMethods.setAngle(80)) 
+     new InstantCommand(() -> ClimberMethods.setExtension(extend.kMaxUpwards)),
+     new InstantCommand(() -> ClimberMethods.setAngle(rotate.kMaxForward))
     ));
     
 
@@ -48,23 +48,23 @@ public class ManualClimb {
      new InstantCommand(() -> ClimberMethods.enableExtender()),
      new InstantCommand(() -> ClimberMethods.enableRotator()), 
      new InstantCommand(() -> ClimberMethods.setExtension(0)),
-     new InstantCommand(() -> ClimberMethods.setAngle(80)) 
+     new InstantCommand(() -> ClimberMethods.setAngle(rotate.kMaxForward)) 
     ));
     
 
     controller.getDPad().upLeft().whenPressed(new SequentialCommandGroup(
      new InstantCommand(() -> ClimberMethods.enableExtender()),
      new InstantCommand(() -> ClimberMethods.enableRotator()), 
-     new InstantCommand(() -> ClimberMethods.setExtension(24)),
-     new InstantCommand(() -> ClimberMethods.setAngle(125)) 
+     new InstantCommand(() -> ClimberMethods.setExtension(extend.kMaxUpwards)),
+     new InstantCommand(() -> ClimberMethods.setAngle(rotate.kMaxBackward)) 
     ));
     
 
     controller.getDPad().downLeft().whenPressed(new SequentialCommandGroup(
      new InstantCommand(() -> ClimberMethods.enableExtender()),
      new InstantCommand(() -> ClimberMethods.enableRotator()), 
-     new InstantCommand(() -> ClimberMethods.setExtension(0)),
-     new InstantCommand(() -> ClimberMethods.setAngle(125)) 
+     new InstantCommand(() -> ClimberMethods.setExtension(extend.kMaxDownwards)),
+     new InstantCommand(() -> ClimberMethods.setAngle(rotate.kMaxBackward)) 
     ));
     
 

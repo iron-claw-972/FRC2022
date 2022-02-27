@@ -65,7 +65,7 @@ import edu.wpi.first.cameraserver.CameraServer;
     // Configure the button bindings
     Driver.configureButtonBindings();
     Operator.configureButtonBindings();
-    // TestingJoystick.configureButtonBindings();
+    ManualClimb.configureButtonBindings();
 
     //sets up shuffle board
   }
