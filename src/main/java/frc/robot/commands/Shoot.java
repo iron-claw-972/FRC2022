@@ -19,7 +19,7 @@ public class Shoot extends SequentialCommandGroup {
                 new SequentialCommandGroup(
                     new InstantCommand(() -> ShooterMethods.enableWheel()),
                     new InstantCommand(() -> ShooterMethods.setBeltSpeed(beltIntakeSpeed)),
-                    new InstantCommand(() -> ShooterMethods.setWheelSpeed(shooterWheelOuttakeSpeed)),
+                    new InstantCommand(() -> ShooterMethods.setWheelSpeed(ShooterMethods.getOptimalShooterSpeed())),
                     new WaitUntilCommand(() -> ShooterMethods.isWheelAtSetpoint())
                 )
             ),

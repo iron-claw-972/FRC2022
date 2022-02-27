@@ -5,8 +5,10 @@ package frc.robot.controls;
 import controllers.*;
 import edu.wpi.first.wpilibj.Joystick;
 import frc.robot.Constants;
+import frc.robot.RobotContainer;
 import frc.robot.Constants.*;
 import frc.robot.commands.Intake;
+import frc.robot.commands.AlignToUpperHub;
 import frc.robot.commands.ClimberMove;
 import frc.robot.commands.PositionArm;
 import frc.robot.commands.Shoot;
@@ -77,9 +79,10 @@ public class Operator {
 
   public static void shootBinds() {
     controller.getButtons().RB().whenPressed(new ConditionalCommand(
-      // shoot at a desired angle and outtake/intake speeds
-      new Shoot(cargoConstants.kFrontOuttakeFarPos, beltConstants.kIntakeSpeed, wheelConstants.kFrontOuttakeFarSpeed, beltConstants.kOuttakeSpeed, true),
-      new Shoot(cargoConstants.kBackOuttakeFarPos, beltConstants.kIntakeSpeed, wheelConstants.kBackOuttakeFarSpeed, beltConstants.kOuttakeSpeed, true),
+      // new Shoot(cargoConstants.kFrontOuttakeFarPos, beltConstants.kIntakeSpeed, wheelConstants.kFrontOuttakeFarSpeed, beltConstants.kOuttakeSpeed, true),
+      // new Shoot(cargoConstants.kBackOuttakeFarPos, beltConstants.kIntakeSpeed, wheelConstants.kBackOuttakeFarSpeed, beltConstants.kOuttakeSpeed, true),
+      new Shoot(cargoConstants.kFrontOuttakeFarPos, beltConstants.kIntakeSpeed, ShooterMethods.getOptimalShooterSpeed(), beltConstants.kOuttakeSpeed, true),
+      new Shoot(cargoConstants.kBackOuttakeFarPos, beltConstants.kIntakeSpeed, ShooterMethods.getOptimalShooterSpeed(), beltConstants.kOuttakeSpeed, true),
       ShooterMethods::isArmFront
     ));
 
@@ -94,9 +97,9 @@ public class Operator {
     controller.getButtons().A().whenPressed(new PositionArm(cargoConstants.kBackOuttakeFarPos));
     // move arm to front
     controller.getButtons().B().whenPressed(new PositionArm(cargoConstants.kFrontOuttakeFarPos));
-    // intake
-    controller.getButtons().X().whenPressed(new Intake(cargoConstants.kIntakePos, beltConstants.kIntakeSpeed, wheelConstants.kIntakeSpeed, cargoConstants.kFrontOuttakeFarPos, false, Constants.kIsRedAlliance)); 
-    // stow arm
-    controller.getButtons().Y().whenPressed(new PositionArm(cargoConstants.kStowPos));
+    controller.getButtons().X().whenPressed(new Intake(cargoConstants.kIntakePos, beltConstants.kIntakeSpeed, wheelConstants.kIntakeSpeed, cargoConstants.kFrontOuttakeFarPos, true, Constants.kIsRedAlliance)); 
+    // controller.getButtons().Y().whenPressed(new PositionArm(cargoConstants.kStowPos));
+    controller.getButtons().Y().whenPressed(new AlignToUpperHub(RobotContainer.m_limelight, RobotContainer.m_drive));
+    // controller.getButtons().RB().whenPressed(new GetDistance(RobotContainer.m_limelight, RobotContainer.m_cargoRotator));
   }
 }

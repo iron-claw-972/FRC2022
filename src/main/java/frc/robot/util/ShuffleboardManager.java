@@ -104,18 +104,14 @@ public class ShuffleboardManager {
   }
 
   public void loadClimbExtenderShuffleboard(ClimbExtender extender) {
-    // a pop-up in shuffleboard that allows you to see how much the arm extended in inches
     primaryTab.addNumber(extender.getDirection() + " Extension", extender::currentExtension);
-    // a pop-up in shuffleboard that states if the extender is on/off
     primaryTab.addBoolean(extender.getDirection() + " Extender", extender::isEnabled);
     
     pidTab.add(extender.getDirection() + "Climb Extender PID", extender.extenderPID);
   }
 
   public void loadClimbRotatorShuffleboard(ClimbRotator rotator) {
-    // a pop-up in shuffleboard that allows you to see how much the arm extended in inches
     primaryTab.addNumber(rotator.getDirection() + " Angle", rotator::currentAngle);
-    // a pop-up in shuffleboard that states if the rotator is on/off
     primaryTab.addBoolean(rotator.getDirection() + " Rotator", rotator::isEnabled);
     
     // PID values that can be modified in shuffleboard

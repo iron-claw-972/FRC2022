@@ -10,6 +10,7 @@ package frc.robot;
 import frc.robot.subsystems.*;
 import frc.robot.util.ShooterMethods;
 import frc.robot.util.ShuffleboardManager;
+import frc.robot.commands.GetDistance;
 import frc.robot.commands.TeleopDrive;
 import frc.robot.controls.*;
 import edu.wpi.first.wpilibj2.command.*;
@@ -55,7 +56,7 @@ import edu.wpi.first.cameraserver.CameraServer;
     // m_testArm.setDefaultCommand(new armPID(m_testArm));
     //m_cargoShooter.setDefaultCommand(new RunCommand(() -> RobotContainer.m_cargoShooter.setOutput(Operator.controller.getJoystickAxis().leftY()), m_cargoShooter));
     //m_cargoBelt.setDefaultCommand(new RunCommand(() -> RobotContainer.m_cargoBelt.setOutput(-Operator.controller.getJoystickAxis().rightY()), m_cargoBelt));
-    // m_limelight.setDefaultCommand(new GetDistance(m_limelight, m_cargoRotator));
+    m_limelight.setDefaultCommand(new GetDistance(m_limelight, m_cargoRotator));
 
 
     // Start camera stream for driver
@@ -64,7 +65,7 @@ import edu.wpi.first.cameraserver.CameraServer;
     // Configure the button bindings
     Driver.configureButtonBindings();
     Operator.configureButtonBindings();
-    // TestingJoystick.configureButtonBindings();
+    ManualClimb.configureButtonBindings();
 
     //sets up shuffle board
   }

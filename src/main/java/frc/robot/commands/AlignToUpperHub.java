@@ -1,6 +1,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.robotConstants.limelight.TraversoLimelightConstants;
 import frc.robot.subsystems.Drivetrain;
@@ -22,10 +23,12 @@ public class AlignToUpperHub extends CommandBase {
     alignPID.setTolerance(limelightConstants.kAlignPIDTolerance);
     alignPID.reset();
     alignPID.setSetpoint(0);
+    SmartDashboard.putData("Alignment PID", alignPID);
   }
 
   @Override
   public void execute() {
+  // System.out.println("Angle: " + m_limelight.getHubHorizontalAngularOffset());
     m_drive.runDrive(0, alignPID.calculate(m_limelight.getHubHorizontalAngularOffset()));
   }
 

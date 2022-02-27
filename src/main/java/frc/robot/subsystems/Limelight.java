@@ -143,7 +143,7 @@ public class Limelight extends SubsystemBase {
 
   public void setCameraMode(boolean isDriverCamera) {
     if (isDriverCamera) {
-      m_table.getEntry("camMode").setNumber(1);
+      // m_table.getEntry("camMode").setNumber(1);
       m_isDriverCamera = true;
     } else {
       m_table.getEntry("camMode").setNumber(0);
@@ -232,7 +232,7 @@ public class Limelight extends SubsystemBase {
   }
 
   private double getLimelightAngle(double armAngle) {
-    return armAngle + constants.kPivotToLimelightAngleDifference;
+    return 180-(armAngle + constants.kPivotToLimelightAngleDifference);
   }
 
   public double getTargetArea() {
@@ -265,12 +265,14 @@ public class Limelight extends SubsystemBase {
 
   public double getBallDistance(double armAngle, boolean isRedBall) {
     setBallPipeline(isRedBall);
+    SmartDashboard.putNumber("Horizontal Error", m_horizontalAngularOffset);
     return getDistance(armAngle, constants.kBallTargetHeight);
   }
 
-  private double getDistance(double armAngle, double targetHeight) {
+private double getDistance(double armAngle, double targetHeight) {
     double distance = ((targetHeight - getLimelightHeight(armAngle))
         / (Math.tan(Units.degreesToRadians(getLimelightAngle(armAngle) + m_verticalAngularOffset))));
+        // System.out.println("DISTANCE: " + Units.metersToInches(distance));
 
     return distance;
   }

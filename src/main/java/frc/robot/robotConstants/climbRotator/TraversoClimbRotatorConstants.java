@@ -6,11 +6,11 @@ public class TraversoClimbRotatorConstants {
     public final int kArmRightEncoder = 0;
 
     // motor clamping
-    public final double kMotorClamp = 0.6;
+    public final double kMotorClamp = 0.3;
 
     // the motor ports of the arm
-    public final int kArmRightMotor = 24;
-    public final int kArmLeftMotor = 19;
+    public final int kArmRightMotor = 9;
+    public final int kArmLeftMotor = 8;
 
     // Current Tick Value * Degree Multiple = Current Angle
     public final double kArmDegreeMultiple = 360.0;

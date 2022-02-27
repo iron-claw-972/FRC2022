@@ -5,6 +5,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.util.ControllerFactory;
 import frc.robot.robotConstants.climbExtender.TraversoClimbExtenderConstants;
@@ -69,12 +70,7 @@ public class ClimbExtender extends SubsystemBase {
 
   // returns the current extension in inches
   public double currentExtension() {
-    if(left) {
-      return m_motor.getSelectedSensorPosition() * constants.kExtenderTickMultiple;
-    }
-    else {
-      return m_motor.getSelectedSensorPosition() * constants.kExtenderTickMultiple;
-    }
+    return m_motor.getSelectedSensorPosition() * constants.kExtenderTickMultiple;
   }
 
   // returns the current extension in ticks
@@ -100,17 +96,19 @@ public class ClimbExtender extends SubsystemBase {
 
   @Override
   public void periodic() {
+    SmartDashboard.putNumber(direction + " Extension", currentExtension());
+    SmartDashboard.putNumber(direction + " extension raw", currentExtensionRaw());
     if(enabled) {
       // motor power is set to the extenderpid's calculation
       setOutput(extenderPID.calculate(currentExtension(), setpoint));
     }
   }
 
-  public boolean isEnabled() {
-    return enabled;
+  public String getDirection() {
+    return direction;
   }
 
-  public String getDirection() {
-      return direction;
+  public boolean isEnabled(){
+    return enabled;
   }
 } 

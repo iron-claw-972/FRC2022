@@ -34,6 +34,7 @@ public class CargoRotator extends SubsystemBase {
   @Override
   public void periodic() {
     feedforward = calculateFeedForward(setpoint);
+    // System.out.println("Setpoint: " + setpoint);
     outputVoltage = -(cargoRotatorPID.calculate(currentAngle(), setpoint) + feedforward);
     if (enabled) {
       setVoltage(outputVoltage);
