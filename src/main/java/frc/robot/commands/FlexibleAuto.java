@@ -29,6 +29,5 @@ public class FlexibleAuto extends SequentialCommandGroup {
             new Shoot(cargoConstants.kBackOuttakeFarPos, beltConstants.kIntakeSpeed, ShooterMethods.getOptimalShooterSpeed(), beltConstants.kOuttakeSpeed, true):
             new DoNothing())
     );
-
   }
 }

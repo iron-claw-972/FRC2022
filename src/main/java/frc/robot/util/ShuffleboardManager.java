@@ -11,6 +11,7 @@ import frc.robot.RobotContainer;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.autonomous.drivetrain.Pathweaver;
 import frc.robot.commands.DriveDistance;
+import frc.robot.commands.FlexibleAuto;
 import frc.robot.subsystems.ClimbExtender;
 import frc.robot.subsystems.ClimbRotator;
 import frc.robot.controls.Driver;
@@ -20,8 +21,13 @@ public class ShuffleboardManager {
   SendableChooser<Command> autoCommand = new SendableChooser<>();
   ShuffleboardTab primaryTab = Shuffleboard.getTab("main");
   ShuffleboardTab pidTab = Shuffleboard.getTab("PID config");
+  ShuffleboardTab autoTab = Shuffleboard.getTab("Auto config");
   
-  NetworkTableEntry autoWait = primaryTab.add("Auto Wait", 0).getEntry();
+  NetworkTableEntry autoWait = autoTab.add("Auto Wait", 0.0).getEntry();
+  NetworkTableEntry isFar = autoTab.add("Flexible Auto First Shoot is Fender", true).getEntry();
+  NetworkTableEntry distance = autoTab.add("Flexible Auto Drive Distance", 0.0).getEntry();
+  NetworkTableEntry intakeSecond = autoTab.add("Flexible Auto Get and Shoot a Second Time", true).getEntry();
+  
 
   public void setup() {
     primaryTab.addBoolean("Teleop", DriverStation::isTeleop);
@@ -30,9 +36,8 @@ public class ShuffleboardManager {
     time();
     update();
 
-    primaryTab.add("Auto Chooser",autoCommand);
+    autoTab.add("Auto Chooser",autoCommand);
   }
-
   public void update() {
     
   }
@@ -42,7 +47,6 @@ public class ShuffleboardManager {
     primaryTab.addNumber("Time Left Until Endgame" , this::getDriverStationTimeTillEndGame);
     // primaryTab.add("Auto Wait", 0);
   }
-
   private double getDriverStationTimeTillEndGame(){
     return DriverStation.getMatchTime() -30;
   }
@@ -51,13 +55,12 @@ public class ShuffleboardManager {
     autoCommand.setDefaultOption("pathweaver", Pathweaver.pathweaverCommand(AutoConstants.kTrajectoryName));
     // m_chooser.addOption("teleop", new TeleopDrive(Drivetrain.getInstance()));
     autoCommand.addOption("Spin baby spin", new RunCommand(() -> RobotContainer.m_drive.tankDrive(0.5, -0.5), RobotContainer.m_drive));
-    autoCommand.addOption("fetch me my paper boy", new SequentialCommandGroup(new DriveDistance(100), new DriveDistance(-100)));
+    autoCommand.addOption("fetch me my paper boy", new FlexibleAuto(isFar.getBoolean(true), distance.getDouble(0), intakeSecond.getBoolean(true)));
     // adds auto to shuffle board
     // SmartDashboard.putData("Auto Chooser",autoCommand);
      
     // SmartDashboard.putString("Drive Mode", Driver.getDriveMode().toString());
   }
-
   public void subsystemSpam() {
     // put subsystem shuffleboard things in here!
 
@@ -78,7 +81,6 @@ public class ShuffleboardManager {
     driveMode();
     return autoCommand.getSelected();
   }
-
   public Command getAutonomousWaitCommand() {
     System.out.println(autoWait.getDouble(0));
     return new WaitCommand(autoWait.getDouble(0));
@@ -92,14 +94,15 @@ public class ShuffleboardManager {
 
     pidTab.add("Cargo Rotator PID",RobotContainer.m_cargoRotator.cargoRotatorPID);
   }
-
   public void loadCargoShooterShuffleboard() {
     primaryTab.addBoolean("Cargo Shooter", RobotContainer.m_cargoShooter::isEnabled);
     primaryTab.addNumber("vel", RobotContainer.m_cargoShooter::getVelocity);
     
     pidTab.add("CargoShooterPID", RobotContainer.m_cargoShooter.cargoShooterPID);
   }
-
+  public void loadCargoBeltShuffleboard(){
+    primaryTab.addBoolean("Cargo Belt", RobotContainer.m_cargoBelt::isEnabled);
+  }
   public void loadClimbExtenderShuffleboard(ClimbExtender extender) {
     // a pop-up in shuffleboard that allows you to see how much the arm extended in inches
     primaryTab.addNumber(extender.getDirection() + " Extension", extender::currentExtension);
@@ -108,7 +111,6 @@ public class ShuffleboardManager {
     
     pidTab.add(extender.getDirection() + "Climb Extender PID", extender.extenderPID);
   }
-
   public void loadClimbRotatorShuffleboard(ClimbRotator rotator) {
     // a pop-up in shuffleboard that allows you to see how much the arm extended in inches
     primaryTab.addNumber(rotator.getDirection() + "current Angle", rotator::currentAngle);
@@ -118,16 +120,10 @@ public class ShuffleboardManager {
     // PID values that can be modified in shuffleboard
     pidTab.add(rotator.getDirection() + " Climb Rotator PID", rotator.armPID);
   }
-
-  public void loadCargoBeltShuffleboard(){
-    primaryTab.addBoolean("Cargo Belt", RobotContainer.m_cargoBelt::isEnabled);
-  }
-
   public void loadBallDetectionShuffleboard(){
     primaryTab.addBoolean("Has Red Ball", RobotContainer.m_ballDetection::hasRedBall);
     primaryTab.addBoolean("Has Blue Ball", RobotContainer.m_ballDetection::hasBlueBall);
     primaryTab.addBoolean("Has Ball", RobotContainer.m_ballDetection::containsBall);
   }
-
 }
   

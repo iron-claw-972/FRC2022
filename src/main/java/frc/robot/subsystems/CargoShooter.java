@@ -68,9 +68,9 @@ public class CargoShooter extends SubsystemBase {
     // SmartDashboard.putNumber("Velocity (RPM)", m_flywheelSim.getAngularVelocityRPM());
   }
 
-  // public void setOutput(double motorPower) {
-  //   m_cargoShooterMotor.set(ControlMode.PercentOutput, MathUtil.clamp(motorPower, -constants.kMotorClamp, constants.kMotorClamp));
-  // }
+  public void setOutput(double motorPower) {
+    m_cargoShooterMotor.set(ControlMode.PercentOutput, MathUtil.clamp(motorPower, -constants.kMotorClamp, constants.kMotorClamp));
+  }
 
   public void setSpeed(double newSpeed) {
     motorSpeed = newSpeed;
