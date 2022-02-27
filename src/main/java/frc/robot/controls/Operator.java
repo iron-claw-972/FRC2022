@@ -39,6 +39,7 @@ public class Operator {
     shootBinds();
   }
 
+  /*
   public static void climbBinds() {
     controller.getDPad().up().whenPressed(new SequentialCommandGroup(
       // move the cargo arm to stow
@@ -76,6 +77,7 @@ public class Operator {
       new InstantCommand(() -> ClimberMethods.disableAll())
     )));
   }
+  */
 
   public static void shootBinds() {
     controller.getButtons().RB().whenPressed(new ConditionalCommand(
@@ -101,5 +103,33 @@ public class Operator {
     // controller.getButtons().Y().whenPressed(new PositionArm(cargoConstants.kStowPos));
     controller.getButtons().Y().whenPressed(new AlignToUpperHub(RobotContainer.m_limelight, RobotContainer.m_drive));
     // controller.getButtons().RB().whenPressed(new GetDistance(RobotContainer.m_limelight, RobotContainer.m_cargoRotator));
+  }
+
+  public static void cargoTestBinds() {
+    // controller.getButtons().RB().whenPressed(new SequentialCommandGroup(
+    // ));
+
+    controller.getButtons().LB().whileHeld(new InstantCommand(() -> RobotContainer.m_cargoShooter.setOutput(controller.getJoystickAxis().leftY())));
+    controller.getButtons().LB().whenReleased(new InstantCommand(() -> RobotContainer.m_cargoShooter.setOutput(0)));
+    
+    controller.getButtons().RB().whileHeld(new InstantCommand(() -> RobotContainer.m_cargoBelt.setOutput(-controller.getJoystickAxis().rightY())));
+    controller.getButtons().RB().whenReleased(new InstantCommand(() -> RobotContainer.m_cargoBelt.setOutput(0)));
+
+
+    SmartDashboard.putNumber("Shooter", 0);
+    controller.getButtons().X().whileHeld(new InstantCommand(() -> RobotContainer.m_cargoShooter.setOutput(SmartDashboard.getNumber("Shooter X", 0))));
+    controller.getButtons().X().whenReleased(new InstantCommand(() -> RobotContainer.m_cargoShooter.setOutput(0)));
+
+    SmartDashboard.putNumber("belt", 0);
+    controller.getButtons().B().whileHeld(new InstantCommand(() -> RobotContainer.m_cargoBelt.setOutput(-SmartDashboard.getNumber("belt B", 0))));
+    controller.getButtons().B().whenReleased(new InstantCommand(() -> RobotContainer.m_cargoBelt.setOutput(0)));
+
+    SmartDashboard.putNumber("Shooter", 0);
+    controller.getButtons().Y().whileHeld(new InstantCommand(() -> RobotContainer.m_cargoShooter.setOutput(SmartDashboard.getNumber("Shooter Y", 0))));
+    controller.getButtons().Y().whenReleased(new InstantCommand(() -> RobotContainer.m_cargoShooter.setOutput(0)));
+
+    SmartDashboard.putNumber("belt", 0);
+    controller.getButtons().A().whileHeld(new InstantCommand(() -> RobotContainer.m_cargoBelt.setOutput(-SmartDashboard.getNumber("belt A", 0))));
+    controller.getButtons().A().whenReleased(new InstantCommand(() -> RobotContainer.m_cargoBelt.setOutput(0)));
   }
 }

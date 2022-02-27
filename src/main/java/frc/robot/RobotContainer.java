@@ -10,11 +10,20 @@ package frc.robot;
 import frc.robot.subsystems.*;
 import frc.robot.util.ShooterMethods;
 import frc.robot.util.ShuffleboardManager;
+import frc.robot.commands.DifferentialDrive;
+import frc.robot.commands.FlexibleAuto;
 import frc.robot.commands.GetDistance;
 import frc.robot.commands.TeleopDrive;
 import frc.robot.controls.*;
 import edu.wpi.first.wpilibj2.command.*;
+
+import java.lang.reflect.Array;
+
 import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.cscore.UsbCamera;
+import edu.wpi.first.cscore.VideoSink;
+import edu.wpi.first.wpilibj.shuffleboard.SendableCameraWrapper;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /*
   This class is where the bulk of the robot should be declared. Since
@@ -43,12 +52,26 @@ import edu.wpi.first.cameraserver.CameraServer;
   public static CargoBelt m_cargoBelt = new CargoBelt();
   public static CargoShooter m_cargoShooter = new CargoShooter();
   public static BallDetection m_balldetector = new BallDetection();
+  
+  UsbCamera camera0;
+  UsbCamera camera1;
 
   public static Limelight m_limelight = new Limelight(() -> ShooterMethods.isArmFront());
 
 
   public RobotContainer() {
+    //setup cameras 
+    camera0 = CameraServer.startAutomaticCapture();
+    camera1 = CameraServer.startAutomaticCapture();
+
+    int factor = 10; // max is 80
+    int width = 16 * factor;
+    int height = 9 * factor;
     
+    camera0.setFPS(30);
+    camera0.setResolution(width, height);
+    camera1.setFPS(30);
+    camera1.setResolution(width, height);
 
     // default command to run in teleop
     
@@ -59,9 +82,6 @@ import edu.wpi.first.cameraserver.CameraServer;
     m_limelight.setDefaultCommand(new GetDistance(m_limelight, m_cargoRotator));
 
 
-    // Start camera stream for driver
-    CameraServer.startAutomaticCapture();
-    
     // Configure the button bindings
     Driver.configureButtonBindings();
     Operator.configureButtonBindings();
@@ -77,7 +97,8 @@ import edu.wpi.first.cameraserver.CameraServer;
    */
   public Command getAutonomousCommand() {
     // Attempt to load trajectory from PathWeaver
-    return m_shuffleboard.getAutonomousCommand();
+    return new FlexibleAuto(true, 1, true);
+    // return m_shuffleboard.getAutonomousCommand();
     // return new SequentialCommandGroup(
     //   m_shuffleboard.getAutonomousWaitCommand(),
     //   m_shuffleboard.getAutonomousCommand()
