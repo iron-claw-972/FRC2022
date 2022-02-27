@@ -11,7 +11,16 @@ public class ShooterMethods {
     RobotContainer.m_cargoRotator.setPosition(angle);
   }
 
-  public static double getOptimalShooterSpeed() {
+  public static double getOptimalFrontShooterSpeed() {
+    double distance = Units.metersToInches(RobotContainer.m_limelight.getHubDistance(RobotContainer.m_cargoRotator.currentAngle()));
+    SmartDashboard.putNumber("Distance", distance);
+    double speed = -(9.6*distance + 1405);
+    System.out.println("Speed: " + speed);
+    System.out.println("Distance: " + distance);
+    return speed;
+  }
+
+  public static double getOptimalBackShooterSpeed() {
     double distance = Units.metersToInches(RobotContainer.m_limelight.getHubDistance(RobotContainer.m_cargoRotator.currentAngle()));
     SmartDashboard.putNumber("Distance", distance);
     double speed = -(9.6*distance + 1405);

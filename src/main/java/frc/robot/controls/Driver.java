@@ -3,15 +3,18 @@ package frc.robot.controls;
 import controllers.*;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import frc.robot.Constants.*;
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
 import frc.robot.commands.AlignToUpperHub;
 import frc.robot.commands.Intake;
+import frc.robot.commands.Shoot;
 import frc.robot.robotConstants.cargoRotator.TraversoCargoRotatorConstants;
 import frc.robot.robotConstants.shooterBelt.TraversoBeltConstants;
 import frc.robot.robotConstants.shooterWheel.TraversoCargoShooterConstants;
 import frc.robot.util.DriveMode;
+import frc.robot.util.ShooterMethods;
 
 public class Driver {
 
@@ -35,6 +38,11 @@ public class Driver {
         () -> setDriveMode(DriveMode.ARCADE));
     controller.getButtons().backSwitchBottom().whenPressed(new Intake(cargoConstants.kIntakePos, beltConstants.kIntakeSpeed, wheelConstants.kIntakeSpeed, cargoConstants.kFrontOuttakeFarPos, true, Constants.kIsRedAlliance));
     controller.getButtons().frontSwitchBottom().whenPressed(new AlignToUpperHub(RobotContainer.m_limelight, RobotContainer.m_drive));
+    controller.getButtons().bottomButton().whenPressed(new ConditionalCommand(
+      new Shoot(cargoConstants.kFrontOuttakeFarPos, beltConstants.kIntakeSpeed, ShooterMethods.getOptimalFrontShooterSpeed(), beltConstants.kOuttakeSpeed, true),
+      new Shoot(cargoConstants.kBackOuttakeFarPos, beltConstants.kIntakeSpeed, ShooterMethods.getOptimalBackShooterSpeed(), beltConstants.kOuttakeSpeed, true),
+      ShooterMethods::isArmFront
+    ));
   }
   
   public static double getThrottleValue() {

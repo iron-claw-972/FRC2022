@@ -1,5 +1,6 @@
 package frc.robot.commands;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -28,19 +29,28 @@ public class ChaseBall extends CommandBase {
     m_isRedBall = isRedBall;
     chasePID.setTolerance(limelightConstants.kChasePIDTolerance);
     chasePID.reset();
-    chasePID.setSetpoint(0);
+    // chasePID.setSetpoint(0);
 
-    followPID.setTolerance(limelightConstants.kChasePIDTolerance);
+    // followPID.setTolerance(limelightConstants.kFollowPIDTolerance);
     followPID.reset();
-    followPID.setSetpoint(-6);
+    //followPID.setSetpoint(6);
+  }
+
+  @Override
+  public void initialize() {
+    chasePID.reset();
+    followPID.reset();
   }
 
   @Override
   public void execute() {
-    System.out.println(Units.metersToInches(m_limelight.getBallDistance(2, true)));
-    double pid = followPID.calculate(Units.metersToInches(m_limelight.getBallDistance(2, true)));
-    System.out.println("PID: " + pid);
-    m_drive.runDrive(pid, chasePID.calculate(m_limelight.getBallHorizontalAngularOffset(true)));
+    if (m_limelight.hasValidTarget()) {
+      double distance = -Units.metersToInches(m_limelight.getBallDistance(2, true));
+      System.out.println("Distance: " + distance);
+      double pid = followPID.calculate(distance, 6);
+      System.out.println("PID: " + pid);
+      m_drive.arcadeDrive(MathUtil.clamp(pid, -0.5, 0.5), chasePID.calculate(m_limelight.getBallHorizontalAngularOffset(true), 0));
+    }
   }
 
   @Override
@@ -50,7 +60,6 @@ public class ChaseBall extends CommandBase {
 
   @Override
   public void end(boolean interrupted) {
-    // m_drive.tankDrive(0, 0);
     m_limelight.setCameraMode(true);
   }
 }
