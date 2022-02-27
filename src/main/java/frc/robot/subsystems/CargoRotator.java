@@ -92,7 +92,6 @@ public class CargoRotator extends SubsystemBase {
 
   // sets PID Goal
   public void setPosition(double angle) {
-    SmartDashboard.putNumber("cargo rotator setpoint", angle);
     setpoint = angle;
   }
 

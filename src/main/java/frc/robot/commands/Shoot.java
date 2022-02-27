@@ -27,7 +27,7 @@ public class Shoot extends SequentialCommandGroup {
             new InstantCommand(() -> ShooterMethods.setBeltSpeed(beltOuttakeSpeed)),
             new WaitUntilCommand(() -> ShooterMethods.isBallShot()),
             new WaitCommand(0.25),
-            new InstantCommand(() -> ShooterMethods.disableShooter()),
+            new InstantCommand(() -> ShooterMethods.disableShiitake()),
             new InstantCommand(() -> ShooterMethods.disableBelt())
         );
     }
