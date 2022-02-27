@@ -61,7 +61,7 @@ public class Robot extends TimedRobot {
   @Override
   public void disabledInit() {
     ShooterMethods.disableArm();
-    ShooterMethods.disableShooter();
+    ShooterMethods.disableShiitake();
     RobotContainer.m_limelight.setCameraMode(false);
   }
 
