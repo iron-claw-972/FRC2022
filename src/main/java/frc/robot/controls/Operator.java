@@ -1,7 +1,6 @@
 package frc.robot.controls;
 
 
-
 import controllers.*;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -36,21 +35,21 @@ public class Operator {
 
   //operator buttons
   public static void configureButtonBindings() {
-    // climbBinds();
+    climbBinds();
     shootBinds();
   }
 
-  /*
   public static void climbBinds() {
-    controller.getDPad().up().whenPressed(new SequentialCommandGroup(
+    controller.getDPad().up().whenPressed(new ParallelCommandGroup(
       // move the cargo arm to stow
       new PositionArm(cargoConstants.kStowPos),
-      // extend upwards, go to 90 degrees
-      new ClimberMove(extend.kMaxUpwards, rotate.kNinetyDeg)
+
+      // extend upwards, go an angle where we can hook the static hook
+      new ClimberMove(extend.kMaxUpwards, rotate.kHookStatic)
     ));
 
     controller.getDPad().down().whenPressed(new SequentialCommandGroup(    
-      // extend downwards, remain 90 degrees
+      // extend downwards, go to 90 degrees
       new ClimberMove(extend.kMaxDownwards, rotate.kNinetyDeg),
 
       // by now, the static hooks should be on the bar
@@ -69,16 +68,15 @@ public class Operator {
     ));
 
     // resume the sequence
-    controller.getButtons().START().whenPressed((new ParallelCommandGroup(
+    controller.getButtons().START().whenPressed(
       new InstantCommand(() -> ClimberMethods.enableAll())
-    )));
+    ));
 
     // pause the sequence
-    controller.getButtons().BACK().whenPressed((new ParallelCommandGroup(
+    controller.getButtons().BACK().whenPressed(
       new InstantCommand(() -> ClimberMethods.disableAll())
-    )));
+    ));
   }
-  */
 
   public static void shootBinds() {
     controller.getButtons().RB().whenPressed(new ConditionalCommand(

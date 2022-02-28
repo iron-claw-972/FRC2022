@@ -24,6 +24,7 @@ public class TraversoClimbRotatorConstants {
     public final double kMaxBackward = 120;
     public final double kMaxForward = 80;
     public final double kToBar = 100;
+    public final double kHookStatic = 110;
 
     // off load PID constants
     public final double kOffLoadP = 0.02;

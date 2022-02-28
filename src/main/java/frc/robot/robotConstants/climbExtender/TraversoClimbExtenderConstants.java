@@ -6,7 +6,7 @@ public class TraversoClimbExtenderConstants {
   public final int kLeftExtenderPort = 11;
 
   // the arm's max extension
-  public final double kExtenderMaxArmLength = 38;
+  public final double kExtenderMaxArmLength = 40;
 
   // used to convert ticks to inches
   public final double kExtenderTicksPerRotation = 1/2048; // every rotation is 2048 ticks
