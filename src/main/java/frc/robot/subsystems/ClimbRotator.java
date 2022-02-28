@@ -23,7 +23,7 @@ public class ClimbRotator extends SubsystemBase {
   private double setPoint = 90;
   private double encoderOffset;
 
-  private PIDController armPID = new PIDController(constants.kOffLoadP , constants.kOffLoadI , constants.kOffLoadD);
+  public PIDController armPID = new PIDController(constants.kOffLoadP , constants.kOffLoadI , constants.kOffLoadD);
   private LimitSwitch limitSwitchLower, limitSwitchUpper;
 
   public ClimbRotator(boolean isLeft) {
@@ -53,6 +53,7 @@ public class ClimbRotator extends SubsystemBase {
 
     // set the tolerance allowed for the PID
     armPID.setTolerance(constants.kArmTolerance);
+    SmartDashboard.putData(direction + " rot", armPID);
 
     this.offLoad();
     setEncoder(80);
@@ -60,6 +61,7 @@ public class ClimbRotator extends SubsystemBase {
 
   @Override
   public void periodic() {
+    SmartDashboard.putNumber(direction + " rotator", currentAngle());
     if(enabled) {
       // set the arm power according to the PID
       setOutput(armPID.calculate(currentAngle(), setPoint));
@@ -67,15 +69,19 @@ public class ClimbRotator extends SubsystemBase {
   }
 
   public double currentAngleRaw() {
-    return encoder.get();
+    if (encoder.get() > 0.5) {
+      return encoder.get() - 1.0;
+    } else {
+      return encoder.get();
+    }
   }
 
   // returns the current angle of the duty cycle encoder with offset accounted for
   public double currentAngle() {
     if(left) {
-      return -(encoder.get() * constants.kArmDegreeMultiple) + encoderOffset;
+      return -(currentAngleRaw() * constants.kArmDegreeMultiple) + encoderOffset;
     } else {
-      return encoder.get() * constants.kArmDegreeMultiple + encoderOffset;
+      return currentAngleRaw() * constants.kArmDegreeMultiple + encoderOffset;
     }
   }
 
@@ -126,14 +132,11 @@ public class ClimbRotator extends SubsystemBase {
     setPoint = goal;
   }
 
-  public void loadRotatorShuffleboard() {
-    // a pop-up in shuffleboard that allows you to see how much the arm extended in inches
-    SmartDashboard.putNumber(direction + " Angle", currentAngle());
-    // a pop-up in shuffleboard that states if the rotator is on/off
-    SmartDashboard.putBoolean(direction + " Rotator", enabled);
-    // PID values that can be modified in shuffleboard
-    SmartDashboard.putData("Climb Rotator PID", armPID);
-    // zero value that can be modified in shuffleboard
-    SmartDashboard.putNumber("Zero ClimbR", 80);
+  public boolean isEnabled() {
+    return enabled;
+  }
+
+  public String getDirection() {
+      return direction;
   }
 }

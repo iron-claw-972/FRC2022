@@ -19,7 +19,7 @@ public class ClimbExtender extends SubsystemBase {
   private double motorClamp = constants.kMotorClampOffLoad;
   private boolean left;
 
-  private PIDController extenderPID = new PIDController(constants.kP, constants.kI, constants.kD);
+  public PIDController extenderPID = new PIDController(constants.kP, constants.kI, constants.kD);
   
   private double setpoint;
 
@@ -42,15 +42,15 @@ public class ClimbExtender extends SubsystemBase {
 
     // converts the length of the arm in inches to ticks and makes that the maximum tick limit, it's checked every 10 milliseconds
     // TODO: Update this max forward limit!
-    m_motor.configForwardSoftLimitThreshold(5000, 10);
+    m_motor.configForwardSoftLimitThreshold(488400, 10);
 
     // every time the robot is started, arm MUST start at maximum compression in order to maintain consistency
     m_motor.setSelectedSensorPosition(0.0);
 
     // so that the limiters are enabled
     // TODO: If the motors don't move, CHECK TO SEE IF THE LIMITER IS TOO LOW!
-    m_motor.configForwardSoftLimitEnable(false, 10);
-    m_motor.configReverseSoftLimitEnable(false, 10);
+    m_motor.configForwardSoftLimitEnable(true, 10);
+    m_motor.configReverseSoftLimitEnable(true, 10);
 
     // set the PID's tolerance
     extenderPID.setTolerance(constants.kExtenderTolerance);
@@ -70,12 +70,7 @@ public class ClimbExtender extends SubsystemBase {
 
   // returns the current extension in inches
   public double currentExtension() {
-    if(left) {
-      return m_motor.getSelectedSensorPosition() * constants.kExtenderTickMultiple;
-    }
-    else {
-      return m_motor.getSelectedSensorPosition() * constants.kExtenderTickMultiple;
-    }
+    return m_motor.getSelectedSensorPosition() * constants.kExtenderTickMultiple;
   }
 
   // returns the current extension in ticks
@@ -101,17 +96,19 @@ public class ClimbExtender extends SubsystemBase {
 
   @Override
   public void periodic() {
+    SmartDashboard.putNumber(direction + " Extension", currentExtension());
+    SmartDashboard.putNumber(direction + " extension raw", currentExtensionRaw());
     if(enabled) {
       // motor power is set to the extenderpid's calculation
       setOutput(extenderPID.calculate(currentExtension(), setpoint));
     }
   }
 
-  public void loadExtenderShuffleboard() {
-    SmartDashboard.putData("Climb Extender PID", extenderPID);
-    // a pop-up in shuffleboard that allows you to see how much the arm extended in inches
-    SmartDashboard.putNumber(direction + " Extension", currentExtension());
-    // a pop-up in shuffleboard that states if the extender is on/off
-    SmartDashboard.putBoolean(direction + " Extender", enabled);
+  public String getDirection() {
+    return direction;
+  }
+
+  public boolean isEnabled(){
+    return enabled;
   }
 } 

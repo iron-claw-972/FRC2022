@@ -44,13 +44,17 @@ public class ChaseBall extends CommandBase {
 
   @Override
   public void execute() {
-    if (m_limelight.hasValidTarget()) {
-      double distance = -Units.metersToInches(m_limelight.getBallDistance(2, true));
-      System.out.println("Distance: " + distance);
-      double pid = followPID.calculate(distance, 6);
-      System.out.println("PID: " + pid);
-      m_drive.arcadeDrive(MathUtil.clamp(pid, -0.5, 0.5), chasePID.calculate(m_limelight.getBallHorizontalAngularOffset(true), 0));
-    }
+    //if (m_limelight.hasValidTarget()) {
+    double distance = Units.metersToInches(m_limelight.getBallDistance(2, true));
+    System.out.println("Distance: " + distance);
+    SmartDashboard.putNumber("Distance", distance);
+    double area = m_limelight.getTargetArea();
+    SmartDashboard.putNumber("Area", area);
+    double pid = followPID.calculate(area, 20);
+    System.out.println("PID: " + pid);
+    SmartDashboard.putNumber("Follow PID", pid);
+    m_drive.arcadeDrive(MathUtil.clamp(pid, -0.5, 0.5), chasePID.calculate(m_limelight.getBallHorizontalAngularOffset(true), 0));
+    //}
   }
 
   @Override

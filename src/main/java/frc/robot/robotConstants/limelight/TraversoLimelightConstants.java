@@ -14,7 +14,7 @@ public class TraversoLimelightConstants {
   public final double kChaseD = 0;
 
   public final double kFollowPIDTolerance = 0.5;
-  public final double kFollowP = 0.12;
+  public final double kFollowP = 0.08;
   public final double kFollowI = 0.05;
   public final double kFollowD = 0;
 

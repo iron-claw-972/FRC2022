@@ -11,19 +11,11 @@ public class ShooterMethods {
     RobotContainer.m_cargoRotator.setPosition(angle);
   }
 
-  public static double getOptimalFrontShooterSpeed() {
+  public static double getOptimalShooterSpeed() {
     double distance = Units.metersToInches(RobotContainer.m_limelight.getHubDistance(RobotContainer.m_cargoRotator.currentAngle()));
     SmartDashboard.putNumber("Distance", distance);
-    double speed = -(9.6*distance + 1405);
-    System.out.println("Speed: " + speed);
-    System.out.println("Distance: " + distance);
-    return speed;
-  }
 
-  public static double getOptimalBackShooterSpeed() {
-    double distance = Units.metersToInches(RobotContainer.m_limelight.getHubDistance(RobotContainer.m_cargoRotator.currentAngle()));
-    SmartDashboard.putNumber("Distance", distance);
-    double speed = -(9.6*distance + 1405);
+    double speed = ShooterMethods.isArmBack() ? -(9.6 * distance + 1405) : -(8.53 * distance + 1304);
     System.out.println("Speed: " + speed);
     System.out.println("Distance: " + distance);
     return speed;
@@ -101,7 +93,7 @@ public class ShooterMethods {
     RobotContainer.m_cargoShooter.enable();
   }
 
-  public static void disableShooter() {
+  public static void disableShiitake() {
     RobotContainer.m_cargoBelt.disable();
     RobotContainer.m_cargoShooter.disable();
   }
@@ -112,7 +104,7 @@ public class ShooterMethods {
   }
 
   public static boolean isBallShot() {
-    return !isBallContained();
+    return !RobotContainer.m_balldetector.containsBall();
   }
 
   public static void multiSetter(double armAngle, double beltPower, double shooterSpeed) {

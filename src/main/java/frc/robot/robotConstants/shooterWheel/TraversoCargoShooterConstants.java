@@ -12,10 +12,10 @@ public class TraversoCargoShooterConstants {
   public final int kFrontOuttakeFarSpeed = -3000;
   public final int kBackOuttakeFarSpeed = -3000;
 
-  public final int kFrontOuttakeNearSpeed = -1500;
+  public final int kFrontOuttakeNearSpeed = -1400;
   public final int kBackOuttakeNearSpeed = -1500; //70 degrees
   
-  public final int kIntakeSpeed = 2000;
+  public final int kIntakeSpeed = 1500;
 
   public final int kEncoderResolution = 2048; // 2048 for Falcon500 integrated encoder
   public final double kDistancePerPulse = 100.0 / kEncoderResolution;

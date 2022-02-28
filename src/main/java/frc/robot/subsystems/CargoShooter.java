@@ -16,7 +16,6 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.simulation.FlywheelSim;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class CargoShooter extends SubsystemBase {
 
@@ -25,7 +24,7 @@ public class CargoShooter extends SubsystemBase {
   private final WPI_TalonFX m_cargoShooterMotor = ControllerFactory.createTalonFX(constants.kCargoShooterMotorPort , constants.kSupplyCurrentLimit, constants.kSupplyTriggerThreshold, constants.kSupplyTriggerDuration, constants.kCoast);
   private final TalonEncoder m_cargoShooterEncoder = new TalonEncoder(m_cargoShooterMotor);
 
-  private final PIDController cargoShooterPID = new PIDController(constants.kP, constants.kI, constants.kD);
+  public PIDController cargoShooterPID = new PIDController(constants.kP, constants.kI, constants.kD);
 
   private FlywheelSim m_flywheelSim;
   private TalonEncoderSim m_flywheelEncoderSim;
@@ -68,9 +67,9 @@ public class CargoShooter extends SubsystemBase {
     // SmartDashboard.putNumber("Velocity (RPM)", m_flywheelSim.getAngularVelocityRPM());
   }
 
-  // public void setOutput(double motorPower) {
-  //   m_cargoShooterMotor.set(ControlMode.PercentOutput, MathUtil.clamp(motorPower, -constants.kMotorClamp, constants.kMotorClamp));
-  // }
+  public void setOutput(double motorPower) {
+    m_cargoShooterMotor.set(ControlMode.PercentOutput, MathUtil.clamp(motorPower, -constants.kMotorClamp, constants.kMotorClamp));
+  }
 
   public void setSpeed(double newSpeed) {
     motorSpeed = newSpeed;
@@ -93,20 +92,16 @@ public class CargoShooter extends SubsystemBase {
     return cargoShooterPID.atSetpoint();
   }
 
-  public void loadCargoShooterShuffleboard() {
-    SmartDashboard.putBoolean("Cargo Shooter", enabled);
-    SmartDashboard.putData("CargoShooterPID",cargoShooterPID);
-    SmartDashboard.putNumber("vel", getVelocity());
-    SmartDashboard.putNumber("F", 0.0013);
-  }
-
   public void setVoltage(double volts){
     m_cargoShooterMotor.setVoltage(volts);
   }
 
   public double getVelocity(){
     return m_cargoShooterEncoder.getRate();
+  }
 
+  public boolean isEnabled() {
+    return enabled;
   }
 
 }
