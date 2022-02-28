@@ -69,13 +69,11 @@ public class Operator {
 
     // resume the sequence
     controller.getButtons().START().whenPressed(
-      new InstantCommand(() -> ClimberMethods.enableAll())
-    ));
+      new InstantCommand(() -> ClimberMethods.enableAll()));
 
     // pause the sequence
     controller.getButtons().BACK().whenPressed(
-      new InstantCommand(() -> ClimberMethods.disableAll())
-    ));
+      new InstantCommand(() -> ClimberMethods.disableAll()));
   }
 
   public static void shootBinds() {
