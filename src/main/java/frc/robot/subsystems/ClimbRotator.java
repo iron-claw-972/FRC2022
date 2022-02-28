@@ -74,11 +74,7 @@ public class ClimbRotator extends SubsystemBase {
   }
 
   public double currentAngleRaw() {
-    // if (encoder.get() > 0.6) {
-    //   return encoder.get() - 1.0;
-    // } else {
-      return encoder.get();
-    // }
+    return encoder.get();
   }
 
   // returns the current angle of the duty cycle encoder with offset accounted for
@@ -102,7 +98,7 @@ public class ClimbRotator extends SubsystemBase {
 
   public boolean reachedSetpoint() {
     // checks if the arm is at its setpoint
-    return armPID.atSetpoint() ;//|| limitSwitchLower.risingEdge() || limitSwitchUpper.risingEdge();
+    return armPID.atSetpoint() || limitSwitchLower.risingEdge() || limitSwitchUpper.risingEdge();
   }
 
   //enables PID
