@@ -52,6 +52,7 @@ public class ControllerFactory {
    * 
    * @return a fully configured TalonSRX object
    */
+  
   public static WPI_TalonSRX createTalonSRX(int id, int continuousCurrentLimit, int peakCurrentLimit, int peakCurrentDuration) {
     TalonSRXConfiguration config = new TalonSRXConfiguration();
     config.continuousCurrentLimit = continuousCurrentLimit;

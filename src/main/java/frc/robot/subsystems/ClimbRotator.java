@@ -140,4 +140,8 @@ public class ClimbRotator extends SubsystemBase {
   public String getDirection() {
       return direction;
   }
+
+  public double getSetPoint() {
+      return setPoint;
+  }
 }
