@@ -40,40 +40,55 @@ public class Operator {
   }
 
   public static void climbBinds() {
+
+    // extend and stay at 90 degrees
     controller.getDPad().up().whenPressed(new ParallelCommandGroup(
-      // move the cargo arm to stow
       new PositionArm(cargoConstants.kStowPos),
-
-      // extend upwards, go an angle where we can hook the static hook
-      new ClimberMove(extend.kMaxUpwards, rotate.kHookStatic)
+      new ClimberMove(extend.kMaxUpwards, rotate.kNinetyDeg)
     ));
 
-    controller.getDPad().down().whenPressed(new SequentialCommandGroup(    
-      // extend downwards, go to 90 degrees
-      new ClimberMove(extend.kMaxDownwards, rotate.kNinetyDeg),
-
-      // by now, the static hooks should be on the bar
-
-      // extend slightly upward, remain 90 degrees
-      new ClimberMove(extend.kSlightlyUpward, rotate.kNinetyDeg)
-    ));
-
-    controller.getDPad().right().whenPressed(new SequentialCommandGroup(
-      // go upwards and rotate backwards
-      new ClimberMove(extend.kMaxUpwards, rotate.kMaxBackward),
-      // remain going upwards and rotate towards the bar
-      new ClimberMove(extend.kMaxUpwards, rotate.kToBar),
-      // compress and rotate to 90 degrees
+    // compress and stay at 90 degrees
+    controller.getDPad().down().whenPressed(new ParallelCommandGroup(
+      new PositionArm(cargoConstants.kStowPos),
       new ClimberMove(extend.kMaxDownwards, rotate.kNinetyDeg)
     ));
 
+    // controller.getDPad().up().whenPressed(new ParallelCommandGroup(
+    //   // move the cargo arm to stow
+    //   new PositionArm(cargoConstants.kStowPos),
+
+    //   // extend upwards, go an angle where we can hook the static hook
+    //   new ClimberMove(extend.kMaxUpwards, rotate.kHookStatic)
+    // ));
+
+    // controller.getDPad().down().whenPressed(new SequentialCommandGroup(    
+    //   // extend downwards, go to 90 degrees
+    //   new ClimberMove(extend.kMaxDownwards, rotate.kNinetyDeg),
+
+    //   // by now, the static hooks should be on the bar
+
+    //   // extend slightly upward, remain 90 degrees
+    //   new ClimberMove(extend.kSlightlyUpward, rotate.kNinetyDeg)
+    // ));
+
+    // controller.getDPad().right().whenPressed(new SequentialCommandGroup(
+    //   // go upwards and rotate backwards
+    //   new ClimberMove(extend.kMaxUpwards, rotate.kMaxBackward),
+    //   // remain going upwards and rotate towards the bar
+    //   new ClimberMove(extend.kMaxUpwards, rotate.kToBar),
+    //   // compress and rotate to 90 degrees
+    //   new ClimberMove(extend.kMaxDownwards, rotate.kNinetyDeg)
+    // ));
+
     // resume the sequence
     controller.getButtons().START().whenPressed(
-      new InstantCommand(() -> ClimberMethods.enableAll()));
+      new InstantCommand(() -> ClimberMethods.enableAll()
+    ));
 
     // pause the sequence
     controller.getButtons().BACK().whenPressed(
-      new InstantCommand(() -> ClimberMethods.disableAll()));
+      new InstantCommand(() -> ClimberMethods.disableAll()
+    ));
   }
 
   public static void shootBinds() {
