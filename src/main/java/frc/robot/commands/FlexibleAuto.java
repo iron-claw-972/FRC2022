@@ -19,9 +19,11 @@ public class FlexibleAuto extends SequentialCommandGroup {
     addRequirements(RobotContainer.m_drive, RobotContainer.m_limelight, RobotContainer.m_cargoBelt, RobotContainer.m_cargoRotator, RobotContainer.m_cargoShooter);
     addCommands(
         (isFar ? 
-            new Shoot(cargoConstants.kBackOuttakeFarPos, beltConstants.kIntakeSpeed, ShooterMethods.getOptimalShooterSpeed(), beltConstants.kOuttakeSpeed, true):
-            new Shoot(cargoConstants.kBackOuttakeNearPos, beltConstants.kIntakeSpeed, wheelConstants.kBackOuttakeNearSpeed, beltConstants.kOuttakeSpeed, false)),
-        new DriveDistance(distance),
+            new Shoot(cargoConstants.kBackOuttakeFarPos,  beltConstants.kIntakeSpeed, 
+                ShooterMethods.getOptimalShooterSpeed(),  beltConstants.kOuttakeSpeed, true):
+            new Shoot(cargoConstants.kBackOuttakeNearPos, beltConstants.kIntakeSpeed, 
+                wheelConstants.kBackOuttakeNearSpeed,     beltConstants.kOuttakeSpeed, false)),
+            new DriveDistance(distance),
         (intakeSecond ? 
             new Intake(cargoConstants.kIntakePos, beltConstants.kIntakeSpeed, wheelConstants.kIntakeSpeed, cargoConstants.kBackOuttakeFarPos, true, Constants.kIsRedAlliance):
             new DoNothing()),
