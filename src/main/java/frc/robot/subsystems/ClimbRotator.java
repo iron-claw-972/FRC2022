@@ -58,7 +58,8 @@ public class ClimbRotator extends SubsystemBase {
     // SmartDashboard.putData(direction + " rot", armPID);
 
     this.offLoad();
-    // setEncoder(80);
+  // setEncoder(120);
+  // SmartDashboard.putNumber(direction + " offset", encoderOffset);
   }
 
   @Override
