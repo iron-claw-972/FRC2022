@@ -17,13 +17,13 @@ public class TraversoClimbRotatorConstants {
     public final double kArmZeroEncoderDegrees = 0;
 
     // the distance allowed from the setpoint (in degrees)
-    public final double kArmTolerance = 3;
+    public final double kArmTolerance = 1;
 
     // locations
     public final double kNinetyDeg = 90;
-    public final double kMaxBackward = 135;
+    public final double kMaxBackward = 120;
     public final double kMaxForward = 80;
-    public final double kToBar = 120;
+    public final double kToBar = 100;
 
     // off load PID constants
     public final double kOffLoadP = 0.02;
@@ -36,8 +36,8 @@ public class TraversoClimbRotatorConstants {
     public final double kOnLoadD = 0.00;
 
     // encoder offset
-    public final double kArmLeftEncoderOffset = 0;
-    public final double kArmRightEncoderOffset = 0;
+    public final double kArmLeftEncoderOffset = 237.4268519356713;
+    public final double kArmRightEncoderOffset = -114.25816485645413;
     
     // upper limit switches
     public final int kLeftLimitSwitchUpper = 8;
