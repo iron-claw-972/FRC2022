@@ -30,13 +30,13 @@ public class DriveDistance extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    RobotContainer.m_drive.feedForwardDrive(0.2, 0);
+    RobotContainer.m_drive.tankDrive(0.2, 0.2);
     
   }
 
   @Override
   public void end(boolean interrupted) {
-    RobotContainer.m_drive.feedForwardDrive(0, 0);
+    RobotContainer.m_drive.tankDrive(0, 0);
     super.end(interrupted);
   }
 
