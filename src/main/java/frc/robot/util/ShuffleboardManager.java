@@ -94,7 +94,7 @@ public class ShuffleboardManager {
     primaryTab.addNumber("Cargo Arm Angle", RobotContainer.m_cargoRotator::currentAngle);
     primaryTab.addBoolean("Cargo Rotator", RobotContainer.m_cargoRotator::isEnabled);
     // primaryTab.addNumber("Cargo Arm Raw Angle", RobotContainer.m_cargoRotator::currentAngleRaw);
-    primaryTab.addNumber("cargo rotator setpoint", RobotContainer.m_cargoRotator::getSetpoint);
+    primaryTab.addNumber("Cargo Rotator Setpoint", RobotContainer.m_cargoRotator::getSetpoint);
 
     pidTab.add("Cargo Rotator PID",RobotContainer.m_cargoRotator.cargoRotatorPID);
   }
@@ -116,11 +116,11 @@ public class ShuffleboardManager {
   }
   public void loadClimbRotatorShuffleboard(ClimbRotator rotator) {
     // a pop-up in shuffleboard that allows you to see how much the arm extended in inches
-    primaryTab.addNumber(rotator.getDirection() + " climb rotator current Angle", rotator::currentAngle);
+    primaryTab.addNumber(rotator.getDirection() + " Climb Rotator Angle", rotator::currentAngle);
     // a pop-up in shuffleboard that states if the rotator is on/off
-    primaryTab.addBoolean(rotator.getDirection() + " climb rotator", rotator::isEnabled);
+    primaryTab.addBoolean(rotator.getDirection() + " Climb Rotator", rotator::isEnabled);
 
-    primaryTab.addNumber(rotator.getDirection() + " climb rotator goal", rotator::getSetPoint);
+    primaryTab.addNumber(rotator.getDirection() + " Climb Rotator Goal", rotator::getSetPoint);
     
     // PID values that can be modified in shuffleboard
     pidTab.add(rotator.getDirection() + " Climb Rotator PID", rotator.armPID);
