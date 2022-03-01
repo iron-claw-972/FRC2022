@@ -232,6 +232,9 @@ public class Limelight extends SubsystemBase {
   }
 
   private double getLimelightAngle(double armAngle) {
+    if (isFacingFront()) {
+      return (armAngle + constants.kPivotToLimelightAngleDifference);
+    }
     return 180-(armAngle + constants.kPivotToLimelightAngleDifference);
   }
 

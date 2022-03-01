@@ -13,6 +13,7 @@ import frc.robot.util.ControllerFactory;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.kauailabs.navx.frc.AHRS;
 
@@ -182,6 +183,16 @@ public class Drivetrain extends SubsystemBase {
     m_dDrive.feed();
   }
 
+  public void setBrakeMode() {
+    m_leftMotor1.setNeutralMode(NeutralMode.Brake);
+    m_rightMotor1.setNeutralMode(NeutralMode.Brake);
+  }
+
+  public void setCoastMode() {
+    m_leftMotor1.setNeutralMode(NeutralMode.Coast);
+    m_rightMotor1.setNeutralMode(NeutralMode.Coast);
+  }
+
   public void shiftDrive(double throttle, double turn) {
 
     double leftOut = throttle;
@@ -254,6 +265,7 @@ public class Drivetrain extends SubsystemBase {
   
   @Override
   public void periodic() {
+    SmartDashboard.putData("Drivetrain", m_dDrive);
     // Update the odometry in the periodic block
     updateOdometry();
     if (RobotBase.isSimulation()) {

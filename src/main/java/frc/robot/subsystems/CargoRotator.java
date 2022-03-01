@@ -41,6 +41,10 @@ public class CargoRotator extends SubsystemBase {
     }
   }
 
+  public void resetPID() {
+    cargoRotatorPID.reset();
+  }
+
   public double calculateFeedForward(double setpoint){
     // adjusts for the center of mass. only does feedforward if its not on the hardstop
     if (currentAngle() > (constants.kIntakePos + constants.kFeedForwardHardstopTolerance) && 

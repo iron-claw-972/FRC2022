@@ -97,7 +97,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
    */
   public Command getAutonomousCommand() {
     // Attempt to load trajectory from PathWeaver
-    return new FlexibleAuto(true, 1, true);
+    return new FlexibleAuto(false, 1, false);
     // return m_shuffleboard.getAutonomousCommand();
     // return new SequentialCommandGroup(
     //   m_shuffleboard.getAutonomousWaitCommand(),
