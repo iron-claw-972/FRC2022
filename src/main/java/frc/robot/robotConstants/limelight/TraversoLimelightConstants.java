@@ -9,13 +9,13 @@ public class TraversoLimelightConstants {
   public final double kAlignD = 0;
 
   public final double kChasePIDTolerance = 0.5;
-  public final double kChaseP = 0.01;
+  public final double kChaseP = 0.015;
   public final double kChaseI = 0;
   public final double kChaseD = 0;
 
   public final double kFollowPIDTolerance = 0.5;
-  public final double kFollowP = 0.08;
-  public final double kFollowI = 0.05;
+  public final double kFollowP = 0.12;
+  public final double kFollowI = 0.08;
   public final double kFollowD = 0;
 
   public final double kPivotToLimelightAngleDifference = -33;
