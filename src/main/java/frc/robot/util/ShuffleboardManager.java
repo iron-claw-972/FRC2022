@@ -67,11 +67,11 @@ public class ShuffleboardManager {
   public void subsystemSpam() {
     // put subsystem shuffleboard things in here!
 
-    // loadClimbExtenderShuffleboard(RobotContainer.m_extenderL);
-    // loadClimbExtenderShuffleboard(RobotContainer.m_extenderR);
+    loadClimbExtenderShuffleboard(RobotContainer.m_extenderL);
+    loadClimbExtenderShuffleboard(RobotContainer.m_extenderR);
 
-    // loadClimbRotatorShuffleboard(RobotContainer.m_climbRotatorL);
-    // loadClimbRotatorShuffleboard(RobotContainer.m_climbRotatorR);
+    loadClimbRotatorShuffleboard(RobotContainer.m_climbRotatorL);
+    loadClimbRotatorShuffleboard(RobotContainer.m_climbRotatorR);
 
     loadCargoShooterShuffleboard();
     loadCargoRotatorShuffleboard();

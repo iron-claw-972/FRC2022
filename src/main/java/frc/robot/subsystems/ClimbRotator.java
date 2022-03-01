@@ -1,5 +1,7 @@
 package frc.robot.subsystems;
 
+import java.time.OffsetTime;
+
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import frc.robot.util.ControllerFactory;
@@ -53,15 +55,19 @@ public class ClimbRotator extends SubsystemBase {
 
     // set the tolerance allowed for the PID
     armPID.setTolerance(constants.kArmTolerance);
-    SmartDashboard.putData(direction + " rot", armPID);
+    // SmartDashboard.putData(direction + " rot", armPID);
 
     this.offLoad();
-    setEncoder(80);
+  // setEncoder(120);
+  // SmartDashboard.putNumber(direction + " offset", encoderOffset);
   }
 
   @Override
   public void periodic() {
-    SmartDashboard.putNumber(direction + " rotator", currentAngle());
+    
+    // SmartDashboard.putNumber(direction + " rotator angle raw", currentAngleRaw());
+    // SmartDashboard.putNumber(direction + " rotator angle", currentAngle());
+    // SmartDashboard.putNumber(direction + " rotator offset", encoderOffset);
     if(enabled) {
       // set the arm power according to the PID
       setOutput(armPID.calculate(currentAngle(), setPoint));
@@ -69,11 +75,7 @@ public class ClimbRotator extends SubsystemBase {
   }
 
   public double currentAngleRaw() {
-    if (encoder.get() > 0.5) {
-      return encoder.get() - 1.0;
-    } else {
-      return encoder.get();
-    }
+    return encoder.get();
   }
 
   // returns the current angle of the duty cycle encoder with offset accounted for
