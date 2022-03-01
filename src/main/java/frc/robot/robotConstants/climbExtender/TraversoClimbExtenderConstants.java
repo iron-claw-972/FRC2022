@@ -5,33 +5,21 @@ public class TraversoClimbExtenderConstants {
   public final int kRightExtenderPort = 10;
   public final int kLeftExtenderPort = 11;
 
-  // the arm's max extension
-  public final double kExtenderMaxArmLength = 40;
-
-  // used to convert ticks to inches
-  public final double kExtenderTicksPerRotation = 1/2048; // every rotation is 2048 ticks
-  public final double kExtenderGearRatio = 1/20; // gear ration of 20:1
-  public final double kExtenderInchesPerRotation = (Math.PI * (1/2)) / 1; // 1 pi inches per rotation
-
-  // Ticks Per Rotation * Gear Ratio * Inches Per Rotation = Tick Multiple
-  // Results as 0 when you calculate this in WPIlib, but it's definitely not 0
-  public final double kExtenderTickMultiple =  0.00007669903; //(kExtenderTicksPerRotation * kExtenderGearRatio * kExtenderInchesPerRotation);
-
   // the arm's length in ticks
-  public final double kExtenderMaxArmTicks = kExtenderMaxArmLength / kExtenderTickMultiple;
+  public final double kExtenderMaxArmTicks = 509200;
 
   // tolerance allowed to the PID (inches)
-  public final double kExtenderTolerance = 1;
+  public final double kExtenderTolerance = 200;
 
   // motor clamps
   public final double kMotorClampOnLoad = .35;
   public final double kMotorClampOffLoad = .35;
   
   // locations
-  public final double kMaxUpwards = kExtenderMaxArmLength;
+  public final double kMaxUpwards = kExtenderMaxArmTicks;
   public final double kMaxDownwards = 0;
-  public final double kHalfway = kExtenderMaxArmLength / 2;
-  public final double kSlightlyUpward = 6;
+  public final double kHalfway = kExtenderMaxArmTicks / 2;
+  public final double kSlightlyUpward = kExtenderMaxArmTicks / 6;
   
   // off load PID constants
   public final double kP = 0.1;
