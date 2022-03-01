@@ -97,11 +97,21 @@ public class Operator {
 
     // move arm to back
     controller.getButtons().A().whenPressed(new PositionArm(cargoConstants.kBackOuttakeFarPos));
+
     // move arm to front
     controller.getButtons().B().whenPressed(new PositionArm(cargoConstants.kFrontOuttakeFarPos));
-    controller.getButtons().X().whenPressed(new Intake(cargoConstants.kIntakePos, beltConstants.kIntakeSpeed, wheelConstants.kIntakeSpeed, cargoConstants.kFrontOuttakeFarPos, false, Constants.kIsRedAlliance)); 
+
+    controller.getButtons().X().whenHeld(new Intake(cargoConstants.kIntakePos, beltConstants.kIntakeSpeed, wheelConstants.kIntakeSpeed, cargoConstants.kFrontOuttakeFarPos, false, Constants.kIsRedAlliance));
+    controller.getButtons().X().whenReleased(new SequentialCommandGroup(
+      new PositionArm(cargoConstants.kFrontOuttakeFarPos),
+      new InstantCommand(() -> ShooterMethods.disableShiitake())
+    ));
+
     // controller.getButtons().Y().whenPressed(new PositionArm(cargoConstants.kStowPos));
-    controller.getButtons().Y().whenPressed(new AlignToUpperHub(RobotContainer.m_limelight, RobotContainer.m_drive));
+    controller.getButtons().Y().whenHeld(new AlignToUpperHub(RobotContainer.m_limelight, RobotContainer.m_drive));
+    controller.getButtons().Y().whenReleased(new SequentialCommandGroup(
+      new InstantCommand(() -> ShooterMethods.disableShiitake())
+    ));
     // controller.getButtons().RB().whenPressed(new GetDistance(RobotContainer.m_limelight, RobotContainer.m_cargoRotator));
   }
 

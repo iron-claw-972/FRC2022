@@ -21,7 +21,7 @@ public class Intake extends SequentialCommandGroup {
         new InstantCommand(() -> ShooterMethods.setBeltPower(beltIntakeSpeed)),
         new InstantCommand(() -> ShooterMethods.setAngle(intakeArmPosition)),
         (doesChaseBall ? new ChaseBall(RobotContainer.m_limelight, RobotContainer.m_drive, isRedBall) : new WaitUntilCommand(() -> ShooterMethods.isBallContained())),
-        new InstantCommand(() -> RobotContainer.m_drive.setBrakeMode()),
+        (doesChaseBall ? new InstantCommand(() -> RobotContainer.m_drive.setBrakeMode()) : new DoNothing()),
         new InstantCommand(() -> ShooterMethods.disableShiitake()),
         new InstantCommand(() -> ShooterMethods.setAngle(postIntakeArmPosition)),
         new WaitUntilCommand(() -> ShooterMethods.isArmAtSetpoint()),
