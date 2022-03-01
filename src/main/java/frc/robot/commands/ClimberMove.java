@@ -15,16 +15,13 @@ public class ClimberMove extends SequentialCommandGroup {
         new InstantCommand(() -> ClimberMethods.enableExtender()),
   
         // set the angle of the rotator, arm, and extension of the extender
-        new ParallelCommandGroup(
-          new InstantCommand(() -> ClimberMethods.setAngle(angle)),
-          new InstantCommand(() -> ClimberMethods.setExtension(extension))
-        ),
+        new InstantCommand(() -> ClimberMethods.setAngle(angle)),
+        new InstantCommand(() -> ClimberMethods.setExtension(extension)),
   
         // wait until they all reach their setpoints
-        new ParallelCommandGroup(
-          new WaitUntilCommand(() -> ClimberMethods.isRotatorAtSetpoint()),
-          new WaitUntilCommand(() -> ClimberMethods.isExtenderAtSetpoint())
-        )
+        new WaitUntilCommand(() -> ClimberMethods.isRotatorAtSetpoint()),
+        new WaitUntilCommand(() -> ClimberMethods.isExtenderAtSetpoint())
+        
     ));
     }
 }
