@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.RobotContainer;
 
 public class ShooterMethods {
+
   // cargo arm methods
   public static void setAngle(double angle) {
     RobotContainer.m_cargoRotator.setPosition(angle);
@@ -70,7 +71,7 @@ public class ShooterMethods {
   public static void setWheelSpeed(double speed) {
     RobotContainer.m_cargoShooter.setSpeed(speed);
   }
-
+  
   public static void enableWheel() {
     RobotContainer.m_cargoShooter.enable();
   }

@@ -42,15 +42,17 @@ public class ClimbExtender extends SubsystemBase {
 
     // converts the length of the arm in inches to ticks and makes that the maximum tick limit, it's checked every 10 milliseconds
     // TODO: Update this max forward limit!
-    m_motor.configForwardSoftLimitThreshold(488400, 10);
+    m_motor.configForwardSoftLimitThreshold(500000, 10);
 
     // every time the robot is started, arm MUST start at maximum compression in order to maintain consistency
     m_motor.setSelectedSensorPosition(0.0);
 
     // so that the limiters are enabled
     // TODO: If the motors don't move, CHECK TO SEE IF THE LIMITER IS TOO LOW!
-    m_motor.configForwardSoftLimitEnable(true, 10);
-    m_motor.configReverseSoftLimitEnable(true, 10);
+    m_motor.configForwardSoftLimitEnable(false, 10);
+    m_motor.configReverseSoftLimitEnable(false, 10);
+
+    extenderPID.reset();
 
     // set the PID's tolerance
     extenderPID.setTolerance(constants.kExtenderTolerance);
@@ -63,6 +65,10 @@ public class ClimbExtender extends SubsystemBase {
     return extenderPID.atSetpoint();
   }
 
+  public void resetPID() {
+    extenderPID.reset();
+  }
+
   // called in RobotContainer by button binds
   public void set(double distance) {
     setpoint = distance;
@@ -70,7 +76,7 @@ public class ClimbExtender extends SubsystemBase {
 
   // returns the current extension in inches
   public double currentExtension() {
-    return m_motor.getSelectedSensorPosition() * constants.kExtenderTickMultiple;
+    return m_motor.getSelectedSensorPosition();
   }
 
   // returns the current extension in ticks
@@ -99,8 +105,8 @@ public class ClimbExtender extends SubsystemBase {
     SmartDashboard.putNumber(direction + " Extension", currentExtension());
     SmartDashboard.putNumber(direction + " extension raw", currentExtensionRaw());
     if(enabled) {
-      // motor power is set to the extenderpid's calculation
-      setOutput(extenderPID.calculate(currentExtension(), setpoint));
+      // motor power is set to the extender pid's calculation
+      setOutput(extenderPID.calculate(currentExtensionRaw(), setpoint));
     }
   }
 

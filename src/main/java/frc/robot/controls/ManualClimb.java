@@ -69,9 +69,9 @@ public class ManualClimb {
     ));
     
 
-    // controller.getDPad().unpressed().whenPressed(new SequentialCommandGroup(
-    //   new InstantCommand(() -> ClimberMethods.disableExtender()),
-    //   new InstantCommand(() -> ClimberMethods.disableRotator())));
+    controller.getDPad().unpressed().whenPressed(new SequentialCommandGroup(
+      new InstantCommand(() -> ClimberMethods.disableExtender()),
+      new InstantCommand(() -> ClimberMethods.disableRotator())));
 
     SmartDashboard.putNumber("set angle", 90);
     controller.getButtons().X().whenPressed(new SequentialCommandGroup(
