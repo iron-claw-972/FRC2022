@@ -18,12 +18,10 @@ public class DriveDistance extends CommandBase {
   public DriveDistance(double setpoint_) {
     addRequirements(RobotContainer.m_drive);
     setpoint = setpoint_;
-    ;
   }
 
   @Override
   public void initialize() {
-    super.initialize();
     zeroPos = RobotContainer.m_drive.getLeftPosition();
   }
 
@@ -31,13 +29,11 @@ public class DriveDistance extends CommandBase {
   @Override
   public void execute() {
     RobotContainer.m_drive.feedForwardDrive(0.2, 0);
-    
   }
 
   @Override
   public void end(boolean interrupted) {
     RobotContainer.m_drive.feedForwardDrive(0, 0);
-    super.end(interrupted);
   }
 
   @Override
