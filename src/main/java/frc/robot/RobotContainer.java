@@ -11,20 +11,14 @@ import frc.robot.subsystems.*;
 import frc.robot.util.ClimberMethods;
 import frc.robot.util.ShooterMethods;
 import frc.robot.util.ShuffleboardManager;
-import frc.robot.commands.DifferentialDrive;
 import frc.robot.commands.FlexibleAuto;
-import frc.robot.commands.GetDistance;
 import frc.robot.commands.TeleopDrive;
 import frc.robot.controls.*;
 import edu.wpi.first.wpilibj2.command.*;
 
-import java.lang.reflect.Array;
 
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.UsbCamera;
-import edu.wpi.first.cscore.VideoSink;
-import edu.wpi.first.wpilibj.shuffleboard.SendableCameraWrapper;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /*
   This class is where the bulk of the robot should be declared. Since

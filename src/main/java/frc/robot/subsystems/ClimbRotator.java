@@ -56,10 +56,6 @@ public class ClimbRotator extends SubsystemBase {
     armPID.setTolerance(constants.kArmTolerance);
     // SmartDashboard.putData(direction + " rot", armPID);
 
-    armPID.setP(constants.kP);
-    armPID.setI(constants.kI);
-    armPID.setD(constants.kD);
-
   // setEncoder(120);
   // SmartDashboard.putNumber(direction + " offset", encoderOffset);
   }

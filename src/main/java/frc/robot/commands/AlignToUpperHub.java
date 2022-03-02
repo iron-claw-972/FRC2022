@@ -6,7 +6,6 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.robotConstants.limelight.TraversoLimelightConstants;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Limelight;
-import frc.robot.util.ShooterMethods;
 
 public class AlignToUpperHub extends CommandBase {
   public static TraversoLimelightConstants limelightConstants = new TraversoLimelightConstants();
