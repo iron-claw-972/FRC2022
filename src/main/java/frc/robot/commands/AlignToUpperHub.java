@@ -22,15 +22,18 @@ public class AlignToUpperHub extends CommandBase {
     addRequirements(limelight, drivetrain);
 
     alignPID.setTolerance(limelightConstants.kAlignPIDTolerance);
-    alignPID.reset();
-    alignPID.setSetpoint(0);
     SmartDashboard.putData("Alignment PID", alignPID);
   }
 
   @Override
+  public void initialize() {
+    m_limelight.setUpperHubPipeline();
+    alignPID.reset();
+  }
+
+  @Override
   public void execute() {
-  // System.out.println("Angle: " + m_limelight.getHubHorizontalAngularOffset());
-    m_drive.runDrive(0, alignPID.calculate(m_limelight.getHubHorizontalAngularOffset()));
+    m_drive.runDrive(0, alignPID.calculate(m_limelight.getHubHorizontalAngularOffset(), 0));
   }
 
   @Override
@@ -41,6 +44,5 @@ public class AlignToUpperHub extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     m_limelight.setCameraMode(true);
-    System.out.println("Alignment finished");
   }
 }

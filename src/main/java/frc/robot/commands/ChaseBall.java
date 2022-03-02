@@ -27,38 +27,29 @@ public class ChaseBall extends CommandBase {
     addRequirements(limelight, drivetrain);
 
     m_isRedBall = isRedBall;
-    chasePID.setTolerance(limelightConstants.kChasePIDTolerance);
-    chasePID.reset();
-    // chasePID.setSetpoint(0);
 
-    // followPID.setTolerance(limelightConstants.kFollowPIDTolerance);
-    followPID.reset();
-    //followPID.setSetpoint(6);
+    chasePID.setTolerance(limelightConstants.kChasePIDTolerance);
+    SmartDashboard.putData("Turn chase PID", chasePID);
+
+    followPID.setTolerance(limelightConstants.kFollowPIDTolerance);
+    SmartDashboard.putData("Throttle chase PID", followPID);
   }
 
   @Override
   public void initialize() {
+    m_limelight.setBallPipeline(m_isRedBall);
     chasePID.reset();
     followPID.reset();
   }
 
   @Override
   public void execute() {
-    //if (m_limelight.hasValidTarget()) {
-    // double distance = Units.metersToInches(m_limelight.getBallDistance(2, true));
-    // System.out.println("Distance: " + distance);
-    // SmartDashboard.putNumber("Distance", distance);
-    double area = m_limelight.getTargetArea();
-    SmartDashboard.putNumber("Area", area);
-    double pid = followPID.calculate(area, 20);
-    SmartDashboard.putData("Throttle chase PID", followPID);
-    SmartDashboard.putData("Turn chase PID", chasePID);
-    System.out.println("PID: " + pid);
-    SmartDashboard.putNumber("Follow PID", pid);
-    double chasepidvalue = chasePID.calculate(m_limelight.getBallHorizontalAngularOffset(true), 0);
-    SmartDashboard.putNumber("Chase value", chasepidvalue);
-    m_drive.arcadeDrive(MathUtil.clamp(pid, -0.5, 0.5), chasepidvalue);
-    //}
+    double distance = Units.metersToInches(m_limelight.getBallDistance(2, m_isRedBall));
+
+    m_drive.arcadeDrive(
+      MathUtil.clamp(followPID.calculate(distance, 0), -0.5, 0.5),
+      MathUtil.clamp(chasePID.calculate(m_limelight.getBallHorizontalAngularOffset(m_isRedBall), 0), -0.5, 0.5)
+    );
   }
 
   @Override
@@ -69,5 +60,6 @@ public class ChaseBall extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     m_limelight.setCameraMode(true);
+    m_drive.arcadeDrive(0, 0);
   }
 }

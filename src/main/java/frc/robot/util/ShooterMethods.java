@@ -4,6 +4,7 @@ package frc.robot.util;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.RobotContainer;
+import frc.robot.controls.Operator;
 
 public class ShooterMethods {
 
@@ -40,7 +41,8 @@ public class ShooterMethods {
 
   public static boolean isArmFront(){
     // return RobotContainer.m_cargoRotator.isFrontOutakeFar() || RobotContainer.m_cargoRotator.isFrontOutakeNear();
-    return RobotContainer.m_cargoRotator.currentAngle() < 123;
+    return RobotContainer.m_cargoRotator.currentAngle() <= Operator.cargoConstants.kFrontOuttakeFarPos + Operator.cargoConstants.kArmTolerance &&
+      RobotContainer.m_cargoRotator.currentAngle() <= Operator.cargoConstants.kFrontOuttakeNearPos + Operator.cargoConstants.kArmTolerance;
   }
 
   //

@@ -65,7 +65,7 @@ public class Limelight extends SubsystemBase {
 
   @Override
   public void periodic() {
-    
+    updateData();
   }
 
   private void updateData() {
@@ -246,7 +246,7 @@ public class Limelight extends SubsystemBase {
     return m_hasValidTarget;
   }
 
-  private void setBallPipeline(boolean isRedBall) {
+  public void setBallPipeline(boolean isRedBall) {
     Pipeline pipeline;
     if (isRedBall) {
       pipeline = Pipeline.RED_CARGO;
@@ -256,18 +256,18 @@ public class Limelight extends SubsystemBase {
     setPipeline(pipeline);
   }
 
-  private void setUpperHubPipeline() {
+  public void setUpperHubPipeline() {
     setPipeline(Pipeline.UPPER_HUB);
   }
 
   public double getHubDistance(double armAngle) {
-    setUpperHubPipeline();
+    // setUpperHubPipeline();
     SmartDashboard.putNumber("Horizontal Error", m_horizontalAngularOffset);
     return getDistance(armAngle, constants.kHubTargetHeight);
   }
 
   public double getBallDistance(double armAngle, boolean isRedBall) {
-    setBallPipeline(isRedBall);
+    // setBallPipeline(isRedBall);
     SmartDashboard.putNumber("Horizontal Error", m_horizontalAngularOffset);
     return getDistance(armAngle, constants.kBallTargetHeight);
   }
@@ -281,7 +281,7 @@ private double getDistance(double armAngle, double targetHeight) {
   }
 
   public double getHubHorizontalAngularOffset() {
-    setUpperHubPipeline();
+    // setUpperHubPipeline();
 
     double horizontalAngularOffset = m_horizontalAngularOffset;
 
@@ -289,7 +289,7 @@ private double getDistance(double armAngle, double targetHeight) {
   }
 
   public double getBallHorizontalAngularOffset(boolean isRedBall) {
-    setBallPipeline(isRedBall);
+    // setBallPipeline(isRedBall);
 
     double horizontalAngularOffset = m_horizontalAngularOffset;
 
