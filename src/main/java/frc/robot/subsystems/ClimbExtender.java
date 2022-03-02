@@ -16,8 +16,7 @@ public class ClimbExtender extends SubsystemBase {
   private boolean enabled = false;
   private final WPI_TalonFX m_motor;
   private String direction;
-  private double motorClamp = constants.kMotorClamp;
-  private boolean left;
+  private double motorClamp = constants.kMotorClampOffLoad;
 
   public PIDController extenderPID = new PIDController(constants.kP, constants.kI, constants.kD);
   
@@ -56,8 +55,6 @@ public class ClimbExtender extends SubsystemBase {
 
     // set the PID's tolerance
     extenderPID.setTolerance(constants.kExtenderTolerance);
-
-    left = isLeft;
   }
 
   public boolean reachedSetpoint() {

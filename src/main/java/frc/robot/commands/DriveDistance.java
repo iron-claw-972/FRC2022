@@ -7,11 +7,12 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
-import frc.robot.subsystems.Drivetrain;
 
+/**
+ * Drives a certain distance
+ */
 public class DriveDistance extends CommandBase {
   double setpoint, zeroPos;
 

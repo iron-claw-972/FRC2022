@@ -3,13 +3,13 @@ package frc.robot.controls;
 
 import controllers.*;
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
 import frc.robot.Constants.*;
 import frc.robot.commands.Intake;
 import frc.robot.commands.AlignToUpperHub;
-import frc.robot.commands.ClimberMove;
+import frc.robot.commands.ClimbExtenderMove;
+import frc.robot.commands.ClimbRotatorMove;
 import frc.robot.commands.PositionArm;
 import frc.robot.commands.Shoot;
 import edu.wpi.first.wpilibj2.command.*;
@@ -41,69 +41,44 @@ public class Operator {
 
   public static void climbBinds() {
 
-    // extend and stay at 90 degrees
+    // when DPad Up is pressed, enable the extender and extend upwards to kMaxUpwards
     controller.getDPad().up().whenHeld(new ParallelCommandGroup(
+      // stow the cargo subsystem
       new PositionArm(cargoConstants.kStowPos),
-      new ClimberMove(extend.kMaxUpwards, rotate.kNinetyDeg)
+      new ClimbExtenderMove(extend.kMaxUpwards)
     ));
 
-    // compress and stay at 90 degrees
+    // when DPad Down is pressed, enable the extender and compress downwards to kMaxDownwards
     controller.getDPad().down().whenHeld(new ParallelCommandGroup(
+      // stow the cargo subsystem
       new PositionArm(cargoConstants.kStowPos),
-      new ClimberMove(extend.kMaxDownwards, rotate.kNinetyDeg)
+      new ClimbExtenderMove(extend.kMaxDownwards)
     ));
 
-    controller.getDPad().unpressed().whenPressed(
-        new InstantCommand(() -> ClimberMethods.disableExtender())
-    );
-
+    // when DPad Right is pressed, enable the rotator and go to kMaxForward degrees
     controller.getDPad().right().whenPressed(new SequentialCommandGroup (
-      new InstantCommand(() -> ClimberMethods.enableRotator()),
-      new InstantCommand(() -> ClimberMethods.setAngle(rotate.kMaxForward))
+      new ClimbRotatorMove(rotate.kMaxBackward)
     ));
     
-    
+    // when DPad Left is pressed, enable the rotator and go to kMaxBackward degrees
     controller.getDPad().left().whenPressed(new SequentialCommandGroup (
-      new InstantCommand(() -> ClimberMethods.enableRotator()),
-      new InstantCommand(() -> ClimberMethods.setAngle(rotate.kMaxBackward))
+      new ClimbRotatorMove(rotate.kMaxBackward)
     ));
 
-    // controller.getDPad().up().whenPressed(new ParallelCommandGroup(
-    //   // move the cargo arm to stow
-    //   new PositionArm(cargoConstants.kStowPos),
+    // when LB is pressed, enable the rotator and go to kNinetyDeg degrees
+    controller.getButtons().LB().whenPressed(new SequentialCommandGroup(
+      new ClimbRotatorMove(rotate.kNinetyDeg)
+    ));
 
-    //   // extend upwards, go an angle where we can hook the static hook
-    //   new ClimberMove(extend.kMaxUpwards, rotate.kHookStatic)
-    // ));
+    // // when nothing on the DPad is pressed, the extenders are disabled
+    // controller.getDPad().unpressed().whenPressed(
+    //   new InstantCommand(() -> ClimberMethods.disableExtender())
+    // );
 
-    // controller.getDPad().down().whenPressed(new SequentialCommandGroup(    
-    //   // extend downwards, go to 90 degrees
-    //   new ClimberMove(extend.kMaxDownwards, rotate.kNinetyDeg),
-
-    //   // by now, the static hooks should be on the bar
-
-    //   // extend slightly upward, remain 90 degrees
-    //   new ClimberMove(extend.kSlightlyUpward, rotate.kNinetyDeg)
-    // ));
-
-    // controller.getDPad().right().whenPressed(new SequentialCommandGroup(
-    //   // go upwards and rotate backwards
-    //   new ClimberMove(extend.kMaxUpwards, rotate.kMaxBackward),
-    //   // remain going upwards and rotate towards the bar
-    //   new ClimberMove(extend.kMaxUpwards, rotate.kToBar),
-    //   // compress and rotate to 90 degrees
-    //   new ClimberMove(extend.kMaxDownwards, rotate.kNinetyDeg)
-    // ));
-
-    // resume the sequence
-    // controller.getButtons().START().whenPressed(
-    //   new InstantCommand(() -> ClimberMethods.enableAll()
-    // ));
-
-    // // pause the sequence
-    // controller.getButtons().BACK().whenPressed(
-    //   new InstantCommand(() -> ClimberMethods.disableAll()
-    // ));
+    // rotator goes to the bar
+    controller.getButtons().LT().whenActive(new SequentialCommandGroup(
+      new ClimbRotatorMove(rotate.kToBar)
+    ));
   }
 
   public static void shootBinds() {
@@ -137,33 +112,5 @@ public class Operator {
     // controller.getButtons().Y().whenPressed(new PositionArm(cargoConstants.kStowPos));
     controller.getButtons().Y().whileHeld(new AlignToUpperHub(RobotContainer.m_limelight, RobotContainer.m_drive));
     // controller.getButtons().RB().whenPressed(new GetDistance(RobotContainer.m_limelight, RobotContainer.m_cargoRotator));
-  }
-
-  public static void cargoTestBinds() {
-    // controller.getButtons().RB().whenPressed(new SequentialCommandGroup(
-    // ));
-
-    controller.getButtons().LB().whileHeld(new InstantCommand(() -> RobotContainer.m_cargoShooter.setOutput(controller.getJoystickAxis().leftY())));
-    controller.getButtons().LB().whenReleased(new InstantCommand(() -> RobotContainer.m_cargoShooter.setOutput(0)));
-    
-    controller.getButtons().RB().whileHeld(new InstantCommand(() -> RobotContainer.m_cargoBelt.setOutput(-controller.getJoystickAxis().rightY())));
-    controller.getButtons().RB().whenReleased(new InstantCommand(() -> RobotContainer.m_cargoBelt.setOutput(0)));
-
-
-    SmartDashboard.putNumber("Shooter", 0);
-    controller.getButtons().X().whileHeld(new InstantCommand(() -> RobotContainer.m_cargoShooter.setOutput(SmartDashboard.getNumber("Shooter X", 0))));
-    controller.getButtons().X().whenReleased(new InstantCommand(() -> RobotContainer.m_cargoShooter.setOutput(0)));
-
-    SmartDashboard.putNumber("belt", 0);
-    controller.getButtons().B().whileHeld(new InstantCommand(() -> RobotContainer.m_cargoBelt.setOutput(-SmartDashboard.getNumber("belt B", 0))));
-    controller.getButtons().B().whenReleased(new InstantCommand(() -> RobotContainer.m_cargoBelt.setOutput(0)));
-
-    SmartDashboard.putNumber("Shooter", 0);
-    controller.getButtons().Y().whileHeld(new InstantCommand(() -> RobotContainer.m_cargoShooter.setOutput(SmartDashboard.getNumber("Shooter Y", 0))));
-    controller.getButtons().Y().whenReleased(new InstantCommand(() -> RobotContainer.m_cargoShooter.setOutput(0)));
-
-    SmartDashboard.putNumber("belt", 0);
-    controller.getButtons().A().whileHeld(new InstantCommand(() -> RobotContainer.m_cargoBelt.setOutput(-SmartDashboard.getNumber("belt A", 0))));
-    controller.getButtons().A().whenReleased(new InstantCommand(() -> RobotContainer.m_cargoBelt.setOutput(0)));
   }
 }
