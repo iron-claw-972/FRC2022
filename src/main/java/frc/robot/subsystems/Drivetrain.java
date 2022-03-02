@@ -173,13 +173,13 @@ public class Drivetrain extends SubsystemBase {
   }
 
   public void propDrive(double throttle, double turn) {
-    /*double leftOut = throttle * (1 + turn);
+    double leftOut = throttle * (1 + turn);
     double rightOut = throttle * (1 - turn);
 
     m_leftMotor1.set(ControlMode.PercentOutput, leftOut);
     m_rightMotor1.set(ControlMode.PercentOutput, rightOut);
-    m_dDrive.feed();*/
-    m_dDrive.curvatureDrive(throttle, turn, false);
+    m_dDrive.feed();
+    //m_dDrive.curvatureDrive(throttle, turn, false);
   }
 
   public void setBrakeMode() {
