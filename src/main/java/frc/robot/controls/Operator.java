@@ -59,12 +59,14 @@ public class Operator {
 
     controller.getDPad().right().whenPressed(new SequentialCommandGroup (
       new InstantCommand(() -> ClimberMethods.enableRotator()),
-      new InstantCommand(() -> ClimberMethods.setAngle(rotate.kMaxForward))));
+      new InstantCommand(() -> ClimberMethods.setAngle(rotate.kMaxForward))
+    ));
     
     
     controller.getDPad().left().whenPressed(new SequentialCommandGroup (
       new InstantCommand(() -> ClimberMethods.enableRotator()),
-      new InstantCommand(() -> ClimberMethods.setAngle(rotate.kMaxBackward))));
+      new InstantCommand(() -> ClimberMethods.setAngle(rotate.kMaxBackward))
+    ));
 
     // controller.getDPad().up().whenPressed(new ParallelCommandGroup(
     //   // move the cargo arm to stow

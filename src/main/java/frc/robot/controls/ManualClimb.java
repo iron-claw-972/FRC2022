@@ -17,6 +17,17 @@ public class ManualClimb {
   public static TraversoClimbRotatorConstants rotate = new TraversoClimbRotatorConstants();
 
   public static void configureButtonBindings() {
+
+    controller.getDPad().right().whenPressed(new SequentialCommandGroup (
+      new InstantCommand(() -> ClimberMethods.disableRotator()),
+      new InstantCommand(() -> ClimberMethods.setRotatorOutput(0.2))));
+    
+    
+    controller.getDPad().left().whenPressed(new SequentialCommandGroup (
+      new InstantCommand(() -> ClimberMethods.disableRotator()),
+      new InstantCommand(() -> ClimberMethods.setRotatorOutput(-0.2))));
+
+
     controller.getDPad().up().whenPressed(new SequentialCommandGroup (
       new InstantCommand(() -> ClimberMethods.enableExtender()),
       new InstantCommand(() -> ClimberMethods.setExtension(extend.kMaxUpwards))));
@@ -25,7 +36,7 @@ public class ManualClimb {
     controller.getDPad().down().whenPressed(new SequentialCommandGroup (
       new InstantCommand(() -> ClimberMethods.enableExtender()),
       new InstantCommand(() -> ClimberMethods.setExtension(extend.kMaxDownwards))));
-   
+   /*
 
     controller.getDPad().right().whenPressed(new SequentialCommandGroup (
       new InstantCommand(() -> ClimberMethods.enableRotator()),
@@ -68,7 +79,7 @@ public class ManualClimb {
      new InstantCommand(() -> ClimberMethods.setAngle(rotate.kMaxBackward)) 
     ));
     
-
+    */
     controller.getDPad().unpressed().whenPressed(new SequentialCommandGroup(
       new InstantCommand(() -> ClimberMethods.disableExtender()),
       new InstantCommand(() -> ClimberMethods.disableRotator())));
