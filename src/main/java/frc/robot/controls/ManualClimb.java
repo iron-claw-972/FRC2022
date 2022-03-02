@@ -81,6 +81,7 @@ public class ManualClimb {
     
     */
     controller.getDPad().unpressed().whenPressed(new SequentialCommandGroup(
+      new InstantCommand(() -> ClimberMethods.setRotatorOutput(0)),
       new InstantCommand(() -> ClimberMethods.disableExtender()),
       new InstantCommand(() -> ClimberMethods.disableRotator())));
 
