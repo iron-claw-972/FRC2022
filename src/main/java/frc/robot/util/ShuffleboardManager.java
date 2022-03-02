@@ -9,15 +9,9 @@ import edu.wpi.first.wpilibj2.command.*;
 import frc.robot.RobotContainer;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.autonomous.drivetrain.Pathweaver;
-import frc.robot.controls.Driver;
-import frc.robot.commands.DriveDistance;
 import frc.robot.subsystems.ClimbExtender;
 import frc.robot.subsystems.ClimbRotator;
-import frc.robot.commands.DriveDistance;
 import frc.robot.commands.FlexibleAuto;
-import frc.robot.subsystems.ClimbExtender;
-import frc.robot.subsystems.ClimbRotator;
-import frc.robot.controls.Driver;
 
 public class ShuffleboardManager {
 
