@@ -10,6 +10,7 @@ import frc.robot.commands.Intake;
 import frc.robot.commands.AlignToUpperHub;
 import frc.robot.commands.ClimbExtenderMove;
 import frc.robot.commands.ClimbRotatorMove;
+import frc.robot.commands.ClimberMove;
 import frc.robot.commands.PositionArm;
 import frc.robot.commands.Shoot;
 import edu.wpi.first.wpilibj2.command.*;
@@ -78,6 +79,47 @@ public class Operator {
     // rotator goes to the bar
     controller.getButtons().LT().whenActive(new SequentialCommandGroup(
       new ClimbRotatorMove(rotate.kToBar)
+    ));
+  }
+
+  public static void autoClimbBinds() {
+    
+    controller.getDPad().up().whenPressed(new ParallelCommandGroup(
+      // move the cargo arm to stow
+      new PositionArm(cargoConstants.kStowPos),
+
+      // extend upwards, go an angle where we can hook the static hook
+      new ClimberMove(extend.kMaxUpwards, rotate.kHookStatic)
+    ));
+
+    controller.getDPad().down().whenPressed(new SequentialCommandGroup(    
+      // extend downwards, go to 90 degrees
+      new ClimbExtenderMove(extend.kMaxDownwards),
+      new ClimbRotatorMove(rotate.kNinetyDeg),
+
+      // by now, the static hooks should be on the bar
+
+      // extend slightly upward, remain 90 degrees
+      new ClimberMove(extend.kSlightlyUpward, rotate.kNinetyDeg)
+    ));
+
+    controller.getDPad().right().whenPressed(new SequentialCommandGroup(
+      // go upwards and rotate backwards
+      new ClimberMove(extend.kMaxUpwards, rotate.kMaxBackward),
+      // remain going upwards and rotate towards the bar
+      new ClimbRotatorMove(rotate.kToBar),
+      // compress and rotate to 90 degrees
+      new ClimberMove(extend.kMaxDownwards, rotate.kNinetyDeg)
+    ));
+
+    // resume the sequence
+    controller.getButtons().START().whenPressed(
+      new InstantCommand(() -> ClimberMethods.enableAll()
+    ));
+
+    // pause the sequence
+    controller.getButtons().BACK().whenPressed(
+      new InstantCommand(() -> ClimberMethods.disableAll()
     ));
   }
 
