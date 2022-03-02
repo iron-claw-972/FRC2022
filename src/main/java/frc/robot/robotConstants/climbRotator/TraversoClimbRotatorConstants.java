@@ -26,15 +26,10 @@ public class TraversoClimbRotatorConstants {
     public final double kToBar = 100;
     public final double kHookStatic = 110;
 
-    // off load PID constants
-    public final double kOffLoadP = 0.02;
-    public final double kOffLoadI = 0.00;
-    public final double kOffLoadD = 0.00;
-
-    // on load PID constants
-    public final double kOnLoadP = 0.08;
-    public final double kOnLoadI = 0.00;
-    public final double kOnLoadD = 0.00;
+    // PID constants
+    public final double kP = 0.02;
+    public final double kI = 0.00;
+    public final double kD = 0.00;
 
     // encoder offset
     public final double kArmLeftEncoderOffset = 236.08447790211193;

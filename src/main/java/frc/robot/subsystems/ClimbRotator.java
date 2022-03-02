@@ -23,7 +23,7 @@ public class ClimbRotator extends SubsystemBase {
   private double setPoint = 90;
   private double encoderOffset;
 
-  public PIDController armPID = new PIDController(constants.kOffLoadP , constants.kOffLoadI , constants.kOffLoadD);
+  public PIDController armPID = new PIDController(constants.kP , constants.kI , constants.kD);
   private LimitSwitch limitSwitchLower, limitSwitchUpper;
 
   public ClimbRotator(boolean isLeft) {
@@ -55,7 +55,6 @@ public class ClimbRotator extends SubsystemBase {
     armPID.setTolerance(constants.kArmTolerance);
     // SmartDashboard.putData(direction + " rot", armPID);
 
-    this.offLoad();
   // setEncoder(120);
   // SmartDashboard.putNumber(direction + " offset", encoderOffset);
   }
@@ -113,18 +112,6 @@ public class ClimbRotator extends SubsystemBase {
 
   public void setOutput(double motorPower){
     m_motor.set(MathUtil.clamp(motorPower, -constants.kMotorClamp, constants.kMotorClamp));
-  }
-
-  public void offLoad(){
-    armPID.setP(constants.kOffLoadP);
-    armPID.setI(constants.kOffLoadI);
-    armPID.setD(constants.kOffLoadD);
-  }
-
-  public void onLoad(){
-    armPID.setP(constants.kOnLoadP);
-    armPID.setI(constants.kOnLoadI);
-    armPID.setD(constants.kOnLoadD);
   }
 
   // sets PID Goal
