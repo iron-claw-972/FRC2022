@@ -33,6 +33,15 @@ public class Driver {
         () -> setDriveMode(DriveMode.PROPORTIONAL));
     controller.getButtons().backSwitchTop().whenPressed(
         () -> setDriveMode(DriveMode.ARCADE));
+    
+//     controller.getButtons().frontSwitchTop().whenPressed(
+//         () -> swapDriveMode(DriveMode.PROPORTIONAL , DriveMode.ARCADE));
+//     controller.getButtons().frontSwitchTop().whenReleased(
+//         () -> swapDriveMode(DriveMode.PROPORTIONAL , DriveMode.ARCADE));
+//     controller.getButtons().backSwitchTop().whenPressed(
+//         () -> swapDriveMode(DriveMode.PROPORTIONAL , DriveMode.ARCADE));
+    
+    
     controller.getButtons().backSwitchBottom().whenPressed(new Intake(cargoConstants.kIntakePos, beltConstants.kIntakeSpeed, wheelConstants.kIntakeSpeed, cargoConstants.kFrontOuttakeFarPos, true, Constants.kIsRedAlliance));
     controller.getButtons().frontSwitchBottom().whenPressed(new AlignToUpperHub(RobotContainer.m_limelight, RobotContainer.m_drive));
   }
@@ -71,5 +80,15 @@ public class Driver {
   public static DriveMode getDriveMode() {
     return driveMode;
   }
+  
+//   public static swapDriveMode(DriveMode primary , DriveMode secondary){
+//     if (driveMode == primary) {
+//       setDriveMode(secondary);
+//     } else if (driveMode == secondary){
+//       setDriveMode(primary);
+//     } else {
+//       setDriveMode(primary);
+//     }
+//   }
 
 }
