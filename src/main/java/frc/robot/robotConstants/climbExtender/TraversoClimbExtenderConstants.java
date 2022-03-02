@@ -12,8 +12,8 @@ public class TraversoClimbExtenderConstants {
   public final double kExtenderTolerance = 200;
 
   // motor clamps
-  public final double kMotorClampOnLoad = .35;
-  public final double kMotorClampOffLoad = .35;
+  public final double kMotorClampOnLoad = .45;
+  public final double kMotorClampOffLoad = .45;
   
   // locations
   public final double kMaxUpwards = kExtenderMaxArmTicks;
