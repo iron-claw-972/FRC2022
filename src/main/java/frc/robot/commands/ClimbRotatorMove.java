@@ -7,6 +7,13 @@ import frc.robot.RobotContainer;
 import frc.robot.util.ClimberMethods;
 
 public class ClimbRotatorMove extends SequentialCommandGroup {
+
+  /**
+   * 
+   * Rotates the climber to an angle using pid
+   * 
+   * @param angle the angle to rotate to in degrees
+   */
   public ClimbRotatorMove(double angle) {
     addRequirements(RobotContainer.m_climbRotatorL, RobotContainer.m_climbRotatorR);
     addCommands(
