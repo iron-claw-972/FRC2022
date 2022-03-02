@@ -16,7 +16,7 @@ public class ClimbExtender extends SubsystemBase {
   private boolean enabled = false;
   private final WPI_TalonFX m_motor;
   private String direction;
-  private double motorClamp = constants.kMotorClampOffLoad;
+  private double motorClamp = constants.kMotorClamp;
   private boolean left;
 
   public PIDController extenderPID = new PIDController(constants.kP, constants.kI, constants.kD);

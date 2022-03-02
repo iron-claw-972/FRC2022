@@ -1,7 +1,5 @@
 package frc.robot.subsystems;
 
-import java.time.OffsetTime;
-
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import frc.robot.util.ControllerFactory;
@@ -10,7 +8,6 @@ import frc.robot.util.LimitSwitch;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class ClimbRotator extends SubsystemBase {
@@ -25,7 +22,7 @@ public class ClimbRotator extends SubsystemBase {
   private double setPoint = 79;
   private double encoderOffset;
 
-  public PIDController armPID = new PIDController(constants.kOffLoadP , constants.kOffLoadI , constants.kOffLoadD);
+  public PIDController armPID = new PIDController(constants.kP , constants.kI , constants.kD);
   private LimitSwitch limitSwitchLower, limitSwitchUpper;
 
   public ClimbRotator(boolean isLeft) {
@@ -53,11 +50,16 @@ public class ClimbRotator extends SubsystemBase {
    
     left = isLeft;
 
+    armPID.reset();
+
     // set the tolerance allowed for the PID
     armPID.setTolerance(constants.kArmTolerance);
     // SmartDashboard.putData(direction + " rot", armPID);
 
-    this.offLoad();
+    armPID.setP(constants.kP);
+    armPID.setI(constants.kI);
+    armPID.setD(constants.kD);
+
   // setEncoder(120);
   // SmartDashboard.putNumber(direction + " offset", encoderOffset);
   }
@@ -89,8 +91,8 @@ public class ClimbRotator extends SubsystemBase {
 
   // 80 is all the way forward and  125 is all the way back
   public void setEncoder(double angle) { 
-    if(left) {
-    encoderOffset = angle + encoder.get() * constants.kArmDegreeMultiple;
+    if (left) {
+      encoderOffset = angle + encoder.get() * constants.kArmDegreeMultiple;
     }
     else {
       encoderOffset = angle - encoder.get() * constants.kArmDegreeMultiple;
@@ -115,18 +117,6 @@ public class ClimbRotator extends SubsystemBase {
 
   public void setOutput(double motorPower){
     m_motor.set(MathUtil.clamp(motorPower, -constants.kMotorClamp, constants.kMotorClamp));
-  }
-
-  public void offLoad(){
-    armPID.setP(constants.kOffLoadP);
-    armPID.setI(constants.kOffLoadI);
-    armPID.setD(constants.kOffLoadD);
-  }
-
-  public void onLoad(){
-    armPID.setP(constants.kOnLoadP);
-    armPID.setI(constants.kOnLoadI);
-    armPID.setD(constants.kOnLoadD);
   }
 
   // sets PID Goal
