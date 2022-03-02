@@ -37,9 +37,11 @@ public class Driver {
   // driver buttons
   public static void configureButtonBindings() {
     controller.getButtons().frontSwitchTop().whenPressed(
-        () -> setDriveMode(DriveMode.PROPORTIONAL));
+        () -> swapDriveMode(DriveMode.PROPORTIONAL , DriveMode.ARCADE));
+    controller.getButtons().frontSwitchTop().whenReleased(
+        () -> swapDriveMode(DriveMode.PROPORTIONAL , DriveMode.ARCADE));
     controller.getButtons().backSwitchTop().whenPressed(
-        () -> setDriveMode(DriveMode.ARCADE));
+        () -> swapDriveMode(DriveMode.PROPORTIONAL , DriveMode.ARCADE));
 
     controller.getButtons().backSwitchBottom().whenHeld(new Intake(cargoConstants.kIntakePos, beltConstants.kIntakeSpeed, wheelConstants.kIntakeSpeed, cargoConstants.kFrontOuttakeFarPos, true, Constants.kIsRedAlliance));
     controller.getButtons().backSwitchBottom().whenReleased(new SequentialCommandGroup(
@@ -55,6 +57,10 @@ public class Driver {
       new Shoot(cargoConstants.kBackOuttakeFarPos, beltConstants.kIntakeSpeed, ShooterMethods.getOptimalShooterSpeed(), beltConstants.kOuttakeSpeed, true),
       ShooterMethods::isArmFront
     ));
+    
+    
+    controller.getButtons().backSwitchBottom().whenPressed(new Intake(cargoConstants.kIntakePos, beltConstants.kIntakeSpeed, wheelConstants.kIntakeSpeed, cargoConstants.kFrontOuttakeFarPos, true, Constants.kIsRedAlliance));
+    controller.getButtons().frontSwitchBottom().whenPressed(new AlignToUpperHub(RobotContainer.m_limelight, RobotContainer.m_drive));
   }
   
   public static double getThrottleValue() {
@@ -90,6 +96,16 @@ public class Driver {
 
   public static DriveMode getDriveMode() {
     return driveMode;
+  }
+  
+  public static void swapDriveMode(DriveMode primary , DriveMode secondary){
+    if (driveMode == primary) {
+      setDriveMode(secondary);
+    } else if (driveMode == secondary){
+      setDriveMode(primary);
+    } else {
+      setDriveMode(primary);
+    }
   }
 
 }
