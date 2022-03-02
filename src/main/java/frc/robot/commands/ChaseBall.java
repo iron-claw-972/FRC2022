@@ -50,7 +50,9 @@ public class ChaseBall extends CommandBase {
     SmartDashboard.putNumber("Distance", distance);
     double area = m_limelight.getTargetArea();
     SmartDashboard.putNumber("Area", area);
-    double pid = followPID.calculate(area, 20);
+    double pid = followPID.calculate(distance, 0);
+    SmartDashboard.putData("Throttle chase PID", followPID);
+    SmartDashboard.putData("Turn chase PID", chasePID);
     System.out.println("PID: " + pid);
     SmartDashboard.putNumber("Follow PID", pid);
     m_drive.arcadeDrive(MathUtil.clamp(pid, -0.5, 0.5), chasePID.calculate(m_limelight.getBallHorizontalAngularOffset(true), 0));

@@ -5,11 +5,14 @@ import controllers.*;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.ConditionalCommand;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants.*;
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
 import frc.robot.commands.AlignToUpperHub;
 import frc.robot.commands.Intake;
+import frc.robot.commands.PositionArm;
 import frc.robot.commands.Shoot;
 import frc.robot.robotConstants.cargoRotator.TraversoCargoRotatorConstants;
 import frc.robot.robotConstants.shooterBelt.TraversoBeltConstants;
@@ -36,9 +39,14 @@ public class Driver {
     controller.getButtons().frontSwitchTop().whenPressed(
         () -> setDriveMode(DriveMode.PROPORTIONAL));
     controller.getButtons().backSwitchTop().whenPressed(
+
         () -> setDriveMode(DriveMode.ARCADE));
-    controller.getButtons().backSwitchBottom().whenPressed(new Intake(cargoConstants.kIntakePos, beltConstants.kIntakeSpeed, wheelConstants.kIntakeSpeed, cargoConstants.kFrontOuttakeFarPos, true, Constants.kIsRedAlliance));
-    controller.getButtons().frontSwitchBottom().whenPressed(new AlignToUpperHub(RobotContainer.m_limelight, RobotContainer.m_drive));
+    controller.getButtons().backSwitchBottom().whenHeld(new Intake(cargoConstants.kIntakePos, beltConstants.kIntakeSpeed, wheelConstants.kIntakeSpeed, cargoConstants.kFrontOuttakeFarPos, true, Constants.kIsRedAlliance));
+    controller.getButtons().backSwitchBottom().whenReleased(new SequentialCommandGroup(
+      new PositionArm(cargoConstants.kFrontOuttakeFarPos),
+      new InstantCommand(() -> ShooterMethods.disableShiitake())
+    ));
+    controller.getButtons().frontSwitchBottom().whileHeld(new AlignToUpperHub(RobotContainer.m_limelight, RobotContainer.m_drive));
     controller.getButtons().bottomButton().whenPressed(new ConditionalCommand(
       new Shoot(cargoConstants.kFrontOuttakeFarPos, beltConstants.kIntakeSpeed, ShooterMethods.getOptimalShooterSpeed(), beltConstants.kOuttakeSpeed, true),
       new Shoot(cargoConstants.kBackOuttakeFarPos, beltConstants.kIntakeSpeed, ShooterMethods.getOptimalShooterSpeed(), beltConstants.kOuttakeSpeed, true),

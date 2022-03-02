@@ -14,17 +14,21 @@ public class Shoot extends SequentialCommandGroup {
         addCommands(
             new InstantCommand(() -> ShooterMethods.enableArm()),
             new InstantCommand(() -> ShooterMethods.setAngle(outtakeArmPosition)),
-            new WaitUntilCommand(() -> ShooterMethods.isArmAtSetpoint()).withTimeout(3),
+            new WaitUntilCommand(() -> ShooterMethods.isArmAtSetpoint()).withTimeout(1.5),
             (doesAlign ? new AlignToUpperHub(RobotContainer.m_limelight, RobotContainer.m_drive) : new DoNothing()),
             new InstantCommand(() -> ShooterMethods.enableWheel()),
             new InstantCommand(() -> ShooterMethods.setBeltSpeed(beltIntakeSpeed)),
             new InstantCommand(() -> ShooterMethods.setWheelSpeed(shooterWheelOuttakeSpeed)),
-            new WaitUntilCommand(() -> ShooterMethods.isWheelAtSetpoint()),
+            new WaitUntilCommand(() -> ShooterMethods.isWheelAtSetpoint()).withTimeout(1),
             new InstantCommand(() -> ShooterMethods.setBeltSpeed(beltOuttakeSpeed)),
-            new WaitUntilCommand(() -> ShooterMethods.isBallShot()),
-            new WaitCommand(0.5),
-            new InstantCommand(() -> ShooterMethods.disableShiitake()),
-            new InstantCommand(() -> ShooterMethods.disableBelt())
+            // new WaitUntilCommand(() -> ShooterMethods.isBallShot()),
+            new WaitCommand(0.5)
         );
+    }
+
+    @Override
+    public void end(boolean interrupted) {
+        ShooterMethods.disableShiitake();
+        ShooterMethods.disableBelt();
     }
 }
