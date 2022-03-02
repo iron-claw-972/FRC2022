@@ -80,7 +80,11 @@ public class ShooterMethods {
   }
 
   public static boolean isWheelAtSetpoint() {
-    return RobotContainer.m_cargoShooter.reachedSetpoint();
+    boolean reachedSetpoint = RobotContainer.m_cargoShooter.reachedSetpoint();
+    if (reachedSetpoint) {
+      System.out.println("Reached shooter wheel setpoint");
+    }
+    return reachedSetpoint;
   }
 
   public static void stopWheel() {

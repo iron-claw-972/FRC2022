@@ -54,7 +54,7 @@ public class Operator {
     ));
 
     controller.getDPad().unpressed().whenPressed(
-      new InstantCommand(() -> ClimberMethods.disableExtender())
+        new InstantCommand(() -> ClimberMethods.disableExtender())
     );
 
     controller.getDPad().right().whenPressed(new SequentialCommandGroup (
@@ -105,9 +105,9 @@ public class Operator {
   }
 
   public static void shootBinds() {
-    controller.getButtons().RB().whenPressed(new ConditionalCommand(
-      new Shoot(cargoConstants.kFrontOuttakeFarPos, beltConstants.kIntakeSpeed, ShooterMethods.getOptimalShooterSpeed(), beltConstants.kOuttakeSpeed, true),
-      new Shoot(cargoConstants.kBackOuttakeFarPos, beltConstants.kIntakeSpeed, ShooterMethods.getOptimalShooterSpeed(), beltConstants.kOuttakeSpeed, true),
+    controller.getButtons().RB().whenHeld(new ConditionalCommand(
+      new Shoot(cargoConstants.kFrontOuttakeFarPos, beltConstants.kIntakeSpeed, ShooterMethods.getOptimalShooterSpeed(), beltConstants.kOuttakeSpeed, false),
+      new Shoot(cargoConstants.kBackOuttakeFarPos, beltConstants.kIntakeSpeed, ShooterMethods.getOptimalShooterSpeed(), beltConstants.kOuttakeSpeed, false),
       ShooterMethods::isArmFront
     ));
 
@@ -128,14 +128,12 @@ public class Operator {
     controller.getButtons().X().whenHeld(new Intake(cargoConstants.kIntakePos, beltConstants.kIntakeSpeed, wheelConstants.kIntakeSpeed, cargoConstants.kFrontOuttakeFarPos, false, Constants.kIsRedAlliance));
     controller.getButtons().X().whenReleased(new SequentialCommandGroup(
       new PositionArm(cargoConstants.kFrontOuttakeFarPos),
-      new InstantCommand(() -> ShooterMethods.disableShiitake())
+      new InstantCommand(() -> ShooterMethods.disableShiitake()),
+      new InstantCommand(() -> RobotContainer.m_cargoRotator.resetPID())
     ));
 
     // controller.getButtons().Y().whenPressed(new PositionArm(cargoConstants.kStowPos));
-    controller.getButtons().Y().whenHeld(new AlignToUpperHub(RobotContainer.m_limelight, RobotContainer.m_drive));
-    controller.getButtons().Y().whenReleased(new SequentialCommandGroup(
-      new InstantCommand(() -> ShooterMethods.disableShiitake())
-    ));
+    controller.getButtons().Y().whileHeld(new AlignToUpperHub(RobotContainer.m_limelight, RobotContainer.m_drive));
     // controller.getButtons().RB().whenPressed(new GetDistance(RobotContainer.m_limelight, RobotContainer.m_cargoRotator));
   }
 

@@ -99,7 +99,7 @@ public class ShuffleboardManager {
   }
   public void loadCargoShooterShuffleboard() {
     primaryTab.addBoolean("Cargo Shooter", RobotContainer.m_cargoShooter::isEnabled);
-    primaryTab.addNumber("Cargo Shooter Velocity", RobotContainer.m_cargoShooter::getVelocity);
+    // primaryTab.addNumber("Cargo Shooter Velocity", RobotContainer.m_cargoShooter::getVelocity);
     
     pidTab.add("CargoShooterPID", RobotContainer.m_cargoShooter.cargoShooterPID);
   }

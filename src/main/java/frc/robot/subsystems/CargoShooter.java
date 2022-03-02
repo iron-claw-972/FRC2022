@@ -16,6 +16,7 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.simulation.FlywheelSim;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class CargoShooter extends SubsystemBase {
 
@@ -37,7 +38,7 @@ public class CargoShooter extends SubsystemBase {
     m_cargoShooterEncoder.reset();
     cargoShooterPID.setTolerance(constants.kVelocityPIDTolerance);
     cargoShooterPID.reset();
-    cargoShooterPID.setSetpoint(motorSpeed);
+    // cargoShooterPID.setSetpoint(motorSpeed);
 
     if (RobotBase.isSimulation()) {
       m_flywheelSim = new FlywheelSim(
@@ -54,6 +55,9 @@ public class CargoShooter extends SubsystemBase {
   public void periodic() {
     if (enabled){
       cargoShooterPID.setSetpoint(motorSpeed);
+      SmartDashboard.putNumber("Shooter setpoint", motorSpeed);
+      SmartDashboard.putData("Shooter wheel PID", cargoShooterPID);
+      SmartDashboard.putNumber("Cargo Shooter Velocity", getVelocity());
       setVoltage(cargoShooterPID.calculate(getVelocity()) + constants.kForward * motorSpeed);
     }
   }
@@ -73,6 +77,7 @@ public class CargoShooter extends SubsystemBase {
 
   public void setSpeed(double newSpeed) {
     motorSpeed = newSpeed;
+    cargoShooterPID.setSetpoint(motorSpeed);
   }
 
   public void setStop() {

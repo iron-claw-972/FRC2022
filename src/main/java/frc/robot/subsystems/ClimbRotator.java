@@ -16,13 +16,13 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class ClimbRotator extends SubsystemBase {
   TraversoClimbRotatorConstants constants = new TraversoClimbRotatorConstants();
 
-  private boolean enabled = false;
+  private boolean enabled = true;
   private final DutyCycleEncoder encoder;
   private final WPI_TalonFX m_motor;
   public final String direction;
   private boolean left;
 
-  private double setPoint = 90;
+  private double setPoint = 79;
   private double encoderOffset;
 
   public PIDController armPID = new PIDController(constants.kOffLoadP , constants.kOffLoadI , constants.kOffLoadD);

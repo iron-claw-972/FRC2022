@@ -8,6 +8,7 @@ the project.
 package frc.robot;
 
 import frc.robot.subsystems.*;
+import frc.robot.util.ClimberMethods;
 import frc.robot.util.ShooterMethods;
 import frc.robot.util.ShuffleboardManager;
 import frc.robot.commands.DifferentialDrive;
@@ -81,6 +82,12 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
     //m_cargoBelt.setDefaultCommand(new RunCommand(() -> RobotContainer.m_cargoBelt.setOutput(-Operator.controller.getJoystickAxis().rightY()), m_cargoBelt));
     // m_limelight.setDefaultCommand(new GetDistance(m_limelight, m_cargoRotator));
 
+    (new SequentialCommandGroup(
+      new InstantCommand(() -> ClimberMethods.enableRotator()),
+      new InstantCommand(() -> ClimberMethods.setAngle(80)),
+      new WaitUntilCommand(() -> ClimberMethods.isRotatorAtSetpoint()),
+      new InstantCommand(() -> ClimberMethods.disableRotator())
+    )).schedule();
 
     // Configure the button bindings
     Driver.configureButtonBindings();

@@ -67,7 +67,14 @@ public class CargoRotator extends SubsystemBase {
 
   // returns the current angle of the duty cycle encoder with offset accounted for
   public double currentAngle() {
-    return (currentAngleRaw() + constants.kOffset) * constants.kArmDegreeMultiple;
+    double angle = (currentAngleRaw() + constants.kOffset) * constants.kArmDegreeMultiple;
+    if (angle < -60) {
+      angle += 360;
+    }
+    if (angle > 200) {
+      angle -= 360;
+    }
+    return angle;
   }
 
   public boolean reachedSetpoint() {
