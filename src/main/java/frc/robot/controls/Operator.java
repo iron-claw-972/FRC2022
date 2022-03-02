@@ -42,16 +42,29 @@ public class Operator {
   public static void climbBinds() {
 
     // extend and stay at 90 degrees
-    controller.getDPad().up().whenPressed(new ParallelCommandGroup(
+    controller.getDPad().up().whenHeld(new ParallelCommandGroup(
       new PositionArm(cargoConstants.kStowPos),
       new ClimberMove(extend.kMaxUpwards, rotate.kNinetyDeg)
     ));
 
     // compress and stay at 90 degrees
-    controller.getDPad().down().whenPressed(new ParallelCommandGroup(
+    controller.getDPad().down().whenHeld(new ParallelCommandGroup(
       new PositionArm(cargoConstants.kStowPos),
       new ClimberMove(extend.kMaxDownwards, rotate.kNinetyDeg)
     ));
+
+    controller.getDPad().unpressed().whenPressed(
+      new InstantCommand(() -> ClimberMethods.disableExtender())
+    );
+
+    controller.getDPad().right().whenPressed(new SequentialCommandGroup (
+      new InstantCommand(() -> ClimberMethods.enableRotator()),
+      new InstantCommand(() -> ClimberMethods.setAngle(rotate.kMaxForward))));
+    
+    
+    controller.getDPad().left().whenPressed(new SequentialCommandGroup (
+      new InstantCommand(() -> ClimberMethods.enableRotator()),
+      new InstantCommand(() -> ClimberMethods.setAngle(rotate.kMaxBackward))));
 
     // controller.getDPad().up().whenPressed(new ParallelCommandGroup(
     //   // move the cargo arm to stow
@@ -81,14 +94,14 @@ public class Operator {
     // ));
 
     // resume the sequence
-    controller.getButtons().START().whenPressed(
-      new InstantCommand(() -> ClimberMethods.enableAll()
-    ));
+    // controller.getButtons().START().whenPressed(
+    //   new InstantCommand(() -> ClimberMethods.enableAll()
+    // ));
 
-    // pause the sequence
-    controller.getButtons().BACK().whenPressed(
-      new InstantCommand(() -> ClimberMethods.disableAll()
-    ));
+    // // pause the sequence
+    // controller.getButtons().BACK().whenPressed(
+    //   new InstantCommand(() -> ClimberMethods.disableAll()
+    // ));
   }
 
   public static void shootBinds() {
