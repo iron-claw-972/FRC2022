@@ -9,7 +9,7 @@ import frc.robot.util.ClimberMethods;
 public class ClimberMove extends SequentialCommandGroup {
   /**
    * 
-   * Enables the climb rotator and extender, and uses PID to get to the set extension and rotation.
+   * This enables the rotators and extenders for the climb and waits until they reach their setpoints using a PID.
    * 
    * @param extension the extension of the climber.
    * @param angle the angle of the climb rotator, in degrees.
