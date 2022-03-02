@@ -85,6 +85,7 @@ public class CargoRotator extends SubsystemBase {
   // enables PID
   public void enable() {
     enabled = true;
+    resetPID();
   }
 
   public void disable() {

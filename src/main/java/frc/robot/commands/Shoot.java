@@ -9,26 +9,26 @@ import frc.robot.RobotContainer;
 import frc.robot.util.ShooterMethods;
 
 public class Shoot extends SequentialCommandGroup {
-    public Shoot(double outtakeArmPosition, double beltIntakeSpeed, double shooterWheelOuttakeSpeed, double beltOuttakeSpeed, boolean doesAlign) {
+    public Shoot(
+          double outtakeArmPosition,
+          double beltIntakeSpeed,
+          double shooterWheelOuttakeSpeed,
+          double beltOuttakeSpeed,
+          boolean doesAlign) {
+        addRequirements(RobotContainer.m_cargoShooter, RobotContainer.m_cargoRotator, RobotContainer.m_cargoBelt, RobotContainer.m_limelight);
         if (doesAlign) {
-            addRequirements(RobotContainer.m_cargoShooter, RobotContainer.m_cargoRotator, RobotContainer.m_cargoBelt, RobotContainer.m_limelight, RobotContainer.m_drive);
-        } else {
-            addRequirements(RobotContainer.m_cargoShooter, RobotContainer.m_cargoRotator, RobotContainer.m_cargoBelt, RobotContainer.m_limelight);
+            addRequirements(RobotContainer.m_drive);
         }
         addCommands(
-            new InstantCommand(() -> ShooterMethods.enableArm()),
-            new InstantCommand(() -> RobotContainer.m_cargoRotator.resetPID()),
+            new InstantCommand(() -> ShooterMethods.enableAll()),
             new InstantCommand(() -> ShooterMethods.setAngle(outtakeArmPosition)),
             new WaitUntilCommand(() -> ShooterMethods.isArmAtSetpoint()).withTimeout(1),
             (doesAlign ? new AlignToUpperHub(RobotContainer.m_limelight, RobotContainer.m_drive).withTimeout(2) : new DoNothing()),
-            new InstantCommand(() -> ShooterMethods.enableWheel()),
-            new InstantCommand(() -> ShooterMethods.enableBelt()),
             new InstantCommand(() -> ShooterMethods.setBeltPower(beltIntakeSpeed)),
             new InstantCommand(() -> ShooterMethods.setWheelSpeed(shooterWheelOuttakeSpeed)),
             new WaitUntilCommand(() -> ShooterMethods.isWheelAtSetpoint()),
             new InstantCommand(() -> ShooterMethods.setBeltPower(beltOuttakeSpeed)),
-            // new WaitUntilCommand(() -> ShooterMethods.isBallShot()),
-            new WaitCommand(0.5)
+            new WaitUntilCommand(() -> ShooterMethods.isBallShot())
         );
     }
 
