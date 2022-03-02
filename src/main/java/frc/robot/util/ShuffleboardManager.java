@@ -25,6 +25,7 @@ public class ShuffleboardManager {
   NetworkTableEntry isFar = autoTab.add("Flexible Auto First Shoot is Fender", true).getEntry();
   NetworkTableEntry distance = autoTab.add("Flexible Auto Drive Distance", 0.0).getEntry();
   NetworkTableEntry intakeSecond = autoTab.add("Flexible Auto Get and Shoot a Second Time", true).getEntry();
+  NetworkTableEntry limelightColor = primaryTab.add("Limelight (Red)", true).getEntry();
   
 
   public void setup() {
@@ -37,6 +38,7 @@ public class ShuffleboardManager {
     autoTab.add("Auto Chooser",autoCommand);
     primaryTab.addString("Drive Mode", this::getDriveModeString);
   }
+
   public void update() {
     
   }
@@ -131,6 +133,13 @@ public class ShuffleboardManager {
 
   private String getDriveModeString(){
     return Driver.getDriveMode().toString();
+  }
+
+  public boolean getLimeightRed(){
+    return limelightColor.getBoolean(true);
+  }
+  public boolean getLimeightBlue(){
+    return !limelightColor.getBoolean(true);
   }
 }
   
