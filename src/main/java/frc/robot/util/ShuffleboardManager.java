@@ -30,6 +30,7 @@ public class ShuffleboardManager {
   NetworkTableEntry isFar = autoTab.add("Flexible Auto First Shoot is Fender", true).getEntry();
   NetworkTableEntry distance = autoTab.add("Flexible Auto Drive Distance", 0.0).getEntry();
   NetworkTableEntry intakeSecond = autoTab.add("Flexible Auto Get and Shoot a Second Time", true).getEntry();
+  NetworkTableEntry limelightColor = primaryTab.add("Limelight (Red)", true).getEntry();
   
 
   public void setup() {
@@ -41,6 +42,7 @@ public class ShuffleboardManager {
 
     autoTab.add("Auto Chooser",autoCommand);
   }
+
   public void update() {
     
   }
@@ -126,6 +128,13 @@ public class ShuffleboardManager {
     primaryTab.addBoolean("Has Red Ball", RobotContainer.m_ballDetection::hasRedBall);
     primaryTab.addBoolean("Has Blue Ball", RobotContainer.m_ballDetection::hasBlueBall);
     primaryTab.addBoolean("Has Ball", RobotContainer.m_ballDetection::containsBall);
+  }
+
+  public boolean getLimeightRed(){
+    return limelightColor.getBoolean(true);
+  }
+  public boolean getLimeightBlue(){
+    return !limelightColor.getBoolean(true);
   }
 }
   
