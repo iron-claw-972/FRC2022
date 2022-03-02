@@ -70,10 +70,15 @@ public class Operator {
       new ClimbRotatorMove(rotate.kNinetyDeg)
     ));
 
-    // when nothing on the DPad is pressed, the extenders are disabled
-    controller.getDPad().unpressed().whenPressed(
-      new InstantCommand(() -> ClimberMethods.disableExtender())
-    );
+    // // when nothing on the DPad is pressed, the extenders are disabled
+    // controller.getDPad().unpressed().whenPressed(
+    //   new InstantCommand(() -> ClimberMethods.disableExtender())
+    // );
+
+    // rotator goes to the bar
+    controller.getButtons().LT().whenActive(new SequentialCommandGroup(
+      new ClimbRotatorMove(rotate.kToBar)
+    ));
   }
 
   public static void shootBinds() {
