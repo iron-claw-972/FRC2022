@@ -42,16 +42,29 @@ public class Operator {
   public static void climbBinds() {
 
     // extend and stay at 90 degrees
-    controller.getDPad().up().whenPressed(new ParallelCommandGroup(
+    controller.getDPad().up().whenHeld(new ParallelCommandGroup(
       new PositionArm(cargoConstants.kStowPos),
       new ClimberMove(extend.kMaxUpwards, rotate.kNinetyDeg)
     ));
 
     // compress and stay at 90 degrees
-    controller.getDPad().down().whenPressed(new ParallelCommandGroup(
+    controller.getDPad().down().whenHeld(new ParallelCommandGroup(
       new PositionArm(cargoConstants.kStowPos),
       new ClimberMove(extend.kMaxDownwards, rotate.kNinetyDeg)
     ));
+
+    controller.getDPad().unpressed().whenPressed(
+      new InstantCommand(() -> ClimberMethods.disableExtender())
+    );
+
+    controller.getDPad().right().whenPressed(new SequentialCommandGroup (
+      new InstantCommand(() -> ClimberMethods.enableRotator()),
+      new InstantCommand(() -> ClimberMethods.setAngle(rotate.kMaxForward))));
+    
+    
+    controller.getDPad().left().whenPressed(new SequentialCommandGroup (
+      new InstantCommand(() -> ClimberMethods.enableRotator()),
+      new InstantCommand(() -> ClimberMethods.setAngle(rotate.kMaxBackward))));
 
     // controller.getDPad().up().whenPressed(new ParallelCommandGroup(
     //   // move the cargo arm to stow
@@ -81,14 +94,14 @@ public class Operator {
     // ));
 
     // resume the sequence
-    controller.getButtons().START().whenPressed(
-      new InstantCommand(() -> ClimberMethods.enableAll()
-    ));
+    // controller.getButtons().START().whenPressed(
+    //   new InstantCommand(() -> ClimberMethods.enableAll()
+    // ));
 
-    // pause the sequence
-    controller.getButtons().BACK().whenPressed(
-      new InstantCommand(() -> ClimberMethods.disableAll()
-    ));
+    // // pause the sequence
+    // controller.getButtons().BACK().whenPressed(
+    //   new InstantCommand(() -> ClimberMethods.disableAll()
+    // ));
   }
 
   public static void shootBinds() {
@@ -108,11 +121,21 @@ public class Operator {
 
     // move arm to back
     controller.getButtons().A().whenPressed(new PositionArm(cargoConstants.kBackOuttakeFarPos));
+
     // move arm to front
     controller.getButtons().B().whenPressed(new PositionArm(cargoConstants.kFrontOuttakeFarPos));
-    controller.getButtons().X().whenPressed(new Intake(cargoConstants.kIntakePos, beltConstants.kIntakeSpeed, wheelConstants.kIntakeSpeed, cargoConstants.kFrontOuttakeFarPos, false, Constants.kIsRedAlliance)); 
+
+    controller.getButtons().X().whenHeld(new Intake(cargoConstants.kIntakePos, beltConstants.kIntakeSpeed, wheelConstants.kIntakeSpeed, cargoConstants.kFrontOuttakeFarPos, false, Constants.kIsRedAlliance));
+    controller.getButtons().X().whenReleased(new SequentialCommandGroup(
+      new PositionArm(cargoConstants.kFrontOuttakeFarPos),
+      new InstantCommand(() -> ShooterMethods.disableShiitake())
+    ));
+
     // controller.getButtons().Y().whenPressed(new PositionArm(cargoConstants.kStowPos));
-    controller.getButtons().Y().whenPressed(new AlignToUpperHub(RobotContainer.m_limelight, RobotContainer.m_drive));
+    controller.getButtons().Y().whenHeld(new AlignToUpperHub(RobotContainer.m_limelight, RobotContainer.m_drive));
+    controller.getButtons().Y().whenReleased(new SequentialCommandGroup(
+      new InstantCommand(() -> ShooterMethods.disableShiitake())
+    ));
     // controller.getButtons().RB().whenPressed(new GetDistance(RobotContainer.m_limelight, RobotContainer.m_cargoRotator));
   }
 

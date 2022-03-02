@@ -39,14 +39,17 @@ public class Driver {
     controller.getButtons().frontSwitchTop().whenPressed(
         () -> setDriveMode(DriveMode.PROPORTIONAL));
     controller.getButtons().backSwitchTop().whenPressed(
-
         () -> setDriveMode(DriveMode.ARCADE));
+
     controller.getButtons().backSwitchBottom().whenHeld(new Intake(cargoConstants.kIntakePos, beltConstants.kIntakeSpeed, wheelConstants.kIntakeSpeed, cargoConstants.kFrontOuttakeFarPos, true, Constants.kIsRedAlliance));
     controller.getButtons().backSwitchBottom().whenReleased(new SequentialCommandGroup(
       new PositionArm(cargoConstants.kFrontOuttakeFarPos),
       new InstantCommand(() -> ShooterMethods.disableShiitake())
     ));
+
     controller.getButtons().frontSwitchBottom().whileHeld(new AlignToUpperHub(RobotContainer.m_limelight, RobotContainer.m_drive));
+
+
     controller.getButtons().bottomButton().whenPressed(new ConditionalCommand(
       new Shoot(cargoConstants.kFrontOuttakeFarPos, beltConstants.kIntakeSpeed, ShooterMethods.getOptimalShooterSpeed(), beltConstants.kOuttakeSpeed, true),
       new Shoot(cargoConstants.kBackOuttakeFarPos, beltConstants.kIntakeSpeed, ShooterMethods.getOptimalShooterSpeed(), beltConstants.kOuttakeSpeed, true),
