@@ -10,7 +10,7 @@ public class ClimbRotatorMove extends SequentialCommandGroup {
 
   /**
    * 
-   * Rotates the climber to an angle using pid
+   * Rotates the climber to an angle using a PID. This enables the rotator, sets the angle, and waits until the angle is reached.
    * 
    * @param angle the angle to rotate to in degrees
    */

@@ -106,21 +106,21 @@ public class ShuffleboardManager {
   }
 
   public void loadClimbExtenderShuffleboard(ClimbExtender extender) {
-    primaryTab.addNumber(extender.getDirection() + " Extension", extender::currentExtension);
-    primaryTab.addBoolean(extender.getDirection() + " Extender", extender::isEnabled);
+    primaryTab.addNumber(extender.getSide() + " Extension", extender::currentExtension);
+    primaryTab.addBoolean(extender.getSide() + " Extender", extender::isEnabled);
     
-    pidTab.add(extender.getDirection() + "Climb Extender PID", extender.extenderPID);
+    pidTab.add(extender.getSide() + "Climb Extender PID", extender.extenderPID);
   }
   public void loadClimbRotatorShuffleboard(ClimbRotator rotator) {
     // a pop-up in shuffleboard that allows you to see how much the arm extended in inches
-    primaryTab.addNumber(rotator.getDirection() + " Climb Rotator Angle", rotator::currentAngle);
+    primaryTab.addNumber(rotator.getSide() + " Climb Rotator Angle", rotator::currentAngle);
     // a pop-up in shuffleboard that states if the rotator is on/off
-    primaryTab.addBoolean(rotator.getDirection() + " Climb Rotator", rotator::isEnabled);
+    primaryTab.addBoolean(rotator.getSide() + " Climb Rotator", rotator::isEnabled);
 
-    primaryTab.addNumber(rotator.getDirection() + " Climb Rotator Goal", rotator::getSetPoint);
+    primaryTab.addNumber(rotator.getSide() + " Climb Rotator Goal", rotator::getSetPoint);
     
     // PID values that can be modified in shuffleboard
-    pidTab.add(rotator.getDirection() + " Climb Rotator PID", rotator.armPID);
+    pidTab.add(rotator.getSide() + " Climb Rotator PID", rotator.armPID);
   }
 
   public void loadBallDetectionShuffleboard(){

@@ -6,6 +6,12 @@ import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import frc.robot.RobotContainer;
 import frc.robot.util.ClimberMethods;
 
+/**
+ * 
+ * Extends the climber to a distance using a PID. This enables the extender, sets the extension, and waits until the extension is reached.
+ * 
+ * @param extension The extension desired for the extenders.
+ */
 public class ClimbExtenderMove extends SequentialCommandGroup {
   public ClimbExtenderMove(double extension) {
     addRequirements(RobotContainer.m_extenderL, RobotContainer.m_extenderR);
