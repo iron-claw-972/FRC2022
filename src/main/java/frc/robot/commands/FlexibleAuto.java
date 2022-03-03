@@ -22,8 +22,9 @@ public class FlexibleAuto extends SequentialCommandGroup {
                 ShooterMethods.getOptimalShooterSpeed(), beltConstants.kOuttakeSpeed, true):
             // fender shooting
             new Shoot(cargoConstants.kBackOuttakeNearPos, beltConstants.kIntakeSpeed, 
-                wheelConstants.kBackOuttakeNearSpeed, beltConstants.kOuttakeSpeed, false)),
-        new DriveDistance(distance),
+                -2100, beltConstants.kOuttakeSpeed, false)).withTimeout(4),
+        new DriveDistance(distance).withTimeout(0.5),
+        new InstantCommand(() -> RobotContainer.m_drive.setCoastMode()),
         (intakeSecond ? 
             new Intake(cargoConstants.kIntakePos, beltConstants.kIntakeSpeed, wheelConstants.kIntakeSpeed, cargoConstants.kBackOuttakeFarPos, true, Constants.kIsRedAlliance):
             new DoNothing()),

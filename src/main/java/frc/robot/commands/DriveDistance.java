@@ -24,22 +24,23 @@ public class DriveDistance extends CommandBase {
   @Override
   public void initialize() {
     zeroPos = RobotContainer.m_drive.getLeftPosition();
+    RobotContainer.m_drive.setBrakeMode();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    RobotContainer.m_drive.feedForwardDrive(0.2, 0);
+    RobotContainer.m_drive.tankDrive(-0.5, -0.5);
   }
 
   @Override
   public void end(boolean interrupted) {
-    RobotContainer.m_drive.feedForwardDrive(0, 0);
+    RobotContainer.m_drive.tankDrive(0, 0);
   }
 
-  @Override
-  public boolean isFinished() {
-      return RobotContainer.m_drive.getLeftPosition() > (zeroPos + setpoint);
-  }
+  // @Override
+  // public boolean isFinished() {
+  //     return RobotContainer.m_drive.getLeftPosition() > (zeroPos + setpoint);
+  // }
   
 }

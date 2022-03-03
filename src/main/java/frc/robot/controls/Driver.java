@@ -49,7 +49,7 @@ public class Driver {
       new InstantCommand(() -> ShooterMethods.disableShiitake())
     ));
 
-    controller.getButtons().frontSwitchBottom().whileHeld(new AlignToUpperHub(RobotContainer.m_limelight, RobotContainer.m_drive));
+    controller.getButtons().frontSwitchBottom().whenHeld(new AlignToUpperHub(RobotContainer.m_limelight, RobotContainer.m_drive));
 
 
     controller.getButtons().bottomButton().whenPressed(new ConditionalCommand(

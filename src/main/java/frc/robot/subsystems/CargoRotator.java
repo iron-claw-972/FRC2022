@@ -74,7 +74,7 @@ public class CargoRotator extends SubsystemBase {
     if (angle > 200) {
       angle -= 360;
     }
-    return angle;
+    return MathUtil.clamp(angle, 0, 175);
   }
 
   public boolean reachedSetpoint() {

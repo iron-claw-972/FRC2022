@@ -40,8 +40,8 @@ public class ClimbExtender extends SubsystemBase {
 
     // converts the length of the arm in inches to ticks and makes that the maximum tick limit, it's checked every 10 milliseconds
     // TODO: Update this max forward limit!
-    SmartDashboard.putNumber("Max Extension Ticks", 506000);
-    m_motor.configForwardSoftLimitThreshold(SmartDashboard.getNumber("Max Extension Ticks", 506000), 10);
+    SmartDashboard.putNumber("Max Extension Ticks", constants.kExtenderMaxArmTicks);
+    m_motor.configForwardSoftLimitThreshold(SmartDashboard.getNumber("Max Extension Ticks", constants.kExtenderMaxArmTicks), 10);
 
     // every time the robot is started, arm MUST start at maximum compression in order to maintain consistency
     m_motor.setSelectedSensorPosition(0.0);

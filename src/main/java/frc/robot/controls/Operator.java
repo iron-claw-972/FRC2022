@@ -58,7 +58,7 @@ public class Operator {
 
     // when DPad Right is pressed, enable the rotator and go to kMaxForward degrees
     controller.getDPad().right().whenPressed(new SequentialCommandGroup (
-      new ClimbRotatorMove(rotate.kMaxBackward)
+      new ClimbRotatorMove(rotate.kMaxForward)
     ));
     
     // when DPad Left is pressed, enable the rotator and go to kMaxBackward degrees
@@ -71,10 +71,10 @@ public class Operator {
       new ClimbRotatorMove(rotate.kNinetyDeg)
     ));
 
-    // // when nothing on the DPad is pressed, the extenders are disabled
-    // controller.getDPad().unpressed().whenPressed(
-    //   new InstantCommand(() -> ClimberMethods.disableExtender())
-    // );
+    // when nothing on the DPad is pressed, the extenders are disabled
+    controller.getDPad().unpressed().whenPressed(
+      new InstantCommand(() -> ClimberMethods.disableExtender())
+    );
 
     // rotator goes to the bar
     controller.getButtons().LT().whenActive(new SequentialCommandGroup(
@@ -152,7 +152,7 @@ public class Operator {
     ));
 
     // controller.getButtons().Y().whenPressed(new PositionArm(cargoConstants.kStowPos));
-    controller.getButtons().Y().whileHeld(new AlignToUpperHub(RobotContainer.m_limelight, RobotContainer.m_drive));
+    controller.getButtons().Y().whenHeld(new AlignToUpperHub(RobotContainer.m_limelight, RobotContainer.m_drive));
     // controller.getButtons().RB().whenPressed(new GetDistance(RobotContainer.m_limelight, RobotContainer.m_cargoRotator));
   }
 }

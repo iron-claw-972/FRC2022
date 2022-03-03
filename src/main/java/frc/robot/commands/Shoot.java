@@ -20,10 +20,11 @@ public class Shoot extends SequentialCommandGroup {
         }
         addCommands(
             new InstantCommand(() -> ShooterMethods.enableAll()),
+            new InstantCommand(() -> ShooterMethods.setBeltPower(beltIntakeSpeed)),
             new InstantCommand(() -> ShooterMethods.setAngle(outtakeArmPosition)),
             new WaitUntilCommand(() -> ShooterMethods.isArmAtSetpoint()).withTimeout(1),
             (doesAlign ? new AlignToUpperHub(RobotContainer.m_limelight, RobotContainer.m_drive).withTimeout(2) : new DoNothing()),
-            new InstantCommand(() -> ShooterMethods.setBeltPower(beltIntakeSpeed)),
+            new WaitCommand(0.4),
             new InstantCommand(() -> ShooterMethods.setWheelSpeed(shooterWheelOuttakeSpeed)),
             new WaitUntilCommand(() -> ShooterMethods.isWheelAtSetpoint()),
             new InstantCommand(() -> ShooterMethods.setBeltPower(beltOuttakeSpeed)),
