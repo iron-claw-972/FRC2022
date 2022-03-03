@@ -15,7 +15,7 @@ public class ClimbExtender extends SubsystemBase {
   TraversoClimbExtenderConstants constants = new TraversoClimbExtenderConstants();
   private boolean enabled = false;
   private final WPI_TalonFX m_motor;
-  private String direction;
+  private String side;
 
   public PIDController extenderPID = new PIDController(constants.kP, constants.kI, constants.kD);
   
@@ -26,13 +26,13 @@ public class ClimbExtender extends SubsystemBase {
     // if the arm is left, the tick value is inverted && objects are assigned correctly
     if (isLeft) {
       m_motor = ControllerFactory.createTalonFX(constants.kLeftExtenderPort, constants.kSupplyCurrentLimit, constants.kSupplyTriggerThreshold, constants.kSupplyTriggerDuration, constants.kCoast); // initializes the motor
-      direction = "Left"; // the direction for shuffleboard's use
+      side = "Left"; // the direction for shuffleboard's use
       m_motor.setInverted(true);
     }
     else {
       // otherwise, just assign the motor object to the right
       m_motor = ControllerFactory.createTalonFX(constants.kRightExtenderPort, constants.kSupplyCurrentLimit, constants.kSupplyTriggerThreshold, constants.kSupplyTriggerDuration, constants.kCoast); // initializes the motor
-      direction = "Right"; // the direction for shuffleboard's use
+      side = "Right"; // the direction for shuffleboard's use
     }
 
     // the lowest tick limit is 0, and must be checked every 10 milliseconds
@@ -99,16 +99,16 @@ public class ClimbExtender extends SubsystemBase {
 
   @Override
   public void periodic() {
-    SmartDashboard.putNumber(direction + " Extension", currentExtension());
-    SmartDashboard.putNumber(direction + " extension raw", currentExtensionRaw());
+    SmartDashboard.putNumber(side + " Extension", currentExtension());
+    SmartDashboard.putNumber(side + " extension raw", currentExtensionRaw());
     if(enabled) {
       // motor power is set to the extender pid's calculation
       setOutput(extenderPID.calculate(currentExtensionRaw(), setpoint));
     }
   }
 
-  public String getDirection() {
-    return direction;
+  public String getSide() {
+    return side;
   }
 
   public boolean isEnabled(){

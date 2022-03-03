@@ -16,7 +16,7 @@ public class ClimbRotator extends SubsystemBase {
   private boolean enabled = true;
   private final DutyCycleEncoder encoder;
   private final WPI_TalonFX m_motor;
-  public final String direction;
+  public final String side;
   private boolean left;
 
   private double setPoint = 79;
@@ -30,7 +30,7 @@ public class ClimbRotator extends SubsystemBase {
     if (isLeft) {
       encoder = new DutyCycleEncoder(constants.kArmLeftEncoder); // initializes the through bore
       m_motor = ControllerFactory.createTalonFX(constants.kArmLeftMotor , constants.kSupplyCurrentLimit, constants.kSupplyTriggerThreshold, constants.kSupplyTriggerDuration, constants.kCoast); // initializes the motor
-      direction = "Left"; // the direction for shuffleboard's use
+      side = "Left"; // the direction for shuffleboard's use
       m_motor.setInverted(true); // inverts the motor
       encoderOffset = constants.kArmLeftEncoderOffset; // sets an offset for the encoder
 
@@ -41,7 +41,7 @@ public class ClimbRotator extends SubsystemBase {
     else {
       encoder = new DutyCycleEncoder(constants.kArmRightEncoder); // initializes the through bore
       m_motor = ControllerFactory.createTalonFX(constants.kArmRightMotor , constants.kSupplyCurrentLimit, constants.kSupplyTriggerThreshold, constants.kSupplyTriggerDuration, constants.kCoast); // initializes the motor
-      direction = "Right"; // the direction for shuffleboard's use
+      side = "Right"; // the direction for shuffleboard's use
       encoderOffset = constants.kArmRightEncoderOffset; // sets an offset for the encoder
 
       limitSwitchLower = new LimitSwitch(constants.kRightLimitSwitchLower , constants.kLimitSwitchDebouncer);
@@ -124,8 +124,8 @@ public class ClimbRotator extends SubsystemBase {
     return enabled;
   }
 
-  public String getDirection() {
-      return direction;
+  public String getSide() {
+      return side;
   }
 
   public double getSetPoint() {
