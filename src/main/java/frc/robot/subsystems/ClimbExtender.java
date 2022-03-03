@@ -61,6 +61,7 @@ public class ClimbExtender extends SubsystemBase {
   public boolean reachedSetpoint() {
     // if the current tick position is within the setpoint's range (setpoint +- 10), return true, otherwise return false
     return extenderPID.atSetpoint();
+    //return currentExtension()  < setpoint + constants.kExtenderTolerance && currentExtension()  > setpoint - constants.kExtenderTolerance;
   }
 
   // called in RobotContainer by button binds
