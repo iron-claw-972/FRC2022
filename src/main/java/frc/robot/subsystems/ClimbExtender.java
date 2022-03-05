@@ -42,7 +42,6 @@ public class ClimbExtender extends SubsystemBase {
 
     // converts the length of the arm in inches to ticks and makes that the maximum tick limit, it's checked every 10 milliseconds
     // TODO: Update this max forward limit!
-    SmartDashboard.putNumber("Max Extension Ticks", constants.kExtenderMaxArmTicks);
     m_motor.configForwardSoftLimitThreshold(SmartDashboard.getNumber("Max Extension Ticks", constants.kExtenderMaxArmTicks), 10);
 
     // every time the robot is started, arm MUST start at maximum compression in order to maintain consistency
@@ -62,7 +61,7 @@ public class ClimbExtender extends SubsystemBase {
   public boolean reachedSetpoint() {
     // if the current tick position is within the setpoint's range (setpoint +- 10), return true, otherwise return false
     //return extenderPID.atSetpoint();
-    System.out.println(side + " " + currentExtensionRaw());
+    System.out.println(side + " extension: " + currentExtensionRaw() + ", setpoint: " + setpoint);
     return currentExtensionRaw() < setpoint + constants.kExtenderTolerance && currentExtensionRaw() > setpoint - constants.kExtenderTolerance;
   }
 
@@ -72,6 +71,10 @@ public class ClimbExtender extends SubsystemBase {
 
   public void zero() {
     offset = -currentExtension();
+  }
+
+  public void changeOffset(double amount) {
+    offset += amount;
   }
 
   public void removeLimiter() {

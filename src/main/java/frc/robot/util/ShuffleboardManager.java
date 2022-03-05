@@ -13,6 +13,7 @@ import frc.robot.subsystems.ClimbExtender;
 import frc.robot.subsystems.ClimbRotator;
 import frc.robot.commands.FlexibleAuto;
 import frc.robot.controls.Driver;
+import frc.robot.robotConstants.climbExtender.TraversoClimbExtenderConstants;
 
 public class ShuffleboardManager {
 
@@ -27,10 +28,13 @@ public class ShuffleboardManager {
   NetworkTableEntry intakeSecond = autoTab.add("Flexible Auto Get and Shoot a Second Time", true).getEntry();
   NetworkTableEntry limelightColor = primaryTab.add("Limelight (Red)", true).getEntry();
   
+  TraversoClimbExtenderConstants extenderConstants = new TraversoClimbExtenderConstants();
+  
 
   public void setup() {
     primaryTab.addBoolean("Teleop", DriverStation::isTeleop);
     primaryTab.addNumber("left drive encoder", RobotContainer.m_drive::getLeftPosition);
+    SmartDashboard.putNumber("Max Extension Ticks", extenderConstants.kExtenderMaxArmTicks);
     chooserUpdate();
     subsystemSpam();
     time();
