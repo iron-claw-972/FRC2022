@@ -70,7 +70,7 @@ public class ClimbExtender extends SubsystemBase {
   }
 
   public void zero() {
-    offset = -currentExtension();
+    offset = -currentExtensionRaw();
   }
 
   public void changeOffset(double amount) {
@@ -91,9 +91,9 @@ public class ClimbExtender extends SubsystemBase {
   }
 
   // returns the current extension in inches
-  public double currentExtension() {
-    return m_motor.getSelectedSensorPosition() - offset;
-  }
+  // public double currentExtension() {
+  //   return m_motor.getSelectedSensorPosition() - offset;
+  // }
 
   // returns the current extension in ticks
   public double currentExtensionRaw() {
@@ -118,7 +118,6 @@ public class ClimbExtender extends SubsystemBase {
 
   @Override
   public void periodic() {
-    SmartDashboard.putNumber(side + " Extension", currentExtension());
     SmartDashboard.putNumber(side + " extension raw", currentExtensionRaw());
 
     if (Operator.controller.getJoystickAxis().leftY() > 0.1) {
