@@ -57,7 +57,7 @@ public class Driver {
       new InstantCommand(() -> RobotContainer.m_limelight.setUpperHubPipeline()),
       new WaitCommand(0.1),
       new ConditionalCommand(
-        new Shoot(cargoConstants.kFrontOuttakeFarPos, beltConstants.kIntakeSpeed, ShooterMethods.getOptimalShooterSpeed(), beltConstants.kOuttakeSpeed, false),
+        new Shoot(cargoConstants.kFrontOuttakeHighPos, beltConstants.kIntakeSpeed, wheelConstants.kFrontOuttakeFarSpeed, beltConstants.kOuttakeSpeed, false),
         new Shoot(cargoConstants.kBackOuttakeLimelightPos, beltConstants.kIntakeSpeed, ShooterMethods.getOptimalShooterSpeed(), beltConstants.kOuttakeSpeed, false),
         ShooterMethods::isArmFront
       )

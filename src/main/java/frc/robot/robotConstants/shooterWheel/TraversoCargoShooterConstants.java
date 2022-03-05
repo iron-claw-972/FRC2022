@@ -9,13 +9,13 @@ public class TraversoCargoShooterConstants {
 
   public final int kCargoShooterMotorPort = 7;
 
-  public final int kFrontOuttakeFarSpeed = -3000;
+  public final int kFrontOuttakeFarSpeed = -2900;
   public final int kBackOuttakeFarSpeed = -2180;
 
   public final int kFrontOuttakeNearSpeed = -1400;
   public final int kBackOuttakeNearSpeed = -1500; //70 degrees
 
-  public final int kFrontOuttakeAutoSpeed = -2499;
+  public final int kFrontOuttakeAutoSpeed = -2900;
   
   public final int kIntakeSpeed = 1500;
 
