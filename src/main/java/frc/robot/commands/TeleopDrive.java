@@ -32,13 +32,13 @@ public class TeleopDrive extends CommandBase {
       turn = -turnBoost;
     }
     double throttle = Driver.getRawThrottleValue();
-    double throttleBoost = SmartDashboard.getNumber("Throttle Boost", 0.05);
+    /*double throttleBoost = SmartDashboard.getNumber("Throttle Boost", 0.05);
     if (throttle > 0 && throttle < throttleBoost) {
       throttle = throttleBoost;
     }
     if (throttle < 0 && throttle > -throttleBoost) {
       throttle = -throttleBoost;
-    }
+    }*/
     m_drive.runDrive(throttle, -0.85 * turn);
   }
   
