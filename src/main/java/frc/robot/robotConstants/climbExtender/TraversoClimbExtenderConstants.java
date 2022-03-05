@@ -9,11 +9,11 @@ public class TraversoClimbExtenderConstants {
   public final double kExtenderMaxArmTicks = 507000;
 
   // tolerance allowed to the PID 
-  public final double kExtenderTolerance = 1000;
+  public final double kExtenderTolerance = 4000;
 
   // motor clamps
-  public final double kMotorClampDown = -0.65; //should be negative!
-  public final double kMotorClampUp = .45;     //should be positive!
+  public final double kMotorClampDown = -0.7; //should be negative!
+  public final double kMotorClampUp = .5;     //should be positive!
   
   // locations
   public final double kMaxUpwards = kExtenderMaxArmTicks;

@@ -18,18 +18,18 @@ public class FlexibleAuto extends SequentialCommandGroup {
     addCommands(
         (isFar ? 
             // far shooting
-            new Shoot(cargoConstants.kBackOuttakeFarPos, beltConstants.kIntakeSpeed, 
-                ShooterMethods.getOptimalShooterSpeed(), beltConstants.kOuttakeSpeed, true):
+            new Shoot(cargoConstants.kFrontOuttakeAutoPos, beltConstants.kIntakeSpeed, 
+                wheelConstants.kFrontOuttakeAutoSpeed, beltConstants.kOuttakeSpeed, true):
             // fender shooting
             new Shoot(cargoConstants.kBackOuttakeNearPos, beltConstants.kIntakeSpeed, 
                 -2100, beltConstants.kOuttakeSpeed, false)).withTimeout(4),
-        new DriveDistance(distance).withTimeout(0.5),
+        new DriveDistance(distance).withTimeout(1.5),
         new InstantCommand(() -> RobotContainer.m_drive.setCoastMode()),
         (intakeSecond ? 
-            new Intake(cargoConstants.kIntakePos, beltConstants.kIntakeSpeed, wheelConstants.kIntakeSpeed, cargoConstants.kBackOuttakeFarPos, true, Constants.kIsRedAlliance):
+            new Intake(cargoConstants.kIntakePos, beltConstants.kIntakeSpeed, wheelConstants.kIntakeSpeed, cargoConstants.kBackOuttakeFarPos, true, Constants.kIsRedAlliance).withTimeout(1.5):
             new DoNothing()),
         (intakeSecond ? 
-            new Shoot(cargoConstants.kBackOuttakeFarPos, beltConstants.kIntakeSpeed, ShooterMethods.getOptimalShooterSpeed(), beltConstants.kOuttakeSpeed, true):
+            new Shoot(cargoConstants.kBackOuttakeFarPos, beltConstants.kIntakeSpeed, ShooterMethods.getOptimalShooterSpeed(), beltConstants.kOuttakeSpeed, true).withTimeout(1.5):
             new DoNothing())
     );
   }

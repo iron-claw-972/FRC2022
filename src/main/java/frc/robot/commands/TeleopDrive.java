@@ -7,6 +7,7 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.controls.Driver;
 import frc.robot.subsystems.Drivetrain;
@@ -22,7 +23,15 @@ public class TeleopDrive extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_drive.runDrive(Driver.getRawThrottleValue(), -0.85 * Driver.getRawTurnValue());
+    double turn = Driver.getRawTurnValue();
+    double turnBoost = SmartDashboard.getNumber("Turn Boost", 0.1);
+    if (turn > 0 && turn < turnBoost) {
+      turn = turnBoost;
+    }
+    if (turn < 0 && turn > -turnBoost) {
+      turn = -turnBoost;
+    }
+    m_drive.runDrive(Driver.getRawThrottleValue(), -0.85 * turn);
   }
   
 }

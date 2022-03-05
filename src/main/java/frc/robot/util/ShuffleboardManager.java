@@ -30,6 +30,7 @@ public class ShuffleboardManager {
 
   public void setup() {
     primaryTab.addBoolean("Teleop", DriverStation::isTeleop);
+    primaryTab.addNumber("left drive encoder", RobotContainer.m_drive::getLeftPosition);
     chooserUpdate();
     subsystemSpam();
     time();

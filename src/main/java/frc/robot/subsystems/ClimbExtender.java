@@ -8,6 +8,7 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.util.ControllerFactory;
+import frc.robot.controls.Operator;
 import frc.robot.robotConstants.climbExtender.TraversoClimbExtenderConstants;
 
 
@@ -16,6 +17,7 @@ public class ClimbExtender extends SubsystemBase {
   private boolean enabled = false;
   private final WPI_TalonFX m_motor;
   private String side;
+  private double offset = 0;
 
   public PIDController extenderPID = new PIDController(constants.kP, constants.kI, constants.kD);
   
@@ -59,12 +61,17 @@ public class ClimbExtender extends SubsystemBase {
 
   public boolean reachedSetpoint() {
     // if the current tick position is within the setpoint's range (setpoint +- 10), return true, otherwise return false
-    return extenderPID.atSetpoint();
-    //return currentExtensionRaw() > setpoint + constants.kExtenderTolerance && currentExtensionRaw() < setpoint - constants.kExtenderTolerance;
+    //return extenderPID.atSetpoint();
+    System.out.println(side + " " + currentExtensionRaw());
+    return currentExtensionRaw() > setpoint + constants.kExtenderTolerance && currentExtensionRaw() < setpoint - constants.kExtenderTolerance;
   }
 
   public void resetPID() {
     extenderPID.reset();
+  }
+
+  public void zero() {
+    offset = -currentExtension();
   }
 
   // called in RobotContainer by button binds
@@ -74,12 +81,12 @@ public class ClimbExtender extends SubsystemBase {
 
   // returns the current extension in inches
   public double currentExtension() {
-    return m_motor.getSelectedSensorPosition();
+    return m_motor.getSelectedSensorPosition() - offset;
   }
 
   // returns the current extension in ticks
   public double currentExtensionRaw() {
-    return m_motor.getSelectedSensorPosition();
+    return m_motor.getSelectedSensorPosition() - offset;
   }
 
   // enables the extender (wow!)
@@ -102,6 +109,17 @@ public class ClimbExtender extends SubsystemBase {
   public void periodic() {
     SmartDashboard.putNumber(side + " Extension", currentExtension());
     SmartDashboard.putNumber(side + " extension raw", currentExtensionRaw());
+
+    if (Operator.controller.getJoystickAxis().leftY() > 0.1) {
+      setOutput(-0.2);
+      enabled = false;
+    } else if (Operator.controller.getJoystickAxis().leftY() < -0.1) {
+      setOutput(0.2);
+      enabled = false;
+    } else {
+      setOutput(0);
+    }
+
     if(enabled) {
       // motor power is set to the extender pid's calculation
       setOutput(extenderPID.calculate(currentExtensionRaw(), setpoint));

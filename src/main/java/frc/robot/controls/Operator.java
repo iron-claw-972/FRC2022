@@ -3,6 +3,7 @@ package frc.robot.controls;
 
 import controllers.*;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
 import frc.robot.Constants.*;
@@ -36,6 +37,8 @@ public class Operator {
 
   //operator buttons
   public static void configureButtonBindings() {
+    SmartDashboard.putNumber("Rotation Max forward", rotate.kMaxForward);
+    SmartDashboard.getNumber("Rotation 90", rotate.kNinetyDeg);
     climbBinds();
     shootBinds();
   }
@@ -58,7 +61,7 @@ public class Operator {
 
     // when DPad Right is pressed, enable the rotator and go to kMaxForward degrees
     controller.getDPad().right().whenPressed(new SequentialCommandGroup (
-      new ClimbRotatorMove(rotate.kMaxForward)
+      new ClimbRotatorMove(SmartDashboard.getNumber("Rotation Max forward", rotate.kMaxForward))
     ));
     
     // when DPad Left is pressed, enable the rotator and go to kMaxBackward degrees
@@ -68,7 +71,7 @@ public class Operator {
 
     // when LB is pressed, enable the rotator and go to kNinetyDeg degrees
     controller.getButtons().LB().whenPressed(new SequentialCommandGroup(
-      new ClimbRotatorMove(rotate.kNinetyDeg)
+      new ClimbRotatorMove(SmartDashboard.getNumber("Rotation 90", rotate.kNinetyDeg))
     ));
 
     // when nothing on the DPad is pressed, the extenders are disabled
@@ -83,13 +86,13 @@ public class Operator {
   }
 
   public static void autoClimbBinds() {
-    
+
     controller.getDPad().up().whenPressed(new ParallelCommandGroup(
       // move the cargo arm to stow
       new PositionArm(cargoConstants.kStowPos),
 
       // extend upwards, go an angle where we can hook the static hook
-      new ClimberMove(extend.kMaxUpwards, rotate.kHookStatic)
+      new ClimberMove(extend.kMaxUpwards, rotate.kMaxForward)
     ));
 
     controller.getDPad().down().whenPressed(new SequentialCommandGroup(    
@@ -125,8 +128,8 @@ public class Operator {
 
   public static void shootBinds() {
     controller.getButtons().RB().whenHeld(new ConditionalCommand(
-      new Shoot(cargoConstants.kFrontOuttakeFarPos, beltConstants.kIntakeSpeed, ShooterMethods.getOptimalShooterSpeed(), beltConstants.kOuttakeSpeed, false),
-      new Shoot(cargoConstants.kBackOuttakeFarPos, beltConstants.kIntakeSpeed, ShooterMethods.getOptimalShooterSpeed(), beltConstants.kOuttakeSpeed, false),
+      new Shoot(cargoConstants.kFrontOuttakeFarPos, beltConstants.kIntakeSpeed, wheelConstants.kFrontOuttakeFarSpeed, beltConstants.kOuttakeSpeed, false),
+      new Shoot(cargoConstants.kBackOuttakeFarPos, beltConstants.kIntakeSpeed, wheelConstants.kBackOuttakeFarSpeed, beltConstants.kOuttakeSpeed, false),
       ShooterMethods::isArmFront
     ));
 

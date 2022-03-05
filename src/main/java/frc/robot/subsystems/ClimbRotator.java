@@ -8,6 +8,7 @@ import frc.robot.util.LimitSwitch;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class ClimbRotator extends SubsystemBase {
@@ -56,8 +57,8 @@ public class ClimbRotator extends SubsystemBase {
     armPID.setTolerance(constants.kArmTolerance);
     // SmartDashboard.putData(direction + " rot", armPID);
 
-  // setEncoder(120);
-  // SmartDashboard.putNumber(direction + " offset", encoderOffset);
+    //setEncoder(120);
+    //SmartDashboard.putNumber(side + " offset", encoderOffset);
   }
 
   @Override
@@ -97,7 +98,7 @@ public class ClimbRotator extends SubsystemBase {
 
   public boolean reachedSetpoint() {
     // checks if the arm is at its setpoint
-    return armPID.atSetpoint() || limitSwitchLower.risingEdge() || limitSwitchUpper.risingEdge();
+    return armPID.atSetpoint();// || limitSwitchLower.risingEdge() || limitSwitchUpper.risingEdge();
   }
 
   //enables PID

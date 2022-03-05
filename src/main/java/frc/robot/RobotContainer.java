@@ -8,6 +8,7 @@ the project.
 package frc.robot;
 
 import frc.robot.subsystems.*;
+import frc.robot.subsystems.Limelight.LEDMode;
 import frc.robot.util.ClimberMethods;
 import frc.robot.util.ShooterMethods;
 import frc.robot.util.ShuffleboardManager;
@@ -86,7 +87,7 @@ import edu.wpi.first.cscore.UsbCamera;
     // Configure the button bindings
     Driver.configureButtonBindings();
     Operator.configureButtonBindings();
-    ManualClimb.configureButtonBindings();
+   // ManualClimb.configureButtonBindings();
 
     //sets up shuffle board
   }
@@ -98,7 +99,7 @@ import edu.wpi.first.cscore.UsbCamera;
    */
   public Command getAutonomousCommand() {
     // Attempt to load trajectory from PathWeaver
-    return new FlexibleAuto(false, 1, false);
+    return new FlexibleAuto(true, 1, false);
     // return m_shuffleboard.getAutonomousCommand();
     // return new SequentialCommandGroup(
     //   m_shuffleboard.getAutonomousWaitCommand(),

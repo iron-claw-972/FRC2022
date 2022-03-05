@@ -7,8 +7,10 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
+import frc.robot.util.ShuffleboardManager;
 
 /**
  * Drives a certain distance
@@ -40,7 +42,7 @@ public class DriveDistance extends CommandBase {
 
   // @Override
   // public boolean isFinished() {
-  //     return RobotContainer.m_drive.getLeftPosition() > (zeroPos + setpoint);
+  //     return Math.abs(RobotContainer.m_drive.getLeftPosition()) > (Math.abs(zeroPos) + Math.abs(setpoint));
   // }
   
 }

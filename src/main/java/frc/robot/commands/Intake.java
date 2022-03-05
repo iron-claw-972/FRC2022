@@ -35,4 +35,9 @@ public class Intake extends SequentialCommandGroup {
         new InstantCommand(() -> ShooterMethods.disableBelt())
     );
   }
+  
+  @Override
+  public void end(boolean interrupted) {
+      ShooterMethods.disableShiitake();
+  }
 }
