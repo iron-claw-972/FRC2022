@@ -42,7 +42,6 @@ public class ClimbExtender extends SubsystemBase {
 
     // converts the length of the arm in inches to ticks and makes that the maximum tick limit, it's checked every 10 milliseconds
     // TODO: Update this max forward limit!
-    SmartDashboard.putNumber("Max Extension Ticks", constants.kExtenderMaxArmTicks);
     m_motor.configForwardSoftLimitThreshold(SmartDashboard.getNumber("Max Extension Ticks", constants.kExtenderMaxArmTicks), 10);
 
     // every time the robot is started, arm MUST start at maximum compression in order to maintain consistency
@@ -62,8 +61,8 @@ public class ClimbExtender extends SubsystemBase {
   public boolean reachedSetpoint() {
     // if the current tick position is within the setpoint's range (setpoint +- 10), return true, otherwise return false
     //return extenderPID.atSetpoint();
-    System.out.println(side + " " + currentExtensionRaw());
-    return currentExtensionRaw() > setpoint + constants.kExtenderTolerance && currentExtensionRaw() < setpoint - constants.kExtenderTolerance;
+    System.out.println(side + " extension: " + currentExtensionRaw() + ", setpoint: " + setpoint);
+    return currentExtensionRaw() < setpoint + constants.kExtenderTolerance && currentExtensionRaw() > setpoint - constants.kExtenderTolerance;
   }
 
   public void resetPID() {
@@ -71,7 +70,19 @@ public class ClimbExtender extends SubsystemBase {
   }
 
   public void zero() {
-    offset = -currentExtension();
+    offset = -currentExtensionRaw();
+  }
+
+  public void changeOffset(double amount) {
+    offset += amount;
+  }
+
+  public void removeLimiter() {
+    m_motor.configForwardSoftLimitEnable(false, 0);
+  }
+
+  public void enableLimiter() {
+    m_motor.configForwardSoftLimitEnable(true, 0);
   }
 
   // called in RobotContainer by button binds
@@ -80,9 +91,9 @@ public class ClimbExtender extends SubsystemBase {
   }
 
   // returns the current extension in inches
-  public double currentExtension() {
-    return m_motor.getSelectedSensorPosition() - offset;
-  }
+  // public double currentExtension() {
+  //   return m_motor.getSelectedSensorPosition() - offset;
+  // }
 
   // returns the current extension in ticks
   public double currentExtensionRaw() {
@@ -107,7 +118,6 @@ public class ClimbExtender extends SubsystemBase {
 
   @Override
   public void periodic() {
-    SmartDashboard.putNumber(side + " Extension", currentExtension());
     SmartDashboard.putNumber(side + " extension raw", currentExtensionRaw());
 
     if (Operator.controller.getJoystickAxis().leftY() > 0.1) {

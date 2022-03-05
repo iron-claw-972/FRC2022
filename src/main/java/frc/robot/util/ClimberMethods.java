@@ -61,4 +61,14 @@ public class ClimberMethods {
     RobotContainer.m_climbRotatorL.disable();
     RobotContainer.m_climbRotatorR.disable();
   }
+
+  public static void removeLimiter() {
+    RobotContainer.m_extenderL.removeLimiter();
+    RobotContainer.m_extenderR.removeLimiter();
+  }
+
+  public static void enableLimiter() {
+    RobotContainer.m_extenderL.enableLimiter();
+    RobotContainer.m_extenderR.enableLimiter();
+  }
 }

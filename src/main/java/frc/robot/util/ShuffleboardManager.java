@@ -13,6 +13,7 @@ import frc.robot.subsystems.ClimbExtender;
 import frc.robot.subsystems.ClimbRotator;
 import frc.robot.commands.FlexibleAuto;
 import frc.robot.controls.Driver;
+import frc.robot.robotConstants.climbExtender.TraversoClimbExtenderConstants;
 
 public class ShuffleboardManager {
 
@@ -27,10 +28,13 @@ public class ShuffleboardManager {
   NetworkTableEntry intakeSecond = autoTab.add("Flexible Auto Get and Shoot a Second Time", true).getEntry();
   NetworkTableEntry limelightColor = primaryTab.add("Limelight (Red)", true).getEntry();
   
+  TraversoClimbExtenderConstants extenderConstants = new TraversoClimbExtenderConstants();
+  
 
   public void setup() {
     primaryTab.addBoolean("Teleop", DriverStation::isTeleop);
     primaryTab.addNumber("left drive encoder", RobotContainer.m_drive::getLeftPosition);
+    SmartDashboard.putNumber("Max Extension Ticks", extenderConstants.kExtenderMaxArmTicks);
     chooserUpdate();
     subsystemSpam();
     time();
@@ -107,7 +111,7 @@ public class ShuffleboardManager {
   }
 
   public void loadClimbExtenderShuffleboard(ClimbExtender extender) {
-    primaryTab.addNumber(extender.getSide() + " Extension", extender::currentExtension);
+    primaryTab.addNumber(extender.getSide() + " Extension", extender::currentExtensionRaw);
     primaryTab.addBoolean(extender.getSide() + " Extender", extender::isEnabled);
     
     pidTab.add(extender.getSide() + "Climb Extender PID", extender.extenderPID);
@@ -136,10 +140,10 @@ public class ShuffleboardManager {
     return Driver.getDriveMode().toString();
   }
 
-  public boolean getLimeightRed(){
+  public boolean getLimelightRed(){
     return limelightColor.getBoolean(true);
   }
-  public boolean getLimeightBlue(){
+  public boolean getLimelightBlue(){
     return !limelightColor.getBoolean(true);
   }
 }

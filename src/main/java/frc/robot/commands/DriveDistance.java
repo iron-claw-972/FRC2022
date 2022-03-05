@@ -42,7 +42,7 @@ public class DriveDistance extends CommandBase {
 
   // @Override
   // public boolean isFinished() {
-  //     return Math.abs(RobotContainer.m_drive.getLeftPosition()) > (Math.abs(zeroPos) + Math.abs(setpoint));
+  //     return Math.abs(RobotContainer.m_drive.getLeftPosition()) > (zeroPos + setpoint);
   // }
   
 }
