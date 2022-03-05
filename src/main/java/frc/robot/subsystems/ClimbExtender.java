@@ -62,6 +62,10 @@ public class ClimbExtender extends SubsystemBase {
     // if the current tick position is within the setpoint's range (setpoint +- 10), return true, otherwise return false
     //return extenderPID.atSetpoint();
     System.out.println(side + " extension: " + currentExtensionRaw() + ", setpoint: " + setpoint);
+    System.out.println(currentExtensionRaw() < setpoint + constants.kExtenderTolerance);
+    System.out.println(currentExtensionRaw() > setpoint - constants.kExtenderTolerance);
+    //possibly the issue is that they don't both reach the setpoint at the same time? no probably not
+
     return currentExtensionRaw() < setpoint + constants.kExtenderTolerance && currentExtensionRaw() > setpoint - constants.kExtenderTolerance;
   }
 
@@ -120,14 +124,28 @@ public class ClimbExtender extends SubsystemBase {
   public void periodic() {
     SmartDashboard.putNumber(side + " extension raw", currentExtensionRaw());
 
-    if (Operator.controller.getJoystickAxis().leftY() > 0.1) {
-      setOutput(-0.2);
-      enabled = false;
-    } else if (Operator.controller.getJoystickAxis().leftY() < -0.1) {
-      setOutput(0.2);
-      enabled = false;
-    } else {
-      setOutput(0);
+    if (side.equals("Left")) {
+      if (Operator.controller.getJoystickAxis().leftY() > 0.1) {
+        setOutput(-0.2);
+        enabled = false;
+      } else if (Operator.controller.getJoystickAxis().leftY() < -0.1) {
+        setOutput(0.2);
+        enabled = false;
+      } else {
+        setOutput(0);
+      }
+    }
+
+    if (side.equals("Right")) {
+      if (Operator.controller.getJoystickAxis().rightY() > 0.1) {
+        setOutput(-0.2);
+        enabled = false;
+      } else if (Operator.controller.getJoystickAxis().rightY() < -0.1) {
+        setOutput(0.2);
+        enabled = false;
+      } else {
+        setOutput(0);
+      }
     }
 
     if(enabled) {
