@@ -45,6 +45,14 @@ public class Operator {
 
   public static void climbBinds() {
 
+    controller.getButtons().leftJoystickPressedButton().whenPressed(
+      new InstantCommand(ClimberMethods::removeLimiter)
+    );
+
+    controller.getButtons().rightJoystickPressedButton().whenPressed(
+      new InstantCommand(ClimberMethods::enableLimiter)
+    );
+
     // when DPad Up is pressed, enable the extender and extend upwards to kMaxUpwards
     controller.getDPad().up().whenHeld(new ParallelCommandGroup(
       // stow the cargo subsystem

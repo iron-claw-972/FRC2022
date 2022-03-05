@@ -74,6 +74,14 @@ public class ClimbExtender extends SubsystemBase {
     offset = -currentExtension();
   }
 
+  public void removeLimiter() {
+    m_motor.configForwardSoftLimitEnable(false, 0);
+  }
+
+  public void enableLimiter() {
+    m_motor.configForwardSoftLimitEnable(true, 0);
+  }
+
   // called in RobotContainer by button binds
   public void set(double distance) {
     setpoint = distance;
