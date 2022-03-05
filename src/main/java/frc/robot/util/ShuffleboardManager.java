@@ -140,10 +140,10 @@ public class ShuffleboardManager {
     return Driver.getDriveMode().toString();
   }
 
-  public boolean getLimeightRed(){
+  public boolean getLimelightRed(){
     return limelightColor.getBoolean(true);
   }
-  public boolean getLimeightBlue(){
+  public boolean getLimelightBlue(){
     return !limelightColor.getBoolean(true);
   }
 }
