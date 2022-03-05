@@ -28,7 +28,7 @@ public class Shoot extends SequentialCommandGroup {
             new InstantCommand(() -> ShooterMethods.setWheelSpeed(shooterWheelOuttakeSpeed)),
             new WaitUntilCommand(() -> ShooterMethods.isWheelAtSetpoint()),
             new InstantCommand(() -> ShooterMethods.setBeltPower(beltOuttakeSpeed)),
-            new WaitUntilCommand(() -> ShooterMethods.isBallShot())
+            new WaitUntilCommand(() -> ShooterMethods.isBallShot()).withTimeout(1)
         );
     }
 

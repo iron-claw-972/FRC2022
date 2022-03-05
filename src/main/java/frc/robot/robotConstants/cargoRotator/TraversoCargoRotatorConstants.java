@@ -29,7 +29,7 @@ public class TraversoCargoRotatorConstants {
     public final double kBackOuttakeFarPos = 168;
     public final double kFrontOuttakeNearPos = 110; // TODO: Update this value
     public final double kFrontOuttakeFarPos = 85;
-    public final double kFrontOuttakeHighPos = 95;
+    public final double kFrontOuttakeHighPos = 108;
     public final double kBackOuttakeLimelightPos = 168;
     public final double kFrontOuttakeAutoPos = 108;
     public final double kStowPos = 172;

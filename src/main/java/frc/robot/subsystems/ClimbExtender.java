@@ -15,6 +15,7 @@ import frc.robot.robotConstants.climbExtender.TraversoClimbExtenderConstants;
 public class ClimbExtender extends SubsystemBase {
   TraversoClimbExtenderConstants constants = new TraversoClimbExtenderConstants();
   private boolean enabled = false;
+  private boolean manualEnabled = false;
   private final WPI_TalonFX m_motor;
   private String side;
   private double offset = 0;
@@ -61,9 +62,9 @@ public class ClimbExtender extends SubsystemBase {
   public boolean reachedSetpoint() {
     // if the current tick position is within the setpoint's range (setpoint +- 10), return true, otherwise return false
     //return extenderPID.atSetpoint();
-    System.out.println(side + " extension: " + currentExtensionRaw() + ", setpoint: " + setpoint);
-    System.out.println(currentExtensionRaw() < setpoint + constants.kExtenderTolerance);
-    System.out.println(currentExtensionRaw() > setpoint - constants.kExtenderTolerance);
+    // System.out.println(side + " extension: " + currentExtensionRaw() + ", setpoint: " + setpoint);
+    // System.out.println(currentExtensionRaw() < setpoint + constants.kExtenderTolerance);
+    // System.out.println(currentExtensionRaw() > setpoint - constants.kExtenderTolerance);
     //possibly the issue is that they don't both reach the setpoint at the same time? no probably not
 
     return currentExtensionRaw() < setpoint + constants.kExtenderTolerance && currentExtensionRaw() > setpoint - constants.kExtenderTolerance;
@@ -83,10 +84,12 @@ public class ClimbExtender extends SubsystemBase {
 
   public void removeLimiter() {
     m_motor.configForwardSoftLimitEnable(false, 0);
+    manualEnabled = true;
   }
 
   public void enableLimiter() {
     m_motor.configForwardSoftLimitEnable(true, 0);
+    manualEnabled = false;
   }
 
   // called in RobotContainer by button binds
@@ -122,8 +125,9 @@ public class ClimbExtender extends SubsystemBase {
 
   @Override
   public void periodic() {
-    SmartDashboard.putNumber(side + " extension raw", currentExtensionRaw());
 
+    if (manualEnabled) {
+    
     if (side.equals("Left")) {
       if (Operator.controller.getJoystickAxis().leftY() > 0.1) {
         setOutput(-0.2);
@@ -146,6 +150,8 @@ public class ClimbExtender extends SubsystemBase {
       } else {
         setOutput(0);
       }
+    }
+
     }
 
     if(enabled) {

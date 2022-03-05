@@ -18,8 +18,8 @@ public class ShooterMethods {
     SmartDashboard.putNumber("Distance", distance);
 
     double speed = ShooterMethods.isArmBack() ? -(9.6 * distance + 1405) : -(8.53 * distance + 1304);
-    System.out.println("Speed: " + speed);
-    System.out.println("Distance: " + distance);
+    //System.out.println("Speed: " + speed);
+    //System.out.println("Distance: " + distance);
     return speed;
   }
 

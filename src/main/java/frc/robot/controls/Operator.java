@@ -141,6 +141,12 @@ public class Operator {
       ShooterMethods::isArmFront
     ));
 
+    controller.getButtons().LB().whenHeld(new ConditionalCommand(
+      new Shoot(cargoConstants.kFrontOuttakeHighPos, beltConstants.kIntakeSpeed, wheelConstants.kFrontOuttakeHighSpeed, beltConstants.kOuttakeSpeed, false),
+      new Shoot(cargoConstants.kBackOuttakeFarPos, beltConstants.kIntakeSpeed, wheelConstants.kBackOuttakeHighSpeed, beltConstants.kOuttakeSpeed, false),
+      ShooterMethods::isArmFront
+    ));
+
     controller.getButtons().RT().whenActive(new ConditionalCommand(
       // shoot at a desired angle and outtake/intake speeds
       new Shoot(cargoConstants.kFrontOuttakeNearPos, beltConstants.kIntakeSpeed, wheelConstants.kFrontOuttakeNearSpeed, beltConstants.kOuttakeSpeed, false),

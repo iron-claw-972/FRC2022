@@ -12,6 +12,9 @@ public class TraversoCargoShooterConstants {
   public final int kFrontOuttakeFarSpeed = -2900;
   public final int kBackOuttakeFarSpeed = -2180;
 
+  public final int kFrontOuttakeHighSpeed = -2900;
+  public final int kBackOuttakeHighSpeed = -2900;
+
   public final int kFrontOuttakeNearSpeed = -1400;
   public final int kBackOuttakeNearSpeed = -1500; //70 degrees
 
@@ -29,7 +32,7 @@ public class TraversoCargoShooterConstants {
   public final double kI = 0.0016;
   public final double kD = 0.0004;
   public final double kForward = 0.0013;
-  public final double kVelocityPIDTolerance = 100;
+  public final double kVelocityPIDTolerance = 75;
 
   // Feedforward
   public final double kS = 1.0734;
