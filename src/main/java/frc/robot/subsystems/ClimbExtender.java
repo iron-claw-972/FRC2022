@@ -8,6 +8,7 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.util.ControllerFactory;
+import frc.robot.controls.ClimbOperator;
 import frc.robot.controls.Operator;
 import frc.robot.robotConstants.climbExtender.TraversoClimbExtenderConstants;
 
@@ -39,7 +40,7 @@ public class ClimbExtender extends SubsystemBase {
     }
 
     // the lowest tick limit is 0, and must be checked every 10 milliseconds
-    m_motor.configReverseSoftLimitThreshold(0, 10);
+    m_motor.configReverseSoftLimitThreshold(1000, 10);
 
     // converts the length of the arm in inches to ticks and makes that the maximum tick limit, it's checked every 10 milliseconds
     // TODO: Update this max forward limit!
@@ -82,13 +83,24 @@ public class ClimbExtender extends SubsystemBase {
     offset += amount;
   }
 
+  public void setReverseLimit(double amount) {
+    m_motor.configReverseSoftLimitThreshold(amount, 10);
+  }
+
+  public void setForwardLimit(double amount) {
+    m_motor.configForwardSoftLimitThreshold(amount, 10);
+  }
+
   public void removeLimiter() {
     m_motor.configForwardSoftLimitEnable(false, 0);
+    m_motor.configReverseSoftLimitThreshold(10, 10);
     manualEnabled = true;
   }
 
   public void enableLimiter() {
+    m_motor.configForwardSoftLimitThreshold(SmartDashboard.getNumber("Max Extension Ticks", constants.kExtenderMaxArmTicks), 10);
     m_motor.configForwardSoftLimitEnable(true, 0);
+    m_motor.configReverseSoftLimitThreshold(SmartDashboard.getNumber("Min Extension Ticks", 1000), 10);
     manualEnabled = false;
   }
 
@@ -129,10 +141,10 @@ public class ClimbExtender extends SubsystemBase {
     if (manualEnabled) {
     
     if (side.equals("Left")) {
-      if (Operator.controller.getJoystickAxis().leftY() > 0.1) {
+      if (ClimbOperator.controller.getJoystickAxis().leftY() > 0.1) {
         setOutput(-0.2);
         enabled = false;
-      } else if (Operator.controller.getJoystickAxis().leftY() < -0.1) {
+      } else if (ClimbOperator.controller.getJoystickAxis().leftY() < -0.1) {
         setOutput(0.2);
         enabled = false;
       } else {
@@ -141,10 +153,10 @@ public class ClimbExtender extends SubsystemBase {
     }
 
     if (side.equals("Right")) {
-      if (Operator.controller.getJoystickAxis().rightY() > 0.1) {
+      if (ClimbOperator.controller.getJoystickAxis().rightY() > 0.1) {
         setOutput(-0.2);
         enabled = false;
-      } else if (Operator.controller.getJoystickAxis().rightY() < -0.1) {
+      } else if (ClimbOperator.controller.getJoystickAxis().rightY() < -0.1) {
         setOutput(0.2);
         enabled = false;
       } else {

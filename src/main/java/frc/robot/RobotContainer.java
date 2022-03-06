@@ -77,17 +77,10 @@ import edu.wpi.first.cscore.UsbCamera;
     //m_cargoBelt.setDefaultCommand(new RunCommand(() -> RobotContainer.m_cargoBelt.setOutput(-Operator.controller.getJoystickAxis().rightY()), m_cargoBelt));
     // m_limelight.setDefaultCommand(new GetDistance(m_limelight, m_cargoRotator));
 
-    (new SequentialCommandGroup(
-      new InstantCommand(() -> ClimberMethods.enableRotator()),
-      new InstantCommand(() -> ClimberMethods.setAngle(80)),
-      new WaitUntilCommand(() -> ClimberMethods.isRotatorAtSetpoint()),
-      new InstantCommand(() -> ClimberMethods.disableRotator())
-    )).schedule();
-
     // Configure the button bindings
     Driver.configureButtonBindings();
     Operator.configureButtonBindings();
-   // ManualClimb.configureButtonBindings();
+    ClimbOperator.configureButtonBindings();
 
     //sets up shuffle board
   }

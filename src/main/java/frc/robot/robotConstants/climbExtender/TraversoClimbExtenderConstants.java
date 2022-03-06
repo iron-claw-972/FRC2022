@@ -6,7 +6,7 @@ public class TraversoClimbExtenderConstants {
   public final int kLeftExtenderPort = 11;
 
   // the arm's length in ticks
-  public final double kExtenderMaxArmTicks = 507000;
+  public final double kExtenderMaxArmTicks = 506900;
 
   // tolerance allowed to the PID 
   public final double kExtenderTolerance = 2000;
