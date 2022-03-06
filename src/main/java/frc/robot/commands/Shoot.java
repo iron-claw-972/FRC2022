@@ -24,7 +24,7 @@ public class Shoot extends SequentialCommandGroup {
             new InstantCommand(() -> ShooterMethods.setAngle(outtakeArmPosition)),
             new WaitUntilCommand(() -> ShooterMethods.isArmAtSetpoint()).withTimeout(1),
             (doesAlign ? new AlignToUpperHub(RobotContainer.m_limelight, RobotContainer.m_drive).withTimeout(2) : new DoNothing()),
-            new WaitCommand(0.4),
+            // new WaitCommand(0.4),
             new InstantCommand(() -> ShooterMethods.setWheelSpeed(shooterWheelOuttakeSpeed)),
             new WaitUntilCommand(() -> ShooterMethods.isWheelAtSetpoint()),
             new InstantCommand(() -> ShooterMethods.setBeltPower(beltOuttakeSpeed)),
