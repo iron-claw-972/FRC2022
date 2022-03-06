@@ -57,7 +57,7 @@ public class ClimbOperator {
 
     // when DPad Right is pressed, enable the rotator and go to kMaxForward degrees
     controller.getDPad().right().whenPressed(new SequentialCommandGroup (
-      new ClimbRotatorMove(SmartDashboard.getNumber("Rotation Max forward", rotate.kMaxForward))
+      new ClimbRotatorMove(rotate.kMaxForward)
     ));
     
     // when DPad Left is pressed, enable the rotator and go to kMaxBackward degrees
@@ -67,7 +67,7 @@ public class ClimbOperator {
 
     // when LB is pressed, enable the rotator and go to kNinetyDeg degrees
     controller.getButtons().LB().whenPressed(new SequentialCommandGroup(
-      new ClimbRotatorMove(SmartDashboard.getNumber("Rotation 90", rotate.kNinetyDeg))
+      new ClimbRotatorMove(rotate.kNinetyDeg)
     ));
 
     // when nothing on the DPad is pressed, the extenders are disabled
