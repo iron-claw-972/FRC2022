@@ -20,7 +20,7 @@ public class ClimbRotator extends SubsystemBase {
   public final String side;
   private boolean left;
 
-  private double setPoint = 79;
+  private double setPoint = 90;
   private double encoderOffset;
 
   public PIDController armPID = new PIDController(constants.kP , constants.kI , constants.kD);
@@ -58,7 +58,7 @@ public class ClimbRotator extends SubsystemBase {
     // SmartDashboard.putData(direction + " rot", armPID);
 
     //setEncoder(120);
-    //SmartDashboard.putNumber(side + " offset", encoderOffset);
+   // SmartDashboard.putNumber(side + " offset", encoderOffset);
   }
 
   @Override
@@ -80,9 +80,9 @@ public class ClimbRotator extends SubsystemBase {
   // returns the current angle of the duty cycle encoder with offset accounted for
   public double currentAngle() {
     if(left) {
-      return -(currentAngleRaw() * constants.kArmDegreeMultiple) + encoderOffset;
+      return (-(currentAngleRaw() * constants.kArmDegreeMultiple) + encoderOffset) % 360;
     } else {
-      return currentAngleRaw() * constants.kArmDegreeMultiple + encoderOffset;
+      return (currentAngleRaw() * constants.kArmDegreeMultiple + encoderOffset) % 360;
     }
   }
 

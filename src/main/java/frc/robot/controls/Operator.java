@@ -49,11 +49,8 @@ public class Operator {
       ShooterMethods::isArmFront
     ));
 
-    controller.getButtons().LB().whenHeld(new ConditionalCommand(
-      new Shoot(cargoConstants.kFrontOuttakeHighPos, beltConstants.kIntakeSpeed, wheelConstants.kFrontOuttakeHighSpeed, beltConstants.kOuttakeSpeed, false),
-      new Shoot(cargoConstants.kBackOuttakeFarPos, beltConstants.kIntakeSpeed, wheelConstants.kBackOuttakeHighSpeed, beltConstants.kOuttakeSpeed, false),
-      ShooterMethods::isArmFront
-    ));
+    controller.getButtons().LB().whenHeld(new Shoot(cargoConstants.kFrontOuttakeHighPos, beltConstants.kIntakeSpeed, wheelConstants.kFrontOuttakeHighSpeed, beltConstants.kOuttakeSpeed, false));
+
 
     controller.getButtons().RT().whenActive(new ConditionalCommand(
       // shoot at a desired angle and outtake/intake speeds
@@ -69,9 +66,9 @@ public class Operator {
     // move arm to front
     controller.getButtons().B().whenPressed(new PositionArm(cargoConstants.kFrontOuttakeFarPos));
 
-    controller.getButtons().X().whenHeld(new Intake(cargoConstants.kIntakePos, beltConstants.kIntakeSpeed, wheelConstants.kIntakeSpeed, cargoConstants.kFrontOuttakeFarPos, false, Constants.kIsRedAlliance));
+    controller.getButtons().X().whenHeld(new Intake(cargoConstants.kIntakePos, beltConstants.kIntakeSpeed, wheelConstants.kIntakeSpeed, cargoConstants.kFrontOuttakeHighPos, false, Constants.kIsRedAlliance));
     controller.getButtons().X().whenReleased(new SequentialCommandGroup(
-      new PositionArm(cargoConstants.kFrontOuttakeFarPos),
+      new PositionArm(cargoConstants.kFrontOuttakeHighPos),
       new InstantCommand(() -> ShooterMethods.disableShiitake()),
       new InstantCommand(() -> RobotContainer.m_cargoRotator.resetPID())
     ));

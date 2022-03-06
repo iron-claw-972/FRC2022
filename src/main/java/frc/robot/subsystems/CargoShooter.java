@@ -54,6 +54,7 @@ public class CargoShooter extends SubsystemBase {
   @Override
   public void periodic() {
     if (enabled){
+      SmartDashboard.putNumber("Shooter Velocity", getVelocity());
       cargoShooterPID.setSetpoint(motorSpeed);
       setVoltage(cargoShooterPID.calculate(getVelocity()) + constants.kForward * motorSpeed);
     }
