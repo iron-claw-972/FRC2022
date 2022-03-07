@@ -24,7 +24,7 @@ public class TeleopDrive extends CommandBase {
   @Override
   public void execute() {
     double turn = Driver.getRawTurnValue();
-    double turnBoost = SmartDashboard.getNumber("Turn Boost", 0.1);
+    double turnBoost = SmartDashboard.getNumber("Turn Boost", 0.2);
     if (turn > 0 && turn < turnBoost) {
       turn = turnBoost;
     }

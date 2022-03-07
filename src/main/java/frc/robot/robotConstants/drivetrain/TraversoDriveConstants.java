@@ -58,6 +58,6 @@ public class TraversoDriveConstants {
   public final double kSupplyCurrentLimit = 40;
   public final double kSupplyTriggerThreshold = 50;
   public final double kSupplyTriggerDuration = 0.3;
-  public final boolean kIsCoast = false;
+  public final boolean kIsCoast = true;
   public final boolean kIsMainCoast = true;
 }

@@ -322,7 +322,7 @@ public class Drivetrain extends SubsystemBase {
   }
 
   public void runDrive(double throttle, double turn) {
-    switch (Driver.getDriveMode()) {
+   /* switch (Driver.getDriveMode()) {
       case ARCADE:
         arcadeDrive(throttle, turn);
         break;
@@ -334,7 +334,8 @@ public class Drivetrain extends SubsystemBase {
         break;
       default:
         break;
-    }
+    }*/
+    arcadeDrive(throttle, turn);
   }
 
   /**
