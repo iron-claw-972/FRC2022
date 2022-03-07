@@ -166,12 +166,10 @@ public class Drivetrain extends SubsystemBase {
 
   public void arcadeDrive(double throttle, double turn) {
     m_dDrive.arcadeDrive(throttle, turn);
-    m_dDrive.feed();
   }
 
   public void tankDrive(double left, double right) {
     m_dDrive.tankDrive(left, right);
-    m_dDrive.feed();
   }
 
   public void propDrive(double throttle, double turn) {
@@ -181,6 +179,7 @@ public class Drivetrain extends SubsystemBase {
     m_leftMotor1.set(ControlMode.PercentOutput, leftOut);
     m_rightMotor1.set(ControlMode.PercentOutput, rightOut);
     m_dDrive.feed();
+    //m_dDrive.curvatureDrive(throttle, turn, false);
   }
 
   public void setBrakeMode() {
