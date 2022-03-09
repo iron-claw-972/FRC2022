@@ -6,38 +6,34 @@ public class TraversoClimbRotatorConstants {
     public final int kArmRightEncoder = 0;
 
     // motor clamping
-    public final double kMotorClamp = 0.6;
+    public final double kMotorClamp = 0.1;
 
     // the motor ports of the arm
-    public final int kArmRightMotor = 24;
-    public final int kArmLeftMotor = 19;
+    public final int kArmRightMotor = 9;
+    public final int kArmLeftMotor = 8;
 
     // Current Tick Value * Degree Multiple = Current Angle
     public final double kArmDegreeMultiple = 360.0;
     public final double kArmZeroEncoderDegrees = 0;
 
     // the distance allowed from the setpoint (in degrees)
-    public final double kArmTolerance = 3;
+    public final double kArmTolerance = 1;
 
     // locations
-    public final double kNinetyDeg = 90;
-    public final double kMaxBackward = 135;
-    public final double kMaxForward = 80;
-    public final double kToBar = 120;
+    public final double kNinetyDeg = 93;
+    public final double kMaxBackward = 122;
+    public final double kMaxForward = 77;
+    public final double kToBar = 110;
+    public final double kHookStatic = 110;
 
-    // off load PID constants
-    public final double kOffLoadP = 0.02;
-    public final double kOffLoadI = 0.00;
-    public final double kOffLoadD = 0.00;
-
-    // on load PID constants
-    public final double kOnLoadP = 0.08;
-    public final double kOnLoadI = 0.00;
-    public final double kOnLoadD = 0.00;
+    // PID constants
+    public final double kP = 0.02;
+    public final double kI = 0.00;
+    public final double kD = 0.00;
 
     // encoder offset
-    public final double kArmLeftEncoderOffset = 0;
-    public final double kArmRightEncoderOffset = 0;
+    public final double kArmLeftEncoderOffset = 475.5449638886241;
+    public final double kArmRightEncoderOffset = -115.89432589735816;
     
     // upper limit switches
     public final int kLeftLimitSwitchUpper = 8;
