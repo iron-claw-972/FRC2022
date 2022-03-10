@@ -7,8 +7,6 @@ the project.
 
 package frc.robot;
 import edu.wpi.first.math.util.Units;
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.DriverStation.Alliance;
 
 /*
 The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
@@ -21,12 +19,10 @@ constants are needed, to reduce verbosity.
 public final class Constants {
 
   public static final double kMaxVoltage = 12.0;
-  public static final boolean kIsRedAlliance = DriverStation.getAlliance() == Alliance.Red;
 
   public static final class JoyConstants {
     public static final int kDriverJoy = 0;
     public static final int kOperatorJoy = 1;
-    public static final int kOperatorClimbJoy = 2;
     public static final double kDeadband = 0.05;
   }
 
@@ -35,7 +31,7 @@ public final class Constants {
     public static final double kSlewRate = 3;
 
     // Teleop max speeds
-    public static final double kMaxSpeedMetersPerSecond = Units.feetToMeters(12); // Max velocity
+    public static final double kMaxSpeedMetersPerSecond = Units.feetToMeters(10); // Max velocity
     public static final double kMaxAngularSpeedRadiansPerSecond = Units.rotationsPerMinuteToRadiansPerSecond(60); // Max angular velocity
   }
 
@@ -50,6 +46,6 @@ public final class Constants {
 
     // Trajectories should be placed in src/main/deploy/paths
     // name without stuff after . ex AutoPath
-    public static final String kTrajectoryName = "TopAuto";
+    public static final String kTrajectoryName = "HangarTest";
   }
 }

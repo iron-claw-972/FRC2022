@@ -10,7 +10,6 @@ package frc.robot;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc.robot.util.ShooterMethods;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -33,7 +32,7 @@ public class Robot extends TimedRobot {
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
     RobotContainer.m_shuffleboard.setup();
-    // m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+    m_autonomousCommand = m_robotContainer.getAutonomousCommand();
   }
 
   /**
@@ -51,7 +50,8 @@ public class Robot extends TimedRobot {
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
     RobotContainer.m_shuffleboard.update();
-    RobotContainer.m_drive.updateMotors();
+    //RobotContainer.m_drive.updateMotors();
+     
   }
 
   /**
@@ -59,9 +59,6 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void disabledInit() {
-    ShooterMethods.disableArm();
-    ShooterMethods.disableShiitake();
-    RobotContainer.m_limelight.setCameraMode(false);
   }
 
   @Override
@@ -78,7 +75,7 @@ public class Robot extends TimedRobot {
 
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {
-      m_autonomousCommand.schedule();
+      // m_autonomousCommand.schedule();
       //commented out for safety so that no one dies
     }
   }
@@ -99,7 +96,6 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
-    RobotContainer.m_limelight.setCameraMode(true);
   }
 
   /**

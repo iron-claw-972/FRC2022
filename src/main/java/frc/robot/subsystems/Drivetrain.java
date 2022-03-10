@@ -13,13 +13,9 @@ import frc.robot.util.ControllerFactory;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
-import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.kauailabs.navx.frc.AHRS;
 
-import edu.wpi.first.hal.SimDouble;
-import edu.wpi.first.hal.simulation.SimDeviceDataJNI;
-import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.RamseteController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
@@ -28,17 +24,14 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
-import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
-import edu.wpi.first.wpilibj.motorcontrol.MotorController;
 import edu.wpi.first.wpilibj.simulation.DifferentialDrivetrainSim;
-import edu.wpi.first.wpilibj.smartdashboard.Field2d;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 import ctre_shims.PhoenixMotorControllerGroup;
 import ctre_shims.TalonEncoder;
-import ctre_shims.TalonEncoderSim;
+
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants;
 import frc.robot.controls.Driver;
@@ -48,8 +41,8 @@ public class Drivetrain extends SubsystemBase {
   //change this to use constants from a different robot
   public static TraversoDriveConstants constants = new TraversoDriveConstants();
 
-  WPI_TalonFX m_leftMotor1 = ControllerFactory.createTalonFX(constants.leftMotorPorts[0], constants.kSupplyCurrentLimit, constants.kSupplyTriggerThreshold, constants.kSupplyTriggerDuration, constants.kIsMainCoast);
-  WPI_TalonFX m_rightMotor1 = ControllerFactory.createTalonFX(constants.rightMotorPorts[0], constants.kSupplyCurrentLimit, constants.kSupplyTriggerThreshold, constants.kSupplyTriggerDuration, constants.kIsMainCoast);
+  WPI_TalonFX m_leftMotor1 = ControllerFactory.createTalonFX(constants.leftMotorPorts[0], constants.kSupplyCurrentLimit, constants.kSupplyTriggerThreshold, constants.kSupplyTriggerDuration, constants.kCoast);
+  WPI_TalonFX m_rightMotor1 = ControllerFactory.createTalonFX(constants.rightMotorPorts[0], constants.kSupplyCurrentLimit, constants.kSupplyTriggerThreshold, constants.kSupplyTriggerDuration, constants.kCoast);
   private PhoenixMotorControllerGroup m_leftMotors;
   private PhoenixMotorControllerGroup m_rightMotors;
   private final DifferentialDrive m_dDrive;
@@ -65,25 +58,26 @@ public class Drivetrain extends SubsystemBase {
   // Odometry class for tracking robot pose
   private final DifferentialDriveOdometry m_odometry;
 
-  private final PIDController m_leftPositionPID = new PIDController(constants.KpPosition, constants.KiPosition, constants.KdPosition);
-  private final PIDController m_rightPositionPID = new PIDController(constants.KpPosition, constants.KiPosition, constants.KdPosition);
+  private final PIDController m_leftRamsetePIDController = new PIDController(constants.kRamseteP, 0, 0);
+  private final PIDController m_rightRamsetePIDController = new PIDController(constants.kRamseteP, 0, 0);
 
-  private final PIDController m_leftVelocityPID = new PIDController(constants.KpVelocity,
-      constants.KiVelocity, constants.KdVelocity);
-  private final PIDController m_rightVelocityPID = new PIDController(constants.KpVelocity,
-      constants.KiVelocity, constants.KdVelocity);
+  private final PIDController m_leftVelocityPIDController = new PIDController(constants.kVelocityP,
+      constants.kVelocityI, constants.kVelocityD);
+  private final PIDController m_rightVelocityPIDController = new PIDController(constants.kVelocityP,
+      constants.kVelocityI, constants.kVelocityD);
 
   private final RamseteController m_ramseteController = new RamseteController(AutoConstants.kRamseteB,
       AutoConstants.kRamseteZeta);
 
   private final SimpleMotorFeedforward m_feedforward = new SimpleMotorFeedforward(
-      constants.KsLinear,
-      constants.KvLinear,
-      constants.KaLinear);
+      constants.ksVolts,
+      constants.kvVoltSecondsPerMeter,
+      constants.kaVoltSecondsSquaredPerMeter);
 
   private final DifferentialDriveKinematics m_driveKinematics = new DifferentialDriveKinematics(
-      constants.kTrackWidth);
+      constants.kTrackWidthMeters);
 
+/*
   // These classes help us simulate our drivetrain
   private DifferentialDrivetrainSim m_drivetrainSim;
   private TalonEncoderSim m_leftEncoderSim;
@@ -91,21 +85,24 @@ public class Drivetrain extends SubsystemBase {
 
   // The Field2d class shows the field in the sim GUI
   private Field2d m_fieldSim;
+*/
 
   public Drivetrain() {
 
     // go through non main motors and put them in an array (allows for variable # of motors)
     // for loop starts at one because the main motor of that side is already accounted for
     
-    MotorController[] lMotors = new MotorController[constants.leftMotorPorts.length - 1];
+ /*   MotorController[] lMotors = new MotorController[constants.leftMotorPorts.length - 1];
     for (int i = 1; i < constants.leftMotorPorts.length; i++) {
-      WPI_TalonFX talon = ControllerFactory.createTalonFX(constants.leftMotorPorts[i], constants.kSupplyCurrentLimit, constants.kSupplyTriggerThreshold, constants.kSupplyTriggerDuration, constants.kIsCoast);
+      WPI_TalonFX talon = new WPI_TalonFX(constants.leftMotorPorts[i]);
+      talon.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
       lMotors[i-1] = talon;
     }
 
     MotorController[] rMotors = new MotorController[constants.rightMotorPorts.length - 1];
     for (int i = 1; i < constants.rightMotorPorts.length; i++) {
-      WPI_TalonFX talon = ControllerFactory.createTalonFX(constants.rightMotorPorts[i], constants.kSupplyCurrentLimit, constants.kSupplyTriggerThreshold, constants.kSupplyTriggerDuration, constants.kIsCoast);
+      WPI_TalonFX talon = new WPI_TalonFX(constants.rightMotorPorts[i]);
+      talon.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
       rMotors[i-1] = talon;
     }
 
@@ -120,38 +117,36 @@ public class Drivetrain extends SubsystemBase {
     } else {
       m_rightMotors = new PhoenixMotorControllerGroup(m_rightMotor1);
     }
+*/
+    m_leftMotors = new PhoenixMotorControllerGroup(m_leftMotor1, ControllerFactory.createTalonFX(constants.leftMotorPorts[1], constants.kSupplyCurrentLimit, constants.kSupplyTriggerThreshold, constants.kSupplyTriggerDuration, constants.kCoast));
+    m_rightMotors = new PhoenixMotorControllerGroup(m_rightMotor1, ControllerFactory.createTalonFX(constants.rightMotorPorts[1], constants.kSupplyCurrentLimit, constants.kSupplyTriggerThreshold, constants.kSupplyTriggerDuration, constants.kCoast));
 
     m_dDrive = new DifferentialDrive(m_leftMotors, m_rightMotors);
 
     // Inverting one side of the drivetrain as to drive forward
-    if (RobotBase.isSimulation()) {
-      m_leftMotors.setInverted(false);
-      m_rightMotors.setInverted(false);
-    } else {
-      m_leftMotors.setInverted(true);
-      m_rightMotors.setInverted(false);
-    }
+    m_leftMotors.setInverted(true);
+    m_rightMotors.setInverted(false);
 
     m_rightMotor1.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
     m_leftMotor1.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
 
     // Sets the distance per pulse for the encoders
-    m_leftEncoder.setDistancePerPulse(constants.kDistancePerPulse);
-    m_rightEncoder.setDistancePerPulse(constants.kDistancePerPulse);
+    m_leftEncoder.setDistancePerPulse(constants.kEncoderMetersPerPulse);
+    m_rightEncoder.setDistancePerPulse(constants.kEncoderMetersPerPulse);
 
     resetEncoders();
     zeroHeading();
 
     m_odometry = new DifferentialDriveOdometry(m_navX.getRotation2d());
-
+    /*
     if (RobotBase.isSimulation()) {
       // This class simulates our drivetrain's motion around the field.
       m_drivetrainSim = new DifferentialDrivetrainSim(
-          constants.kDrivetrainPlant,
-          constants.kDriveGearbox,
-          constants.kGearRatio,
-          constants.kTrackWidth,
-          constants.kWheelDiameter / 2.0,
+          drivetrain.constantsPlant,
+          drivetrain.kDriveGearbox,
+          drivetrain.kGearRatio,
+          drivetrain.kTrackWidthMeters,
+          drivetrain.kWheelDiameterMeters / 2.0,
           VecBuilder.fill(0, 0, 0.0001, 0.1, 0.1, 0.005, 0.005));
 
       // The encoder and gyro angle sims let us set simulated sensor readings
@@ -162,34 +157,26 @@ public class Drivetrain extends SubsystemBase {
       m_fieldSim = new Field2d();
       SmartDashboard.putData("Field", m_fieldSim);
     }
+    */
   }
 
   public void arcadeDrive(double throttle, double turn) {
     m_dDrive.arcadeDrive(throttle, turn);
+    m_dDrive.feed();
   }
 
   public void tankDrive(double left, double right) {
     m_dDrive.tankDrive(left, right);
+    m_dDrive.feed();
   }
 
   public void propDrive(double throttle, double turn) {
-    double leftOut = throttle * (1 - turn);
-    double rightOut = throttle * (1 + turn);
+    double leftOut = throttle * (1 + turn);
+    double rightOut = throttle * (1 - turn);
 
     m_leftMotor1.set(ControlMode.PercentOutput, leftOut);
     m_rightMotor1.set(ControlMode.PercentOutput, rightOut);
     m_dDrive.feed();
-    //m_dDrive.curvatureDrive(throttle, turn, false);
-  }
-
-  public void setBrakeMode() {
-    m_leftMotor1.setNeutralMode(NeutralMode.Brake);
-    m_rightMotor1.setNeutralMode(NeutralMode.Brake);
-  }
-
-  public void setCoastMode() {
-    m_leftMotor1.setNeutralMode(NeutralMode.Coast);
-    m_rightMotor1.setNeutralMode(NeutralMode.Coast);
   }
 
   public void shiftDrive(double throttle, double turn) {
@@ -220,6 +207,8 @@ public class Drivetrain extends SubsystemBase {
     m_dDrive.feed();
   }
 
+  //sim stuff (need more detail)
+  /*
   @Override
   public void simulationPeriodic() {
     // To update our simulation, we set motor voltage inputs, update the simulation,
@@ -242,6 +231,7 @@ public class Drivetrain extends SubsystemBase {
     // NavX expects clockwise positive, but sim outputs clockwise negative
     angle.set(Math.IEEEremainder(-m_drivetrainSim.getHeading().getDegrees(), 360));
   }
+  */
 
   /**
    * Returns the current being drawn by the drivetrain. This works in SIMULATION
@@ -264,12 +254,11 @@ public class Drivetrain extends SubsystemBase {
   
   @Override
   public void periodic() {
-    SmartDashboard.putData("Drivetrain", m_dDrive);
     // Update the odometry in the periodic block
     updateOdometry();
-    if (RobotBase.isSimulation()) {
-      m_fieldSim.setRobotPose(getPose());
-    }
+    // if (RobotBase.isSimulation()) {
+    //   m_fieldSim.setRobotPose(getPose());
+    // }
   }
   
 
@@ -305,23 +294,23 @@ public class Drivetrain extends SubsystemBase {
   }
 
   //Velocity PID for auto
-  public PIDController getLeftPositionPID() {
-    return m_leftPositionPID;
+  public PIDController getLeftRamsetePIDController() {
+    return m_leftRamsetePIDController;
   }
-  public PIDController getRightPositionPID() {
-    return m_rightPositionPID;
+  public PIDController getRightRamsetePIDController() {
+    return m_rightRamsetePIDController;
   }
 
   //Velocity PID for teleop
-  public PIDController getLeftVelocityPID() {
-    return m_leftVelocityPID;
+  public PIDController getLeftVelocityPIDController() {
+    return m_leftVelocityPIDController;
   }
-  public PIDController getRightVelocityPID() {
-    return m_rightVelocityPID;
+  public PIDController getRightVelocityPIDController() {
+    return m_rightVelocityPIDController;
   }
 
   public void runDrive(double throttle, double turn) {
-   /* switch (Driver.getDriveMode()) {
+    switch (Driver.getDriveMode()) {
       case ARCADE:
         arcadeDrive(throttle, turn);
         break;
@@ -333,8 +322,7 @@ public class Drivetrain extends SubsystemBase {
         break;
       default:
         break;
-    }*/
-    arcadeDrive(throttle, turn);
+    }
   }
 
   /**
@@ -396,8 +384,8 @@ public class Drivetrain extends SubsystemBase {
     final double leftFeedforward = m_feedforward.calculate(speeds.leftMetersPerSecond);
     final double rightFeedforward = m_feedforward.calculate(speeds.rightMetersPerSecond);
 
-    final double leftOutput = m_leftVelocityPID.calculate(m_leftEncoder.getRate(), speeds.leftMetersPerSecond);
-    final double rightOutput = m_rightVelocityPID.calculate(m_rightEncoder.getRate(), speeds.rightMetersPerSecond);
+    final double leftOutput = m_leftVelocityPIDController.calculate(m_leftEncoder.getRate(), speeds.leftMetersPerSecond);
+    final double rightOutput = m_rightVelocityPIDController.calculate(m_rightEncoder.getRate(), speeds.rightMetersPerSecond);
 
     tankDriveVolts(leftOutput + leftFeedforward, rightOutput + rightFeedforward);
   }
@@ -443,7 +431,7 @@ public class Drivetrain extends SubsystemBase {
   public void updateMotors(){
     m_dDrive.feed();
   }
-  
+
   public double getLeftPosition(){
     return m_leftEncoder.getDistance();
   }

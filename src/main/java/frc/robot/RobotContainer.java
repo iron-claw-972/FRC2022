@@ -8,18 +8,11 @@ the project.
 package frc.robot;
 
 import frc.robot.subsystems.*;
-import frc.robot.subsystems.Limelight.LEDMode;
-import frc.robot.util.ClimberMethods;
-import frc.robot.util.ShooterMethods;
 import frc.robot.util.ShuffleboardManager;
-import frc.robot.commands.FlexibleAuto;
-import frc.robot.commands.TeleopDrive;
 import frc.robot.controls.*;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.*;
-
-
 import edu.wpi.first.cameraserver.CameraServer;
-import edu.wpi.first.cscore.UsbCamera;
 
 /*
   This class is where the bulk of the robot should be declared. Since
@@ -48,39 +41,22 @@ import edu.wpi.first.cscore.UsbCamera;
   public static CargoBelt m_cargoBelt = new CargoBelt();
   public static CargoShooter m_cargoShooter = new CargoShooter();
   public static BallDetection m_balldetector = new BallDetection();
-  
-  UsbCamera camera0;
-  UsbCamera camera1;
-
-  public static Limelight m_limelight = new Limelight(() -> ShooterMethods.isArmFront());
-
 
   public RobotContainer() {
-    //setup cameras 
-    camera0 = CameraServer.startAutomaticCapture();
-    camera1 = CameraServer.startAutomaticCapture();
-
-    int factor = 10; // max is 80
-    int width = 16 * factor;
-    int height = 9 * factor;
     
-    camera0.setFPS(30);
-    camera0.setResolution(width, height);
-    camera1.setFPS(30);
-    camera1.setResolution(width, height);
 
     // default command to run in teleop
     
-    m_drive.setDefaultCommand(new TeleopDrive(m_drive));
+    // m_drive.setDefaultCommand(new DifferentialDrive(m_drive));
     // m_testArm.setDefaultCommand(new armPID(m_testArm));
-    //m_cargoShooter.setDefaultCommand(new RunCommand(() -> RobotContainer.m_cargoShooter.setOutput(Operator.controller.getJoystickAxis().leftY()), m_cargoShooter));
-    //m_cargoBelt.setDefaultCommand(new RunCommand(() -> RobotContainer.m_cargoBelt.setOutput(-Operator.controller.getJoystickAxis().rightY()), m_cargoBelt));
-    // m_limelight.setDefaultCommand(new GetDistance(m_limelight, m_cargoRotator));
 
+    // Start camera stream for driver
+    CameraServer.startAutomaticCapture();
+    
     // Configure the button bindings
     Driver.configureButtonBindings();
     Operator.configureButtonBindings();
-    ClimbOperator.configureButtonBindings();
+    TestingJoystick.configureButtonBindings();
 
     //sets up shuffle board
   }
@@ -92,11 +68,10 @@ import edu.wpi.first.cscore.UsbCamera;
    */
   public Command getAutonomousCommand() {
     // Attempt to load trajectory from PathWeaver
-    return new FlexibleAuto(true, 1, false);
+    // return Pathweaver.pathweaverCommand();
+    return new SequentialCommandGroup(
+      m_shuffleboard.getAutonomousWaitCommand()
+      ,m_shuffleboard.getAutonomousCommand());
     // return m_shuffleboard.getAutonomousCommand();
-    // return new SequentialCommandGroup(
-    //   m_shuffleboard.getAutonomousWaitCommand(),
-    //   m_shuffleboard.getAutonomousCommand()
-    // );
   }
 }

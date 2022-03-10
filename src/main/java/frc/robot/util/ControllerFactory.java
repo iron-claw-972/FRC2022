@@ -52,7 +52,6 @@ public class ControllerFactory {
    * 
    * @return a fully configured TalonSRX object
    */
-  
   public static WPI_TalonSRX createTalonSRX(int id, int continuousCurrentLimit, int peakCurrentLimit, int peakCurrentDuration) {
     TalonSRXConfiguration config = new TalonSRXConfiguration();
     config.continuousCurrentLimit = continuousCurrentLimit;
@@ -141,26 +140,15 @@ public class ControllerFactory {
     WPI_TalonFX talon = new WPI_TalonFX(id);
     talon.configFactoryDefault();
     talon.configAllSettings(config);
-    talon.enableVoltageCompensation(false);
-    talon.setNeutralMode(NeutralMode.Coast);
+    talon.enableVoltageCompensation(true);
+    talon.setNeutralMode(NeutralMode.Brake);
     talon.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
 
     return talon;
 
   }
-  /**
-  * Create a configured TalonFX 
-  * https://motors.vex.com/vexpro-motors/falcon
-  * 
-  * @param id the ID of the motor
-  * @param supplyCurrentLimit the regular current to return to after the trigger
-  * @param supplyTriggerThreshold The current at which the trigger will activate
-  * @param supplyTriggerDuration The amount of time the current must be above the trigger current to reduce current
-  * @param isCoast Whether the motor is in coast or brake mode
-  *
-  * @return a fully configured TalonFX
-  */
-  public static WPI_TalonFX createTalonFX(int id, double supplyCurrentLimit, double supplyTriggerThreshold, double supplyTriggerDuration , boolean isCoast) {
+
+  public static WPI_TalonFX createTalonFX(int id, double supplyCurrentLimit, double supplyTriggerThreshold, double supplyTriggerDuration , boolean coast) {
 
     if (id == -1) return null;
 
@@ -174,8 +162,8 @@ public class ControllerFactory {
     WPI_TalonFX talon = new WPI_TalonFX(id);
     talon.configFactoryDefault();
     talon.configAllSettings(config);
-    talon.enableVoltageCompensation(false);
-    if (isCoast) {
+    talon.enableVoltageCompensation(true);
+    if (coast) {
       talon.setNeutralMode(NeutralMode.Coast);
     } else {
       talon.setNeutralMode(NeutralMode.Brake);

@@ -69,8 +69,8 @@ public class Pathweaver {
         m_drive.getFeedforward(),
         m_drive.getDriveKinematics(),
         m_drive::getWheelSpeeds,
-        m_drive.getLeftPositionPID(),
-        m_drive.getRightPositionPID(),
+        m_drive.getLeftRamsetePIDController(),
+        m_drive.getRightRamsetePIDController(),
         // RamseteCommand passes volts to the callback
         m_drive::tankDriveVolts,
         m_drive);

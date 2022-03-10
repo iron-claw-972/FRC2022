@@ -17,8 +17,6 @@ public final class GameConstants {
     // Pushing down on Left and Right Joystick
     public static final int kLeftJ = 9;
     public static final int kRightJ = 10;
-    public static final int kLeftJoyPressed = 9;
-    public static final int kRightJoyPressed = 10;
   }
   
   public static final class dPad {
