@@ -7,49 +7,42 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Drivetrain;
+import frc.robot.RobotContainer;
+import frc.robot.util.ShuffleboardManager;
 
+/**
+ * Drives a certain distance
+ */
 public class DriveDistance extends CommandBase {
-  private final Drivetrain m_drive; 
-  double setpoint, error;
+  double setpoint, zeroPos;
 
-  PIDController PID = new PIDController(0.2, 0, 0);
-
-  public DriveDistance(double setpoint_, Drivetrain subsystem) {
-    m_drive = subsystem;
-    addRequirements(subsystem);
+  public DriveDistance(double setpoint_) {
+    addRequirements(RobotContainer.m_drive);
     setpoint = setpoint_;
-    PID.setTolerance(100);
-    ;
   }
 
   @Override
   public void initialize() {
-    // TODO Auto-generated method stub
-    super.initialize();
-    setpoint = setpoint - m_drive.getLeftPosition();
+    zeroPos = RobotContainer.m_drive.getLeftPosition();
+    RobotContainer.m_drive.setBrakeMode();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-
-    error = setpoint - m_drive.getLeftPosition();
-    m_drive.feedForwardDrive(PID.calculate(error), 0);
-    
+    RobotContainer.m_drive.tankDrive(0.5, 0.6);
   }
 
   @Override
   public void end(boolean interrupted) {
-    m_drive.feedForwardDrive(0, 0);
-      super.end(interrupted);
+    RobotContainer.m_drive.tankDrive(0, 0);
   }
 
-  @Override
-  public boolean isFinished() {
-      return PID.atSetpoint();
-  }
+  // @Override
+  // public boolean isFinished() {
+  //     return Math.abs(RobotContainer.m_drive.getLeftPosition()) > (zeroPos + setpoint);
+  // }
   
 }

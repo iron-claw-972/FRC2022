@@ -13,6 +13,11 @@ public class ClimberMethods {
     RobotContainer.m_climbRotatorR.setGoal(angle);
   }
 
+  public static void setRotatorOutput(double pow) {
+    RobotContainer.m_climbRotatorL.setOutput(pow);
+    RobotContainer.m_climbRotatorR.setOutput(pow);
+  }
+
   public static boolean isExtenderAtSetpoint() {
     // if the extenders reached their setpoint, return true
     return RobotContainer.m_extenderL.reachedSetpoint() && RobotContainer.m_extenderR.reachedSetpoint();
@@ -41,5 +46,29 @@ public class ClimberMethods {
   public static void disableRotator() {
     RobotContainer.m_climbRotatorL.disable();
     RobotContainer.m_climbRotatorR.disable();
+  }
+
+  public static void enableAll() {
+    RobotContainer.m_extenderL.enable();
+    RobotContainer.m_extenderR.enable();
+    RobotContainer.m_climbRotatorL.enable();
+    RobotContainer.m_climbRotatorR.enable();
+  }
+
+  public static void disableAll() {
+    RobotContainer.m_extenderL.disable();
+    RobotContainer.m_extenderR.disable();
+    RobotContainer.m_climbRotatorL.disable();
+    RobotContainer.m_climbRotatorR.disable();
+  }
+
+  public static void removeLimiter() {
+    RobotContainer.m_extenderL.removeLimiter();
+    RobotContainer.m_extenderR.removeLimiter();
+  }
+
+  public static void enableLimiter() {
+    RobotContainer.m_extenderL.enableLimiter();
+    RobotContainer.m_extenderR.enableLimiter();
   }
 }
