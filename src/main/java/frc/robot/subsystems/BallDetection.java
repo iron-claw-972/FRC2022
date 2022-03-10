@@ -2,7 +2,7 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.robotConstants.colorSensor.TraversoColorSensorConstants;
+import frc.robot.robotConstants.colorSensor.DonkColorSensorConstants;
 
 
 import com.revrobotics.ColorSensorV3;
@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj.util.Color;
 
 public class BallDetection extends SubsystemBase {
 
-  TraversoColorSensorConstants constants = new TraversoColorSensorConstants();
+  DonkColorSensorConstants constants = new DonkColorSensorConstants();
 
   private final I2C.Port i2cPort = I2C.Port.kMXP;
   private final ColorSensorV3 m_colorSensor = new ColorSensorV3(i2cPort);

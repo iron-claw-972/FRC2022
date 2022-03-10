@@ -1,6 +1,6 @@
 package frc.robot.robotConstants.cargoRotator;
 
-public class TraversoCargoRotatorConstants {
+public class DonkCargoRotatorConstants {
     // the duty cycle encoder ports of the arm
     public final int kArmEncoder = 4;
 

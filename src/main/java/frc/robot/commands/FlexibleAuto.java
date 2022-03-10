@@ -3,15 +3,15 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.*;
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
-import frc.robot.robotConstants.cargoRotator.TraversoCargoRotatorConstants;
-import frc.robot.robotConstants.shooterBelt.TraversoBeltConstants;
-import frc.robot.robotConstants.shooterWheel.TraversoCargoShooterConstants;
+import frc.robot.robotConstants.cargoRotator.DonkCargoRotatorConstants;
+import frc.robot.robotConstants.shooterBelt.DonkBeltConstants;
+import frc.robot.robotConstants.shooterWheel.DonkCargoShooterConstants;
 import frc.robot.util.ShooterMethods;
 
 public class FlexibleAuto extends SequentialCommandGroup {
-  public static TraversoCargoRotatorConstants cargoConstants = new TraversoCargoRotatorConstants();
-  public static TraversoBeltConstants beltConstants = new TraversoBeltConstants();
-  public static TraversoCargoShooterConstants wheelConstants = new TraversoCargoShooterConstants();
+  public static DonkCargoRotatorConstants cargoConstants = new DonkCargoRotatorConstants();
+  public static DonkBeltConstants beltConstants = new DonkBeltConstants();
+  public static DonkCargoShooterConstants wheelConstants = new DonkCargoShooterConstants();
 
   public FlexibleAuto(boolean isFar, double distance, boolean intakeSecond) {
     addRequirements(RobotContainer.m_drive, RobotContainer.m_limelight, RobotContainer.m_cargoBelt, RobotContainer.m_cargoRotator, RobotContainer.m_cargoShooter);

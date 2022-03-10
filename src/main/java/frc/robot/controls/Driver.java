@@ -15,9 +15,9 @@ import frc.robot.commands.AlignToUpperHub;
 import frc.robot.commands.Intake;
 import frc.robot.commands.PositionArm;
 import frc.robot.commands.Shoot;
-import frc.robot.robotConstants.cargoRotator.TraversoCargoRotatorConstants;
-import frc.robot.robotConstants.shooterBelt.TraversoBeltConstants;
-import frc.robot.robotConstants.shooterWheel.TraversoCargoShooterConstants;
+import frc.robot.robotConstants.cargoRotator.DonkCargoRotatorConstants;
+import frc.robot.robotConstants.shooterBelt.DonkBeltConstants;
+import frc.robot.robotConstants.shooterWheel.DonkCargoShooterConstants;
 import frc.robot.util.DriveMode;
 import frc.robot.util.ShooterMethods;
 
@@ -28,9 +28,9 @@ public class Driver {
   private static SlewRateLimiter slewThrottle = new SlewRateLimiter(DriveConstants.kSlewRate);
   private static SlewRateLimiter slewTurn = new SlewRateLimiter(DriveConstants.kSlewRate);
 
-  public static TraversoCargoRotatorConstants cargoConstants = new TraversoCargoRotatorConstants();
-  public static TraversoBeltConstants beltConstants = new TraversoBeltConstants();
-  public static TraversoCargoShooterConstants wheelConstants = new TraversoCargoShooterConstants();
+  public static DonkCargoRotatorConstants cargoConstants = new DonkCargoRotatorConstants();
+  public static DonkBeltConstants beltConstants = new DonkBeltConstants();
+  public static DonkCargoShooterConstants wheelConstants = new DonkCargoShooterConstants();
   
   // sets default drive mode
   private static DriveMode driveMode = DriveMode.ARCADE;

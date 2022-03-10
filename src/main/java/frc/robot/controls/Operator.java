@@ -15,11 +15,11 @@ import frc.robot.commands.ClimberMove;
 import frc.robot.commands.PositionArm;
 import frc.robot.commands.Shoot;
 import edu.wpi.first.wpilibj2.command.*;
-import frc.robot.robotConstants.cargoRotator.TraversoCargoRotatorConstants;
+import frc.robot.robotConstants.cargoRotator.DonkCargoRotatorConstants;
 import frc.robot.robotConstants.climbExtender.*;
 import frc.robot.robotConstants.climbRotator.*;
-import frc.robot.robotConstants.shooterBelt.TraversoBeltConstants;
-import frc.robot.robotConstants.shooterWheel.TraversoCargoShooterConstants;
+import frc.robot.robotConstants.shooterBelt.DonkBeltConstants;
+import frc.robot.robotConstants.shooterWheel.DonkCargoShooterConstants;
 import frc.robot.util.ClimberMethods;
 import frc.robot.util.ShooterMethods;
 
@@ -28,12 +28,12 @@ public class Operator {
   public static GameController controller = new GameController(new Joystick(JoyConstants.kOperatorJoy));
 
   // these two are named a little weirdly because the command group for this needs to be at least a little readable
-  public static TraversoClimbExtenderConstants extend = new TraversoClimbExtenderConstants();
-  public static TraversoClimbRotatorConstants rotate = new TraversoClimbRotatorConstants();
+  public static DonkClimbExtenderConstants extend = new DonkClimbExtenderConstants();
+  public static DonkClimbRotatorConstants rotate = new DonkClimbRotatorConstants();
 
-  public static TraversoCargoRotatorConstants cargoConstants = new TraversoCargoRotatorConstants();
-  public static TraversoBeltConstants beltConstants = new TraversoBeltConstants();
-  public static TraversoCargoShooterConstants wheelConstants = new TraversoCargoShooterConstants();
+  public static DonkCargoRotatorConstants cargoConstants = new DonkCargoRotatorConstants();
+  public static DonkBeltConstants beltConstants = new DonkBeltConstants();
+  public static DonkCargoShooterConstants wheelConstants = new DonkCargoShooterConstants();
 
   //operator buttons
   public static void configureButtonBindings() {

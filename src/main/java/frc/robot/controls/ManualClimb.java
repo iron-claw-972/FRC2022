@@ -14,8 +14,8 @@ public class ManualClimb {
 
   public static GameController controller = new GameController(new Joystick(3));
 
-  public static TraversoClimbExtenderConstants extend = new TraversoClimbExtenderConstants();
-  public static TraversoClimbRotatorConstants rotate = new TraversoClimbRotatorConstants();
+  public static DonkClimbExtenderConstants extend = new DonkClimbExtenderConstants();
+  public static DonkClimbRotatorConstants rotate = new DonkClimbRotatorConstants();
 
   public static void configureButtonBindings() {
 

@@ -1,6 +1,6 @@
 package frc.robot.robotConstants.climbRotator;
 
-public class TraversoClimbRotatorConstants {
+public class DonkClimbRotatorConstants {
     // the duty cycle encoder ports of the arm
     public final int kArmLeftEncoder = 6;
     public final int kArmRightEncoder = 0;

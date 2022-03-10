@@ -11,9 +11,9 @@ import frc.robot.commands.ClimbExtenderMove;
 import frc.robot.commands.ClimbRotatorMove;
 import frc.robot.commands.ClimberMove;
 import frc.robot.commands.PositionArm;
-import frc.robot.robotConstants.cargoRotator.TraversoCargoRotatorConstants;
-import frc.robot.robotConstants.climbExtender.TraversoClimbExtenderConstants;
-import frc.robot.robotConstants.climbRotator.TraversoClimbRotatorConstants;
+import frc.robot.robotConstants.cargoRotator.DonkCargoRotatorConstants;
+import frc.robot.robotConstants.climbExtender.DonkClimbExtenderConstants;
+import frc.robot.robotConstants.climbRotator.DonkClimbRotatorConstants;
 import frc.robot.util.ClimberMethods;
 
 public class ClimbOperator {
@@ -21,10 +21,10 @@ public class ClimbOperator {
   public static GameController controller = new GameController(new Joystick(JoyConstants.kOperatorClimbJoy));
 
   // these two are named a little weirdly because the command group for this needs to be at least a little readable
-  public static TraversoClimbExtenderConstants extend = new TraversoClimbExtenderConstants();
-  public static TraversoClimbRotatorConstants rotate = new TraversoClimbRotatorConstants();
+  public static DonkClimbExtenderConstants extend = new DonkClimbExtenderConstants();
+  public static DonkClimbRotatorConstants rotate = new DonkClimbRotatorConstants();
 
-  public static TraversoCargoRotatorConstants cargoConstants = new TraversoCargoRotatorConstants();
+  public static DonkCargoRotatorConstants cargoConstants = new DonkCargoRotatorConstants();
 
   //operator buttons
   public static void configureButtonBindings() {
