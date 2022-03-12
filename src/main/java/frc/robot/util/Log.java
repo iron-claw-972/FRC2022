@@ -31,7 +31,17 @@ public class Log {
 
   public void initialize(){
     
+
+    initializeClimbRotator(RobotContainer.m_climbRotatorL);
+    initializeClimbRotator(RobotContainer.m_climbRotatorL);
+    initializeClimbExtender(RobotContainer.m_extenderL);
+    initializeClimbExtender(RobotContainer.m_extenderL);
+
+    initializeCargoRotator(RobotContainer.m_cargoRotator);
+    initializeCargoShooter(RobotContainer.m_cargoShooter);
+    initializeCargoBelt(RobotContainer.m_cargoBelt);
   }
+
   public void initializeClimbExtender(ClimbExtender extender){
     add(extender::isEnabled, "/climbExtender"+extender.getSide()+"/enabled");
     add(extender::currentExtensionRaw, "/climbExtender"+extender.getSide()+"/currentExtensionRaw");
@@ -58,10 +68,12 @@ public class Log {
     add(rotator::reachedSetpoint, "/cargoRotator/reachedSetpoint");
   }
   public void initializeCargoShooter(CargoShooter shooter){
-    
+    add(shooter::isEnabled, "/cargoShooter/isEnabled");
+    add(shooter::reachedSetpoint, "/cargoShooter/reachedSetpoint");
+    add(shooter::getVelocity, "/cargoShooter/getVelocity");
   }
   public void initializeCargoBelt(CargoBelt belt){
-    
+    add(belt::isEnabled, "/cargoBelt/isEnabled");
   }
 
   public void add(DoubleSupplier supplier , String name){
@@ -88,5 +100,5 @@ public class Log {
       booleanEntries.get(i).append(booleanSuppliers.get(i).getAsBoolean());
     }
   }
-  
+
 }
