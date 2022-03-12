@@ -22,7 +22,7 @@ public class TraversoClimbRotatorConstants {
     // locations
     public final double kNinetyDeg = 93;
     public final double kMaxBackward = 122;
-    public final double kMaxForward = 77;
+    public final double kMaxForward = 90;
     public final double kToBar = 110;
     public final double kHookStatic = 110;
 
