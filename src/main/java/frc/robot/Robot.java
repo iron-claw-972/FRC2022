@@ -53,7 +53,7 @@ public class Robot extends TimedRobot {
     CommandScheduler.getInstance().run();
     RobotContainer.m_shuffleboard.update();
     RobotContainer.m_drive.updateMotors();
-    RobotContainer.m_Log.update();
+    RobotContainer.m_Log.update();  
   }
 
   /**
