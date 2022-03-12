@@ -98,7 +98,7 @@ public class ClimbRotator extends SubsystemBase {
 
   public boolean reachedSetpoint() {
     // checks if the arm is at its setpoint
-    return armPID.atSetpoint();// || limitSwitchLower.risingEdge() || limitSwitchUpper.risingEdge();
+    return armPID.atSetpoint() || limitSwitchLower.risingEdge() || limitSwitchUpper.risingEdge();
   }
 
   //enables PID

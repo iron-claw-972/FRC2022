@@ -8,6 +8,7 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.util.ControllerFactory;
+import frc.robot.util.LimitSwitch;
 import frc.robot.controls.ClimbOperator;
 import frc.robot.controls.Operator;
 import frc.robot.robotConstants.climbExtender.TraversoClimbExtenderConstants;
@@ -22,6 +23,7 @@ public class ClimbExtender extends SubsystemBase {
   private double offset = 0;
 
   public PIDController extenderPID = new PIDController(constants.kP, constants.kI, constants.kD);
+  private LimitSwitch limitSwitch;
   
   private double setpoint;
 
@@ -32,11 +34,15 @@ public class ClimbExtender extends SubsystemBase {
       m_motor = ControllerFactory.createTalonFX(constants.kLeftExtenderPort, constants.kSupplyCurrentLimit, constants.kSupplyTriggerThreshold, constants.kSupplyTriggerDuration, constants.kCoast); // initializes the motor
       side = "Left"; // the direction for shuffleboard's use
       m_motor.setInverted(true);
+
+      limitSwitch = new LimitSwitch(constants.kExtLeftLimitSwitch, constants.kExtLimitSwitchDebouncer);
     }
     else {
       // otherwise, just assign the motor object to the right
       m_motor = ControllerFactory.createTalonFX(constants.kRightExtenderPort, constants.kSupplyCurrentLimit, constants.kSupplyTriggerThreshold, constants.kSupplyTriggerDuration, constants.kCoast); // initializes the motor
       side = "Right"; // the direction for shuffleboard's use
+
+      limitSwitch = new LimitSwitch(constants.kExtRightLimitSwitch, constants.kExtLimitSwitchDebouncer);
     }
 
     // the lowest tick limit is 0, and must be checked every 10 milliseconds
@@ -68,7 +74,7 @@ public class ClimbExtender extends SubsystemBase {
     // System.out.println(currentExtensionRaw() > setpoint - constants.kExtenderTolerance);
     //possibly the issue is that they don't both reach the setpoint at the same time? no probably not
 
-    return currentExtensionRaw() < setpoint + constants.kExtenderTolerance && currentExtensionRaw() > setpoint - constants.kExtenderTolerance;
+    return limitSwitch.risingEdge() || (currentExtensionRaw() < setpoint + constants.kExtenderTolerance && currentExtensionRaw() > setpoint - constants.kExtenderTolerance);
   }
 
   public void resetPID() {

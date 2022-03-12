@@ -21,6 +21,12 @@ public class TraversoClimbExtenderConstants {
   public final double kHalfway = kExtenderMaxArmTicks / 2;
   public final double kSlightlyUpward = kExtenderMaxArmTicks / 6;
   
+  // extender limit switches
+  public final int kExtLeftLimitSwitch = -1;
+  public final int kExtRightLimitSwitch = -1;
+
+  public final double kExtLimitSwitchDebouncer = 0.01;
+  
   // off load PID constants
   public final double kP = 0.08;
   public final double kI = 0.00;
