@@ -33,11 +33,11 @@ public class ClimbOperator {
 
   public static void climbBinds() {
 
-    controller.getButtons().leftJoystickPressedButton().whenPressed(
+    controller.getButtons().leftJoyButton().whenPressed(
       new InstantCommand(ClimberMethods::removeLimiter)
     );
 
-    controller.getButtons().rightJoystickPressedButton().whenPressed(
+    controller.getButtons().rightJoyButton().whenPressed(
       new InstantCommand(ClimberMethods::enableLimiter)
     );
 
@@ -84,42 +84,47 @@ public class ClimbOperator {
   public static void autoClimbBinds() {
 
     controller.getDPad().up().whenPressed(new ParallelCommandGroup(
-      // move the cargo arm to stow
+      // stow the shooter
       new PositionArm(cargoConstants.kStowPos),
 
-      // extend upwards, go an angle where we can hook the static hook
-      new ClimberMove(extend.kMaxUpwards, rotate.kMaxForward)
+      // go to maximum extension, go to 120 degrees
+      new ClimberMove(extend.kMaxUpwards, rotate.kMaxBackward)
     ));
 
     controller.getDPad().down().whenPressed(new SequentialCommandGroup(    
-      // extend downwards, go to 90 degrees
+      // go to 110 degrees
+      new ClimbRotatorMove(rotate.kToBar),
+
+      // when it reaches 110 degrees, compress
       new ClimbExtenderMove(extend.kMaxDownwards),
+
+      // when it compresses fully, go to ninety degrees
       new ClimbRotatorMove(rotate.kNinetyDeg),
-
-      // by now, the static hooks should be on the bar
-
-      // extend slightly upward, remain 90 degrees
-      new ClimberMove(extend.kSlightlyUpward, rotate.kNinetyDeg)
+      
+      // after the static hooks are on, extend slightly upwards
+      new ClimbExtenderMove(extend.kSlightlyUpward)
     ));
 
     controller.getDPad().right().whenPressed(new SequentialCommandGroup(
-      // go upwards and rotate backwards
+      // extend fully and rotate backwards fully
+      // rotator should theoretically be faster than the extender
       new ClimberMove(extend.kMaxUpwards, rotate.kMaxBackward),
-      // remain going upwards and rotate towards the bar
+
+      // after we fully extend and rotate, rotate to the bar
       new ClimbRotatorMove(rotate.kToBar),
-      // compress and rotate to 90 degrees
+
+      // compress fully and rotate to 90 degrees
       new ClimberMove(extend.kMaxDownwards, rotate.kNinetyDeg)
     ));
 
-    // resume the sequence
+    // resume the climbing sequence
     controller.getButtons().START().whenPressed(
       new InstantCommand(() -> ClimberMethods.enableAll()
     ));
 
-    // pause the sequence
+    // pause the climbing sequence (press START to reenable the sequence)
     controller.getButtons().BACK().whenPressed(
       new InstantCommand(() -> ClimberMethods.disableAll()
     ));
   }
-
-  }
+}
