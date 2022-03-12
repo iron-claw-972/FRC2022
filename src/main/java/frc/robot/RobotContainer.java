@@ -10,6 +10,7 @@ package frc.robot;
 import frc.robot.subsystems.*;
 import frc.robot.subsystems.Limelight.LEDMode;
 import frc.robot.util.ClimberMethods;
+import frc.robot.util.Log;
 import frc.robot.util.ShooterMethods;
 import frc.robot.util.ShuffleboardManager;
 import frc.robot.commands.FlexibleAuto;
@@ -47,6 +48,7 @@ import edu.wpi.first.cscore.UsbCamera;
   public static CargoBelt m_cargoBelt = new CargoBelt();
   public static CargoShooter m_cargoShooter = new CargoShooter();
   public static BallDetection m_ballDetection = new BallDetection();
+  public static Log m_Log = new Log();
   
   UsbCamera camera0;
   UsbCamera camera1;
