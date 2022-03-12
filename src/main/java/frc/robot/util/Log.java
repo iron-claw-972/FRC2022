@@ -30,7 +30,7 @@ public class Log {
   }
 
   public void initialize(){
-    
+    initializeDrivetrain(RobotContainer.m_drive);
 
     initializeClimbRotator(RobotContainer.m_climbRotatorL);
     initializeClimbRotator(RobotContainer.m_climbRotatorL);
@@ -40,6 +40,7 @@ public class Log {
     initializeCargoRotator(RobotContainer.m_cargoRotator);
     initializeCargoShooter(RobotContainer.m_cargoShooter);
     initializeCargoBelt(RobotContainer.m_cargoBelt);
+    initializeBallDetection(RobotContainer.m_ballDetection);
   }
 
   public void initializeClimbExtender(ClimbExtender extender){
@@ -74,6 +75,22 @@ public class Log {
   }
   public void initializeCargoBelt(CargoBelt belt){
     add(belt::isEnabled, "/cargoBelt/isEnabled");
+    
+  }
+  public void initializeBallDetection(BallDetection ballDetection){
+    add(ballDetection::containsBall, "/ballDetection/containsBall");
+    add(ballDetection::containsBallSecurely, "/ballDetection/containsBallSecurely");
+    add(ballDetection::hasBlueBall, "/ballDetection/hasBlueBall");
+    add(ballDetection::hasBlueBallSecure, "/ballDetection/hasBlueBallSecure");
+    add(ballDetection::hasRedBall, "/ballDetection/hasRedBall");
+    add(ballDetection::hasRedBallSecure, "/ballDetection/hasRedBallSecure");
+  }
+  public void initializeDrivetrain(Drivetrain drivetrain){
+    add(drivetrain::getAverageEncoderDistance, "/drivetrain/getAverageEncoderDistance");
+    add(drivetrain::getHeading, "/drivetrain/getHeading");
+    add(drivetrain::getLeftPosition, "/drivetrain/getLeftPosition");
+    add(drivetrain::getRightPosition, "/drivetrain/getRightPosition");
+    add(drivetrain::getTurnRate, "/drivetrain/getTurnRate");
   }
 
   public void add(DoubleSupplier supplier , String name){
