@@ -7,6 +7,7 @@ import java.util.function.IntSupplier;
 import java.util.function.Supplier;
 
 import edu.wpi.first.util.datalog.*;
+import edu.wpi.first.util.function.FloatSupplier;
 import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.DriverStation;
 import frc.robot.RobotContainer;
@@ -16,12 +17,15 @@ public class Log {
 
   DataLog log;
 
+  ArrayList<BooleanSupplier> booleanSuppliers = new ArrayList<BooleanSupplier>();
+  ArrayList<BooleanLogEntry> booleanEntries = new ArrayList<BooleanLogEntry>();
   ArrayList<DoubleSupplier> doubleSuppliers = new ArrayList<DoubleSupplier>();
   ArrayList<DoubleLogEntry> doubleEntries = new ArrayList<DoubleLogEntry>();
   ArrayList<IntSupplier> intSuppliers = new ArrayList<IntSupplier>();
   ArrayList<IntegerLogEntry> intEntries = new ArrayList<IntegerLogEntry>();
-  ArrayList<BooleanSupplier> booleanSuppliers = new ArrayList<BooleanSupplier>();
-  ArrayList<BooleanLogEntry> booleanEntries = new ArrayList<BooleanLogEntry>();
+  ArrayList<Supplier<String>> stringSuppliers = new ArrayList<Supplier<String>>();
+  ArrayList<StringLogEntry> stringEntries = new ArrayList<StringLogEntry>();
+
   
   public Log(){
     DataLogManager.start();
@@ -93,6 +97,10 @@ public class Log {
     add(drivetrain::getTurnRate, "/drivetrain/getTurnRate");
   }
 
+  public void add(BooleanSupplier supplier , String name){
+    booleanSuppliers.add(supplier);
+    booleanEntries.add(new BooleanLogEntry(log, name));
+  }
   public void add(DoubleSupplier supplier , String name){
     doubleSuppliers.add(supplier);
     doubleEntries.add(new DoubleLogEntry(log, name));
@@ -101,20 +109,23 @@ public class Log {
     intSuppliers.add(supplier);
     intEntries.add(new IntegerLogEntry(log, name));
   }
-  public void add(BooleanSupplier supplier , String name){
-    booleanSuppliers.add(supplier);
-    booleanEntries.add(new BooleanLogEntry(log, name));
+  public void add(Supplier<String> supplier , String name){
+    stringSuppliers.add(supplier);
+    stringEntries.add(new StringLogEntry(log, name));
   }
 
   public void update(){
+    for (int i = 0 ; i < booleanSuppliers.size() ; i++){
+      booleanEntries.get(i).append(booleanSuppliers.get(i).getAsBoolean());
+    }
     for (int i = 0 ; i < doubleSuppliers.size() ; i++){
       doubleEntries.get(i).append(doubleSuppliers.get(i).getAsDouble());
     }
     for (int i = 0 ; i < intSuppliers.size() ; i++){
       intEntries.get(i).append(intSuppliers.get(i).getAsInt());
     }
-    for (int i = 0 ; i < booleanSuppliers.size() ; i++){
-      booleanEntries.get(i).append(booleanSuppliers.get(i).getAsBoolean());
+    for (int i = 0 ; i < stringSuppliers.size() ; i++){
+      stringEntries.get(i).append(stringSuppliers.get(i).get());
     }
   }
 
