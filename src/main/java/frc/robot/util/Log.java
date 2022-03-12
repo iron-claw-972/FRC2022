@@ -1,5 +1,6 @@
 package frc.robot.util;
 
+import java.nio.Buffer;
 import java.util.ArrayList;
 import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
@@ -16,6 +17,8 @@ import frc.robot.subsystems.*;
 public class Log {
 
   DataLog log;
+  int buffer = 100;
+  int bufferStatus = 0;
 
   ArrayList<BooleanSupplier> booleanSuppliers = new ArrayList<BooleanSupplier>();
   ArrayList<BooleanLogEntry> booleanEntries = new ArrayList<BooleanLogEntry>();
@@ -126,6 +129,13 @@ public class Log {
     }
     for (int i = 0 ; i < stringSuppliers.size() ; i++){
       stringEntries.get(i).append(stringSuppliers.get(i).get());
+    }
+  }
+  public void updateBuffer(){
+    bufferStatus++;
+    if (bufferStatus >= buffer){
+      update();
+      bufferStatus = 0;
     }
   }
 
