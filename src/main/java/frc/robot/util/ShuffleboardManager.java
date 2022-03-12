@@ -25,8 +25,8 @@ public class ShuffleboardManager {
   NetworkTableEntry autoWait = autoTab.add("Auto Wait", 0.0).getEntry();
   NetworkTableEntry isFar = autoTab.add("Flexible Auto First Shoot is Fender", true).getEntry();
   NetworkTableEntry distance = autoTab.add("Flexible Auto Drive Distance", 0.0).getEntry();
-  NetworkTableEntry intakeSecond = autoTab.add("Flexible Auto Get and Shoot a Second Time", true).getEntry();
-  NetworkTableEntry shootSecond = autoTab.add("Flexible Auto Get and Shoot a Second Time", true).getEntry();
+  NetworkTableEntry intakeSecond = autoTab.add("Flexible Auto Get a Second Time", true).getEntry();
+  NetworkTableEntry shootSecond = autoTab.add("Flexible Auto Shoot a Second Time", true).getEntry();
   NetworkTableEntry limelightColor = primaryTab.add("Limelight (Red)", true).getEntry();
   
   TraversoClimbExtenderConstants extenderConstants = new TraversoClimbExtenderConstants();
@@ -62,7 +62,7 @@ public class ShuffleboardManager {
     autoCommand.setDefaultOption("pathweaver", Pathweaver.pathweaverCommand(AutoConstants.kTrajectoryName));
     // m_chooser.addOption("teleop", new TeleopDrive(Drivetrain.getInstance()));
     autoCommand.addOption("Spin baby spin", new RunCommand(() -> RobotContainer.m_drive.tankDrive(0.5, -0.5), RobotContainer.m_drive));
-    autoCommand.addOption("fetch me my paper boy", new FlexibleAuto(isFar.getBoolean(true), distance.getDouble(0), intakeSecond.getBoolean(true),shootSecond.getBoolean(true)));
+    autoCommand.addOption("fetch me my paper boy", new FlexibleAuto(isFar.getBoolean(true), distance.getDouble(0), intakeSecond.getBoolean(true),shootSecond.getBoolean(true), limelightColor.getBoolean(true)));
     // adds auto to shuffle board
     // SmartDashboard.putData("Auto Chooser",autoCommand);
   }

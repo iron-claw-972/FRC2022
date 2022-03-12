@@ -92,8 +92,8 @@ import edu.wpi.first.cscore.UsbCamera;
    */
   public Command getAutonomousCommand() {
     // Attempt to load trajectory from PathWeaver
-    return new FlexibleAuto(true, 1, false , false);
-    // return m_shuffleboard.getAutonomousCommand();
+    // return new FlexibleAuto(true, 1, false , false);
+    return m_shuffleboard.getAutonomousCommand();
     // return new SequentialCommandGroup(
     //   m_shuffleboard.getAutonomousWaitCommand(),
     //   m_shuffleboard.getAutonomousCommand()
