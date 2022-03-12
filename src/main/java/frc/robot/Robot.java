@@ -33,6 +33,7 @@ public class Robot extends TimedRobot {
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
     RobotContainer.m_shuffleboard.setup();
+    RobotContainer.m_Log.initialize();
     // m_autonomousCommand = m_robotContainer.getAutonomousCommand();
   }
 
@@ -52,6 +53,7 @@ public class Robot extends TimedRobot {
     CommandScheduler.getInstance().run();
     RobotContainer.m_shuffleboard.update();
     RobotContainer.m_drive.updateMotors();
+    RobotContainer.m_Log.update();
   }
 
   /**
