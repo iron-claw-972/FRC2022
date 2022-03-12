@@ -3,14 +3,14 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import frc.robot.util.ControllerFactory;
-import frc.robot.robotConstants.cargoRotator.DonkCargoRotatorConstants;
+import frc.robot.robotConstants.cargoRotator.MarinusCargoRotatorConstants;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class CargoRotator extends SubsystemBase {
-  private DonkCargoRotatorConstants constants = new DonkCargoRotatorConstants();
+  private MarinusCargoRotatorConstants constants = new MarinusCargoRotatorConstants();
 
   private boolean enabled = false;
   private final DutyCycleEncoder encoder;

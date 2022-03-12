@@ -10,10 +10,10 @@ import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.robotConstants.limelight.DonkLimelightConstants;
+import frc.robot.robotConstants.limelight.MarinusLimelightConstants;
 
 public class Limelight extends SubsystemBase {
-  public static DonkLimelightConstants constants = new DonkLimelightConstants();
+  public static MarinusLimelightConstants constants = new MarinusLimelightConstants();
 
   private static Limelight instance;
 

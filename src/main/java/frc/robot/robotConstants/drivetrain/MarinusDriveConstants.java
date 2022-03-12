@@ -6,7 +6,7 @@ import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.system.plant.LinearSystemId;
 import edu.wpi.first.math.util.Units;
 
-public class DonkDriveConstants {
+public class MarinusDriveConstants {
 
   public final int[] rightMotorPorts = {3, 4};
   public final int[] leftMotorPorts = {1, 2};

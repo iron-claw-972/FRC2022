@@ -3,12 +3,12 @@ package frc.robot.commands;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.robotConstants.limelight.DonkLimelightConstants;
+import frc.robot.robotConstants.limelight.MarinusLimelightConstants;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Limelight;
 
 public class AlignToUpperHub extends CommandBase {
-  public static DonkLimelightConstants limelightConstants = new DonkLimelightConstants();
+  public static MarinusLimelightConstants limelightConstants = new MarinusLimelightConstants();
 
   private final Limelight m_limelight;
   private final Drivetrain m_drive;

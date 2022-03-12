@@ -15,11 +15,11 @@ import frc.robot.commands.ClimberMove;
 import frc.robot.commands.PositionArm;
 import frc.robot.commands.Shoot;
 import edu.wpi.first.wpilibj2.command.*;
-import frc.robot.robotConstants.cargoRotator.DonkCargoRotatorConstants;
+import frc.robot.robotConstants.cargoRotator.MarinusCargoRotatorConstants;
 import frc.robot.robotConstants.climbExtender.*;
 import frc.robot.robotConstants.climbRotator.*;
-import frc.robot.robotConstants.shooterBelt.DonkBeltConstants;
-import frc.robot.robotConstants.shooterWheel.DonkCargoShooterConstants;
+import frc.robot.robotConstants.shooterBelt.MarinusBeltConstants;
+import frc.robot.robotConstants.shooterWheel.MarinusCargoShooterConstants;
 import frc.robot.util.ClimberMethods;
 import frc.robot.util.ShooterMethods;
 
@@ -28,12 +28,12 @@ public class Operator {
   public static GameController controller = new GameController(new Joystick(JoyConstants.kOperatorJoy));
 
   // these two are named a little weirdly because the command group for this needs to be at least a little readable
-  public static DonkClimbExtenderConstants extend = new DonkClimbExtenderConstants();
-  public static DonkClimbRotatorConstants rotate = new DonkClimbRotatorConstants();
+  public static MarinusClimbExtenderConstants extend = new MarinusClimbExtenderConstants();
+  public static MarinusClimbRotatorConstants rotate = new MarinusClimbRotatorConstants();
 
-  public static DonkCargoRotatorConstants cargoConstants = new DonkCargoRotatorConstants();
-  public static DonkBeltConstants beltConstants = new DonkBeltConstants();
-  public static DonkCargoShooterConstants wheelConstants = new DonkCargoShooterConstants();
+  public static MarinusCargoRotatorConstants cargoConstants = new MarinusCargoRotatorConstants();
+  public static MarinusBeltConstants beltConstants = new MarinusBeltConstants();
+  public static MarinusCargoShooterConstants wheelConstants = new MarinusCargoShooterConstants();
 
   //operator buttons
   public static void configureButtonBindings() {

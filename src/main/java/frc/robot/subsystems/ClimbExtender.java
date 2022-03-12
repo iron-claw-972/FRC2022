@@ -10,11 +10,11 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.util.ControllerFactory;
 import frc.robot.controls.ClimbOperator;
 import frc.robot.controls.Operator;
-import frc.robot.robotConstants.climbExtender.DonkClimbExtenderConstants;
+import frc.robot.robotConstants.climbExtender.MarinusClimbExtenderConstants;
 
 
 public class ClimbExtender extends SubsystemBase {
-  DonkClimbExtenderConstants constants = new DonkClimbExtenderConstants();
+  MarinusClimbExtenderConstants constants = new MarinusClimbExtenderConstants();
   private boolean enabled = false;
   private boolean manualEnabled = false;
   private final WPI_TalonFX m_motor;
