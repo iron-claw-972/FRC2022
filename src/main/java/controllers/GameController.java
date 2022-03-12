@@ -63,11 +63,10 @@ public class GameController extends Controller {
     public Trigger RT() {
       return new Trigger(TriggerAxis::rightTriggerButton);
     }
-
-    public JoystickButton leftJoystickPressedButton() {
+    public JoystickButton leftJoyButton() {
       return new JoystickButton(getController(), GameConstants.buttons.kLeftJoyPressed);
     }
-    public JoystickButton rightJoystickPressedButton() {
+    public JoystickButton rightJoyButton() {
       return new JoystickButton(getController(), GameConstants.buttons.kRightJoyPressed);
     }
   }
