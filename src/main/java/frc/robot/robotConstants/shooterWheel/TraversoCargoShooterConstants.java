@@ -32,7 +32,7 @@ public class TraversoCargoShooterConstants {
   public final double kI = 0.0016;
   public final double kD = 0.0004;
   public final double kForward = 0.0013;
-  public final double kVelocityPIDTolerance = 75;
+  public final double kVelocityPIDTolerance = 15;
 
   // Feedforward
   public final double kS = 1.0734;

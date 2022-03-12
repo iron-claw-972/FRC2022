@@ -29,10 +29,10 @@ public class ChaseBall extends CommandBase {
     m_isRedBall = isRedBall;
 
     chasePID.setTolerance(limelightConstants.kChasePIDTolerance);
-    SmartDashboard.putData("Turn chase PID", chasePID);
+    // SmartDashboard.putData("Turn chase PID", chasePID);
 
     followPID.setTolerance(limelightConstants.kFollowPIDTolerance);
-    SmartDashboard.putData("Throttle chase PID", followPID);
+    // SmartDashboard.putData("Throttle chase PID", followPID);
   }
 
   @Override

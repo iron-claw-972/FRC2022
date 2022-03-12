@@ -1,5 +1,6 @@
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
@@ -27,15 +28,15 @@ public class Shoot extends SequentialCommandGroup {
                 new SequentialCommandGroup(
                     new InstantCommand(() -> ShooterMethods.setBeltPower(beltIntakeSpeed)),
                     new WaitUntilCommand(() -> ShooterMethods.isBallContained()).withTimeout(1),
-                    new InstantCommand(() -> ShooterMethods.setWheelSpeed(shooterWheelOuttakeSpeed)),
+                    new InstantCommand(() -> ShooterMethods.setWheelSpeed(SmartDashboard.getNumber("Test shooter velocity", 0))),
                     new WaitUntilCommand(() -> ShooterMethods.isWheelAtSetpoint())
                 ),
                 new SequentialCommandGroup(
-                    new InstantCommand(() -> ShooterMethods.setAngle(outtakeArmPosition)),
+                    new InstantCommand(() -> ShooterMethods.setAngle(SmartDashboard.getNumber("Test arm angle", 0))),
                     new WaitUntilCommand(() -> ShooterMethods.isArmAtSetpoint()).withTimeout(1)
                 ),
                 (doesAlign ? new AlignToUpperHub(RobotContainer.m_limelight, RobotContainer.m_drive) : new DoNothing()).withTimeout(2)
-            ),
+            ).withTimeout(4),
             new InstantCommand(() -> ShooterMethods.setBeltPower(beltOuttakeSpeed)),
             new WaitUntilCommand(() -> ShooterMethods.isBallShot()).withTimeout(1)
         );

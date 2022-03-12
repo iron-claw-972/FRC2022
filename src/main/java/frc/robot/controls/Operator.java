@@ -43,13 +43,15 @@ public class Operator {
   }
   
   public static void shootBinds() {
+    SmartDashboard.putNumber("Test shooter velocity", 0);
+    SmartDashboard.putNumber("Test arm angle", 0);
     controller.getButtons().RB().whenHeld(new ConditionalCommand(
       new Shoot(cargoConstants.kFrontOuttakeFarPos, beltConstants.kIntakeSpeed, wheelConstants.kFrontOuttakeFarSpeed, beltConstants.kOuttakeSpeed, false, 0),
       new Shoot(cargoConstants.kBackOuttakeFarPos, beltConstants.kIntakeSpeed, wheelConstants.kBackOuttakeFarSpeed, beltConstants.kOuttakeSpeed, false, 0),
       ShooterMethods::isArmFront
     ));
 
-    controller.getButtons().LB().whenHeld(new Shoot(cargoConstants.kFrontOuttakeHighPos, beltConstants.kIntakeSpeed, wheelConstants.kFrontOuttakeHighSpeed, beltConstants.kOuttakeSpeed, false, 0));
+    controller.getButtons().LB().whenHeld(new Shoot(90, beltConstants.kIntakeSpeed, 0, beltConstants.kOuttakeSpeed, false, 0));
 
 
     controller.getButtons().RT().whenActive(new ConditionalCommand(
@@ -66,15 +68,27 @@ public class Operator {
     // move arm to front
     controller.getButtons().B().whenPressed(new PositionArm(cargoConstants.kFrontOuttakeFarPos));
 
-    controller.getButtons().X().whenHeld(new Intake(cargoConstants.kIntakePos, beltConstants.kIntakeSpeed, wheelConstants.kIntakeSpeed, cargoConstants.kFrontOuttakeHighPos, false, Constants.kIsRedAlliance));
-    controller.getButtons().X().whenReleased(new SequentialCommandGroup(
-      new PositionArm(cargoConstants.kFrontOuttakeHighPos),
-      new InstantCommand(() -> ShooterMethods.disableShiitake()),
-      new InstantCommand(() -> RobotContainer.m_cargoRotator.resetPID())
-    ));
+    // controller.getButtons().X().whenHeld(new Intake(cargoConstants.kIntakePos, beltConstants.kIntakeSpeed, wheelConstants.kIntakeSpeed, cargoConstants.kFrontOuttakeHighPos, false, Constants.kIsRedAlliance));
+    // controller.getButtons().X().whenReleased(new SequentialCommandGroup(
+    //   new PositionArm(cargoConstants.kFrontOuttakeHighPos),
+    //   new InstantCommand(() -> ShooterMethods.disableShiitake()),
+    //   new InstantCommand(() -> RobotContainer.m_cargoRotator.resetPID())
+    // ));
 
     // controller.getButtons().Y().whenPressed(new PositionArm(cargoConstants.kStowPos));
-    controller.getButtons().Y().whenHeld(new AlignToUpperHub(RobotContainer.m_limelight, RobotContainer.m_drive));
+    // controller.getButtons().Y().whenHeld(new AlignToUpperHub(RobotContainer.m_limelight, RobotContainer.m_drive));
+    controller.getButtons().Y().whenHeld(new SequentialCommandGroup(
+      new InstantCommand(() -> ShooterMethods.enableBelt()),
+      new InstantCommand(() -> ShooterMethods.setBeltPower(beltConstants.kIntakeSpeed)))
+    );
+    controller.getButtons().Y().whenReleased(new InstantCommand(() -> ShooterMethods.disableBelt()));
+
+    controller.getButtons().X().whenHeld(new SequentialCommandGroup(
+      new InstantCommand(() -> ShooterMethods.enableBelt()),
+      new InstantCommand(() -> ShooterMethods.setBeltPower(beltConstants.kOuttakeSpeed)))
+    );
+    controller.getButtons().X().whenReleased(new InstantCommand(() -> ShooterMethods.disableBelt()));
+
     // controller.getButtons().RB().whenPressed(new GetDistance(RobotContainer.m_limelight, RobotContainer.m_cargoRotator));
   }
 }

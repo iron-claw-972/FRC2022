@@ -104,7 +104,8 @@ public class ShuffleboardManager {
     primaryTab.addBoolean("Cargo Shooter", RobotContainer.m_cargoShooter::isEnabled);
     // primaryTab.addNumber("Cargo Shooter Velocity", RobotContainer.m_cargoShooter::getVelocity);
     
-    pidTab.add("CargoShooterPID", RobotContainer.m_cargoShooter.cargoShooterPID);
+    // pidTab.add("CargoShooterPID", RobotContainer.m_cargoShooter.cargoShooterPID);
+    SmartDashboard.putData("CargoShooterPID", RobotContainer.m_cargoShooter.cargoShooterPID);
   }
   public void loadCargoBeltShuffleboard(){
     primaryTab.addBoolean("Cargo Belt", RobotContainer.m_cargoBelt::isEnabled);

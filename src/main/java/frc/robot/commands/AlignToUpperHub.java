@@ -21,7 +21,7 @@ public class AlignToUpperHub extends CommandBase {
     addRequirements(limelight, drivetrain);
 
     alignPID.setTolerance(limelightConstants.kAlignPIDTolerance);
-    SmartDashboard.putData("Alignment PID", alignPID);
+    // SmartDashboard.putData("Alignment PID", alignPID);
   }
 
   @Override
