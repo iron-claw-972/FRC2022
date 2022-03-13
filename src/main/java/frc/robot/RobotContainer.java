@@ -12,6 +12,7 @@ import frc.robot.subsystems.Limelight.LEDMode;
 import frc.robot.util.ClimberMethods;
 import frc.robot.util.ShooterMethods;
 import frc.robot.util.ShuffleboardManager;
+import frc.robot.commands.DriveDistance;
 import frc.robot.commands.FlexibleAuto;
 import frc.robot.commands.TeleopDrive;
 import frc.robot.controls.*;
@@ -93,7 +94,8 @@ import edu.wpi.first.cscore.UsbCamera;
   public Command getAutonomousCommand() {
     // Attempt to load trajectory from PathWeaver
     // return new FlexibleAuto(true, 1, false , false);
-    return m_shuffleboard.getAutonomousCommand();
+    // return m_shuffleboard.getAutonomousCommand();
+    return new DriveDistance(500);
     // return new SequentialCommandGroup(
     //   m_shuffleboard.getAutonomousWaitCommand(),
     //   m_shuffleboard.getAutonomousCommand()

@@ -33,7 +33,7 @@ public class Driver {
   public static TraversoCargoShooterConstants wheelConstants = new TraversoCargoShooterConstants();
   
   // sets default drive mode
-  private static DriveMode driveMode = DriveMode.ARCADE;
+  private static DriveMode driveMode = DriveMode.TANK;
 
   // driver buttons
   public static void configureButtonBindings() {

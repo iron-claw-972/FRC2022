@@ -7,6 +7,7 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
@@ -32,7 +33,8 @@ public class DriveDistance extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    RobotContainer.m_drive.tankDrive(0.5, 0.5);//IDK why this is 0.5, then .6
+    RobotContainer.m_drive.tankDrive(0.5, 0.5);
+    System.out.println(RobotContainer.m_drive.getLeftPosition());
   }
 
   @Override
@@ -42,7 +44,7 @@ public class DriveDistance extends CommandBase {
 
   @Override
   public boolean isFinished() {
-      return Math.abs(RobotContainer.m_drive.getLeftPosition()) > (zeroPos + setpoint);
+      return RobotContainer.m_drive.getLeftPosition() > (zeroPos + setpoint);
   }
-  
+
 }

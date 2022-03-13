@@ -14,7 +14,7 @@ import frc.robot.util.ControllerFactory;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.hal.SimDouble;
@@ -46,10 +46,10 @@ import frc.robot.controls.Driver;
 public class Drivetrain extends SubsystemBase {
 
   //change this to use constants from a different robot
-  public static TraversoDriveConstants constants = new TraversoDriveConstants();
+  public static VoltaireDriveConstants constants = new VoltaireDriveConstants();
 
-  WPI_TalonFX m_leftMotor1 = ControllerFactory.createTalonFX(constants.leftMotorPorts[0], constants.kSupplyCurrentLimit, constants.kSupplyTriggerThreshold, constants.kSupplyTriggerDuration, constants.kIsMainCoast);
-  WPI_TalonFX m_rightMotor1 = ControllerFactory.createTalonFX(constants.rightMotorPorts[0], constants.kSupplyCurrentLimit, constants.kSupplyTriggerThreshold, constants.kSupplyTriggerDuration, constants.kIsMainCoast);
+  WPI_TalonSRX m_leftMotor1 = ControllerFactory.createTalonSRX(constants.leftMotorPorts[0], constants.kSupplyCurrentLimit, constants.kSupplyTriggerThreshold, constants.kSupplyTriggerDuration);
+  WPI_TalonSRX m_rightMotor1 = ControllerFactory.createTalonSRX(constants.rightMotorPorts[0], constants.kSupplyCurrentLimit, constants.kSupplyTriggerThreshold, constants.kSupplyTriggerDuration);
   private PhoenixMotorControllerGroup m_leftMotors;
   private PhoenixMotorControllerGroup m_rightMotors;
   private final DifferentialDrive m_dDrive;
@@ -99,13 +99,13 @@ public class Drivetrain extends SubsystemBase {
     
     MotorController[] lMotors = new MotorController[constants.leftMotorPorts.length - 1];
     for (int i = 1; i < constants.leftMotorPorts.length; i++) {
-      WPI_TalonFX talon = ControllerFactory.createTalonFX(constants.leftMotorPorts[i], constants.kSupplyCurrentLimit, constants.kSupplyTriggerThreshold, constants.kSupplyTriggerDuration, constants.kIsCoast);
+      WPI_TalonSRX talon = ControllerFactory.createTalonSRX(constants.leftMotorPorts[i], constants.kSupplyCurrentLimit, constants.kSupplyTriggerThreshold, constants.kSupplyTriggerDuration);
       lMotors[i-1] = talon;
     }
 
     MotorController[] rMotors = new MotorController[constants.rightMotorPorts.length - 1];
     for (int i = 1; i < constants.rightMotorPorts.length; i++) {
-      WPI_TalonFX talon = ControllerFactory.createTalonFX(constants.rightMotorPorts[i], constants.kSupplyCurrentLimit, constants.kSupplyTriggerThreshold, constants.kSupplyTriggerDuration, constants.kIsCoast);
+      WPI_TalonSRX talon = ControllerFactory.createTalonSRX(constants.rightMotorPorts[i], constants.kSupplyCurrentLimit, constants.kSupplyTriggerThreshold, constants.kSupplyTriggerDuration);
       rMotors[i-1] = talon;
     }
 
@@ -334,7 +334,7 @@ public class Drivetrain extends SubsystemBase {
       default:
         break;
     }*/
-    arcadeDrive(throttle, turn);
+    tankDrive(throttle, turn);
   }
 
   /**
