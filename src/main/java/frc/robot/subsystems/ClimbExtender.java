@@ -77,6 +77,10 @@ public class ClimbExtender extends SubsystemBase {
     return limitSwitch.risingEdge() || (currentExtensionRaw() < setpoint + constants.kExtenderTolerance && currentExtensionRaw() > setpoint - constants.kExtenderTolerance);
   }
 
+  public boolean limitSwitchRisingEdge() {
+    return limitSwitch.risingEdge();
+  }
+
   public void resetPID() {
     extenderPID.reset();
   }
@@ -117,12 +121,12 @@ public class ClimbExtender extends SubsystemBase {
 
   // returns the current extension in inches
   // public double currentExtension() {
-  //   return m_motor.getSelectedSensorPosition() - offset;
+  //   return m_motor.getSelectedSensorPosition() + offset;
   // }
 
   // returns the current extension in ticks
   public double currentExtensionRaw() {
-    return m_motor.getSelectedSensorPosition() - offset;
+    return m_motor.getSelectedSensorPosition() + offset;
   }
 
   // enables the extender (wow!)
