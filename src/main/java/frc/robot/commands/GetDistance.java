@@ -55,7 +55,7 @@ public class GetDistance extends CommandBase {
         optimalAngle = 180 - optimalAngle;
       }
       double optimalStipeAngle = optimalAngle - RobotContainer.cargoConstants.kStipeToShootingAngularOffset;
-      optimalVelocity = ShooterMethods.getOptimalShooterSpeed(optimalStipeAngle, targetHeightOffset, distance);
+      optimalVelocity = Units.metersToFeet(ShooterMethods.getOptimalShooterSpeed(optimalStipeAngle, targetHeightOffset, distance));
       isFinished = true;
     }
   }
