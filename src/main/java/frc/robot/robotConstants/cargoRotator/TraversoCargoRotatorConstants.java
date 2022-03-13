@@ -15,7 +15,7 @@ public class TraversoCargoRotatorConstants {
     public final double kArmZeroEncoderDegrees = 0.0;
 
     // the distance allowed from the setpoint (IN DEGREES)
-    public final double kArmTolerance = 8;
+    public final double kArmTolerance = 3;
 
     // arm characteristics
     public final double kOffset = 0.17114160427854;

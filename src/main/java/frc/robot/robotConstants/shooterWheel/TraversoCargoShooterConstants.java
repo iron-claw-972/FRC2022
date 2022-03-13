@@ -28,10 +28,10 @@ public class TraversoCargoShooterConstants {
 
 
   // PID Stuff
-  public final double kP = 0.005;
-  public final double kI = 0.0016;
-  public final double kD = 0.0004;
-  public final double kForward = 0.0013;
+  public final double kP = 0.008;
+  public final double kI = 0;
+  public final double kD = 0;
+  public final double kForward = 0.0018;
   public final double kVelocityPIDTolerance = 15;
 
   // Feedforward

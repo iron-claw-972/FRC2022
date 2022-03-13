@@ -14,7 +14,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class ClimbRotator extends SubsystemBase {
   TraversoClimbRotatorConstants constants = new TraversoClimbRotatorConstants();
 
-  private boolean enabled = true;
+  private boolean enabled = false;
   private final DutyCycleEncoder encoder;
   private final WPI_TalonFX m_motor;
   public final String side;
@@ -69,7 +69,7 @@ public class ClimbRotator extends SubsystemBase {
     // SmartDashboard.putNumber(direction + " rotator offset", encoderOffset);
     if(enabled) {
       // set the arm power according to the PID
-      setOutput(armPID.calculate(currentAngle(), setPoint));
+      // setOutput(armPID.calculate(currentAngle(), setPoint));
     }
   }
 

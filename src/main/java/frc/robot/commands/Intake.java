@@ -23,7 +23,7 @@ public class Intake extends SequentialCommandGroup {
 
     addCommands(
         new InstantCommand(() -> ShooterMethods.enableAll()),
-        new InstantCommand(() -> ShooterMethods.setWheelSpeed(shooterWheelIntakeSpeed)),
+        new InstantCommand(() -> ShooterMethods.setIntakeSpeed(shooterWheelIntakeSpeed)),
         new InstantCommand(() -> ShooterMethods.setBeltPower(beltIntakeSpeed)),
         new InstantCommand(() -> ShooterMethods.setAngle(intakeArmPosition)),
         (doesChaseBall ? new ChaseBall(RobotContainer.m_limelight, RobotContainer.m_drive, isRedBall)

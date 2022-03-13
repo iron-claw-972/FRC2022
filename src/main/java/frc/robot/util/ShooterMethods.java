@@ -72,6 +72,13 @@ public class ShooterMethods {
 
   // wheel methods
   public static void setWheelSpeed(double speed) {
+    double velocity = SmartDashboard.getNumber("Test shooter velocity", 0);
+    // double rpm = -(184*velocity - 1162);
+    // double rpm = -((-0.5062*Math.pow(velocity, 4)) + (44.7613*Math.pow(velocity, 3)) + (-1460.94*Math.pow(velocity, 2)) + (21025.8*Math.pow(velocity, 1)) + (-110780));
+    double rpm = -(178*velocity -1100);
+    RobotContainer.m_cargoShooter.setSpeed(rpm);
+  }
+  public static void setIntakeSpeed(double speed) {
     RobotContainer.m_cargoShooter.setSpeed(speed);
   }
   

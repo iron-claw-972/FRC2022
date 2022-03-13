@@ -80,7 +80,7 @@ import edu.wpi.first.cscore.UsbCamera;
     // Configure the button bindings
     Driver.configureButtonBindings();
     Operator.configureButtonBindings();
-    ClimbOperator.configureButtonBindings();
+    // ClimbOperator.configureButtonBindings();
 
     //sets up shuffle board
   }
