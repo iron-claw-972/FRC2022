@@ -11,7 +11,7 @@ import frc.robot.commands.Intake;
 import frc.robot.commands.AlignToUpperHub;
 import frc.robot.commands.ClimbExtenderMove;
 import frc.robot.commands.ClimbRotatorMove;
-import frc.robot.commands.ClimberMove;
+import frc.robot.commands.ClimbMove;
 import frc.robot.commands.PositionArm;
 import frc.robot.commands.Shoot;
 import edu.wpi.first.wpilibj2.command.*;
@@ -23,7 +23,7 @@ import frc.robot.robotConstants.shooterWheel.TraversoCargoShooterConstants;
 import frc.robot.util.ClimberMethods;
 import frc.robot.util.ShooterMethods;
 
-public class Operator {
+public class ShooterOperator {
 
   public static GameController controller = new GameController(new Joystick(JoyConstants.kOperatorJoy));
 

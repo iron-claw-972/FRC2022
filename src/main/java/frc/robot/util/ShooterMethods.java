@@ -4,7 +4,7 @@ package frc.robot.util;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.RobotContainer;
-import frc.robot.controls.Operator;
+import frc.robot.controls.ShooterOperator;
 
 public class ShooterMethods {
 

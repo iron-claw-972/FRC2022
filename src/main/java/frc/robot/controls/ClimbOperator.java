@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants.JoyConstants;
 import frc.robot.commands.ClimbExtenderMove;
 import frc.robot.commands.ClimbRotatorMove;
-import frc.robot.commands.ClimberMove;
+import frc.robot.commands.ClimbMove;
 import frc.robot.commands.PositionArm;
 import frc.robot.robotConstants.cargoRotator.TraversoCargoRotatorConstants;
 import frc.robot.robotConstants.climbExtender.TraversoClimbExtenderConstants;
@@ -87,19 +87,14 @@ public class ClimbOperator {
       // stow the shooter
       new PositionArm(cargoConstants.kStowPos),
 
-      // go to maximum extension, go to 120 degrees
-      new ClimberMove(extend.kMaxUpwards, rotate.kMaxBackward)
+      // go to maximum extension, go to 90 degrees
+      new ClimbMove(extend.kMaxUpwards, rotate.kNinetyDeg)
     ));
 
     controller.getDPad().down().whenPressed(new SequentialCommandGroup(    
-      // go to 90 degrees
-      new ClimbRotatorMove(rotate.kNinetyDeg),
 
-      // when it reaches 110 degrees, compress
+      // when it reaches 90 degrees, compress
       new ClimbExtenderMove(extend.kMaxDownwards),
-
-      // when it compresses fully, go to ninety degrees
-      new ClimbRotatorMove(rotate.kNinetyDeg),
       
       // after the static hooks are on, extend slightly upwards
       new ClimbExtenderMove(extend.kSlightlyUpward)
@@ -108,13 +103,14 @@ public class ClimbOperator {
     controller.getDPad().right().whenPressed(new SequentialCommandGroup(
       // extend fully and rotate backwards fully
       // rotator should theoretically be faster than the extender
-      new ClimberMove(extend.kMaxUpwards, rotate.kMaxBackward),
+      new ClimbRotatorMove(rotate.kMaxBackward),
+      new ClimbExtenderMove(extend.kMaxUpwards),
 
       // after we fully extend and rotate, rotate to the bar
       new ClimbRotatorMove(rotate.kToBar),
 
       // compress fully and rotate to 90 degrees
-      new ClimberMove(extend.kMaxDownwards, rotate.kNinetyDeg)
+      new ClimbMove(extend.kMaxDownwards, rotate.kNinetyDeg)
     ));
 
     // resume the climbing sequence

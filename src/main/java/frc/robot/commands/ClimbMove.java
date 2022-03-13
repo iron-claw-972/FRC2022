@@ -6,7 +6,7 @@ import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import frc.robot.RobotContainer;
 import frc.robot.util.ClimberMethods;
 
-public class ClimberMove extends SequentialCommandGroup {
+public class ClimbMove extends SequentialCommandGroup {
   /**
    * 
    * This enables the rotators and extenders for the climb and waits until they reach their setpoints using a PID.
@@ -14,7 +14,7 @@ public class ClimberMove extends SequentialCommandGroup {
    * @param extension the extension of the climber.
    * @param angle the angle of the climb rotator, in degrees.
    */
-  public ClimberMove(double extension, double angle) {
+  public ClimbMove(double extension, double angle) {
     addRequirements(RobotContainer.m_climbRotatorL, RobotContainer.m_climbRotatorR, RobotContainer.m_extenderL, RobotContainer.m_extenderR);
     addCommands(
       new SequentialCommandGroup(
