@@ -1,6 +1,8 @@
 package frc.robot.subsystems;
 
 
+import javax.print.attribute.standard.Compression;
+
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import edu.wpi.first.math.MathUtil;
@@ -8,6 +10,7 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.util.ControllerFactory;
+import frc.robot.util.LimitSwitch;
 import frc.robot.controls.ClimbOperator;
 import frc.robot.controls.Operator;
 import frc.robot.robotConstants.climbExtender.TraversoClimbExtenderConstants;
@@ -17,9 +20,10 @@ public class ClimbExtender extends SubsystemBase {
   TraversoClimbExtenderConstants constants = new TraversoClimbExtenderConstants();
   private boolean enabled = false;
   private boolean manualEnabled = false;
-  private final WPI_TalonFX m_motor;
+  private WPI_TalonFX m_motor;
   private String side;
   private double offset = 0;
+  private LimitSwitch compressionLimitSwitch = new LimitSwitch(uhhhhhhhhhhhhhhhhhhhhhhhhhh);
 
   public PIDController extenderPID = new PIDController(constants.kP, constants.kI, constants.kD);
   
@@ -178,5 +182,13 @@ public class ClimbExtender extends SubsystemBase {
 
   public boolean isEnabled(){
     return enabled;
+  }
+
+  public boolean compressionLimitSwitch(){
+    return compressionLimitSwitch.getNoUpdate();
+  }
+
+  public double getVelocity(){
+    return m_motor.getSelectedSensorVelocity();
   }
 } 

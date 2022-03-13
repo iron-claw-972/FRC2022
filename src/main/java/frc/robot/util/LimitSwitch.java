@@ -21,9 +21,13 @@ public class LimitSwitch {
 
   }
 
-  public boolean get() {
-    //updates debounce and last read
+  //updates debounce and last read
+  public boolean get() {  
     lastRead = !debouncer.calculate(limitSwitch.get());
+    return !debouncer.calculate(limitSwitch.get());
+  }
+
+  public boolean getNoUpdate(){
     return !debouncer.calculate(limitSwitch.get());
   }
 
