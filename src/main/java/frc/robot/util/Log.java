@@ -61,6 +61,8 @@ public class Log {
     add(rotator::reachedSetpoint, "/climbRotator"+rotator.getSide()+"/reachedSetpoint");
     add(rotator::currentAngle, "/climbRotator"+rotator.getSide()+"/currentAngle");
     add(rotator::currentAngleRaw, "/climbRotator"+rotator.getSide()+"/currentAngleRaw");
+    add(rotator::uppperLimitSwitch, "/climbRotator"+rotator.getSide()+"/upperLimitSwitch");
+    add(rotator::lowerLimitSwitch, "/climbRotator"+rotator.getSide()+"/lowerLimitSwitch");
   }
   public void initializeCargoRotator(CargoRotator rotator){
     add(rotator::isEnabled, "/cargoRotator/isEnabled");
