@@ -18,7 +18,7 @@ public class TraversoDriveConstants {
   public final double kWheelDiameter = Units.inchesToMeters(6); // In meters
   public final double kGearRatio = 11.25;
   public final double kWheelCircumference = kWheelDiameter * Math.PI;
-  public final double kDistancePerPulse = (kWheelCircumference * kGearRatio) / (double) kEncoderResolution;
+  public final double kDistancePerPulse = kWheelCircumference / kGearRatio / (double) kEncoderResolution;
 
   // Use the SysId program in WPILib Tools to estimate values
   // Drivetrain
