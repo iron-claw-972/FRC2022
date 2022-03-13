@@ -132,4 +132,12 @@ public class ClimbRotator extends SubsystemBase {
   public double getSetPoint() {
       return setPoint;
   }
+
+  public boolean uppperLimitSwitch(){
+    return limitSwitchUpper.getNoUpdate();
+  }
+
+  public boolean lowerLimitSwitch(){
+    return limitSwitchLower.getNoUpdate();
+  }
 }
