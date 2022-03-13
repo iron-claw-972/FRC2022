@@ -15,6 +15,13 @@ import frc.robot.util.ShuffleboardManager;
 import frc.robot.commands.FlexibleAuto;
 import frc.robot.commands.TeleopDrive;
 import frc.robot.controls.*;
+import frc.robot.robotConstants.cargoRotator.TraversoCargoRotatorConstants;
+import frc.robot.robotConstants.climbExtender.TraversoClimbExtenderConstants;
+import frc.robot.robotConstants.climbRotator.TraversoClimbRotatorConstants;
+import frc.robot.robotConstants.drivetrain.TraversoDriveConstants;
+import frc.robot.robotConstants.limelight.TraversoLimelightConstants;
+import frc.robot.robotConstants.shooterWheel.TraversoCargoShooterConstants;
+import frc.robot.robotConstants.shooterBelt.TraversoBeltConstants;
 import edu.wpi.first.wpilibj2.command.*;
 
 
@@ -48,6 +55,16 @@ import edu.wpi.first.cscore.UsbCamera;
   public static CargoBelt m_cargoBelt = new CargoBelt();
   public static CargoShooter m_cargoShooter = new CargoShooter();
   public static BallDetection m_balldetector = new BallDetection();
+
+  public static TraversoDriveConstants driveConstants = new TraversoDriveConstants();
+  public static TraversoLimelightConstants limelightConstants = new TraversoLimelightConstants();
+
+  public static TraversoClimbExtenderConstants extenderConstants = new TraversoClimbExtenderConstants();
+  public static TraversoClimbRotatorConstants rotatorConstants = new TraversoClimbRotatorConstants();
+
+  public static TraversoCargoRotatorConstants cargoConstants = new TraversoCargoRotatorConstants();
+  public static TraversoBeltConstants beltConstants = new TraversoBeltConstants();
+  public static TraversoCargoShooterConstants wheelConstants = new TraversoCargoShooterConstants();
   
   UsbCamera camera0;
   UsbCamera camera1;

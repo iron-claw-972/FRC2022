@@ -10,6 +10,7 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
+import frc.robot.controls.Operator;
 import frc.robot.util.ShuffleboardManager;
 
 /**
@@ -17,6 +18,8 @@ import frc.robot.util.ShuffleboardManager;
  */
 public class DriveDistance extends CommandBase {
   double setpoint, zeroPos;
+
+  public static boolean isFinished = false;
 
   public DriveDistance(double setpoint_) {
     addRequirements(RobotContainer.m_drive);
@@ -27,23 +30,25 @@ public class DriveDistance extends CommandBase {
   public void initialize() {
     zeroPos = RobotContainer.m_drive.getLeftPosition();
     RobotContainer.m_drive.setBrakeMode();
+    isFinished = false;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    RobotContainer.m_drive.tankDrive(-0.4, -0.4);//IDK why this is 0.5, then .6
+    RobotContainer.m_drive.tankDrive(-Math.copySign(RobotContainer.driveConstants.kAutoDriveSpeed, setpoint), -Math.copySign(RobotContainer.driveConstants.kAutoDriveSpeed, setpoint));//IDK why this is 0.5, then .6
   }
 
   @Override
   public void end(boolean interrupted) {
+    isFinished = true;
     RobotContainer.m_drive.tankDrive(0, 0);
+    RobotContainer.m_drive.setCoastMode();
   }
 
   @Override
   public boolean isFinished() {
-      // return false;
-      return RobotContainer.m_drive.getLeftPosition() < zeroPos - setpoint;
+      return RobotContainer.m_drive.getLeftPosition() <= zeroPos - setpoint;
   }
-  
+
 }

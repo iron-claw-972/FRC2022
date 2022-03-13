@@ -60,4 +60,6 @@ public class TraversoDriveConstants {
   public final double kSupplyTriggerDuration = 0.3;
   public final boolean kIsCoast = false;
   public final boolean kIsMainCoast = false;
+
+  public final double kAutoDriveSpeed = 0.4;
 }

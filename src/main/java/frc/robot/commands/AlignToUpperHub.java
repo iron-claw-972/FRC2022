@@ -13,6 +13,8 @@ public class AlignToUpperHub extends CommandBase {
   private final Limelight m_limelight;
   private final Drivetrain m_drive;
 
+  public static boolean isFinished = false;
+
   private PIDController alignPID = new PIDController(limelightConstants.kAlignP, limelightConstants.kAlignI, limelightConstants.kAlignD);
 
   public AlignToUpperHub(Limelight limelight, Drivetrain drivetrain) {
@@ -21,11 +23,12 @@ public class AlignToUpperHub extends CommandBase {
     addRequirements(limelight, drivetrain);
 
     alignPID.setTolerance(limelightConstants.kAlignPIDTolerance);
-    // SmartDashboard.putData("Alignment PID", alignPID);
+    SmartDashboard.putData("Alignment PID", alignPID);
   }
 
   @Override
   public void initialize() {
+    isFinished = false;
     m_limelight.setUpperHubPipeline();
     alignPID.reset();
   }
@@ -42,6 +45,7 @@ public class AlignToUpperHub extends CommandBase {
 
   @Override
   public void end(boolean interrupted) {
+    isFinished = true;
     m_limelight.setCameraMode(true);
   }
 }

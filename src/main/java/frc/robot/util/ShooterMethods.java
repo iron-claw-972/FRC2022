@@ -1,6 +1,8 @@
 package frc.robot.util;
 
 
+import java.util.function.DoubleSupplier;
+
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.RobotContainer;
@@ -10,17 +12,28 @@ public class ShooterMethods {
 
   // cargo arm methods
   public static void setAngle(double angle) {
+    RobotContainer.m_cargoRotator.resetPID();
     RobotContainer.m_cargoRotator.setPosition(angle);
   }
 
-  public static double getOptimalShooterSpeed() {
-    double distance = Units.metersToInches(RobotContainer.m_limelight.getHubDistance(RobotContainer.m_cargoRotator.currentAngle()));
-    SmartDashboard.putNumber("Distance", distance);
+  public static void setAngle(DoubleSupplier angle) {
+    setAngle(angle.getAsDouble());
+  }
 
-    double speed = ShooterMethods.isArmBack() ? -(9.6 * distance + 1405) : -(8.53 * distance + 1304);
-    //System.out.println("Speed: " + speed);
-    //System.out.println("Distance: " + distance);
-    return speed;
+  public static double getOptimalShooterSpeed(double shootingAngle, double targetHeightOffset, double distance) {
+    double shootingAngleRad = Units.degreesToRadians(shootingAngle);
+    double optimalSpeed = Math.sqrt(-((9.8*Math.pow(distance, 2)) * (1+(Math.pow(Math.tan(shootingAngleRad), 2)))) / ((2*targetHeightOffset) - (2*distance*Math.tan(shootingAngleRad))));
+    return optimalSpeed;
+  }
+
+  public static double getOptimalShootingAngle(double sAngle, double distance, double targetHeightOffset) {
+    double sAngleRad = Units.degreesToRadians(sAngle);
+    double optimalAngle = Math.atan(((distance*Math.tan(sAngleRad)) - (2*targetHeightOffset)) / (-distance));
+    return optimalAngle;
+  }
+
+  public static double getArmAngle() {
+    return RobotContainer.m_cargoRotator.currentAngle();
   }
 
   public static void enableArm() {
@@ -70,15 +83,17 @@ public class ShooterMethods {
   }
   //
 
-  // wheel methods
-  public static void setWheelSpeed(double speed) {
-    double velocity = SmartDashboard.getNumber("Test shooter velocity", 0);
-    // double rpm = -(184*velocity - 1162);
-    // double rpm = -((-0.5062*Math.pow(velocity, 4)) + (44.7613*Math.pow(velocity, 3)) + (-1460.94*Math.pow(velocity, 2)) + (21025.8*Math.pow(velocity, 1)) + (-110780));
+  public static double velocityToRPM(DoubleSupplier speed) {
+    double velocity = speed.getAsDouble();
     double rpm = -(178*velocity -1100);
-    RobotContainer.m_cargoShooter.setSpeed(rpm);
+    return rpm;
   }
-  public static void setIntakeSpeed(double speed) {
+
+  // wheel methods
+  public static void setWheelSpeed(DoubleSupplier speed) {
+    RobotContainer.m_cargoShooter.setSpeed(velocityToRPM(speed));
+  }
+  public static void setWheelRPM(double speed) {
     RobotContainer.m_cargoShooter.setSpeed(speed);
   }
   

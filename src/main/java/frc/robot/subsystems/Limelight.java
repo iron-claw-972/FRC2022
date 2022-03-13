@@ -233,9 +233,9 @@ public class Limelight extends SubsystemBase {
 
   private double getLimelightAngle(double armAngle) {
     if (isFacingFront()) {
-      return (armAngle + constants.kPivotToLimelightAngleDifference);
+      return (armAngle + constants.kStipeToLimelightAngularOffset);
     }
-    return 180-(armAngle + constants.kPivotToLimelightAngleDifference);
+    return 180-(armAngle + constants.kStipeToLimelightAngularOffset);
   }
 
   public double getTargetArea() {
@@ -262,13 +262,13 @@ public class Limelight extends SubsystemBase {
 
   public double getHubDistance(double armAngle) {
     // setUpperHubPipeline();
-    SmartDashboard.putNumber("Horizontal Error", m_horizontalAngularOffset);
-    return getDistance(armAngle, constants.kHubTargetHeight);
+    // SmartDashboard.putNumber("Horizontal Error", m_horizontalAngularOffset);
+    return getDistance(armAngle, constants.kHubHeight);
   }
 
   public double getBallDistance(double armAngle, boolean isRedBall) {
     // setBallPipeline(isRedBall);
-    SmartDashboard.putNumber("Horizontal Error", m_horizontalAngularOffset);
+    // SmartDashboard.putNumber("Horizontal Error", m_horizontalAngularOffset);
     return getDistance(armAngle, constants.kBallTargetHeight);
   }
 
