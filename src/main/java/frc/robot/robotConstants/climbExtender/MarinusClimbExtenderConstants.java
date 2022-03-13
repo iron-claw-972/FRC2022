@@ -1,6 +1,6 @@
 package frc.robot.robotConstants.climbExtender;
 
-public class TraversoClimbExtenderConstants {
+public class MarinusClimbExtenderConstants {
   // extending motors (for climber)
   public final int kRightExtenderPort = 10;
   public final int kLeftExtenderPort = 11;

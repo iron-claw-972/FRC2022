@@ -13,11 +13,11 @@ import frc.robot.util.ControllerFactory;
 import frc.robot.util.LimitSwitch;
 import frc.robot.controls.ClimbOperator;
 import frc.robot.controls.Operator;
-import frc.robot.robotConstants.climbExtender.TraversoClimbExtenderConstants;
+import frc.robot.robotConstants.climbExtender.MarinusClimbExtenderConstants;
 
 
 public class ClimbExtender extends SubsystemBase {
-  TraversoClimbExtenderConstants constants = new TraversoClimbExtenderConstants();
+  MarinusClimbExtenderConstants constants = new MarinusClimbExtenderConstants();
   private boolean enabled = false;
   private boolean manualEnabled = false;
   private WPI_TalonFX m_motor;

@@ -1,7 +1,7 @@
 package frc.robot.robotConstants.shooterBelt;
 
 
-public class TraversoBeltConstants {
+public class MarinusBeltConstants {
   public final int kCargoBeltMotorPort = 6;
 
   public final double kOuttakeSpeed = 0.4;

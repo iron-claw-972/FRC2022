@@ -13,7 +13,7 @@ import frc.robot.subsystems.ClimbExtender;
 import frc.robot.subsystems.ClimbRotator;
 import frc.robot.commands.FlexibleAuto;
 import frc.robot.controls.Driver;
-import frc.robot.robotConstants.climbExtender.TraversoClimbExtenderConstants;
+import frc.robot.robotConstants.climbExtender.MarinusClimbExtenderConstants;
 
 public class ShuffleboardManager {
 
@@ -29,7 +29,7 @@ public class ShuffleboardManager {
   NetworkTableEntry shootSecond = autoTab.add("Flexible Auto Shoot a Second Time", true).getEntry();
   NetworkTableEntry limelightColor = primaryTab.add("Limelight (Red)", true).getEntry();
   
-  TraversoClimbExtenderConstants extenderConstants = new TraversoClimbExtenderConstants();
+  MarinusClimbExtenderConstants extenderConstants = new MarinusClimbExtenderConstants();
   
 
   public void setup() {
