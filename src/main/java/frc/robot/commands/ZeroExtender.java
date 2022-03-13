@@ -25,7 +25,7 @@ public class ZeroExtender extends SequentialCommandGroup{
         );
     }
 
-    private boolean compressed(){
+    private boolean compressed() {
         return extender.compressionLimitSwitch() || Math.abs(extender.getVelocity()) < 0.01;
     }
 }
