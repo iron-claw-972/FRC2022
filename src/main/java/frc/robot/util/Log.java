@@ -54,6 +54,7 @@ public class Log {
     add(extender::isEnabled, "/climbExtender"+extender.getSide()+"/enabled");
     add(extender::currentExtensionRaw, "/climbExtender"+extender.getSide()+"/currentExtensionRaw");
     add(extender::reachedSetpoint, "/climbExtender"+extender.getSide()+"/reachedSetpoint");
+    add(extender::compressionLimitSwitch, "/climbExtender"+extender.getSide()+"/compressionLimitSwitch");
   }
   public void initializeClimbRotator(ClimbRotator rotator){
     add(rotator::isEnabled, "/climbRotator"+rotator.getSide()+"/enabled");
