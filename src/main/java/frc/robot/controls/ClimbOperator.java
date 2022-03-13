@@ -92,8 +92,8 @@ public class ClimbOperator {
     ));
 
     controller.getDPad().down().whenPressed(new SequentialCommandGroup(    
-      // go to 110 degrees
-      new ClimbRotatorMove(rotate.kToBar),
+      // go to 90 degrees
+      new ClimbRotatorMove(rotate.kNinetyDeg),
 
       // when it reaches 110 degrees, compress
       new ClimbExtenderMove(extend.kMaxDownwards),
