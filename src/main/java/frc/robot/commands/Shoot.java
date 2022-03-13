@@ -32,8 +32,12 @@ public class Shoot extends SequentialCommandGroup {
       addRequirements(RobotContainer.m_cargoShooter, RobotContainer.m_cargoRotator, RobotContainer.m_cargoBelt);
       addCommands(
         new InstantCommand(() -> ShooterMethods.enableAll()),
+        new InstantCommand(() -> RobotContainer.m_limelight.setCameraMode(false)),
         parallel(
+          // Wait a certain time before shooting
           new WaitCommand(waitTime),
+
+          // Spin up belt and wheels
           sequence(
             new InstantCommand(() -> ShooterMethods.setBeltPower(RobotContainer.beltConstants.kIntakeSpeed)),
             new WaitUntilCommand(() -> ShooterMethods.isBallContained()).withTimeout(0.5),
@@ -45,8 +49,10 @@ public class Shoot extends SequentialCommandGroup {
               new InstantCommand(() -> ShooterMethods.setWheelRPM(shooterWheelOuttakeSpeed)),
               () -> doesCalculateSpeed
             ),
-            new WaitUntilCommand(() -> ShooterMethods.isWheelAtSetpoint()).withTimeout(1)
+            new WaitUntilCommand(() -> ShooterMethods.isWheelAtSetpoint())
           ),
+
+          // Limelight stuff
           sequence(
             new ConditionalCommand(
               new WaitUntilCommand(waitCondition),
@@ -63,12 +69,9 @@ public class Shoot extends SequentialCommandGroup {
                 new ConditionalCommand(
                   sequence(
                     new ConditionalCommand(
-                      sequence(
-                        new WaitUntilCommand(() -> GetDistance.isFinished),
-                        new InstantCommand(() -> ShooterMethods.setAngle((isFront ? RobotContainer.cargoConstants.kFrontLimelightScanPos : RobotContainer.cargoConstants.kBackLimelightScanPos)))
-                      ), 
+                      new InstantCommand(() -> ShooterMethods.setAngle((isFront ? RobotContainer.cargoConstants.kFrontLimelightScanPos : RobotContainer.cargoConstants.kBackLimelightScanPos))),
                       new InstantCommand(() -> ShooterMethods.setAngle(outtakeArmPosition)),
-                      () -> doesCalculateSpeed
+                      () -> doesCalculateSpeed || doesAlign
                     ),
                     new WaitUntilCommand(() -> ShooterMethods.isArmAtSetpoint()).withTimeout(1)
                   ), 
@@ -76,7 +79,7 @@ public class Shoot extends SequentialCommandGroup {
                   () -> doesCalculateSpeed || doesAlign
                 ),
                 new ConditionalCommand(
-                  new AlignToUpperHub(RobotContainer.m_limelight, RobotContainer.m_drive),
+                  new AlignToUpperHub(RobotContainer.m_limelight, RobotContainer.m_drive).withTimeout(3),
                   new DoNothing(),
                   () -> doesAlign
                 ),

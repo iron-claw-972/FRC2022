@@ -5,6 +5,7 @@ import controllers.*;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
+import frc.robot.Robot;
 import frc.robot.RobotContainer;
 import frc.robot.Constants.*;
 import frc.robot.commands.Intake;
@@ -12,6 +13,7 @@ import frc.robot.commands.AlignToUpperHub;
 import frc.robot.commands.ClimbExtenderMove;
 import frc.robot.commands.ClimbRotatorMove;
 import frc.robot.commands.ClimberMove;
+import frc.robot.commands.GetDistance;
 import frc.robot.commands.PositionArm;
 import frc.robot.commands.Shoot;
 import edu.wpi.first.wpilibj2.command.*;
@@ -59,12 +61,16 @@ public class Operator {
 
 
     // move arm to back
-    controller.getButtons().Y().whenPressed(new Shoot(true, true, true));
+    controller.getButtons().Y().whenHeld(new Shoot(true, true, true));
 
     // move arm to front
-    controller.getButtons().A().whenPressed(new Shoot(true, true, false));
+    controller.getButtons().A().whenHeld(new Shoot(true, true, false));
+    controller.getButtons().LT().whenActive(new AlignToUpperHub(RobotContainer.m_limelight, RobotContainer.m_drive));
 
-    controller.getButtons().X().whenHeld(new Intake(cargoConstants.kBackOuttakeFarPos, false, Constants.kIsRedAlliance));
+    controller.getButtons().RT().whenActive(new GetDistance(RobotContainer.m_limelight));
+
+    controller.getButtons().X().whenHeld(new Intake(cargoConstants.kBackOuttakeFarPos, true, Constants.kIsRedAlliance));
+    controller.getButtons().X().whenReleased(new PositionArm(cargoConstants.kBackOuttakeFarPos));
 
     controller.getButtons().B().whenPressed(new PositionArm(cargoConstants.kStowPos));
     // controller.getButtons().X().whenReleased(new SequentialCommandGroup(

@@ -128,9 +128,14 @@ public class ShooterMethods {
     RobotContainer.m_cargoShooter.disable();
   }
 
-  public static boolean isBallContained() {
+  public static boolean isBallContainedSecurely() {
     // System.out.println(RobotContainer.m_balldetector.containsBallSecurely());
     return RobotContainer.m_balldetector.containsBallSecurely();
+  }
+
+  public static boolean isBallContained() {
+    // System.out.println(RobotContainer.m_balldetector.containsBallSecurely());
+    return RobotContainer.m_balldetector.containsBall();
   }
 
   public static boolean isBallShot() {

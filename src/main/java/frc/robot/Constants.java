@@ -48,6 +48,8 @@ public final class Constants {
     public static final double kRamseteB = 2;
     public static final double kRamseteZeta = 0.7;
 
+    public static final double kAutoIntakeDriveDistance = 0.2032;
+
     // Trajectories should be placed in src/main/deploy/paths
     // name without stuff after . ex AutoPath
     public static final String kTrajectoryName = "TopAuto";

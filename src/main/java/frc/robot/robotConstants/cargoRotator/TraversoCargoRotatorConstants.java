@@ -17,7 +17,8 @@ public class TraversoCargoRotatorConstants {
     public final double kArmZeroEncoderDegrees = 0.0;
 
     // the distance allowed from the setpoint (IN DEGREES)
-    public final double kArmTolerance = 3;
+    // Was 3 before
+    public final double kArmTolerance = 1.5;
 
     // arm characteristics
     public final double kOffset = 0.17114160427854;
@@ -28,7 +29,7 @@ public class TraversoCargoRotatorConstants {
     public final double kSAngle = -69;
 
     public final double kFrontLimelightScanPos = 60; // 0 degrees (when on hardstops)
-    public final double kBackLimelightScanPos = 140; // 0 degrees (when on hardstops)
+    public final double kBackLimelightScanPos = 172; // 0 degrees (when on hardstops)
     
     // locations
     public final double kIntakePos = 2; // 0 degrees (when on hardstops)

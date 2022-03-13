@@ -1,6 +1,9 @@
 package frc.robot.commands;
 
+import java.lang.StackWalker.Option;
+
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
 import frc.robot.RobotContainer;
@@ -27,6 +30,7 @@ public class GetDistance extends CommandBase {
   @Override
   public void initialize() {
     isFinished = false;
+    m_limelight.setUpperHubPipeline();
     optimalVelocity = Double.NaN;
     optimalAngle = Double.NaN;
   }
@@ -44,6 +48,10 @@ public class GetDistance extends CommandBase {
       isFront = true;
     }
     double distance = m_limelight.getHubDistance(limelightAngle);
+    if (Double.isNaN(distance)) {
+      System.out.println("distance NaN");
+    }
+    SmartDashboard.putNumber("distance", distance);
     if (!Double.isNaN(distance)) {
       double limelightAngleRad = Units.degreesToRadians(limelightAngle);
       double shooterAngleRad = Units.degreesToRadians(shooterAngle);
@@ -57,17 +65,22 @@ public class GetDistance extends CommandBase {
       double optimalStipeAngle = optimalAngle - RobotContainer.cargoConstants.kStipeToShootingAngularOffset;
       optimalVelocity = Units.metersToFeet(ShooterMethods.getOptimalShooterSpeed(optimalStipeAngle, targetHeightOffset, distance));
       isFinished = true;
+      SmartDashboard.putNumber("optimal angle", optimalAngle);
+      SmartDashboard.putNumber("optimal velocity", optimalVelocity);
     }
   }
 
   @Override
   public boolean isFinished() {
-    return !(Double.isNaN(optimalAngle) || Double.isNaN(optimalVelocity)) || isFinished;
+    // return !(Double.isNaN(optimalAngle) || Double.isNaN(optimalVelocity)) || isFinished;
+    return false;
   }
 
   @Override
   public void end(boolean interrupted) {
     isFinished = true;
+    System.out.println(optimalAngle);
+    System.out.println(optimalVelocity);
   }
 }
   

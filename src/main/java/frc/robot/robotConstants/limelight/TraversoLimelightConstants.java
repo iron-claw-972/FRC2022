@@ -3,7 +3,7 @@ package frc.robot.robotConstants.limelight;
 import edu.wpi.first.math.util.Units;
 
 public class TraversoLimelightConstants {
-  public final double kAlignPIDTolerance = 0.5;
+  public final double kAlignPIDTolerance = 1;
   public final double kAlignP = 0.026;
   public final double kAlignI = 0.03;
   public final double kAlignD = 0;
