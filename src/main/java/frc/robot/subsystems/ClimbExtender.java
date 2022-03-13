@@ -23,7 +23,7 @@ public class ClimbExtender extends SubsystemBase {
   private WPI_TalonFX m_motor;
   private String side;
   private double offset = 0;
-  private LimitSwitch compressionLimitSwitch = new LimitSwitch(uhhhhhhhhhhhhhhhhhhhhhhhhhh);
+  private LimitSwitch compressionLimitSwitch;
 
   public PIDController extenderPID = new PIDController(constants.kP, constants.kI, constants.kD);
   
@@ -35,12 +35,14 @@ public class ClimbExtender extends SubsystemBase {
     if (isLeft) {
       m_motor = ControllerFactory.createTalonFX(constants.kLeftExtenderPort, constants.kSupplyCurrentLimit, constants.kSupplyTriggerThreshold, constants.kSupplyTriggerDuration, constants.kCoast); // initializes the motor
       side = "Left"; // the direction for shuffleboard's use
+      compressionLimitSwitch = new LimitSwitch(constants.kLeftCompressionLimitSwith);
       m_motor.setInverted(true);
     }
     else {
       // otherwise, just assign the motor object to the right
       m_motor = ControllerFactory.createTalonFX(constants.kRightExtenderPort, constants.kSupplyCurrentLimit, constants.kSupplyTriggerThreshold, constants.kSupplyTriggerDuration, constants.kCoast); // initializes the motor
       side = "Right"; // the direction for shuffleboard's use
+      compressionLimitSwitch = new LimitSwitch(constants.kRightCompressionLimitSwith);
     }
 
     // the lowest tick limit is 0, and must be checked every 10 milliseconds
