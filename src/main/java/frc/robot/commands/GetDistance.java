@@ -72,8 +72,7 @@ public class GetDistance extends CommandBase {
 
   @Override
   public boolean isFinished() {
-    // return !(Double.isNaN(optimalAngle) || Double.isNaN(optimalVelocity)) || isFinished;
-    return false;
+    return !(Double.isNaN(optimalAngle) || Double.isNaN(optimalVelocity)) || isFinished;
   }
 
   @Override
