@@ -77,10 +77,6 @@ public class ClimbExtender extends SubsystemBase {
     return limitSwitch.risingEdge() || (currentExtensionRaw() < setpoint + constants.kExtenderTolerance && currentExtensionRaw() > setpoint - constants.kExtenderTolerance);
   }
 
-  public boolean limitSwitchRisingEdge() {
-    return limitSwitch.risingEdge();
-  }
-
   public void resetPID() {
     extenderPID.reset();
   }
@@ -129,6 +125,10 @@ public class ClimbExtender extends SubsystemBase {
     return m_motor.getSelectedSensorPosition() + offset;
   }
 
+  public double getVelocity() {
+    return m_motor.getSelectedSensorVelocity();
+  }
+
   // enables the extender (wow!)
   public void enable() {
     enabled = true;
@@ -143,6 +143,10 @@ public class ClimbExtender extends SubsystemBase {
   // tells the motor object to drive at a speed that the PID sets the motorPower to be
   public void setOutput(double motorPower) {
     m_motor.set(MathUtil.clamp(motorPower, constants.kMotorClampDown, constants.kMotorClampUp));
+  }
+
+  public boolean compressionLimitSwitch() {
+    return limitSwitch.getNoUpdate();
   }
 
   @Override

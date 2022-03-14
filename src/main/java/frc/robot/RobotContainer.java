@@ -77,23 +77,6 @@ import edu.wpi.first.cscore.UsbCamera;
     //m_cargoBelt.setDefaultCommand(new RunCommand(() -> RobotContainer.m_cargoBelt.setOutput(-Operator.controller.getJoystickAxis().rightY()), m_cargoBelt));
     // m_limelight.setDefaultCommand(new GetDistance(m_limelight, m_cargoRotator));
 
-    (new SequentialCommandGroup(
-      new InstantCommand(() -> ClimberMethods.enableExtender()),
-      new InstantCommand(() -> ClimberMethods.setExtenderOutput(0.2)),
-      new ParallelCommandGroup(
-        new SequentialCommandGroup(
-          new WaitUntilCommand(() -> m_extenderL.limitSwitchRisingEdge()),
-          new InstantCommand(() -> m_extenderL.disable()),
-          new InstantCommand(() -> m_extenderL.zero())
-        ),
-        new SequentialCommandGroup(
-          new WaitUntilCommand(() -> m_extenderR.limitSwitchRisingEdge()),
-          new InstantCommand(() -> m_extenderR.disable()),
-          new InstantCommand(() -> m_extenderR.zero())
-        )
-      )
-    )).schedule();
-
     // Configure the button bindings
     Driver.configureButtonBindings();
     ShooterOperator.configureButtonBindings();
