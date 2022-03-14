@@ -1,11 +1,8 @@
 package frc.robot.commands;
 
-import java.lang.StackWalker.Option;
-
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Robot;
 import frc.robot.RobotContainer;
 import frc.robot.robotConstants.limelight.TraversoLimelightConstants;
 import frc.robot.subsystems.Limelight;
@@ -48,9 +45,7 @@ public class GetDistance extends CommandBase {
       isFront = true;
     }
     double distance = m_limelight.getHubDistance(limelightAngle);
-    if (Double.isNaN(distance)) {
-      System.out.println("distance NaN");
-    }
+    System.out.println(distance);
     SmartDashboard.putNumber("distance", distance);
     if (!Double.isNaN(distance)) {
       double limelightAngleRad = Units.degreesToRadians(limelightAngle);
@@ -67,6 +62,9 @@ public class GetDistance extends CommandBase {
       isFinished = true;
       SmartDashboard.putNumber("optimal angle", optimalAngle);
       SmartDashboard.putNumber("optimal velocity", optimalVelocity);
+    } else {
+      optimalVelocity = Double.NaN;
+      optimalAngle = Double.NaN;
     }
   }
 
@@ -78,8 +76,6 @@ public class GetDistance extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     isFinished = true;
-    System.out.println(optimalAngle);
-    System.out.println(optimalVelocity);
   }
 }
   

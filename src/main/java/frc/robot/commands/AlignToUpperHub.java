@@ -15,7 +15,7 @@ public class AlignToUpperHub extends CommandBase {
 
   public static boolean isFinished = false;
 
-  private PIDController alignPID = new PIDController(limelightConstants.kAlignP, limelightConstants.kAlignI, limelightConstants.kAlignD);
+  public static PIDController alignPID = new PIDController(limelightConstants.kAlignP, limelightConstants.kAlignI, limelightConstants.kAlignD);
 
   public AlignToUpperHub(Limelight limelight, Drivetrain drivetrain) {
     m_limelight = limelight;
@@ -23,7 +23,6 @@ public class AlignToUpperHub extends CommandBase {
     addRequirements(limelight, drivetrain);
 
     alignPID.setTolerance(limelightConstants.kAlignPIDTolerance);
-    SmartDashboard.putData("Alignment PID", alignPID);
   }
 
   @Override

@@ -40,9 +40,6 @@ public class CargoShooter extends SubsystemBase {
     cargoShooterPID.reset();
     // cargoShooterPID.setSetpoint(motorSpeed);
 
-    SmartDashboard.putNumber("Test shooter velocity", 0);
-    SmartDashboard.putNumber("Test arm angle", 0);
-
     if (RobotBase.isSimulation()) {
       m_flywheelSim = new FlywheelSim(
         constants.kFlywheelPlant,
@@ -52,16 +49,14 @@ public class CargoShooter extends SubsystemBase {
 
       m_flywheelEncoderSim = new TalonEncoderSim(m_cargoShooterEncoder);
     }
-    SmartDashboard.putNumber("Shooter feedforward", constants.kForward);
   }
 
   @Override
   public void periodic() {
-    SmartDashboard.putNumber("Shooter Velocity", getVelocity());
     if (enabled){
       
       cargoShooterPID.setSetpoint(motorSpeed);
-      setVoltage(cargoShooterPID.calculate(getVelocity()) + SmartDashboard.getNumber("Shooter feedforward", constants.kForward) * motorSpeed);
+      setVoltage(cargoShooterPID.calculate(getVelocity()) + constants.kForward * motorSpeed);
     }
   }
 

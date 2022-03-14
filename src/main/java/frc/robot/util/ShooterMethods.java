@@ -20,6 +20,10 @@ public class ShooterMethods {
     setAngle(angle.getAsDouble());
   }
 
+  public static double getWheelVelocity() {
+    return RobotContainer.m_cargoShooter.getVelocity();
+  }
+
   public static double getOptimalShooterSpeed(double shootingAngle, double targetHeightOffset, double distance) {
     double shootingAngleRad = Units.degreesToRadians(shootingAngle);
     double optimalSpeed = Math.sqrt(-((9.8*Math.pow(distance, 2)) * (1+(Math.pow(Math.tan(shootingAngleRad), 2)))) / ((2*targetHeightOffset) - (2*distance*Math.tan(shootingAngleRad))));
@@ -29,6 +33,7 @@ public class ShooterMethods {
   public static double getOptimalShootingAngle(double sAngle, double distance, double targetHeightOffset) {
     double sAngleRad = Units.degreesToRadians(sAngle);
     double optimalAngle = Math.atan(((distance*Math.tan(sAngleRad)) - (2*targetHeightOffset)) / (-distance));
+    optimalAngle = Units.radiansToDegrees(optimalAngle);
     return optimalAngle;
   }
 
