@@ -30,7 +30,7 @@ public class Shoot extends SequentialCommandGroup {
         new InstantCommand(() -> RobotContainer.m_limelight.setUpperHubPipeline()),
 
         parallel(
-          // Spin up belt and wheels
+          // Spin up belt and wheels in advance
           sequence(
             // Don't spin shooting wheels until ball is confirmed to be in shooter
             new InstantCommand(() -> ShooterMethods.setBeltPower(RobotContainer.beltConstants.kIntakeSpeed)),
@@ -53,17 +53,14 @@ public class Shoot extends SequentialCommandGroup {
           sequence(
             // Get arm to limelight angle
             new ConditionalCommand(
-              sequence(
-                new InstantCommand(() -> ShooterMethods.setAngle((isFront ? RobotContainer.cargoConstants.kFrontLimelightScanPos : RobotContainer.cargoConstants.kBackLimelightScanPos))),
-                new WaitUntilCommand(() -> ShooterMethods.isArmAtSetpoint()).withTimeout(1)
-              ),
+              new PositionArm((isFront ? RobotContainer.cargoConstants.kFrontLimelightScanPos : RobotContainer.cargoConstants.kBackLimelightScanPos)).withTimeout(1),
               new DoNothing(), 
               () -> doesCalculateSpeed || doesAlign
             ),
 
             // Align using limelight
             new ConditionalCommand(
-              new AlignToUpperHub(RobotContainer.m_limelight, RobotContainer.m_drive).withTimeout(3),
+              new AlignToUpperHub(RobotContainer.m_limelight, RobotContainer.m_drive).withTimeout(1.5),
               new DoNothing(),
               () -> doesAlign
             ),
@@ -76,11 +73,10 @@ public class Shoot extends SequentialCommandGroup {
 
             // Set to actual shooting angle
             new ConditionalCommand(
-              new InstantCommand(() -> ShooterMethods.setAngle(() -> GetDistance.optimalAngle)),
-              new InstantCommand(() -> ShooterMethods.setAngle(outtakeArmPosition)),
+              new PositionArm(() -> GetDistance.optimalAngle),
+              new PositionArm(outtakeArmPosition),
               () -> doesAlign || doesCalculateSpeed
-            ),
-            new WaitUntilCommand(() -> ShooterMethods.isArmAtSetpoint()).withTimeout(1)
+            )
           )
         ),
 

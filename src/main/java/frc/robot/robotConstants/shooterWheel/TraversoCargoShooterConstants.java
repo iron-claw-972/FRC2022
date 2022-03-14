@@ -26,6 +26,8 @@ public class TraversoCargoShooterConstants {
   public final double kDistancePerPulse = 100.0 / kEncoderResolution;
   public final double kGearRatio = (double) 18 / 30;
 
+  public final double kShotEfficiency = 1;
+
 
   // PID Stuff
   public final double kP = 0.008;

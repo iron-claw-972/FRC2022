@@ -48,17 +48,23 @@ public class GetDistance extends CommandBase {
     System.out.println(distance);
     SmartDashboard.putNumber("distance", distance);
     if (!Double.isNaN(distance)) {
+      // Get arguments of optimal shooting equations
       double limelightAngleRad = Units.degreesToRadians(limelightAngle);
       double shooterAngleRad = Units.degreesToRadians(shooterAngle);
       double shooterDistance = distance + (constants.kHubWidth / 2) - (constants.kPivotToLimelightDistance * Math.cos(limelightAngleRad)) + (RobotContainer.cargoConstants.kPivotToShootingExitPoint * Math.cos(shooterAngleRad));
       double targetHeightOffset = constants.kHubHeight - constants.kPivotHeight - (RobotContainer.cargoConstants.kPivotToShootingExitPoint * Math.sin(shooterAngleRad));
 
+      // Find optimal shooting angle
       optimalAngle = ShooterMethods.getOptimalShootingAngle(RobotContainer.cargoConstants.kSAngle, shooterDistance, targetHeightOffset);
       if (!isFront) {
         optimalAngle = 180 - optimalAngle;
       }
       double optimalStipeAngle = optimalAngle - RobotContainer.cargoConstants.kStipeToShootingAngularOffset;
+
+      // Find optimal shooting velocity
       optimalVelocity = Units.metersToFeet(ShooterMethods.getOptimalShooterSpeed(optimalStipeAngle, targetHeightOffset, distance));
+      optimalVelocity *= RobotContainer.wheelConstants.kShotEfficiency;
+
       isFinished = true;
       SmartDashboard.putNumber("optimal angle", optimalAngle);
       SmartDashboard.putNumber("optimal velocity", optimalVelocity);
