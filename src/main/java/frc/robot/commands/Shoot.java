@@ -23,9 +23,11 @@ public class Shoot extends SequentialCommandGroup {
           double outtakeArmPosition,
           double shooterWheelOuttakeSpeed
     ) {
-      addRequirements(RobotContainer.m_cargoShooter, RobotContainer.m_cargoRotator, RobotContainer.m_cargoBelt);
+      addRequirements(RobotContainer.m_cargoShooter, RobotContainer.m_cargoRotator, RobotContainer.m_cargoBelt, RobotContainer.m_limelight);
       addCommands(
         new InstantCommand(() -> ShooterMethods.enableAll()),
+        // Set hub pipeline early to account for network latency
+        new InstantCommand(() -> RobotContainer.m_limelight.setUpperHubPipeline()),
 
         parallel(
           // Spin up belt and wheels

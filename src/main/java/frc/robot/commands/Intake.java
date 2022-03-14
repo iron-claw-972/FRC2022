@@ -17,6 +17,10 @@ public class Intake extends SequentialCommandGroup {
         RobotContainer.m_limelight);
     addCommands(
         new InstantCommand(() -> ShooterMethods.enableAll()),
+        // Set pipeline early to account for network latency
+        new InstantCommand(() -> RobotContainer.m_limelight.setBallPipeline(isRedBall)),
+
+        // Spin up wheel, belt, set angle, and start ball chase simultaneously
         parallel(
           new InstantCommand(() -> ShooterMethods.setWheelRPM(RobotContainer.wheelConstants.kIntakeSpeed)),
           new InstantCommand(() -> ShooterMethods.setBeltPower(RobotContainer.beltConstants.kIntakeSpeed)),
@@ -27,6 +31,8 @@ public class Intake extends SequentialCommandGroup {
             () -> doesChaseBall
           )
         ),
+
+        // Bring arm back up and stop intake when we have the ball
         new WaitUntilCommand(() -> ShooterMethods.isBallContained()),
         new InstantCommand(() -> ShooterMethods.disableShiitake()),
         new InstantCommand(() -> ShooterMethods.setAngle(postIntakeArmPosition)),
