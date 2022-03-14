@@ -23,7 +23,7 @@ public class Intake extends SequentialCommandGroup {
           new InstantCommand(() -> ShooterMethods.setAngle(RobotContainer.cargoConstants.kIntakePos)),
           new ConditionalCommand(
             new ChaseBall(RobotContainer.m_limelight, RobotContainer.m_drive, isRedBall),
-            new DoNothing(),
+            new TeleopDrive(RobotContainer.m_drive),
             () -> doesChaseBall
           )
         ),
