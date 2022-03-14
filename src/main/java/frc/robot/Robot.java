@@ -54,10 +54,6 @@ public class Robot extends TimedRobot {
     CommandScheduler.getInstance().run();
     RobotContainer.m_shuffleboard.update();
     RobotContainer.m_drive.updateMotors();
-    if (DriverStation.isEnabled()){
-      RobotContainer.m_Log.updateBuffer();
-    }
-
   }
 
   /**
@@ -94,6 +90,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousPeriodic() {
+    RobotContainer.m_Log.updateBuffer();
   }
 
   @Override
@@ -113,6 +110,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopPeriodic() {
+    RobotContainer.m_Log.updateBuffer();
   }
 
   @Override
