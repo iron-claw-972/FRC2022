@@ -68,7 +68,6 @@ public class ChaseBall extends CommandBase {
 
   @Override
   public void end(boolean interrupted) {
-    m_limelight.setCameraMode(true);
     m_drive.arcadeDrive(0, 0);
   }
 }

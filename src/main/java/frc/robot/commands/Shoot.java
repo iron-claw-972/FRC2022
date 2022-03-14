@@ -13,34 +13,28 @@ import frc.robot.util.ShooterMethods;
 
 public class Shoot extends SequentialCommandGroup {
     public Shoot(boolean doesCalculateSpeed, boolean doesAlign, boolean isFront) {
-        this(doesCalculateSpeed, doesAlign, isFront, 0, () -> true);
-    }
-
-    public Shoot(boolean doesCalculateSpeed, boolean doesAlign, boolean isFront, double waitTime, BooleanSupplier waitCondition) {
-        this(doesCalculateSpeed, doesAlign, isFront, waitTime, waitCondition, Double.NaN, Double.NaN);
+        this(doesCalculateSpeed, doesAlign, isFront, Double.NaN, Double.NaN);
     }
 
     public Shoot(
           boolean doesCalculateSpeed,
           boolean doesAlign,
           boolean isFront,
-          double waitTime,
-          BooleanSupplier waitCondition,
           double outtakeArmPosition,
           double shooterWheelOuttakeSpeed
     ) {
       addRequirements(RobotContainer.m_cargoShooter, RobotContainer.m_cargoRotator, RobotContainer.m_cargoBelt);
       addCommands(
         new InstantCommand(() -> ShooterMethods.enableAll()),
-        new InstantCommand(() -> RobotContainer.m_limelight.setCameraMode(false)),
-        parallel(
-          // Wait a certain time before shooting
-          new WaitCommand(waitTime),
 
+        parallel(
           // Spin up belt and wheels
           sequence(
+            // Don't spin shooting wheels until ball is confirmed to be in shooter
             new InstantCommand(() -> ShooterMethods.setBeltPower(RobotContainer.beltConstants.kIntakeSpeed)),
             new WaitUntilCommand(() -> ShooterMethods.isBallContained()).withTimeout(0.5),
+
+            // Spin up wheels to optimal velocity when the limelight gets the optimal angle
             new ConditionalCommand(
               sequence(
                 new WaitUntilCommand(() -> GetDistance.isFinished),
@@ -49,53 +43,48 @@ public class Shoot extends SequentialCommandGroup {
               new InstantCommand(() -> ShooterMethods.setWheelRPM(shooterWheelOuttakeSpeed)),
               () -> doesCalculateSpeed
             ),
+
             new WaitUntilCommand(() -> ShooterMethods.isWheelAtSetpoint())
           ),
 
           // Limelight stuff
           sequence(
+            // Get arm to limelight angle
             new ConditionalCommand(
-              new WaitUntilCommand(waitCondition),
+              sequence(
+                new InstantCommand(() -> ShooterMethods.setAngle((isFront ? RobotContainer.cargoConstants.kFrontLimelightScanPos : RobotContainer.cargoConstants.kBackLimelightScanPos))),
+                new WaitUntilCommand(() -> ShooterMethods.isArmAtSetpoint()).withTimeout(1)
+              ),
+              new DoNothing(), 
+              () -> doesCalculateSpeed || doesAlign
+            ),
+
+            // Align using limelight
+            new ConditionalCommand(
+              new AlignToUpperHub(RobotContainer.m_limelight, RobotContainer.m_drive).withTimeout(3),
               new DoNothing(),
               () -> doesAlign
             ),
-            parallel(
-              new ConditionalCommand(
-                new DoNothing(),
-                new WaitUntilCommand(waitCondition),
-                () -> doesAlign
-              ),
-              sequence(
-                new ConditionalCommand(
-                  sequence(
-                    new ConditionalCommand(
-                      new InstantCommand(() -> ShooterMethods.setAngle((isFront ? RobotContainer.cargoConstants.kFrontLimelightScanPos : RobotContainer.cargoConstants.kBackLimelightScanPos))),
-                      new InstantCommand(() -> ShooterMethods.setAngle(outtakeArmPosition)),
-                      () -> doesCalculateSpeed || doesAlign
-                    ),
-                    new WaitUntilCommand(() -> ShooterMethods.isArmAtSetpoint()).withTimeout(1)
-                  ), 
-                  new DoNothing(), 
-                  () -> doesCalculateSpeed || doesAlign
-                ),
-                new ConditionalCommand(
-                  new AlignToUpperHub(RobotContainer.m_limelight, RobotContainer.m_drive).withTimeout(3),
-                  new DoNothing(),
-                  () -> doesAlign
-                ),
-                new ConditionalCommand(
-                  new GetDistance(RobotContainer.m_limelight),
-                  new DoNothing(),
-                  () -> doesCalculateSpeed
-                ),
-                new InstantCommand(() -> ShooterMethods.setAngle(() -> GetDistance.optimalAngle)),
-                new WaitUntilCommand(() -> ShooterMethods.isArmAtSetpoint()).withTimeout(1)
-              )
-            )
+            //  Collect vision data
+            new ConditionalCommand(
+              new GetDistance(RobotContainer.m_limelight),
+              new DoNothing(),
+              () -> doesCalculateSpeed
+            ),
+
+            // Set to actual shooting angle
+            new ConditionalCommand(
+              new InstantCommand(() -> ShooterMethods.setAngle(() -> GetDistance.optimalAngle)),
+              new InstantCommand(() -> ShooterMethods.setAngle(outtakeArmPosition)),
+              () -> doesAlign || doesCalculateSpeed
+            ),
+            new WaitUntilCommand(() -> ShooterMethods.isArmAtSetpoint()).withTimeout(1)
           )
         ),
+
+        // Spin belts to outtake ball
         new InstantCommand(() -> ShooterMethods.setBeltPower(RobotContainer.beltConstants.kOuttakeSpeed)),
-        new WaitCommand(0.6)
+        new WaitCommand(0.5)
       );
     }
 

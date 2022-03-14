@@ -65,12 +65,12 @@ public class Operator {
 
     // move arm to front
     controller.getButtons().A().whenHeld(new Shoot(true, true, false));
-    controller.getButtons().LT().whenActive(new AlignToUpperHub(RobotContainer.m_limelight, RobotContainer.m_drive));
+    controller.getButtons().RB().whenHeld(new AlignToUpperHub(RobotContainer.m_limelight, RobotContainer.m_drive));
 
-    controller.getButtons().RT().whenActive(new GetDistance(RobotContainer.m_limelight));
+    controller.getButtons().RT().whileActiveOnce(new GetDistance(RobotContainer.m_limelight));
 
-    controller.getButtons().X().whenHeld(new Intake(cargoConstants.kBackOuttakeFarPos, true, Constants.kIsRedAlliance));
-    controller.getButtons().X().whenReleased(new PositionArm(cargoConstants.kBackOuttakeFarPos));
+    controller.getButtons().X().whenHeld(new Intake(cargoConstants.kBackLimelightScanPos, true, Constants.kIsRedAlliance));
+    controller.getButtons().X().whenReleased(new PositionArm(cargoConstants.kBackLimelightScanPos));
 
     controller.getButtons().B().whenPressed(new PositionArm(cargoConstants.kStowPos));
     // controller.getButtons().X().whenReleased(new SequentialCommandGroup(

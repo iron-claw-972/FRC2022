@@ -54,13 +54,13 @@ public class Limelight extends SubsystemBase {
     m_tableName = tableName;
     m_table = NetworkTableInstance.getDefault().getTable(m_tableName);
     m_getIsFacingFront = getIsFacingFront;
-    // setCameraMode(true);
+    setCameraMode(false);
   }
 
   public Limelight(NetworkTable table, BooleanSupplier getIsFacingFront) {
     m_table = table;
     m_getIsFacingFront = getIsFacingFront;
-    // setCameraMode(true);
+    setCameraMode(false);
   }
 
   @Override
@@ -221,7 +221,6 @@ public class Limelight extends SubsystemBase {
         m_table.getEntry("pipeline").setNumber(constants.kUpperHubPipeline);
         break;
       default:
-        m_isDriverCamera = true;
     }
     updateData();
   }

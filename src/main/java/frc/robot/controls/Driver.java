@@ -44,8 +44,10 @@ public class Driver {
     // controller.getButtons().backSwitchTop().whenPressed(
     //     () -> swapDriveMode(DriveMode.PROPORTIONAL , DriveMode.ARCADE));
 
-    controller.getButtons().backSwitchBottom().whenPressed(new AlignToUpperHub(RobotContainer.m_limelight, RobotContainer.m_drive));
-    controller.getButtons().frontSwitchBottom().whenPressed(new Intake(RobotContainer.cargoConstants.kBackOuttakeFarPos, true, Constants.kIsRedAlliance));
+    controller.getButtons().backSwitchBottom().whenHeld(new AlignToUpperHub(RobotContainer.m_limelight, RobotContainer.m_drive));
+
+    controller.getButtons().frontSwitchBottom().whenHeld(new Intake(RobotContainer.cargoConstants.kBackLimelightScanPos, true, Constants.kIsRedAlliance));
+    controller.getButtons().frontSwitchBottom().whenReleased(new PositionArm(cargoConstants.kBackLimelightScanPos));
 
     // controller.getButtons().backSwitchBottom().whenHeld(new Intake(cargoConstants.kIntakePos, beltConstants.kIntakeSpeed, wheelConstants.kIntakeSpeed, cargoConstants.kFrontOuttakeFarPos, true, Constants.kIsRedAlliance));
     // controller.getButtons().backSwitchBottom().whenReleased(new SequentialCommandGroup(
