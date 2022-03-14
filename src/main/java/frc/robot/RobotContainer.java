@@ -80,9 +80,18 @@ import edu.wpi.first.cscore.UsbCamera;
     (new SequentialCommandGroup(
       new InstantCommand(() -> ClimberMethods.enableExtender()),
       new InstantCommand(() -> ClimberMethods.setExtenderOutput(0.2)),
-      new WaitUntilCommand(() -> ClimberMethods.extenderLimitSwitchRisingEdge()),
-      new InstantCommand(() -> ClimberMethods.disableExtender()),
-      new InstantCommand(() -> ClimberMethods.zeroExtender())
+      new ParallelCommandGroup(
+        new SequentialCommandGroup(
+          new WaitUntilCommand(() -> m_extenderL.limitSwitchRisingEdge()),
+          new InstantCommand(() -> m_extenderL.disable()),
+          new InstantCommand(() -> m_extenderL.zero())
+        ),
+        new SequentialCommandGroup(
+          new WaitUntilCommand(() -> m_extenderR.limitSwitchRisingEdge()),
+          new InstantCommand(() -> m_extenderR.disable()),
+          new InstantCommand(() -> m_extenderR.zero())
+        )
+      )
     )).schedule();
 
     // Configure the button bindings

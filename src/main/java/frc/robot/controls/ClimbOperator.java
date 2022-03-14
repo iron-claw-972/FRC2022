@@ -110,7 +110,9 @@ public class ClimbOperator {
       new ClimbRotatorMove(rotate.kToBar),
 
       // compress fully and rotate to 90 degrees
-      new ClimbMove(extend.kMaxDownwards, rotate.kNinetyDeg)
+      new ClimbMove(extend.kMaxDownwards, rotate.kNinetyDeg),
+
+      new ClimbExtenderMove(extend.kSlightlyUpward)
     ));
 
     // resume the climbing sequence
