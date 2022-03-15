@@ -62,8 +62,8 @@ public class ShuffleboardManager {
 
   public void chooserUpdate() {
     // originally 0.8492
-    autoCommand.setDefaultOption("fetch me my paper boy my back is broken", new BackFlexibleAuto(0.6642, true, true, Constants.kIsRedAlliance));
-    autoCommand.addOption("fetch me my paper boy my front is broken", new FrontFlexibleAuto(0.6642, true, true, Constants.kIsRedAlliance));
+    autoCommand.setDefaultOption("my back is broken, fetch me my paper boy ", new BackFlexibleAuto(0.6642, true, true, Constants.kIsRedAlliance));
+    autoCommand.addOption("my front is broken, fetch me my paper boy ", new FrontFlexibleAuto(0.6642, true, true, Constants.kIsRedAlliance));
     // autoCommand.setDefaultOption("fetch me my paper boy", new FlexibleAuto(distance.getDouble(0), intakeSecond.getBoolean(true), shootSecond.getBoolean(true), limelightColor.getBoolean(Constants.kIsRedAlliance)));
     autoCommand.addOption("pathweaver", Pathweaver.pathweaverCommand(AutoConstants.kTrajectoryName));
     // m_chooser.addOption("teleop", new TeleopDrive(Drivetrain.getInstance()));
