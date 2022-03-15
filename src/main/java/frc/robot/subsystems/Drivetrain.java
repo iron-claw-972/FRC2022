@@ -334,7 +334,7 @@ public class Drivetrain extends SubsystemBase {
       default:
         break;
     }*/
-    tankDrive(throttle, turn);
+    arcadeDrive(throttle, turn);
   }
 
   /**

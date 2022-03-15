@@ -33,7 +33,7 @@ public class Driver {
   public static TraversoCargoShooterConstants wheelConstants = new TraversoCargoShooterConstants();
   
   // sets default drive mode
-  private static DriveMode driveMode = DriveMode.TANK;
+  private static DriveMode driveMode = DriveMode.ARCADE;
   
   public static double getThrottleValue() {
     // put any processes in any order of the driver's choosing
@@ -53,6 +53,6 @@ public class Driver {
 
   public static double getRawTurnValue() {
     // Right is Positive left is negative
-    return controller.getJoystickAxis().rightX();
+    return -controller.getJoystickAxis().rightX();
   }
 }
