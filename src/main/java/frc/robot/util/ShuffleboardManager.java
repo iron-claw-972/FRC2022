@@ -63,7 +63,8 @@ public class ShuffleboardManager {
   }
 
   public void chooserUpdate() {
-    autoCommand.setDefaultOption("fetch me my paper boy", new FlexibleAuto(0.8492, intakeSecond.getBoolean(true), shootSecond.getBoolean(true), limelightColor.getBoolean(Constants.kIsRedAlliance)));
+    // originally 0.8492
+    autoCommand.setDefaultOption("fetch me my paper boy", new FlexibleAuto(0.6642, true, true, Constants.kIsRedAlliance));
     // autoCommand.setDefaultOption("fetch me my paper boy", new FlexibleAuto(distance.getDouble(0), intakeSecond.getBoolean(true), shootSecond.getBoolean(true), limelightColor.getBoolean(Constants.kIsRedAlliance)));
     autoCommand.addOption("pathweaver", Pathweaver.pathweaverCommand(AutoConstants.kTrajectoryName));
     // m_chooser.addOption("teleop", new TeleopDrive(Drivetrain.getInstance()));
@@ -119,6 +120,9 @@ public class ShuffleboardManager {
   public void loadLimelightShuffleboard() {
     cargoTab.add("Alignment PID", AlignToUpperHub.alignPID);
     cargoTab.add("Ball Chase PID", ChaseBall.turnPID);
+    cargoTab.addBoolean("Is Aligned To Hub", () -> AlignToUpperHub.isFinished);
+    cargoTab.addNumber("Alignment offset", () -> AlignToUpperHub.offset);
+    cargoTab.addNumber("Chase offset", () -> ChaseBall.offset);
   }
 
   public void loadClimbExtenderShuffleboard(ClimbExtender extender) {

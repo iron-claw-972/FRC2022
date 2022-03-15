@@ -14,6 +14,7 @@ public class AlignToUpperHub extends CommandBase {
   private final Drivetrain m_drive;
 
   public static boolean isFinished = false;
+  public static double offset;
 
   public static PIDController alignPID = new PIDController(limelightConstants.kAlignP, limelightConstants.kAlignI, limelightConstants.kAlignD);
 
@@ -34,7 +35,8 @@ public class AlignToUpperHub extends CommandBase {
 
   @Override
   public void execute() {
-    m_drive.runDrive(0, alignPID.calculate(m_limelight.getHubHorizontalAngularOffset(), 0));
+    offset = m_limelight.getHubHorizontalAngularOffset();
+    m_drive.runDrive(0, alignPID.calculate(offset, 0));
   }
 
   @Override

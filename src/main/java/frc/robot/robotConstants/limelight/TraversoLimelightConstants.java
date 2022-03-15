@@ -4,12 +4,12 @@ import edu.wpi.first.math.util.Units;
 
 public class TraversoLimelightConstants {
   public final double kAlignPIDTolerance = 1;
-  public final double kAlignP = 0.026;
-  public final double kAlignI = 0.03;
-  public final double kAlignD = 0;
+  public final double kAlignP = 0.037;
+  public final double kAlignI = 0.05;
+  public final double kAlignD = 0.004;
 
-  public final double kTurnPIDTolerance = 0.5;
-  public final double kTurnP = 0.015;
+  public final double kTurnPIDTolerance = 1;
+  public final double kTurnP = 0.02;
   public final double kTurnI = 0;
   public final double kTurnD = 0;
   public final double kMaxTurnPower = 0.5;

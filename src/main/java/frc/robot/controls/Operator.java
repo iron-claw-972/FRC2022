@@ -57,8 +57,8 @@ public class Operator {
   }
 
   public static void testShootBinds() {
-    controller.getButtons().RB().whenHeld(new SequentialCommandGroup(
-      new PositionArm(cargoConstants.kBackLimelightScanPos),
+    controller.getButtons().RB().whileHeld(new SequentialCommandGroup(
+      // new PositionArm(cargoConstants.kBackLimelightScanPos).withTimeout(0.7),
       new AlignToUpperHub(RobotContainer.m_limelight, RobotContainer.m_drive)
     ));
 

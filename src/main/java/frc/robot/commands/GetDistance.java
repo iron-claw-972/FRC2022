@@ -40,13 +40,12 @@ public class GetDistance extends CommandBase {
     double shooterAngle = stipeAngle + RobotContainer.cargoConstants.kStipeToShootingAngularOffset;
     if (limelightAngle > 90) {
       isFront = false;
-      limelightAngle = 180 - limelightAngle;
+      // limelightAngle = 180 - limelightAngle;
     } else {
       isFront = true;
     }
-    double distance = m_limelight.getHubDistance(limelightAngle);
+    double distance = Units.metersToInches(m_limelight.getHubDistance(stipeAngle));
     System.out.println(distance);
-    SmartDashboard.putNumber("distance", distance);
     if (!Double.isNaN(distance)) {
       // Get arguments of optimal shooting equations
       double limelightAngleRad = Units.degreesToRadians(limelightAngle);

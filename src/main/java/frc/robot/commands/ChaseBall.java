@@ -19,6 +19,7 @@ public class ChaseBall extends CommandBase {
   private final Drivetrain m_drive;
   
   private final boolean m_isRedBall;
+  public static double offset;
 
   public static PIDController turnPID = new PIDController(limelightConstants.kTurnP, limelightConstants.kTurnI, limelightConstants.kTurnD);
   // private PIDController throttlePID = new PIDController(limelightConstants.kThrottleP, limelightConstants.kThrottleI, limelightConstants.kThrottleD);
@@ -47,12 +48,12 @@ public class ChaseBall extends CommandBase {
   public void execute() {
     // double distance = Units.metersToInches(m_limelight.getBallDistance(2, m_isRedBall));
 
-    double offset = turnPID.calculate(m_limelight.getBallHorizontalAngularOffset(m_isRedBall), 0);
+    offset = m_limelight.getBallHorizontalAngularOffset(m_isRedBall);
     m_drive.arcadeDrive(
       // MathUtil.clamp(throttlePID.calculate(distance, 0), -0.5, 0.5),
       Driver.getThrottleValue(),
       MathUtil.clamp(
-        offset,
+        turnPID.calculate(offset, 0),
         -RobotContainer.limelightConstants.kMaxTurnPower,
         RobotContainer.limelightConstants.kMaxTurnPower
       )
@@ -61,7 +62,7 @@ public class ChaseBall extends CommandBase {
 
   @Override
   public boolean isFinished() {
-    return ShooterMethods.isBallContainedSecurely();
+    return ShooterMethods.isBallContained();
   }
 
   @Override
