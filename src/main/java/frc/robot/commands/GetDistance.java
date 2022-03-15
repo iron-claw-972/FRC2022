@@ -58,6 +58,7 @@ public class GetDistance extends CommandBase {
 
       // Find optimal shooting velocity
       optimalVelocity = Units.metersToFeet(ShooterMethods.getOptimalShooterSpeed(optimalStipeAngle, targetHeightOffset, distance));
+      optimalVelocity *= -1;
       optimalVelocity *= RobotContainer.wheelConstants.kShotEfficiency;
     } else {
       optimalVelocity = Double.NaN;
