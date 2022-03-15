@@ -138,7 +138,7 @@ public class ShuffleboardManager {
   }
 
   private String getDriveModeString(){
-    return Driver.getDriveMode().toString();
+    return "Arcade Drive";
   }
 
   public boolean getLimelightRed(){

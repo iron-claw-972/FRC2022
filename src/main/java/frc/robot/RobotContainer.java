@@ -10,6 +10,7 @@ package frc.robot;
 import frc.robot.subsystems.*;
 import frc.robot.subsystems.Limelight.LEDMode;
 import frc.robot.util.ClimberMethods;
+import frc.robot.util.Log;
 import frc.robot.util.ShooterMethods;
 import frc.robot.util.ShuffleboardManager;
 import frc.robot.commands.DriveDistance;
@@ -47,9 +48,10 @@ import edu.wpi.first.cscore.UsbCamera;
   public static ClimbExtender m_extenderL = new ClimbExtender(true);
   public static CargoRotator m_cargoRotator = new CargoRotator();
   public static CargoBelt m_cargoBelt = new CargoBelt();
-  public static CargoShooter m_cargoShooter = new CargoShooter();
+ public static CargoShooter m_cargoShooter = new CargoShooter();
   public static BallDetection m_balldetector = new BallDetection();
-  
+  public static Log m_log = new Log();
+
   UsbCamera camera0;
   UsbCamera camera1;
 
@@ -79,7 +81,6 @@ import edu.wpi.first.cscore.UsbCamera;
     // m_limelight.setDefaultCommand(new GetDistance(m_limelight, m_cargoRotator));
 
     // Configure the button bindings
-    Driver.configureButtonBindings();
     Operator.configureButtonBindings();
     ClimbOperator.configureButtonBindings();
 

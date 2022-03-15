@@ -23,7 +23,7 @@ import frc.robot.util.ShooterMethods;
 
 public class Driver {
 
-  private static PistolController controller = new PistolController(new Joystick(JoyConstants.kDriverJoy));
+  private static GameController controller = new GameController(new Joystick(JoyConstants.kDriverJoy));
 
   private static SlewRateLimiter slewThrottle = new SlewRateLimiter(DriveConstants.kSlewRate);
   private static SlewRateLimiter slewTurn = new SlewRateLimiter(DriveConstants.kSlewRate);
@@ -34,40 +34,6 @@ public class Driver {
   
   // sets default drive mode
   private static DriveMode driveMode = DriveMode.TANK;
-
-  // driver buttons
-  public static void configureButtonBindings() {
-    controller.getButtons().frontSwitchTop().whenPressed(
-        () -> swapDriveMode(DriveMode.PROPORTIONAL , DriveMode.ARCADE));
-    controller.getButtons().frontSwitchTop().whenReleased(
-        () -> swapDriveMode(DriveMode.PROPORTIONAL , DriveMode.ARCADE));
-    controller.getButtons().backSwitchTop().whenPressed(
-        () -> swapDriveMode(DriveMode.PROPORTIONAL , DriveMode.ARCADE));
-
-    controller.getButtons().backSwitchBottom().whenHeld(new Intake(cargoConstants.kIntakePos, beltConstants.kIntakeSpeed, wheelConstants.kIntakeSpeed, cargoConstants.kFrontOuttakeFarPos, true, Constants.kIsRedAlliance));
-    controller.getButtons().backSwitchBottom().whenReleased(new SequentialCommandGroup(
-      new PositionArm(cargoConstants.kFrontOuttakeFarPos),
-      new InstantCommand(() -> ShooterMethods.disableShiitake())
-    ));
-
-    controller.getButtons().frontSwitchBottom().whenHeld(new AlignToUpperHub(RobotContainer.m_limelight, RobotContainer.m_drive));
-
-
-    controller.getButtons().bottomButton().whenHeld(new SequentialCommandGroup(
-      new InstantCommand(() -> RobotContainer.m_limelight.setUpperHubPipeline()),
-      new WaitCommand(0.1),
-      new ConditionalCommand(
-        new Shoot(cargoConstants.kFrontOuttakeHighPos, beltConstants.kIntakeSpeed, wheelConstants.kFrontOuttakeFarSpeed, beltConstants.kOuttakeSpeed, false, 0),
-        new Shoot(cargoConstants.kBackOuttakeLimelightPos, beltConstants.kIntakeSpeed, ShooterMethods.getOptimalShooterSpeed(), beltConstants.kOuttakeSpeed, false, 0),
-        ShooterMethods::isArmFront
-      )
-    ));
-    controller.getButtons().bottomButton().whenReleased(new InstantCommand(() -> RobotContainer.m_limelight.setCameraMode(true)));
-    
-    
-    controller.getButtons().backSwitchBottom().whenHeld(new Intake(cargoConstants.kIntakePos, beltConstants.kIntakeSpeed, wheelConstants.kIntakeSpeed, cargoConstants.kFrontOuttakeFarPos, true, Constants.kIsRedAlliance));
-    controller.getButtons().frontSwitchBottom().whenHeld(new AlignToUpperHub(RobotContainer.m_limelight, RobotContainer.m_drive));
-  }
   
   public static double getThrottleValue() {
     // put any processes in any order of the driver's choosing
@@ -79,39 +45,14 @@ public class Driver {
     // right is positive; left is negative
     return slewTurn.calculate(Functions.deadband(JoyConstants.kDeadband, getRawTurnValue()));
   }
-  
-  // sets drive mode
-  public static void setDriveMode(DriveMode dm) {
-    driveMode = dm;
-  }
-  
-  //checks drive mode
-  public static boolean isDrive(DriveMode drive) {
-    return (driveMode == drive);
-  }
 
   public static double getRawThrottleValue() {
     // Controllers y-axes are natively up-negative, down-positive
-    return controller.getTriggerAxis();
+    return -controller.getJoystickAxis().leftY();
   }
 
   public static double getRawTurnValue() {
     // Right is Positive left is negative
-    return controller.getWheelAxis();
+    return controller.getJoystickAxis().rightX();
   }
-
-  public static DriveMode getDriveMode() {
-    return driveMode;
-  }
-  
-  public static void swapDriveMode(DriveMode primary , DriveMode secondary){
-    if (driveMode == primary) {
-      setDriveMode(secondary);
-    } else if (driveMode == secondary){
-      setDriveMode(primary);
-    } else {
-      setDriveMode(primary);
-    }
-  }
-
 }
