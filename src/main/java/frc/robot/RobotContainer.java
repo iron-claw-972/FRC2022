@@ -8,8 +8,6 @@ the project.
 package frc.robot;
 
 import frc.robot.subsystems.*;
-import frc.robot.subsystems.Limelight.LEDMode;
-import frc.robot.util.ClimberMethods;
 import frc.robot.util.ShooterMethods;
 import frc.robot.util.ShuffleboardManager;
 import frc.robot.commands.FlexibleAuto;

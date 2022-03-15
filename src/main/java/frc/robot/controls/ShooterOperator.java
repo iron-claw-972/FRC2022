@@ -9,9 +9,6 @@ import frc.robot.RobotContainer;
 import frc.robot.Constants.*;
 import frc.robot.commands.Intake;
 import frc.robot.commands.AlignToUpperHub;
-import frc.robot.commands.ClimbExtenderMove;
-import frc.robot.commands.ClimbRotatorMove;
-import frc.robot.commands.ClimbMove;
 import frc.robot.commands.PositionArm;
 import frc.robot.commands.Shoot;
 import edu.wpi.first.wpilibj2.command.*;
@@ -20,7 +17,6 @@ import frc.robot.robotConstants.climbExtender.*;
 import frc.robot.robotConstants.climbRotator.*;
 import frc.robot.robotConstants.shooterBelt.TraversoBeltConstants;
 import frc.robot.robotConstants.shooterWheel.TraversoCargoShooterConstants;
-import frc.robot.util.ClimberMethods;
 import frc.robot.util.ShooterMethods;
 
 public class ShooterOperator {
