@@ -10,9 +10,7 @@ public class LimitSwitch {
   boolean lastRead;
 
   public LimitSwitch(int port){
-    limitSwitch = new DigitalInput(port);
-    debouncer = new Debouncer(0, Debouncer.DebounceType.kBoth);
-  
+    this(port, 0);
   }
 
   public LimitSwitch(int port, double debouncerMargin){

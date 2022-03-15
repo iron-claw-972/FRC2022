@@ -1,8 +1,6 @@
 package frc.robot.commands;
 
-import java.util.function.BooleanSupplier;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
@@ -60,7 +58,7 @@ public class Shoot extends SequentialCommandGroup {
 
             // Align using limelight
             new ConditionalCommand(
-              new AlignToUpperHub(RobotContainer.m_limelight, RobotContainer.m_drive).withTimeout(1.5),
+              new AlignToUpperHub(RobotContainer.m_limelight, RobotContainer.m_drive).withTimeout(1),
               new DoNothing(),
               () -> doesAlign
             ),
@@ -73,7 +71,7 @@ public class Shoot extends SequentialCommandGroup {
 
             // Set to actual shooting angle
             new ConditionalCommand(
-              new PositionArm(() -> GetDistance.optimalAngle),
+              new PositionArm(() -> GetDistance.optimalShooterAngle),
               new PositionArm(outtakeArmPosition),
               () -> doesAlign || doesCalculateSpeed
             )

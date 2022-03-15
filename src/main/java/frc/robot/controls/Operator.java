@@ -3,16 +3,11 @@ package frc.robot.controls;
 
 import controllers.*;
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
-import frc.robot.Robot;
 import frc.robot.RobotContainer;
 import frc.robot.Constants.*;
 import frc.robot.commands.Intake;
 import frc.robot.commands.AlignToUpperHub;
-import frc.robot.commands.ClimbExtenderMove;
-import frc.robot.commands.ClimbRotatorMove;
-import frc.robot.commands.ClimberMove;
 import frc.robot.commands.GetDistance;
 import frc.robot.commands.PositionArm;
 import frc.robot.commands.Shoot;
@@ -22,8 +17,6 @@ import frc.robot.robotConstants.climbExtender.*;
 import frc.robot.robotConstants.climbRotator.*;
 import frc.robot.robotConstants.shooterBelt.TraversoBeltConstants;
 import frc.robot.robotConstants.shooterWheel.TraversoCargoShooterConstants;
-import frc.robot.util.ClimberMethods;
-import frc.robot.util.ShooterMethods;
 
 public class Operator {
 
@@ -44,24 +37,23 @@ public class Operator {
   }
   
   public static void shootBinds() {
-    // move arm to back
+    // Shoot front
     controller.getButtons().Y().whenHeld(new Shoot(true, true, true));
 
-    // move arm to front
+    // Shoot back
     controller.getButtons().A().whenHeld(new Shoot(true, true, false));
 
+    // Manual intake
     controller.getButtons().X().whenHeld(new Intake(cargoConstants.kBackLimelightScanPos, false, Constants.kIsRedAlliance));
     controller.getButtons().X().whenReleased(new PositionArm(cargoConstants.kBackLimelightScanPos));
 
+    // Stow arm
     controller.getButtons().B().whenPressed(new PositionArm(cargoConstants.kStowPos));
+
+    controller.getButtons().RT().whileActiveOnce(new Shoot(false, false, true, cargoConstants.kFrontOuttakeHighPos, wheelConstants.kFrontOuttakeHighSpeed));
   }
 
   public static void testShootBinds() {
-    controller.getButtons().RB().whileHeld(new SequentialCommandGroup(
-      // new PositionArm(cargoConstants.kBackLimelightScanPos).withTimeout(0.7),
-      new AlignToUpperHub(RobotContainer.m_limelight, RobotContainer.m_drive)
-    ));
-
-    controller.getButtons().RT().whileActiveOnce(new GetDistance(RobotContainer.m_limelight));
+    controller.getButtons().RB().whenHeld(new GetDistance(RobotContainer.m_limelight));
   }
 }

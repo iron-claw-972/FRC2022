@@ -4,22 +4,17 @@ package frc.robot.controls;
 import controllers.*;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj2.command.ConditionalCommand;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants.*;
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
 import frc.robot.commands.AlignToUpperHub;
 import frc.robot.commands.Intake;
 import frc.robot.commands.PositionArm;
-import frc.robot.commands.Shoot;
 import frc.robot.robotConstants.cargoRotator.TraversoCargoRotatorConstants;
 import frc.robot.robotConstants.shooterBelt.TraversoBeltConstants;
 import frc.robot.robotConstants.shooterWheel.TraversoCargoShooterConstants;
 import frc.robot.util.DriveMode;
-import frc.robot.util.ShooterMethods;
 
 public class Driver {
 
@@ -37,41 +32,21 @@ public class Driver {
 
   // driver buttons
   public static void configureButtonBindings() {
-    // controller.getButtons().frontSwitchTop().whenPressed(
-    //     () -> swapDriveMode(DriveMode.PROPORTIONAL , DriveMode.ARCADE));
-    // controller.getButtons().frontSwitchTop().whenReleased(
-    //     () -> swapDriveMode(DriveMode.PROPORTIONAL , DriveMode.ARCADE));
-    // controller.getButtons().backSwitchTop().whenPressed(
-    //     () -> swapDriveMode(DriveMode.PROPORTIONAL , DriveMode.ARCADE));
+    // Align to hub front
+    controller.getButtons().frontSwitchBottom().whenHeld(new SequentialCommandGroup(
+      new PositionArm(cargoConstants.kFrontLimelightScanPos),
+      new AlignToUpperHub(RobotContainer.m_limelight, RobotContainer.m_drive)
+    ));
 
-    controller.getButtons().backSwitchBottom().whenHeld(new AlignToUpperHub(RobotContainer.m_limelight, RobotContainer.m_drive));
+    // Align to hub back
+    controller.getButtons().backSwitchBottom().whenHeld(new SequentialCommandGroup(
+      new PositionArm(cargoConstants.kBackLimelightScanPos),
+      new AlignToUpperHub(RobotContainer.m_limelight, RobotContainer.m_drive)
+    ));
 
+    // Intake w/ ball chase
     controller.getButtons().frontSwitchBottom().whenHeld(new Intake(RobotContainer.cargoConstants.kBackLimelightScanPos, true, Constants.kIsRedAlliance));
     controller.getButtons().frontSwitchBottom().whenReleased(new PositionArm(cargoConstants.kBackLimelightScanPos));
-
-    // controller.getButtons().backSwitchBottom().whenHeld(new Intake(cargoConstants.kIntakePos, beltConstants.kIntakeSpeed, wheelConstants.kIntakeSpeed, cargoConstants.kFrontOuttakeFarPos, true, Constants.kIsRedAlliance));
-    // controller.getButtons().backSwitchBottom().whenReleased(new SequentialCommandGroup(
-    //   new PositionArm(cargoConstants.kFrontOuttakeFarPos),
-    //   new InstantCommand(() -> ShooterMethods.disableShiitake())
-    // ));
-
-    // controller.getButtons().frontSwitchBottom().whenHeld(new AlignToUpperHub(RobotContainer.m_limelight, RobotContainer.m_drive));
-
-
-    // controller.getButtons().bottomButton().whenHeld(new SequentialCommandGroup(
-    //   new InstantCommand(() -> RobotContainer.m_limelight.setUpperHubPipeline()),
-    //   new WaitCommand(0.1),
-    //   new ConditionalCommand(
-    //     new Shoot(cargoConstants.kFrontOuttakeHighPos, beltConstants.kIntakeSpeed, wheelConstants.kFrontOuttakeFarSpeed, beltConstants.kOuttakeSpeed, false, 0),
-    //     new Shoot(cargoConstants.kBackOuttakeLimelightPos, beltConstants.kIntakeSpeed, ShooterMethods.getOptimalShooterSpeed(), beltConstants.kOuttakeSpeed, false, 0),
-    //     ShooterMethods::isArmFront
-    //   )
-    // ));
-    // controller.getButtons().bottomButton().whenReleased(new InstantCommand(() -> RobotContainer.m_limelight.setCameraMode(true)));
-    
-    
-    // controller.getButtons().backSwitchBottom().whenHeld(new Intake(cargoConstants.kIntakePos, beltConstants.kIntakeSpeed, wheelConstants.kIntakeSpeed, cargoConstants.kFrontOuttakeFarPos, true, Constants.kIsRedAlliance));
-    // controller.getButtons().frontSwitchBottom().whenHeld(new AlignToUpperHub(RobotContainer.m_limelight, RobotContainer.m_drive));
   }
   
   public static double getThrottleValue() {

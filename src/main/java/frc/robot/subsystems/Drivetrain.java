@@ -41,7 +41,6 @@ import ctre_shims.TalonEncoder;
 import ctre_shims.TalonEncoderSim;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants;
-import frc.robot.controls.Driver;
 
 public class Drivetrain extends SubsystemBase {
 

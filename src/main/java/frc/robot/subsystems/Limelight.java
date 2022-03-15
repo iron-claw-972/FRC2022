@@ -8,7 +8,6 @@ import edu.wpi.first.math.filter.Debouncer.DebounceType;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.robotConstants.limelight.TraversoLimelightConstants;
 
@@ -234,7 +233,7 @@ public class Limelight extends SubsystemBase {
     if (isFacingFront()) {
       return (armAngle + constants.kStipeToLimelightAngularOffset);
     }
-    return 180-(armAngle + constants.kStipeToLimelightAngularOffset);
+    return 180 - (armAngle + constants.kStipeToLimelightAngularOffset);
   }
 
   public double getTargetArea() {

@@ -6,7 +6,6 @@ import frc.robot.RobotContainer;
 import frc.robot.robotConstants.cargoRotator.TraversoCargoRotatorConstants;
 import frc.robot.robotConstants.shooterBelt.TraversoBeltConstants;
 import frc.robot.robotConstants.shooterWheel.TraversoCargoShooterConstants;
-import frc.robot.util.ShooterMethods;
 
 public class FlexibleAuto extends SequentialCommandGroup {
   public static TraversoCargoRotatorConstants cargoConstants = new TraversoCargoRotatorConstants();

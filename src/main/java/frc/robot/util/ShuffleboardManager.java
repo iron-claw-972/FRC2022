@@ -15,6 +15,7 @@ import frc.robot.subsystems.ClimbRotator;
 import frc.robot.commands.AlignToUpperHub;
 import frc.robot.commands.ChaseBall;
 import frc.robot.commands.FlexibleAuto;
+import frc.robot.commands.GetDistance;
 import frc.robot.controls.Driver;
 import frc.robot.robotConstants.climbExtender.TraversoClimbExtenderConstants;
 
@@ -120,9 +121,15 @@ public class ShuffleboardManager {
   public void loadLimelightShuffleboard() {
     cargoTab.add("Alignment PID", AlignToUpperHub.alignPID);
     cargoTab.add("Ball Chase PID", ChaseBall.turnPID);
+
     cargoTab.addBoolean("Is Aligned To Hub", () -> AlignToUpperHub.isFinished);
     cargoTab.addNumber("Alignment offset", () -> AlignToUpperHub.offset);
+
     cargoTab.addNumber("Chase offset", () -> ChaseBall.offset);
+
+    cargoTab.addNumber("Distance", () -> GetDistance.distance);
+    cargoTab.addNumber("Optimal velocity", () -> GetDistance.optimalVelocity);
+    cargoTab.addNumber("Optimal angle", () -> GetDistance.optimalShooterAngle);
   }
 
   public void loadClimbExtenderShuffleboard(ClimbExtender extender) {

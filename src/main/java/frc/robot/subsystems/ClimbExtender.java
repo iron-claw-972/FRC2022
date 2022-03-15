@@ -9,7 +9,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.util.ControllerFactory;
 import frc.robot.controls.ClimbOperator;
-import frc.robot.controls.Operator;
 import frc.robot.robotConstants.climbExtender.TraversoClimbExtenderConstants;
 
 
