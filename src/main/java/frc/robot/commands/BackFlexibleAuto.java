@@ -7,12 +7,12 @@ import frc.robot.robotConstants.cargoRotator.TraversoCargoRotatorConstants;
 import frc.robot.robotConstants.shooterBelt.TraversoBeltConstants;
 import frc.robot.robotConstants.shooterWheel.TraversoCargoShooterConstants;
 
-public class FlexibleAuto extends SequentialCommandGroup {
+public class BackFlexibleAuto extends SequentialCommandGroup {
   public static TraversoCargoRotatorConstants cargoConstants = new TraversoCargoRotatorConstants();
   public static TraversoBeltConstants beltConstants = new TraversoBeltConstants();
   public static TraversoCargoShooterConstants wheelConstants = new TraversoCargoShooterConstants();
 
-  public FlexibleAuto(double distance, boolean intakeSecond, boolean shootSecond , boolean isRedBall) {
+  public BackFlexibleAuto(double distance, boolean intakeSecond, boolean shootSecond , boolean isRedBall) {
     addRequirements(RobotContainer.m_drive, RobotContainer.m_cargoBelt, RobotContainer.m_cargoRotator, RobotContainer.m_cargoShooter);
     addCommands(
         parallel(
