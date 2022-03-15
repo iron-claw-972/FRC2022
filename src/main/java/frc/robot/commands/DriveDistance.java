@@ -33,7 +33,7 @@ public class DriveDistance extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    RobotContainer.m_drive.tankDrive(-Math.copySign(RobotContainer.driveConstants.kAutoDriveSpeed, setpoint), -Math.copySign(RobotContainer.driveConstants.kAutoDriveSpeed, setpoint));//IDK why this is 0.5, then .6
+    RobotContainer.m_drive.tankDrive(-Math.copySign(RobotContainer.driveConstants.kAutoDriveSpeed, setpoint), -Math.copySign(RobotContainer.driveConstants.kAutoDriveSpeed, setpoint));
   }
 
   @Override
@@ -45,7 +45,7 @@ public class DriveDistance extends CommandBase {
 
   @Override
   public boolean isFinished() {
-      return RobotContainer.m_drive.getLeftPosition() <= zeroPos - setpoint;
+    return Math.abs(RobotContainer.m_drive.getLeftPosition()  - zeroPos) >= Math.abs(setpoint);
   }
 
 }
