@@ -146,7 +146,7 @@ public class ClimbExtender extends SubsystemBase {
   }
 
   public boolean compressionLimitSwitch() {
-    return limitSwitch.getNoUpdate();
+    return limitSwitch.get();
   }
 
   @Override
