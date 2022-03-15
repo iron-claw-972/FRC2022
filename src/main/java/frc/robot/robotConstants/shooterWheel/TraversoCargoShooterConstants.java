@@ -1,5 +1,7 @@
 package frc.robot.robotConstants.shooterWheel;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
+
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.system.LinearSystem;
 import edu.wpi.first.math.system.plant.DCMotor;
@@ -54,5 +56,5 @@ public class TraversoCargoShooterConstants {
   public final double kSupplyCurrentLimit = 40;
   public final double kSupplyTriggerThreshold = 40;
   public final double kSupplyTriggerDuration = 0;
-  public final boolean kCoast = true;
+  public final NeutralMode kNeutral = NeutralMode.Coast;
 }

@@ -1,5 +1,6 @@
 package frc.robot.robotConstants.shooterBelt;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 
 public class TraversoBeltConstants {
   public final int kCargoBeltMotorPort = 6;
@@ -12,5 +13,5 @@ public class TraversoBeltConstants {
   public final double kSupplyCurrentLimit = 40;
   public final double kSupplyTriggerThreshold = 40;
   public final double kSupplyTriggerDuration = 0;
-  public final boolean kCoast = false;
+  public final NeutralMode kNeutral = NeutralMode.Brake;
 }
