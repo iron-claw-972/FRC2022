@@ -10,7 +10,6 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.util.ControllerFactory;
 import frc.robot.util.LimitSwitch;
 import frc.robot.controls.ClimbOperator;
-import frc.robot.controls.ShooterOperator;
 import frc.robot.robotConstants.climbExtender.TraversoClimbExtenderConstants;
 
 
