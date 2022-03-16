@@ -35,8 +35,8 @@ public class ClimbRotator extends SubsystemBase {
       m_motor.setInverted(true); // inverts the motor
       encoderOffset = constants.kArmLeftEncoderOffset; // sets an offset for the encoder
 
-      limitSwitchLower = new LimitSwitch(constants.kLeftLimitSwitchLower , constants.kLimitSwitchDebouncer);
-      limitSwitchUpper = new LimitSwitch(constants.kLeftLimitSwitchUpper , constants.kLimitSwitchDebouncer);
+     // limitSwitchLower = new LimitSwitch(constants.kLeftLimitSwitchLower , constants.kLimitSwitchDebouncer);
+     // limitSwitchUpper = new LimitSwitch(constants.kLeftLimitSwitchUpper , constants.kLimitSwitchDebouncer);
     }
     // otherwise, use the normal encoder value and set the motorports to the right
     else {
@@ -45,8 +45,8 @@ public class ClimbRotator extends SubsystemBase {
       side = "Right"; // the direction for shuffleboard's use
       encoderOffset = constants.kArmRightEncoderOffset; // sets an offset for the encoder
 
-      limitSwitchLower = new LimitSwitch(constants.kRightLimitSwitchLower , constants.kLimitSwitchDebouncer);
-      limitSwitchUpper = new LimitSwitch(constants.kRightLimitSwitchUpper , constants.kLimitSwitchDebouncer);
+     // limitSwitchLower = new LimitSwitch(constants.kRightLimitSwitchLower , constants.kLimitSwitchDebouncer);
+     // limitSwitchUpper = new LimitSwitch(constants.kRightLimitSwitchUpper , constants.kLimitSwitchDebouncer);
     }
    
     left = isLeft;
@@ -98,7 +98,7 @@ public class ClimbRotator extends SubsystemBase {
 
   public boolean reachedSetpoint() {
     // checks if the arm is at its setpoint
-    return armPID.atSetpoint() || limitSwitchLower.risingEdge() || limitSwitchUpper.risingEdge();
+    return armPID.atSetpoint();
   }
 
   //enables PID

@@ -36,8 +36,8 @@ public class TraversoClimbRotatorConstants {
     public final double kArmRightEncoderOffset = -115.89432589735816;
     
     // upper limit switches
-    public final int kLeftLimitSwitchUpper = 8;
-    public final int kRightLimitSwitchUpper = 1;
+    public final int kLeftLimitSwitchUpper = 0;
+    public final int kRightLimitSwitchUpper = 0;
     
     // lower limit switches
     public final int kLeftLimitSwitchLower = 7;

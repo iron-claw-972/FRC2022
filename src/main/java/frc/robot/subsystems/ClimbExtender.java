@@ -46,7 +46,7 @@ public class ClimbExtender extends SubsystemBase {
     }
 
     // the lowest tick limit is 0, and must be checked every 10 milliseconds
-    m_motor.configReverseSoftLimitThreshold(1000, 10);
+    m_motor.configReverseSoftLimitThreshold(0, 10);
 
     // converts the length of the arm in inches to ticks and makes that the maximum tick limit, it's checked every 10 milliseconds
     // TODO: Update this max forward limit!

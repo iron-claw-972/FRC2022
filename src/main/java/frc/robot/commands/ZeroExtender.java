@@ -1,6 +1,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
@@ -15,7 +16,7 @@ public class ZeroExtender extends SequentialCommandGroup{
         this.extender= extender;
         addCommands(
             new InstantCommand(() -> extender.disable()), //disable just to make sure PID doesn't run
-            new InstantCommand(() -> extender.setOutput(0.02)),
+            new InstantCommand(() -> extender.setOutput(-0.2)),
             new WaitCommand(0.2),
             new WaitUntilCommand(this::compressed),
             new InstantCommand(() -> extender.disable()),
