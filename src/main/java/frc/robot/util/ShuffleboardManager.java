@@ -12,10 +12,7 @@ import frc.robot.Constants.AutoConstants;
 import frc.robot.autonomous.drivetrain.Pathweaver;
 import frc.robot.subsystems.ClimbExtender;
 import frc.robot.subsystems.ClimbRotator;
-import frc.robot.commands.AlignToUpperHub;
-import frc.robot.commands.ChaseBall;
-import frc.robot.commands.FlexibleAuto;
-import frc.robot.commands.GetDistance;
+import frc.robot.commands.*;
 import frc.robot.controls.Driver;
 import frc.robot.robotConstants.climbExtender.TraversoClimbExtenderConstants;
 
@@ -30,7 +27,7 @@ public class ShuffleboardManager {
   NetworkTableEntry autoWait = autoTab.add("Auto Wait", 0.0).getEntry();
   NetworkTableEntry isFar = autoTab.add("Flexible Auto First Shoot is Fender", true).getEntry();
   NetworkTableEntry distance = autoTab.add("Flexible Auto Drive Distance", 0.0).getEntry();
-  NetworkTableEntry intakeSecond = autoTab.add("Flexible Auto Get a Second Time", true).getEntry();
+  NetworkTableEntry intakeSecond = autoTab.add("Flexible Auto Get a Second ball", true).getEntry();
   NetworkTableEntry shootSecond = autoTab.add("Flexible Auto Shoot a Second Time", true).getEntry();
   NetworkTableEntry limelightColor = cargoTab.add("Limelight (Red)", true).getEntry();
   
@@ -65,7 +62,8 @@ public class ShuffleboardManager {
 
   public void chooserUpdate() {
     // originally 0.8492
-    autoCommand.setDefaultOption("fetch me my paper boy", new FlexibleAuto(0.6642, true, true, Constants.kIsRedAlliance));
+    autoCommand.setDefaultOption("my back is broken, fetch me my paper boy ", new BackFlexibleAuto(0.6642, true, true, Constants.kIsRedAlliance));
+    autoCommand.addOption("my front is broken, fetch me my paper boy ", new FrontFlexibleAuto(0.6642, true, true, Constants.kIsRedAlliance));
     // autoCommand.setDefaultOption("fetch me my paper boy", new FlexibleAuto(distance.getDouble(0), intakeSecond.getBoolean(true), shootSecond.getBoolean(true), limelightColor.getBoolean(Constants.kIsRedAlliance)));
     autoCommand.addOption("pathweaver", Pathweaver.pathweaverCommand(AutoConstants.kTrajectoryName));
     // m_chooser.addOption("teleop", new TeleopDrive(Drivetrain.getInstance()));
