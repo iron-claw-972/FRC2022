@@ -19,7 +19,6 @@ public class ClimbExtender extends SubsystemBase {
   private boolean manualEnabled = false;
   private final WPI_TalonFX m_motor;
   private String side;
-  private double offset = 0;
 
   public PIDController extenderPID = new PIDController(constants.kP, constants.kI, constants.kD);
   private LimitSwitch limitSwitch;
@@ -44,9 +43,6 @@ public class ClimbExtender extends SubsystemBase {
       limitSwitch = new LimitSwitch(constants.kExtRightLimitSwitch, constants.kExtLimitSwitchDebouncer);
     }
 
-    // the lowest tick limit is 0, and must be checked every 10 milliseconds
-    m_motor.configReverseSoftLimitThreshold(1000, 10);
-
     // converts the length of the arm in inches to ticks and makes that the maximum tick limit, it's checked every 10 milliseconds
     // TODO: Update this max forward limit!
     m_motor.configForwardSoftLimitThreshold(SmartDashboard.getNumber("Max Extension Ticks", constants.kExtenderMaxArmTicks), 10);
@@ -57,7 +53,6 @@ public class ClimbExtender extends SubsystemBase {
     // so that the limiters are enabled
     // TODO: If the motors don't move, CHECK TO SEE IF THE LIMITER IS TOO LOW!
     m_motor.configForwardSoftLimitEnable(true, 10);
-    m_motor.configReverseSoftLimitEnable(true, 10);
 
     extenderPID.reset();
 
@@ -66,13 +61,6 @@ public class ClimbExtender extends SubsystemBase {
   }
 
   public boolean reachedSetpoint() {
-    // if the current tick position is within the setpoint's range (setpoint +- 10), return true, otherwise return false
-    //return extenderPID.atSetpoint();
-    // System.out.println(side + " extension: " + currentExtensionRaw() + ", setpoint: " + setpoint);
-    // System.out.println(currentExtensionRaw() < setpoint + constants.kExtenderTolerance);
-    // System.out.println(currentExtensionRaw() > setpoint - constants.kExtenderTolerance);
-    //possibly the issue is that they don't both reach the setpoint at the same time? no probably not
-
     return limitSwitch.risingEdge() || (currentExtensionRaw() < setpoint + constants.kExtenderTolerance && currentExtensionRaw() > setpoint - constants.kExtenderTolerance);
   }
 
@@ -81,15 +69,7 @@ public class ClimbExtender extends SubsystemBase {
   }
 
   public void zero() {
-    offset = -currentExtensionRaw();
-  }
-
-  public void changeOffset(double amount) {
-    offset += amount;
-  }
-
-  public void setReverseLimit(double amount) {
-    m_motor.configReverseSoftLimitThreshold(amount, 10);
+    m_motor.setSelectedSensorPosition(0.0);
   }
 
   public void setForwardLimit(double amount) {
@@ -98,14 +78,12 @@ public class ClimbExtender extends SubsystemBase {
 
   public void removeLimiter() {
     m_motor.configForwardSoftLimitEnable(false, 0);
-    m_motor.configReverseSoftLimitThreshold(10, 10);
     manualEnabled = true;
   }
 
   public void enableLimiter() {
     m_motor.configForwardSoftLimitThreshold(SmartDashboard.getNumber("Max Extension Ticks", constants.kExtenderMaxArmTicks), 10);
     m_motor.configForwardSoftLimitEnable(true, 0);
-    m_motor.configReverseSoftLimitThreshold(SmartDashboard.getNumber("Min Extension Ticks", 1000), 10);
     manualEnabled = false;
   }
 
@@ -116,12 +94,12 @@ public class ClimbExtender extends SubsystemBase {
 
   // returns the current extension in inches
   // public double currentExtension() {
-  //   return m_motor.getSelectedSensorPosition() + offset;
+  //   return m_motor.getSelectedSensorPosition();
   // }
 
   // returns the current extension in ticks
   public double currentExtensionRaw() {
-    return m_motor.getSelectedSensorPosition() + offset;
+    return m_motor.getSelectedSensorPosition();
   }
 
   public double getVelocity() {
