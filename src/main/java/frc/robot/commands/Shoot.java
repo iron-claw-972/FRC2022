@@ -62,18 +62,18 @@ public class Shoot extends SequentialCommandGroup {
               new DoNothing(),
               () -> doesAlign
             ),
-            //  Collect vision data
+            //  Calculate distance and determines optimal shooting angle and velocity
             new ConditionalCommand(
-              new GetDistance(RobotContainer.m_limelight),
+              new GetDistance(RobotContainer.m_limelight).withTimeout(0.5),
               new DoNothing(),
               () -> doesCalculateSpeed
             ),
 
             // Set to actual shooting angle
             new ConditionalCommand(
-              new PositionArm(() -> GetDistance.optimalShooterAngle),
+              new PositionArm(() -> GetDistance.optimalStipeAngle),
               new PositionArm(outtakeArmPosition),
-              () -> doesAlign || doesCalculateSpeed
+              () -> doesCalculateSpeed
             )
           )
         ),
@@ -82,6 +82,11 @@ public class Shoot extends SequentialCommandGroup {
         new InstantCommand(() -> ShooterMethods.setBeltPower(RobotContainer.beltConstants.kOuttakeSpeed)),
         new WaitCommand(0.5)
       );
+    }
+
+    @Override
+    public void initialize() {
+      GetDistance.isFinished = false; // Reset finished condition
     }
 
     @Override

@@ -30,6 +30,6 @@ public class TraversoLimelightConstants {
   public final int kBlueCargoPipeline = 1;
   public final int kUpperHubPipeline = 2;
 
-  public final double kPivotToLimelightDistance = Units.inchesToMeters(21.22); // Distance from pivot to limelight lens
+  public final double kPivotToLimelightLength = Units.inchesToMeters(21.22); // Distance from pivot to limelight lens
   public final double kPivotHeight = Units.inchesToMeters(14.0625); // Distance from pivot to ground
 }

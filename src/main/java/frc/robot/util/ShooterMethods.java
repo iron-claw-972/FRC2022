@@ -4,6 +4,7 @@ package frc.robot.util;
 import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.math.util.Units;
+import frc.robot.Constants;
 import frc.robot.RobotContainer;
 
 public class ShooterMethods {
@@ -24,13 +25,15 @@ public class ShooterMethods {
 
   public static double getOptimalShooterSpeed(double shootingAngle, double targetHeightOffset, double distance) {
     double shootingAngleRad = Units.degreesToRadians(shootingAngle);
-    double optimalSpeed = Math.sqrt(-((9.8*Math.pow(distance, 2)) * (1+(Math.pow(Math.tan(shootingAngleRad), 2)))) / ((2*targetHeightOffset) - (2*distance*Math.tan(shootingAngleRad))));
+    double optimalSpeed = (distance / Math.cos(shootingAngleRad))
+                        * Math.sqrt(Constants.GRAVITATIONAL_ACCEL
+                          / (2 * (distance * Math.tan(shootingAngleRad) - targetHeightOffset)));
     return optimalSpeed;
   }
 
   public static double getOptimalShootingAngle(double sAngle, double distance, double targetHeightOffset) {
     double sAngleRad = Units.degreesToRadians(sAngle);
-    double optimalAngle = Math.atan(((distance*Math.tan(sAngleRad)) - (2*targetHeightOffset)) / (-distance));
+    double optimalAngle = Math.atan((2 * targetHeightOffset / distance) - Math.tan(sAngleRad));
     optimalAngle = Units.radiansToDegrees(optimalAngle);
     return optimalAngle;
   }

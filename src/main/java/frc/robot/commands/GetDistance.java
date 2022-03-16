@@ -14,7 +14,7 @@ public class GetDistance extends CommandBase {
 
   public static boolean isFinished = false;
   public static double optimalVelocity = Double.NaN;
-  public static double optimalShooterAngle = Double.NaN;
+  public static double optimalStipeAngle = Double.NaN;
   public static double distance = Double.NaN;
 
   private boolean isFront = true;
@@ -29,47 +29,67 @@ public class GetDistance extends CommandBase {
     isFinished = false;
     m_limelight.setUpperHubPipeline();
     optimalVelocity = Double.NaN;
-    optimalShooterAngle = Double.NaN;
+    optimalStipeAngle = Double.NaN;
     distance = Double.NaN;
   }
 
   @Override
   public void execute() {
     // Get distance from limelight
-    double stipeAngle = ShooterMethods.getArmAngle();
-    double limelightAngle = stipeAngle + constants.kStipeToLimelightAngularOffset;
-    double shooterAngle = stipeAngle + RobotContainer.cargoConstants.kStipeToShootingAngularOffset;
-    isFront = limelightAngle < 90;
-    distance = Units.metersToInches(m_limelight.getHubDistance(stipeAngle));
+    double stipeAngle = ShooterMethods.getArmAngle(); // From 0 to 175 deg
+    double limelightAngle = stipeAngle + constants.kStipeToLimelightAngularOffset; // Offset is negative
+    double physicalShooterAngle = stipeAngle + RobotContainer.cargoConstants.kStipeToPhysicalShooterAngularOffset; // Offset is negative
 
-    if (!Double.isNaN(distance)) {
-      // Get arguments of optimal shooting equations
-      double limelightAngleRad = Units.degreesToRadians(limelightAngle);
-      double shooterAngleRad = Units.degreesToRadians(shooterAngle);
-      double shooterDistance = distance + (constants.kHubWidth / 2) - (constants.kPivotToLimelightDistance * Math.cos(limelightAngleRad)) + (RobotContainer.cargoConstants.kPivotToShootingExitPoint * Math.cos(shooterAngleRad));
-      double targetHeightOffset = constants.kHubHeight - constants.kPivotHeight - (RobotContainer.cargoConstants.kPivotToShootingExitPoint * Math.sin(shooterAngleRad));
-
-      // Find optimal shooting angle
-      optimalShooterAngle = ShooterMethods.getOptimalShootingAngle(RobotContainer.cargoConstants.kSAngle, shooterDistance, targetHeightOffset);
-      if (!isFront) {
-        optimalShooterAngle = 180 - optimalShooterAngle;
-      }
-      double optimalStipeAngle = optimalShooterAngle - RobotContainer.cargoConstants.kStipeToShootingAngularOffset;
-
-      // Find optimal shooting velocity
-      optimalVelocity = Units.metersToFeet(ShooterMethods.getOptimalShooterSpeed(optimalStipeAngle, targetHeightOffset, distance));
-      optimalVelocity *= -1;
-      optimalVelocity *= RobotContainer.wheelConstants.kShotEfficiency;
-    } else {
-      optimalVelocity = Double.NaN;
-      optimalShooterAngle = Double.NaN;
-      distance = Double.NaN;
+    isFront = limelightAngle < 90; // Uses limelight angle because distance calculation is done with the limelight angle
+    if (!isFront) {
+      limelightAngle = 180 - limelightAngle;
+      physicalShooterAngle = 180 - physicalShooterAngle;
     }
+    
+    // Get horizontal distance from vision tape to limelight lens
+    distance = m_limelight.getHubDistance(stipeAngle);
+
+    if (Double.isNaN(distance) || ((limelightAngle < 90) != (physicalShooterAngle < 90))) {
+      // If distance not found or limelight on opposite side of shooting trajectory, then do not shoot
+      optimalVelocity = Double.NaN;
+      optimalStipeAngle = Double.NaN;
+      distance = Double.NaN;
+      return;
+    }
+
+    // Now we can be sure that we are working with acute angles
+
+    // We want to work in degrees
+    double limelightAngleRad = Units.degreesToRadians(limelightAngle);
+    double physicalShooterAngleRad = Units.degreesToRadians(physicalShooterAngle);
+
+    // Horizontal distance from shooter exit point to center of hub
+    double shootingDistance = distance // Distance from vision tape to limelight lens
+                            + (constants.kHubWidth / 2) // Radius of the hub
+                            + (constants.kPivotToLimelightLength * Math.cos(limelightAngleRad)) // Horizontal distance from limelight to stipe pivot
+                            - (RobotContainer.cargoConstants.kPivotToShootingExitPointLength * Math.cos(physicalShooterAngleRad)); // Subtract horizontal distance from stipe pivot to exit point of shooter (the midpoint between the centers of the two shooter wheels)
+
+    double targetHeightOffset = constants.kHubHeight // Height of hub
+                              - constants.kPivotHeight // Height of stipe pivot
+                              - (RobotContainer.cargoConstants.kPivotToShootingExitPointLength * Math.sin(physicalShooterAngleRad)); // Height from pivot to shooter exit point
+
+    // Find optimal shooting angle
+    double optimalShootingAngle = ShooterMethods.getOptimalShootingAngle(RobotContainer.cargoConstants.kSAngle, shootingDistance, targetHeightOffset);
+
+    // Physical shooting angle relative to front zero degrees
+    double actualOptimalShootingAngle = (isFront ? optimalShootingAngle : 180 - optimalShootingAngle);
+
+    optimalStipeAngle = actualOptimalShootingAngle - RobotContainer.cargoConstants.kStipeToShootingTrajectoryAngularOffset;
+
+    // Find optimal shooting velocity
+    optimalVelocity = Units.metersToFeet(ShooterMethods.getOptimalShooterSpeed(optimalShootingAngle, targetHeightOffset, distance));
+    optimalVelocity *= -1; // Shooter takes negative input to outtake
+    optimalVelocity *= RobotContainer.wheelConstants.kShotEfficiency;
   }
 
   @Override
   public boolean isFinished() {
-    return !(Double.isNaN(optimalShooterAngle) || Double.isNaN(optimalVelocity));
+    return !(Double.isNaN(optimalStipeAngle) || Double.isNaN(optimalVelocity));
   }
 
   @Override

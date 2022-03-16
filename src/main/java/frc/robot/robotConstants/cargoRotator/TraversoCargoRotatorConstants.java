@@ -42,8 +42,9 @@ public class TraversoCargoRotatorConstants {
     public final double kFrontOuttakeAutoPos = 108;
     public final double kStowPos = 172;
 
-    public final double kPivotToShootingExitPoint = Units.inchesToMeters(19.313208);
-    public final double kStipeToShootingAngularOffset = -39;
+    public final double kPivotToShootingExitPointLength = Units.inchesToMeters(19.313208);
+    public final double kStipeToShootingTrajectoryAngularOffset = -39;
+    public final double kStipeToPhysicalShooterAngularOffset = -44;
     
     // pid constants
     // public final double kP = 0.1;
