@@ -11,6 +11,7 @@ import edu.wpi.first.util.datalog.*;
 import edu.wpi.first.util.function.FloatSupplier;
 import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.*;
 
@@ -48,6 +49,8 @@ public class Log {
     initializeCargoShooter(RobotContainer.m_cargoShooter);
     initializeCargoBelt(RobotContainer.m_cargoBelt);
     initializeBallDetection(RobotContainer.m_ballDetection);
+
+    initializeCommandScheduler();
   }
 
   public void initializeClimbExtender(ClimbExtender extender){
@@ -61,6 +64,7 @@ public class Log {
     add(rotator::currentAngle, "/climbRotator"+rotator.getSide()+"/currentAngle");
     add(rotator::currentAngleRaw, "/climbRotator"+rotator.getSide()+"/currentAngleRaw");
   }
+  
   public void initializeCargoRotator(CargoRotator rotator){
     add(rotator::isEnabled, "/cargoRotator/isEnabled");
     add(rotator::currentAngle, "/cargoRotator/currentAngle");
@@ -84,6 +88,7 @@ public class Log {
     add(belt::isEnabled, "/cargoBelt/isEnabled");
     
   }
+  
   public void initializeBallDetection(BallDetection ballDetection){
     add(ballDetection::containsBall, "/ballDetection/containsBall");
     add(ballDetection::containsBallSecurely, "/ballDetection/containsBallSecurely");
@@ -98,6 +103,12 @@ public class Log {
     add(drivetrain::getLeftPosition, "/drivetrain/getLeftPosition");
     add(drivetrain::getRightPosition, "/drivetrain/getRightPosition");
     add(drivetrain::getTurnRate, "/drivetrain/getTurnRate");
+  }
+  public void initializeCommandScheduler(){
+    StringLogEntry commandScheduler = new StringLogEntry(log, "/commandScheduler");
+    CommandScheduler.getInstance().onCommandInitialize(command -> commandScheduler.append("Command initialized: " + command.getName()));
+    CommandScheduler.getInstance().onCommandInterrupt(command -> commandScheduler.append("Command interrupted: " + command.getName()));
+    CommandScheduler.getInstance().onCommandFinish(command -> commandScheduler.append("Command finished: " + command.getName()));
   }
 
   public void add(BooleanSupplier supplier , String name){

@@ -27,6 +27,8 @@ public class ShuffleboardManager {
   NetworkTableEntry distance = autoTab.add("Flexible Auto Drive Distance", 0.0).getEntry();
   NetworkTableEntry intakeSecond = autoTab.add("Flexible Auto Get and Shoot a Second Time", true).getEntry();
   NetworkTableEntry limelightColor = primaryTab.add("Limelight (Red)", true).getEntry();
+
+  NetworkTableEntry commandScheduler = primaryTab.add("Command Scheduler", "NULL").getEntry();
   
   MarinusClimbExtenderConstants extenderConstants = new MarinusClimbExtenderConstants();
   
@@ -80,6 +82,7 @@ public class ShuffleboardManager {
 
     loadBallDetectionShuffleboard();
     
+    loadCommandSchedulerShuffleboard();
 
   }
 
@@ -145,6 +148,12 @@ public class ShuffleboardManager {
   }
   public boolean getLimelightBlue(){
     return !limelightColor.getBoolean(true);
+  }
+
+  public void loadCommandSchedulerShuffleboard(){
+    CommandScheduler.getInstance().onCommandInitialize(command -> commandScheduler.setString("Command initialized: " + command.getName()));
+    CommandScheduler.getInstance().onCommandInterrupt(command -> commandScheduler.setString("Command interrupted: " + command.getName()));
+    CommandScheduler.getInstance().onCommandFinish(command -> commandScheduler.setString("Command finished: " + command.getName()));
   }
 }
   
