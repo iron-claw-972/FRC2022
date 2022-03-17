@@ -27,25 +27,20 @@ public class ExtendDownwards extends SequentialCommandGroup {
       addCommands(
           new InstantCommand(() -> ClimberMethods.disableExtender()), //disable just to make sure PID doesn't run
           parallel(
+            //in parallel moves each extender down and then waits until it is compressed
             sequence(
               new InstantCommand(() -> RobotContainer.m_extenderL.setOutput(extend.kDownPower)),
-              new WaitUntilCommand(() -> compressed(RobotContainer.m_extenderL)),
+              new WaitUntilCommand(() -> RobotContainer.m_extenderL.compressionLimitSwitch()),
               new InstantCommand(() -> RobotContainer.m_extenderL.disable()),
               (zero ? (new InstantCommand(() -> RobotContainer.m_extenderL.zero())) : new DoNothing())
             ),
             sequence(
               new InstantCommand(() -> RobotContainer.m_extenderR.setOutput(extend.kDownPower)),
-              new WaitUntilCommand(() -> compressed(RobotContainer.m_extenderR)),
+              new WaitUntilCommand(() -> RobotContainer.m_extenderR.compressionLimitSwitch()),
               new InstantCommand(() -> RobotContainer.m_extenderR.disable()),
               (zero ? (new InstantCommand(() -> RobotContainer.m_extenderL.zero())) : new DoNothing())
             )
           )
       );
   }
-
-  private boolean compressed(ClimbExtender extender) {
-    return extender.compressionLimitSwitch();
-}
-
-
 }
