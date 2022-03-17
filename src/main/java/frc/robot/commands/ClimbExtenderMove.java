@@ -21,6 +21,7 @@ public class ClimbExtenderMove extends SequentialCommandGroup {
   public ClimbExtenderMove(double extension) {
     addRequirements(RobotContainer.m_extenderL, RobotContainer.m_extenderR);
     addCommands(
+      //if the extension is zero it is better to use this command that uses limit switches
       (extension == 0 ? new ExtendDownwards(extenderConstants.kAlwaysZero) :
       new SequentialCommandGroup(
         // enable the extender

@@ -20,7 +20,7 @@ public class TraversoClimbExtenderConstants {
   public final double kHalfway = kExtenderMaxArmTicks / 2;
   public final double kSlightlyUpward = kExtenderMaxArmTicks / 4;
 
-  public final double kDownPower = -0.6;
+  public final double kDownPower = -0.7;
   
   // extender limit switches
   public final int kExtLeftLimitSwitch = 8;
