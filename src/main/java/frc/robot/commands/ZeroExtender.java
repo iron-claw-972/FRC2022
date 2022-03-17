@@ -13,7 +13,7 @@ public class ZeroExtender extends SequentialCommandGroup{
 
     public ZeroExtender(ClimbExtender extender){
         addRequirements(extender);
-        this.extender= extender;
+        this.extender = extender;
         addCommands(
             new InstantCommand(() -> extender.disable()), //disable just to make sure PID doesn't run
             new InstantCommand(() -> extender.setOutput(-0.2)),
