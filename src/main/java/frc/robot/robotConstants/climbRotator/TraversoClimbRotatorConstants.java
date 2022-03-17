@@ -20,15 +20,15 @@ public class TraversoClimbRotatorConstants {
     public final double kArmTolerance = 1;
 
     // locations
-    public final double kNinetyDeg = 93;
-    public final double kMaxBackward = 122;
-    public final double kMaxForward = 90;
+    public final double kNinetyDeg = 90;
+    public final double kMaxBackward = 121;
+    public final double kMaxForward = kNinetyDeg;
     public final double kToBar = 110;
     public final double kHookStatic = 110;
 
     // PID constants
-    public final double kP = 0.02;
-    public final double kI = 0.00;
+    public final double kP = 0.03;
+    public final double kI = 0.01;
     public final double kD = 0.00;
 
     // encoder offset
