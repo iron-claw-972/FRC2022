@@ -54,7 +54,7 @@ public class ClimbOperator {
     controller.getDPad().down().whenHeld(new ParallelCommandGroup(
       // stow the cargo subsystem
       new PositionArm(cargoConstants.kStowPos),
-      new ExtendDownwards()
+      new ExtendDownwards(extend.kAlwaysZero)
     ));
 
     // when DPad Right is pressed, enable the rotator and go to kMaxForward degrees
@@ -81,7 +81,12 @@ public class ClimbOperator {
     controller.getButtons().LT().whenActive(new SequentialCommandGroup(
       new ClimbRotatorMove(rotate.kToBar)
     ));
+
+    controller.getButtons().RB().whenPressed(
+      new ExtendDownwards(true)
+    );
   }
+
 
   public static void autoClimbBinds() {
 
@@ -96,7 +101,7 @@ public class ClimbOperator {
     controller.getDPad().down().whenPressed(new SequentialCommandGroup(    
       new ClimbRotatorMove(rotate.kNinetyDeg),
       // when it reaches 90 degrees, compress
-      new ExtendDownwards(),
+      new ExtendDownwards(extend.kAlwaysZero),
       
       // after the static hooks are on, extend slightly upwards
       new ClimbExtenderMove(extend.kSlightlyUpward)
@@ -114,12 +119,16 @@ public class ClimbOperator {
 
       // compress fully and rotate to 90 degrees
       new ParallelCommandGroup(
-        new ExtendDownwards(),
+        new ExtendDownwards(extend.kAlwaysZero),
         new ClimbRotatorMove(rotate.kNinetyDeg)
       ),
 
       new ClimbExtenderMove(extend.kSlightlyUpward)
     ));
+
+    controller.getButtons().A().whenPressed(
+      new ExtendDownwards(true)
+    );
 
     // resume the climbing sequence
     controller.getButtons().START().whenPressed(

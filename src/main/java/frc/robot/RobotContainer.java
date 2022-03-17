@@ -12,7 +12,6 @@ import frc.robot.util.ShooterMethods;
 import frc.robot.util.ShuffleboardManager;
 import frc.robot.commands.FlexibleAuto;
 import frc.robot.commands.TeleopDrive;
-import frc.robot.commands.ZeroExtender;
 import frc.robot.controls.*;
 import edu.wpi.first.wpilibj2.command.*;
 

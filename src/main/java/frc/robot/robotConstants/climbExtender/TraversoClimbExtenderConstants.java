@@ -37,4 +37,6 @@ public class TraversoClimbExtenderConstants {
   public final double kSupplyTriggerThreshold = 40;
   public final double kSupplyTriggerDuration = 0;
   public final boolean kCoast = false;
+
+  public final boolean kAlwaysZero = true;
 }

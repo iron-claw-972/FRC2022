@@ -14,7 +14,15 @@ public class ExtendDownwards extends SequentialCommandGroup {
 
   TraversoClimbExtenderConstants extend = new TraversoClimbExtenderConstants();
 
-  public ExtendDownwards(){
+  /**
+   * 
+   * In parallel powers each extender downwards until it reaches the bottom limit switch. 
+   * Should be used exclusively when you want to go fully down. Has an option to zero when
+   * it reaches the bottom as the bottom is exactly where it hits the limit switch, 0.
+   * 
+   * @param zero whether or not it should zero the extender when it reaches the bottom
+   */
+  public ExtendDownwards(boolean zero){
       addRequirements(RobotContainer.m_extenderR, RobotContainer.m_extenderL);
       addCommands(
           new InstantCommand(() -> ClimberMethods.disableExtender()), //disable just to make sure PID doesn't run
@@ -22,12 +30,14 @@ public class ExtendDownwards extends SequentialCommandGroup {
             sequence(
               new InstantCommand(() -> RobotContainer.m_extenderL.setOutput(extend.kDownPower)),
               new WaitUntilCommand(() -> compressed(RobotContainer.m_extenderL)),
-              new InstantCommand(() -> RobotContainer.m_extenderL.disable())
+              new InstantCommand(() -> RobotContainer.m_extenderL.disable()),
+              (zero ? (new InstantCommand(() -> RobotContainer.m_extenderL.zero())) : new DoNothing())
             ),
             sequence(
               new InstantCommand(() -> RobotContainer.m_extenderR.setOutput(extend.kDownPower)),
               new WaitUntilCommand(() -> compressed(RobotContainer.m_extenderR)),
-              new InstantCommand(() -> RobotContainer.m_extenderR.disable())
+              new InstantCommand(() -> RobotContainer.m_extenderR.disable()),
+              (zero ? (new InstantCommand(() -> RobotContainer.m_extenderL.zero())) : new DoNothing())
             )
           )
       );

@@ -11,7 +11,6 @@ import frc.robot.commands.Intake;
 import frc.robot.commands.AlignToUpperHub;
 import frc.robot.commands.PositionArm;
 import frc.robot.commands.Shoot;
-import frc.robot.commands.ZeroExtender;
 import edu.wpi.first.wpilibj2.command.*;
 import frc.robot.robotConstants.cargoRotator.TraversoCargoRotatorConstants;
 import frc.robot.robotConstants.climbExtender.*;
@@ -45,12 +44,6 @@ public class ShooterOperator {
       new Shoot(cargoConstants.kBackOuttakeFarPos, beltConstants.kIntakeSpeed, wheelConstants.kBackOuttakeFarSpeed, beltConstants.kOuttakeSpeed, false, 0),
       ShooterMethods::isArmFront
     ));
-
-    controller.getButtons().START().whenPressed(
-      new ParallelCommandGroup(
-        new ZeroExtender(RobotContainer.m_extenderL),
-        new ZeroExtender(RobotContainer.m_extenderR))
-    );
 
     controller.getButtons().LB().whenHeld(new Shoot(cargoConstants.kFrontOuttakeHighPos, beltConstants.kIntakeSpeed, wheelConstants.kFrontOuttakeHighSpeed, beltConstants.kOuttakeSpeed, false, 0));
 
