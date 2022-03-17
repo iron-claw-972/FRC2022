@@ -4,6 +4,8 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import frc.robot.RobotContainer;
+import frc.robot.robotConstants.climbExtender.TraversoClimbExtenderConstants;
+import frc.robot.robotConstants.climbRotator.TraversoClimbRotatorConstants;
 import frc.robot.util.ClimberMethods;
 
 /**
@@ -13,9 +15,13 @@ import frc.robot.util.ClimberMethods;
  * @param extension The extension desired for the extenders.
  */
 public class ClimbExtenderMove extends SequentialCommandGroup {
+
+  TraversoClimbExtenderConstants extenderConstants = new TraversoClimbExtenderConstants();
+
   public ClimbExtenderMove(double extension) {
     addRequirements(RobotContainer.m_extenderL, RobotContainer.m_extenderR);
     addCommands(
+      (extension == 0 ? new ExtendDownwards(extenderConstants.kAlwaysZero) :
       new SequentialCommandGroup(
         // enable the extender
         new InstantCommand(() -> ClimberMethods.enableExtender()),
@@ -25,6 +31,6 @@ public class ClimbExtenderMove extends SequentialCommandGroup {
   
         // wait until they all reach their setpoints
         new WaitUntilCommand(() -> ClimberMethods.isExtenderAtSetpoint())
-    ));
+    )));
     }
 }
