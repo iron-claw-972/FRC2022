@@ -1,6 +1,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import frc.robot.RobotContainer;
@@ -20,12 +21,16 @@ public class ClimbRotatorMove extends SequentialCommandGroup {
       new SequentialCommandGroup(
         // enable the rotator
         new InstantCommand(() -> ClimberMethods.enableRotator()),
-  
+        new PrintCommand("passed enabled"),
+
         // angle the rotator
         new InstantCommand(() -> ClimberMethods.setAngle(angle)),
   
+        new PrintCommand("passed set angle"),
+
         // wait until rotator reaches its setpoint
-        new WaitUntilCommand(() -> ClimberMethods.isRotatorAtSetpoint())
+        new WaitUntilCommand(() -> ClimberMethods.isRotatorAtSetpoint()),
+        new PrintCommand("passed setpoint")
     ));
     }
 }
