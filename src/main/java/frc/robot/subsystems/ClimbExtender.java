@@ -15,7 +15,7 @@ import frc.robot.robotConstants.climbExtender.TraversoClimbExtenderConstants;
 
 public class ClimbExtender extends SubsystemBase {
   TraversoClimbExtenderConstants constants = new TraversoClimbExtenderConstants();
-  private boolean enabled = false;
+  private boolean enabled = true;
   private boolean manualEnabled = false;
   private final WPI_TalonFX m_motor;
   private String side;

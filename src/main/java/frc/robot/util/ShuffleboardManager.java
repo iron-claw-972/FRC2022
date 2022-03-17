@@ -115,6 +115,8 @@ public class ShuffleboardManager {
     primaryTab.addBoolean(extender.getSide() + " Extender", extender::isEnabled);
     
     pidTab.add(extender.getSide() + "Climb Extender PID", extender.extenderPID);
+    pidTab.addNumber(extender.getSide() + " Extension", extender::currentExtensionRaw);
+  
   }
   public void loadClimbRotatorShuffleboard(ClimbRotator rotator) {
     // a pop-up in shuffleboard that allows you to see how much the arm extended in inches
