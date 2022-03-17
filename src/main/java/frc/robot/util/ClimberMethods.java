@@ -18,6 +18,11 @@ public class ClimberMethods {
     RobotContainer.m_climbRotatorR.setOutput(pow);
   }
 
+  public static void setExtenderOutput(double pow) {
+    RobotContainer.m_extenderL.setOutput(pow);
+    RobotContainer.m_extenderR.setOutput(pow);
+  }
+
   public static boolean isExtenderAtSetpoint() {
     // if the extenders reached their setpoint, return true
     return RobotContainer.m_extenderL.reachedSetpoint() && RobotContainer.m_extenderR.reachedSetpoint();
@@ -25,6 +30,8 @@ public class ClimberMethods {
 
   public static boolean isRotatorAtSetpoint() {
     // if the rotators reached their setpoint, return true
+   // System.out.println("R: " + RobotContainer.m_climbRotatorR.reachedSetpoint());
+   // System.out.println("L: " + RobotContainer.m_climbRotatorL.reachedSetpoint());
     return RobotContainer.m_climbRotatorR.reachedSetpoint() && RobotContainer.m_climbRotatorL.reachedSetpoint();
   }
 

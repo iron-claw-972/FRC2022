@@ -97,7 +97,9 @@ public class ClimbRotator extends SubsystemBase {
 
   public boolean reachedSetpoint() {
     // checks if the arm is at its setpoint
-    return armPID.atSetpoint();
+    System.out.println(side + " " + ((currentAngle() > setPoint - constants.kArmTolerance) ? "within lower tolerance" : "NOT within lower tolerance"));
+    System.out.println(side + " " + ((currentAngle() < setPoint + constants.kArmTolerance) ? "within upper tolerance" : "NOT within upper tolerance"));
+    return (currentAngle() < setPoint + constants.kArmTolerance && currentAngle() > setPoint - constants.kArmTolerance);
   }
 
   //enables PID
