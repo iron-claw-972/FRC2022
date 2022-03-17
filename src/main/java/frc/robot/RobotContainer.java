@@ -75,11 +75,12 @@ import edu.wpi.first.cscore.UsbCamera;
     //m_cargoShooter.setDefaultCommand(new RunCommand(() -> RobotContainer.m_cargoShooter.setOutput(Operator.controller.getJoystickAxis().leftY()), m_cargoShooter));
     //m_cargoBelt.setDefaultCommand(new RunCommand(() -> RobotContainer.m_cargoBelt.setOutput(-Operator.controller.getJoystickAxis().rightY()), m_cargoBelt));
     // m_limelight.setDefaultCommand(new GetDistance(m_limelight, m_cargoRotator));
-
+    
     // Configure the button bindings
     Driver.configureButtonBindings();
     ShooterOperator.configureButtonBindings();
     ClimbOperator.configureButtonBindings();
+    ManualClimb.configureButtonBindings();
   }
 
   /**
