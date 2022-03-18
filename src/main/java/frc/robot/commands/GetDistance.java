@@ -51,15 +51,16 @@ public class GetDistance extends CommandBase {
     
     // Get horizontal distance from vision tape to limelight lens
     double limelightDistance = m_limelight.getHubDistance(currentStipeAngle);
-    pivotDistance = ShooterMethods.limelightDistanceToPivotDistance(limelightDistance, currentLimelightAngle);
 
-    if (Double.isNaN(pivotDistance) || ((currentLimelightAngle < 90) != (currentPhysicalShooterAngle < 90))) {
+    if (Double.isNaN(limelightDistance) || ((currentLimelightAngle < 90) != (currentPhysicalShooterAngle < 90))) {
       // If distance not found or limelight on opposite side of shooting trajectory, then do not shoot
       optimalVelocity = Double.NaN;
       optimalStipeAngle = Double.NaN;
       pivotDistance = Double.NaN;
       return;
     }
+
+    pivotDistance = ShooterMethods.limelightDistanceToPivotDistance(limelightDistance, currentLimelightAngle);
 
     double currentTargetHeightOffset = ShooterMethods.getTargetHeightOffset(currentPhysicalShooterAngle);
     double currentShootingDistance = ShooterMethods.getShootingDistance(pivotDistance, currentPhysicalShooterAngle);
