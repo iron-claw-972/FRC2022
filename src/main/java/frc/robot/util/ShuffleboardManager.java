@@ -125,7 +125,7 @@ public class ShuffleboardManager {
 
     cargoTab.addNumber("Chase offset", () -> ChaseBall.offset);
 
-    cargoTab.addNumber("Distance", () -> GetDistance.distance);
+    cargoTab.addNumber("Pivot Distance", () -> GetDistance.pivotDistance);
     cargoTab.addNumber("Optimal velocity", () -> GetDistance.optimalVelocity);
     cargoTab.addNumber("Optimal angle", () -> GetDistance.optimalStipeAngle);
   }

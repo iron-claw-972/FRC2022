@@ -23,17 +23,45 @@ public class ShooterMethods {
     return RobotContainer.m_cargoShooter.getVelocity();
   }
 
-  public static double getOptimalShooterSpeed(double shootingAngle, double targetHeightOffset, double distance) {
+  public static double getTargetHeightOffset(double physicalShootingAngle) {
+    double physicalShootingAngleRad = Units.degreesToRadians(physicalShootingAngle);
+    double targetHeightOffset = RobotContainer.limelightConstants.kHubHeight // Height of hub
+                              - RobotContainer.limelightConstants.kPivotHeight // Height of stipe pivot
+                              - (RobotContainer.cargoConstants.kPivotToShootingExitPointLength * Math.sin(physicalShootingAngleRad)); // Height from pivot to shooter exit point
+    return targetHeightOffset;
+  }
+
+  public static double getShootingDistance(double pivotDistance, double physicalShootingAngle) {
+    double physicalShootingAngleRad = Units.degreesToRadians(physicalShootingAngle);
+
+    // Horizontal distance from shooter exit point to center of hub
+    double shootingDistance = pivotDistance // Distance from vision tape to pivot
+                            + (RobotContainer.limelightConstants.kHubDiameter / 2) // Radius of the hub
+                            - (RobotContainer.cargoConstants.kPivotToShootingExitPointLength * Math.cos(physicalShootingAngleRad)); // Subtract horizontal distance from stipe pivot to exit point of shooter (the midpoint between the centers of the two shooter wheels)
+    return shootingDistance;
+  }
+
+  public static double limelightDistanceToPivotDistance(double limelightDistance, double limelightAngle) {
+    double limelightAngleRad = Units.degreesToRadians(limelightAngle);
+    double pivotDistance = limelightDistance
+                           + (RobotContainer.limelightConstants.kPivotToLimelightLength * Math.cos(limelightAngleRad)); // Horizontal distance from limelight to stipe pivot
+    return pivotDistance;
+  }
+
+
+  public static double getOptimalShooterSpeed(double shootingAngle, double targetHeightOffset, double shooterDistance) {
     double shootingAngleRad = Units.degreesToRadians(shootingAngle);
-    double optimalSpeed = (distance / Math.cos(shootingAngleRad))
+    double optimalSpeed = (shooterDistance / Math.cos(shootingAngleRad))
                         * Math.sqrt(Constants.GRAVITATIONAL_ACCEL
-                          / (2 * (distance * Math.tan(shootingAngleRad) - targetHeightOffset)));
+                          / (2 * (shooterDistance * Math.tan(shootingAngleRad) - targetHeightOffset)));
     return optimalSpeed;
   }
 
-  public static double getOptimalShootingAngle(double sAngle, double distance, double targetHeightOffset) {
+  public static double getOptimalShootingAngle(double sAngle, double shooterDistance, double targetHeightOffset) {
     double sAngleRad = Units.degreesToRadians(sAngle);
-    double optimalAngle = Math.atan((2 * targetHeightOffset / distance) - Math.tan(sAngleRad));
+    double optimalAngle = Math.atan(
+      (2 * targetHeightOffset / shooterDistance) - Math.tan(sAngleRad)
+    );
     optimalAngle = Units.radiansToDegrees(optimalAngle);
     return optimalAngle;
   }

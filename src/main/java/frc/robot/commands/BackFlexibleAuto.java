@@ -20,7 +20,7 @@ public class BackFlexibleAuto extends SequentialCommandGroup {
           new ShootAuto(false, false, 1, () -> DriveDistance.isFinished, 154, 25)
         ),
         new ConditionalCommand(
-          new IntakeAuto(cargoConstants.kBackOuttakeFarPos, false, Constants.kIsRedAlliance, Constants.AutoConstants.kAutoIntakeDriveDistance), 
+          new IntakeAuto(cargoConstants.kAutoBackOuttakeFarPos, false, Constants.kIsRedAlliance, Constants.AutoConstants.kAutoIntakeDriveDistance), 
           new DoNothing(),
           () -> intakeSecond
         ),

@@ -15,7 +15,7 @@ public class GetDistance extends CommandBase {
   public static boolean isFinished = false;
   public static double optimalVelocity = Double.NaN;
   public static double optimalStipeAngle = Double.NaN;
-  public static double distance = Double.NaN;
+  public static double pivotDistance = Double.NaN;
 
   private boolean isFront = true;
 
@@ -30,59 +30,59 @@ public class GetDistance extends CommandBase {
     m_limelight.setUpperHubPipeline();
     optimalVelocity = Double.NaN;
     optimalStipeAngle = Double.NaN;
-    distance = Double.NaN;
+    pivotDistance = Double.NaN;
   }
 
   @Override
   public void execute() {
     // Get distance from limelight
-    double stipeAngle = ShooterMethods.getArmAngle(); // From 0 to 175 deg
-    double limelightAngle = stipeAngle + constants.kStipeToLimelightAngularOffset; // Offset is negative
-    double physicalShooterAngle = stipeAngle + RobotContainer.cargoConstants.kStipeToPhysicalShooterAngularOffset; // Offset is negative
+    double currentStipeAngle = ShooterMethods.getArmAngle(); // From 0 to 175 deg
+    
+    double currentLimelightAngle = currentStipeAngle + constants.kStipeToLimelightAngularOffset; // Offset is negative
+    double currentPhysicalShooterAngle = currentStipeAngle + RobotContainer.cargoConstants.kStipeToPhysicalShooterAngularOffset; // Offset is negative
 
-    isFront = limelightAngle < 90; // Uses limelight angle because distance calculation is done with the limelight angle
+    isFront = currentLimelightAngle < 90; // Uses limelight angle because distance calculation is done with the limelight angle
+
+    // Turns all angles into acute angles for easy calculations
     if (!isFront) {
-      limelightAngle = 180 - limelightAngle;
-      physicalShooterAngle = 180 - physicalShooterAngle;
+      currentLimelightAngle = 180 - currentLimelightAngle;
+      currentPhysicalShooterAngle = 180 - currentPhysicalShooterAngle;
     }
     
     // Get horizontal distance from vision tape to limelight lens
-    distance = m_limelight.getHubDistance(stipeAngle);
+    double limelightDistance = m_limelight.getHubDistance(currentStipeAngle);
+    pivotDistance = ShooterMethods.limelightDistanceToPivotDistance(limelightDistance, currentLimelightAngle);
 
-    if (Double.isNaN(distance) || ((limelightAngle < 90) != (physicalShooterAngle < 90))) {
+    if (Double.isNaN(pivotDistance) || ((currentLimelightAngle < 90) != (currentPhysicalShooterAngle < 90))) {
       // If distance not found or limelight on opposite side of shooting trajectory, then do not shoot
       optimalVelocity = Double.NaN;
       optimalStipeAngle = Double.NaN;
-      distance = Double.NaN;
+      pivotDistance = Double.NaN;
       return;
     }
 
-    // Now we can be sure that we are working with acute angles
-
-    // We want to work in degrees
-    double limelightAngleRad = Units.degreesToRadians(limelightAngle);
-    double physicalShooterAngleRad = Units.degreesToRadians(physicalShooterAngle);
-
-    // Horizontal distance from shooter exit point to center of hub
-    double shootingDistance = distance // Distance from vision tape to limelight lens
-                            + (constants.kHubWidth / 2) // Radius of the hub
-                            + (constants.kPivotToLimelightLength * Math.cos(limelightAngleRad)) // Horizontal distance from limelight to stipe pivot
-                            - (RobotContainer.cargoConstants.kPivotToShootingExitPointLength * Math.cos(physicalShooterAngleRad)); // Subtract horizontal distance from stipe pivot to exit point of shooter (the midpoint between the centers of the two shooter wheels)
-
-    double targetHeightOffset = constants.kHubHeight // Height of hub
-                              - constants.kPivotHeight // Height of stipe pivot
-                              - (RobotContainer.cargoConstants.kPivotToShootingExitPointLength * Math.sin(physicalShooterAngleRad)); // Height from pivot to shooter exit point
+    double currentTargetHeightOffset = ShooterMethods.getTargetHeightOffset(currentPhysicalShooterAngle);
+    double currentShootingDistance = ShooterMethods.getShootingDistance(pivotDistance, currentPhysicalShooterAngle);
 
     // Find optimal shooting angle
-    double optimalShootingAngle = ShooterMethods.getOptimalShootingAngle(RobotContainer.cargoConstants.kSAngle, shootingDistance, targetHeightOffset);
+    double optimalShootingAngle = ShooterMethods.getOptimalShootingAngle(RobotContainer.cargoConstants.kSAngle, currentShootingDistance, currentTargetHeightOffset);
 
-    // Physical shooting angle relative to front zero degrees
+    // Actual shooting angle relative to front zero degrees
     double actualOptimalShootingAngle = (isFront ? optimalShootingAngle : 180 - optimalShootingAngle);
 
     optimalStipeAngle = actualOptimalShootingAngle - RobotContainer.cargoConstants.kStipeToShootingTrajectoryAngularOffset;
 
+    double actualOptimalPhysicalShooterAngle = optimalStipeAngle + RobotContainer.cargoConstants.kStipeToPhysicalShooterAngularOffset;
+    double optimalPhysicalShooterAngle = (isFront ? actualOptimalPhysicalShooterAngle : 180 - actualOptimalPhysicalShooterAngle);
+
+    // double actualOptimalLimelightAngle = optimalStipeAngle + RobotContainer.limelightConstants.kStipeToLimelightAngularOffset;
+    // double optimalLimelightAngle = (isFront ? actualOptimalLimelightAngle : 180 - actualOptimalLimelightAngle);
+
+    double newTargetHeightOffset = ShooterMethods.getTargetHeightOffset(optimalPhysicalShooterAngle);
+    double newShootingDistance = ShooterMethods.getShootingDistance(pivotDistance, optimalPhysicalShooterAngle);
+
     // Find optimal shooting velocity
-    optimalVelocity = Units.metersToFeet(ShooterMethods.getOptimalShooterSpeed(optimalShootingAngle, targetHeightOffset, distance));
+    optimalVelocity = Units.metersToFeet(ShooterMethods.getOptimalShooterSpeed(optimalShootingAngle, newTargetHeightOffset, newShootingDistance));
     optimalVelocity *= -1; // Shooter takes negative input to outtake
     optimalVelocity *= RobotContainer.wheelConstants.kShotEfficiency;
   }

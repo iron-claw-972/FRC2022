@@ -24,16 +24,19 @@ public class Shoot extends SequentialCommandGroup {
       addRequirements(RobotContainer.m_cargoShooter, RobotContainer.m_cargoRotator, RobotContainer.m_cargoBelt, RobotContainer.m_limelight);
       addCommands(
         new InstantCommand(() -> ShooterMethods.enableAll()),
-        // Set hub pipeline early to account for network latency
-        new InstantCommand(() -> RobotContainer.m_limelight.setUpperHubPipeline()),
 
         parallel(
+          // Set hub pipeline early to account for network latency
+          new InstantCommand(() -> RobotContainer.m_limelight.setUpperHubPipeline()),
+
           // Spin up belt and wheels in advance
           sequence(
             // Don't spin shooting wheels until ball is confirmed to be in shooter
             new InstantCommand(() -> ShooterMethods.setBeltPower(RobotContainer.beltConstants.kIntakeSpeed)),
-            new WaitUntilCommand(() -> ShooterMethods.isBallContained()).withTimeout(0.5),
+            new WaitUntilCommand(() -> ShooterMethods.isBallContained()).withTimeout(0.5)
+          ),
 
+          sequence(
             // Spin up wheels to optimal velocity when the limelight gets the optimal angle
             new ConditionalCommand(
               sequence(
@@ -51,7 +54,7 @@ public class Shoot extends SequentialCommandGroup {
           sequence(
             // Get arm to limelight angle
             new ConditionalCommand(
-              new PositionArm((isFront ? RobotContainer.cargoConstants.kFrontLimelightScanPos : RobotContainer.cargoConstants.kBackLimelightScanPos)).withTimeout(1),
+              new PositionArm((isFront ? RobotContainer.cargoConstants.kFrontLimelightScanPos : RobotContainer.cargoConstants.kBackLimelightScanPos)).withTimeout(0.75),
               new DoNothing(), 
               () -> doesCalculateSpeed || doesAlign
             ),
@@ -62,16 +65,13 @@ public class Shoot extends SequentialCommandGroup {
               new DoNothing(),
               () -> doesAlign
             ),
-            //  Calculate distance and determines optimal shooting angle and velocity
+            //  Calculate distance and determines optimal shooting angle and velocity and
+            // set to actual shooting angle
             new ConditionalCommand(
-              new GetDistance(RobotContainer.m_limelight).withTimeout(0.5),
-              new DoNothing(),
-              () -> doesCalculateSpeed
-            ),
-
-            // Set to actual shooting angle
-            new ConditionalCommand(
-              new PositionArm(() -> GetDistance.optimalStipeAngle),
+              sequence(
+                new GetDistance(RobotContainer.m_limelight).withTimeout(0.5),
+                new PositionArm(() -> GetDistance.optimalStipeAngle)
+              ),
               new PositionArm(outtakeArmPosition),
               () -> doesCalculateSpeed
             )

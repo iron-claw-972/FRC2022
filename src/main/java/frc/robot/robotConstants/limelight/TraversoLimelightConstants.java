@@ -21,7 +21,7 @@ public class TraversoLimelightConstants {
 
   public final double kStipeToLimelightAngularOffset = -33;
   public final double kHubHeight = Units.inchesToMeters(102.625); // Distance from ground to center of vision tape
-  public final double kHubWidth = Units.inchesToMeters(60.125);
+  public final double kHubDiameter = Units.inchesToMeters(60.125);
   public final double kBallTargetHeight = Units.inchesToMeters(9.5/2);
   public final boolean kIsMountedHorizontally = true;
 
