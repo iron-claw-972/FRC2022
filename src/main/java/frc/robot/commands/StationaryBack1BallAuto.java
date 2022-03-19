@@ -12,7 +12,7 @@ public class StationaryBack1BallAuto extends SequentialCommandGroup {
   public static TraversoBeltConstants beltConstants = new TraversoBeltConstants();
   public static TraversoCargoShooterConstants wheelConstants = new TraversoCargoShooterConstants();
 
-  public StationaryBack1BallAuto(double distance, boolean intakeSecond, boolean shootSecond , boolean isRedBall) {
+  public StationaryBack1BallAuto() {
     addRequirements(RobotContainer.m_drive, RobotContainer.m_cargoBelt, RobotContainer.m_cargoRotator, RobotContainer.m_cargoShooter);
     addCommands(
         new ShootAuto(false, false, 1, () -> DriveDistance.isFinished, 154, 25),

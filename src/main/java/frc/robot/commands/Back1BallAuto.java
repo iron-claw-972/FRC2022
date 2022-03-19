@@ -8,11 +8,13 @@ import frc.robot.robotConstants.shooterBelt.TraversoBeltConstants;
 import frc.robot.robotConstants.shooterWheel.TraversoCargoShooterConstants;
 
 public class Back1BallAuto extends SequentialCommandGroup {
+  //THIS AUTO IS NOT TESTED AND MAY BE INACCURATE
+
   public static TraversoCargoRotatorConstants cargoConstants = new TraversoCargoRotatorConstants();
   public static TraversoBeltConstants beltConstants = new TraversoBeltConstants();
   public static TraversoCargoShooterConstants wheelConstants = new TraversoCargoShooterConstants();
 
-  public Back1BallAuto(double distance, boolean intakeSecond, boolean shootSecond , boolean isRedBall) {
+  public Back1BallAuto() {
     addRequirements(RobotContainer.m_drive, RobotContainer.m_cargoBelt, RobotContainer.m_cargoRotator, RobotContainer.m_cargoShooter);
     addCommands(
         parallel(
