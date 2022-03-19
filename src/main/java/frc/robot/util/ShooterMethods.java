@@ -23,21 +23,21 @@ public class ShooterMethods {
     return RobotContainer.m_cargoShooter.getVelocity();
   }
 
-  public static double getTargetHeightOffset(double physicalShootingAngle) {
-    double physicalShootingAngleRad = Units.degreesToRadians(physicalShootingAngle);
+  public static double getTargetHeightOffset(double physicalShooterAngle) {
+    double physicalShooterAngleRad = Units.degreesToRadians(physicalShooterAngle);
     double targetHeightOffset = RobotContainer.limelightConstants.kHubHeight // Height of hub
                               - RobotContainer.limelightConstants.kPivotHeight // Height of stipe pivot
-                              - (RobotContainer.cargoConstants.kPivotToShootingExitPointLength * Math.sin(physicalShootingAngleRad)); // Height from pivot to shooter exit point
+                              - (RobotContainer.cargoConstants.kPivotToShootingExitPointLength * Math.sin(physicalShooterAngleRad)); // Height from pivot to shooter exit point
     return targetHeightOffset;
   }
 
-  public static double getShootingDistance(double pivotDistance, double physicalShootingAngle) {
-    double physicalShootingAngleRad = Units.degreesToRadians(physicalShootingAngle);
+  public static double getShootingDistance(double pivotDistance, double physicalShooterAngle) {
+    double physicalShooterAngleRad = Units.degreesToRadians(physicalShooterAngle);
 
     // Horizontal distance from shooter exit point to center of hub
     double shootingDistance = pivotDistance // Distance from vision tape to pivot
                             + (RobotContainer.limelightConstants.kHubDiameter / 2) // Radius of the hub
-                            - (RobotContainer.cargoConstants.kPivotToShootingExitPointLength * Math.cos(physicalShootingAngleRad)); // Subtract horizontal distance from stipe pivot to exit point of shooter (the midpoint between the centers of the two shooter wheels)
+                            - (RobotContainer.cargoConstants.kPivotToShootingExitPointLength * Math.cos(physicalShooterAngleRad)); // Subtract horizontal distance from stipe pivot to exit point of shooter (the midpoint between the centers of the two shooter wheels)
     return shootingDistance;
   }
 

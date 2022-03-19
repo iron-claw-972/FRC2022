@@ -235,9 +235,9 @@ public class Limelight extends SubsystemBase {
   private double getLimelightAngle(double armAngle) {
     // If angle is obtuse, find the supplementary angle
     if (isFacingFront()) {
-      return (armAngle + constants.kStipeToLimelightAngularOffset);
+      return (armAngle + constants.kStipeToLimelightFaceAngularOffset);
     }
-    return 180 - (armAngle + constants.kStipeToLimelightAngularOffset);
+    return 180 - (armAngle + constants.kStipeToLimelightFaceAngularOffset);
   }
 
   public double getTargetArea() {

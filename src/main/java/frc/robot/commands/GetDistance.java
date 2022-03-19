@@ -38,21 +38,22 @@ public class GetDistance extends CommandBase {
     // Get distance from limelight
     double currentStipeAngle = ShooterMethods.getArmAngle(); // From 0 to 175 deg
     
-    double currentLimelightAngle = currentStipeAngle + constants.kStipeToLimelightAngularOffset; // Offset is negative
+    double currentLimelightFaceAngle = currentStipeAngle + constants.kStipeToLimelightFaceAngularOffset; // Offset is negative
+    double currentLimelightPosAngle = currentStipeAngle + constants.kStipeToLimelightPosAngularOffset; // Offset is negative
     double currentPhysicalShooterAngle = currentStipeAngle + RobotContainer.cargoConstants.kStipeToPhysicalShooterAngularOffset; // Offset is negative
 
-    isFront = currentLimelightAngle < 90; // Uses limelight angle because distance calculation is done with the limelight angle
+    isFront = currentLimelightFaceAngle < 90; // Uses limelight angle because distance calculation is done with the limelight angle
 
     // Turns all angles into acute angles for easy calculations
     if (!isFront) {
-      currentLimelightAngle = 180 - currentLimelightAngle;
+      currentLimelightFaceAngle = 180 - currentLimelightFaceAngle;
       currentPhysicalShooterAngle = 180 - currentPhysicalShooterAngle;
     }
     
     // Get horizontal distance from vision tape to limelight lens
     double limelightDistance = m_limelight.getHubDistance(currentStipeAngle);
 
-    if (Double.isNaN(limelightDistance) || ((currentLimelightAngle < 90) != (currentPhysicalShooterAngle < 90))) {
+    if (Double.isNaN(limelightDistance) || ((currentLimelightFaceAngle < 90) != (currentPhysicalShooterAngle < 90))) {
       // If distance not found or limelight on opposite side of shooting trajectory, then do not shoot
       optimalVelocity = Double.NaN;
       optimalStipeAngle = Double.NaN;
@@ -60,7 +61,7 @@ public class GetDistance extends CommandBase {
       return;
     }
 
-    pivotDistance = ShooterMethods.limelightDistanceToPivotDistance(limelightDistance, currentLimelightAngle);
+    pivotDistance = ShooterMethods.limelightDistanceToPivotDistance(limelightDistance, currentLimelightPosAngle);
 
     double currentTargetHeightOffset = ShooterMethods.getTargetHeightOffset(currentPhysicalShooterAngle);
     double currentShootingDistance = ShooterMethods.getShootingDistance(pivotDistance, currentPhysicalShooterAngle);
