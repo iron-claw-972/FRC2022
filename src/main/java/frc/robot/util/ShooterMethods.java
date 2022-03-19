@@ -41,10 +41,16 @@ public class ShooterMethods {
     return shootingDistance;
   }
 
-  public static double limelightDistanceToPivotDistance(double limelightDistance, double limelightAngle) {
-    double limelightAngleRad = Units.degreesToRadians(limelightAngle);
-    double pivotDistance = limelightDistance
-                           + (RobotContainer.limelightConstants.kPivotToLimelightLength * Math.cos(limelightAngleRad)); // Horizontal distance from limelight to stipe pivot
+  public static double limelightDistanceToPivotDistance(double limelightDistance, double limelightPosAngle) {
+    double limelightPosAngleRad = Units.degreesToRadians(limelightPosAngle);
+    double pivotDistance;
+    if (limelightPosAngle - RobotContainer.limelightConstants.kStipeToLimelightPosAngularOffset + RobotContainer.limelightConstants.kStipeToLimelightFaceAngularOffset < 90) {
+      pivotDistance = limelightDistance
+                            - (RobotContainer.limelightConstants.kPivotToLimelightLength * Math.cos(limelightPosAngleRad)); // Horizontal distance from limelight to stipe pivot
+    } else {
+      pivotDistance = limelightDistance
+                            + (RobotContainer.limelightConstants.kPivotToLimelightLength * Math.cos(limelightPosAngleRad)); // Horizontal distance from limelight to stipe pivot
+    }
     return pivotDistance;
   }
 
@@ -83,14 +89,14 @@ public class ShooterMethods {
   }
 
   public static boolean isArmBack(){
-    return RobotContainer.m_cargoRotator.isBackOutakeFar() || RobotContainer.m_cargoRotator.isBackOutakeNear();
+    return !isArmFront();
   }
 
   public static boolean isArmFront(){
     // return RobotContainer.m_cargoRotator.isFrontOutakeFar() || RobotContainer.m_cargoRotator.isFrontOutakeNear();
     // return RobotContainer.m_cargoRotator.currentAngle() <= Operator.cargoConstants.kFrontOuttakeFarPos + 3 &&
     //   RobotContainer.m_cargoRotator.currentAngle() <= Operator.cargoConstants.kFrontOuttakeNearPos + 3;
-    return RobotContainer.m_cargoRotator.currentAngle() < 133;
+    return RobotContainer.m_cargoRotator.currentAngle() + RobotContainer.cargoConstants.kStipeToPhysicalShooterAngularOffset < 90;
   }
 
   //

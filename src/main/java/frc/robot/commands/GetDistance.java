@@ -96,7 +96,6 @@ public class GetDistance extends CommandBase {
 
     // Find optimal shooting velocity
     optimalVelocity = Units.metersToFeet(ShooterMethods.getOptimalShooterSpeed(optimalShootingAngle, newTargetHeightOffset, newShootingDistance));
-    optimalVelocity *= -1; // Shooter takes negative input to outtake
     optimalVelocity *= RobotContainer.wheelConstants.kShotEfficiency;
   }
 
