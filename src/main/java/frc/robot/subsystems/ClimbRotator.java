@@ -8,6 +8,7 @@ import frc.robot.util.LimitSwitch;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class ClimbRotator extends SubsystemBase {
@@ -19,7 +20,7 @@ public class ClimbRotator extends SubsystemBase {
   public final String side;
   private boolean left;
 
-  private double setPoint = 90;
+  private double setpoint = constants.kNinetyDeg;
   private double encoderOffset;
 
   public PIDController armPID = new PIDController(constants.kP , constants.kI , constants.kD);
@@ -33,6 +34,7 @@ public class ClimbRotator extends SubsystemBase {
       side = "Left"; // the direction for shuffleboard's use
       m_motor.setInverted(true); // inverts the motor
       encoderOffset = constants.kArmLeftEncoderOffset; // sets an offset for the encoder
+      enabled = false;
 
      // limitSwitchLower = new LimitSwitch(constants.kLeftLimitSwitchLower , constants.kLimitSwitchDebouncer);
      // limitSwitchUpper = new LimitSwitch(constants.kLeftLimitSwitchUpper , constants.kLimitSwitchDebouncer);
@@ -54,10 +56,10 @@ public class ClimbRotator extends SubsystemBase {
 
     // set the tolerance allowed for the PID
     armPID.setTolerance(constants.kArmTolerance);
-    // SmartDashboard.putData(direction + " rot", armPID);
 
-    //setEncoder(120);
-   // SmartDashboard.putNumber(side + " offset", encoderOffset);
+    //use this to calibrate rotators and then look in smartdashboard
+    //setEncoder(123);
+    //SmartDashboard.putNumber(side + " offset", encoderOffset);
   }
 
   @Override
@@ -66,9 +68,11 @@ public class ClimbRotator extends SubsystemBase {
     // SmartDashboard.putNumber(direction + " rotator angle raw", currentAngleRaw());
     // SmartDashboard.putNumber(direction + " rotator angle", currentAngle());
     // SmartDashboard.putNumber(direction + " rotator offset", encoderOffset);
-    if(enabled) {
+    if(enabled && side.equals("Right")) {
       // set the arm power according to the PID
-      setOutput(armPID.calculate(currentAngle(), setPoint));
+      setOutput(armPID.calculate(currentAngle(), setpoint));
+    } else {
+      m_motor.set(0);
     }
   }
 
@@ -97,14 +101,14 @@ public class ClimbRotator extends SubsystemBase {
 
   public boolean reachedSetpoint() {
     // checks if the arm is at its setpoint
-    System.out.println(side + " " + ((currentAngle() > setPoint - constants.kArmTolerance) ? "within lower tolerance" : "NOT within lower tolerance"));
-    System.out.println(side + " " + ((currentAngle() < setPoint + constants.kArmTolerance) ? "within upper tolerance" : "NOT within upper tolerance"));
-    return (currentAngle() < setPoint + constants.kArmTolerance && currentAngle() > setPoint - constants.kArmTolerance);
+    return (currentAngle() < setpoint + constants.kArmTolerance && currentAngle() > setpoint - constants.kArmTolerance);
   }
 
   //enables PID
   public void enable() {
+    if (side.equals("Right")) {
     enabled = true;
+    }
   }
 
   public void disable() {
@@ -114,12 +118,15 @@ public class ClimbRotator extends SubsystemBase {
   }
 
   public void setOutput(double motorPower){
-    m_motor.set(MathUtil.clamp(motorPower, -constants.kMotorClamp, constants.kMotorClamp));
+    if (side.equals("Right")) {
+      m_motor.set(MathUtil.clamp(motorPower, -constants.kMotorClamp, constants.kMotorClamp));
+    }
   }
 
   // sets PID Goal
   public void setGoal(double goal){
-    setPoint = goal;
+    armPID.reset();
+    setpoint = goal;
   }
 
   public boolean isEnabled() {
@@ -131,6 +138,6 @@ public class ClimbRotator extends SubsystemBase {
   }
 
   public double getSetPoint() {
-      return setPoint;
+      return setpoint;
   }
 }

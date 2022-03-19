@@ -6,19 +6,23 @@ public class TraversoClimbExtenderConstants {
   public final int kLeftExtenderPort = 11;
 
   // the arm's length in ticks
-  public final double kExtenderMaxArmTicks = 508000;
+  public final double kSoftLimit = 600000;
 
   // tolerance allowed to the PID 
-  public final double kExtenderTolerance = 2000;
+  public final double kExtenderTolerance = 500;
 
   // motor clamps
   public final double kMotorClampDown = -0.9; //should be negative!
   public final double kMotorClampUp = .7;     //should be positive!
   
   // locations
-  public final double kMaxUpwards = kExtenderMaxArmTicks;
-  public final double kHalfway = kExtenderMaxArmTicks / 2;
-  public final double kSlightlyUpward = kExtenderMaxArmTicks / 4;
+  public final double kLeftMaxUpwards = 540994;
+  public final double kLeftHalfway = kLeftMaxUpwards / 2;
+  public final double kLeftSlightlyUpward = kLeftMaxUpwards / 4;
+
+  public final double kRightMaxUpwards = 530358;
+  public final double kRightHalfway = kRightMaxUpwards / 2;
+  public final double kRightSlightlyUpward = kRightMaxUpwards / 4;
 
   public final double kDownPower = -0.7;
   
@@ -38,5 +42,5 @@ public class TraversoClimbExtenderConstants {
   public final double kSupplyTriggerDuration = 0;
   public final boolean kCoast = false;
 
-  public final boolean kAlwaysZero = true;
+  public final boolean kAlwaysZero = false;
 }
