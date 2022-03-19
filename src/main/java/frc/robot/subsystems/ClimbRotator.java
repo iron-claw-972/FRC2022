@@ -8,7 +8,6 @@ import frc.robot.util.LimitSwitch;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class ClimbRotator extends SubsystemBase {
@@ -24,6 +23,7 @@ public class ClimbRotator extends SubsystemBase {
   private double encoderOffset;
 
   public PIDController armPID = new PIDController(constants.kP , constants.kI , constants.kD);
+  // TODO: Check if we're using limit switches for the rotator and if not, remove these variables and the unneeded import <3
   private LimitSwitch limitSwitchLower, limitSwitchUpper;
 
   public ClimbRotator(boolean isLeft) {

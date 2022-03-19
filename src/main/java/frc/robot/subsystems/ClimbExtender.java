@@ -5,7 +5,6 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.util.ControllerFactory;
 import frc.robot.util.LimitSwitch;
@@ -43,40 +42,42 @@ public class ClimbExtender extends SubsystemBase {
     }
 
     // converts the length of the arm in inches to ticks and makes that the maximum tick limit, it's checked every 10 milliseconds
-    // TODO: Update this max forward limit!
     m_motor.configForwardSoftLimitThreshold(constants.kSoftLimit, 10);
 
     // so that the limiters are enabled
     // TODO: If the motors don't move, CHECK TO SEE IF THE LIMITER IS TOO LOW!
     m_motor.configForwardSoftLimitEnable(true, 10);
 
+    // so that I in the PID doesn't accumulate
     extenderPID.reset();
 
     // set the PID's tolerance
     extenderPID.setTolerance(constants.kExtenderTolerance);
   }
 
+  // check if the setpoint is reached
   public boolean reachedSetpoint() {
+    // returns true if the limit switch is hit or if the extension is within tolerance of its setpoint
     return limitSwitch.risingEdge() || (currentExtensionRaw() < setpoint + constants.kExtenderTolerance && currentExtensionRaw() > setpoint - constants.kExtenderTolerance);
   }
 
+  // use this method to prevent the PID from accumulating too much speed
   public void resetPID() {
     extenderPID.reset();
   }
 
+  // use this ONLY to set the current position as zero
   public void zero() {
     m_motor.setSelectedSensorPosition(0.0);
   }
 
-  public void setForwardLimit(double amount) {
-    m_motor.configForwardSoftLimitThreshold(amount, 10);
-  }
-
+  // remove the soft limiter and have manual override
   public void removeLimiter() {
     m_motor.configForwardSoftLimitEnable(false, 0);
     manualEnabled = true;
   }
 
+  // enable the soft limiter and go back to default controls
   public void enableLimiter() {
     m_motor.configForwardSoftLimitThreshold(constants.kSoftLimit, 10);
     m_motor.configForwardSoftLimitEnable(true, 0);
@@ -92,18 +93,9 @@ public class ClimbExtender extends SubsystemBase {
     m_motor.setSelectedSensorPosition(m_motor.getSelectedSensorPosition() + offset);
   }
 
-  // returns the current extension in inches
-  // public double currentExtension() {
-  //   return m_motor.getSelectedSensorPosition();
-  // }
-
   // returns the current extension in ticks
   public double currentExtensionRaw() {
     return m_motor.getSelectedSensorPosition();
-  }
-
-  public double getVelocity() {
-    return m_motor.getSelectedSensorVelocity();
   }
 
   // enables the extender (wow!)
@@ -126,6 +118,7 @@ public class ClimbExtender extends SubsystemBase {
     }
   }
 
+  // checks to see if the extender is fullycompressed
   public boolean compressionLimitSwitch() {
     return limitSwitch.get();
   }
