@@ -50,7 +50,7 @@ public class Operator {
     // Stow arm
     controller.getButtons().B().whenPressed(new PositionArm(cargoConstants.kStowPos));
 
-    controller.getButtons().RT().whileActiveOnce(new Shoot(false, false, true, cargoConstants.kFrontOuttakeHighPos, wheelConstants.kFrontOuttakeHighSpeed));
+    controller.getButtons().RT().whileActiveOnce(new Shoot(false, false, false, 175, -6000));
   }
 
   public static void testShootBinds() {

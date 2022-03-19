@@ -97,11 +97,13 @@ public class GetDistance extends CommandBase {
     // Find optimal shooting velocity
     optimalVelocity = Units.metersToFeet(ShooterMethods.getOptimalShooterSpeed(optimalShootingAngle, newTargetHeightOffset, newShootingDistance));
     optimalVelocity *= RobotContainer.wheelConstants.kShotEfficiency;
+
+    isFinished = true;
   }
 
   @Override
   public boolean isFinished() {
-    return !(Double.isNaN(optimalStipeAngle) || Double.isNaN(optimalVelocity));
+    return !(Double.isNaN(optimalStipeAngle) || Double.isNaN(optimalVelocity)) || isFinished;
   }
 
   @Override

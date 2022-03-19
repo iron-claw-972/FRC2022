@@ -24,7 +24,7 @@ public class ShootAuto extends SequentialCommandGroup {
         parallel(
           new InstantCommand(() -> ShooterMethods.setBeltPower(RobotContainer.beltConstants.kIntakeSpeed)),
           sequence(
-            new InstantCommand(() -> ShooterMethods.setWheelSpeed(() -> shooterWheelOuttakeSpeed)),
+            new InstantCommand(() -> ShooterMethods.setWheelSpeed(() -> shooterWheelOuttakeSpeed, isFront)),
             new WaitUntilCommand(() -> ShooterMethods.isWheelAtSetpoint())
           ),
           sequence(

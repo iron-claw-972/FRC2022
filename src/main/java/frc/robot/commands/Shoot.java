@@ -27,7 +27,7 @@ public class Shoot extends SequentialCommandGroup {
 
         parallel(
           // Set hub pipeline early to account for network latency
-          new InstantCommand(() -> RobotContainer.m_limelight.setUpperHubPipeline()),
+          new InstantCommand(() -> RobotContainer.m_limelight.setUpperHubPipeline()).withTimeout(0.5),
 
           // Spin up belt and wheels in advance
           sequence(
@@ -41,7 +41,7 @@ public class Shoot extends SequentialCommandGroup {
             new ConditionalCommand(
               sequence(
                 new WaitUntilCommand(() -> GetDistance.isFinished),
-                new InstantCommand(() -> ShooterMethods.setWheelSpeed(() -> GetDistance.optimalVelocity))
+                new InstantCommand(() -> ShooterMethods.setWheelSpeed(() -> GetDistance.optimalVelocity, isFront))
               ),
               new InstantCommand(() -> ShooterMethods.setWheelRPM(shooterWheelOuttakeSpeed)),
               () -> doesCalculateSpeed
@@ -60,17 +60,17 @@ public class Shoot extends SequentialCommandGroup {
             ),
 
             // Align using limelight
-            new ConditionalCommand(
-              new AlignToUpperHub(RobotContainer.m_limelight, RobotContainer.m_drive).withTimeout(1),
-              new DoNothing(),
-              () -> doesAlign
-            ),
+            // new ConditionalCommand(
+            //   new AlignToUpperHub(RobotContainer.m_limelight, RobotContainer.m_drive).withTimeout(1),
+            //   new DoNothing(),
+            //   () -> doesAlign
+            // ),
             //  Calculate distance and determines optimal shooting angle and velocity and
             // set to actual shooting angle
             new ConditionalCommand(
               sequence(
                 new GetDistance(RobotContainer.m_limelight, RobotContainer.m_cargoRotator).withTimeout(1.5),
-                new PositionArm(() -> GetDistance.optimalStipeAngle)
+                new PositionArmOptimal().withTimeout(1)
               ),
               new PositionArm(outtakeArmPosition),
               () -> doesCalculateSpeed
@@ -85,12 +85,8 @@ public class Shoot extends SequentialCommandGroup {
     }
 
     @Override
-    public void initialize() {
-      GetDistance.isFinished = false; // Reset finished condition
-    }
-
-    @Override
     public void end(boolean interrupted) {
       ShooterMethods.disableShiitake();
+      GetDistance.isFinished = false; // Reset finished condition
     }
 }

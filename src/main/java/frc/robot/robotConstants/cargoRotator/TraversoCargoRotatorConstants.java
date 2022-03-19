@@ -28,7 +28,7 @@ public class TraversoCargoRotatorConstants {
     public final double kFeedForwardOffsetAngle = 30.0;
     public final double kFeedForwardHardstopTolerance = 3.0;
 
-    public final double kSAngle = -60;
+    public final double kSAngle = -50;
 
     public final double kFrontLimelightScanPos = 80;
     public final double kBackLimelightScanPos = 172;

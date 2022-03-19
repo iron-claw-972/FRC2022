@@ -127,7 +127,9 @@ public class ShuffleboardManager {
 
     cargoTab.addNumber("Pivot Distance", () -> GetDistance.pivotDistance);
     cargoTab.addNumber("Optimal velocity", () -> GetDistance.optimalVelocity);
+    // cargoTab.addNumber("Optimal RPM", () -> ShooterMethods.velocityToRPM(() -> GetDistance.optimalVelocity));
     cargoTab.addNumber("Optimal angle", () -> GetDistance.optimalStipeAngle);
+    cargoTab.addBoolean("getDistance Is Finished", () -> GetDistance.isFinished);
   }
 
   public void loadClimbExtenderShuffleboard(ClimbExtender extender) {

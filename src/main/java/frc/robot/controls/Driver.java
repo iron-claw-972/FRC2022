@@ -49,8 +49,8 @@ public class Driver {
     ));
 
     // Intake w/ ball chase
-    controller.getButtons().frontSwitchBottom().whenHeld(new Intake(RobotContainer.cargoConstants.kBackLimelightScanPos, true, Constants.kIsRedAlliance));
-    controller.getButtons().frontSwitchBottom().whenReleased(new PositionArm(cargoConstants.kBackLimelightScanPos));
+    controller.getButtons().bottomButton().whenHeld(new Intake(RobotContainer.cargoConstants.kBackLimelightScanPos, true, Constants.kIsRedAlliance));
+    controller.getButtons().bottomButton().whenReleased(new PositionArm(cargoConstants.kBackLimelightScanPos));
   }
   
   public static double getThrottleValue() {

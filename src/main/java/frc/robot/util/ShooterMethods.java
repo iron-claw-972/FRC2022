@@ -6,6 +6,7 @@ import java.util.function.DoubleSupplier;
 import edu.wpi.first.math.util.Units;
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
+import frc.robot.commands.GetDistance;
 
 public class ShooterMethods {
 
@@ -13,6 +14,10 @@ public class ShooterMethods {
   public static void setAngle(double angle) {
     RobotContainer.m_cargoRotator.resetPID();
     RobotContainer.m_cargoRotator.setPosition(angle);
+  }
+
+  public static void setAngleOptimal() {
+    setAngle(GetDistance.optimalStipeAngle);
   }
 
   public static void setAngle(DoubleSupplier angle) {
@@ -46,14 +51,13 @@ public class ShooterMethods {
     double pivotDistance;
     if (limelightPosAngle - RobotContainer.limelightConstants.kStipeToLimelightPosAngularOffset + RobotContainer.limelightConstants.kStipeToLimelightFaceAngularOffset < 90) {
       pivotDistance = limelightDistance
-                            - (RobotContainer.limelightConstants.kPivotToLimelightLength * Math.cos(limelightPosAngleRad)); // Horizontal distance from limelight to stipe pivot
+                            + (RobotContainer.limelightConstants.kPivotToLimelightLength * Math.cos(limelightPosAngleRad)); // Horizontal distance from limelight to stipe pivot
     } else {
       pivotDistance = limelightDistance
-                            + (RobotContainer.limelightConstants.kPivotToLimelightLength * Math.cos(limelightPosAngleRad)); // Horizontal distance from limelight to stipe pivot
+                            - (RobotContainer.limelightConstants.kPivotToLimelightLength * Math.cos(limelightPosAngleRad)); // Horizontal distance from limelight to stipe pivot
     }
     return pivotDistance;
   }
-
 
   public static double getOptimalShooterSpeed(double shootingAngle, double targetHeightOffset, double shooterDistance) {
     double shootingAngleRad = Units.degreesToRadians(shootingAngle);
@@ -123,15 +127,20 @@ public class ShooterMethods {
   }
   //
 
-  public static double velocityToRPM(DoubleSupplier speed) {
+  public static double velocityToRPM(DoubleSupplier speed, boolean isFront) {
     double velocity = speed.getAsDouble();
-    double rpm = -(178*velocity -1100);
+    double rpm;
+    if (isFront) {
+      rpm = -(178*velocity - 1100);
+    } else {
+      rpm = -(178*velocity - 500);
+    }
     return rpm;
   }
 
   // wheel methods
-  public static void setWheelSpeed(DoubleSupplier speed) {
-    RobotContainer.m_cargoShooter.setSpeed(velocityToRPM(speed));
+  public static void setWheelSpeed(DoubleSupplier speed, boolean isFront) {
+    RobotContainer.m_cargoShooter.setSpeed(velocityToRPM(speed, isFront));
   }
   public static void setWheelRPM(double speed) {
     RobotContainer.m_cargoShooter.setSpeed(speed);
