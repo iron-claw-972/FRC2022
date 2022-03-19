@@ -8,7 +8,6 @@ import edu.wpi.first.math.filter.Debouncer.DebounceType;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.robotConstants.limelight.TraversoLimelightConstants;
 
@@ -30,8 +29,8 @@ public class Limelight extends SubsystemBase {
   private boolean m_isDriverCamera = true;
   private LEDMode m_ledMode = LEDMode.OFF;
 
-  private MedianFilter m_TxMedianFilter = new MedianFilter(5);
-  private MedianFilter m_TyMedianFilter = new MedianFilter(5);
+  // private MedianFilter m_TxMedianFilter = new MedianFilter(5);
+  // private MedianFilter m_TyMedianFilter = new MedianFilter(5);
   private Debouncer m_TvDebouncer = new Debouncer(0.1, DebounceType.kBoth);
 
   BooleanSupplier m_getIsFacingFront;
@@ -54,13 +53,13 @@ public class Limelight extends SubsystemBase {
     m_tableName = tableName;
     m_table = NetworkTableInstance.getDefault().getTable(m_tableName);
     m_getIsFacingFront = getIsFacingFront;
-    setCameraMode(true);
+    setCameraMode(false);
   }
 
   public Limelight(NetworkTable table, BooleanSupplier getIsFacingFront) {
     m_table = table;
     m_getIsFacingFront = getIsFacingFront;
-    setCameraMode(true);
+    setCameraMode(false);
   }
 
   @Override
@@ -90,6 +89,7 @@ public class Limelight extends SubsystemBase {
         }
 
         if (!isFacingFront()) {
+          // Negate values if limelight is upside down
           m_horizontalAngularOffset *= -1;
           m_verticalAngularOffset *= -1;
           m_skew *= -1;
@@ -167,12 +167,14 @@ public class Limelight extends SubsystemBase {
 
   private double getTx() {
     double tx = m_table.getEntry("tx").getDouble(Double.NaN);
-    return m_TxMedianFilter.calculate(tx);
+    // return m_TxMedianFilter.calculate(tx);
+    return tx;
   }
 
   private double getTy() {
     double ty = m_table.getEntry("ty").getDouble(Double.NaN);
-    return m_TyMedianFilter.calculate(ty);
+    // return m_TyMedianFilter.calculate(ty);
+    return ty;
   }
 
   private double getTa() {
@@ -221,21 +223,21 @@ public class Limelight extends SubsystemBase {
         m_table.getEntry("pipeline").setNumber(constants.kUpperHubPipeline);
         break;
       default:
-        m_isDriverCamera = true;
     }
     updateData();
   }
 
   private double getLimelightHeight(double armAngle) {
     return constants.kPivotHeight
-        + (constants.kPivotToLimelightDistance * Math.sin(Units.degreesToRadians(armAngle)));
+        + (constants.kPivotToLimelightLength * Math.sin(Units.degreesToRadians(armAngle)));
   }
 
   private double getLimelightAngle(double armAngle) {
+    // If angle is obtuse, find the supplementary angle
     if (isFacingFront()) {
-      return (armAngle + constants.kPivotToLimelightAngleDifference);
+      return (armAngle + constants.kStipeToLimelightFaceAngularOffset);
     }
-    return 180-(armAngle + constants.kPivotToLimelightAngleDifference);
+    return 180 - (armAngle + constants.kStipeToLimelightFaceAngularOffset);
   }
 
   public double getTargetArea() {
@@ -261,36 +263,27 @@ public class Limelight extends SubsystemBase {
   }
 
   public double getHubDistance(double armAngle) {
-    // setUpperHubPipeline();
-    SmartDashboard.putNumber("Horizontal Error", m_horizontalAngularOffset);
-    return getDistance(armAngle, constants.kHubTargetHeight);
+    return getDistance(armAngle, constants.kHubHeight);
   }
 
   public double getBallDistance(double armAngle, boolean isRedBall) {
-    // setBallPipeline(isRedBall);
-    SmartDashboard.putNumber("Horizontal Error", m_horizontalAngularOffset);
     return getDistance(armAngle, constants.kBallTargetHeight);
   }
 
-private double getDistance(double armAngle, double targetHeight) {
-    double distance = ((targetHeight - getLimelightHeight(armAngle))
-        / (Math.tan(Units.degreesToRadians(getLimelightAngle(armAngle) + m_verticalAngularOffset))));
-        // System.out.println("DISTANCE: " + Units.metersToInches(distance));
+  private double getDistance(double armAngle, double targetHeight) {
+    double limelightAngleRad = Units.degreesToRadians(getLimelightAngle(armAngle) + m_verticalAngularOffset);
+    double distance = ((targetHeight - getLimelightHeight(armAngle)) / (Math.tan(limelightAngleRad)));
 
     return distance;
   }
 
   public double getHubHorizontalAngularOffset() {
-    // setUpperHubPipeline();
-
     double horizontalAngularOffset = m_horizontalAngularOffset;
 
     return horizontalAngularOffset;
   }
 
   public double getBallHorizontalAngularOffset(boolean isRedBall) {
-    // setBallPipeline(isRedBall);
-
     double horizontalAngularOffset = m_horizontalAngularOffset;
 
     return horizontalAngularOffset;

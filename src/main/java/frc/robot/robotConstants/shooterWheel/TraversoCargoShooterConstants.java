@@ -1,5 +1,7 @@
 package frc.robot.robotConstants.shooterWheel;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
+
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.system.LinearSystem;
 import edu.wpi.first.math.system.plant.DCMotor;
@@ -26,13 +28,15 @@ public class TraversoCargoShooterConstants {
   public final double kDistancePerPulse = 100.0 / kEncoderResolution;
   public final double kGearRatio = (double) 18 / 30;
 
+  public final double kShotEfficiency = 1;
+
 
   // PID Stuff
-  public final double kP = 0.005;
-  public final double kI = 0.0016;
-  public final double kD = 0.0004;
-  public final double kForward = 0.0013;
-  public final double kVelocityPIDTolerance = 75;
+  public final double kP = 0.008;
+  public final double kI = 0;
+  public final double kD = 0;
+  public final double kForward = 0.0018;
+  public final double kVelocityPIDTolerance = 15;
 
   // Feedforward
   public final double kS = 1.0734;
@@ -52,5 +56,5 @@ public class TraversoCargoShooterConstants {
   public final double kSupplyCurrentLimit = 40;
   public final double kSupplyTriggerThreshold = 40;
   public final double kSupplyTriggerDuration = 0;
-  public final boolean kCoast = true;
+  public final NeutralMode kNeutral = NeutralMode.Coast;
 }

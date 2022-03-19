@@ -2,9 +2,9 @@ package frc.robot.commands;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.math.util.Units;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.RobotContainer;
+import frc.robot.controls.Driver;
 import frc.robot.robotConstants.limelight.TraversoLimelightConstants;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Limelight;
@@ -17,9 +17,10 @@ public class ChaseBall extends CommandBase {
   private final Drivetrain m_drive;
   
   private final boolean m_isRedBall;
+  public static double offset;
 
-  private PIDController chasePID = new PIDController(limelightConstants.kChaseP, limelightConstants.kChaseI, limelightConstants.kChaseD);
-  private PIDController followPID = new PIDController(limelightConstants.kFollowP, limelightConstants.kFollowI, limelightConstants.kFollowD);
+  public static PIDController turnPID = new PIDController(limelightConstants.kTurnP, limelightConstants.kTurnI, limelightConstants.kTurnD);
+  // private PIDController throttlePID = new PIDController(limelightConstants.kThrottleP, limelightConstants.kThrottleI, limelightConstants.kThrottleD);
 
   public ChaseBall(Limelight limelight, Drivetrain drivetrain, boolean isRedBall) {
     m_limelight = limelight;
@@ -28,27 +29,32 @@ public class ChaseBall extends CommandBase {
 
     m_isRedBall = isRedBall;
 
-    chasePID.setTolerance(limelightConstants.kChasePIDTolerance);
-    SmartDashboard.putData("Turn chase PID", chasePID);
+    turnPID.setTolerance(limelightConstants.kTurnPIDTolerance);
 
-    followPID.setTolerance(limelightConstants.kFollowPIDTolerance);
-    SmartDashboard.putData("Throttle chase PID", followPID);
+    // throttlePID.setTolerance(limelightConstants.kThrottlePIDTolerance);
+    // SmartDashboard.putData("Throttle chase PID", followPID);
   }
 
   @Override
   public void initialize() {
     m_limelight.setBallPipeline(m_isRedBall);
-    chasePID.reset();
-    followPID.reset();
+    turnPID.reset();
+    // throttlePID.reset();
   }
 
   @Override
   public void execute() {
-    double distance = Units.metersToInches(m_limelight.getBallDistance(2, m_isRedBall));
+    // double distance = Units.metersToInches(m_limelight.getBallDistance(2, m_isRedBall));
 
+    offset = m_limelight.getBallHorizontalAngularOffset(m_isRedBall);
     m_drive.arcadeDrive(
-      MathUtil.clamp(followPID.calculate(distance, 0), -0.5, 0.5),
-      MathUtil.clamp(chasePID.calculate(m_limelight.getBallHorizontalAngularOffset(m_isRedBall), 0), -0.5, 0.5)
+      // MathUtil.clamp(throttlePID.calculate(distance, 0), -0.5, 0.5),
+      Driver.getThrottleValue(),
+      MathUtil.clamp(
+        turnPID.calculate(offset, 0),
+        -RobotContainer.limelightConstants.kMaxTurnPower,
+        RobotContainer.limelightConstants.kMaxTurnPower
+      )
     );
   }
 
@@ -59,7 +65,6 @@ public class ChaseBall extends CommandBase {
 
   @Override
   public void end(boolean interrupted) {
-    m_limelight.setCameraMode(true);
     m_drive.arcadeDrive(0, 0);
   }
 }

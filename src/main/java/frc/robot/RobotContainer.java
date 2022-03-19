@@ -8,11 +8,8 @@ the project.
 package frc.robot;
 
 import frc.robot.subsystems.*;
-import frc.robot.subsystems.Limelight.LEDMode;
-import frc.robot.util.ClimberMethods;
 import frc.robot.util.ShooterMethods;
 import frc.robot.util.ShuffleboardManager;
-import frc.robot.commands.FlexibleAuto;
 import frc.robot.commands.TeleopDrive;
 import frc.robot.controls.*;
 import frc.robot.robotConstants.cargoRotator.TraversoCargoRotatorConstants;
@@ -100,7 +97,7 @@ import edu.wpi.first.wpilibj.SPI;
     // Configure the button bindings
     Driver.configureButtonBindings();
     Operator.configureButtonBindings();
-    ClimbOperator.configureButtonBindings();
+    // ClimbOperator.configureButtonBindings();
 
     //sets up shuffle board
   }
@@ -112,8 +109,8 @@ import edu.wpi.first.wpilibj.SPI;
    */
   public Command getAutonomousCommand() {
     // Attempt to load trajectory from PathWeaver
-    return new FlexibleAuto(true, 1, false);
-    // return m_shuffleboard.getAutonomousCommand();
+    // return new FlexibleAuto(true, 1, false , false);
+    return m_shuffleboard.getAutonomousCommand();
     // return new SequentialCommandGroup(
     //   m_shuffleboard.getAutonomousWaitCommand(),
     //   m_shuffleboard.getAutonomousCommand()

@@ -3,7 +3,6 @@ package frc.robot.controls;
 
 import controllers.*;
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.*;
 import frc.robot.commands.PositionArm;
 import frc.robot.robotConstants.climbExtender.*;
@@ -90,11 +89,11 @@ public class ManualClimb {
       new InstantCommand(() -> ClimberMethods.disableExtender()),
       new InstantCommand(() -> ClimberMethods.disableRotator())));
 
-    SmartDashboard.putNumber("set angle", 90);
-    controller.getButtons().X().whenPressed(new SequentialCommandGroup(
-    new InstantCommand(() -> ClimberMethods.enableRotator()), 
-    new InstantCommand(() -> ClimberMethods.setAngle(SmartDashboard.getNumber("set angle", 90))) 
-    ));
+    // SmartDashboard.putNumber("set angle", 90);
+    // controller.getButtons().X().whenPressed(new SequentialCommandGroup(
+    // new InstantCommand(() -> ClimberMethods.enableRotator()), 
+    // new InstantCommand(() -> ClimberMethods.setAngle(SmartDashboard.getNumber("set angle", 90))) 
+    // ));
   }
 
 }

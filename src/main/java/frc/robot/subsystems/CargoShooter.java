@@ -16,13 +16,12 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.simulation.FlywheelSim;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class CargoShooter extends SubsystemBase {
 
   TraversoCargoShooterConstants constants = new TraversoCargoShooterConstants();
 
-  private final WPI_TalonFX m_cargoShooterMotor = ControllerFactory.createTalonFX(constants.kCargoShooterMotorPort , constants.kSupplyCurrentLimit, constants.kSupplyTriggerThreshold, constants.kSupplyTriggerDuration, constants.kCoast);
+  private final WPI_TalonFX m_cargoShooterMotor = ControllerFactory.createTalonFX(constants.kCargoShooterMotorPort , constants.kSupplyCurrentLimit, constants.kSupplyTriggerThreshold, constants.kSupplyTriggerDuration, constants.kNeutral);
   private final TalonEncoder m_cargoShooterEncoder = new TalonEncoder(m_cargoShooterMotor);
 
   public PIDController cargoShooterPID = new PIDController(constants.kP, constants.kI, constants.kD);
@@ -54,7 +53,7 @@ public class CargoShooter extends SubsystemBase {
   @Override
   public void periodic() {
     if (enabled){
-      SmartDashboard.putNumber("Shooter Velocity", getVelocity());
+      
       cargoShooterPID.setSetpoint(motorSpeed);
       setVoltage(cargoShooterPID.calculate(getVelocity()) + constants.kForward * motorSpeed);
     }

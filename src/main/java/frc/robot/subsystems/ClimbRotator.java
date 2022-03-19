@@ -8,15 +8,14 @@ import frc.robot.util.LimitSwitch;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class ClimbRotator extends SubsystemBase {
   TraversoClimbRotatorConstants constants = new TraversoClimbRotatorConstants();
 
-  private boolean enabled = true;
+  private boolean enabled = false;
   private final DutyCycleEncoder encoder;
-  private final WPI_TalonFX m_motor;
+  // private final WPI_TalonFX m_motor;
   public final String side;
   private boolean left;
 
@@ -30,9 +29,9 @@ public class ClimbRotator extends SubsystemBase {
     // if the arm is left, the encoder value is inverted && the objects are assigned correctly
     if (isLeft) {
       encoder = new DutyCycleEncoder(constants.kArmLeftEncoder); // initializes the through bore
-      m_motor = ControllerFactory.createTalonFX(constants.kArmLeftMotor , constants.kSupplyCurrentLimit, constants.kSupplyTriggerThreshold, constants.kSupplyTriggerDuration, constants.kCoast); // initializes the motor
+      // m_motor = ControllerFactory.createTalonFX(constants.kArmLeftMotor , constants.kSupplyCurrentLimit, constants.kSupplyTriggerThreshold, constants.kSupplyTriggerDuration, constants.kNeutral); // initializes the motor
       side = "Left"; // the direction for shuffleboard's use
-      m_motor.setInverted(true); // inverts the motor
+      // m_motor.setInverted(true); // inverts the motor
       encoderOffset = constants.kArmLeftEncoderOffset; // sets an offset for the encoder
 
       limitSwitchLower = new LimitSwitch(constants.kLeftLimitSwitchLower , constants.kLimitSwitchDebouncer);
@@ -41,7 +40,7 @@ public class ClimbRotator extends SubsystemBase {
     // otherwise, use the normal encoder value and set the motorports to the right
     else {
       encoder = new DutyCycleEncoder(constants.kArmRightEncoder); // initializes the through bore
-      m_motor = ControllerFactory.createTalonFX(constants.kArmRightMotor , constants.kSupplyCurrentLimit, constants.kSupplyTriggerThreshold, constants.kSupplyTriggerDuration, constants.kCoast); // initializes the motor
+      // m_motor = ControllerFactory.createTalonFX(constants.kArmRightMotor , constants.kSupplyCurrentLimit, constants.kSupplyTriggerThreshold, constants.kSupplyTriggerDuration, constants.kNeutral); // initializes the motor
       side = "Right"; // the direction for shuffleboard's use
       encoderOffset = constants.kArmRightEncoderOffset; // sets an offset for the encoder
 
@@ -69,7 +68,7 @@ public class ClimbRotator extends SubsystemBase {
     // SmartDashboard.putNumber(direction + " rotator offset", encoderOffset);
     if(enabled) {
       // set the arm power according to the PID
-      setOutput(armPID.calculate(currentAngle(), setPoint));
+      // setOutput(armPID.calculate(currentAngle(), setPoint));
     }
   }
 
@@ -109,11 +108,11 @@ public class ClimbRotator extends SubsystemBase {
   public void disable() {
     enabled = false;
     // if the subsystem is disabled, do not spin the motor
-    m_motor.set(0);
+    // m_motor.set(0);
   }
 
   public void setOutput(double motorPower){
-    m_motor.set(MathUtil.clamp(motorPower, -constants.kMotorClamp, constants.kMotorClamp));
+    // m_motor.set(MathUtil.clamp(motorPower, -constants.kMotorClamp, constants.kMotorClamp));
   }
 
   // sets PID Goal

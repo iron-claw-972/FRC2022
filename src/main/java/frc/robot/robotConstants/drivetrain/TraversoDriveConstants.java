@@ -1,5 +1,7 @@
 package frc.robot.robotConstants.drivetrain;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
+
 import edu.wpi.first.math.numbers.N2;
 import edu.wpi.first.math.system.LinearSystem;
 import edu.wpi.first.math.system.plant.DCMotor;
@@ -18,7 +20,7 @@ public class TraversoDriveConstants {
   public final double kWheelDiameter = Units.inchesToMeters(6); // In meters
   public final double kGearRatio = 11.25;
   public final double kWheelCircumference = kWheelDiameter * Math.PI;
-  public final double kDistancePerPulse = (kWheelCircumference * kGearRatio) / (double) kEncoderResolution;
+  public final double kDistancePerPulse = kWheelCircumference / kGearRatio / (double) kEncoderResolution;
 
   // Use the SysId program in WPILib Tools to estimate values
   // Drivetrain
@@ -58,6 +60,8 @@ public class TraversoDriveConstants {
   public final double kSupplyCurrentLimit = 40;
   public final double kSupplyTriggerThreshold = 50;
   public final double kSupplyTriggerDuration = 0.3;
-  public final boolean kIsCoast = true;
-  public final boolean kIsMainCoast = true;
+  public final NeutralMode kNeutralMode = NeutralMode.Brake;
+  public final NeutralMode kMainNeutralMode = NeutralMode.Brake;
+
+  public final double kAutoDriveSpeed = 0.4;
 }

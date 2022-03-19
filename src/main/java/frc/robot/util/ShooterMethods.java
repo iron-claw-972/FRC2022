@@ -1,26 +1,79 @@
 package frc.robot.util;
 
 
+import java.util.function.DoubleSupplier;
+
 import edu.wpi.first.math.util.Units;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.Constants;
 import frc.robot.RobotContainer;
-import frc.robot.controls.Operator;
 
 public class ShooterMethods {
 
   // cargo arm methods
   public static void setAngle(double angle) {
+    RobotContainer.m_cargoRotator.resetPID();
     RobotContainer.m_cargoRotator.setPosition(angle);
   }
 
-  public static double getOptimalShooterSpeed() {
-    double distance = Units.metersToInches(RobotContainer.m_limelight.getHubDistance(RobotContainer.m_cargoRotator.currentAngle()));
-    SmartDashboard.putNumber("Distance", distance);
+  public static void setAngle(DoubleSupplier angle) {
+    setAngle(angle.getAsDouble());
+  }
 
-    double speed = ShooterMethods.isArmBack() ? -(9.6 * distance + 1405) : -(8.53 * distance + 1304);
-    //System.out.println("Speed: " + speed);
-    //System.out.println("Distance: " + distance);
-    return speed;
+  public static double getWheelVelocity() {
+    return RobotContainer.m_cargoShooter.getVelocity();
+  }
+
+  public static double getTargetHeightOffset(double physicalShooterAngle) {
+    double physicalShooterAngleRad = Units.degreesToRadians(physicalShooterAngle);
+    double targetHeightOffset = RobotContainer.limelightConstants.kHubHeight // Height of hub
+                              - RobotContainer.limelightConstants.kPivotHeight // Height of stipe pivot
+                              - (RobotContainer.cargoConstants.kPivotToShootingExitPointLength * Math.sin(physicalShooterAngleRad)); // Height from pivot to shooter exit point
+    return targetHeightOffset;
+  }
+
+  public static double getShootingDistance(double pivotDistance, double physicalShooterAngle) {
+    double physicalShooterAngleRad = Units.degreesToRadians(physicalShooterAngle);
+
+    // Horizontal distance from shooter exit point to center of hub
+    double shootingDistance = pivotDistance // Distance from vision tape to pivot
+                            + (RobotContainer.limelightConstants.kHubDiameter / 2) // Radius of the hub
+                            - (RobotContainer.cargoConstants.kPivotToShootingExitPointLength * Math.cos(physicalShooterAngleRad)); // Subtract horizontal distance from stipe pivot to exit point of shooter (the midpoint between the centers of the two shooter wheels)
+    return shootingDistance;
+  }
+
+  public static double limelightDistanceToPivotDistance(double limelightDistance, double limelightPosAngle) {
+    double limelightPosAngleRad = Units.degreesToRadians(limelightPosAngle);
+    double pivotDistance;
+    if (limelightPosAngle - RobotContainer.limelightConstants.kStipeToLimelightPosAngularOffset + RobotContainer.limelightConstants.kStipeToLimelightFaceAngularOffset < 90) {
+      pivotDistance = limelightDistance
+                            - (RobotContainer.limelightConstants.kPivotToLimelightLength * Math.cos(limelightPosAngleRad)); // Horizontal distance from limelight to stipe pivot
+    } else {
+      pivotDistance = limelightDistance
+                            + (RobotContainer.limelightConstants.kPivotToLimelightLength * Math.cos(limelightPosAngleRad)); // Horizontal distance from limelight to stipe pivot
+    }
+    return pivotDistance;
+  }
+
+
+  public static double getOptimalShooterSpeed(double shootingAngle, double targetHeightOffset, double shooterDistance) {
+    double shootingAngleRad = Units.degreesToRadians(shootingAngle);
+    double optimalSpeed = (shooterDistance / Math.cos(shootingAngleRad))
+                        * Math.sqrt(Constants.GRAVITATIONAL_ACCEL
+                          / (2 * (shooterDistance * Math.tan(shootingAngleRad) - targetHeightOffset)));
+    return optimalSpeed;
+  }
+
+  public static double getOptimalShootingAngle(double sAngle, double shooterDistance, double targetHeightOffset) {
+    double sAngleRad = Units.degreesToRadians(sAngle);
+    double optimalAngle = Math.atan(
+      (2 * targetHeightOffset / shooterDistance) - Math.tan(sAngleRad)
+    );
+    optimalAngle = Units.radiansToDegrees(optimalAngle);
+    return optimalAngle;
+  }
+
+  public static double getArmAngle() {
+    return RobotContainer.m_cargoRotator.currentAngle();
   }
 
   public static void enableArm() {
@@ -36,14 +89,14 @@ public class ShooterMethods {
   }
 
   public static boolean isArmBack(){
-    return RobotContainer.m_cargoRotator.isBackOutakeFar() || RobotContainer.m_cargoRotator.isBackOutakeNear();
+    return !isArmFront();
   }
 
   public static boolean isArmFront(){
     // return RobotContainer.m_cargoRotator.isFrontOutakeFar() || RobotContainer.m_cargoRotator.isFrontOutakeNear();
     // return RobotContainer.m_cargoRotator.currentAngle() <= Operator.cargoConstants.kFrontOuttakeFarPos + 3 &&
     //   RobotContainer.m_cargoRotator.currentAngle() <= Operator.cargoConstants.kFrontOuttakeNearPos + 3;
-    return RobotContainer.m_cargoRotator.currentAngle() < 133;
+    return RobotContainer.m_cargoRotator.currentAngle() + RobotContainer.cargoConstants.kStipeToPhysicalShooterAngularOffset < 90;
   }
 
   //
@@ -70,8 +123,17 @@ public class ShooterMethods {
   }
   //
 
+  public static double velocityToRPM(DoubleSupplier speed) {
+    double velocity = speed.getAsDouble();
+    double rpm = -(178*velocity -1100);
+    return rpm;
+  }
+
   // wheel methods
-  public static void setWheelSpeed(double speed) {
+  public static void setWheelSpeed(DoubleSupplier speed) {
+    RobotContainer.m_cargoShooter.setSpeed(velocityToRPM(speed));
+  }
+  public static void setWheelRPM(double speed) {
     RobotContainer.m_cargoShooter.setSpeed(speed);
   }
   
@@ -106,9 +168,14 @@ public class ShooterMethods {
     RobotContainer.m_cargoShooter.disable();
   }
 
-  public static boolean isBallContained() {
+  public static boolean isBallContainedSecurely() {
     // System.out.println(RobotContainer.m_balldetector.containsBallSecurely());
     return RobotContainer.m_balldetector.containsBallSecurely();
+  }
+
+  public static boolean isBallContained() {
+    // System.out.println(RobotContainer.m_balldetector.containsBallSecurely());
+    return RobotContainer.m_balldetector.containsBall();
   }
 
   public static boolean isBallShot() {

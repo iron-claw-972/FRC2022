@@ -1,5 +1,9 @@
 package frc.robot.robotConstants.cargoRotator;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
+
+import edu.wpi.first.math.util.Units;
+
 public class TraversoCargoRotatorConstants {
     // the duty cycle encoder ports of the arm
     public final int kArmEncoder = 4;
@@ -15,13 +19,19 @@ public class TraversoCargoRotatorConstants {
     public final double kArmZeroEncoderDegrees = 0.0;
 
     // the distance allowed from the setpoint (IN DEGREES)
-    public final double kArmTolerance = 8;
+    // Was 3 before
+    public final double kArmTolerance = 3;
 
     // arm characteristics
     public final double kOffset = 0.17114160427854;
     public final double kFeedForward = 0.58;
     public final double kFeedForwardOffsetAngle = 30.0;
     public final double kFeedForwardHardstopTolerance = 3.0;
+
+    public final double kSAngle = -60;
+
+    public final double kFrontLimelightScanPos = 80;
+    public final double kBackLimelightScanPos = 172;
     
     // locations
     public final double kIntakePos = 2; // 0 degrees (when on hardstops)
@@ -33,6 +43,11 @@ public class TraversoCargoRotatorConstants {
     public final double kBackOuttakeLimelightPos = 168;
     public final double kFrontOuttakeAutoPos = 108;
     public final double kStowPos = 172;
+    public final double kAutoBackOuttakeFarPos = 168;
+
+    public final double kPivotToShootingExitPointLength = Units.inchesToMeters(19.313208);
+    public final double kStipeToShootingTrajectoryAngularOffset = -39;
+    public final double kStipeToPhysicalShooterAngularOffset = -44;
     
     // pid constants
     // public final double kP = 0.1;
@@ -46,5 +61,5 @@ public class TraversoCargoRotatorConstants {
     public final double kSupplyCurrentLimit = 30;
     public final double kSupplyTriggerThreshold = 30;
     public final double kSupplyTriggerDuration = 0;
-    public final boolean kCoast = false;
+    public final NeutralMode kNeutral = NeutralMode.Brake;
 }

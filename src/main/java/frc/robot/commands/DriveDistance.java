@@ -7,16 +7,16 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
-import frc.robot.util.ShuffleboardManager;
 
 /**
  * Drives a certain distance
  */
 public class DriveDistance extends CommandBase {
   double setpoint, zeroPos;
+
+  public static boolean isFinished = false;
 
   public DriveDistance(double setpoint_) {
     addRequirements(RobotContainer.m_drive);
@@ -27,22 +27,20 @@ public class DriveDistance extends CommandBase {
   public void initialize() {
     zeroPos = RobotContainer.m_drive.getLeftPosition();
     RobotContainer.m_drive.setBrakeMode();
+    isFinished = false;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {
-    RobotContainer.m_drive.tankDrive(0.5, 0.6);
+  public void execute() { 
+    RobotContainer.m_drive.tankDrive(
+      -Math.copySign(RobotContainer.driveConstants.kAutoDriveSpeed, setpoint),
+      -Math.copySign(RobotContainer.m_drive.constants.kAutoDriveSpeed, setpoint));
   }
 
   @Override
   public void end(boolean interrupted) {
+    isFinished = true;
     RobotContainer.m_drive.tankDrive(0, 0);
   }
-
-  // @Override
-  // public boolean isFinished() {
-  //     return Math.abs(RobotContainer.m_drive.getLeftPosition()) > (zeroPos + setpoint);
-  // }
-  
 }

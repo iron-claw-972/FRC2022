@@ -1,5 +1,7 @@
 package frc.robot.robotConstants.climbRotator;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
+
 public class TraversoClimbRotatorConstants {
     // the duty cycle encoder ports of the arm
     public final int kArmLeftEncoder = 6;
@@ -48,6 +50,6 @@ public class TraversoClimbRotatorConstants {
     public final double kSupplyCurrentLimit = 30;
     public final double kSupplyTriggerThreshold = 30;
     public final double kSupplyTriggerDuration = 0;
-    public final boolean kCoast = false;
+    public final NeutralMode kNeutral = NeutralMode.Brake;
 
 }

@@ -7,33 +7,30 @@ import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import frc.robot.RobotContainer;
 import frc.robot.util.ShooterMethods;
 
-public class Intake extends SequentialCommandGroup {
-  public Intake(
+public class IntakeAuto extends SequentialCommandGroup {
+  public IntakeAuto(
       double postIntakeArmPosition,
       boolean doesChaseBall,
-      boolean isRedBall
+      boolean isRedBall,
+      double distance
   ) {
     addRequirements(RobotContainer.m_cargoShooter, RobotContainer.m_cargoRotator, RobotContainer.m_cargoBelt,
         RobotContainer.m_limelight);
     addCommands(
         new InstantCommand(() -> ShooterMethods.enableAll()),
-        // Set pipeline early to account for network latency
-        new InstantCommand(() -> RobotContainer.m_limelight.setBallPipeline(isRedBall)),
-
-        // Spin up wheel, belt, set angle, and start ball chase simultaneously
         parallel(
           new InstantCommand(() -> ShooterMethods.setWheelRPM(RobotContainer.wheelConstants.kIntakeSpeed)),
           new InstantCommand(() -> ShooterMethods.setBeltPower(RobotContainer.beltConstants.kIntakeSpeed)),
-          new InstantCommand(() -> ShooterMethods.setAngle(RobotContainer.cargoConstants.kIntakePos)),
-          new ConditionalCommand(
-            new ChaseBall(RobotContainer.m_limelight, RobotContainer.m_drive, isRedBall),
-            new TeleopDrive(RobotContainer.m_drive),
-            () -> doesChaseBall
-          )
+          new InstantCommand(() -> ShooterMethods.setAngle(RobotContainer.cargoConstants.kIntakePos))
         ),
-
-        // Bring arm back up and stop intake when we have the ball
-        new WaitUntilCommand(() -> ShooterMethods.isBallContained()),
+        new WaitUntilCommand(() -> ShooterMethods.isArmAtSetpoint()),
+        new WaitUntilCommand(() -> ShooterMethods.isWheelAtSetpoint()),
+        new DriveDistance(distance),
+        new ConditionalCommand(
+          new ChaseBall(RobotContainer.m_limelight, RobotContainer.m_drive, isRedBall),
+          new WaitUntilCommand(() -> ShooterMethods.isBallContained()).withTimeout(1.5),
+          () -> doesChaseBall
+        ),
         new InstantCommand(() -> ShooterMethods.disableShiitake()),
         new InstantCommand(() -> ShooterMethods.setAngle(postIntakeArmPosition)),
         new WaitUntilCommand(() -> ShooterMethods.isArmAtSetpoint()).withTimeout(1)

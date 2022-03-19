@@ -3,23 +3,26 @@ package frc.robot.robotConstants.limelight;
 import edu.wpi.first.math.util.Units;
 
 public class TraversoLimelightConstants {
-  public final double kAlignPIDTolerance = 0.5;
-  public final double kAlignP = 0.026;
-  public final double kAlignI = 0.03;
-  public final double kAlignD = 0;
+  public final double kAlignPIDTolerance = 1;
+  public final double kAlignP = 0.037;
+  public final double kAlignI = 0.05;
+  public final double kAlignD = 0.004;
 
-  public final double kChasePIDTolerance = 0.5;
-  public final double kChaseP = 0.015;
-  public final double kChaseI = 0;
-  public final double kChaseD = 0;
+  public final double kTurnPIDTolerance = 1;
+  public final double kTurnP = 0.02;
+  public final double kTurnI = 0;
+  public final double kTurnD = 0;
+  public final double kMaxTurnPower = 0.5;
 
-  public final double kFollowPIDTolerance = 0.5;
-  public final double kFollowP = 0.12;
-  public final double kFollowI = 0.08;
-  public final double kFollowD = 0;
+  public final double kThrottlePIDTolerance = 0.5;
+  public final double kThrottleP = 0.12;
+  public final double kThrottleI = 0.08;
+  public final double kThrottleD = 0;
 
-  public final double kPivotToLimelightAngleDifference = -33;
-  public final double kHubTargetHeight = Units.inchesToMeters(104);
+  public final double kStipeToLimelightFaceAngularOffset = -33;
+  public final double kStipeToLimelightPosAngularOffset = 0;
+  public final double kHubHeight = Units.inchesToMeters(102.625); // Distance from ground to center of vision tape
+  public final double kHubDiameter = Units.inchesToMeters(60.125);
   public final double kBallTargetHeight = Units.inchesToMeters(9.5/2);
   public final boolean kIsMountedHorizontally = true;
 
@@ -28,6 +31,6 @@ public class TraversoLimelightConstants {
   public final int kBlueCargoPipeline = 1;
   public final int kUpperHubPipeline = 2;
 
-  public final double kPivotToLimelightDistance = Units.inchesToMeters(21.22); // Distance from pivot to limelight lens
-  public final double kPivotHeight = Units.inchesToMeters(13); // Distance from pivot to ground
+  public final double kPivotToLimelightLength = Units.inchesToMeters(21.22); // Distance from pivot to limelight lens
+  public final double kPivotHeight = Units.inchesToMeters(14.0625); // Distance from pivot to ground
 }

@@ -41,17 +41,16 @@ import ctre_shims.TalonEncoder;
 import ctre_shims.TalonEncoderSim;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants;
-import frc.robot.controls.Driver;
 
 public class Drivetrain extends SubsystemBase {
 
   //change this to use constants from a different robot
   public static TraversoDriveConstants constants = new TraversoDriveConstants();
 
-  WPI_TalonFX m_leftMotor1 = ControllerFactory.createTalonFX(constants.leftMotorPorts[0], constants.kSupplyCurrentLimit, constants.kSupplyTriggerThreshold, constants.kSupplyTriggerDuration, constants.kIsMainCoast);
-  WPI_TalonFX m_rightMotor1 = ControllerFactory.createTalonFX(constants.rightMotorPorts[0], constants.kSupplyCurrentLimit, constants.kSupplyTriggerThreshold, constants.kSupplyTriggerDuration, constants.kIsMainCoast);
-  WPI_TalonFX m_leftMotor2 = ControllerFactory.createTalonFX(constants.leftMotorPorts[1], constants.kSupplyCurrentLimit, constants.kSupplyTriggerThreshold, constants.kSupplyTriggerDuration, constants.kIsCoast);
-  WPI_TalonFX m_rightMotor2 = ControllerFactory.createTalonFX(constants.rightMotorPorts[1], constants.kSupplyCurrentLimit, constants.kSupplyTriggerThreshold, constants.kSupplyTriggerDuration, constants.kIsCoast);
+  WPI_TalonFX m_leftMotor1 = ControllerFactory.createTalonFX(constants.leftMotorPorts[0], constants.kSupplyCurrentLimit, constants.kSupplyTriggerThreshold, constants.kSupplyTriggerDuration, constants.kMainNeutralMode);
+  WPI_TalonFX m_rightMotor1 = ControllerFactory.createTalonFX(constants.rightMotorPorts[0], constants.kSupplyCurrentLimit, constants.kSupplyTriggerThreshold, constants.kSupplyTriggerDuration, constants.kMainNeutralMode);
+  WPI_TalonFX m_leftMotor2 = ControllerFactory.createTalonFX(constants.leftMotorPorts[1], constants.kSupplyCurrentLimit, constants.kSupplyTriggerThreshold, constants.kSupplyTriggerDuration, constants.kNeutralMode);
+  WPI_TalonFX m_rightMotor2 = ControllerFactory.createTalonFX(constants.rightMotorPorts[1], constants.kSupplyCurrentLimit, constants.kSupplyTriggerThreshold, constants.kSupplyTriggerDuration, constants.kNeutralMode);
   
   private PhoenixMotorControllerGroup m_leftMotors;
   private PhoenixMotorControllerGroup m_rightMotors;
@@ -110,6 +109,9 @@ public class Drivetrain extends SubsystemBase {
       m_leftMotors.setInverted(true);
       m_rightMotors.setInverted(false);
     }
+
+    m_leftMotor2.follow(m_leftMotor1);
+    m_rightMotor2.follow(m_rightMotor1);
 
     m_rightMotor1.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
     m_leftMotor1.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
@@ -175,6 +177,13 @@ public class Drivetrain extends SubsystemBase {
     m_rightMotor1.setNeutralMode(NeutralMode.Coast);
     m_leftMotor2.setNeutralMode(NeutralMode.Coast);
     m_rightMotor2.setNeutralMode(NeutralMode.Coast);
+  }
+
+  public void resetCoastBrakeMode() {
+    m_leftMotor1.setNeutralMode(constants.kMainNeutralMode);
+    m_rightMotor1.setNeutralMode(constants.kMainNeutralMode);
+    m_leftMotor1.setNeutralMode(constants.kNeutralMode);
+    m_rightMotor1.setNeutralMode(constants.kNeutralMode);
   }
 
   public void shiftDrive(double throttle, double turn) {
@@ -251,7 +260,7 @@ public class Drivetrain extends SubsystemBase {
   
   @Override
   public void periodic() {
-    SmartDashboard.putData("Drivetrain", m_dDrive);
+    // SmartDashboard.putData("Drivetrain", m_dDrive);
     // Update the odometry in the periodic block
     updateOdometry();
     if (RobotBase.isSimulation()) {
