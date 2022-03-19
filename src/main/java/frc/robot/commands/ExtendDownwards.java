@@ -38,7 +38,7 @@ public class ExtendDownwards extends SequentialCommandGroup {
               new InstantCommand(() -> RobotContainer.m_extenderR.setOutput(extend.kDownPower)),
               new WaitUntilCommand(() -> RobotContainer.m_extenderR.compressionLimitSwitch()),
               new InstantCommand(() -> RobotContainer.m_extenderR.disable()),
-              (zero ? (new InstantCommand(() -> RobotContainer.m_extenderL.zero())) : new DoNothing())
+              (zero ? (new InstantCommand(() -> RobotContainer.m_extenderR.zero())) : new DoNothing())
             )
           )
       );

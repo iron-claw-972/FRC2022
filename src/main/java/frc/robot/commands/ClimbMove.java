@@ -14,9 +14,9 @@ public class ClimbMove extends SequentialCommandGroup {
    * @param extension the extension of the climber.
    * @param angle the angle of the climb rotator, in degrees.
    */
-  public ClimbMove(double extension, double angle) {
+  public ClimbMove(double extensionR, double extensionL, double angle) {
     addCommands(
-      parallel(new ClimbRotatorMove(angle), new ClimbExtenderMove(extension))
+      parallel(new ClimbRotatorMove(angle), new ClimbExtenderMove(extensionR, extensionL))
     );
   }
 }

@@ -47,7 +47,7 @@ public class ClimbOperator {
     controller.getDPad().up().whenHeld(new ParallelCommandGroup(
       // stow the cargo subsystem
       new PositionArm(cargoConstants.kStowPos),
-      new ClimbExtenderMove(extend.kMaxUpwards)
+      new ClimbExtenderMove(extend.kRightMaxUpwards, extend.kLeftMaxUpwards)
     ));
 
     // when DPad Down is pressed, enable the extender and compress downwards to kMaxDownwards
@@ -95,7 +95,7 @@ public class ClimbOperator {
       new PositionArm(cargoConstants.kStowPos),
 
       // go to maximum extension, go to 90 degrees
-      new ClimbMove(extend.kMaxUpwards, rotate.kNinetyDeg)
+      new ClimbMove(extend.kRightMaxUpwards, extend.kLeftMaxUpwards, rotate.kNinetyDeg)
     ));
 
     controller.getDPad().down().whenPressed(new SequentialCommandGroup(    
@@ -104,7 +104,7 @@ public class ClimbOperator {
       new ExtendDownwards(extend.kAlwaysZero),
       
       // after the static hooks are on, extend slightly upwards
-      new ClimbExtenderMove(extend.kSlightlyUpward)
+      new ClimbExtenderMove(extend.kRightSlightlyUpward, extend.kLeftSlightlyUpward)
     ));
 
     controller.getDPad().right().whenPressed(new SequentialCommandGroup(
@@ -112,7 +112,7 @@ public class ClimbOperator {
       // rotator should theoretically be faster than the extender
       new ClimbRotatorMove(rotate.kMaxBackward),
       new PrintCommand("passed climb rotator move"),
-      new ClimbExtenderMove(extend.kMaxUpwards),
+      new ClimbExtenderMove(extend.kRightMaxUpwards, extend.kLeftMaxUpwards),
 
       // after we fully extend and rotate, rotate to the bar
       new ClimbRotatorMove(rotate.kToBar),
@@ -123,12 +123,16 @@ public class ClimbOperator {
         new ClimbRotatorMove(rotate.kNinetyDeg)
       ),
 
-      new ClimbExtenderMove(extend.kSlightlyUpward)
+      new ClimbExtenderMove(extend.kRightSlightlyUpward, extend.kLeftSlightlyUpward)
     ));
 
     controller.getButtons().A().whenPressed(
       new ExtendDownwards(true)
     );
+
+    // controller.getButtons().B().whenPressed(
+    //   new InstantCommand()
+    // );
 
     // resume the climbing sequence
     controller.getButtons().START().whenPressed(

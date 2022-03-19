@@ -18,17 +18,18 @@ public class ClimbExtenderMove extends SequentialCommandGroup {
 
   TraversoClimbExtenderConstants extenderConstants = new TraversoClimbExtenderConstants();
 
-  public ClimbExtenderMove(double extension) {
+  public ClimbExtenderMove(double extensionR, double extensionL) {
     addRequirements(RobotContainer.m_extenderL, RobotContainer.m_extenderR);
     addCommands(
       //if the extension is zero it is better to use this command that uses limit switches
-      (extension == 0 ? new ExtendDownwards(extenderConstants.kAlwaysZero) :
+      (extensionL == 0 && extensionR == 0 ? new ExtendDownwards(extenderConstants.kAlwaysZero) :
       new SequentialCommandGroup(
         // enable the extender
         new InstantCommand(() -> ClimberMethods.enableExtender()),
   
         // set the angle of the rotator, arm, and extension of the extender
-        new InstantCommand(() -> ClimberMethods.setExtension(extension)),
+        new InstantCommand(() -> RobotContainer.m_extenderL.set(extensionL)),
+        new InstantCommand(() -> RobotContainer.m_extenderR.set(extensionR)),
   
         // wait until they all reach their setpoints
         new WaitUntilCommand(() -> ClimberMethods.isExtenderAtSetpoint())
