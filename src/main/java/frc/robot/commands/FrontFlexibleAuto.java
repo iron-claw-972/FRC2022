@@ -1,5 +1,7 @@
 package frc.robot.commands;
 
+import java.util.function.BooleanSupplier;
+
 import edu.wpi.first.wpilibj2.command.*;
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
@@ -17,7 +19,7 @@ public class FrontFlexibleAuto extends SequentialCommandGroup {
     addCommands(
         parallel(
           new DriveDistance(distance),
-          new ShootAuto(false, false, 1, () -> DriveDistance.isFinished, 154, 25)
+          new ShootAuto(false, false, 1.0 , new DriveDistance(distance)::isFinished , 154.0, 25.0)
         ),
         new ConditionalCommand(
           new IntakeAuto(cargoConstants.kBackOuttakeFarPos, false, Constants.kIsRedAlliance, Constants.AutoConstants.kAutoIntakeDriveDistance), 

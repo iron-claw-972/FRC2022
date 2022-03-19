@@ -54,7 +54,7 @@ import edu.wpi.first.wpilibj.SPI;
   public static CargoBelt m_cargoBelt = new CargoBelt();
   public static CargoShooter m_cargoShooter = new CargoShooter();
   public static BallDetection m_balldetector = new BallDetection();
-  public static AHRS ahrs = new AHRS(SPI.Port.kMXP);
+  public static AHRS navX = new AHRS(SPI.Port.kMXP);
 
   public static TraversoDriveConstants driveConstants = new TraversoDriveConstants();
   public static TraversoLimelightConstants limelightConstants = new TraversoLimelightConstants();
