@@ -54,6 +54,6 @@ public class Operator {
   }
 
   public static void testShootBinds() {
-    controller.getButtons().RB().whenHeld(new GetDistance(RobotContainer.m_limelight));
+    controller.getButtons().RB().whenHeld(new GetDistance(RobotContainer.m_limelight, RobotContainer.m_cargoRotator));
   }
 }

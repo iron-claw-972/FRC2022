@@ -69,7 +69,7 @@ public class Shoot extends SequentialCommandGroup {
             // set to actual shooting angle
             new ConditionalCommand(
               sequence(
-                new GetDistance(RobotContainer.m_limelight).withTimeout(0.5),
+                new GetDistance(RobotContainer.m_limelight, RobotContainer.m_cargoRotator).withTimeout(0.5),
                 new PositionArm(() -> GetDistance.optimalStipeAngle)
               ),
               new PositionArm(outtakeArmPosition),

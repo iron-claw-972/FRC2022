@@ -4,23 +4,28 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
 import frc.robot.robotConstants.limelight.TraversoLimelightConstants;
+import frc.robot.subsystems.CargoRotator;
 import frc.robot.subsystems.Limelight;
 import frc.robot.util.ShooterMethods;
 
 public class GetDistance extends CommandBase {
   private final Limelight m_limelight;
+  private final CargoRotator m_cargoRotator;
 
   public static TraversoLimelightConstants constants = new TraversoLimelightConstants();
 
   public static boolean isFinished = false;
   public static double optimalVelocity = Double.NaN;
   public static double optimalStipeAngle = Double.NaN;
+  public static double loggedOptimalShootingAngle = Double.NaN;
+  public static double loggedTargetHeightOffset = Double.NaN;
   public static double pivotDistance = Double.NaN;
 
   private boolean isFront = true;
 
-  public GetDistance(Limelight limelight) {
+  public GetDistance(Limelight limelight, CargoRotator cargoRotator) {
     m_limelight = limelight;
+    m_cargoRotator = cargoRotator;
     addRequirements(limelight);
   }
 
@@ -30,13 +35,15 @@ public class GetDistance extends CommandBase {
     m_limelight.setUpperHubPipeline();
     optimalVelocity = Double.NaN;
     optimalStipeAngle = Double.NaN;
+    loggedOptimalShootingAngle = Double.NaN;
+    loggedTargetHeightOffset = Double.NaN;
     pivotDistance = Double.NaN;
   }
 
   @Override
   public void execute() {
     // Get distance from limelight
-    double currentStipeAngle = ShooterMethods.getArmAngle(); // From 0 to 175 deg
+    double currentStipeAngle = m_cargoRotator.currentAngle(); // From 0 to 175 deg
     
     double currentLimelightFaceAngle = currentStipeAngle + constants.kStipeToLimelightFaceAngularOffset; // Offset is negative
     double currentLimelightPosAngle = currentStipeAngle + constants.kStipeToLimelightPosAngularOffset; // Offset is negative
@@ -57,6 +64,7 @@ public class GetDistance extends CommandBase {
       // If distance not found or limelight on opposite side of shooting trajectory, then do not shoot
       optimalVelocity = Double.NaN;
       optimalStipeAngle = Double.NaN;
+      loggedOptimalShootingAngle = Double.NaN;
       pivotDistance = Double.NaN;
       return;
     }
@@ -68,6 +76,7 @@ public class GetDistance extends CommandBase {
 
     // Find optimal shooting angle
     double optimalShootingAngle = ShooterMethods.getOptimalShootingAngle(RobotContainer.cargoConstants.kSAngle, currentShootingDistance, currentTargetHeightOffset);
+    loggedOptimalShootingAngle = optimalShootingAngle; // This is for unit tests
 
     // Actual shooting angle relative to front zero degrees
     double actualOptimalShootingAngle = (isFront ? optimalShootingAngle : 180 - optimalShootingAngle);
@@ -83,6 +92,8 @@ public class GetDistance extends CommandBase {
     double newTargetHeightOffset = ShooterMethods.getTargetHeightOffset(optimalPhysicalShooterAngle);
     double newShootingDistance = ShooterMethods.getShootingDistance(pivotDistance, optimalPhysicalShooterAngle);
 
+    loggedTargetHeightOffset = Units.metersToFeet(newTargetHeightOffset); // For unit tests
+
     // Find optimal shooting velocity
     optimalVelocity = Units.metersToFeet(ShooterMethods.getOptimalShooterSpeed(optimalShootingAngle, newTargetHeightOffset, newShootingDistance));
     optimalVelocity *= -1; // Shooter takes negative input to outtake
@@ -97,6 +108,11 @@ public class GetDistance extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     isFinished = true;
+  }
+
+  @Override
+  public boolean runsWhenDisabled() {
+    return true;
   }
 }
   

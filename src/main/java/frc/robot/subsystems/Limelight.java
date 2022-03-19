@@ -270,7 +270,7 @@ public class Limelight extends SubsystemBase {
     return getDistance(armAngle, constants.kBallTargetHeight);
   }
 
-private double getDistance(double armAngle, double targetHeight) {
+  private double getDistance(double armAngle, double targetHeight) {
     double limelightAngleRad = Units.degreesToRadians(getLimelightAngle(armAngle) + m_verticalAngularOffset);
     double distance = ((targetHeight - getLimelightHeight(armAngle)) / (Math.tan(limelightAngleRad)));
 
