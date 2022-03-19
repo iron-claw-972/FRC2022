@@ -54,7 +54,7 @@ public class Shoot extends SequentialCommandGroup {
           sequence(
             // Get arm to limelight angle
             new ConditionalCommand(
-              new PositionArm((isFront ? RobotContainer.cargoConstants.kFrontLimelightScanPos : RobotContainer.cargoConstants.kBackLimelightScanPos)).withTimeout(0.75),
+              new PositionArm((isFront ? RobotContainer.cargoConstants.kFrontLimelightScanPos : RobotContainer.cargoConstants.kBackLimelightScanPos)).withTimeout(2),
               new DoNothing(), 
               () -> doesCalculateSpeed || doesAlign
             ),
@@ -69,7 +69,7 @@ public class Shoot extends SequentialCommandGroup {
             // set to actual shooting angle
             new ConditionalCommand(
               sequence(
-                new GetDistance(RobotContainer.m_limelight, RobotContainer.m_cargoRotator).withTimeout(0.5),
+                new GetDistance(RobotContainer.m_limelight, RobotContainer.m_cargoRotator).withTimeout(1.5),
                 new PositionArm(() -> GetDistance.optimalStipeAngle)
               ),
               new PositionArm(outtakeArmPosition),
@@ -91,6 +91,6 @@ public class Shoot extends SequentialCommandGroup {
 
     @Override
     public void end(boolean interrupted) {
-        ShooterMethods.disableShiitake();
+      ShooterMethods.disableShiitake();
     }
 }

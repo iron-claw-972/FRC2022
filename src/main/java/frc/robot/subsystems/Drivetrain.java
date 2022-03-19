@@ -110,6 +110,9 @@ public class Drivetrain extends SubsystemBase {
       m_rightMotors.setInverted(false);
     }
 
+    m_leftMotor2.follow(m_leftMotor1);
+    m_rightMotor2.follow(m_rightMotor1);
+
     m_rightMotor1.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
     m_leftMotor1.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
 

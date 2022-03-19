@@ -11,6 +11,7 @@ import frc.robot.RobotContainer;
 import frc.robot.commands.AlignToUpperHub;
 import frc.robot.commands.Intake;
 import frc.robot.commands.PositionArm;
+import frc.robot.commands.Shoot;
 import frc.robot.robotConstants.cargoRotator.TraversoCargoRotatorConstants;
 import frc.robot.robotConstants.shooterBelt.TraversoBeltConstants;
 import frc.robot.robotConstants.shooterWheel.TraversoCargoShooterConstants;
@@ -33,13 +34,16 @@ public class Driver {
   // driver buttons
   public static void configureButtonBindings() {
     // Align to hub front
-    controller.getButtons().frontSwitchBottom().whenHeld(new SequentialCommandGroup(
+    controller.getButtons().frontSwitchBottom().whileHeld(new SequentialCommandGroup(
       new PositionArm(cargoConstants.kFrontLimelightScanPos),
       new AlignToUpperHub(RobotContainer.m_limelight, RobotContainer.m_drive)
     ));
 
+    controller.getButtons().frontSwitchTop().whenHeld(new Shoot(true, true, true));
+    controller.getButtons().backSwitchTop().whenHeld(new Shoot(true, true, false));
+
     // Align to hub back
-    controller.getButtons().backSwitchBottom().whenHeld(new SequentialCommandGroup(
+    controller.getButtons().backSwitchBottom().whileHeld(new SequentialCommandGroup(
       new PositionArm(cargoConstants.kBackLimelightScanPos),
       new AlignToUpperHub(RobotContainer.m_limelight, RobotContainer.m_drive)
     ));
