@@ -34,7 +34,7 @@ public class ShuffleboardManager {
   public void setup() {
     primaryTab.addBoolean("Teleop", DriverStation::isTeleop);
     primaryTab.addNumber("left drive encoder", RobotContainer.m_drive::getLeftPosition);
-    SmartDashboard.putNumber("Max Extension Ticks", extenderConstants.kExtenderMaxArmTicks);
+    SmartDashboard.putNumber("Rotator Setpoint", 90);
     chooserUpdate();
     subsystemSpam();
     time();
@@ -128,6 +128,10 @@ public class ShuffleboardManager {
     
     // PID values that can be modified in shuffleboard
     pidTab.add(rotator.getSide() + " Climb Rotator PID", rotator.armPID);
+    pidTab.addNumber(rotator.getSide() + " Climb Rotator Angle", rotator::currentAngle);
+    pidTab.addBoolean(rotator.getSide() + " Climb Rotator Setpoint Reached", rotator::reachedSetpoint);
+
+
   }
 
   public void loadBallDetectionShuffleboard(){
