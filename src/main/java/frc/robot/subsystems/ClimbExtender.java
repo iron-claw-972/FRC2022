@@ -32,23 +32,19 @@ public class ClimbExtender extends SubsystemBase {
       m_motor = ControllerFactory.createTalonFX(constants.kLeftExtenderPort, constants.kSupplyCurrentLimit, constants.kSupplyTriggerThreshold, constants.kSupplyTriggerDuration, constants.kCoast); // initializes the motor
       side = "Left"; // the direction for shuffleboard's use
       m_motor.setInverted(true);
-
       limitSwitch = new LimitSwitch(constants.kExtLeftLimitSwitch, constants.kExtLimitSwitchDebouncer);
+      enabled = false;
     }
     else {
       // otherwise, just assign the motor object to the right
       m_motor = ControllerFactory.createTalonFX(constants.kRightExtenderPort, constants.kSupplyCurrentLimit, constants.kSupplyTriggerThreshold, constants.kSupplyTriggerDuration, constants.kCoast); // initializes the motor
       side = "Right"; // the direction for shuffleboard's use
-
       limitSwitch = new LimitSwitch(constants.kExtRightLimitSwitch, constants.kExtLimitSwitchDebouncer);
     }
 
     // converts the length of the arm in inches to ticks and makes that the maximum tick limit, it's checked every 10 milliseconds
     // TODO: Update this max forward limit!
-    m_motor.configForwardSoftLimitThreshold(SmartDashboard.getNumber("Max Extension Ticks", constants.kExtenderMaxArmTicks), 10);
-
-    // every time the robot is started, arm MUST start at maximum compression in order to maintain consistency
-    m_motor.setSelectedSensorPosition(0.0);
+    m_motor.configForwardSoftLimitThreshold(constants.kSoftLimit, 10);
 
     // so that the limiters are enabled
     // TODO: If the motors don't move, CHECK TO SEE IF THE LIMITER IS TOO LOW!
@@ -82,7 +78,7 @@ public class ClimbExtender extends SubsystemBase {
   }
 
   public void enableLimiter() {
-    m_motor.configForwardSoftLimitThreshold(SmartDashboard.getNumber("Max Extension Ticks", constants.kExtenderMaxArmTicks), 10);
+    m_motor.configForwardSoftLimitThreshold(constants.kSoftLimit, 10);
     m_motor.configForwardSoftLimitEnable(true, 0);
     manualEnabled = false;
   }
@@ -90,6 +86,10 @@ public class ClimbExtender extends SubsystemBase {
   // called in RobotContainer by button binds
   public void set(double distance) {
     setpoint = distance;
+  }
+
+  public void setOffset(double offset) {
+    m_motor.setSelectedSensorPosition(m_motor.getSelectedSensorPosition() + offset);
   }
 
   // returns the current extension in inches
@@ -108,7 +108,9 @@ public class ClimbExtender extends SubsystemBase {
 
   // enables the extender (wow!)
   public void enable() {
-    enabled = true;
+    if (side.equals("Right")) {
+      enabled = true;
+    }
   }
   
   // disables the extender
@@ -119,7 +121,9 @@ public class ClimbExtender extends SubsystemBase {
 
   // tells the motor object to drive at a speed that the PID sets the motorPower to be
   public void setOutput(double motorPower) {
-    m_motor.set(MathUtil.clamp(motorPower, constants.kMotorClampDown, constants.kMotorClampUp));
+    if (side.equals("Right")) {
+      m_motor.set(MathUtil.clamp(motorPower, constants.kMotorClampDown, constants.kMotorClampUp));
+    }
   }
 
   public boolean compressionLimitSwitch() {
