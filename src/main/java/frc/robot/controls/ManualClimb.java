@@ -5,7 +5,7 @@ import controllers.*;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.*;
-import frc.robot.commands.PositionArm;
+import frc.robot.commands.cargoCommands.PositionArm;
 import frc.robot.robotConstants.climbExtender.*;
 import frc.robot.robotConstants.climbRotator.*;
 import frc.robot.util.ClimberMethods;
