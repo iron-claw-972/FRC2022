@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants.JoyConstants;
 import frc.robot.commands.cargoCommands.PositionArm;
 import frc.robot.commands.climberCommands.ClimbExtenderMove;
@@ -16,6 +17,7 @@ import frc.robot.robotConstants.cargoRotator.TraversoCargoRotatorConstants;
 import frc.robot.robotConstants.climbExtender.TraversoClimbExtenderConstants;
 import frc.robot.robotConstants.climbRotator.TraversoClimbRotatorConstants;
 import frc.robot.util.ClimberMethods;
+import frc.robot.commands.Rumble;
 
 public class ClimbOperator {
   
@@ -94,7 +96,10 @@ public class ClimbOperator {
       new PositionArm(cargoConstants.kStowPos),
 
       // go to maximum extension, go to 90 degrees
-      new ClimbMove(extend.kRightMaxUpwards, extend.kLeftMaxUpwards, rotate.kNinetyDeg)
+      new ClimbMove(extend.kRightMaxUpwards, extend.kLeftMaxUpwards, rotate.kNinetyDeg),
+
+      // vibrate the controller
+      new Rumble(controller)
     ));
 
     controller.getDPad().down().whenPressed(new SequentialCommandGroup(    
@@ -103,7 +108,10 @@ public class ClimbOperator {
       new ExtendDownwards(extend.kAlwaysZero),
       
       // after the static hooks are on, extend slightly upwards
-      new ClimbExtenderMove(extend.kRightSlightlyUpward, extend.kLeftSlightlyUpward)
+      new ClimbExtenderMove(extend.kRightSlightlyUpward, extend.kLeftSlightlyUpward),
+
+      // vibrate the controller
+      new Rumble(controller)
     ));
 
     controller.getDPad().right().whenPressed(new SequentialCommandGroup(
@@ -122,7 +130,10 @@ public class ClimbOperator {
         new ClimbRotatorMove(rotate.kNinetyDeg)
       ),
 
-      new ClimbExtenderMove(extend.kRightSlightlyUpward, extend.kLeftSlightlyUpward)
+      new ClimbExtenderMove(extend.kRightSlightlyUpward, extend.kLeftSlightlyUpward),
+
+      // vibrate the controller
+      new Rumble(controller)
     ));
 
     controller.getButtons().A().whenPressed(
