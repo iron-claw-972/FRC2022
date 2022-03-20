@@ -24,9 +24,6 @@ public class Shoot extends SequentialCommandGroup {
     ) {
       addRequirements(RobotContainer.m_cargoShooter, RobotContainer.m_cargoRotator, RobotContainer.m_cargoBelt, RobotContainer.m_limelight);
       addCommands(
-        // Start spinning up wheels so PID has less to do later
-        new InstantCommand(() -> ShooterMethods.setWheelRPM(2000)),
-
         new InstantCommand(() -> ShooterMethods.enableAll()),
 
         parallel(
