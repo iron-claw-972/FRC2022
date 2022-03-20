@@ -45,6 +45,7 @@ public class MarinusCargoRotatorConstants {
     public final double kFrontOuttakeAutoPos = 108;
     public final double kStowPos = 172;
     public final double kAutoBackOuttakeFarPos = 168;
+    public final double kUprightPos = 123;
 
     public final double kPivotToShootingExitPointLength = Units.inchesToMeters(19.313208);
     public final double kStipeToShootingTrajectoryAngularOffset = -39;

@@ -46,12 +46,12 @@ public class Driver {
     ));
 
     // Intake w/ ball chase for our color
-    controller.getButtons().frontSwitchTop().whenHeld(new Intake(RobotContainer.cargoConstants.kFrontLimelightScanPos, true, Constants.kIsRedAlliance));
-    controller.getButtons().frontSwitchTop().whenReleased(new PositionArm(cargoConstants.kFrontLimelightScanPos));
+    controller.getButtons().frontSwitchTop().whenHeld(new Intake(RobotContainer.cargoConstants.kUprightPos, true, Constants.kIsRedAlliance));
+    controller.getButtons().frontSwitchTop().whenReleased(new PositionArm(cargoConstants.kUprightPos));
 
     // Intake w/ ball chase for opponent color
-    controller.getButtons().backSwitchTop().whenHeld(new Intake(RobotContainer.cargoConstants.kFrontLimelightScanPos, true, !Constants.kIsRedAlliance));
-    controller.getButtons().backSwitchTop().whenReleased(new PositionArm(cargoConstants.kFrontLimelightScanPos));
+    controller.getButtons().backSwitchTop().whenHeld(new Intake(RobotContainer.cargoConstants.kUprightPos, true, !Constants.kIsRedAlliance));
+    controller.getButtons().backSwitchTop().whenReleased(new PositionArm(cargoConstants.kUprightPos));
   }
   
   public static double getThrottleValue() {
