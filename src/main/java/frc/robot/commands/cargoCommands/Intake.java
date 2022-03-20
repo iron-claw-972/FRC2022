@@ -10,7 +10,7 @@ import frc.robot.util.ShooterMethods;
 
 public class Intake extends SequentialCommandGroup {
   public Intake(
-      // double postIntakeArmPosition,
+      double postIntakeArmPosition,
       boolean doesChaseBall,
       boolean isRedBall
   ) {
@@ -34,10 +34,10 @@ public class Intake extends SequentialCommandGroup {
         ),
 
         // Bring arm back up and stop intake when we have the ball
-        new WaitUntilCommand(() -> ShooterMethods.isBallContained())
-        // new InstantCommand(() -> ShooterMethods.disableShiitake()),
-        // new InstantCommand(() -> ShooterMethods.setAngle(postIntakeArmPosition)),
-        // new WaitUntilCommand(() -> ShooterMethods.isArmAtSetpoint()).withTimeout(1)
+        new WaitUntilCommand(() -> ShooterMethods.isBallContained()),
+        new InstantCommand(() -> ShooterMethods.disableShiitake()),
+        new InstantCommand(() -> ShooterMethods.setAngle(postIntakeArmPosition)),
+        new WaitUntilCommand(() -> ShooterMethods.isArmAtSetpoint()).withTimeout(1)
     );
   }
 

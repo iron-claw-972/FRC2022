@@ -9,7 +9,7 @@ public class MarinusLimelightConstants {
   public final double kAlignD = 0.004;
 
   public final double kTurnPIDTolerance = 1;
-  public final double kTurnP = 0.02;
+  public final double kTurnP = 0.025;
   public final double kTurnI = 0;
   public final double kTurnD = 0;
   public final double kMaxTurnPower = 0.5;

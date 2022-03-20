@@ -30,16 +30,16 @@ public class Front3BallAuto extends SequentialCommandGroup {
         new IntakeAuto(cargoConstants.kBackOuttakeFarPos, false, isRedBall, Constants.AutoConstants.kAutoIntakeDriveDistance),
         new ShootAuto(false, false, 0, () -> true, 154, 25),
         new PositionArm(154),
-        parallel(
-          Pathweaver.pathweaverCommand(Constants.AutoConstants.k3BallAuto),
-          new PositionArm(cargoConstants.kIntakePos),
-          new InstantCommand(() -> ShooterMethods.setWheelRPM(wheelConstants.kIntakeSpeed)),
-          new InstantCommand(() -> ShooterMethods.setBeltPower(beltConstants.kIntakeSpeed)),
-          sequence(
-            new WaitUntilCommand(() -> ShooterMethods.isBallContained()),
-            new PositionArm(cargoConstants.kFrontOuttakeAutoPos)
-          )
-        ),
+        // parallel(
+        //   Pathweaver.pathweaverCommand(Constants.AutoConstants.k3BallAuto),
+        //   new PositionArm(cargoConstants.kIntakePos),
+        //   new InstantCommand(() -> ShooterMethods.setWheelRPM(wheelConstants.kIntakeSpeed)),
+        //   new InstantCommand(() -> ShooterMethods.setBeltPower(beltConstants.kIntakeSpeed)),
+        //   sequence(
+        //     new WaitUntilCommand(() -> ShooterMethods.isBallContained()),
+        //     new PositionArm(cargoConstants.kFrontOuttakeAutoPos)
+        //   )
+        // ),
         new ShootAuto(false, true, 0, () -> true, cargoConstants.kFrontOuttakeAutoPos, wheelConstants.kFrontOuttakeAutoSpeed)
     );
   }

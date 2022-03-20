@@ -31,7 +31,7 @@ public class MarinusCargoRotatorConstants {
     public final double kSAngle = -50;
 
     public final double kFrontLimelightScanPos = 80;
-    public final double kBackLimelightScanPos = 146;
+    public final double kBackLimelightScanPos = 172;
     
     // locations
     public final double kIntakePos = 2; // 0 degrees (when on hardstops)
