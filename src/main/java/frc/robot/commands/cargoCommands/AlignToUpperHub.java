@@ -35,7 +35,7 @@ public class AlignToUpperHub extends CommandBase {
   @Override
   public void execute() {
     offset = m_limelight.getHubHorizontalAngularOffset();
-    m_drive.runDrive(0, alignPID.calculate(offset, 0));
+    m_drive.arcadeDrive(0, alignPID.calculate(offset, 0));
   }
 
   @Override
