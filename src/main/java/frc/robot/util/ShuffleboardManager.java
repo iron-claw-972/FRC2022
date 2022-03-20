@@ -138,6 +138,8 @@ public class ShuffleboardManager {
     // cargoTab.addNumber("Optimal RPM", () -> ShooterMethods.velocityToRPM(() -> GetDistance.optimalVelocity));
     cargoTab.addNumber("Optimal angle", () -> GetDistance.optimalStipeAngle);
     cargoTab.addBoolean("getDistance Is Finished", () -> GetDistance.isFinished);
+
+    cargoTab.addNumber("Limelight latency (ms)", RobotContainer.m_limelight::getLatency);
   }
 
   public void loadClimbExtenderShuffleboard(ClimbExtender extender) {

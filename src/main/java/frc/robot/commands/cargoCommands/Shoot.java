@@ -91,6 +91,7 @@ public class Shoot extends SequentialCommandGroup {
     @Override
     public void end(boolean interrupted) {
       ShooterMethods.disableShiitake();
+      RobotContainer.m_limelight.setDriverPipeline();
       GetDistance.isFinished = false; // Reset finished condition
     }
 }

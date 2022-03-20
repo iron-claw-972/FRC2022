@@ -26,12 +26,13 @@ public class Limelight extends SubsystemBase {
   private double m_skew; // Skew or rotation
   private Pipeline m_pipeline;
   private double m_latency;
-  private boolean m_isDriverCamera = true;
+  private boolean m_isDriverCamera = false;
+  private StreamMode m_streamMode = StreamMode.STANDARD;
   private LEDMode m_ledMode = LEDMode.OFF;
 
   // private MedianFilter m_TxMedianFilter = new MedianFilter(5);
   // private MedianFilter m_TyMedianFilter = new MedianFilter(5);
-  private Debouncer m_TvDebouncer = new Debouncer(0.1, DebounceType.kBoth);
+  private Debouncer m_TvDebouncer = new Debouncer(0.05, DebounceType.kBoth);
 
   BooleanSupplier m_getIsFacingFront;
 
@@ -46,20 +47,17 @@ public class Limelight extends SubsystemBase {
     m_tableName = "limelight";
     m_table = NetworkTableInstance.getDefault().getTable(m_tableName);
     m_getIsFacingFront = getIsFacingFront;
-    setCameraMode(false);
   }
 
   public Limelight(String tableName, BooleanSupplier getIsFacingFront) {
     m_tableName = tableName;
     m_table = NetworkTableInstance.getDefault().getTable(m_tableName);
     m_getIsFacingFront = getIsFacingFront;
-    setCameraMode(false);
   }
 
   public Limelight(NetworkTable table, BooleanSupplier getIsFacingFront) {
     m_table = table;
     m_getIsFacingFront = getIsFacingFront;
-    setCameraMode(false);
   }
 
   @Override
@@ -70,6 +68,7 @@ public class Limelight extends SubsystemBase {
   private void updateData() {
     setCameraMode(m_isDriverCamera);
     setLedMode(m_ledMode);
+    setStreamMode(m_streamMode);
     m_latency = getTl();
 
     if (!m_isDriverCamera) {
@@ -143,7 +142,7 @@ public class Limelight extends SubsystemBase {
 
   public void setCameraMode(boolean isDriverCamera) {
     if (isDriverCamera) {
-      // m_table.getEntry("camMode").setNumber(1);
+      m_table.getEntry("camMode").setNumber(1);
       m_isDriverCamera = true;
     } else {
       m_table.getEntry("camMode").setNumber(0);
@@ -199,13 +198,15 @@ public class Limelight extends SubsystemBase {
         return Pipeline.BLUE_CARGO;
       case 2:
         return Pipeline.UPPER_HUB;
+      case 3:
+        return Pipeline.DRIVER;
       default:
         return Pipeline.NO_PIPELINE;
     }
   }
 
   public enum Pipeline {
-    RED_CARGO, BLUE_CARGO, UPPER_HUB, NO_PIPELINE
+    RED_CARGO, BLUE_CARGO, UPPER_HUB, DRIVER, NO_PIPELINE
   }
 
   private void setPipeline(Pipeline pipeline) {
@@ -222,9 +223,45 @@ public class Limelight extends SubsystemBase {
       case UPPER_HUB:
         m_table.getEntry("pipeline").setNumber(constants.kUpperHubPipeline);
         break;
+      case DRIVER:
+        m_table.getEntry("pipeline").setNumber(constants.kDriverPipeline);
+        break;
       default:
     }
     updateData();
+  }
+
+  public StreamMode getStreamMode() {
+    double streamMode = m_table.getEntry("stream").getDouble(Double.NaN);
+    switch ((int) Math.round(streamMode)) {
+      case 0:
+        return StreamMode.STANDARD;
+      case 1:
+        return StreamMode.MAIN;
+      case 2:
+        return StreamMode.SECONDARY;
+      default:
+        return StreamMode.STANDARD;
+    }
+  }
+
+  public enum StreamMode {
+    STANDARD, MAIN, SECONDARY
+  }
+
+  private void setStreamMode(StreamMode streamMode) {
+    switch (streamMode) {
+      case STANDARD:
+        m_table.getEntry("stream").setNumber(0);
+        break;
+      case MAIN:
+        m_table.getEntry("stream").setNumber(1);
+        break;
+      case SECONDARY:
+        m_table.getEntry("stream").setNumber(2);
+        break;
+      default:
+    }
   }
 
   private double getLimelightHeight(double armAngle) {
@@ -260,6 +297,10 @@ public class Limelight extends SubsystemBase {
 
   public void setUpperHubPipeline() {
     setPipeline(Pipeline.UPPER_HUB);
+  }
+
+  public void setDriverPipeline() {
+    setPipeline(Pipeline.DRIVER);
   }
 
   public double getHubDistance(double armAngle) {
