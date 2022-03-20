@@ -44,6 +44,7 @@ public class ShuffleboardManager {
 
     autoTab.add("Auto Chooser",autoCommand);
     primaryTab.addString("Drive Mode", this::getDriveModeString);
+    primaryTab.add("PDP", RobotContainer.pdp);
   }
 
   public void update() {

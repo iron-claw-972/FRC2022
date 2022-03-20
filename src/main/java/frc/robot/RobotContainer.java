@@ -21,6 +21,8 @@ import edu.wpi.first.wpilibj2.command.*;
 
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.UsbCamera;
+import edu.wpi.first.wpilibj.PowerDistribution;
+import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
 
 /*
   This class is where the bulk of the robot should be declared. Since
@@ -48,6 +50,7 @@ import edu.wpi.first.cscore.UsbCamera;
   public static CargoBelt m_cargoBelt = new CargoBelt();
   public static CargoShooter m_cargoShooter = new CargoShooter();
   public static BallDetection m_ballDetection = new BallDetection();
+  public static PowerDistribution pdp = new PowerDistribution(0, ModuleType.kCTRE);
   public static Log m_Log = new Log();
   
   UsbCamera camera0;
