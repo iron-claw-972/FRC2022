@@ -9,7 +9,7 @@ public class TraversoClimbExtenderConstants {
   public final double kSoftLimit = 600000;
 
   // tolerance allowed to the PID 
-  public final double kExtenderTolerance = 400;
+  public final double kExtenderTolerance = 550;
 
   // motor clamps
   public final double kMotorClampDown = -0.9; //should be negative!
