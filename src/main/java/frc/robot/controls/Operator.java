@@ -35,15 +35,21 @@ public class Operator {
   //operator buttons
   public static void configureButtonBindings() {
     shootBinds();
-    testShootBinds();
+    // testShootBinds();
   }
   
   public static void shootBinds() {
-    // Shoot front
+    // Vision Shoot front
     controller.getButtons().Y().whenHeld(new Shoot(true, true, true));
 
-    // Shoot back
+    // Vision Shoot back
     controller.getButtons().A().whenHeld(new Shoot(true, true, false));
+
+    // Manual Shoot front
+    controller.getButtons().RT().whileActiveOnce(new Shoot(false, false, true, cargoConstants.kFrontOuttakeHighPos, wheelConstants.kFrontOuttakeHighSpeed));
+
+    // Manual Shoot back
+    controller.getButtons().RB().whenHeld(new Shoot(false, false, false, cargoConstants.kBackOuttakeHighPos, wheelConstants.kBackOuttakeHighSpeed));
 
     // Manual intake
     controller.getButtons().X().whenHeld(new Intake(cargoConstants.kBackLimelightScanPos, false, Constants.kIsRedAlliance));
