@@ -45,7 +45,7 @@ import frc.robot.Constants;
 public class Drivetrain extends SubsystemBase {
 
   //change this to use constants from a different robot
-  public static TraversoDriveConstants constants = new TraversoDriveConstants();
+  public static MarinusDriveConstants constants = new MarinusDriveConstants();
 
   WPI_TalonFX m_leftMotor1 = ControllerFactory.createTalonFX(constants.leftMotorPorts[0], constants.kSupplyCurrentLimit, constants.kSupplyTriggerThreshold, constants.kSupplyTriggerDuration, constants.kMainNeutralMode);
   WPI_TalonFX m_rightMotor1 = ControllerFactory.createTalonFX(constants.rightMotorPorts[0], constants.kSupplyCurrentLimit, constants.kSupplyTriggerThreshold, constants.kSupplyTriggerDuration, constants.kMainNeutralMode);

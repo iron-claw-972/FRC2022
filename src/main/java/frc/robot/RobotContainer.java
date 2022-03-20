@@ -8,17 +8,20 @@ the project.
 package frc.robot;
 
 import frc.robot.subsystems.*;
+import frc.robot.subsystems.Limelight.LEDMode;
+import frc.robot.util.ClimberMethods;
+import frc.robot.util.Log;
 import frc.robot.util.ShooterMethods;
 import frc.robot.util.ShuffleboardManager;
 import frc.robot.commands.TeleopDrive;
 import frc.robot.controls.*;
-import frc.robot.robotConstants.cargoRotator.TraversoCargoRotatorConstants;
-import frc.robot.robotConstants.climbExtender.TraversoClimbExtenderConstants;
-import frc.robot.robotConstants.climbRotator.TraversoClimbRotatorConstants;
-import frc.robot.robotConstants.drivetrain.TraversoDriveConstants;
-import frc.robot.robotConstants.limelight.TraversoLimelightConstants;
-import frc.robot.robotConstants.shooterWheel.TraversoCargoShooterConstants;
-import frc.robot.robotConstants.shooterBelt.TraversoBeltConstants;
+import frc.robot.robotConstants.cargoRotator.MarinusCargoRotatorConstants;
+import frc.robot.robotConstants.climbExtender.MarinusClimbExtenderConstants;
+import frc.robot.robotConstants.climbRotator.MarinusClimbRotatorConstants;
+import frc.robot.robotConstants.drivetrain.MarinusDriveConstants;
+import frc.robot.robotConstants.limelight.MarinusLimelightConstants;
+import frc.robot.robotConstants.shooterWheel.MarinusCargoShooterConstants;
+import frc.robot.robotConstants.shooterBelt.MarinusBeltConstants;
 import edu.wpi.first.wpilibj2.command.*;
 
 
@@ -40,7 +43,6 @@ import edu.wpi.first.cscore.UsbCamera;
   // The robot's subsystems and commands are defined here...
 
   public static ShuffleboardManager m_shuffleboard = new ShuffleboardManager();
-  public static BallDetection m_ballDetection = new BallDetection();
 
   public static Drivetrain m_drive = new Drivetrain();
 
@@ -51,17 +53,19 @@ import edu.wpi.first.cscore.UsbCamera;
   public static CargoRotator m_cargoRotator = new CargoRotator();
   public static CargoBelt m_cargoBelt = new CargoBelt();
   public static CargoShooter m_cargoShooter = new CargoShooter();
-  public static BallDetection m_balldetector = new BallDetection();
+  public static BallDetection m_ballDetection = new BallDetection();
 
-  public static TraversoDriveConstants driveConstants = new TraversoDriveConstants();
-  public static TraversoLimelightConstants limelightConstants = new TraversoLimelightConstants();
+  public static MarinusDriveConstants driveConstants = new MarinusDriveConstants();
+  public static MarinusLimelightConstants limelightConstants = new MarinusLimelightConstants();
 
-  public static TraversoClimbExtenderConstants extenderConstants = new TraversoClimbExtenderConstants();
-  public static TraversoClimbRotatorConstants rotatorConstants = new TraversoClimbRotatorConstants();
+  public static MarinusClimbExtenderConstants extenderConstants = new MarinusClimbExtenderConstants();
+  public static MarinusClimbRotatorConstants rotatorConstants = new MarinusClimbRotatorConstants();
 
-  public static TraversoCargoRotatorConstants cargoConstants = new TraversoCargoRotatorConstants();
-  public static TraversoBeltConstants beltConstants = new TraversoBeltConstants();
-  public static TraversoCargoShooterConstants wheelConstants = new TraversoCargoShooterConstants();
+  public static MarinusCargoRotatorConstants cargoConstants = new MarinusCargoRotatorConstants();
+  public static MarinusBeltConstants beltConstants = new MarinusBeltConstants();
+  public static MarinusCargoShooterConstants wheelConstants = new MarinusCargoShooterConstants();
+
+  public static Log m_Log = new Log();
   
   UsbCamera camera0;
   UsbCamera camera1;

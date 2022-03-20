@@ -178,16 +178,16 @@ public class ShooterMethods {
 
   public static boolean isBallContainedSecurely() {
     // System.out.println(RobotContainer.m_balldetector.containsBallSecurely());
-    return RobotContainer.m_balldetector.containsBallSecurely();
+    return RobotContainer.m_ballDetection.containsBallSecurely();
   }
 
   public static boolean isBallContained() {
     // System.out.println(RobotContainer.m_balldetector.containsBallSecurely());
-    return RobotContainer.m_balldetector.containsBall();
+    return RobotContainer.m_ballDetection.containsBall();
   }
 
   public static boolean isBallShot() {
-    return !RobotContainer.m_balldetector.containsBall();
+    return !RobotContainer.m_ballDetection.containsBall();
   }
 
   public static void multiSetter(double armAngle, double beltPower, double shooterSpeed) {

@@ -7,7 +7,7 @@ import edu.wpi.first.math.system.LinearSystem;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.system.plant.LinearSystemId;
 
-public class TraversoCargoShooterConstants {
+public class MarinusCargoShooterConstants {
 
   public final int kCargoShooterMotorPort = 7;
 

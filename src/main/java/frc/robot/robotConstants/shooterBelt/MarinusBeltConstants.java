@@ -2,7 +2,7 @@ package frc.robot.robotConstants.shooterBelt;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 
-public class TraversoBeltConstants {
+public class MarinusBeltConstants {
   public final int kCargoBeltMotorPort = 6;
 
   public final double kOuttakeSpeed = 0.4;

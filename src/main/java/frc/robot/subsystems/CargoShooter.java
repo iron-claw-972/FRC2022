@@ -8,7 +8,7 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import frc.robot.util.ControllerFactory;
-import frc.robot.robotConstants.shooterWheel.TraversoCargoShooterConstants;
+import frc.robot.robotConstants.shooterWheel.MarinusCargoShooterConstants;
 import ctre_shims.TalonEncoder;
 import ctre_shims.TalonEncoderSim;
 import edu.wpi.first.math.MathUtil;
@@ -19,7 +19,7 @@ import edu.wpi.first.wpilibj.simulation.FlywheelSim;
 
 public class CargoShooter extends SubsystemBase {
 
-  TraversoCargoShooterConstants constants = new TraversoCargoShooterConstants();
+  MarinusCargoShooterConstants constants = new MarinusCargoShooterConstants();
 
   private final WPI_TalonFX m_cargoShooterMotor = ControllerFactory.createTalonFX(constants.kCargoShooterMotorPort , constants.kSupplyCurrentLimit, constants.kSupplyTriggerThreshold, constants.kSupplyTriggerDuration, constants.kNeutral);
   private final TalonEncoder m_cargoShooterEncoder = new TalonEncoder(m_cargoShooterMotor);

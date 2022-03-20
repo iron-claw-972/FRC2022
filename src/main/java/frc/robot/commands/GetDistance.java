@@ -3,7 +3,7 @@ package frc.robot.commands;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
-import frc.robot.robotConstants.limelight.TraversoLimelightConstants;
+import frc.robot.robotConstants.limelight.MarinusLimelightConstants;
 import frc.robot.subsystems.CargoRotator;
 import frc.robot.subsystems.Limelight;
 import frc.robot.util.ShooterMethods;
@@ -12,7 +12,7 @@ public class GetDistance extends CommandBase {
   private final Limelight m_limelight;
   private final CargoRotator m_cargoRotator;
 
-  public static TraversoLimelightConstants constants = new TraversoLimelightConstants();
+  public static MarinusLimelightConstants constants = new MarinusLimelightConstants();
 
   public static boolean isFinished = false;
   public static double optimalVelocity = Double.NaN;

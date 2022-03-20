@@ -4,7 +4,7 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 
 import edu.wpi.first.math.util.Units;
 
-public class TraversoCargoRotatorConstants {
+public class MarinusCargoRotatorConstants {
     // the duty cycle encoder ports of the arm
     public final int kArmEncoder = 4;
 

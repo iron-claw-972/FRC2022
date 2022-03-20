@@ -76,11 +76,11 @@ public class GetDistanceTest {
     System.out.println("Pivot Distance: " + Units.metersToFeet(GetDistance.pivotDistance) + " ft/s");
 
     assertTrue(GetDistance.isFinished);
-    assertEquals(GetDistance.optimalVelocity, 25.831072275994146, 0.01);
-    assertEquals(GetDistance.optimalStipeAngle, 111.5361014686653, 0.01);
-    assertEquals(GetDistance.loggedOptimalShootingAngle, 72.5361014686653, 0.01);
-    assertEquals(GetDistance.loggedTargetHeightOffset, 5.892897422527696, 0.01);
-    assertEquals(Units.metersToFeet(GetDistance.pivotDistance), 7.692932139158977, 0.01);
+    assertEquals(GetDistance.optimalVelocity, 24.902942434373344, 0.01);
+    assertEquals(GetDistance.optimalStipeAngle, 107.5477713279413, 0.01);
+    assertEquals(GetDistance.loggedOptimalShootingAngle, 68.5477713279413, 0.01);
+    assertEquals(GetDistance.loggedTargetHeightOffset, 5.939272295035024, 0.01);
+    assertEquals(Units.metersToFeet(GetDistance.pivotDistance), 8.307067860841022, 0.01);
   }
 
   @Test
@@ -102,10 +102,10 @@ public class GetDistanceTest {
     System.out.println("Pivot Distance: " + Units.metersToFeet(GetDistance.pivotDistance) + " ft/s");
 
     assertTrue(GetDistance.isFinished);
-    assertEquals(GetDistance.optimalVelocity, 24.848370528593488, 0.01);
-    assertEquals(GetDistance.optimalStipeAngle, 145.8264388645579, 0.01);
-    assertEquals(GetDistance.loggedOptimalShootingAngle, 73.1735611354421, 0.01);
-    assertEquals(GetDistance.loggedTargetHeightOffset, 5.804937916286363, 0.01);
-    assertEquals(Units.metersToFeet(GetDistance.pivotDistance), 6.248875965108656, 0.01);
+    assertEquals(GetDistance.optimalVelocity, 25.620514441673492, 0.01);
+    assertEquals(GetDistance.optimalStipeAngle, 152.71140547791944, 0.01);
+    assertEquals(GetDistance.loggedOptimalShootingAngle, 66.28859452208056, 0.01);
+    assertEquals(GetDistance.loggedTargetHeightOffset, 5.855838655049209, 0.01);
+    assertEquals(Units.metersToFeet(GetDistance.pivotDistance), 9.751124034891342, 0.01);
   }
 }

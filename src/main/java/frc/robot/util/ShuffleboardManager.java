@@ -14,7 +14,7 @@ import frc.robot.subsystems.ClimbExtender;
 import frc.robot.subsystems.ClimbRotator;
 import frc.robot.commands.*;
 import frc.robot.controls.Driver;
-import frc.robot.robotConstants.climbExtender.TraversoClimbExtenderConstants;
+import frc.robot.robotConstants.climbExtender.MarinusClimbExtenderConstants;
 
 public class ShuffleboardManager {
 
@@ -27,11 +27,13 @@ public class ShuffleboardManager {
   NetworkTableEntry autoWait = autoTab.add("Auto Wait", 0.0).getEntry();
   NetworkTableEntry isFar = autoTab.add("Flexible Auto First Shoot is Fender", true).getEntry();
   NetworkTableEntry distance = autoTab.add("Flexible Auto Drive Distance", 0.0).getEntry();
-  NetworkTableEntry intakeSecond = autoTab.add("Flexible Auto Get a Second ball", true).getEntry();
   NetworkTableEntry shootSecond = autoTab.add("Flexible Auto Shoot a Second Time", true).getEntry();
+  NetworkTableEntry intakeSecond = autoTab.add("Flexible Auto Get and Shoot a Second Time", true).getEntry();
   NetworkTableEntry limelightColor = cargoTab.add("Limelight (Red)", true).getEntry();
+
+  NetworkTableEntry commandScheduler = mainTab.add("Command Scheduler", "NULL").getEntry();
   
-  TraversoClimbExtenderConstants extenderConstants = new TraversoClimbExtenderConstants();
+  MarinusClimbExtenderConstants extenderConstants = new MarinusClimbExtenderConstants();
   
 
   public void setup() {
@@ -87,6 +89,7 @@ public class ShuffleboardManager {
     loadBallDetectionShuffleboard();
     loadLimelightShuffleboard();
     
+    loadCommandSchedulerShuffleboard();
 
   }
 
@@ -168,6 +171,12 @@ public class ShuffleboardManager {
   }
   public boolean getLimelightBlue(){
     return !limelightColor.getBoolean(true);
+  }
+
+  public void loadCommandSchedulerShuffleboard(){
+    CommandScheduler.getInstance().onCommandInitialize(command -> commandScheduler.setString("Command initialized: " + command.getName()));
+    CommandScheduler.getInstance().onCommandInterrupt(command -> commandScheduler.setString("Command interrupted: " + command.getName()));
+    CommandScheduler.getInstance().onCommandFinish(command -> commandScheduler.setString("Command finished: " + command.getName()));
   }
 }
   

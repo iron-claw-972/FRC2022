@@ -3,7 +3,7 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import frc.robot.util.ControllerFactory;
-import frc.robot.robotConstants.climbRotator.TraversoClimbRotatorConstants;
+import frc.robot.robotConstants.climbRotator.MarinusClimbRotatorConstants;
 import frc.robot.util.LimitSwitch;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class ClimbRotator extends SubsystemBase {
-  TraversoClimbRotatorConstants constants = new TraversoClimbRotatorConstants();
+  MarinusClimbRotatorConstants constants = new MarinusClimbRotatorConstants();
 
   private boolean enabled = false;
   private final DutyCycleEncoder encoder;

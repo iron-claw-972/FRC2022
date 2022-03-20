@@ -2,7 +2,7 @@ package frc.robot.robotConstants.climbRotator;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 
-public class TraversoClimbRotatorConstants {
+public class MarinusClimbRotatorConstants {
     // the duty cycle encoder ports of the arm
     public final int kArmLeftEncoder = 6;
     public final int kArmRightEncoder = 0;

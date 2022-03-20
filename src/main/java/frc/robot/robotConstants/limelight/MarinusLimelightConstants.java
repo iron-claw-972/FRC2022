@@ -2,7 +2,7 @@ package frc.robot.robotConstants.limelight;
 
 import edu.wpi.first.math.util.Units;
 
-public class TraversoLimelightConstants {
+public class MarinusLimelightConstants {
   public final double kAlignPIDTolerance = 1;
   public final double kAlignP = 0.037;
   public final double kAlignI = 0.05;

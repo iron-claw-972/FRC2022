@@ -9,10 +9,10 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.robotConstants.limelight.TraversoLimelightConstants;
+import frc.robot.robotConstants.limelight.MarinusLimelightConstants;
 
 public class Limelight extends SubsystemBase {
-  public static TraversoLimelightConstants constants = new TraversoLimelightConstants();
+  public static MarinusLimelightConstants constants = new MarinusLimelightConstants();
 
   private static Limelight instance;
 
