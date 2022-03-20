@@ -45,15 +45,26 @@ public class Operator {
 
     // Manual intake
     controller.getButtons().X().whenHeld(new Intake(cargoConstants.kBackLimelightScanPos, false, Constants.kIsRedAlliance));
-    controller.getButtons().X().whenReleased(new PositionArm(cargoConstants.kBackLimelightScanPos));
+    controller.getButtons().X().whenReleased(new PositionArm(cargoConstants.kFrontLimelightScanPos));
 
     // Stow arm
     controller.getButtons().B().whenPressed(new PositionArm(cargoConstants.kStowPos));
-
-    controller.getButtons().RT().whileActiveOnce(new Shoot(false, false, false, 175, -6000));
   }
 
   public static void testShootBinds() {
-    controller.getButtons().RB().whenHeld(new GetDistance(RobotContainer.m_limelight, RobotContainer.m_cargoRotator));
+    // controller.getButtons().RT().whileActiveOnce(new Shoot(false, false, false, 175, -6000));
+    // controller.getButtons().RB().whenHeld(new GetDistance(RobotContainer.m_limelight, RobotContainer.m_cargoRotator));
+
+    // Align to upper hub front
+    controller.getButtons().RT().whileActiveOnce(new SequentialCommandGroup(
+      new PositionArm(cargoConstants.kFrontLimelightScanPos),
+      new AlignToUpperHub(RobotContainer.m_limelight, RobotContainer.m_drive)
+    ));
+
+    // Align to upper hub back
+    controller.getButtons().RB().whenHeld(new SequentialCommandGroup(
+      new PositionArm(cargoConstants.kBackLimelightScanPos),
+      new AlignToUpperHub(RobotContainer.m_limelight, RobotContainer.m_drive)
+    ));
   }
 }

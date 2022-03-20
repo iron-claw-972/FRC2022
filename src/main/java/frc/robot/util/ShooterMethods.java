@@ -125,7 +125,6 @@ public class ShooterMethods {
   public static void stopBelt() {
     RobotContainer.m_cargoShooter.setStop();
   }
-  //
 
   public static double velocityToRPM(DoubleSupplier speed, boolean isFront) {
     double velocity = speed.getAsDouble();
@@ -133,7 +132,7 @@ public class ShooterMethods {
     if (isFront) {
       rpm = -(178*velocity - 1100);
     } else {
-      rpm = -(178*velocity - 500);
+      rpm = -(296*velocity - 3686);
     }
     return rpm;
   }

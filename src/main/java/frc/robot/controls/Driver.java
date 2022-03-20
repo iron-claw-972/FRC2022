@@ -39,18 +39,19 @@ public class Driver {
       new AlignToUpperHub(RobotContainer.m_limelight, RobotContainer.m_drive)
     ));
 
-    controller.getButtons().frontSwitchTop().whenHeld(new Shoot(true, true, true));
-    controller.getButtons().backSwitchTop().whenHeld(new Shoot(true, true, false));
-
     // Align to hub back
     controller.getButtons().backSwitchBottom().whileHeld(new SequentialCommandGroup(
       new PositionArm(cargoConstants.kBackLimelightScanPos),
       new AlignToUpperHub(RobotContainer.m_limelight, RobotContainer.m_drive)
     ));
 
-    // Intake w/ ball chase
-    controller.getButtons().bottomButton().whenHeld(new Intake(RobotContainer.cargoConstants.kBackLimelightScanPos, true, Constants.kIsRedAlliance));
-    controller.getButtons().bottomButton().whenReleased(new PositionArm(cargoConstants.kBackLimelightScanPos));
+    // Intake w/ ball chase for our color
+    controller.getButtons().frontSwitchTop().whenHeld(new Intake(RobotContainer.cargoConstants.kFrontLimelightScanPos, true, Constants.kIsRedAlliance));
+    controller.getButtons().frontSwitchTop().whenReleased(new PositionArm(cargoConstants.kFrontLimelightScanPos));
+
+    // Intake w/ ball chase for opponent color
+    controller.getButtons().backSwitchTop().whenHeld(new Intake(RobotContainer.cargoConstants.kFrontLimelightScanPos, true, !Constants.kIsRedAlliance));
+    controller.getButtons().backSwitchTop().whenReleased(new PositionArm(cargoConstants.kFrontLimelightScanPos));
   }
   
   public static double getThrottleValue() {
