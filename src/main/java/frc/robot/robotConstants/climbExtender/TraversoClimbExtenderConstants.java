@@ -9,22 +9,22 @@ public class TraversoClimbExtenderConstants {
   public final double kSoftLimit = 600000;
 
   // tolerance allowed to the PID 
-  public final double kExtenderTolerance = 500;
+  public final double kExtenderTolerance = 400;
 
   // motor clamps
   public final double kMotorClampDown = -0.9; //should be negative!
   public final double kMotorClampUp = .7;     //should be positive!
   
   // locations
-  public final double kLeftMaxUpwards = 540994;
+  public final double kLeftMaxUpwards = 546433;
   public final double kLeftHalfway = kLeftMaxUpwards / 2;
   public final double kLeftSlightlyUpward = kLeftMaxUpwards / 4;
 
-  public final double kRightMaxUpwards = 530358;
+  public final double kRightMaxUpwards = 558365;
   public final double kRightHalfway = kRightMaxUpwards / 2;
   public final double kRightSlightlyUpward = kRightMaxUpwards / 4;
 
-  public final double kDownPower = -0.7;
+  public final double kDownPower = -0.5;
   
   // extender limit switches
   public final int kExtLeftLimitSwitch = 8;

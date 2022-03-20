@@ -116,6 +116,8 @@ public class ShuffleboardManager {
     
     pidTab.add(extender.getSide() + "Climb Extender PID", extender.extenderPID);
     pidTab.addNumber(extender.getSide() + " Extension", extender::currentExtensionRaw);
+    pidTab.addBoolean(extender.getSide() + " Extender Setpoint", extender::reachedSetpoint);
+
   
   }
   public void loadClimbRotatorShuffleboard(ClimbRotator rotator) {

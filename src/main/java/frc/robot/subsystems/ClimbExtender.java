@@ -14,7 +14,7 @@ import frc.robot.robotConstants.climbExtender.TraversoClimbExtenderConstants;
 
 public class ClimbExtender extends SubsystemBase {
   TraversoClimbExtenderConstants constants = new TraversoClimbExtenderConstants();
-  private boolean enabled = true;
+  private boolean enabled = false;
   private boolean manualEnabled = false;
   private final WPI_TalonFX m_motor;
   private String side;
@@ -32,7 +32,6 @@ public class ClimbExtender extends SubsystemBase {
       side = "Left"; // the direction for shuffleboard's use
       m_motor.setInverted(true);
       limitSwitch = new LimitSwitch(constants.kExtLeftLimitSwitch, constants.kExtLimitSwitchDebouncer);
-      enabled = false;
     }
     else {
       // otherwise, just assign the motor object to the right
@@ -100,9 +99,7 @@ public class ClimbExtender extends SubsystemBase {
 
   // enables the extender (wow!)
   public void enable() {
-    if (side.equals("Right")) {
-      enabled = true;
-    }
+    enabled = true;
   }
   
   // disables the extender
@@ -113,9 +110,7 @@ public class ClimbExtender extends SubsystemBase {
 
   // tells the motor object to drive at a speed that the PID sets the motorPower to be
   public void setOutput(double motorPower) {
-    if (side.equals("Right")) {
-      m_motor.set(MathUtil.clamp(motorPower, constants.kMotorClampDown, constants.kMotorClampUp));
-    }
+    m_motor.set(MathUtil.clamp(motorPower, constants.kMotorClampDown, constants.kMotorClampUp));
   }
 
   // checks to see if the extender is fullycompressed

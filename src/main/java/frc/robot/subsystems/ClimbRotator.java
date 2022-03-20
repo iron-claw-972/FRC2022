@@ -8,6 +8,7 @@ import frc.robot.util.LimitSwitch;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class ClimbRotator extends SubsystemBase {
@@ -34,7 +35,6 @@ public class ClimbRotator extends SubsystemBase {
       side = "Left"; // the direction for shuffleboard's use
       m_motor.setInverted(true); // inverts the motor
       encoderOffset = constants.kArmLeftEncoderOffset; // sets an offset for the encoder
-      enabled = false;
 
      // limitSwitchLower = new LimitSwitch(constants.kLeftLimitSwitchLower , constants.kLimitSwitchDebouncer);
      // limitSwitchUpper = new LimitSwitch(constants.kLeftLimitSwitchUpper , constants.kLimitSwitchDebouncer);
@@ -68,7 +68,7 @@ public class ClimbRotator extends SubsystemBase {
     // SmartDashboard.putNumber(direction + " rotator angle raw", currentAngleRaw());
     // SmartDashboard.putNumber(direction + " rotator angle", currentAngle());
     // SmartDashboard.putNumber(direction + " rotator offset", encoderOffset);
-    if(enabled && side.equals("Right")) {
+    if(enabled) {
       // set the arm power according to the PID
       setOutput(armPID.calculate(currentAngle(), setpoint));
     } else {
@@ -106,9 +106,7 @@ public class ClimbRotator extends SubsystemBase {
 
   //enables PID
   public void enable() {
-    if (side.equals("Right")) {
     enabled = true;
-    }
   }
 
   public void disable() {
@@ -118,9 +116,7 @@ public class ClimbRotator extends SubsystemBase {
   }
 
   public void setOutput(double motorPower){
-    if (side.equals("Right")) {
-      m_motor.set(MathUtil.clamp(motorPower, -constants.kMotorClamp, constants.kMotorClamp));
-    }
+    m_motor.set(MathUtil.clamp(motorPower, -constants.kMotorClamp, constants.kMotorClamp));
   }
 
   // sets PID Goal
