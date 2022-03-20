@@ -269,7 +269,7 @@ public class Limelight extends SubsystemBase {
         + (constants.kPivotToLimelightLength * Math.sin(Units.degreesToRadians(armAngle)));
   }
 
-  private double getLimelightAngle(double armAngle) {
+  private double getLimelightFaceAngle(double armAngle) {
     // If angle is obtuse, find the supplementary angle
     if (isFacingFront()) {
       return (armAngle + constants.kStipeToLimelightFaceAngularOffset);
@@ -312,7 +312,7 @@ public class Limelight extends SubsystemBase {
   }
 
   private double getDistance(double armAngle, double targetHeight) {
-    double limelightAngleRad = Units.degreesToRadians(getLimelightAngle(armAngle) + m_verticalAngularOffset);
+    double limelightAngleRad = Units.degreesToRadians(getLimelightFaceAngle(armAngle) + m_verticalAngularOffset);
     double distance = ((targetHeight - getLimelightHeight(armAngle)) / (Math.tan(limelightAngleRad)));
 
     return distance;

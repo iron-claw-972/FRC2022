@@ -166,4 +166,4 @@ bin/
 shuffleboarddebug.json
 /sim*.json
 
-*.wpilib
+*.wpilog
