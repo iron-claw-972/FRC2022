@@ -13,6 +13,11 @@ import frc.robot.autonomous.drivetrain.Pathweaver;
 import frc.robot.subsystems.ClimbExtender;
 import frc.robot.subsystems.ClimbRotator;
 import frc.robot.commands.*;
+import frc.robot.commands.autoCommands.BackFlexibleAuto;
+import frc.robot.commands.autoCommands.FrontFlexibleAuto;
+import frc.robot.commands.cargoCommands.AlignToUpperHub;
+import frc.robot.commands.cargoCommands.ChaseBall;
+import frc.robot.commands.cargoCommands.GetDistance;
 import frc.robot.controls.Driver;
 import frc.robot.robotConstants.climbExtender.MarinusClimbExtenderConstants;
 

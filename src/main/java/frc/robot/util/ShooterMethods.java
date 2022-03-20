@@ -6,7 +6,7 @@ import java.util.function.DoubleSupplier;
 import edu.wpi.first.math.util.Units;
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
-import frc.robot.commands.GetDistance;
+import frc.robot.commands.cargoCommands.GetDistance;
 
 public class ShooterMethods {
 
