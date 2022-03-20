@@ -23,7 +23,7 @@ public class TraversoClimbRotatorConstants {
     public final double kNinetyDeg = 96;
     public final double kMaxBackward = 123;
     public final double kMaxForward = kNinetyDeg;
-    public final double kToBar = 116;
+    public final double kToBar = 115;
     public final double kHookStatic = 110;
 
     // PID constants
