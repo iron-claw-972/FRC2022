@@ -24,7 +24,8 @@ public class TraversoClimbExtenderConstants {
   public final double kRightHalfway = kRightMaxUpwards / 2;
   public final double kRightSlightlyUpward = kRightMaxUpwards / 4;
 
-  public final double kDownPower = -0.5;
+  public final double kDownPowerCalibration = -0.4;   //has to go slower when calibrating to be more precise
+  public final double kDownPowerNoCalibration = -0.7;
   
   // extender limit switches
   public final int kExtLeftLimitSwitch = 8;

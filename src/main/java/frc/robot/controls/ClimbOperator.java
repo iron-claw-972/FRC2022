@@ -91,15 +91,18 @@ public class ClimbOperator {
 
   public static void autoClimbBinds() {
 
-    controller.getDPad().up().whenPressed(new ParallelCommandGroup(
-      // stow the shooter
-      new PositionArm(cargoConstants.kStowPos),
+    controller.getDPad().up().whenPressed(
+      new SequentialCommandGroup(
+        new ParallelCommandGroup(
+          // stow the shooter
+          new PositionArm(cargoConstants.kStowPos),
 
-      // go to maximum extension, go to 90 degrees
-      new ClimbMove(extend.kRightMaxUpwards, extend.kLeftMaxUpwards, rotate.kNinetyDeg)
+          // go to maximum extension, go to 90 degrees
+          new ClimbMove(extend.kRightMaxUpwards, extend.kLeftMaxUpwards, rotate.kNinetyDeg)
+        ),
 
-      // vibrate the controller
-     // new Rumble(controller)
+        // vibrate the controller
+        new Rumble(controller)
     ));
 
     controller.getDPad().down().whenPressed(new SequentialCommandGroup(    
@@ -108,10 +111,10 @@ public class ClimbOperator {
       new ExtendDownwards(extend.kAlwaysZero),
       
       // after the static hooks are on, extend slightly upwards
-      new ClimbExtenderMove(extend.kRightSlightlyUpward, extend.kLeftSlightlyUpward)
+      new ClimbExtenderMove(extend.kRightSlightlyUpward, extend.kLeftSlightlyUpward),
 
       // vibrate the controller
-      // new Rumble(controller)
+      new Rumble(controller)
     ));
 
     controller.getDPad().right().whenPressed(new SequentialCommandGroup(
@@ -122,21 +125,23 @@ public class ClimbOperator {
       new ClimbExtenderMove(extend.kRightMaxUpwards, extend.kLeftMaxUpwards),
 
       // after we fully extend and rotate, rotate to the bar
-      new ClimbRotatorMove(rotate.kToBar),
+      new ClimbRotatorMove(rotate.kToBar)
+    ));
 
+    controller.getButtons().LB().whenPressed(new SequentialCommandGroup(
       // compress fully and rotate to 90 degrees
       new ParallelCommandGroup(
         new ExtendDownwards(extend.kAlwaysZero),
         new ClimbRotatorMove(rotate.kNinetyDeg)
       ),
 
-      new ClimbExtenderMove(extend.kRightSlightlyUpward, extend.kLeftSlightlyUpward)
+      new ClimbExtenderMove(extend.kRightSlightlyUpward, extend.kLeftSlightlyUpward),
 
       // vibrate the controller
-      // new Rumble(controller)
+      new Rumble(controller)
     ));
 
-    controller.getButtons().A().whenPressed(
+    controller.getDPad().left().whenPressed(
       new ExtendDownwards(true)
     );
 
