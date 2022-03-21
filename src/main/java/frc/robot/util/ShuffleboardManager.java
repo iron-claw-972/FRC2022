@@ -45,7 +45,7 @@ public class ShuffleboardManager {
   public void setup() {
     mainTab.addBoolean("Is Teleop", DriverStation::isTeleop);
     mainTab.addNumber("left drive encoder", RobotContainer.m_drive::getLeftPosition);
-    climbTab.addNumber("Max Extension Ticks", () -> extenderConstants.kExtenderMaxArmTicks);
+    // climbTab.addNumber("Max Extension Ticks", () -> extenderConstants.kExtenderMaxArmTicks);
     chooserUpdate();
     subsystemSpam();
     time();
@@ -159,6 +159,10 @@ public class ShuffleboardManager {
     climbTab.addBoolean(extender.getSide() + " Extender", extender::isEnabled);
     
     climbTab.add(extender.getSide() + "Climb Extender PID", extender.extenderPID);
+    climbTab.addNumber(extender.getSide() + " Extension", extender::currentExtensionRaw);
+    climbTab.addBoolean(extender.getSide() + " Extender Setpoint", extender::reachedSetpoint);
+
+  
   }
 
   public void loadClimbRotatorShuffleboard(ClimbRotator rotator) {
@@ -171,6 +175,10 @@ public class ShuffleboardManager {
     
     // PID values that can be modified in shuffleboard
     climbTab.add(rotator.getSide() + " Climb Rotator PID", rotator.armPID);
+    climbTab.addNumber(rotator.getSide() + " Climb Rotator Angle", rotator::currentAngle);
+    climbTab.addBoolean(rotator.getSide() + " Climb Rotator Setpoint Reached", rotator::reachedSetpoint);
+
+
   }
 
   public void loadBallDetectionShuffleboard(){

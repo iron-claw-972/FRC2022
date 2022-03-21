@@ -19,27 +19,27 @@ public class MarinusClimbRotatorConstants {
     public final double kArmZeroEncoderDegrees = 0;
 
     // the distance allowed from the setpoint (in degrees)
-    public final double kArmTolerance = 1;
+    public final double kArmTolerance = 1.5;
 
     // locations
-    public final double kNinetyDeg = 93;
-    public final double kMaxBackward = 122;
-    public final double kMaxForward = 77;
-    public final double kToBar = 110;
+    public final double kNinetyDeg = 96;
+    public final double kMaxBackward = 123;
+    public final double kMaxForward = kNinetyDeg;
+    public final double kToBar = 115;
     public final double kHookStatic = 110;
 
     // PID constants
-    public final double kP = 0.02;
+    public final double kP = 0.05;
     public final double kI = 0.00;
     public final double kD = 0.00;
 
     // encoder offset
-    public final double kArmLeftEncoderOffset = 475.5449638886241;
-    public final double kArmRightEncoderOffset = -115.89432589735816;
+    public final double kArmLeftEncoderOffset = 178.39190538479764;
+    public final double kArmRightEncoderOffset = 69.99340665758516;
     
     // upper limit switches
-    public final int kLeftLimitSwitchUpper = 8;
-    public final int kRightLimitSwitchUpper = 1;
+    public final int kLeftLimitSwitchUpper = 0;
+    public final int kRightLimitSwitchUpper = 0;
     
     // lower limit switches
     public final int kLeftLimitSwitchLower = 7;

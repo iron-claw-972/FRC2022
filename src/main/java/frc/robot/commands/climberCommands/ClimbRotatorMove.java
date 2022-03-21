@@ -1,6 +1,7 @@
 package frc.robot.commands.climberCommands;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import frc.robot.RobotContainer;
@@ -10,7 +11,7 @@ public class ClimbRotatorMove extends SequentialCommandGroup {
 
   /**
    * 
-   * Rotates the climber to an angle using a PID. This enables the rotator, sets the angle, and waits until the angle is reached.
+   * Sets the setpoint of the climber arms to a specified angle. Do not exceed 125 degrees or go below 90 degrees.
    * 
    * @param angle the angle to rotate to in degrees
    */
@@ -20,12 +21,16 @@ public class ClimbRotatorMove extends SequentialCommandGroup {
       new SequentialCommandGroup(
         // enable the rotator
         new InstantCommand(() -> ClimberMethods.enableRotator()),
-  
+        new PrintCommand("passed enabled"),
+
         // angle the rotator
         new InstantCommand(() -> ClimberMethods.setAngle(angle)),
   
+        new PrintCommand("passed set angle"),
+
         // wait until rotator reaches its setpoint
-        new WaitUntilCommand(() -> ClimberMethods.isRotatorAtSetpoint())
+        new WaitUntilCommand(() -> ClimberMethods.isRotatorAtSetpoint()),
+        new PrintCommand("passed setpoint")
     ));
     }
 }

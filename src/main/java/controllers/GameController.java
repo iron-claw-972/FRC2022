@@ -1,6 +1,7 @@
 package controllers;
 
 import controllers.constants.*;
+import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj2.command.button.*;
@@ -12,7 +13,7 @@ public class GameController extends Controller {
   private TriggerAxis TriggerAxis = new TriggerAxis();
   private JoystickAxis JoystickAxis = new JoystickAxis();
   private Joystick Joystick;
-
+  
   public GameController(Joystick joystick_) {
     super(joystick_);
     Joystick = joystick_;
@@ -34,7 +35,17 @@ public class GameController extends Controller {
     return Button;
   }
 
-  // returns JoystickButton object
+  public void startRumble() {
+    Joystick.setRumble(GenericHID.RumbleType.kLeftRumble, .7);
+    Joystick.setRumble(GenericHID.RumbleType.kRightRumble, .7);
+  }
+
+  public void endRumble() {
+    Joystick.setRumble(GenericHID.RumbleType.kLeftRumble, 0);
+    Joystick.setRumble(GenericHID.RumbleType.kRightRumble, 0);
+  }
+
+  //returns JoystickButton object
   public final class Button {
     public JoystickButton A() {
       return new JoystickButton(getController(), GameConstants.buttons.kA);
@@ -75,12 +86,10 @@ public class GameController extends Controller {
     public Trigger RT() {
       return new Trigger(TriggerAxis::rightTriggerButton);
     }
-
-    public JoystickButton leftJoystickPressedButton() {
+    public JoystickButton leftJoyButton() {
       return new JoystickButton(getController(), GameConstants.buttons.kLeftJoyPressed);
     }
-
-    public JoystickButton rightJoystickPressedButton() {
+    public JoystickButton rightJoyButton() {
       return new JoystickButton(getController(), GameConstants.buttons.kRightJoyPressed);
     }
   }
@@ -165,16 +174,6 @@ public class GameController extends Controller {
     public double rightY() {
       return getController().getRawAxis(GameConstants.joystickAxis.kRightY);
     }
-  }
-
-  public void startRumble() {
-    Joystick.setRumble(GenericHID.RumbleType.kLeftRumble, .7);
-    Joystick.setRumble(GenericHID.RumbleType.kRightRumble, .7);
-  }
-
-  public void endRumble() {
-    Joystick.setRumble(GenericHID.RumbleType.kLeftRumble, 0);
-    Joystick.setRumble(GenericHID.RumbleType.kRightRumble, 0);
   }
 
   // returns Trigger Axis value

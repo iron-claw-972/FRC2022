@@ -35,7 +35,7 @@ public class DriveDistance extends CommandBase {
   public void execute() { 
     RobotContainer.m_drive.tankDrive(
       -Math.copySign(RobotContainer.driveConstants.kAutoDriveSpeed, setpoint),
-      -Math.copySign(RobotContainer.m_drive.constants.kAutoDriveSpeed, setpoint));
+      -Math.copySign(RobotContainer.driveConstants.kAutoDriveSpeed, setpoint));
   }
 
   @Override

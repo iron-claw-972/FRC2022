@@ -36,4 +36,8 @@ public class LimitSwitch {
     // return !lastRead && get();
   }
 
+  public boolean getNoUpdate(){
+    return !debouncer.calculate(limitSwitch.get());
+  }
+
 }

@@ -28,14 +28,17 @@ public class ManualClimb {
       new InstantCommand(() -> ClimberMethods.setRotatorOutput(-0.2))));
 
 
+    // STRING SHOULD BE UNWINDING
     controller.getDPad().up().whenPressed(new SequentialCommandGroup (
-      new InstantCommand(() -> ClimberMethods.enableExtender()),
-      new InstantCommand(() -> ClimberMethods.setExtension(extend.kMaxUpwards))));
+      new InstantCommand(() -> ClimberMethods.disableExtender()),
+      new InstantCommand(() -> ClimberMethods.setExtenderOutput(.2))
+    ));
    
-
+    // STRING SHOULD BE WINDING
     controller.getDPad().down().whenPressed(new SequentialCommandGroup (
-      new InstantCommand(() -> ClimberMethods.enableExtender()),
-      new InstantCommand(() -> ClimberMethods.setExtension(extend.kMaxDownwards))));
+      new InstantCommand(() -> ClimberMethods.disableExtender()),
+      new InstantCommand(() -> ClimberMethods.setExtenderOutput(-.2))
+    ));
 
     controller.getButtons().A().whenPressed(
       new PositionArm(170)
@@ -85,9 +88,11 @@ public class ManualClimb {
     
     */
     controller.getDPad().unpressed().whenPressed(new SequentialCommandGroup(
+      new InstantCommand(() -> ClimberMethods.setExtenderOutput(0)),
       new InstantCommand(() -> ClimberMethods.setRotatorOutput(0)),
       new InstantCommand(() -> ClimberMethods.disableExtender()),
-      new InstantCommand(() -> ClimberMethods.disableRotator())));
+      new InstantCommand(() -> ClimberMethods.disableRotator())
+    ));
 
     // SmartDashboard.putNumber("set angle", 90);
     // controller.getButtons().X().whenPressed(new SequentialCommandGroup(
