@@ -50,9 +50,11 @@ public class ShooterMethods {
     double limelightPosAngleRad = Units.degreesToRadians(limelightPosAngle);
     double pivotDistance;
     if (limelightPosAngle - RobotContainer.limelightConstants.kStipeToLimelightPosAngularOffset + RobotContainer.limelightConstants.kStipeToLimelightFaceAngularOffset < 90) {
+      // Front
       pivotDistance = limelightDistance
                             + (RobotContainer.limelightConstants.kPivotToLimelightLength * Math.cos(limelightPosAngleRad)); // Horizontal distance from limelight to stipe pivot
     } else {
+      // Back
       pivotDistance = limelightDistance
                             - (RobotContainer.limelightConstants.kPivotToLimelightLength * Math.cos(limelightPosAngleRad)); // Horizontal distance from limelight to stipe pivot
     }
@@ -103,6 +105,10 @@ public class ShooterMethods {
     return RobotContainer.m_cargoRotator.currentAngle() + RobotContainer.cargoConstants.kStipeToPhysicalShooterAngularOffset < 90;
   }
 
+  public static boolean isLimelightFaceFront() {
+    return RobotContainer.m_cargoRotator.currentAngle() + RobotContainer.limelightConstants.kStipeToLimelightFaceAngularOffset < 90;
+  }
+
   //
 
   // belt methods
@@ -132,7 +138,8 @@ public class ShooterMethods {
     if (isFront) {
       rpm = -(178*velocity - 1100);
     } else {
-      rpm = -(372*velocity - 5943);
+      // rpm = -(372*velocity - 5943);
+      rpm = -(294*velocity - 3628);
     }
     return rpm;
   }

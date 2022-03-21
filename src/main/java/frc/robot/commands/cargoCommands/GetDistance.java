@@ -99,7 +99,13 @@ public class GetDistance extends CommandBase {
 
     // Find optimal shooting velocity
     optimalVelocity = Units.metersToFeet(ShooterMethods.getOptimalShooterSpeed(optimalShootingAngle, newTargetHeightOffset, newShootingDistance));
-    optimalVelocity *= RobotContainer.wheelConstants.kShotEfficiency;
+
+    // Use shot efficiencies to adjust for error in any calculations in velocity to RPM formula
+    if (actualOptimalShootingAngle < 90) {
+      optimalVelocity *= RobotContainer.wheelConstants.kFrontShotEfficiency;
+    } else {
+      optimalVelocity *= RobotContainer.wheelConstants.kBackShotEfficiency;
+    }
 
     isFinished = true;
   }

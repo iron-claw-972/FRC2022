@@ -1,6 +1,7 @@
 package frc.robot.util;
 
 
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.shuffleboard.*;
@@ -136,16 +137,19 @@ public class ShuffleboardManager {
     cargoTab.add("Ball Chase PID", ChaseBall.turnPID);
 
     cargoTab.addBoolean("Is Aligned To Hub", () -> AlignToUpperHub.isFinished);
-    cargoTab.addNumber("Alignment offset", () -> AlignToUpperHub.offset);
+    cargoTab.addNumber("Alignment offset (deg)", () -> AlignToUpperHub.offset);
 
-    cargoTab.addNumber("Chase offset", () -> ChaseBall.offset);
+    cargoTab.addNumber("Chase offset (deg)", () -> ChaseBall.offset);
 
-    cargoTab.addNumber("Pivot Distance", () -> GetDistance.pivotDistance);
-    cargoTab.addNumber("Limelight Distance", () -> GetDistance.limelightDistance);
-    cargoTab.addNumber("Optimal velocity", () -> GetDistance.optimalVelocity);
+    cargoTab.addNumber("Pivot Distance (ft)", () -> Units.metersToFeet(GetDistance.pivotDistance));
+    cargoTab.addNumber("Limelight Distance (ft)", () -> Units.metersToFeet(GetDistance.limelightDistance));
+    cargoTab.addNumber("Optimal velocity (m/s)", () -> GetDistance.optimalVelocity);
     // cargoTab.addNumber("Optimal RPM", () -> ShooterMethods.velocityToRPM(() -> GetDistance.optimalVelocity));
-    cargoTab.addNumber("Optimal angle", () -> GetDistance.optimalStipeAngle);
+    cargoTab.addNumber("Optimal angle (deg)", () -> GetDistance.optimalStipeAngle);
     cargoTab.addBoolean("getDistance Is Finished", () -> GetDistance.isFinished);
+
+    cargoTab.addNumber("Tx", RobotContainer.m_limelight::getHubHorizontalAngularOffset);
+    cargoTab.addNumber("Ty", RobotContainer.m_limelight::getVerticalAngularOffset);
 
     cargoTab.addNumber("Limelight latency (ms)", RobotContainer.m_limelight::getLatency);
   }

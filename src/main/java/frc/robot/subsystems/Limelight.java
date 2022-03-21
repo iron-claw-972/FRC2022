@@ -14,8 +14,6 @@ import frc.robot.robotConstants.limelight.MarinusLimelightConstants;
 public class Limelight extends SubsystemBase {
   public static MarinusLimelightConstants constants = new MarinusLimelightConstants();
 
-  private static Limelight instance;
-
   private NetworkTable m_table;
   private String m_tableName;
 
@@ -35,13 +33,6 @@ public class Limelight extends SubsystemBase {
   private Debouncer m_TvDebouncer = new Debouncer(0.05, DebounceType.kBoth);
 
   BooleanSupplier m_getIsFacingFront;
-
-  public static Limelight getInstance(BooleanSupplier getIsFacingFront) {
-    if (instance == null) {
-      instance = new Limelight(getIsFacingFront);
-    }
-    return instance;
-  }
 
   public Limelight(BooleanSupplier getIsFacingFront) {
     m_tableName = "limelight";
@@ -271,10 +262,11 @@ public class Limelight extends SubsystemBase {
 
   private double getLimelightFaceAngle(double armAngle) {
     // If angle is obtuse, find the supplementary angle
-    if (isFacingFront()) {
-      return (armAngle + constants.kStipeToLimelightFaceAngularOffset);
+    double limelightFaceAngle = armAngle + constants.kStipeToLimelightFaceAngularOffset;
+    if (limelightFaceAngle < 90) {
+      return (limelightFaceAngle);
     }
-    return 180 - (armAngle + constants.kStipeToLimelightFaceAngularOffset);
+    return 180 - (limelightFaceAngle);
   }
 
   public double getTargetArea() {
@@ -303,30 +295,30 @@ public class Limelight extends SubsystemBase {
     setPipeline(Pipeline.DRIVER);
   }
 
-  public double getHubDistance(double armAngle) {
-    return getDistance(armAngle, constants.kHubHeight);
+  public double getHubDistance(double stipeAngle) {
+    return getDistance(stipeAngle, constants.kHubHeight);
   }
 
-  public double getBallDistance(double armAngle, boolean isRedBall) {
-    return getDistance(armAngle, constants.kBallTargetHeight);
+  public double getBallDistance(double stipeAngle, boolean isRedBall) {
+    return getDistance(stipeAngle, constants.kBallTargetHeight);
   }
 
-  private double getDistance(double armAngle, double targetHeight) {
-    double limelightAngleRad = Units.degreesToRadians(getLimelightFaceAngle(armAngle) + m_verticalAngularOffset);
-    double distance = ((targetHeight - getLimelightHeight(armAngle)) / (Math.tan(limelightAngleRad)));
+  private double getDistance(double stipeAngle, double targetHeight) {
+    double limelightAngleRad = Units.degreesToRadians(getLimelightFaceAngle(stipeAngle) + m_verticalAngularOffset);
+    double distance = ((targetHeight - getLimelightHeight(stipeAngle)) / (Math.tan(limelightAngleRad)));
 
     return distance;
   }
 
   public double getHubHorizontalAngularOffset() {
-    double horizontalAngularOffset = m_horizontalAngularOffset;
-
-    return horizontalAngularOffset;
+    return m_horizontalAngularOffset;
   }
 
   public double getBallHorizontalAngularOffset(boolean isRedBall) {
-    double horizontalAngularOffset = m_horizontalAngularOffset;
+    return m_horizontalAngularOffset;
+  }
 
-    return horizontalAngularOffset;
+  public double getVerticalAngularOffset() {
+    return m_verticalAngularOffset;
   }
 }

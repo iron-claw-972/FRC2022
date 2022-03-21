@@ -70,7 +70,7 @@ import edu.wpi.first.cscore.UsbCamera;
   UsbCamera camera0;
   UsbCamera camera1;
 
-  public static Limelight m_limelight = new Limelight(() -> ShooterMethods.isArmFront());
+  public static Limelight m_limelight = new Limelight(() -> ShooterMethods.isLimelightFaceFront());
 
 
   public RobotContainer() {

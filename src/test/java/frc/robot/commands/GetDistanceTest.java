@@ -55,7 +55,8 @@ public class GetDistanceTest {
     System.out.println("Optimal Stipe Angle: " + GetDistance.optimalStipeAngle + " deg");
     System.out.println("Acute Optimal Shooting Angle: " + GetDistance.loggedOptimalShootingAngle + " deg");
     System.out.println("Target height offset: " + GetDistance.loggedTargetHeightOffset + " ft");
-    System.out.println("Pivot Distance: " + Units.metersToFeet(GetDistance.pivotDistance) + " ft/s");
+    System.out.println("Pivot Distance: " + Units.metersToFeet(GetDistance.pivotDistance) + " ft");
+    System.out.println("Limelight Distance: " + Units.metersToFeet(GetDistance.limelightDistance) + " ft");
   }
 
   @Test
@@ -74,7 +75,8 @@ public class GetDistanceTest {
     System.out.println("Optimal Stipe Angle: " + GetDistance.optimalStipeAngle + " deg");
     System.out.println("Acute Optimal Shooting Angle: " + GetDistance.loggedOptimalShootingAngle + " deg");
     System.out.println("Target height offset: " + GetDistance.loggedTargetHeightOffset + " ft");
-    System.out.println("Pivot Distance: " + Units.metersToFeet(GetDistance.pivotDistance) + " ft/s");
+    System.out.println("Pivot Distance: " + Units.metersToFeet(GetDistance.pivotDistance) + " ft");
+    System.out.println("Limelight Distance: " + Units.metersToFeet(GetDistance.limelightDistance) + " ft");
 
     assertTrue(GetDistance.isFinished);
     assertEquals(GetDistance.optimalVelocity, 24.902942434373344, 0.01);
@@ -100,7 +102,8 @@ public class GetDistanceTest {
     System.out.println("Optimal Stipe Angle: " + GetDistance.optimalStipeAngle + " deg");
     System.out.println("Acute Optimal Shooting Angle: " + GetDistance.loggedOptimalShootingAngle + " deg");
     System.out.println("Target height offset: " + GetDistance.loggedTargetHeightOffset + " ft");
-    System.out.println("Pivot Distance: " + Units.metersToFeet(GetDistance.pivotDistance) + " ft/s");
+    System.out.println("Pivot Distance: " + Units.metersToFeet(GetDistance.pivotDistance) + " ft");
+    System.out.println("Limelight Distance: " + Units.metersToFeet(GetDistance.limelightDistance) + " ft");
 
     assertTrue(GetDistance.isFinished);
     assertEquals(GetDistance.optimalVelocity, 25.620514441673492, 0.01);
@@ -108,5 +111,26 @@ public class GetDistanceTest {
     assertEquals(GetDistance.loggedOptimalShootingAngle, 66.28859452208056, 0.01);
     assertEquals(GetDistance.loggedTargetHeightOffset, 5.855838655049209, 0.01);
     assertEquals(Units.metersToFeet(GetDistance.pivotDistance), 9.751124034891342, 0.01);
+  }
+  
+
+  @Test
+  public void printBackShooting2Results() {
+    when(cargoRotator.currentAngle()).thenReturn(140.0);
+    doAnswer(stipeAngle -> {
+      return Units.feetToMeters(7);
+    }).when(limelight).getHubDistance(anyDouble());
+
+    scheduler.schedule(backGetDistance);
+    scheduler.run();
+
+    System.out.println("Back shooting 2");
+    System.out.println("Is Finished: " + GetDistance.isFinished);
+    System.out.println("Optimal Velocity: " + GetDistance.optimalVelocity + " ft/s");
+    System.out.println("Optimal Stipe Angle: " + GetDistance.optimalStipeAngle + " deg");
+    System.out.println("Acute Optimal Shooting Angle: " + GetDistance.loggedOptimalShootingAngle + " deg");
+    System.out.println("Target height offset: " + GetDistance.loggedTargetHeightOffset + " ft");
+    System.out.println("Pivot Distance: " + Units.metersToFeet(GetDistance.pivotDistance) + " ft");
+    System.out.println("Limelight Distance: " + Units.metersToFeet(GetDistance.limelightDistance) + " ft");
   }
 }
