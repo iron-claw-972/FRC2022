@@ -40,11 +40,12 @@ public class AlignToUpperHub extends CommandBase {
 
   @Override
   public boolean isFinished() {
-    return alignPID.atSetpoint();
+    return alignPID.atSetpoint() && m_limelight.hasValidTarget();
   }
 
   @Override
   public void end(boolean interrupted) {
     isFinished = true;
+    m_drive.arcadeDrive(0, 0);
   }
 }

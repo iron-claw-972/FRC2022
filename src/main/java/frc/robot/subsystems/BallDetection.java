@@ -7,6 +7,8 @@ import frc.robot.robotConstants.colorSensor.MarinusColorSensorConstants;
 
 import com.revrobotics.ColorSensorV3;
 
+import edu.wpi.first.math.filter.Debouncer;
+import edu.wpi.first.math.filter.Debouncer.DebounceType;
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.util.Color;
 
@@ -19,9 +21,10 @@ public class BallDetection extends SubsystemBase {
 
   private Color detectedColor;
   private int proximity;
+
+  private Debouncer m_detectionDebouncer = new Debouncer(0.05, DebounceType.kRising);
   
   public BallDetection(){
-
   }
 
   public void periodic() {
@@ -54,10 +57,10 @@ public class BallDetection extends SubsystemBase {
   }
 
   public boolean containsBall() {
-    return (proximity >= constants.kEdgeBallProximityThreshold);
+    return m_detectionDebouncer.calculate(proximity >= constants.kEdgeBallProximityThreshold);
   }
 
   public boolean containsBallSecurely() {
-    return (proximity >= constants.kSecureBallProximityThreshold);
+    return m_detectionDebouncer.calculate(proximity >= constants.kSecureBallProximityThreshold);
   }
 }
