@@ -4,6 +4,7 @@ package frc.robot.util;
 import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
 import frc.robot.commands.cargoCommands.GetDistance;
@@ -108,6 +109,22 @@ public class ShooterMethods {
   public static boolean isLimelightFaceFront() {
     return RobotContainer.m_cargoRotator.currentAngle() + RobotContainer.limelightConstants.kStipeToLimelightFaceAngularOffset < 90;
   }
+
+  // public static double getFrontStaticShootingSpeed() {
+  //   return SmartDashboard.getNumber("Front Shooting velocity", 0);
+  // }
+
+  // public static double getFrontStaticStipeAngle() {
+  //   return SmartDashboard.getNumber("Front Stipe angle", 0);
+  // }
+
+  // public static double getBackStaticShootingSpeed() {
+  //   return SmartDashboard.getNumber("Back Shooting velocity", 0);
+  // }
+
+  // public static double getBackStaticStipeAngle() {
+  //   return SmartDashboard.getNumber("Back Stipe angle", 0);
+  // }
 
   //
 

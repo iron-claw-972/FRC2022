@@ -152,6 +152,12 @@ public class ShuffleboardManager {
     cargoTab.addNumber("Ty", RobotContainer.m_limelight::getVerticalAngularOffset);
 
     cargoTab.addNumber("Limelight latency (ms)", RobotContainer.m_limelight::getLatency);
+
+    // SmartDashboard.putNumber("Front Shooting velocity", -2900);
+    // SmartDashboard.putNumber("Front Stipe angle", 80);
+
+    // SmartDashboard.putNumber("Back Shooting velocity", -2900);
+    // SmartDashboard.putNumber("Back Stipe angle", 154);
   }
 
   public void loadClimbExtenderShuffleboard(ClimbExtender extender) {

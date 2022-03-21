@@ -15,7 +15,7 @@ public class MarinusCargoShooterConstants {
   public final int kBackOuttakeFarSpeed = -2180;
 
   public final int kFrontOuttakeHighSpeed = -2900;
-  public final int kBackOuttakeHighSpeed = -2900;
+  public final int kBackOuttakeHighSpeed = -3000; // 24 ft/s
 
   public final int kFrontOuttakeNearSpeed = -1400;
   public final int kBackOuttakeNearSpeed = -1500; //70 degrees
