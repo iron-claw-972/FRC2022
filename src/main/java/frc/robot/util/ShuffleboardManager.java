@@ -141,8 +141,8 @@ public class ShuffleboardManager {
 
     cargoTab.addNumber("Chase offset (deg)", () -> ChaseBall.offset);
 
-    cargoTab.addNumber("Pivot Distance (ft)", () -> Units.metersToFeet(GetDistance.pivotDistance));
-    cargoTab.addNumber("Limelight Distance (ft)", () -> Units.metersToFeet(GetDistance.limelightDistance));
+    cargoTab.addNumber("Pivot Distance (in)", () -> Units.metersToInches(GetDistance.pivotDistance));
+    cargoTab.addNumber("Limelight Distance (in)", () -> Units.metersToInches(GetDistance.limelightDistance));
     cargoTab.addNumber("Optimal velocity (m/s)", () -> GetDistance.optimalVelocity);
     // cargoTab.addNumber("Optimal RPM", () -> ShooterMethods.velocityToRPM(() -> GetDistance.optimalVelocity));
     cargoTab.addNumber("Optimal angle (deg)", () -> GetDistance.optimalStipeAngle);
