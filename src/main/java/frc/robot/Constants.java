@@ -56,6 +56,6 @@ public final class Constants {
     // Trajectories should be placed in src/main/deploy/paths
     // name without stuff after . ex AutoPath
     public static final String kTrajectoryName = "TopAuto";
-    public static final String k3BallAuto = "3BallAuto";
+    public static final String k3BallAuto = "T23Ball";
   }
 }
