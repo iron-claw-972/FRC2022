@@ -155,8 +155,8 @@ public class ShooterMethods {
     if (isFront) {
       rpm = -(178*velocity - 1100);
     } else {
-      // rpm = -(372*velocity - 5943);
-      rpm = -(294*velocity - 3628);
+      rpm = -(372*velocity - 5943);
+      // rpm = -(294*velocity - 3628);
     }
     return rpm;
   }
