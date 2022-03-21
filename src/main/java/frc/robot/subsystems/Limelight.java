@@ -8,14 +8,11 @@ import edu.wpi.first.math.filter.Debouncer.DebounceType;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.robotConstants.limelight.TraversoLimelightConstants;
+import frc.robot.robotConstants.limelight.MarinusLimelightConstants;
 
 public class Limelight extends SubsystemBase {
-  public static TraversoLimelightConstants constants = new TraversoLimelightConstants();
-
-  private static Limelight instance;
+  public static MarinusLimelightConstants constants = new MarinusLimelightConstants();
 
   private NetworkTable m_table;
   private String m_tableName;
@@ -27,40 +24,31 @@ public class Limelight extends SubsystemBase {
   private double m_skew; // Skew or rotation
   private Pipeline m_pipeline;
   private double m_latency;
-  private boolean m_isDriverCamera = true;
+  private boolean m_isDriverCamera = false;
+  private StreamMode m_streamMode = StreamMode.STANDARD;
   private LEDMode m_ledMode = LEDMode.OFF;
 
-  private MedianFilter m_TxMedianFilter = new MedianFilter(5);
-  private MedianFilter m_TyMedianFilter = new MedianFilter(5);
-  private Debouncer m_TvDebouncer = new Debouncer(0.1, DebounceType.kBoth);
+  // private MedianFilter m_TxMedianFilter = new MedianFilter(5);
+  // private MedianFilter m_TyMedianFilter = new MedianFilter(5);
+  private Debouncer m_TvDebouncer = new Debouncer(0.05, DebounceType.kBoth);
 
   BooleanSupplier m_getIsFacingFront;
-
-  public static Limelight getInstance(BooleanSupplier getIsFacingFront) {
-    if (instance == null) {
-      instance = new Limelight(getIsFacingFront);
-    }
-    return instance;
-  }
 
   public Limelight(BooleanSupplier getIsFacingFront) {
     m_tableName = "limelight";
     m_table = NetworkTableInstance.getDefault().getTable(m_tableName);
     m_getIsFacingFront = getIsFacingFront;
-    setCameraMode(false);
   }
 
   public Limelight(String tableName, BooleanSupplier getIsFacingFront) {
     m_tableName = tableName;
     m_table = NetworkTableInstance.getDefault().getTable(m_tableName);
     m_getIsFacingFront = getIsFacingFront;
-    setCameraMode(true);
   }
 
   public Limelight(NetworkTable table, BooleanSupplier getIsFacingFront) {
     m_table = table;
     m_getIsFacingFront = getIsFacingFront;
-    setCameraMode(true);
   }
 
   @Override
@@ -71,6 +59,7 @@ public class Limelight extends SubsystemBase {
   private void updateData() {
     setCameraMode(m_isDriverCamera);
     setLedMode(m_ledMode);
+    setStreamMode(m_streamMode);
     m_latency = getTl();
 
     if (!m_isDriverCamera) {
@@ -90,6 +79,7 @@ public class Limelight extends SubsystemBase {
         }
 
         if (!isFacingFront()) {
+          // Negate values if limelight is upside down
           m_horizontalAngularOffset *= -1;
           m_verticalAngularOffset *= -1;
           m_skew *= -1;
@@ -143,7 +133,7 @@ public class Limelight extends SubsystemBase {
 
   public void setCameraMode(boolean isDriverCamera) {
     if (isDriverCamera) {
-      // m_table.getEntry("camMode").setNumber(1);
+      m_table.getEntry("camMode").setNumber(1);
       m_isDriverCamera = true;
     } else {
       m_table.getEntry("camMode").setNumber(0);
@@ -167,12 +157,14 @@ public class Limelight extends SubsystemBase {
 
   private double getTx() {
     double tx = m_table.getEntry("tx").getDouble(Double.NaN);
-    return m_TxMedianFilter.calculate(tx);
+    // return m_TxMedianFilter.calculate(tx);
+    return tx;
   }
 
   private double getTy() {
     double ty = m_table.getEntry("ty").getDouble(Double.NaN);
-    return m_TyMedianFilter.calculate(ty);
+    // return m_TyMedianFilter.calculate(ty);
+    return ty;
   }
 
   private double getTa() {
@@ -197,13 +189,15 @@ public class Limelight extends SubsystemBase {
         return Pipeline.BLUE_CARGO;
       case 2:
         return Pipeline.UPPER_HUB;
+      case 3:
+        return Pipeline.DRIVER;
       default:
         return Pipeline.NO_PIPELINE;
     }
   }
 
   public enum Pipeline {
-    RED_CARGO, BLUE_CARGO, UPPER_HUB, NO_PIPELINE
+    RED_CARGO, BLUE_CARGO, UPPER_HUB, DRIVER, NO_PIPELINE
   }
 
   private void setPipeline(Pipeline pipeline) {
@@ -220,22 +214,59 @@ public class Limelight extends SubsystemBase {
       case UPPER_HUB:
         m_table.getEntry("pipeline").setNumber(constants.kUpperHubPipeline);
         break;
+      case DRIVER:
+        m_table.getEntry("pipeline").setNumber(constants.kDriverPipeline);
+        break;
       default:
-        m_isDriverCamera = true;
     }
     updateData();
   }
 
-  private double getLimelightHeight(double armAngle) {
-    return constants.kPivotHeight
-        + (constants.kPivotToLimelightDistance * Math.sin(Units.degreesToRadians(armAngle)));
+  public StreamMode getStreamMode() {
+    double streamMode = m_table.getEntry("stream").getDouble(Double.NaN);
+    switch ((int) Math.round(streamMode)) {
+      case 0:
+        return StreamMode.STANDARD;
+      case 1:
+        return StreamMode.MAIN;
+      case 2:
+        return StreamMode.SECONDARY;
+      default:
+        return StreamMode.STANDARD;
+    }
   }
 
-  private double getLimelightAngle(double armAngle) {
-    if (isFacingFront()) {
-      return (armAngle + constants.kPivotToLimelightAngleDifference);
+  public enum StreamMode {
+    STANDARD, MAIN, SECONDARY
+  }
+
+  private void setStreamMode(StreamMode streamMode) {
+    switch (streamMode) {
+      case STANDARD:
+        m_table.getEntry("stream").setNumber(0);
+        break;
+      case MAIN:
+        m_table.getEntry("stream").setNumber(1);
+        break;
+      case SECONDARY:
+        m_table.getEntry("stream").setNumber(2);
+        break;
+      default:
     }
-    return 180-(armAngle + constants.kPivotToLimelightAngleDifference);
+  }
+
+  private double getLimelightHeight(double armAngle) {
+    return constants.kPivotHeight
+        + (constants.kPivotToLimelightLength * Math.sin(Units.degreesToRadians(armAngle)));
+  }
+
+  private double getLimelightFaceAngle(double armAngle) {
+    // If angle is obtuse, find the supplementary angle
+    double limelightFaceAngle = armAngle + constants.kStipeToLimelightFaceAngularOffset;
+    if (limelightFaceAngle < 90) {
+      return (limelightFaceAngle);
+    }
+    return 180 - (limelightFaceAngle);
   }
 
   public double getTargetArea() {
@@ -260,39 +291,34 @@ public class Limelight extends SubsystemBase {
     setPipeline(Pipeline.UPPER_HUB);
   }
 
-  public double getHubDistance(double armAngle) {
-    // setUpperHubPipeline();
-    SmartDashboard.putNumber("Horizontal Error", m_horizontalAngularOffset);
-    return getDistance(armAngle, constants.kHubTargetHeight);
+  public void setDriverPipeline() {
+    setPipeline(Pipeline.DRIVER);
   }
 
-  public double getBallDistance(double armAngle, boolean isRedBall) {
-    // setBallPipeline(isRedBall);
-    SmartDashboard.putNumber("Horizontal Error", m_horizontalAngularOffset);
-    return getDistance(armAngle, constants.kBallTargetHeight);
+  public double getHubDistance(double stipeAngle) {
+    return getDistance(stipeAngle, constants.kHubHeight);
   }
 
-private double getDistance(double armAngle, double targetHeight) {
-    double distance = ((targetHeight - getLimelightHeight(armAngle))
-        / (Math.tan(Units.degreesToRadians(getLimelightAngle(armAngle) + m_verticalAngularOffset))));
-        // System.out.println("DISTANCE: " + Units.metersToInches(distance));
+  public double getBallDistance(double stipeAngle, boolean isRedBall) {
+    return getDistance(stipeAngle, constants.kBallTargetHeight);
+  }
+
+  private double getDistance(double stipeAngle, double targetHeight) {
+    double limelightAngleRad = Units.degreesToRadians(getLimelightFaceAngle(stipeAngle) + m_verticalAngularOffset);
+    double distance = ((targetHeight - getLimelightHeight(stipeAngle)) / (Math.tan(limelightAngleRad)));
 
     return distance;
   }
 
   public double getHubHorizontalAngularOffset() {
-    // setUpperHubPipeline();
-
-    double horizontalAngularOffset = m_horizontalAngularOffset;
-
-    return horizontalAngularOffset;
+    return m_horizontalAngularOffset;
   }
 
   public double getBallHorizontalAngularOffset(boolean isRedBall) {
-    // setBallPipeline(isRedBall);
+    return m_horizontalAngularOffset;
+  }
 
-    double horizontalAngularOffset = m_horizontalAngularOffset;
-
-    return horizontalAngularOffset;
+  public double getVerticalAngularOffset() {
+    return m_verticalAngularOffset;
   }
 }

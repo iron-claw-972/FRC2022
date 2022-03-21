@@ -8,19 +8,19 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import frc.robot.util.ControllerFactory;
-import frc.robot.robotConstants.shooterBelt.TraversoBeltConstants;
+import frc.robot.robotConstants.shooterBelt.MarinusBeltConstants;
 import edu.wpi.first.math.MathUtil;
 
 public class CargoBelt extends SubsystemBase {
 
-  TraversoBeltConstants constants = new TraversoBeltConstants();
+  MarinusBeltConstants constants = new MarinusBeltConstants();
 
   private final WPI_TalonFX m_CargoBeltMotor = ControllerFactory.createTalonFX(
     constants.kCargoBeltMotorPort , 
     constants.kSupplyCurrentLimit,
     constants.kSupplyTriggerThreshold, 
     constants.kSupplyTriggerDuration,
-    constants.kCoast
+    constants.kNeutral
   );
 
   private boolean enabled = false;

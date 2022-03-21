@@ -7,6 +7,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -33,6 +34,7 @@ public class Robot extends TimedRobot {
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
     RobotContainer.m_shuffleboard.setup();
+    RobotContainer.m_Log.initialize();
     // m_autonomousCommand = m_robotContainer.getAutonomousCommand();
   }
 
@@ -61,7 +63,6 @@ public class Robot extends TimedRobot {
   public void disabledInit() {
     ShooterMethods.disableArm();
     ShooterMethods.disableShiitake();
-    RobotContainer.m_limelight.setCameraMode(false);
   }
 
   @Override
@@ -88,6 +89,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousPeriodic() {
+    RobotContainer.m_Log.updateBuffer();
   }
 
   @Override
@@ -99,7 +101,6 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
-    RobotContainer.m_limelight.setCameraMode(true);
   }
 
   /**
@@ -107,6 +108,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopPeriodic() {
+    RobotContainer.m_Log.updateBuffer();
   }
 
   @Override

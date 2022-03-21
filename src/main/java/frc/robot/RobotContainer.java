@@ -10,11 +10,18 @@ package frc.robot;
 import frc.robot.subsystems.*;
 import frc.robot.subsystems.Limelight.LEDMode;
 import frc.robot.util.ClimberMethods;
+import frc.robot.util.Log;
 import frc.robot.util.ShooterMethods;
 import frc.robot.util.ShuffleboardManager;
-import frc.robot.commands.FlexibleAuto;
-import frc.robot.commands.TeleopDrive;
+import frc.robot.commands.driveCommands.TeleopDrive;
 import frc.robot.controls.*;
+import frc.robot.robotConstants.cargoRotator.MarinusCargoRotatorConstants;
+import frc.robot.robotConstants.climbExtender.MarinusClimbExtenderConstants;
+import frc.robot.robotConstants.climbRotator.MarinusClimbRotatorConstants;
+import frc.robot.robotConstants.drivetrain.MarinusDriveConstants;
+import frc.robot.robotConstants.limelight.MarinusLimelightConstants;
+import frc.robot.robotConstants.shooterWheel.MarinusCargoShooterConstants;
+import frc.robot.robotConstants.shooterBelt.MarinusBeltConstants;
 import edu.wpi.first.wpilibj2.command.*;
 
 
@@ -36,7 +43,6 @@ import edu.wpi.first.cscore.UsbCamera;
   // The robot's subsystems and commands are defined here...
 
   public static ShuffleboardManager m_shuffleboard = new ShuffleboardManager();
-  public static BallDetection m_ballDetection = new BallDetection();
 
   public static Drivetrain m_drive = new Drivetrain();
 
@@ -47,12 +53,24 @@ import edu.wpi.first.cscore.UsbCamera;
   public static CargoRotator m_cargoRotator = new CargoRotator();
   public static CargoBelt m_cargoBelt = new CargoBelt();
   public static CargoShooter m_cargoShooter = new CargoShooter();
-  public static BallDetection m_balldetector = new BallDetection();
+  public static BallDetection m_ballDetection = new BallDetection();
+
+  public static MarinusDriveConstants driveConstants = new MarinusDriveConstants();
+  public static MarinusLimelightConstants limelightConstants = new MarinusLimelightConstants();
+
+  public static MarinusClimbExtenderConstants extenderConstants = new MarinusClimbExtenderConstants();
+  public static MarinusClimbRotatorConstants rotatorConstants = new MarinusClimbRotatorConstants();
+
+  public static MarinusCargoRotatorConstants cargoConstants = new MarinusCargoRotatorConstants();
+  public static MarinusBeltConstants beltConstants = new MarinusBeltConstants();
+  public static MarinusCargoShooterConstants wheelConstants = new MarinusCargoShooterConstants();
+
+  public static Log m_Log = new Log();
   
   UsbCamera camera0;
   UsbCamera camera1;
 
-  public static Limelight m_limelight = new Limelight(() -> ShooterMethods.isArmFront());
+  public static Limelight m_limelight = new Limelight(() -> ShooterMethods.isLimelightFaceFront());
 
 
   public RobotContainer() {
@@ -76,11 +94,11 @@ import edu.wpi.first.cscore.UsbCamera;
     //m_cargoShooter.setDefaultCommand(new RunCommand(() -> RobotContainer.m_cargoShooter.setOutput(Operator.controller.getJoystickAxis().leftY()), m_cargoShooter));
     //m_cargoBelt.setDefaultCommand(new RunCommand(() -> RobotContainer.m_cargoBelt.setOutput(-Operator.controller.getJoystickAxis().rightY()), m_cargoBelt));
     // m_limelight.setDefaultCommand(new GetDistance(m_limelight, m_cargoRotator));
-
+    
     // Configure the button bindings
     Driver.configureButtonBindings();
     Operator.configureButtonBindings();
-    ClimbOperator.configureButtonBindings();
+    // ClimbOperator.configureButtonBindings();
 
     //sets up shuffle board
   }
@@ -92,8 +110,8 @@ import edu.wpi.first.cscore.UsbCamera;
    */
   public Command getAutonomousCommand() {
     // Attempt to load trajectory from PathWeaver
-    return new FlexibleAuto(true, 1, false);
-    // return m_shuffleboard.getAutonomousCommand();
+    // return new FlexibleAuto(true, 1, false , false);
+    return m_shuffleboard.getAutonomousCommand();
     // return new SequentialCommandGroup(
     //   m_shuffleboard.getAutonomousWaitCommand(),
     //   m_shuffleboard.getAutonomousCommand()

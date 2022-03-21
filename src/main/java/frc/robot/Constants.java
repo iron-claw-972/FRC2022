@@ -20,6 +20,8 @@ constants are needed, to reduce verbosity.
  */
 public final class Constants {
 
+  public static final double GRAVITATIONAL_ACCEL = 9.8;
+
   public static final double kMaxVoltage = 12.0;
   public static final boolean kIsRedAlliance = DriverStation.getAlliance() == Alliance.Red;
 
@@ -48,8 +50,12 @@ public final class Constants {
     public static final double kRamseteB = 2;
     public static final double kRamseteZeta = 0.7;
 
+    // 0.2032
+    public static final double kAutoIntakeDriveDistance = 0.381;
+
     // Trajectories should be placed in src/main/deploy/paths
     // name without stuff after . ex AutoPath
     public static final String kTrajectoryName = "TopAuto";
+    public static final String k3BallAuto = "3BallAuto";
   }
 }
