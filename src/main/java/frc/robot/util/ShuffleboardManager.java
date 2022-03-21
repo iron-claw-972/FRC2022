@@ -158,6 +158,8 @@ public class ShuffleboardManager {
 
     // SmartDashboard.putNumber("Back Shooting velocity", -2900);
     // SmartDashboard.putNumber("Back Stipe angle", 154);
+    SmartDashboard.putNumber("Front Shot Efficiency", RobotContainer.wheelConstants.kFrontShotEfficiency);
+    SmartDashboard.putNumber("Back Shot Efficiency", RobotContainer.wheelConstants.kBackShotEfficiency);
   }
 
   public void loadClimbExtenderShuffleboard(ClimbExtender extender) {

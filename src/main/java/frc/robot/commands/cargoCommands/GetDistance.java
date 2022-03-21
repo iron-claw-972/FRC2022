@@ -1,6 +1,7 @@
 package frc.robot.commands.cargoCommands;
 
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
 import frc.robot.robotConstants.limelight.MarinusLimelightConstants;
@@ -102,9 +103,9 @@ public class GetDistance extends CommandBase {
 
     // Use shot efficiencies to adjust for error in any calculations in velocity to RPM formula
     if (actualOptimalShootingAngle < 90) {
-      optimalVelocity *= RobotContainer.wheelConstants.kFrontShotEfficiency;
+      optimalVelocity *= SmartDashboard.getNumber("Front Shot Efficiency", RobotContainer.wheelConstants.kFrontShotEfficiency);
     } else {
-      optimalVelocity *= RobotContainer.wheelConstants.kBackShotEfficiency;
+      optimalVelocity *= SmartDashboard.getNumber("Back Shot Efficiency", RobotContainer.wheelConstants.kBackShotEfficiency);
     }
 
     isFinished = true;
