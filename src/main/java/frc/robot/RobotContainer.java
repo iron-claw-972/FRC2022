@@ -13,12 +13,14 @@ import frc.robot.util.ClimberMethods;
 import frc.robot.util.Log;
 import frc.robot.util.ShooterMethods;
 import frc.robot.util.ShuffleboardManager;
+import frc.robot.autonomous.drivetrain.Pathweaver;
 import frc.robot.commands.driveCommands.TeleopDrive;
 import frc.robot.controls.*;
 import frc.robot.robotConstants.cargoRotator.MarinusCargoRotatorConstants;
 import frc.robot.robotConstants.climbExtender.MarinusClimbExtenderConstants;
 import frc.robot.robotConstants.climbRotator.MarinusClimbRotatorConstants;
 import frc.robot.robotConstants.drivetrain.MarinusDriveConstants;
+import frc.robot.robotConstants.drivetrain.VoltaireDriveConstants;
 import frc.robot.robotConstants.limelight.MarinusLimelightConstants;
 import frc.robot.robotConstants.shooterWheel.MarinusCargoShooterConstants;
 import frc.robot.robotConstants.shooterBelt.MarinusBeltConstants;
@@ -55,7 +57,7 @@ import edu.wpi.first.cscore.UsbCamera;
   public static CargoShooter m_cargoShooter = new CargoShooter();
   public static BallDetection m_ballDetection = new BallDetection();
 
-  public static MarinusDriveConstants driveConstants = new MarinusDriveConstants();
+  public static VoltaireDriveConstants driveConstants = new VoltaireDriveConstants();
   public static MarinusLimelightConstants limelightConstants = new MarinusLimelightConstants();
 
   public static MarinusClimbExtenderConstants extenderConstants = new MarinusClimbExtenderConstants();
@@ -111,7 +113,8 @@ import edu.wpi.first.cscore.UsbCamera;
   public Command getAutonomousCommand() {
     // Attempt to load trajectory from PathWeaver
     // return new FlexibleAuto(true, 1, false , false);
-    return m_shuffleboard.getAutonomousCommand();
+    // return m_shuffleboard.getAutonomousCommand();
+    return Pathweaver.pathweaverCommand("SquareTest");
     // return new SequentialCommandGroup(
     //   m_shuffleboard.getAutonomousWaitCommand(),
     //   m_shuffleboard.getAutonomousCommand()
