@@ -63,7 +63,7 @@ public class Limelight extends SubsystemBase {
     // m_latency = getTl();
 
     if (!m_isDriverCamera) {
-      m_pipeline = getPipeline();
+      // m_pipeline = getPipeline();
       m_hasValidTarget = m_TvDebouncer.calculate(getTv() == 1.0);
 
       if (m_hasValidTarget) {
