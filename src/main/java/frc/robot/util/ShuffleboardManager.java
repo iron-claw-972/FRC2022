@@ -163,28 +163,28 @@ public class ShuffleboardManager {
   }
 
   public void loadClimbExtenderShuffleboard(ClimbExtender extender) {
-    climbTab.addNumber(extender.getSide() + " Extension", extender::currentExtensionRaw);
-    climbTab.addBoolean(extender.getSide() + " Extender", extender::isEnabled);
+    // climbTab.addNumber(extender.getSide() + " Extension", extender::currentExtensionRaw);
+    // climbTab.addBoolean(extender.getSide() + " Extender", extender::isEnabled);
     
-    climbTab.add(extender.getSide() + "Climb Extender PID", extender.extenderPID);
-    climbTab.addNumber(extender.getSide() + " Extension", extender::currentExtensionRaw);
-    climbTab.addBoolean(extender.getSide() + " Extender Setpoint", extender::reachedSetpoint);
+    // climbTab.add(extender.getSide() + "Climb Extender PID", extender.extenderPID);
+    // climbTab.addNumber(extender.getSide() + " Extension", extender::currentExtensionRaw);
+    // climbTab.addBoolean(extender.getSide() + " Extender Setpoint", extender::reachedSetpoint);
 
   
   }
 
   public void loadClimbRotatorShuffleboard(ClimbRotator rotator) {
     // a pop-up in shuffleboard that allows you to see how much the arm extended in inches
-    climbTab.addNumber(rotator.getSide() + " Climb Rotator Angle", rotator::currentAngle);
-    // a pop-up in shuffleboard that states if the rotator is on/off
-    climbTab.addBoolean(rotator.getSide() + " Climb Rotator", rotator::isEnabled);
+    // climbTab.addNumber(rotator.getSide() + " Climb Rotator Angle", rotator::currentAngle);
+    // // a pop-up in shuffleboard that states if the rotator is on/off
+    // climbTab.addBoolean(rotator.getSide() + " Climb Rotator", rotator::isEnabled);
 
-    climbTab.addNumber(rotator.getSide() + " Climb Rotator Goal", rotator::getSetPoint);
+    // climbTab.addNumber(rotator.getSide() + " Climb Rotator Goal", rotator::getSetPoint);
     
-    // PID values that can be modified in shuffleboard
-    climbTab.add(rotator.getSide() + " Climb Rotator PID", rotator.armPID);
-    climbTab.addNumber(rotator.getSide() + " Climb Rotator Angle", rotator::currentAngle);
-    climbTab.addBoolean(rotator.getSide() + " Climb Rotator Setpoint Reached", rotator::reachedSetpoint);
+    // // PID values that can be modified in shuffleboard
+    // climbTab.add(rotator.getSide() + " Climb Rotator PID", rotator.armPID);
+    // climbTab.addNumber(rotator.getSide() + " Climb Rotator Angle", rotator::currentAngle);
+    // climbTab.addBoolean(rotator.getSide() + " Climb Rotator Setpoint Reached", rotator::reachedSetpoint);
 
 
   }

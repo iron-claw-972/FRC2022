@@ -23,7 +23,8 @@ public class MarinusCargoRotatorConstants {
     public final double kArmTolerance = 3;
 
     // arm characteristics
-    public final double kOffset = 0.17114160427854;
+    // public final double kOffset = 0.17114160427854;
+    public final double kOffset = -0.159;
     public final double kFeedForward = 0.58;
     public final double kFeedForwardOffsetAngle = 30.0;
     public final double kFeedForwardHardstopTolerance = 3.0;
@@ -41,7 +42,7 @@ public class MarinusCargoRotatorConstants {
     public final double kFrontOuttakeFarPos = 85;
 
     public final double kFrontOuttakeHighPos = 108;
-    public final double kBackOuttakeHighPos = 150;
+    public final double kBackOuttakeHighPos = 162;
 
     public final double kBackOuttakeLimelightPos = 168;
     public final double kFrontOuttakeAutoPos = 108;

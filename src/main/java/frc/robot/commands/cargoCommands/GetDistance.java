@@ -1,8 +1,10 @@
 package frc.robot.commands.cargoCommands;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Robot;
 import frc.robot.RobotContainer;
 import frc.robot.robotConstants.limelight.MarinusLimelightConstants;
 import frc.robot.subsystems.CargoRotator;
@@ -80,6 +82,7 @@ public class GetDistance extends CommandBase {
 
     // Find optimal shooting angle
     double optimalShootingAngle = ShooterMethods.getOptimalShootingAngle(RobotContainer.cargoConstants.kSAngle, currentShootingDistance, currentTargetHeightOffset);
+    optimalShootingAngle = MathUtil.clamp(optimalShootingAngle, 0, 162+RobotContainer.cargoConstants.kStipeToShootingTrajectoryAngularOffset);
     loggedOptimalShootingAngle = optimalShootingAngle; // This is for unit tests
 
     // Actual shooting angle relative to front zero degrees

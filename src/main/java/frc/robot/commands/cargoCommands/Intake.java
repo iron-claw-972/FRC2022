@@ -49,6 +49,7 @@ public class Intake extends SequentialCommandGroup {
           )
         ),
 
+        // new DoNothing()
         new ConditionalCommand(
           sequence(
             // Bring arm back up and stop intake when we have the ball
@@ -66,6 +67,6 @@ public class Intake extends SequentialCommandGroup {
   @Override
   public void end(boolean interrupted) {
     ShooterMethods.disableShiitake();
-    RobotContainer.m_limelight.setDriverPipeline();
+    // RobotContainer.m_limelight.setDriverPipeline();
   }
 }

@@ -25,7 +25,7 @@ public class Limelight extends SubsystemBase {
   private Pipeline m_pipeline;
   private double m_latency;
   private boolean m_isDriverCamera = false;
-  private StreamMode m_streamMode = StreamMode.STANDARD;
+  private StreamMode m_streamMode = StreamMode.MAIN;
   private LEDMode m_ledMode = LEDMode.OFF;
 
   // private MedianFilter m_TxMedianFilter = new MedianFilter(5);

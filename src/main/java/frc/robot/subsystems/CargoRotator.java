@@ -35,8 +35,7 @@ public class CargoRotator extends SubsystemBase {
   public void periodic() {
     if (enabled) {
       feedforward = calculateFeedForward(setpoint);
-    // System.out.println("Setpoint: " + setpoint);
-    outputVoltage = -(cargoRotatorPID.calculate(currentAngle(), setpoint) + feedforward);
+      outputVoltage = -(cargoRotatorPID.calculate(currentAngle(), setpoint) + feedforward);
       setVoltage(outputVoltage);
     }
   }
@@ -58,23 +57,26 @@ public class CargoRotator extends SubsystemBase {
 
   public double currentAngleRaw() {
     //fixes position of encoder when starting on wrong side of 0 position
-    if (encoder.get() > 0.5) {
-      return encoder.get() - 1.0;
-    } else {
-      return encoder.get();
-    }
+    return encoder.get();
+    // if (encoder.get() > 0.5) {
+    //   return encoder.get() - 1.0;
+    // } else {
+    //   return encoder.get();
+    // }
   }
 
   // returns the current angle of the duty cycle encoder with offset accounted for
   public double currentAngle() {
     double angle = (currentAngleRaw() + constants.kOffset) * constants.kArmDegreeMultiple;
-    if (angle < -60) {
-      angle += 360;
-    }
-    if (angle > 200) {
-      angle -= 360;
-    }
+    // if (angle < -60) {
+    //   angle += 360;
+    // }
+    // if (angle > 200) {
+    //   // angle -= 360;
+    //   angle = angle % 360;
+    // }
     return MathUtil.clamp(angle, 0, 175);
+    // return angle;
   }
 
   public boolean reachedSetpoint() {
