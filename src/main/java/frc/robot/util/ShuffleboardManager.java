@@ -47,8 +47,8 @@ public class ShuffleboardManager {
     mainTab.addNumber("left drive encoder", RobotContainer.m_drive::getLeftPosition);
     // climbTab.addNumber("Max Extension Ticks", () -> extenderConstants.kExtenderMaxArmTicks);
     chooserUpdate();
-    subsystemSpam();
-    time();
+    //subsystemSpam();
+    //time();
     update();
 
     autoTab.add("Auto Chooser", autoCommand);
@@ -89,20 +89,20 @@ public class ShuffleboardManager {
   public void subsystemSpam() {
     // put subsystem shuffleboard things in here!
 
-    loadClimbExtenderShuffleboard(RobotContainer.m_extenderL);
-    loadClimbExtenderShuffleboard(RobotContainer.m_extenderR);
+    // loadClimbExtenderShuffleboard(RobotContainer.m_extenderL);
+    // loadClimbExtenderShuffleboard(RobotContainer.m_extenderR);
 
-    loadClimbRotatorShuffleboard(RobotContainer.m_climbRotatorL);
-    loadClimbRotatorShuffleboard(RobotContainer.m_climbRotatorR);
+    // loadClimbRotatorShuffleboard(RobotContainer.m_climbRotatorL);
+    // loadClimbRotatorShuffleboard(RobotContainer.m_climbRotatorR);
 
-    loadCargoShooterShuffleboard();
-    loadCargoRotatorShuffleboard();
-    loadCargoBeltShuffleboard();
+    // loadCargoShooterShuffleboard();
+    // loadCargoRotatorShuffleboard();
+    // loadCargoBeltShuffleboard();
 
-    loadBallDetectionShuffleboard();
-    loadLimelightShuffleboard();
+    // loadBallDetectionShuffleboard();
+    // loadLimelightShuffleboard();
     
-    loadCommandSchedulerShuffleboard();
+    // loadCommandSchedulerShuffleboard();
 
   }
 
@@ -115,85 +115,85 @@ public class ShuffleboardManager {
   }
 
   public void loadCargoRotatorShuffleboard() {
-    cargoTab.addNumber("Cargo Arm Angle", RobotContainer.m_cargoRotator::currentAngle);
-    cargoTab.addBoolean("Cargo Rotator", RobotContainer.m_cargoRotator::isEnabled);
-    cargoTab.addNumber("Cargo Arm Raw Angle", RobotContainer.m_cargoRotator::currentAngleRaw);
-    cargoTab.addNumber("Cargo Rotator Setpoint", RobotContainer.m_cargoRotator::getSetpoint);
+    // cargoTab.addNumber("Cargo Arm Angle", RobotContainer.m_cargoRotator::currentAngle);
+    // cargoTab.addBoolean("Cargo Rotator", RobotContainer.m_cargoRotator::isEnabled);
+    // cargoTab.addNumber("Cargo Arm Raw Angle", RobotContainer.m_cargoRotator::currentAngleRaw);
+    // cargoTab.addNumber("Cargo Rotator Setpoint", RobotContainer.m_cargoRotator::getSetpoint);
 
-    cargoTab.add("Cargo Rotator PID", RobotContainer.m_cargoRotator.cargoRotatorPID);
+    // cargoTab.add("Cargo Rotator PID", RobotContainer.m_cargoRotator.cargoRotatorPID);
   }
   public void loadCargoShooterShuffleboard() {
-    cargoTab.addBoolean("Cargo Shooter", RobotContainer.m_cargoShooter::isEnabled);
-    cargoTab.addNumber("Shooter Velocity", RobotContainer.m_cargoShooter::getVelocity);
+    // cargoTab.addBoolean("Cargo Shooter", RobotContainer.m_cargoShooter::isEnabled);
+    // cargoTab.addNumber("Shooter Velocity", RobotContainer.m_cargoShooter::getVelocity);
         
-    cargoTab.add("CargoShooterPID", RobotContainer.m_cargoShooter.cargoShooterPID);
+    // cargoTab.add("CargoShooterPID", RobotContainer.m_cargoShooter.cargoShooterPID);
   }
   public void loadCargoBeltShuffleboard(){
-    cargoTab.addBoolean("Cargo Belt", RobotContainer.m_cargoBelt::isEnabled);
+    // cargoTab.addBoolean("Cargo Belt", RobotContainer.m_cargoBelt::isEnabled);
   }
 
   public void loadLimelightShuffleboard() {
-    cargoTab.add("Alignment PID", AlignToUpperHub.alignPID);
-    cargoTab.add("Ball Chase PID", ChaseBall.turnPID);
+    // cargoTab.add("Alignment PID", AlignToUpperHub.alignPID);
+    // cargoTab.add("Ball Chase PID", ChaseBall.turnPID);
 
-    cargoTab.addBoolean("Is Aligned To Hub", () -> AlignToUpperHub.isFinished);
-    cargoTab.addNumber("Alignment offset (deg)", () -> AlignToUpperHub.offset);
+    // cargoTab.addBoolean("Is Aligned To Hub", () -> AlignToUpperHub.isFinished);
+    // cargoTab.addNumber("Alignment offset (deg)", () -> AlignToUpperHub.offset);
 
-    cargoTab.addNumber("Chase offset (deg)", () -> ChaseBall.offset);
+    // cargoTab.addNumber("Chase offset (deg)", () -> ChaseBall.offset);
 
-    cargoTab.addNumber("Pivot Distance (in)", () -> Units.metersToInches(GetDistance.pivotDistance));
-    cargoTab.addNumber("Limelight Distance (in)", () -> Units.metersToInches(GetDistance.limelightDistance));
-    cargoTab.addNumber("Optimal velocity (m/s)", () -> Units.metersToFeet(GetDistance.optimalVelocity));
-    // cargoTab.addNumber("Optimal RPM", () -> ShooterMethods.velocityToRPM(() -> GetDistance.optimalVelocity));
-    cargoTab.addNumber("Optimal angle (deg)", () -> GetDistance.optimalStipeAngle);
-    cargoTab.addBoolean("getDistance Is Finished", () -> GetDistance.isFinished);
+    // cargoTab.addNumber("Pivot Distance (in)", () -> Units.metersToInches(GetDistance.pivotDistance));
+    // cargoTab.addNumber("Limelight Distance (in)", () -> Units.metersToInches(GetDistance.limelightDistance));
+    // cargoTab.addNumber("Optimal velocity (m/s)", () -> Units.metersToFeet(GetDistance.optimalVelocity));
+    // // cargoTab.addNumber("Optimal RPM", () -> ShooterMethods.velocityToRPM(() -> GetDistance.optimalVelocity));
+    // cargoTab.addNumber("Optimal angle (deg)", () -> GetDistance.optimalStipeAngle);
+    // cargoTab.addBoolean("getDistance Is Finished", () -> GetDistance.isFinished);
 
-    cargoTab.addNumber("Tx", RobotContainer.m_limelight::getHubHorizontalAngularOffset);
-    cargoTab.addNumber("Ty", RobotContainer.m_limelight::getVerticalAngularOffset);
+    // cargoTab.addNumber("Tx", RobotContainer.m_limelight::getHubHorizontalAngularOffset);
+    // cargoTab.addNumber("Ty", RobotContainer.m_limelight::getVerticalAngularOffset);
 
-    cargoTab.addNumber("Limelight latency (ms)", RobotContainer.m_limelight::getLatency);
+    // cargoTab.addNumber("Limelight latency (ms)", RobotContainer.m_limelight::getLatency);
 
     // SmartDashboard.putNumber("Front Shooting velocity", -2900);
     // SmartDashboard.putNumber("Front Stipe angle", 80);
 
     // SmartDashboard.putNumber("Back Shooting velocity", -2900);
     // SmartDashboard.putNumber("Back Stipe angle", 154);
-    SmartDashboard.putNumber("Front Shot Efficiency", RobotContainer.wheelConstants.kFrontShotEfficiency);
-    SmartDashboard.putNumber("Back Shot Efficiency", RobotContainer.wheelConstants.kBackShotEfficiency);
+    // SmartDashboard.putNumber("Front Shot Efficiency", RobotContainer.wheelConstants.kFrontShotEfficiency);
+    // SmartDashboard.putNumber("Back Shot Efficiency", RobotContainer.wheelConstants.kBackShotEfficiency);
   }
 
   public void loadClimbExtenderShuffleboard(ClimbExtender extender) {
-    climbTab.addNumber(extender.getSide() + " Extension", extender::currentExtensionRaw);
-    climbTab.addBoolean(extender.getSide() + " Extender", extender::isEnabled);
+    // climbTab.addNumber(extender.getSide() + " Extension", extender::currentExtensionRaw);
+    // climbTab.addBoolean(extender.getSide() + " Extender", extender::isEnabled);
     
-    climbTab.add(extender.getSide() + "Climb Extender PID", extender.extenderPID);
-    climbTab.addNumber(extender.getSide() + " Extension", extender::currentExtensionRaw);
-    climbTab.addBoolean(extender.getSide() + " Extender Setpoint", extender::reachedSetpoint);
+    // climbTab.add(extender.getSide() + "Climb Extender PID", extender.extenderPID);
+    // climbTab.addNumber(extender.getSide() + " Extension", extender::currentExtensionRaw);
+    // climbTab.addBoolean(extender.getSide() + " Extender Setpoint", extender::reachedSetpoint);
 
   
   }
 
   public void loadClimbRotatorShuffleboard(ClimbRotator rotator) {
-    // a pop-up in shuffleboard that allows you to see how much the arm extended in inches
-    climbTab.addNumber(rotator.getSide() + " Climb Rotator Angle", rotator::currentAngle);
-    // a pop-up in shuffleboard that states if the rotator is on/off
-    climbTab.addBoolean(rotator.getSide() + " Climb Rotator", rotator::isEnabled);
+    // // a pop-up in shuffleboard that allows you to see how much the arm extended in inches
+    // climbTab.addNumber(rotator.getSide() + " Climb Rotator Angle", rotator::currentAngle);
+    // // a pop-up in shuffleboard that states if the rotator is on/off
+    // climbTab.addBoolean(rotator.getSide() + " Climb Rotator", rotator::isEnabled);
 
-    climbTab.addNumber(rotator.getSide() + " Climb Rotator Goal", rotator::getSetPoint);
+    // climbTab.addNumber(rotator.getSide() + " Climb Rotator Goal", rotator::getSetPoint);
     
-    // PID values that can be modified in shuffleboard
-    climbTab.add(rotator.getSide() + " Climb Rotator PID", rotator.armPID);
-    climbTab.addNumber(rotator.getSide() + " Climb Rotator Angle", rotator::currentAngle);
-    climbTab.addBoolean(rotator.getSide() + " Climb Rotator Setpoint Reached", rotator::reachedSetpoint);
+    // // PID values that can be modified in shuffleboard
+    // climbTab.add(rotator.getSide() + " Climb Rotator PID", rotator.armPID);
+    // climbTab.addNumber(rotator.getSide() + " Climb Rotator Angle", rotator::currentAngle);
+    // climbTab.addBoolean(rotator.getSide() + " Climb Rotator Setpoint Reached", rotator::reachedSetpoint);
 
 
   }
 
   public void loadBallDetectionShuffleboard(){
-    cargoTab.addBoolean("Has Red Ball", RobotContainer.m_ballDetection::hasRedBall);
-    cargoTab.addBoolean("Has Blue Ball", RobotContainer.m_ballDetection::hasBlueBall);
-    cargoTab.addBoolean("Has Ball", RobotContainer.m_ballDetection::containsBall);
-    cargoTab.addBoolean("Has Ball Securely", RobotContainer.m_ballDetection::containsBallSecurely);
+    // cargoTab.addBoolean("Has Red Ball", RobotContainer.m_ballDetection::hasRedBall);
+    // cargoTab.addBoolean("Has Blue Ball", RobotContainer.m_ballDetection::hasBlueBall);
+    // cargoTab.addBoolean("Has Ball", RobotContainer.m_ballDetection::containsBall);
+    // cargoTab.addBoolean("Has Ball Securely", RobotContainer.m_ballDetection::containsBallSecurely);
 
   }
 
@@ -202,10 +202,12 @@ public class ShuffleboardManager {
   }
 
   public boolean getLimelightRed(){
-    return limelightColor.getBoolean(true);
+    // return limelightColor.getBoolean(true);
+    return false;
   }
   public boolean getLimelightBlue(){
-    return !limelightColor.getBoolean(true);
+    // return !limelightColor.getBoolean(true);
+    return true;
   }
 
   public void loadCommandSchedulerShuffleboard(){

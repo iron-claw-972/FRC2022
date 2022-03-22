@@ -16,10 +16,10 @@ public class VoltaireDriveConstants {
   public final double KvLinear = 0.049031; // Kv
   public final double KaLinear = 0.0058764; // Ka
 
-  // Drivetrain (Angular)
-  public final double KsAngular = 0; // Ks
-  public final double KvAngular = 0; // Kv
-  public final double KaAngular = 0; // Ka
+  // Drivetrain (Angular) (Copied from other bot!)
+  public final double KsAngular = 0.68983; // Ks
+  public final double KvAngular = 183.65; // Kv
+  public final double KaAngular = 20.98; // Ka
 
   // Position PID gain values
   public final double KpPosition = 2.1573; // Kp for Ramsete PID
@@ -51,7 +51,7 @@ public class VoltaireDriveConstants {
 
   public final double kAutoDriveSpeed = 0.4;
 
-  public final double kTrackWidth = Units.inchesToMeters(-1); // Distance between center of left wheel and center of right wheel in meters
+  public final double kTrackWidth = Units.inchesToMeters(23.5); // Distance between center of left wheel and center of right wheel in meters
   public final int kEncoderResolution = 2048; // 2048 for Falcon500 integrated encoder
   public final double kWheelDiameter = Units.inchesToMeters(6.125); // In meters
   public final double kGearRatio = 8.91;
