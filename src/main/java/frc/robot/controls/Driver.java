@@ -33,25 +33,24 @@ public class Driver {
 
   // driver buttons
   public static void configureButtonBindings() {
-    // Align to hub front
-    controller.getButtons().frontSwitchBottom().whileHeld(new SequentialCommandGroup(
-      new PositionArm(cargoConstants.kFrontLimelightScanPos),
-      new AlignToUpperHub(RobotContainer.m_limelight, RobotContainer.m_drive)
-    ));
+    // Position arm front
+    controller.getButtons().frontSwitchBottom().whenPressed(new PositionArm(cargoConstants.kFrontLimelightScanPos));
 
-    // Align to hub back
-    controller.getButtons().backSwitchBottom().whileHeld(new SequentialCommandGroup(
-      new PositionArm(cargoConstants.kBackLimelightScanPos),
-      new AlignToUpperHub(RobotContainer.m_limelight, RobotContainer.m_drive)
-    ));
+    // Position arm back
+    controller.getButtons().backSwitchBottom().whenPressed(new PositionArm(cargoConstants.kBackLimelightScanPos));
 
     // Intake w/ ball chase for our color
-    controller.getButtons().frontSwitchTop().whenHeld(new Intake(cargoConstants.kUprightPos, true, Constants.kIsRedAlliance));
-    controller.getButtons().frontSwitchTop().whenReleased(new PositionArm(cargoConstants.kUprightPos));
+    controller.getButtons().frontSwitchTop()
+      .whenHeld(new Intake(cargoConstants.kUprightPos, true, Constants.kIsRedAlliance))
+      .whenReleased(new PositionArm(cargoConstants.kUprightPos));
 
     // Intake w/ ball chase for opponent color
-    controller.getButtons().backSwitchTop().whenHeld(new Intake(cargoConstants.kUprightPos, true, !Constants.kIsRedAlliance));
-    controller.getButtons().backSwitchTop().whenReleased(new PositionArm(cargoConstants.kUprightPos));
+    controller.getButtons().backSwitchTop()
+      .whenHeld(new Intake(cargoConstants.kUprightPos, true, !Constants.kIsRedAlliance))
+      .whenReleased(new PositionArm(cargoConstants.kUprightPos));
+
+    // Align to hub
+    controller.getButtons().bottomButton().whenHeld(new AlignToUpperHub(RobotContainer.m_limelight, RobotContainer.m_drive));
   }
   
   public static double getThrottleValue() {

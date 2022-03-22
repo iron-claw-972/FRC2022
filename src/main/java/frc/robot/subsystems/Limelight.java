@@ -57,18 +57,18 @@ public class Limelight extends SubsystemBase {
   }
 
   private void updateData() {
-    setCameraMode(m_isDriverCamera);
-    setLedMode(m_ledMode);
-    setStreamMode(m_streamMode);
-    m_latency = getTl();
+    // setCameraMode(m_isDriverCamera);
+    // setLedMode(m_ledMode);
+    // setStreamMode(m_streamMode);
+    // m_latency = getTl();
 
     if (!m_isDriverCamera) {
       m_pipeline = getPipeline();
       m_hasValidTarget = m_TvDebouncer.calculate(getTv() == 1.0);
 
       if (m_hasValidTarget) {
-        m_targetArea = getTa();
-        m_skew = getTs();
+        // m_targetArea = getTa();
+        // m_skew = getTs();
 
         if (constants.kIsMountedHorizontally) {
           m_horizontalAngularOffset = getTx();
@@ -115,15 +115,19 @@ public class Limelight extends SubsystemBase {
     switch (ledMode) {
       case PIPELINE:
         m_table.getEntry("ledMode").setNumber(0);
+        m_ledMode = ledMode;
         break;
       case OFF:
         m_table.getEntry("ledMode").setNumber(1);
+        m_ledMode = ledMode;
         break;
       case BLINK:
         m_table.getEntry("ledMode").setNumber(2);
+        m_ledMode = ledMode;
         break;
       case ON:
         m_table.getEntry("ledMode").setNumber(3);
+        m_ledMode = ledMode;
         break;
       default:
         m_table.getEntry("ledMode").setNumber(0);
@@ -244,12 +248,15 @@ public class Limelight extends SubsystemBase {
     switch (streamMode) {
       case STANDARD:
         m_table.getEntry("stream").setNumber(0);
+        m_streamMode = streamMode;
         break;
       case MAIN:
         m_table.getEntry("stream").setNumber(1);
+        m_streamMode = streamMode;
         break;
       case SECONDARY:
         m_table.getEntry("stream").setNumber(2);
+        m_streamMode = streamMode;
         break;
       default:
     }

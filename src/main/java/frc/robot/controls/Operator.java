@@ -58,8 +58,9 @@ public class Operator {
     controller.getButtons().RB().whenHeld(new Shoot(false, false, false, cargoConstants.kBackOuttakeHighPos, wheelConstants.kBackOuttakeHighSpeed));
 
     // Manual intake
-    controller.getButtons().X().whenHeld(new Intake(cargoConstants.kUprightPos, false, Constants.kIsRedAlliance, false));
-    controller.getButtons().X().whenReleased(new PositionArm(cargoConstants.kUprightPos));
+    controller.getButtons().X()
+      .whenHeld(new Intake(cargoConstants.kUprightPos, false, Constants.kIsRedAlliance))
+      .whenReleased(new PositionArm(cargoConstants.kUprightPos));
 
     // Stow arm
     controller.getButtons().B().whenPressed(new PositionArm(cargoConstants.kStowPos));

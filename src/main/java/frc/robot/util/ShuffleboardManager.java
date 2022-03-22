@@ -127,6 +127,8 @@ public class ShuffleboardManager {
     cargoTab.addNumber("Shooter Velocity", RobotContainer.m_cargoShooter::getVelocity);
         
     cargoTab.add("CargoShooterPID", RobotContainer.m_cargoShooter.cargoShooterPID);
+
+    SmartDashboard.putNumber("Shooter FF", RobotContainer.wheelConstants.kForward);
   }
   public void loadCargoBeltShuffleboard(){
     cargoTab.addBoolean("Cargo Belt", RobotContainer.m_cargoBelt::isEnabled);
@@ -148,8 +150,8 @@ public class ShuffleboardManager {
     cargoTab.addNumber("Optimal angle (deg)", () -> GetDistance.optimalStipeAngle);
     cargoTab.addBoolean("getDistance Is Finished", () -> GetDistance.isFinished);
 
-    cargoTab.addNumber("Tx", RobotContainer.m_limelight::getHubHorizontalAngularOffset);
-    cargoTab.addNumber("Ty", RobotContainer.m_limelight::getVerticalAngularOffset);
+    cargoTab.addNumber("Tx (deg)", RobotContainer.m_limelight::getHubHorizontalAngularOffset);
+    cargoTab.addNumber("Ty (deg)", RobotContainer.m_limelight::getVerticalAngularOffset);
 
     cargoTab.addNumber("Limelight latency (ms)", RobotContainer.m_limelight::getLatency);
 
@@ -160,6 +162,9 @@ public class ShuffleboardManager {
     // SmartDashboard.putNumber("Back Stipe angle", 154);
     SmartDashboard.putNumber("Front Shot Efficiency", RobotContainer.wheelConstants.kFrontShotEfficiency);
     SmartDashboard.putNumber("Back Shot Efficiency", RobotContainer.wheelConstants.kBackShotEfficiency);
+
+    SmartDashboard.putNumber("Front Distance Error (in)", RobotContainer.limelightConstants.kFrontLimelightDistanceError);
+    SmartDashboard.putNumber("Back Distance Error (in)", RobotContainer.limelightConstants.kBackLimelightDistanceError);
   }
 
   public void loadClimbExtenderShuffleboard(ClimbExtender extender) {

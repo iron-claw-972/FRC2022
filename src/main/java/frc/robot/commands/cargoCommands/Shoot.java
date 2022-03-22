@@ -27,20 +27,17 @@ public class Shoot extends SequentialCommandGroup {
         // Start spin up before so PID has less work to do
         // new InstantCommand(() -> ShooterMethods.setWheelRPM(-2000)),
 
+        // Set hub pipeline early to account for network latency
+        new InstantCommand(() -> RobotContainer.m_limelight.setUpperHubPipeline()),
+
         new InstantCommand(() -> ShooterMethods.enableAll()),
 
         parallel(
-          // Set hub pipeline early to account for network latency
-          new InstantCommand(() -> RobotContainer.m_limelight.setUpperHubPipeline()),
-
-          // Spin up belt and wheels in advance
           sequence(
             // Don't spin shooting wheels until ball is confirmed to be in shooter
             new InstantCommand(() -> ShooterMethods.setBeltPower(RobotContainer.beltConstants.kIntakeSpeed)),
-            new WaitUntilCommand(() -> ShooterMethods.isBallContained()).withTimeout(1)
-          ),
+            new WaitUntilCommand(() -> ShooterMethods.isBallContained()).withTimeout(0.4),
 
-          sequence(
             // Spin up wheels to optimal velocity when the limelight gets the optimal angle
             new ConditionalCommand(
               sequence(

@@ -27,15 +27,16 @@ public class Intake extends SequentialCommandGroup {
     addRequirements(RobotContainer.m_cargoShooter, RobotContainer.m_cargoRotator, RobotContainer.m_cargoBelt,
         RobotContainer.m_limelight);
     addCommands(
-        new InstantCommand(() -> ShooterMethods.enableAll()),
         // Set pipeline early to account for network latency
         new InstantCommand(() -> RobotContainer.m_limelight.setBallPipeline(isRedBall)),
 
-        new ConditionalCommand(
-          new WaitUntilCommand(() -> !ShooterMethods.isBallContained()),
-          new DoNothing(), 
-          () -> doesCheckBall
-        ),
+        new InstantCommand(() -> ShooterMethods.enableAll()),
+
+        // new ConditionalCommand(
+        //   new WaitUntilCommand(() -> !ShooterMethods.isBallContained()),
+        //   new DoNothing(), 
+        //   () -> doesCheckBall
+        // ),
 
         // Spin up wheel, belt, set angle, and start ball chase simultaneously
         parallel(

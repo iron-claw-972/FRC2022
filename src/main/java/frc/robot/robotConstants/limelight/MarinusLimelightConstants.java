@@ -26,6 +26,9 @@ public class MarinusLimelightConstants {
   public final double kBallTargetHeight = Units.inchesToMeters(9.5/2);
   public final boolean kIsMountedHorizontally = true;
 
+  public final double kFrontLimelightDistanceError = 0;
+  public final double kBackLimelightDistanceError = -10;
+
   // Pipeline numbers used by Limelight NT
   public final int kRedCargoPipeline = 0;
   public final int kBlueCargoPipeline = 1;

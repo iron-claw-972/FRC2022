@@ -16,6 +16,7 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.simulation.FlywheelSim;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class CargoShooter extends SubsystemBase {
 
@@ -55,7 +56,8 @@ public class CargoShooter extends SubsystemBase {
     if (enabled){
       
       cargoShooterPID.setSetpoint(motorSpeed);
-      setVoltage(cargoShooterPID.calculate(getVelocity()) + constants.kForward * motorSpeed);
+      setVoltage(cargoShooterPID.calculate(getVelocity()) + SmartDashboard.getNumber("Shooter FF", constants.kForward) * motorSpeed);
+    ;
     }
   }
 
