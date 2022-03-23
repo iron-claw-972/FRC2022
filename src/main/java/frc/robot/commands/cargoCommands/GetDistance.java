@@ -91,7 +91,7 @@ public class GetDistance extends CommandBase {
 
     // Clamp arm angles that will hit the hex shaft attached to the climb triangle
     if (isFront) {
-      optimalShootingAngle = MathUtil.clamp(optimalShootingAngle, (0 - RobotContainer.cargoConstants.kStipeToPhysicalShooterAngularOffset), (RobotContainer.cargoConstants.kBackMaxShootingAngle + RobotContainer.cargoConstants.kStipeToPhysicalShooterAngularOffset));
+      optimalShootingAngle = MathUtil.clamp(optimalShootingAngle, (0 + RobotContainer.cargoConstants.kStipeToPhysicalShooterAngularOffset), (RobotContainer.cargoConstants.kFrontMaxShootingAngle + RobotContainer.cargoConstants.kStipeToPhysicalShooterAngularOffset));
     } else {
       // optimalShootingAngle = MathUtil.clamp(optimalShootingAngle, (0 - RobotContainer.cargoConstants.kStipeToPhysicalShooterAngularOffset), 61.5);
       optimalShootingAngle = MathUtil.clamp(optimalShootingAngle, (0 - RobotContainer.cargoConstants.kStipeToPhysicalShooterAngularOffset), 180 - (RobotContainer.cargoConstants.kBackMaxShootingAngle + RobotContainer.cargoConstants.kStipeToPhysicalShooterAngularOffset));
