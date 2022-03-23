@@ -16,10 +16,10 @@ public class VoltaireDriveConstants {
   public final double KvLinear = 0.049031; // Kv
   public final double KaLinear = 0.0058764; // Ka
 
-  // Drivetrain (Angular) (Copied from other bot!)
-  public final double KsAngular = 0.68983; // Ks
-  public final double KvAngular = 183.65; // Kv
-  public final double KaAngular = 20.98; // Ka
+  // Drivetrain (Angular)
+  public final double KsAngular = 0.61013; // Ks
+  public final double KvAngular = 143.86; // Kv
+  public final double KaAngular = 30.392; // Ka
 
   // Position PID gain values
   public final double KpPosition = 2.1573; // Kp for Ramsete PID
