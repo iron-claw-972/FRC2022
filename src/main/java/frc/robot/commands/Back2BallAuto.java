@@ -23,11 +23,12 @@ public class Back2BallAuto extends SequentialCommandGroup {
     addCommands(
         parallel(
           new DriveDistance(0.6642),
-          new ShootAuto(false, false, 1, () -> DriveDistance.isFinished, 154, 25)
+          new ShootAuto(false, false, 1, () -> DriveDistance.isFinished, 157, 23.415)
         ),
         new IntakeAuto(cargoConstants.kAutoBackOuttakeFarPos, false, isRedBall, Constants.AutoConstants.kAutoIntakeDriveDistance), 
-        new ShootAuto(false, false, 0, () -> true, 154, 25),
-        new PositionArm(154)
+        new ShootAuto(false, false, 0, () -> true, 157, 23.915),
+        new PositionArm(154),
+        new DriveDistance(0.1)
     );
   }
 }

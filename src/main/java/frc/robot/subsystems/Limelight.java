@@ -39,6 +39,7 @@ public class Limelight extends SubsystemBase {
     m_table = NetworkTableInstance.getDefault().getTable(m_tableName);
     m_getIsFacingFront = getIsFacingFront;
     setCameraMode(false);
+    setLedMode(LEDMode.PIPELINE);
     setStreamMode(StreamMode.MAIN);
   }
 

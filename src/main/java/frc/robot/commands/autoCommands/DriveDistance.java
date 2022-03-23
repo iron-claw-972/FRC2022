@@ -26,7 +26,7 @@ public class DriveDistance extends CommandBase {
   @Override
   public void initialize() {
     zeroPos = RobotContainer.m_drive.getLeftPosition();
-    RobotContainer.m_drive.setBrakeMode();
+    // RobotContainer.m_drive.setBrakeMode();
     isFinished = false;
   }
 
@@ -36,6 +36,20 @@ public class DriveDistance extends CommandBase {
     RobotContainer.m_drive.tankDrive(
       -Math.copySign(RobotContainer.driveConstants.kAutoDriveSpeed, setpoint),
       -Math.copySign(RobotContainer.driveConstants.kAutoDriveSpeed, setpoint));
+  }
+
+  // @Override
+  // public boolean isFinished() {
+  //   return Math.abs(RobotContainer.m_drive.getLeftPosition()) > (zeroPos + setpoint);
+  // }
+
+  @Override
+  public boolean isFinished() {
+    if (setpoint > 0) {
+      return RobotContainer.m_drive.getLeftPosition() <= zeroPos - setpoint;
+    } else {
+      return RobotContainer.m_drive.getLeftPosition() >= zeroPos - setpoint;
+    }
   }
 
   @Override

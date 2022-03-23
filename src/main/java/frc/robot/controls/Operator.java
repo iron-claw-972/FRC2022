@@ -46,10 +46,16 @@ public class Operator {
   
   public static void shootBinds() {
     // Vision Shoot front
-    controller.getButtons().Y().whenHeld(new Shoot(true, true, true));
+    controller.getButtons().Y().whenHeld(new SequentialCommandGroup(
+      new InstantCommand(() -> RobotContainer.m_drive.arcadeDrive(0, 0)),
+      new Shoot(true, true, true)
+    ));
 
     // Vision Shoot back
-    controller.getButtons().A().whenHeld(new Shoot(true, true, false));
+    controller.getButtons().A().whenHeld(new SequentialCommandGroup(
+      new InstantCommand(() -> RobotContainer.m_drive.arcadeDrive(0, 0)),
+      new Shoot(true, true, false)
+    ));
 
     // Manual Shoot front
     controller.getButtons().RT().whileActiveOnce(new Shoot(false, false, true, cargoConstants.kFrontOuttakeHighPos, wheelConstants.kFrontOuttakeHighSpeed));

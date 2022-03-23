@@ -65,11 +65,11 @@ public class GetDistance extends CommandBase {
     // Get horizontal distance from vision tape to limelight lens
     limelightDistance = m_limelight.getHubDistance(currentStipeAngle);
 
-    if (isFront) {
-      limelightDistance += SmartDashboard.getNumber("Front Distance Error", RobotContainer.limelightConstants.kFrontLimelightDistanceError);
-    } else {
-      limelightDistance += SmartDashboard.getNumber("Back Distance Error", RobotContainer.limelightConstants.kBackLimelightDistanceError);
-    }
+    // if (isFront) {
+    //   limelightDistance += SmartDashboard.getNumber("Front Distance Error", RobotContainer.limelightConstants.kFrontLimelightDistanceError);
+    // } else {
+    //   limelightDistance += SmartDashboard.getNumber("Back Distance Error", RobotContainer.limelightConstants.kBackLimelightDistanceError);
+    // }
 
     if (Double.isNaN(limelightDistance) || ((currentLimelightFaceAngle < 90) != (currentPhysicalShooterAngle < 90))) {
       // If distance not found or limelight on opposite side of shooting trajectory, then do not shoot
@@ -91,15 +91,19 @@ public class GetDistance extends CommandBase {
 
     // Clamp arm angles that will hit the hex shaft attached to the climb triangle
     if (isFront) {
-      optimalShootingAngle = MathUtil.clamp(optimalShootingAngle, 0, (RobotContainer.cargoConstants.kFrontMaxShootingAngle + RobotContainer.cargoConstants.kStipeToShootingTrajectoryAngularOffset));
+      optimalShootingAngle = MathUtil.clamp(optimalShootingAngle, (0 - RobotContainer.cargoConstants.kStipeToPhysicalShooterAngularOffset), 90);
     } else {
-      optimalShootingAngle = MathUtil.clamp(optimalShootingAngle, 0, 180 - (RobotContainer.cargoConstants.kBackMaxShootingAngle + RobotContainer.cargoConstants.kStipeToShootingTrajectoryAngularOffset));
+      // optimalShootingAngle = MathUtil.clamp(optimalShootingAngle, (0 - RobotContainer.cargoConstants.kStipeToPhysicalShooterAngularOffset), 61.5);
+      optimalShootingAngle = MathUtil.clamp(optimalShootingAngle, (0 - RobotContainer.cargoConstants.kStipeToPhysicalShooterAngularOffset), 180-(162 + RobotContainer.cargoConstants.kStipeToPhysicalShooterAngularOffset));
     }
+    // optimalShootingAngle = MathUtil.clamp(optimalShootingAngle, 0, (RobotContainer.cargoConstants.kBackMaxShootingAngle + RobotContainer.cargoConstants.kStipeToShootingTrajectoryAngularOffset));
+    // optimalShootingAngle = MathUtil.clamp(optimalShootingAngle, 45, 130);
 
     loggedOptimalShootingAngle = optimalShootingAngle; // This is for unit tests
 
     // Actual shooting angle relative to front zero degrees
     double actualOptimalShootingAngle = (isFront ? optimalShootingAngle : 180 - optimalShootingAngle);
+    SmartDashboard.putNumber("Optimal shooting angle", optimalShootingAngle);
 
     optimalStipeAngle = actualOptimalShootingAngle - RobotContainer.cargoConstants.kStipeToShootingTrajectoryAngularOffset;
 

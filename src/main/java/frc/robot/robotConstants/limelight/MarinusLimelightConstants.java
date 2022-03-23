@@ -3,7 +3,7 @@ package frc.robot.robotConstants.limelight;
 import edu.wpi.first.math.util.Units;
 
 public class MarinusLimelightConstants {
-  public final double kAlignPIDTolerance = 1.5;
+  public final double kAlignPIDTolerance = 1;
   public final double kAlignP = 0.037;
   public final double kAlignI = 0.05;
   public final double kAlignD = 0.004;

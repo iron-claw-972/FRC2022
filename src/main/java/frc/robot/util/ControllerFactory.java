@@ -174,7 +174,7 @@ public class ControllerFactory {
     WPI_TalonFX talon = new WPI_TalonFX(id);
     talon.configFactoryDefault();
     talon.configAllSettings(config);
-    talon.enableVoltageCompensation(false);
+    talon.enableVoltageCompensation(true);
     talon.setNeutralMode(neutralMode);
     talon.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
 
