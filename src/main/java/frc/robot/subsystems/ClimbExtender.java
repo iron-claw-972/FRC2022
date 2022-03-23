@@ -162,4 +162,8 @@ public class ClimbExtender extends SubsystemBase {
   public boolean isEnabled(){
     return enabled;
   }
+
+  public double getVelocity() {
+    return m_motor.getSelectedSensorVelocity();
+  }
 } 

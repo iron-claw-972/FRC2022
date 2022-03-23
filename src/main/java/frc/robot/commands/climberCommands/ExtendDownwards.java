@@ -21,7 +21,7 @@ public class ExtendDownwards extends SequentialCommandGroup {
    * 
    * @param zero whether or not it should zero the extender when it reaches the bottom
    */
-  public ExtendDownwards(boolean zero){
+  public ExtendDownwards(boolean zero) {
       addRequirements(RobotContainer.m_extenderR, RobotContainer.m_extenderL);
       addCommands(
           new InstantCommand(() -> ClimberMethods.disableExtender()), //disable just to make sure PID doesn't run
@@ -29,17 +29,25 @@ public class ExtendDownwards extends SequentialCommandGroup {
             //in parallel moves each extender down and then waits until it is compressed
             sequence(
               new InstantCommand(() -> RobotContainer.m_extenderL.setOutput(zero ? extend.kDownPowerCalibration : extend.kDownPowerNoCalibration)),
-              new WaitUntilCommand(() -> RobotContainer.m_extenderL.compressionLimitSwitch()),
+              new WaitUntilCommand(() -> compressed(true)),
               new InstantCommand(() -> RobotContainer.m_extenderL.disable()),
               (zero ? (new InstantCommand(() -> RobotContainer.m_extenderL.zero())) : new DoNothing())
             ),
             sequence(
               new InstantCommand(() -> RobotContainer.m_extenderR.setOutput(zero ? extend.kDownPowerCalibration : extend.kDownPowerNoCalibration)),
-              new WaitUntilCommand(() -> RobotContainer.m_extenderR.compressionLimitSwitch()),
+              new WaitUntilCommand(() -> compressed(false)),
               new InstantCommand(() -> RobotContainer.m_extenderR.disable()),
               (zero ? (new InstantCommand(() -> RobotContainer.m_extenderR.zero())) : new DoNothing())
             )
           )
       );
+  }
+
+  public boolean compressed(boolean left) {
+    if (left) {
+      return RobotContainer.m_extenderL.compressionLimitSwitch() || Math.abs(RobotContainer.m_extenderL.getVelocity()) < 0.1;
+    } else {
+      return RobotContainer.m_extenderR.compressionLimitSwitch() || Math.abs(RobotContainer.m_extenderR.getVelocity()) < 0.1;
+    }
   }
 }
