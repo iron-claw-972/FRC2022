@@ -14,26 +14,22 @@ public class LimitSwitch {
   }
 
   public LimitSwitch(int port, double debouncerMargin){
-    // limitSwitch = new DigitalInput(port);
+    limitSwitch = new DigitalInput(port);
     debouncer = new Debouncer(debouncerMargin, Debouncer.DebounceType.kBoth);
-
   }
 
   public boolean get() {
     //updates debounce and last read
-    // lastRead = !debouncer.calculate(limitSwitch.get());
-    // return !debouncer.calculate(limitSwitch.get());
-    return false;
+    lastRead = !debouncer.calculate(limitSwitch.get());
+    return !debouncer.calculate(limitSwitch.get());
   }
 
   public boolean fallingEdge() {
-    // return lastRead && !get();
-    return false;
+    return lastRead && !get();
   }
   
   public boolean risingEdge() {
-    return false;
-    // return !lastRead && get();
+    return !lastRead && get();
   }
 
   public boolean getNoUpdate(){
