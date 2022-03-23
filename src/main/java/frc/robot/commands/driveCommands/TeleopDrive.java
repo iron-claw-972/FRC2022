@@ -23,7 +23,7 @@ public class TeleopDrive extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double turn = Driver.getRawTurnValue();
+    double turn = Driver.getTurnValue();
     double turnBoost = SmartDashboard.getNumber("Turn Boost", 0.2);
     if (turn > 0 && turn < turnBoost) {
       turn = turnBoost;
@@ -31,7 +31,7 @@ public class TeleopDrive extends CommandBase {
     if (turn < 0 && turn > -turnBoost) {
       turn = -turnBoost;
     }
-    double throttle = Driver.getRawThrottleValue();
+    double throttle = Driver.getThrottleValue();
     /*double throttleBoost = SmartDashboard.getNumber("Throttle Boost", 0.05);
     if (throttle > 0 && throttle < throttleBoost) {
       throttle = throttleBoost;
