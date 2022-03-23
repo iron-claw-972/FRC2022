@@ -114,7 +114,7 @@ import edu.wpi.first.cscore.UsbCamera;
     // Attempt to load trajectory from PathWeaver
     // return new FlexibleAuto(true, 1, false , false);
     // return m_shuffleboard.getAutonomousCommand();
-    return Pathweaver.pathweaverCommand("SquareTest");
+    return Pathweaver.pathweaverCommand("lineAndTurn");
     // return new SequentialCommandGroup(
     //   m_shuffleboard.getAutonomousWaitCommand(),
     //   m_shuffleboard.getAutonomousCommand()
