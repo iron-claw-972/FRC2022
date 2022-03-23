@@ -11,6 +11,7 @@ import frc.robot.autonomous.drivetrain.Pathweaver;
 import frc.robot.robotConstants.cargoRotator.MarinusCargoRotatorConstants;
 import frc.robot.robotConstants.shooterBelt.MarinusBeltConstants;
 import frc.robot.robotConstants.shooterWheel.MarinusCargoShooterConstants;
+import frc.robot.util.ShooterMethods;
 
 public class Back3BallAuto extends SequentialCommandGroup {
   //THIS AUTO IS NOT TESTED AND MAY BE INACCURATE
@@ -28,8 +29,18 @@ public class Back3BallAuto extends SequentialCommandGroup {
         ),
         new IntakeAuto(cargoConstants.kAutoBackOuttakeFarPos, false, isRedBall, Constants.AutoConstants.kAutoIntakeDriveDistance), 
         new ShootAuto(false, false, 0, () -> true, 154, 25),
-        new PositionArm(154),
-        Pathweaver.pathweaverCommand(Constants.AutoConstants.k3BallAuto)
+        new PositionArm(cargoConstants.kIntakePos),
+        parallel(
+          Pathweaver.pathweaverCommand(Constants.AutoConstants.k3BallAuto),
+          new InstantCommand(() -> ShooterMethods.setWheelRPM(wheelConstants.kIntakeSpeed)),
+          new InstantCommand(() -> ShooterMethods.setBeltPower(beltConstants.kIntakeSpeed)),
+          sequence(
+            new WaitUntilCommand(() -> ShooterMethods.isBallContained()),
+            new PositionArm(cargoConstants.kFrontOuttakeAutoPos)
+          )
+        ),
+        new ShootAuto(false, true, 0, () -> true, cargoConstants.kFrontOuttakeAutoPos, wheelConstants.kFrontOuttakeAutoSpeed),
+        new PositionArm(154)
     );
   }
 }
