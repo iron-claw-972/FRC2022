@@ -34,12 +34,12 @@ public class MarinusDriveConstants {
   public final double KaAngular = 0.59406; // Ka
 
   // Position PID gain values
-  public final double KpPosition = 1; // Kp for Ramsete PID
+  public final double KpPosition = 0.15592; // Kp for Ramsete PID
   public final double KiPosition = 0; // Kp for Ramsete PID
   public final double KdPosition = 0; // Kp for Ramsete PID
 
   // Velocity PID gain values
-  public final double KpVelocity = 0.15592; // Proportional
+  public final double KpVelocity = 1; // Proportional
   public final double KiVelocity = 0; // Integral
   public final double KdVelocity = 0; // Derivative
 
