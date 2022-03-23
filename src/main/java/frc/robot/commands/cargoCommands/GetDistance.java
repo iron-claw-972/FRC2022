@@ -91,10 +91,10 @@ public class GetDistance extends CommandBase {
 
     // Clamp arm angles that will hit the hex shaft attached to the climb triangle
     if (isFront) {
-      optimalShootingAngle = MathUtil.clamp(optimalShootingAngle, (0 - RobotContainer.cargoConstants.kStipeToPhysicalShooterAngularOffset), 90);
+      optimalShootingAngle = MathUtil.clamp(optimalShootingAngle, (0 - RobotContainer.cargoConstants.kStipeToPhysicalShooterAngularOffset), (RobotContainer.cargoConstants.kBackMaxShootingAngle + RobotContainer.cargoConstants.kStipeToPhysicalShooterAngularOffset));
     } else {
       // optimalShootingAngle = MathUtil.clamp(optimalShootingAngle, (0 - RobotContainer.cargoConstants.kStipeToPhysicalShooterAngularOffset), 61.5);
-      optimalShootingAngle = MathUtil.clamp(optimalShootingAngle, (0 - RobotContainer.cargoConstants.kStipeToPhysicalShooterAngularOffset), 180-(162 + RobotContainer.cargoConstants.kStipeToPhysicalShooterAngularOffset));
+      optimalShootingAngle = MathUtil.clamp(optimalShootingAngle, (0 - RobotContainer.cargoConstants.kStipeToPhysicalShooterAngularOffset), 180 - (RobotContainer.cargoConstants.kBackMaxShootingAngle + RobotContainer.cargoConstants.kStipeToPhysicalShooterAngularOffset));
     }
     // optimalShootingAngle = MathUtil.clamp(optimalShootingAngle, 0, (RobotContainer.cargoConstants.kBackMaxShootingAngle + RobotContainer.cargoConstants.kStipeToShootingTrajectoryAngularOffset));
     // optimalShootingAngle = MathUtil.clamp(optimalShootingAngle, 45, 130);
@@ -103,7 +103,7 @@ public class GetDistance extends CommandBase {
 
     // Actual shooting angle relative to front zero degrees
     double actualOptimalShootingAngle = (isFront ? optimalShootingAngle : 180 - optimalShootingAngle);
-    SmartDashboard.putNumber("Optimal shooting angle", optimalShootingAngle);
+    // SmartDashboard.putNumber("Optimal shooting angle", optimalShootingAngle);
 
     optimalStipeAngle = actualOptimalShootingAngle - RobotContainer.cargoConstants.kStipeToShootingTrajectoryAngularOffset;
 

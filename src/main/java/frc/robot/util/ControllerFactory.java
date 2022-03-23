@@ -160,7 +160,7 @@ public class ControllerFactory {
   *
   * @return a fully configured TalonFX
   */
-  public static WPI_TalonFX createTalonFX(int id, double supplyCurrentLimit, double supplyTriggerThreshold, double supplyTriggerDuration , NeutralMode neutralMode) {
+  public static WPI_TalonFX createTalonFX(int id, double supplyCurrentLimit, double supplyTriggerThreshold, double supplyTriggerDuration , NeutralMode neutralMode, boolean enableVoltageCompensation) {
 
     if (id == -1) return null;
 
@@ -174,11 +174,16 @@ public class ControllerFactory {
     WPI_TalonFX talon = new WPI_TalonFX(id);
     talon.configFactoryDefault();
     talon.configAllSettings(config);
-    talon.enableVoltageCompensation(true);
+    talon.enableVoltageCompensation(enableVoltageCompensation);
     talon.setNeutralMode(neutralMode);
     talon.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
 
     return talon;
 
   }
+
+  public static WPI_TalonFX createTalonFX(int id, double supplyCurrentLimit, double supplyTriggerThreshold, double supplyTriggerDuration , NeutralMode neutralMode) {
+    return createTalonFX(id, supplyCurrentLimit, supplyTriggerThreshold, supplyTriggerDuration, neutralMode, false);
+  }
+
 }

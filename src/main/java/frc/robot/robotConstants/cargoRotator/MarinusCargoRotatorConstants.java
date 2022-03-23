@@ -34,7 +34,7 @@ public class MarinusCargoRotatorConstants {
     public final double kFrontLimelightScanPos = 80;
     public final double kBackLimelightScanPos = 172;
 
-    public final double kFrontMaxShootingAngle = 180;
+    public final double kFrontMaxShootingAngle = 134;
     public final double kBackMaxShootingAngle = 162;
 
     // locations

@@ -98,8 +98,6 @@ public class Drivetrain extends SubsystemBase {
     m_leftMotors = new PhoenixMotorControllerGroup(m_leftMotor1, m_leftMotor2);
     m_rightMotors = new PhoenixMotorControllerGroup(m_rightMotor1, m_rightMotor2);
 
-    m_dDrive = new DifferentialDrive(m_leftMotors, m_rightMotors);
-
     // Inverting one side of the drivetrain as to drive forward
     if (RobotBase.isSimulation()) {
       m_leftMotors.setInverted(false);
@@ -109,8 +107,11 @@ public class Drivetrain extends SubsystemBase {
       m_rightMotors.setInverted(false);
     }
 
-    m_leftMotor2.follow(m_leftMotor1);
-    m_rightMotor2.follow(m_rightMotor1);
+
+    m_dDrive = new DifferentialDrive(m_leftMotors, m_rightMotors);
+
+    // m_leftMotor2.follow(m_leftMotor1);
+    // m_rightMotor2.follow(m_rightMotor1);
 
     m_rightMotor1.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
     m_leftMotor1.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);

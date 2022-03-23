@@ -25,7 +25,7 @@ public class Shoot extends SequentialCommandGroup {
       addRequirements(RobotContainer.m_cargoShooter, RobotContainer.m_cargoRotator, RobotContainer.m_cargoBelt, RobotContainer.m_limelight);
       addCommands(
         // Start spin up before so PID has less work to do
-        new InstantCommand(() -> ShooterMethods.setWheelRPM(0)),
+        new InstantCommand(() -> ShooterMethods.setWheelRPM(-2000)),
 
         // Set hub pipeline early to account for network latency
         new InstantCommand(() -> RobotContainer.m_limelight.setUpperHubPipeline()),
@@ -35,8 +35,6 @@ public class Shoot extends SequentialCommandGroup {
         new WaitUntilCommand(() -> ShooterMethods.isBallContained()).withTimeout(0.4),
 
         new InstantCommand(() -> ShooterMethods.enableAll()),
-
-
 
         parallel(
           sequence(
@@ -48,9 +46,7 @@ public class Shoot extends SequentialCommandGroup {
               ),
               new InstantCommand(() -> ShooterMethods.setWheelRPM(shooterWheelOuttakeSpeed)),
               () -> doesCalculateSpeed
-            ),
-
-            new WaitUntilCommand(() -> ShooterMethods.isWheelAtSetpoint())
+            )
           ),
 
           // Limelight stuff
@@ -81,6 +77,9 @@ public class Shoot extends SequentialCommandGroup {
             )
           )
         ),
+
+        // Wait until both arm and wheels are at setpoint
+        new WaitUntilCommand(() -> ShooterMethods.isWheelAtSetpoint() && ShooterMethods.isArmAtSetpoint()),
 
         // Spin belts to outtake ball
         new InstantCommand(() -> ShooterMethods.setBeltPower(RobotContainer.beltConstants.kOuttakeSpeed)),
