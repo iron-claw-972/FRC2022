@@ -146,11 +146,19 @@ public class Drivetrain extends SubsystemBase {
   }
 
   public void arcadeDrive(double throttle, double turn) {
-    m_dDrive.arcadeDrive(throttle, turn);
+    m_leftMotor1.set(ControlMode.PercentOutput, throttle + turn);
+    m_rightMotor1.set(ControlMode.PercentOutput, throttle - turn);
+    m_leftMotor2.set(ControlMode.PercentOutput, throttle + turn);
+    m_rightMotor2.set(ControlMode.PercentOutput, throttle - turn);
+    //m_dDrive.arcadeDrive(throttle, turn);
   }
 
   public void tankDrive(double left, double right) {
-    m_dDrive.tankDrive(left, right);
+    m_leftMotor1.set(ControlMode.PercentOutput, left);
+    m_rightMotor1.set(ControlMode.PercentOutput, right);
+    m_leftMotor2.set(ControlMode.PercentOutput, left);
+    m_rightMotor2.set(ControlMode.PercentOutput, right);
+    //m_dDrive.tankDrive(left, right);
   }
 
   public void propDrive(double throttle, double turn) {
@@ -177,6 +185,11 @@ public class Drivetrain extends SubsystemBase {
     m_rightMotor1.setNeutralMode(NeutralMode.Coast);
     m_leftMotor2.setNeutralMode(NeutralMode.Coast);
     m_rightMotor2.setNeutralMode(NeutralMode.Coast);
+  }
+
+  public void setHalfCoast() {
+    m_leftMotor1.setNeutralMode(NeutralMode.Coast);
+    m_rightMotor1.setNeutralMode(NeutralMode.Coast);
   }
 
   public void resetCoastBrakeMode() {
