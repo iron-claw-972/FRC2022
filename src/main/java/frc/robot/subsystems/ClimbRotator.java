@@ -58,8 +58,8 @@ public class ClimbRotator extends SubsystemBase {
     armPID.setTolerance(constants.kArmTolerance);
 
     //use this to calibrate rotators and then look in smartdashboard
-    //setEncoder(123);
-    //SmartDashboard.putNumber(side + " offset", encoderOffset);
+    // setEncoder(123);
+    // SmartDashboard.putNumber(side + " offset", encoderOffset);
   }
 
   @Override

@@ -18,11 +18,11 @@ public class MarinusClimbExtenderConstants {
   public final double kMotorClampUp = .7;     //should be positive!
   
   // locations
-  public final double kLeftMaxUpwards = 546433;
+  public final double kLeftMaxUpwards = 491745;
   public final double kLeftHalfway = kLeftMaxUpwards / 2;
   public final double kLeftSlightlyUpward = kLeftMaxUpwards / 4;
 
-  public final double kRightMaxUpwards = 558365;
+  public final double kRightMaxUpwards = 496438;
   public final double kRightHalfway = kRightMaxUpwards / 2;
   public final double kRightSlightlyUpward = kRightMaxUpwards / 4;
 

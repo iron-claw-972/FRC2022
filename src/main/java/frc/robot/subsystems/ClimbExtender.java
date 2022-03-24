@@ -110,7 +110,9 @@ public class ClimbExtender extends SubsystemBase {
 
   // tells the motor object to drive at a speed that the PID sets the motorPower to be
   public void setOutput(double motorPower) {
-    m_motor.set(MathUtil.clamp(motorPower, constants.kMotorClampDown, constants.kMotorClampUp));
+    //if (motorPower > 0 || !limitSwitch.get()) {
+      m_motor.set(MathUtil.clamp(motorPower, constants.kMotorClampDown, constants.kMotorClampUp));
+    //}
   }
 
   // checks to see if the extender is fullycompressed

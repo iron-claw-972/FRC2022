@@ -39,14 +39,14 @@ public class Driver {
     // Position arm back
     controller.getButtons().backSwitchBottom().whenPressed(new PositionArm(cargoConstants.kBackLimelightScanPos));
 
-    // Intake w/ ball chase for our color
+    // Intake w/ ball chase for red ball
     controller.getButtons().frontSwitchTop()
-      .whenHeld(new Intake(cargoConstants.kUprightPos, true, Constants.kIsRedAlliance))
+      .whenHeld(new Intake(cargoConstants.kUprightPos, true, true))
       .whenReleased(new PositionArm(cargoConstants.kUprightPos));
 
-    // Intake w/ ball chase for opponent color
+    // Intake w/ ball chase for blue color
     controller.getButtons().backSwitchTop()
-      .whenHeld(new Intake(cargoConstants.kUprightPos, true, !Constants.kIsRedAlliance))
+      .whenHeld(new Intake(cargoConstants.kUprightPos, true, false))
       .whenReleased(new PositionArm(cargoConstants.kUprightPos));
 
     // Align to hub
@@ -56,12 +56,12 @@ public class Driver {
   public static double getThrottleValue() {
     // put any processes in any order of the driver's choosing
     // Controllers y-axes are natively up-negative, down-positive
-    return Functions.deadband(JoyConstants.kDeadband, getRawThrottleValue());
+    return slewThrottle.calculate(Functions.deadband(JoyConstants.kDeadband, getRawThrottleValue()));
   }
 
   public static double getTurnValue() {
     // right is positive; left is negative
-    return Functions.deadband(JoyConstants.kDeadband, getRawTurnValue());
+    return slewTurn.calculate(Functions.deadband(JoyConstants.kDeadband, getRawTurnValue()));
   }
   
   // sets drive mode

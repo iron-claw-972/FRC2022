@@ -81,7 +81,7 @@ public class Shoot extends SequentialCommandGroup {
         ),
 
         // // Wait until both arm and wheels are at setpoint
-        // new WaitUntilCommand(() -> ShooterMethods.isWheelAtSetpoint() && ShooterMethods.isArmAtSetpoint()),
+        new WaitUntilCommand(() -> ShooterMethods.isWheelAtSetpoint() && ShooterMethods.isArmAtSetpoint()),
 
         // Spin belts to outtake ball
         new InstantCommand(() -> ShooterMethods.setBeltPower(RobotContainer.beltConstants.kOuttakeSpeed)),

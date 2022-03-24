@@ -190,6 +190,8 @@ public class Drivetrain extends SubsystemBase {
   public void setHalfCoast() {
     m_leftMotor1.setNeutralMode(NeutralMode.Coast);
     m_rightMotor1.setNeutralMode(NeutralMode.Coast);
+    m_leftMotor2.setNeutralMode(NeutralMode.Brake);
+    m_rightMotor2.setNeutralMode(NeutralMode.Brake);
   }
 
   public void resetCoastBrakeMode() {

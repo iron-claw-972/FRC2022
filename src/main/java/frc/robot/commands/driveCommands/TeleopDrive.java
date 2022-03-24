@@ -24,13 +24,13 @@ public class TeleopDrive extends CommandBase {
   @Override
   public void execute() {
     double turn = Driver.getTurnValue();
-    double turnBoost = SmartDashboard.getNumber("Turn Boost", 0.2);
-    if (turn > 0 && turn < turnBoost) {
-      turn = turnBoost;
-    }
-    if (turn < 0 && turn > -turnBoost) {
-      turn = -turnBoost;
-    }
+    // double turnBoost = SmartDashboard.getNumber("Turn Boost", 0.2);
+    // if (turn > 0 && turn < turnBoost) {
+    //   turn = turnBoost;
+    // }
+    // if (turn < 0 && turn > -turnBoost) {
+    //   turn = -turnBoost;
+    // }
     double throttle = Driver.getThrottleValue();
     /*double throttleBoost = SmartDashboard.getNumber("Throttle Boost", 0.05);
     if (throttle > 0 && throttle < throttleBoost) {

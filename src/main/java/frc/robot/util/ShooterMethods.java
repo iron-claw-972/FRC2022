@@ -184,6 +184,10 @@ public class ShooterMethods {
     return reachedSetpoint;
   }
 
+  public static boolean isRedAlliance() {
+    return SmartDashboard.getBoolean("Is Red Alliance", Constants.kIsRedAlliance);
+  }
+
   public static void stopWheel() {
     RobotContainer.m_cargoShooter.setStop();
   }
