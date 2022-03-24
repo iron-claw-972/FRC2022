@@ -90,12 +90,20 @@ public class GetDistance extends CommandBase {
     double optimalShootingAngle = ShooterMethods.getOptimalShootingAngle(RobotContainer.cargoConstants.kSAngle, currentShootingDistance, currentTargetHeightOffset);
 
     // Clamp arm angles that will hit the hex shaft attached to the climb triangle
+    
+    //// Use this if not working
+    // if (isFront) {
+    //   optimalShootingAngle = MathUtil.clamp(optimalShootingAngle, (0 - RobotContainer.cargoConstants.kStipeToPhysicalShooterAngularOffset), 90);
+    // } else {
+    //   optimalShootingAngle = MathUtil.clamp(optimalShootingAngle, (0 - RobotContainer.cargoConstants.kStipeToPhysicalShooterAngularOffset), 180-(162 + RobotContainer.cargoConstants.kStipeToPhysicalShooterAngularOffset));
+    // }
     if (isFront) {
-      optimalShootingAngle = MathUtil.clamp(optimalShootingAngle, (0 + RobotContainer.cargoConstants.kStipeToPhysicalShooterAngularOffset), (RobotContainer.cargoConstants.kFrontMaxShootingAngle + RobotContainer.cargoConstants.kStipeToPhysicalShooterAngularOffset));
+      optimalShootingAngle = MathUtil.clamp(optimalShootingAngle, (0 + RobotContainer.cargoConstants.kStipeToShootingTrajectoryAngularOffset), (RobotContainer.cargoConstants.kFrontMaxShootingAngle + RobotContainer.cargoConstants.kStipeToShootingTrajectoryAngularOffset));
     } else {
-      // optimalShootingAngle = MathUtil.clamp(optimalShootingAngle, (0 - RobotContainer.cargoConstants.kStipeToPhysicalShooterAngularOffset), 61.5);
-      optimalShootingAngle = MathUtil.clamp(optimalShootingAngle, (0 - RobotContainer.cargoConstants.kStipeToPhysicalShooterAngularOffset), 180 - (RobotContainer.cargoConstants.kBackMaxShootingAngle + RobotContainer.cargoConstants.kStipeToPhysicalShooterAngularOffset));
+      optimalShootingAngle = MathUtil.clamp(optimalShootingAngle, (0 - RobotContainer.cargoConstants.kStipeToShootingTrajectoryAngularOffset), 180 - (RobotContainer.cargoConstants.kBackMaxShootingAngle + RobotContainer.cargoConstants.kStipeToShootingTrajectoryAngularOffset));
     }
+
+    // optimalShootingAngle = MathUtil.clamp(optimalShootingAngle, (0 - RobotContainer.cargoConstants.kStipeToPhysicalShooterAngularOffset), 61.5);
     // optimalShootingAngle = MathUtil.clamp(optimalShootingAngle, 0, (RobotContainer.cargoConstants.kBackMaxShootingAngle + RobotContainer.cargoConstants.kStipeToShootingTrajectoryAngularOffset));
     // optimalShootingAngle = MathUtil.clamp(optimalShootingAngle, 45, 130);
 

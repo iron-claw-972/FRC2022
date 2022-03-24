@@ -34,6 +34,7 @@ public class MarinusCargoRotatorConstants {
     public final double kFrontLimelightScanPos = 80;
     public final double kBackLimelightScanPos = 172;
 
+    // These should be stipe angles
     public final double kFrontMaxShootingAngle = 134;
     public final double kBackMaxShootingAngle = 162;
 

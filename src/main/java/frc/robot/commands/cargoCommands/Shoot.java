@@ -46,7 +46,9 @@ public class Shoot extends SequentialCommandGroup {
               ),
               new InstantCommand(() -> ShooterMethods.setWheelRPM(shooterWheelOuttakeSpeed)),
               () -> doesCalculateSpeed
-            )
+            ),
+
+            new WaitUntilCommand(() -> ShooterMethods.isWheelAtSetpoint())
           ),
 
           // Limelight stuff
@@ -78,8 +80,8 @@ public class Shoot extends SequentialCommandGroup {
           )
         ),
 
-        // Wait until both arm and wheels are at setpoint
-        new WaitUntilCommand(() -> ShooterMethods.isWheelAtSetpoint() && ShooterMethods.isArmAtSetpoint()),
+        // // Wait until both arm and wheels are at setpoint
+        // new WaitUntilCommand(() -> ShooterMethods.isWheelAtSetpoint() && ShooterMethods.isArmAtSetpoint()),
 
         // Spin belts to outtake ball
         new InstantCommand(() -> ShooterMethods.setBeltPower(RobotContainer.beltConstants.kOuttakeSpeed)),
