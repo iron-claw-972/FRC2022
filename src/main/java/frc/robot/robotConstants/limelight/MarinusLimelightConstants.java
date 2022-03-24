@@ -4,9 +4,13 @@ import edu.wpi.first.math.util.Units;
 
 public class MarinusLimelightConstants {
   public final double kAlignPIDTolerance = 1;
-  public final double kAlignP = 0.037;
-  public final double kAlignI = 0.05;
-  public final double kAlignD = 0.004;
+  public final double kAlignP = 0.02;
+  public final double kAlignI = 0.00;
+  public final double kAlignD = 0.001;
+  // public final double kAlignPIDTolerance = 1;
+  // public final double kAlignP = 0.037;
+  // public final double kAlignI = 0.05;
+  // public final double kAlignD = 0.004;
 
   public final double kTurnPIDTolerance = 1;
   public final double kTurnP = 0.005; // Originally 0.025

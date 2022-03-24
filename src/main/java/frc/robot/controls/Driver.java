@@ -39,14 +39,14 @@ public class Driver {
     // Position arm back
     controller.getButtons().backSwitchBottom().whenPressed(new PositionArm(cargoConstants.kBackLimelightScanPos));
 
-    // Intake w/ ball chase for red ball
+    // Intake w/ ball chase for our color
     controller.getButtons().frontSwitchTop()
-      .whenHeld(new Intake(cargoConstants.kUprightPos, true, true))
+      .whenHeld(new Intake(cargoConstants.kUprightPos, true, Constants.kIsRedAlliance))
       .whenReleased(new PositionArm(cargoConstants.kUprightPos));
 
-    // Intake w/ ball chase for blue color
+    // Intake w/ ball chase for opponent color
     controller.getButtons().backSwitchTop()
-      .whenHeld(new Intake(cargoConstants.kUprightPos, true, false))
+      .whenHeld(new Intake(cargoConstants.kUprightPos, true, !Constants.kIsRedAlliance))
       .whenReleased(new PositionArm(cargoConstants.kUprightPos));
 
     // Align to hub

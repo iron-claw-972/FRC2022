@@ -41,5 +41,10 @@ public class TeleopDrive extends CommandBase {
     }*/
     m_drive.runDrive(throttle, -0.85 * turn);
   }
+
+  @Override
+  public void end(boolean interrupted) {
+    m_drive.arcadeDrive(0, 0);
+  }
   
 }
