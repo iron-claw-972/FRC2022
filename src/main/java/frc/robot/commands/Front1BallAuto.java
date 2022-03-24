@@ -20,10 +20,8 @@ public class Front1BallAuto extends SequentialCommandGroup {
   public Front1BallAuto() {
     addRequirements(RobotContainer.m_drive, RobotContainer.m_cargoBelt, RobotContainer.m_cargoRotator, RobotContainer.m_cargoShooter);
     addCommands(
-        parallel(
-          new DriveDistance(0.6642),
-          new ShootAuto(false, false, 1, () -> DriveDistance.isFinished, 154, 25)
-        ),
+        new ShootAuto(false, true, 1, () -> true, 108, 22.4719101),
+        new DriveDistance(-1.0),
         new PositionArm(154)
     );
   }

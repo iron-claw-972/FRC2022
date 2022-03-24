@@ -36,7 +36,7 @@ public class MarinusCargoRotatorConstants {
 
     // These should be stipe angles
     public final double kFrontMaxShootingAngle = 134;
-    public final double kBackMaxShootingAngle = 162;
+    public final double kBackMaxShootingAngle = 157;
 
     // locations
     public final double kIntakePos = 2; // 0 degrees (when on hardstops)
