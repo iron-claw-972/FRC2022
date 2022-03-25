@@ -17,6 +17,7 @@ public class MarinusLimelightConstants {
   public final double kTurnI = 0;
   public final double kTurnD = 0;
   public final double kMaxTurnPower = 0.6;
+  public final double kAutoThrottlePow = 0.2;
 
   public final double kThrottlePIDTolerance = 0.5;
   public final double kThrottleP = 0.12;
