@@ -150,7 +150,7 @@ public class Drivetrain extends SubsystemBase {
     m_rightMotor1.set(ControlMode.PercentOutput, throttle - turn);
     m_leftMotor2.set(ControlMode.PercentOutput, throttle + turn);
     m_rightMotor2.set(ControlMode.PercentOutput, throttle - turn);
-    System.out.println(turn);
+    //System.out.println(turn);
 
     //m_dDrive.arcadeDrive(throttle, turn);
   }

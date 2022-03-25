@@ -23,7 +23,8 @@ public final class Constants {
   public static final double GRAVITATIONAL_ACCEL = 9.8;
 
   public static final double kMaxVoltage = 12.0;
-  public static final boolean kIsRedAlliance = DriverStation.getAlliance() == Alliance.Red;
+  // public static final boolean kIsRedAlliance = DriverStation.getAlliance() == Alliance.Red;
+  public static final boolean kIsRedAlliance = true;
 
   public static final class JoyConstants {
     public static final int kDriverJoy = 0;
