@@ -92,6 +92,14 @@ public class Operator {
 
   public static void climbBindsHybrid() {
 
+    controller.getButtons().leftJoyButton().whenPressed(
+      new InstantCommand(ClimberMethods::removeLimiter)
+    );
+
+    controller.getButtons().rightJoyButton().whenPressed(
+      new InstantCommand(ClimberMethods::enableLimiter)
+    );
+
     // when DPad Up is pressed, enable the extender and extend upwards to kMaxUpwards
     controller.getDPad().up().whenHeld(new ParallelCommandGroup(
       // stow the cargo subsystem

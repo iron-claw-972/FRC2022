@@ -72,14 +72,11 @@ public class ClimbExtender extends SubsystemBase {
 
   // remove the soft limiter and have manual override
   public void removeLimiter() {
-    m_motor.configForwardSoftLimitEnable(false, 0);
     manualEnabled = true;
   }
 
   // enable the soft limiter and go back to default controls
   public void enableLimiter() {
-    m_motor.configForwardSoftLimitThreshold(constants.kSoftLimit, 10);
-    m_motor.configForwardSoftLimitEnable(true, 0);
     manualEnabled = false;
   }
 

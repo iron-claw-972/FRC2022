@@ -15,19 +15,19 @@ public class MarinusClimbExtenderConstants {
 
   // motor clamps
   public final double kMotorClampDown = -0.9; //should be negative!
-  public final double kMotorClampUp = .7;     //should be positive!
+  public final double kMotorClampUp = .9;     //should be positive!
   
   // locations
-  public final double kLeftMaxUpwards = 491745;
+  public final double kLeftMaxUpwards = 501373;
   public final double kLeftHalfway = kLeftMaxUpwards / 2;
   public final double kLeftSlightlyUpward = kLeftMaxUpwards / 4;
 
-  public final double kRightMaxUpwards = 496438;
+  public final double kRightMaxUpwards = 509935;
   public final double kRightHalfway = kRightMaxUpwards / 2;
   public final double kRightSlightlyUpward = kRightMaxUpwards / 4;
 
   public final double kDownPowerCalibration = -0.3;   //has to go slower when calibrating to be more precise
-  public final double kDownPowerNoCalibration = -0.7;
+  public final double kDownPowerNoCalibration = -0.8;
   
   // extender limit switches
   public final int kExtLeftLimitSwitch = 8;

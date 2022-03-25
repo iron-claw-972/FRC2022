@@ -31,11 +31,9 @@ import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.SPI;
-import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.simulation.DifferentialDrivetrainSim;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import ctre_shims.PhoenixMotorControllerGroup;
 import ctre_shims.TalonEncoder;
 import ctre_shims.TalonEncoderSim;
 import frc.robot.Constants.AutoConstants;
@@ -51,9 +49,9 @@ public class Drivetrain extends SubsystemBase {
   WPI_TalonFX m_leftMotor2 = ControllerFactory.createTalonFX(constants.leftMotorPorts[1], constants.kSupplyCurrentLimit, constants.kSupplyTriggerThreshold, constants.kSupplyTriggerDuration, constants.kNeutralMode, true);
   WPI_TalonFX m_rightMotor2 = ControllerFactory.createTalonFX(constants.rightMotorPorts[1], constants.kSupplyCurrentLimit, constants.kSupplyTriggerThreshold, constants.kSupplyTriggerDuration, constants.kNeutralMode, true);
   
-  private PhoenixMotorControllerGroup m_leftMotors;
-  private PhoenixMotorControllerGroup m_rightMotors;
-  private final DifferentialDrive m_dDrive;
+  // private PhoenixMotorControllerGroup m_leftMotors;
+  // private PhoenixMotorControllerGroup m_rightMotors;
+  // private final DifferentialDrive m_dDrive;
 
   // The left-side drive encoder
   private final TalonEncoder m_leftEncoder = new TalonEncoder(m_leftMotor1, constants.kLeftEncoderReversed);
@@ -95,20 +93,24 @@ public class Drivetrain extends SubsystemBase {
 
   public Drivetrain() {
 
-    m_leftMotors = new PhoenixMotorControllerGroup(m_leftMotor1, m_leftMotor2);
-    m_rightMotors = new PhoenixMotorControllerGroup(m_rightMotor1, m_rightMotor2);
+    // m_leftMotors = new PhoenixMotorControllerGroup(m_leftMotor1, m_leftMotor2);
+    // m_rightMotors = new PhoenixMotorControllerGroup(m_rightMotor1, m_rightMotor2);
 
     // Inverting one side of the drivetrain as to drive forward
     if (RobotBase.isSimulation()) {
-      m_leftMotors.setInverted(false);
-      m_rightMotors.setInverted(false);
+      m_leftMotor1.setInverted(false);
+      m_leftMotor2.setInverted(false);
+      m_rightMotor1.setInverted(false);
+      m_rightMotor1.setInverted(false);
     } else {
-      m_leftMotors.setInverted(true);
-      m_rightMotors.setInverted(false);
+      m_leftMotor1.setInverted(true);
+      m_leftMotor2.setInverted(true);
+      m_rightMotor1.setInverted(false);
+      m_rightMotor2.setInverted(false);
     }
 
 
-    m_dDrive = new DifferentialDrive(m_leftMotors, m_rightMotors);
+    // m_dDrive = new DifferentialDrive(m_leftMotors, m_rightMotors);
 
     // m_leftMotor2.follow(m_leftMotor1);
     // m_rightMotor2.follow(m_rightMotor1);
@@ -150,7 +152,7 @@ public class Drivetrain extends SubsystemBase {
     m_rightMotor1.set(ControlMode.PercentOutput, throttle - turn);
     m_leftMotor2.set(ControlMode.PercentOutput, throttle + turn);
     m_rightMotor2.set(ControlMode.PercentOutput, throttle - turn);
-    System.out.println(turn);
+    //System.out.println(turn);
 
     //m_dDrive.arcadeDrive(throttle, turn);
   }
@@ -171,7 +173,7 @@ public class Drivetrain extends SubsystemBase {
     m_leftMotor2.set(ControlMode.PercentOutput, leftOut);
     m_rightMotor1.set(ControlMode.PercentOutput, rightOut);
     m_rightMotor2.set(ControlMode.PercentOutput, rightOut);
-    m_dDrive.feed();
+    //m_dDrive.feed();
     //m_dDrive.curvatureDrive(throttle, turn, false);
   }
 
@@ -230,7 +232,7 @@ public class Drivetrain extends SubsystemBase {
     m_rightMotor1.set(ControlMode.PercentOutput, rightOut);
     m_leftMotor2.set(ControlMode.PercentOutput, leftOut);
     m_rightMotor2.set(ControlMode.PercentOutput, rightOut);
-    m_dDrive.feed();
+    //m_dDrive.feed();
   }
 
   @Override
@@ -241,8 +243,8 @@ public class Drivetrain extends SubsystemBase {
     // We negate the right side so that positive voltages make the right side
     // move forward.
     m_drivetrainSim.setInputs(
-        m_leftMotors.get() * RobotController.getBatteryVoltage(),
-        m_rightMotors.get() * RobotController.getBatteryVoltage());
+        m_leftMotor1.get() * RobotController.getBatteryVoltage(),
+        m_rightMotor1.get() * RobotController.getBatteryVoltage());
     m_drivetrainSim.update(0.020);
 
     m_leftEncoderSim.setDistance(m_drivetrainSim.getLeftPositionMeters());
@@ -299,7 +301,7 @@ public class Drivetrain extends SubsystemBase {
   public void feedForwardDrive(double xSpeed, double rot) {
     var wheelSpeeds = m_driveKinematics.toWheelSpeeds(new ChassisSpeeds(xSpeed, 0.0, rot));
     setSpeeds(wheelSpeeds);
-    m_dDrive.feed();
+    //m_dDrive.feed();
   }
 
   public void tankFeedForwardDrive(double left, double right) {
@@ -395,9 +397,11 @@ public class Drivetrain extends SubsystemBase {
       leftVolts *= batteryVoltage / Constants.kMaxVoltage;
       rightVolts *= batteryVoltage / Constants.kMaxVoltage;
     }
-    m_leftMotors.setVoltage(leftVolts);
-    m_rightMotors.setVoltage(rightVolts);
-    m_dDrive.feed();
+    m_leftMotor1.setVoltage(leftVolts);
+    m_leftMotor2.setVoltage(leftVolts);
+    m_rightMotor1.setVoltage(rightVolts);
+    m_rightMotor2.setVoltage(rightVolts);
+    //m_dDrive.feed();
   }
 
   /**
@@ -427,7 +431,7 @@ public class Drivetrain extends SubsystemBase {
    * @param maxOutput the maximum output to which the drive will be constrained
    */
   public void setMaxOutput(double maxOutput) {
-    m_dDrive.setMaxOutput(maxOutput);
+    //m_dDrive.setMaxOutput(maxOutput);
   }
 
   /** Zeroes the heading of the robot. */
@@ -454,7 +458,7 @@ public class Drivetrain extends SubsystemBase {
   }
 
   public void updateMotors(){
-    m_dDrive.feed();
+    //m_dDrive.feed();
   }
   
   public double getLeftPosition(){

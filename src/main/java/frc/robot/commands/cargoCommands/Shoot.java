@@ -63,7 +63,7 @@ public class Shoot extends SequentialCommandGroup {
 
             // // Align using limelight
             new ConditionalCommand(
-              new AlignToUpperHub(RobotContainer.m_limelight, RobotContainer.m_drive),
+              new AlignToUpperHub(RobotContainer.m_limelight, RobotContainer.m_drive).withTimeout(2),
               new DoNothing(),
               () -> doesAlign
             ),
