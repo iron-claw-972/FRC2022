@@ -10,6 +10,7 @@ import frc.robot.commands.autoCommands.IntakeAuto;
 import frc.robot.robotConstants.cargoRotator.MarinusCargoRotatorConstants;
 import frc.robot.robotConstants.shooterBelt.MarinusBeltConstants;
 import frc.robot.robotConstants.shooterWheel.MarinusCargoShooterConstants;
+import frc.robot.util.ShooterMethods;
 
 public class Back2BallAuto extends SequentialCommandGroup {
   //THIS AUTO IS NOT TESTED AND MAY BE INACCURATE
@@ -21,6 +22,7 @@ public class Back2BallAuto extends SequentialCommandGroup {
   public Back2BallAuto(boolean isRedBall) {
     addRequirements(RobotContainer.m_drive, RobotContainer.m_cargoBelt, RobotContainer.m_cargoRotator, RobotContainer.m_cargoShooter);
     addCommands(
+        new InstantCommand(() -> ShooterMethods.setBeltPower(0)),
         parallel(
           new DriveDistance(0.6642),
           new ShootAuto(false, false, 1, () -> DriveDistance.isFinished, 157, 25)

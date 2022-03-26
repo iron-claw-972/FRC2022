@@ -172,6 +172,7 @@ public class ShuffleboardManager {
   public void loadClimbExtenderShuffleboard(ClimbExtender extender) {
     climbTab.addNumber(extender.getSide() + " Extension", extender::currentExtensionRaw);
     climbTab.addBoolean(extender.getSide() + " Extender", extender::isEnabled);
+    climbTab.addBoolean(extender.getSide() + " Limit Switch", extender::compressionLimitSwitch);
     
     climbTab.add(extender.getSide() + "Climb Extender PID", extender.extenderPID);
     climbTab.addBoolean(extender.getSide() + " Extender Setpoint", extender::reachedSetpoint);
