@@ -63,5 +63,5 @@ public class MarinusDriveConstants {
   public final NeutralMode kNeutralMode = NeutralMode.Brake;
   public final NeutralMode kMainNeutralMode = NeutralMode.Brake;
 
-  public final double kAutoDriveSpeed = 0.2;
+  public final double kAutoDriveSpeed = 0.25;
 }

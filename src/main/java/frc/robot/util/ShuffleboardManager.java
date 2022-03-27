@@ -79,6 +79,10 @@ public class ShuffleboardManager {
     autoCommand.addOption("Back2BallAuto", new Back2BallAuto(Constants.kIsRedAlliance));
     autoCommand.addOption("Back3BallAuto", new Back3BallAuto(Constants.kIsRedAlliance));
     autoCommand.addOption("StationaryBack1BallAuto", new StationaryBack1BallAuto());
+
+    autoCommand.addOption("RedVision3Ball", new Vision3BallAuto(true));
+    autoCommand.addOption("BlueVision3Ball", new Vision3BallAuto(false));
+
     // autoCommand.setDefaultOption("fetch me my paper boy", new FlexibleAuto(distance.getDouble(0), intakeSecond.getBoolean(true), shootSecond.getBoolean(true), limelightColor.getBoolean(Constants.kIsRedAlliance)));
     autoCommand.addOption("pathweaver", Pathweaver.pathweaverCommand(AutoConstants.kTrajectoryName));
     // m_chooser.addOption("teleop", new TeleopDrive(Drivetrain.getInstance()));
@@ -172,7 +176,6 @@ public class ShuffleboardManager {
   public void loadClimbExtenderShuffleboard(ClimbExtender extender) {
     climbTab.addNumber(extender.getSide() + " Extension", extender::currentExtensionRaw);
     climbTab.addBoolean(extender.getSide() + " Extender", extender::isEnabled);
-    climbTab.addBoolean(extender.getSide() + " Limit Switch", extender::compressionLimitSwitch);
     
     climbTab.add(extender.getSide() + "Climb Extender PID", extender.extenderPID);
     climbTab.addBoolean(extender.getSide() + " Extender Setpoint", extender::reachedSetpoint);

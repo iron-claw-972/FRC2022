@@ -4,11 +4,13 @@ package frc.robot.controls;
 import controllers.*;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants.*;
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
 import frc.robot.commands.cargoCommands.AlignToUpperHub;
+import frc.robot.commands.cargoCommands.EjectBall;
 import frc.robot.commands.cargoCommands.Intake;
 import frc.robot.commands.cargoCommands.PositionArm;
 import frc.robot.commands.cargoCommands.Shoot;
@@ -16,6 +18,7 @@ import frc.robot.robotConstants.cargoRotator.MarinusCargoRotatorConstants;
 import frc.robot.robotConstants.shooterBelt.MarinusBeltConstants;
 import frc.robot.robotConstants.shooterWheel.MarinusCargoShooterConstants;
 import frc.robot.util.DriveMode;
+import frc.robot.util.ShooterMethods;
 
 public class Driver {
 
@@ -49,8 +52,8 @@ public class Driver {
       .whenHeld(new Intake(cargoConstants.kUprightPos, true, !Constants.kIsRedAlliance))
       .whenReleased(new PositionArm(cargoConstants.kUprightPos));
 
-    // Align to hub
-    controller.getButtons().bottomButton().whenHeld(new AlignToUpperHub(RobotContainer.m_limelight, RobotContainer.m_drive));
+    // Eject ball
+    controller.getButtons().bottomButton().whenHeld(new EjectBall());
   }
   
   public static double getThrottleValue() {
