@@ -5,9 +5,13 @@ import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import frc.robot.Robot;
+import frc.robot.subsystems.Rotator;
 import frc.robot.util.ClimberMethods;
 
 public class ClimbRotatorMove extends SequentialCommandGroup {
+  public ClimbRotatorMove(double angle) {
+    this(angle, Robot.rotatorL, Robot.rotatorR);
+  }
 
   /**
    * 
@@ -15,8 +19,8 @@ public class ClimbRotatorMove extends SequentialCommandGroup {
    * 
    * @param angle the angle to rotate to in degrees
    */
-  public ClimbRotatorMove(double angle) {
-    addRequirements(Robot.m_rotatorL, Robot.m_rotatorR);
+  public ClimbRotatorMove(double angle, Rotator rotatorL, Rotator rotatorR) {
+    addRequirements(rotatorL, rotatorR);
     addCommands(
       new SequentialCommandGroup(
         // enable the rotator

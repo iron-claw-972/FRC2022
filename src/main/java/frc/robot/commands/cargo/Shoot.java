@@ -9,11 +9,25 @@ import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import frc.robot.Robot;
 import frc.robot.commands.DoNothing;
 import frc.robot.constants.Constants;
+import frc.robot.subsystems.Arm;
+import frc.robot.subsystems.BallDetection;
+import frc.robot.subsystems.Belt;
+import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.Drivetrain;
+import frc.robot.subsystems.Limelight;
 import frc.robot.util.ShooterMethods;
 
 public class Shoot extends SequentialCommandGroup {
     public Shoot(boolean doesCalculateSpeed, boolean doesAlign, boolean isFront) {
-        this(doesCalculateSpeed, doesAlign, isFront, Double.NaN, Double.NaN);
+        this(doesCalculateSpeed, doesAlign, isFront, Double.NaN, Double.NaN, Robot.shooter, Robot.arm, Robot.belt, Robot.limelight, Robot.drive, Robot.ballDetection);
+    }
+
+    public Shoot(boolean doesCalculateSpeed, boolean doesAlign, boolean isFront, Shooter shooter, Arm arm, Belt belt, Limelight limelight, Drivetrain drive, BallDetection ballDetection) {
+        this(doesCalculateSpeed, doesAlign, isFront, Double.NaN, Double.NaN, shooter, arm, belt, limelight, drive, ballDetection);
+    }
+
+    public Shoot(boolean doesCalculateSpeed, boolean doesAlign, boolean isFront, double outtakeArmPosition, double shooterWheelOuttakeSpeed) {
+        this(doesCalculateSpeed, doesAlign, isFront, outtakeArmPosition, shooterWheelOuttakeSpeed, Robot.shooter, Robot.arm, Robot.belt, Robot.limelight, Robot.drive, Robot.ballDetection);
     }
 
     public Shoot(
@@ -21,15 +35,21 @@ public class Shoot extends SequentialCommandGroup {
           boolean doesAlign,
           boolean isFront,
           double outtakeArmPosition,
-          double shooterWheelOuttakeSpeed
+          double shooterWheelOuttakeSpeed,
+          Shooter shooter,
+          Arm arm,
+          Belt belt,
+          Limelight limelight,
+          Drivetrain drive,
+          BallDetection ballDetection
     ) {
-      addRequirements(Robot.m_shooter, Robot.m_arm, Robot.m_belt, Robot.m_limelight);
+      addRequirements(shooter, arm, belt, limelight, drive, ballDetection);
       addCommands(
         // Start spin up before so PID has less work to do
         new InstantCommand(() -> ShooterMethods.setWheelRPM(-2000)),
 
         // Set hub pipeline early to account for network latency
-        new InstantCommand(() -> Robot.m_limelight.setUpperHubPipeline()),
+        new InstantCommand(() -> limelight.setUpperHubPipeline()),
 
         // Don't spin shooting wheels until ball is confirmed to be in shooter
         new InstantCommand(() -> ShooterMethods.setBeltPower(Constants.belt.kIntakeSpeed)),
@@ -63,7 +83,7 @@ public class Shoot extends SequentialCommandGroup {
 
             // // Align using limelight
             new ConditionalCommand(
-              new AlignToUpperHub(Robot.m_limelight, Robot.m_drive).withTimeout(2),
+              new AlignToUpperHub(limelight, drive).withTimeout(2),
               new DoNothing(),
               () -> doesAlign
             ),
@@ -72,7 +92,7 @@ public class Shoot extends SequentialCommandGroup {
             // set to actual shooting angle
             new ConditionalCommand(
               sequence(
-                new GetDistance(Robot.m_limelight, Robot.m_arm),
+                new GetDistance(limelight, arm),
                 new PositionArmOptimal()
               ),
               new PositionArm(outtakeArmPosition),

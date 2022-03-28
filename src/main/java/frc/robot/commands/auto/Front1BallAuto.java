@@ -3,10 +3,18 @@ package frc.robot.commands.auto;
 import edu.wpi.first.wpilibj2.command.*;
 import frc.robot.Robot;
 import frc.robot.commands.cargo.PositionArm;
+import frc.robot.subsystems.Arm;
+import frc.robot.subsystems.Belt;
+import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.Drivetrain;
 
 public class Front1BallAuto extends SequentialCommandGroup {
   public Front1BallAuto() {
-    addRequirements(Robot.m_drive, Robot.m_belt, Robot.m_arm, Robot.m_shooter);
+    this(Robot.drive, Robot.belt, Robot.arm, Robot.shooter);
+  }
+
+  public Front1BallAuto(Drivetrain drive, Belt belt, Arm arm, Shooter shooter) {
+    addRequirements(drive, belt, arm, shooter);
     addCommands(
         new ShootAuto(false, true, 1, () -> true, 108, 22.4719101),
         new DriveDistance(-1.0),

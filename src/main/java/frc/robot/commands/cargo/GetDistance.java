@@ -4,14 +4,15 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Robot;
 import frc.robot.constants.Constants;
-import frc.robot.subsystems.CargoArm;
+import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Limelight;
 import frc.robot.util.ShooterMethods;
 
 public class GetDistance extends CommandBase {
   private final Limelight m_limelight;
-  private final CargoArm m_cargoRotator;
+  private final Arm m_arm;
 
   public static boolean isFinished = false;
   public static double optimalVelocity = Double.NaN;
@@ -23,10 +24,14 @@ public class GetDistance extends CommandBase {
 
   private boolean isFront = true;
 
-  public GetDistance(Limelight limelight, CargoArm cargoRotator) {
+  public GetDistance() {
+    this(Robot.limelight, Robot.arm);
+  }
+
+  public GetDistance(Limelight limelight, Arm arm) {
     m_limelight = limelight;
-    m_cargoRotator = cargoRotator;
-    addRequirements(limelight);
+    m_arm = arm;
+    addRequirements(limelight, arm);
   }
 
   @Override
@@ -44,7 +49,7 @@ public class GetDistance extends CommandBase {
   @Override
   public void execute() {
     // Get distance from limelight
-    double currentStipeAngle = m_cargoRotator.currentAngle(); // From 0 to 175 deg
+    double currentStipeAngle = m_arm.currentAngle(); // From 0 to 175 deg
     
     double currentLimelightFaceAngle = currentStipeAngle + Constants.ll.kStipeToLimelightFaceAngularOffset; // Offset is negative
     double currentLimelightPosAngle = currentStipeAngle + Constants.ll.kStipeToLimelightPosAngularOffset; // Offset is negative

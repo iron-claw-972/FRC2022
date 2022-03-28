@@ -5,11 +5,18 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import frc.robot.Robot;
+import frc.robot.subsystems.BallDetection;
+import frc.robot.subsystems.Belt;
+import frc.robot.subsystems.Shooter;
 import frc.robot.util.ShooterMethods;
 
 public class EjectBall extends SequentialCommandGroup {
   public EjectBall() {
-    addRequirements(Robot.m_belt, Robot.m_shooter);
+    this(Robot.belt, Robot.shooter, Robot.ballDetection);
+  }
+
+  public EjectBall(Belt belt, Shooter shooter, BallDetection ballDetection) {
+    addRequirements(belt, shooter, ballDetection);
     addCommands(
       new InstantCommand(() -> ShooterMethods.setBeltPower(0.8)),
       new InstantCommand(() -> ShooterMethods.setWheelRPM(-1500)),

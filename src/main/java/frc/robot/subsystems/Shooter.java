@@ -18,7 +18,7 @@ import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.simulation.FlywheelSim;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class CargoShooter extends SubsystemBase {
+public class Shooter extends SubsystemBase {
   private final WPI_TalonFX m_motor;
   private final TalonEncoder m_encoder;
 
@@ -30,7 +30,7 @@ public class CargoShooter extends SubsystemBase {
   private boolean m_enabled = false;
   private double m_motorSpeed = 0.0;
 
-  public CargoShooter() {
+  public Shooter() {
     this(ControllerFactory.createTalonFX(
       Constants.shooter.kCargoShooterMotorPort,
       Constants.shooter.kSupplyCurrentLimit,
@@ -40,7 +40,7 @@ public class CargoShooter extends SubsystemBase {
     ));
   }
 
-  public CargoShooter(WPI_TalonFX motor) {
+  public Shooter(WPI_TalonFX motor) {
     m_motor = motor;
     m_encoder = new TalonEncoder(motor);
 

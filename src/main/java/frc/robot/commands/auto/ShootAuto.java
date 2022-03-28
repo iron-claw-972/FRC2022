@@ -9,17 +9,44 @@ import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import frc.robot.Robot;
 import frc.robot.constants.Constants;
 import frc.robot.util.ShooterMethods;
+import frc.robot.subsystems.Arm;
+import frc.robot.subsystems.Belt;
+import frc.robot.subsystems.Shooter;
 
 public class ShootAuto extends SequentialCommandGroup {
+    public ShootAuto(
+      boolean doesCalculateSpeed,
+      boolean isFront,
+      double waitTime,
+      BooleanSupplier waitCondition,
+      double outtakeArmPosition,
+      double shooterWheelOuttakeSpeed
+    ) {
+      this(
+        doesCalculateSpeed,
+        isFront,
+        waitTime,
+        waitCondition,
+        outtakeArmPosition,
+        shooterWheelOuttakeSpeed,
+        Robot.belt,
+        Robot.arm,
+        Robot.shooter
+      );
+    }
+
     public ShootAuto(
           boolean doesCalculateSpeed,
           boolean isFront,
           double waitTime,
           BooleanSupplier waitCondition,
           double outtakeArmPosition,
-          double shooterWheelOuttakeSpeed
+          double shooterWheelOuttakeSpeed,
+          Belt belt,
+          Arm arm,
+          Shooter shooter
     ) {
-      addRequirements(Robot.m_shooter, Robot.m_arm, Robot.m_belt);
+      addRequirements(shooter, arm, belt);
       addCommands(
         new InstantCommand(() -> ShooterMethods.enableAll()),
         parallel(

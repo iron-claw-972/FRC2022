@@ -36,34 +36,34 @@ public class Log {
   }
 
   public void initialize(){
-    initializeDrivetrain(Robot.m_drive);
+    initializeDrivetrain(Robot.drive);
 
-    initializeClimbRotator(Robot.m_rotatorL);
-    initializeClimbRotator(Robot.m_rotatorL);
-    initializeClimbExtender(Robot.m_extenderL);
-    initializeClimbExtender(Robot.m_extenderL);
+    initializeClimbRotator(Robot.rotatorL);
+    initializeClimbRotator(Robot.rotatorR);
+    initializeClimbExtender(Robot.extenderL);
+    initializeClimbExtender(Robot.extenderR);
 
-    initializeCargoRotator(Robot.m_arm);
-    initializeCargoShooter(Robot.m_shooter);
-    initializeCargoBelt(Robot.m_belt);
-    initializeBallDetection(Robot.m_ballDetection);
+    initializeCargoRotator(Robot.arm);
+    initializeCargoShooter(Robot.shooter);
+    initializeCargoBelt(Robot.belt);
+    initializeBallDetection(Robot.ballDetection);
 
     initializeCommandScheduler();
   }
 
-  public void initializeClimbExtender(ClimbExtender extender){
+  public void initializeClimbExtender(Extender extender){
     add(extender::isEnabled, "/climbExtender"+extender.getSide()+"/enabled");
     add(extender::currentExtensionRaw, "/climbExtender"+extender.getSide()+"/currentExtensionRaw");
     add(extender::reachedSetpoint, "/climbExtender"+extender.getSide()+"/reachedSetpoint");
   }
-  public void initializeClimbRotator(ClimbRotator rotator){
+  public void initializeClimbRotator(Rotator rotator){
     add(rotator::isEnabled, "/climbRotator"+rotator.getSide()+"/enabled");
     add(rotator::reachedSetpoint, "/climbRotator"+rotator.getSide()+"/reachedSetpoint");
     add(rotator::currentAngle, "/climbRotator"+rotator.getSide()+"/currentAngle");
     add(rotator::currentAngleRaw, "/climbRotator"+rotator.getSide()+"/currentAngleRaw");
   }
   
-  public void initializeCargoRotator(CargoArm rotator){
+  public void initializeCargoRotator(Arm rotator){
     add(rotator::isEnabled, "/cargoRotator/isEnabled");
     add(rotator::currentAngle, "/cargoRotator/currentAngle");
     add(rotator::currentAngleRaw, "/cargoRotator/currentAngleRaw");
@@ -77,12 +77,12 @@ public class Log {
     add(rotator::isStow, "/cargoRotator/isStow");
     add(rotator::reachedSetpoint, "/cargoRotator/reachedSetpoint");
   }
-  public void initializeCargoShooter(CargoShooter shooter){
+  public void initializeCargoShooter(Shooter shooter){
     add(shooter::isEnabled, "/cargoShooter/isEnabled");
     add(shooter::reachedSetpoint, "/cargoShooter/reachedSetpoint");
     add(shooter::getVelocity, "/cargoShooter/getVelocity");
   }
-  public void initializeCargoBelt(CargoBelt belt){
+  public void initializeCargoBelt(Belt belt){
     add(belt::isEnabled, "/cargoBelt/isEnabled");
     
   }

@@ -8,35 +8,32 @@ import frc.robot.Robot;
 import frc.robot.commands.DoNothing;
 import frc.robot.commands.drive.TeleopDrive;
 import frc.robot.constants.Constants;
+import frc.robot.subsystems.Arm;
+import frc.robot.subsystems.BallDetection;
+import frc.robot.subsystems.Belt;
+import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.Drivetrain;
+import frc.robot.subsystems.Limelight;
 import frc.robot.util.ShooterMethods;
 
 public class Intake extends SequentialCommandGroup {
-  public Intake(
-      double postIntakeArmPosition,
-      boolean doesChaseBall
-  ) {
-    this(postIntakeArmPosition, doesChaseBall, true, true);
+  public Intake(double postIntakeArmPosition, boolean doesChaseBall) {
+    this(postIntakeArmPosition, doesChaseBall, true);
   }
 
-  public Intake(
-      double postIntakeArmPosition,
-      boolean doesChaseBall,
-      boolean isRedBall
-  ) {
+  public Intake(double postIntakeArmPosition, boolean doesChaseBall, boolean isRedBall) {
     this(postIntakeArmPosition, doesChaseBall, isRedBall, true);
   }
 
-  public Intake(
-      double postIntakeArmPosition,
-      boolean doesChaseBall,
-      boolean isRedBall,
-      boolean doesCheckBall
-  ) {
-    addRequirements(Robot.m_shooter, Robot.m_arm, Robot.m_belt,
-        Robot.m_limelight);
+  public Intake(double postIntakeArmPosition, boolean doesChaseBall, boolean isRedBall, boolean doesCheckBall) {
+    this(postIntakeArmPosition, doesChaseBall, isRedBall, doesCheckBall, Robot.shooter, Robot.arm, Robot.belt, Robot.limelight, Robot.drive, Robot.ballDetection);
+  }
+
+  public Intake(double postIntakeArmPosition, boolean doesChaseBall, boolean isRedBall, boolean doesCheckBall, Shooter shooter, Arm arm, Belt belt, Limelight limelight, Drivetrain drive, BallDetection ballDetection) {
+    addRequirements(shooter, arm, belt, limelight, drive, ballDetection);
     addCommands(
         // Set pipeline early to account for network latency
-        new InstantCommand(() -> Robot.m_limelight.setBallPipeline(isRedBall)),
+        new InstantCommand(() -> limelight.setBallPipeline(isRedBall)),
 
         new InstantCommand(() -> ShooterMethods.enableAll()),
 
@@ -52,8 +49,8 @@ public class Intake extends SequentialCommandGroup {
           new InstantCommand(() -> ShooterMethods.setBeltPower(Constants.belt.kIntakeSpeed)),
           new InstantCommand(() -> ShooterMethods.setAngle(Constants.arm.kIntakePos)),
           new ConditionalCommand(
-            new ChaseBall(Robot.m_limelight, Robot.m_drive, isRedBall),
-            new TeleopDrive(Robot.m_drive),
+            new ChaseBall(isRedBall),
+            new TeleopDrive(drive),
             () -> doesChaseBall
           )
         ),
@@ -76,6 +73,6 @@ public class Intake extends SequentialCommandGroup {
   @Override
   public void end(boolean interrupted) {
     ShooterMethods.disableShiitake();
-    // Robot.m_limelight.setDriverPipeline();
+    // limelight.setDriverPipeline();
   }
 }

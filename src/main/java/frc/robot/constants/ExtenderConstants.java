@@ -2,7 +2,7 @@ package frc.robot.constants;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 
-public class ClimbExtenderConstants {
+public class ExtenderConstants {
   // extending motors (for climber)
   public final int kRightExtenderPort = 10;
   public final int kLeftExtenderPort = 11;

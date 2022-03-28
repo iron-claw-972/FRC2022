@@ -28,22 +28,22 @@ import frc.robot.util.ShuffleboardManager;
 public class Robot extends TimedRobot {
   private Command m_autoCommand;
 
-  public static ShuffleboardManager m_shuffleboard = new ShuffleboardManager();
-  public static Drivetrain m_drive = new Drivetrain();
-  public static ClimbRotator m_rotatorL = new ClimbRotator(true);
-  public static ClimbRotator m_rotatorR = new ClimbRotator(false);
-  public static ClimbExtender m_extenderL = new ClimbExtender(true);
-  public static ClimbExtender m_extenderR = new ClimbExtender(false);
-  public static CargoArm m_arm = new CargoArm();
-  public static CargoBelt m_belt = new CargoBelt();
-  public static CargoShooter m_shooter = new CargoShooter();
-  public static BallDetection m_ballDetection = new BallDetection();
-  public static Log m_log = new Log();
+  public static ShuffleboardManager shuffleboard = new ShuffleboardManager();
+  public static Drivetrain drive = new Drivetrain();
+  public static Rotator rotatorL = new Rotator(true);
+  public static Rotator rotatorR = new Rotator(false);
+  public static Extender extenderL = new Extender(true);
+  public static Extender extenderR = new Extender(false);
+  public static Arm arm = new Arm();
+  public static Belt belt = new Belt();
+  public static Shooter shooter = new Shooter();
+  public static BallDetection ballDetection = new BallDetection();
+  public static Log log = new Log();
   
   UsbCamera m_camera1;
   UsbCamera m_camera2;
 
-  public static Limelight m_limelight = new Limelight(() -> ShooterMethods.isLimelightFaceFront());
+  public static Limelight limelight = new Limelight(() -> ShooterMethods.isLimelightFaceFront());
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -68,7 +68,7 @@ public class Robot extends TimedRobot {
 
     // default command to run in teleop
     
-    m_drive.setDefaultCommand(new TeleopDrive(m_drive));
+    drive.setDefaultCommand(new TeleopDrive(drive));
     // m_testArm.setDefaultCommand(new armPID(m_testArm));
     //m_cargoShooter.setDefaultCommand(new RunCommand(() -> m_cargoShooter.setOutput(Operator.controller.getJoystickAxis().leftY()), m_cargoShooter));
     //m_cargoBelt.setDefaultCommand(new RunCommand(() -> m_cargoBelt.setOutput(-Operator.controller.getJoystickAxis().rightY()), m_cargoBelt));
@@ -80,8 +80,8 @@ public class Robot extends TimedRobot {
     // ClimbOperator.configureButtonBindings();
 
     //sets up shuffle board
-    m_shuffleboard.setup();
-    m_log.initialize();
+    shuffleboard.setup();
+    log.initialize();
     // m_autonomousCommand = m_getAutonomousCommand();
   }
 
@@ -99,8 +99,8 @@ public class Robot extends TimedRobot {
     // and running subsystem periodic() methods.  This must be called from the robot's periodic
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
-    m_shuffleboard.update();
-    m_drive.updateMotors();
+    shuffleboard.update();
+    drive.updateMotors();
   }
 
   /**
@@ -136,7 +136,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousPeriodic() {
-    m_log.updateBuffer();
+    log.updateBuffer();
   }
 
   @Override
@@ -148,7 +148,7 @@ public class Robot extends TimedRobot {
     if (m_autoCommand != null) {
       m_autoCommand.cancel();
     }
-    m_drive.setHalfCoast();
+    drive.setHalfCoast();
   }
 
   /**
@@ -156,7 +156,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopPeriodic() {
-    m_log.updateBuffer();
+    log.updateBuffer();
   }
 
   @Override
@@ -178,6 +178,6 @@ public class Robot extends TimedRobot {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    return m_shuffleboard.getAutonomousCommand();
+    return shuffleboard.getAutonomousCommand();
   }
 }

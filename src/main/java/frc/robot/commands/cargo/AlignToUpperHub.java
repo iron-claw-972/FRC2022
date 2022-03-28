@@ -2,6 +2,7 @@ package frc.robot.commands.cargo;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Robot;
 import frc.robot.constants.Constants;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Limelight;
@@ -14,6 +15,10 @@ public class AlignToUpperHub extends CommandBase {
   public static double offset;
 
   public static PIDController alignPID = new PIDController(Constants.ll.kAlignP, Constants.ll.kAlignI, Constants.ll.kAlignD);
+
+  public AlignToUpperHub() {
+    this(Robot.limelight, Robot.drive);
+  }
 
   public AlignToUpperHub(Limelight limelight, Drivetrain drivetrain) {
     m_limelight = limelight;

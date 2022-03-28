@@ -5,10 +5,19 @@ import frc.robot.Robot;
 import frc.robot.commands.cargo.PositionArm;
 import frc.robot.constants.Constants;
 import frc.robot.util.ShooterMethods;
+import frc.robot.subsystems.Arm;
+import frc.robot.subsystems.BallDetection;
+import frc.robot.subsystems.Belt;
+import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.Drivetrain;
 
 public class Back2BallAuto extends SequentialCommandGroup {
   public Back2BallAuto() {
-    addRequirements(Robot.m_drive, Robot.m_belt, Robot.m_arm, Robot.m_shooter);
+    this(Robot.drive, Robot.belt, Robot.arm, Robot.shooter, Robot.ballDetection);
+  }
+
+  public Back2BallAuto(Drivetrain drive, Belt belt, Arm arm, Shooter shooter, BallDetection ballDetection) {
+    addRequirements(drive, belt, arm, shooter, ballDetection);
     addCommands(
         new InstantCommand(() -> ShooterMethods.setBeltPower(0)),
         parallel(

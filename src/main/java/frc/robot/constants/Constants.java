@@ -7,8 +7,8 @@ public final class Constants {
   public static final ArmConstants arm = new ArmConstants();
   public static final AutoConstants auto = new AutoConstants();
   public static final BeltConstants belt = new BeltConstants();
-  public static final ClimbExtenderConstants extender = new ClimbExtenderConstants();
-  public static final ClimbRotatorConstants rotator = new ClimbRotatorConstants();
+  public static final ExtenderConstants extender = new ExtenderConstants();
+  public static final RotatorConstants rotator = new RotatorConstants();
   public static final ColorSensorConstants colorsensor = new ColorSensorConstants();
   public static final OIConstants oi = new OIConstants();
   public static final DriveConstants drive = new DriveConstants();

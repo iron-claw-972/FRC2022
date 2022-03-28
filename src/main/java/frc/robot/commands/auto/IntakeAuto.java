@@ -7,7 +7,13 @@ import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import frc.robot.Robot;
 import frc.robot.commands.cargo.ChaseBall;
 import frc.robot.constants.Constants;
+import frc.robot.subsystems.Limelight;
 import frc.robot.util.ShooterMethods;
+import frc.robot.subsystems.Arm;
+import frc.robot.subsystems.BallDetection;
+import frc.robot.subsystems.Belt;
+import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.Drivetrain;
 
 public class IntakeAuto extends SequentialCommandGroup {
   public IntakeAuto(
@@ -16,8 +22,34 @@ public class IntakeAuto extends SequentialCommandGroup {
       boolean isRedBall,
       double distance
   ) {
-    addRequirements(Robot.m_shooter, Robot.m_arm, Robot.m_belt,
-        Robot.m_limelight);
+    this(
+      postIntakeArmPosition,
+      doesChaseBall,
+      isRedBall,
+      distance,
+      Robot.limelight,
+      Robot.belt,
+      Robot.arm,
+      Robot.shooter,
+      Robot.drive,
+      Robot.ballDetection
+    );
+  }
+
+  public IntakeAuto(
+      double postIntakeArmPosition,
+      boolean doesChaseBall,
+      boolean isRedBall,
+      double distance,
+      Limelight limelight,
+      Belt belt,
+      Arm arm,
+      Shooter shooter,
+      Drivetrain drive,
+      BallDetection ballDetection
+  ) {
+    addRequirements(shooter, arm, belt,
+        limelight, drive, ballDetection);
     addCommands(
         new InstantCommand(() -> ShooterMethods.enableAll()),
         parallel(
@@ -29,7 +61,7 @@ public class IntakeAuto extends SequentialCommandGroup {
         new WaitUntilCommand(() -> ShooterMethods.isWheelAtSetpoint()),
         new DriveDistance(distance),
         new ConditionalCommand(
-          new ChaseBall(Robot.m_limelight, Robot.m_drive, isRedBall),
+          new ChaseBall(isRedBall, false),
           new WaitUntilCommand(() -> ShooterMethods.isBallContained()).withTimeout(1.5),
           () -> doesChaseBall
         ),

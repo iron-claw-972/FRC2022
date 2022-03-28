@@ -9,15 +9,21 @@ import edu.wpi.first.wpilibj.*;
 import org.junit.*;
 
 
-public class CargoArmTest {
+public class ArmTest {
   public DutyCycleEncoder encoder = mock(DutyCycleEncoder.class);
   public WPI_TalonFX motor = mock(WPI_TalonFX.class);
 
-  public CargoArm cargoArm = new CargoArm(encoder, motor);
+  public Arm arm = new Arm(encoder, motor);
 
   @Test
   public void testSetpoint() {
-    cargoArm.setPosition(145);
-    assertEquals(145, cargoArm.getSetpoint(), 0);
+    arm.setPosition(145);
+    assertEquals(145, arm.getSetpoint(), 0);
   }
+
+  @Test
+  public void testDisabled() {
+    assertFalse(arm.isEnabled());
+  }
+
 }

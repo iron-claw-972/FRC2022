@@ -2,7 +2,7 @@ package frc.robot.commands;
 
 import frc.robot.Robot;
 import frc.robot.commands.cargo.GetDistance;
-import frc.robot.subsystems.CargoArm;
+import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Limelight;
 
 import static org.junit.Assert.*;

@@ -33,7 +33,7 @@ public class ShuffleboardManager {
   
   public void setup() {
     m_mainTab.addBoolean("Is Teleop", DriverStation::isTeleop);
-    m_mainTab.addNumber("left drive encoder", Robot.m_drive::getLeftPosition);
+    m_mainTab.addNumber("left drive encoder", Robot.drive::getLeftPosition);
     // climbTab.addNumber("Max Extension Ticks", () -> extenderConstants.kExtenderMaxArmTicks);
     chooserUpdate();
     subsystemSpam();
@@ -71,18 +71,18 @@ public class ShuffleboardManager {
     // autoCommand.setDefaultOption("fetch me my paper boy", new FlexibleAuto(distance.getDouble(0), intakeSecond.getBoolean(true), shootSecond.getBoolean(true), limelightColor.getBoolean(Constants.kIsRedAlliance)));
     m_autoCommand.addOption("pathweaver", Pathweaver.pathweaverCommand(Constants.auto.kTrajectoryName));
     // m_chooser.addOption("teleop", new TeleopDrive(Drivetrain.getInstance()));
-    m_autoCommand.addOption("Spin baby spin", new RunCommand(() -> Robot.m_drive.tankDrive(0.5, -0.5), Robot.m_drive));
+    m_autoCommand.addOption("Spin baby spin", new RunCommand(() -> Robot.drive.tankDrive(0.5, -0.5), Robot.drive));
     // adds auto to shuffle board
     // SmartDashboard.putData("Auto Chooser",autoCommand);
   }
   public void subsystemSpam() {
     // put subsystem shuffleboard things in here!
 
-    loadClimbExtenderShuffleboard(Robot.m_extenderL);
-    loadClimbExtenderShuffleboard(Robot.m_extenderR);
+    loadClimbExtenderShuffleboard(Robot.extenderL);
+    loadClimbExtenderShuffleboard(Robot.extenderR);
 
-    loadClimbRotatorShuffleboard(Robot.m_rotatorL);
-    loadClimbRotatorShuffleboard(Robot.m_rotatorR);
+    loadClimbRotatorShuffleboard(Robot.rotatorL);
+    loadClimbRotatorShuffleboard(Robot.rotatorR);
 
     loadCargoShooterShuffleboard();
     loadCargoRotatorShuffleboard();
@@ -104,23 +104,23 @@ public class ShuffleboardManager {
   }
 
   public void loadCargoRotatorShuffleboard() {
-    m_cargoTab.addNumber("Cargo Arm Angle", Robot.m_arm::currentAngle);
-    m_cargoTab.addBoolean("Cargo Rotator", Robot.m_arm::isEnabled);
-    m_cargoTab.addNumber("Cargo Arm Raw Angle", Robot.m_arm::currentAngleRaw);
-    m_cargoTab.addNumber("Cargo Rotator Setpoint", Robot.m_arm::getSetpoint);
+    m_cargoTab.addNumber("Cargo Arm Angle", Robot.arm::currentAngle);
+    m_cargoTab.addBoolean("Cargo Rotator", Robot.arm::isEnabled);
+    m_cargoTab.addNumber("Cargo Arm Raw Angle", Robot.arm::currentAngleRaw);
+    m_cargoTab.addNumber("Cargo Rotator Setpoint", Robot.arm::getSetpoint);
 
-    m_cargoTab.add("Cargo Rotator PID", Robot.m_arm.m_armPID);
+    m_cargoTab.add("Cargo Rotator PID", Robot.arm.m_armPID);
   }
   public void loadCargoShooterShuffleboard() {
-    m_cargoTab.addBoolean("Cargo Shooter", Robot.m_shooter::isEnabled);
-    m_cargoTab.addNumber("Shooter Velocity", Robot.m_shooter::getVelocity);
+    m_cargoTab.addBoolean("Cargo Shooter", Robot.shooter::isEnabled);
+    m_cargoTab.addNumber("Shooter Velocity", Robot.shooter::getVelocity);
         
-    m_cargoTab.add("CargoShooterPID", Robot.m_shooter.m_shooterPID);
+    m_cargoTab.add("CargoShooterPID", Robot.shooter.m_shooterPID);
 
     SmartDashboard.putNumber("Shooter FF", Constants.shooter.kForward);
   }
   public void loadCargoBeltShuffleboard(){
-    m_cargoTab.addBoolean("Cargo Belt", Robot.m_belt::isEnabled);
+    m_cargoTab.addBoolean("Cargo Belt", Robot.belt::isEnabled);
   }
 
   public void loadLimelightShuffleboard() {
@@ -139,10 +139,10 @@ public class ShuffleboardManager {
     m_cargoTab.addNumber("Optimal stipe angle (deg)", () -> GetDistance.optimalStipeAngle);
     m_cargoTab.addBoolean("getDistance Is Finished", () -> GetDistance.isFinished);
 
-    m_cargoTab.addNumber("Tx (deg)", Robot.m_limelight::getHubHorizontalAngularOffset);
-    m_cargoTab.addNumber("Ty (deg)", Robot.m_limelight::getVerticalAngularOffset);
+    m_cargoTab.addNumber("Tx (deg)", Robot.limelight::getHubHorizontalAngularOffset);
+    m_cargoTab.addNumber("Ty (deg)", Robot.limelight::getVerticalAngularOffset);
 
-    m_cargoTab.addNumber("Limelight latency (ms)", Robot.m_limelight::getLatency);
+    m_cargoTab.addNumber("Limelight latency (ms)", Robot.limelight::getLatency);
 
     // SmartDashboard.putNumber("Front Shooting velocity", -2900);
     // SmartDashboard.putNumber("Front Stipe angle", 80);
@@ -156,7 +156,7 @@ public class ShuffleboardManager {
     SmartDashboard.putNumber("Back Distance Error (in)", Constants.ll.kBackLimelightDistanceError);
   }
 
-  public void loadClimbExtenderShuffleboard(ClimbExtender extender) {
+  public void loadClimbExtenderShuffleboard(Extender extender) {
     m_climbTab.addNumber(extender.getSide() + " Extension", extender::currentExtensionRaw);
     m_climbTab.addBoolean(extender.getSide() + " Extender", extender::isEnabled);
     
@@ -164,7 +164,7 @@ public class ShuffleboardManager {
     m_climbTab.addBoolean(extender.getSide() + " Extender Setpoint", extender::reachedSetpoint);
   }
 
-  public void loadClimbRotatorShuffleboard(ClimbRotator rotator) {
+  public void loadClimbRotatorShuffleboard(Rotator rotator) {
     // a pop-up in shuffleboard that allows you to see how much the arm extended in inches
     m_climbTab.addNumber(rotator.getSide() + " Climb Rotator Angle", rotator::currentAngle);
     // a pop-up in shuffleboard that states if the rotator is on/off
@@ -180,10 +180,10 @@ public class ShuffleboardManager {
   }
 
   public void loadBallDetectionShuffleboard(){
-    m_cargoTab.addBoolean("Has Red Ball", Robot.m_ballDetection::hasRedBall);
-    m_cargoTab.addBoolean("Has Blue Ball", Robot.m_ballDetection::hasBlueBall);
-    m_cargoTab.addBoolean("Has Ball", Robot.m_ballDetection::containsBall);
-    m_cargoTab.addBoolean("Has Ball Securely", Robot.m_ballDetection::containsBallSecurely);
+    m_cargoTab.addBoolean("Has Red Ball", Robot.ballDetection::hasRedBall);
+    m_cargoTab.addBoolean("Has Blue Ball", Robot.ballDetection::hasBlueBall);
+    m_cargoTab.addBoolean("Has Ball", Robot.ballDetection::containsBall);
+    m_cargoTab.addBoolean("Has Ball Securely", Robot.ballDetection::containsBallSecurely);
 
   }
 

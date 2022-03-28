@@ -14,6 +14,7 @@ import java.util.List;
 
 import frc.robot.Robot;
 import frc.robot.constants.Constants;
+import frc.robot.subsystems.Drivetrain;
 
 public class Pathweaver {
 
@@ -23,6 +24,10 @@ public class Pathweaver {
   private static RamseteCommand ramseteCommand;
 
   public static void setupAutonomousTrajectory(String trajectoryName) {
+    setupAutonomousTrajectory(trajectoryName, Robot.drive);
+  }
+
+  public static void setupAutonomousTrajectory(String trajectoryName, Drivetrain drive) {
 
     String trajectoryJSON = "PathWeaver/Paths/" + trajectoryName + ".wpilib.json";
     try {
@@ -36,8 +41,8 @@ public class Pathweaver {
 
       // Create a voltage constraint to ensure we don't accelerate too fast
       var autoVoltageConstraint = new DifferentialDriveVoltageConstraint(
-          Robot.m_drive.getFeedforward(),
-          Robot.m_drive.getDriveKinematics(),
+          drive.getFeedforward(),
+          drive.getDriveKinematics(),
           Constants.kMaxVoltage);
 
       // Create config for trajectory
@@ -45,7 +50,7 @@ public class Pathweaver {
           Constants.auto.kMaxSpeedMetersPerSecond,
           Constants.auto.kMaxAccelerationMetersPerSecondSquared)
               // Add kinematics to ensure max speed is actually obeyed
-              .setKinematics(Robot.m_drive.getDriveKinematics())
+              .setKinematics(drive.getDriveKinematics())
               // Apply the voltage constraint
               .addConstraint(autoVoltageConstraint);
 
@@ -61,30 +66,33 @@ public class Pathweaver {
 
     ramseteCommand = new RamseteCommand(
         autonomousTrajectory,
-        Robot.m_drive::getPose,
-        Robot.m_drive.getRamseteController(),
-        Robot.m_drive.getFeedforward(),
-        Robot.m_drive.getDriveKinematics(),
-        Robot.m_drive::getWheelSpeeds,
-        Robot.m_drive.getLeftPositionPID(),
-        Robot.m_drive.getRightPositionPID(),
+        drive::getPose,
+        drive.getRamseteController(),
+        drive.getFeedforward(),
+        drive.getDriveKinematics(),
+        drive::getWheelSpeeds,
+        drive.getLeftPositionPID(),
+        drive.getRightPositionPID(),
         // RamseteCommand passes volts to the callback
-        Robot.m_drive::tankDriveVolts,
-        Robot.m_drive);
+        drive::tankDriveVolts,
+        drive);
 
-    Robot.m_drive.resetOdometry(autonomousTrajectory.getInitialPose());
+    drive.resetOdometry(autonomousTrajectory.getInitialPose());
   }
 
   // returns auto command group
   public static Command pathweaverCommand(String path) {
+    return pathweaverCommand(path, Robot.drive);
+  }
+  public static Command pathweaverCommand(String path, Drivetrain drive) {
     // Run path following command, then stop at the end. At the same time intake.
     // "Deadline" is the first command,
     // meaning the whole group will stop once the first command does.
     setupAutonomousTrajectory(path);
     return new SequentialCommandGroup(
-      new InstantCommand(() -> Robot.m_drive.setCoastMode()),
+      new InstantCommand(() -> drive.setCoastMode()),
       new ParallelDeadlineGroup(
-        ramseteCommand.andThen(new InstantCommand(() -> Robot.m_drive.tankDriveVolts(0, 0)))));
+        ramseteCommand.andThen(new InstantCommand(() -> drive.tankDriveVolts(0, 0)))));
         // new RunCommand(() -> Drivetrain.getInstance().tankDrive(0.5, -0.5), Drivetrain.getInstance()));
   }
 }

@@ -17,26 +17,28 @@ public class ChaseBall extends CommandBase {
   private final boolean m_isRedBall;
   public static double offset;
 
-  private boolean driverControl;
+  private boolean m_driverControlled;
 
   public static PIDController turnPID = new PIDController(Constants.ll.kTurnP, Constants.ll.kTurnI, Constants.ll.kTurnD);
   // private PIDController throttlePID = new PIDController(Constants.ll.kThrottleP, Constants.ll.kThrottleI, Constants.ll.kThrottleD);
 
-  public ChaseBall(Limelight limelight, Drivetrain drivetrain, boolean isRedBall, boolean driverControlled) {
-    this(limelight, drivetrain, isRedBall);
-    driverControl = driverControlled;
+  public ChaseBall(boolean isRedBall) {
+    this(isRedBall, true);
   }
 
-  public ChaseBall(Limelight limelight, Drivetrain drivetrain, boolean isRedBall) {
+  public ChaseBall(boolean isRedBall, boolean driverControlled) {
+    this(Robot.limelight, Robot.drive, isRedBall, driverControlled);
+  }
+
+  public ChaseBall(Limelight limelight, Drivetrain drivetrain, boolean isRedBall, boolean driverControlled) {
     m_limelight = limelight;
     m_drive = drivetrain;
     addRequirements(limelight, drivetrain);
 
+    m_driverControlled = driverControlled;
     m_isRedBall = isRedBall;
 
     turnPID.setTolerance(Constants.ll.kTurnPIDTolerance);
-
-    driverControl = true;
     // throttlePID.setTolerance(Constants.ll.kThrottlePIDTolerance);
     // SmartDashboard.putData("Throttle chase PID", followPID);
   }
@@ -60,7 +62,7 @@ public class ChaseBall extends CommandBase {
     );
     m_drive.arcadeDrive(
       // MathUtil.clamp(throttlePID.calculate(distance, 0), -0.5, 0.5),
-      (driverControl ? Driver.getThrottleValue() : Constants.ll.kAutoThrottlePow),
+      (m_driverControlled ? Driver.getThrottleValue() : Constants.ll.kAutoThrottlePow),
       (Double.isNaN(turn) ? -Driver.getTurnValue() : turn)
     );
   }
@@ -73,6 +75,6 @@ public class ChaseBall extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     m_drive.arcadeDrive(0, 0);
-    Robot.m_limelight.setDriverPipeline();
+    m_limelight.setDriverPipeline();
   }
 }

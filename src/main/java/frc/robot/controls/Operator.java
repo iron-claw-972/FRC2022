@@ -32,18 +32,18 @@ public class Operator {
   private static void configureCargoControls() {
     // Vision Shoot front
     operator.get(Button.Y).whenHeld(new SequentialCommandGroup(
-      new InstantCommand(() -> Robot.m_drive.arcadeDrive(0, 0)),
+      new InstantCommand(() -> Robot.drive.arcadeDrive(0, 0)),
       new Shoot(true, true, true)
     ));
 
     // Vision Shoot back
     operator.get(Button.A).whenHeld(new SequentialCommandGroup(
-      new InstantCommand(() -> Robot.m_drive.arcadeDrive(0, 0)),
+      new InstantCommand(() -> Robot.drive.arcadeDrive(0, 0)),
       new Shoot(true, true, false)
     ));
 
     // Manual Shoot front
-    operator.get(operator.RIGHT_TRIGGER_BUTTON).whileActiveOnce(new frc.robot.commands.cargo.Shoot(false, false, true, Constants.arm.kFrontOuttakeHighPos, Constants.shooter.kFrontOuttakeHighSpeed));
+    operator.get(operator.RIGHT_TRIGGER_BUTTON).whileActiveOnce(new Shoot(false, false, true, Constants.arm.kFrontOuttakeHighPos, Constants.shooter.kFrontOuttakeHighSpeed));
 
     // Manual Shoot back
     operator.get(Button.RB).whenHeld(new Shoot(false, false, false, Constants.arm.kBackOuttakeHighPos, Constants.shooter.kBackOuttakeHighSpeed));
@@ -88,7 +88,7 @@ public class Operator {
     operator.get(DPad.UP).whenHeld(new ParallelCommandGroup(
       // stow the cargo subsystem
       new PositionArm(Constants.arm.kStowPos),
-      new ClimbExtenderMove(Constants.extender.kRightMaxUpwards, Constants.extender.kLeftMaxUpwards)
+      new ClimbExtenderMove(Constants.extender.kLeftMaxUpwards, Constants.extender.kRightMaxUpwards)
     ));
 
     // when DPad Down is pressed, enable the extender and compress downwards to kMaxDownwards
@@ -128,13 +128,13 @@ public class Operator {
       new ExtendDownwards(Constants.extender.kAlwaysZero),
       
       // after the static hooks are on, extend slightly upwards
-      new ClimbExtenderMove(Constants.extender.kRightSlightlyUpward, Constants.extender.kLeftSlightlyUpward),
+      new ClimbExtenderMove(Constants.extender.kLeftSlightlyUpward, Constants.extender.kRightSlightlyUpward),
 
       // extend fully and rotate backwards fully
       // rotator should theoretically be faster than the extender
       new ClimbRotatorMove(Constants.rotator.kMaxBackward),
       new PrintCommand("passed climb rotator move"),
-      new ClimbExtenderMove(Constants.extender.kRightMaxUpwards, Constants.extender.kLeftMaxUpwards),
+      new ClimbExtenderMove(Constants.extender.kLeftMaxUpwards, Constants.extender.kRightMaxUpwards),
 
       // after we fully extend and rotate, rotate to the bar
       new ClimbRotatorMove(Constants.rotator.kToBar),
@@ -145,7 +145,7 @@ public class Operator {
         new ClimbRotatorMove(Constants.rotator.kNinetyDeg)
       ),
 
-      new ClimbExtenderMove(Constants.extender.kRightSlightlyUpward, Constants.extender.kLeftSlightlyUpward),
+      new ClimbExtenderMove(Constants.extender.kLeftSlightlyUpward, Constants.extender.kRightSlightlyUpward),
 
       // vibrate the controller
       new Rumble(operator)

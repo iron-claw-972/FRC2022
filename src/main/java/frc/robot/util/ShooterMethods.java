@@ -11,8 +11,8 @@ import frc.robot.constants.Constants;
 public class ShooterMethods {
   // cargo arm methods
   public static void setAngle(double angle) {
-    Robot.m_arm.resetPID();
-    Robot.m_arm.setPosition(angle);
+    Robot.arm.resetPID();
+    Robot.arm.setPosition(angle);
   }
 
   public static void setAngleOptimal() {
@@ -24,7 +24,7 @@ public class ShooterMethods {
   }
 
   public static double getWheelVelocity() {
-    return Robot.m_shooter.getVelocity();
+    return Robot.shooter.getVelocity();
   }
 
   public static double getTargetHeightOffset(double physicalShooterAngle) {
@@ -78,19 +78,19 @@ public class ShooterMethods {
   }
 
   public static double getArmAngle() {
-    return Robot.m_arm.currentAngle();
+    return Robot.arm.currentAngle();
   }
 
   public static void enableArm() {
-    Robot.m_arm.enable();
+    Robot.arm.enable();
   }
 
   public static void disableArm() {
-    Robot.m_arm.disable();
+    Robot.arm.disable();
   }
 
   public static boolean isArmAtSetpoint() {
-    return Robot.m_arm.reachedSetpoint();
+    return Robot.arm.reachedSetpoint();
   }
 
   public static boolean isArmBack(){
@@ -101,11 +101,11 @@ public class ShooterMethods {
     // return Robot.mArm.isFrontOutakeFar() || Robot.mArm.isFrontOutakeNear();
     // return Constants.m_cargoRotator.currentAngle() <= Operator..arm.kFrontOuttakeFarPos + 3 &&
     //   Constants.m_cargoRotator.currentAngle() <= Operator..arm.kFrontOuttakeNearPos + 3;
-    return Robot.m_arm.currentAngle() + Constants.arm.kStipeToPhysicalShooterAngularOffset < 90;
+    return Robot.arm.currentAngle() + Constants.arm.kStipeToPhysicalShooterAngularOffset < 90;
   }
 
   public static boolean isLimelightFaceFront() {
-    return Robot.m_arm.currentAngle() + Constants.ll.kStipeToLimelightFaceAngularOffset < 90;
+    return Robot.arm.currentAngle() + Constants.ll.kStipeToLimelightFaceAngularOffset < 90;
   }
 
   // public static double getFrontStaticShootingSpeed() {
@@ -128,23 +128,23 @@ public class ShooterMethods {
 
   // belt methods
   public static void setBeltSpeed(double speed) {
-    Robot.m_belt.setOutput(speed);
+    Robot.belt.setOutput(speed);
   }
 
   public static void setBeltPower(double power) {
-    Robot.m_belt.setPower(power);
+    Robot.belt.setPower(power);
   }
 
   public static void enableBelt() {
-    Robot.m_belt.enable();
+    Robot.belt.enable();
   }
 
   public static void disableBelt() {
-    Robot.m_belt.disable();
+    Robot.belt.disable();
   }
 
   public static void stopBelt() {
-    Robot.m_shooter.setStop();
+    Robot.shooter.setStop();
   }
 
   public static double velocityToRPM(DoubleSupplier speed, boolean isFront) {
@@ -161,21 +161,21 @@ public class ShooterMethods {
 
   // wheel methods
   public static void setWheelSpeed(DoubleSupplier speed, boolean isFront) {
-    Robot.m_shooter.setSpeed(velocityToRPM(speed, isFront));
+    Robot.shooter.setSpeed(velocityToRPM(speed, isFront));
   }
   public static void setWheelRPM(double speed) {
-    Robot.m_shooter.setSpeed(speed);
+    Robot.shooter.setSpeed(speed);
   }
   
   public static void enableWheel() {
-    Robot.m_shooter.enable();
+    Robot.shooter.enable();
   }
   public static void disableWheel() {
-    Robot.m_shooter.disable();
+    Robot.shooter.disable();
   }
 
   public static boolean isWheelAtSetpoint() {
-    boolean reachedSetpoint = Robot.m_shooter.reachedSetpoint();
+    boolean reachedSetpoint = Robot.shooter.reachedSetpoint();
     if (reachedSetpoint) {
       System.out.println("Reached shooter wheel setpoint");
     }
@@ -187,39 +187,39 @@ public class ShooterMethods {
   // }
 
   public static void stopWheel() {
-    Robot.m_shooter.setStop();
+    Robot.shooter.setStop();
   }
   //
 
   public static void enableAll() {
-    Robot.m_arm.enable();
-    Robot.m_belt.enable();
-    Robot.m_shooter.enable();
+    Robot.arm.enable();
+    Robot.belt.enable();
+    Robot.shooter.enable();
   }
 
   public static void disableShiitake() {
-    Robot.m_belt.disable();
-    Robot.m_shooter.disable();
+    Robot.belt.disable();
+    Robot.shooter.disable();
   }
 
   public static boolean isBallContainedSecurely() {
     // System.out.println(Robot.m_balldetector.containsBallSecurely());
-    return Robot.m_ballDetection.containsBallSecurely();
+    return Robot.ballDetection.containsBallSecurely();
   }
 
   public static boolean isBallContained() {
     // System.out.println(Robot.m_balldetector.containsBallSecurely());
-    return Robot.m_ballDetection.containsBall();
+    return Robot.ballDetection.containsBall();
   }
 
   public static boolean isBallShot() {
-    return !Robot.m_ballDetection.containsBall();
+    return !Robot.ballDetection.containsBall();
   }
 
   public static void multiSetter(double armAngle, double beltPower, double shooterSpeed) {
-    Robot.m_arm.setPosition(armAngle);
-    Robot.m_belt.setPower(beltPower);
-    Robot.m_shooter.setSpeed(shooterSpeed);
+    Robot.arm.setPosition(armAngle);
+    Robot.belt.setPower(beltPower);
+    Robot.shooter.setSpeed(shooterSpeed);
   }
 
 }

@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.DutyCycle;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class ClimbRotator extends SubsystemBase {
+public class Rotator extends SubsystemBase {
   private boolean enabled = true;
   private final DutyCycleEncoder encoder;
   private final WPI_TalonFX m_motor;
@@ -25,11 +25,11 @@ public class ClimbRotator extends SubsystemBase {
   // TODO: Check if we're using limit switches for the rotator and if not, remove these variables and the unneeded import <3
   // private LimitSwitch limitSwitchLower, limitSwitchUpper;
 
-  public ClimbRotator(boolean isLeft) {
+  public Rotator(boolean isLeft) {
     this(isLeft, new DutyCycleEncoder(isLeft ? Constants.rotator.kArmLeftEncoder : Constants.rotator.kArmRightEncoder), ControllerFactory.createTalonFX((isLeft ? Constants.rotator.kArmLeftMotor : Constants.rotator.kArmRightMotor), Constants.rotator.kSupplyCurrentLimit, Constants.rotator.kSupplyTriggerThreshold, Constants.rotator.kSupplyTriggerDuration, Constants.rotator.kNeutral));
   }
 
-  public ClimbRotator(boolean isLeft, DutyCycleEncoder encoder, WPI_TalonFX motor) {
+  public Rotator(boolean isLeft, DutyCycleEncoder encoder, WPI_TalonFX motor) {
     this.encoder = encoder;
     m_motor = motor;
 

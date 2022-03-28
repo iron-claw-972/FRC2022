@@ -4,6 +4,12 @@ package frc.robot.commands.auto;
 import edu.wpi.first.wpilibj2.command.*;
 import frc.robot.Robot;
 import frc.robot.constants.Constants;
+import frc.robot.subsystems.Arm;
+import frc.robot.subsystems.BallDetection;
+import frc.robot.subsystems.Belt;
+import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.Drivetrain;
+import frc.robot.subsystems.Limelight;
 import frc.robot.commands.cargo.ChaseBall;
 import frc.robot.commands.cargo.PositionArm;
 import frc.robot.commands.cargo.Shoot;
@@ -11,7 +17,11 @@ import frc.robot.util.ShooterMethods;
 
 public class Vision3BallAuto extends SequentialCommandGroup {
   public Vision3BallAuto(boolean isRedBall) {
-    addRequirements(Robot.m_drive, Robot.m_belt, Robot.m_arm, Robot.m_shooter);
+    this(isRedBall, Robot.drive, Robot.belt, Robot.arm, Robot.shooter, Robot.limelight, Robot.ballDetection);
+  }
+
+  public Vision3BallAuto(boolean isRedBall, Drivetrain drive, Belt belt, Arm arm, Shooter shooter, Limelight limelight, BallDetection ballDetection) {
+    addRequirements(drive, belt, arm, shooter, limelight, ballDetection);
     addCommands(
         new InstantCommand(() -> ShooterMethods.setBeltPower(0)),
         parallel(
@@ -28,7 +38,7 @@ public class Vision3BallAuto extends SequentialCommandGroup {
           new InstantCommand(() -> ShooterMethods.setBeltPower(Constants.belt.kIntakeSpeed))
         ),
         new PositionArm(Constants.arm.kIntakePos),
-        new ChaseBall(Robot.m_limelight, Robot.m_drive, isRedBall, false).withTimeout(2),
+        new ChaseBall(isRedBall, false).withTimeout(2),
         new PositionArm(Constants.arm.kFrontOuttakeAutoPos),
         new DriveRotation(-0.6),
         //new ShootAuto(false, true, 0, () -> true, Constants.arm.kFrontOuttakeAutoPos, Constants.shooter.kFrontOuttakeAutoSpeed),

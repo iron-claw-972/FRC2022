@@ -10,6 +10,7 @@ package frc.robot.commands.auto;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
 import frc.robot.constants.Constants;
+import frc.robot.subsystems.Drivetrain;
 
 /**
  * Drives a certain distance
@@ -19,43 +20,50 @@ public class DriveRotation extends CommandBase {
 
   public static boolean isFinished = false;
 
-  public DriveRotation(double setpoint_) {
-    addRequirements(Robot.m_drive);
-    setpoint = setpoint_;
+  public Drivetrain m_drive;
+
+  public DriveRotation(double setpoint) {
+    this(setpoint, Robot.drive);
+  }
+
+  public DriveRotation(double setpoint, Drivetrain drive) {
+    m_drive = drive;
+    addRequirements(drive);
+    this.setpoint = setpoint;
   }
 
   @Override
   public void initialize() {
-    zeroPos = Robot.m_drive.getLeftPosition();
-    // Robot.m_drive.setBrakeMode();
+    zeroPos = m_drive.getLeftPosition();
+    // m_drive.setBrakeMode();
     isFinished = false;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() { 
-    Robot.m_drive.tankDrive(
+    m_drive.tankDrive(
       -Math.copySign(Constants.auto.kDriveSpeed, setpoint),
        Math.copySign(Constants.auto.kDriveSpeed, setpoint));
   }
 
   // @Override
   // public boolean isFinished() {
-  //   return Math.abs(Robot.m_drive.getLeftPosition()) > (zeroPos + setpoint);
+  //   return Math.abs(m_drive.getLeftPosition()) > (zeroPos + setpoint);
   // }
 
   @Override
   public boolean isFinished() {
     if (setpoint > 0) {
-      return Robot.m_drive.getLeftPosition() <= zeroPos - setpoint;
+      return m_drive.getLeftPosition() <= zeroPos - setpoint;
     } else {
-      return Robot.m_drive.getLeftPosition() >= zeroPos - setpoint;
+      return m_drive.getLeftPosition() >= zeroPos - setpoint;
     }
   }
 
   @Override
   public void end(boolean interrupted) {
     isFinished = true;
-    Robot.m_drive.tankDrive(0, 0);
+    m_drive.tankDrive(0, 0);
   }
 }

@@ -6,9 +6,15 @@ import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import frc.robot.Robot;
 import frc.robot.commands.DoNothing;
 import frc.robot.constants.Constants;
+import frc.robot.subsystems.Extender;
 import frc.robot.util.ClimberMethods;
 
 public class ExtendDownwards extends SequentialCommandGroup {
+  public Extender m_extenderL, m_extenderR;
+
+  public ExtendDownwards(boolean zero) {
+    this(zero, Robot.extenderL, Robot.extenderR);
+  }
   /**
    * 
    * In parallel powers each extender downwards until it reaches the bottom limit switch. 
@@ -17,23 +23,26 @@ public class ExtendDownwards extends SequentialCommandGroup {
    * 
    * @param zero whether or not it should zero the extender when it reaches the bottom
    */
-  public ExtendDownwards(boolean zero) {
-      addRequirements(Robot.m_extenderR, Robot.m_extenderL);
+  public ExtendDownwards(boolean zero, Extender extenderL, Extender extenderR) {
+      m_extenderL = extenderL;
+      m_extenderR = extenderR;
+      addRequirements(extenderR, extenderL);
+
       addCommands(
           new InstantCommand(() -> ClimberMethods.disableExtender()), //disable just to make sure PID doesn't run
           parallel(
             //in parallel moves each extender down and then waits until it is compressed
             compressed(true) ? new DoNothing() : sequence(
-              new InstantCommand(() -> Robot.m_extenderL.setOutput(zero ? Constants.extender.kDownPowerCalibration : Constants.extender.kDownPowerNoCalibration)),
+              new InstantCommand(() -> extenderL.setOutput(zero ? Constants.extender.kDownPowerCalibration : Constants.extender.kDownPowerNoCalibration)),
               new WaitUntilCommand(() -> compressed(true)),
-              new InstantCommand(() -> Robot.m_extenderL.disable()),
-              (zero ? (new InstantCommand(() -> Robot.m_extenderL.zero())) : new DoNothing())
+              new InstantCommand(() -> extenderL.disable()),
+              (zero ? (new InstantCommand(() -> extenderL.zero())) : new DoNothing())
             ),
             compressed(false) ? new DoNothing() : sequence(
-              new InstantCommand(() -> Robot.m_extenderR.setOutput(zero ? Constants.extender.kDownPowerCalibration : Constants.extender.kDownPowerNoCalibration)),
+              new InstantCommand(() -> extenderR.setOutput(zero ? Constants.extender.kDownPowerCalibration : Constants.extender.kDownPowerNoCalibration)),
               new WaitUntilCommand(() -> compressed(false)),
-              new InstantCommand(() -> Robot.m_extenderR.disable()),
-              (zero ? (new InstantCommand(() -> Robot.m_extenderR.zero())) : new DoNothing())
+              new InstantCommand(() -> extenderR.disable()),
+              (zero ? (new InstantCommand(() -> extenderR.zero())) : new DoNothing())
             )
           )
       );
@@ -41,9 +50,9 @@ public class ExtendDownwards extends SequentialCommandGroup {
 
   public boolean compressed(boolean left) {
     if (left) {
-      return Robot.m_extenderL.compressionLimitSwitch();// || Math.abs(Robot.mExtenderL.getVelocity()) < 0.05;
+      return m_extenderL.compressionLimitSwitch();// || Math.abs(mExtenderL.getVelocity()) < 0.05;
     } else {
-      return Robot.m_extenderR.compressionLimitSwitch();// || Math.abs(Robot.mExtenderR.getVelocity()) < 0.05;
+      return m_extenderR.compressionLimitSwitch();// || Math.abs(mExtenderR.getVelocity()) < 0.05;
     }
   }
 }

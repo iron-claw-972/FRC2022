@@ -13,7 +13,7 @@ import frc.robot.constants.Constants;
 import frc.robot.controls.Operator;
 
 
-public class ClimbExtender extends SubsystemBase {
+public class Extender extends SubsystemBase {
   private boolean m_enabled = false;
   private boolean m_manualEnabled = false;
   private WPI_TalonFX m_motor;
@@ -24,7 +24,7 @@ public class ClimbExtender extends SubsystemBase {
   
   private double m_setpoint;
 
-  public ClimbExtender(boolean isLeft) {
+  public Extender(boolean isLeft) {
     this(
       isLeft, 
       ControllerFactory.createTalonFX((isLeft ? Constants.extender.kLeftExtenderPort : Constants.extender.kRightExtenderPort), Constants.extender.kSupplyCurrentLimit, Constants.extender.kSupplyTriggerThreshold, Constants.extender.kSupplyTriggerDuration, Constants.extender.kNeutral), 
@@ -33,7 +33,7 @@ public class ClimbExtender extends SubsystemBase {
   }
 
   // it was requested to use multiple objects for the extender because one might fail
-  public ClimbExtender(boolean isLeft, WPI_TalonFX motor, LimitSwitch limitSwitch) {
+  public Extender(boolean isLeft, WPI_TalonFX motor, LimitSwitch limitSwitch) {
     m_motor = motor;
     m_limitSwitch = limitSwitch;
 

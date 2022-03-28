@@ -11,10 +11,10 @@ import frc.robot.constants.Constants;
 import frc.robot.util.ControllerFactory;
 import edu.wpi.first.math.MathUtil;
 
-public class CargoBelt extends SubsystemBase {
+public class Belt extends SubsystemBase {
   private final WPI_TalonFX m_cargoBeltMotor;
 
-  public CargoBelt() {
+  public Belt() {
     this(ControllerFactory.createTalonFX(
       Constants.belt.kCargoBeltMotorPort , 
       Constants.belt.kSupplyCurrentLimit,
@@ -24,7 +24,7 @@ public class CargoBelt extends SubsystemBase {
     ));
   }
 
-  public CargoBelt(WPI_TalonFX motor) {
+  public Belt(WPI_TalonFX motor) {
     m_cargoBeltMotor = motor;
   }
 

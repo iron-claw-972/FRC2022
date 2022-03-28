@@ -9,7 +9,7 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class CargoArm extends SubsystemBase {
+public class Arm extends SubsystemBase {
   private boolean m_enabled = false;
   private final DutyCycleEncoder m_encoder;
   private final WPI_TalonFX m_motor;
@@ -20,7 +20,7 @@ public class CargoArm extends SubsystemBase {
 
   public PIDController m_armPID = new PIDController(Constants.arm.kP, Constants.arm.kI, Constants.arm.kD);
 
-  public CargoArm() {
+  public Arm() {
     this(
       new DutyCycleEncoder(Constants.arm.kArmEncoder),
       ControllerFactory.createTalonFX(Constants.arm.kArmMotor, Constants.arm.kSupplyCurrentLimit,
@@ -28,7 +28,7 @@ public class CargoArm extends SubsystemBase {
     );
   }
 
-  public CargoArm(DutyCycleEncoder encoder, WPI_TalonFX motor) {
+  public Arm(DutyCycleEncoder encoder, WPI_TalonFX motor) {
     m_encoder = encoder;
     m_motor = motor;
 
