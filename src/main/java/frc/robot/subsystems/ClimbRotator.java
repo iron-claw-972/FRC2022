@@ -2,52 +2,49 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
+import frc.robot.constants.Constants;
 import frc.robot.util.ControllerFactory;
-import frc.robot.robotConstants.climbRotator.MarinusClimbRotatorConstants;
-import frc.robot.util.LimitSwitch;
+// import frc.robot.util.LimitSwitch;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class ClimbRotator extends SubsystemBase {
-  MarinusClimbRotatorConstants constants = new MarinusClimbRotatorConstants();
-
   private boolean enabled = true;
   private final DutyCycleEncoder encoder;
   private final WPI_TalonFX m_motor;
   public final String side;
   private boolean left;
 
-  private double setpoint = constants.kNinetyDeg;
+  private double setpoint = Constants.rotator.kNinetyDeg;
   private double encoderOffset;
 
-  public PIDController armPID = new PIDController(constants.kP , constants.kI , constants.kD);
+  public PIDController armPID = new PIDController(Constants.rotator.kP , Constants.rotator.kI , Constants.rotator.kD);
   // TODO: Check if we're using limit switches for the rotator and if not, remove these variables and the unneeded import <3
-  private LimitSwitch limitSwitchLower, limitSwitchUpper;
+  // private LimitSwitch limitSwitchLower, limitSwitchUpper;
 
   public ClimbRotator(boolean isLeft) {
     // if the arm is left, the encoder value is inverted && the objects are assigned correctly
     if (isLeft) {
-      encoder = new DutyCycleEncoder(constants.kArmLeftEncoder); // initializes the through bore
-      m_motor = ControllerFactory.createTalonFX(constants.kArmLeftMotor , constants.kSupplyCurrentLimit, constants.kSupplyTriggerThreshold, constants.kSupplyTriggerDuration, constants.kNeutral); // initializes the motor
+      encoder = new DutyCycleEncoder(Constants.rotator.kArmLeftEncoder); // initializes the through bore
+      m_motor = ControllerFactory.createTalonFX(Constants.rotator.kArmLeftMotor , Constants.rotator.kSupplyCurrentLimit, Constants.rotator.kSupplyTriggerThreshold, Constants.rotator.kSupplyTriggerDuration, Constants.rotator.kNeutral); // initializes the motor
       side = "Left"; // the direction for shuffleboard's use
       m_motor.setInverted(true); // inverts the motor
-      encoderOffset = constants.kArmLeftEncoderOffset; // sets an offset for the encoder
+      encoderOffset = Constants.rotator.kArmLeftEncoderOffset; // sets an offset for the encoder
 
-     // limitSwitchLower = new LimitSwitch(constants.kLeftLimitSwitchLower , constants.kLimitSwitchDebouncer);
-     // limitSwitchUpper = new LimitSwitch(constants.kLeftLimitSwitchUpper , constants.kLimitSwitchDebouncer);
+     // limitSwitchLower = new LimitSwitch(Constants.rotator.kLeftLimitSwitchLower , Constants.rotator.kLimitSwitchDebouncer);
+     // limitSwitchUpper = new LimitSwitch(Constants.rotator.kLeftLimitSwitchUpper , Constants.rotator.kLimitSwitchDebouncer);
     }
     // otherwise, use the normal encoder value and set the motorports to the right
     else {
-      encoder = new DutyCycleEncoder(constants.kArmRightEncoder); // initializes the through bore
-      m_motor = ControllerFactory.createTalonFX(constants.kArmRightMotor , constants.kSupplyCurrentLimit, constants.kSupplyTriggerThreshold, constants.kSupplyTriggerDuration, constants.kNeutral); // initializes the motor
+      encoder = new DutyCycleEncoder(Constants.rotator.kArmRightEncoder); // initializes the through bore
+      m_motor = ControllerFactory.createTalonFX(Constants.rotator.kArmRightMotor , Constants.rotator.kSupplyCurrentLimit, Constants.rotator.kSupplyTriggerThreshold, Constants.rotator.kSupplyTriggerDuration, Constants.rotator.kNeutral); // initializes the motor
       side = "Right"; // the direction for shuffleboard's use
-      encoderOffset = constants.kArmRightEncoderOffset; // sets an offset for the encoder
+      encoderOffset = Constants.rotator.kArmRightEncoderOffset; // sets an offset for the encoder
 
-     // limitSwitchLower = new LimitSwitch(constants.kRightLimitSwitchLower , constants.kLimitSwitchDebouncer);
-     // limitSwitchUpper = new LimitSwitch(constants.kRightLimitSwitchUpper , constants.kLimitSwitchDebouncer);
+     // limitSwitchLower = new LimitSwitch(Constants.rotator.kRightLimitSwitchLower , Constants.rotator.kLimitSwitchDebouncer);
+     // limitSwitchUpper = new LimitSwitch(Constants.rotator.kRightLimitSwitchUpper , Constants.rotator.kLimitSwitchDebouncer);
     }
    
     left = isLeft;
@@ -55,7 +52,7 @@ public class ClimbRotator extends SubsystemBase {
     armPID.reset();
 
     // set the tolerance allowed for the PID
-    armPID.setTolerance(constants.kArmTolerance);
+    armPID.setTolerance(Constants.rotator.kArmTolerance);
 
     //use this to calibrate rotators and then look in smartdashboard
     // setEncoder(123);
@@ -83,25 +80,25 @@ public class ClimbRotator extends SubsystemBase {
   // returns the current angle of the duty cycle encoder with offset accounted for
   public double currentAngle() {
     if(left) {
-      return (-(currentAngleRaw() * constants.kArmDegreeMultiple) + encoderOffset) % 360;
+      return (-(currentAngleRaw() * Constants.rotator.kArmDegreeMultiple) + encoderOffset) % 360;
     } else {
-      return (currentAngleRaw() * constants.kArmDegreeMultiple + encoderOffset) % 360;
+      return (currentAngleRaw() * Constants.rotator.kArmDegreeMultiple + encoderOffset) % 360;
     }
   }
 
   // 80 is all the way forward and  125 is all the way back
   public void setEncoder(double angle) { 
     if (left) {
-      encoderOffset = angle + encoder.get() * constants.kArmDegreeMultiple;
+      encoderOffset = angle + encoder.get() * Constants.rotator.kArmDegreeMultiple;
     }
     else {
-      encoderOffset = angle - encoder.get() * constants.kArmDegreeMultiple;
+      encoderOffset = angle - encoder.get() * Constants.rotator.kArmDegreeMultiple;
     }
   }
 
   public boolean reachedSetpoint() {
     // checks if the arm is at its setpoint
-    return (currentAngle() < setpoint + constants.kArmTolerance && currentAngle() > setpoint - constants.kArmTolerance);
+    return (currentAngle() < setpoint + Constants.rotator.kArmTolerance && currentAngle() > setpoint - Constants.rotator.kArmTolerance);
   }
 
   //enables PID
@@ -116,7 +113,7 @@ public class ClimbRotator extends SubsystemBase {
   }
 
   public void setOutput(double motorPower){
-    m_motor.set(MathUtil.clamp(motorPower, -constants.kMotorClamp, constants.kMotorClamp));
+    m_motor.set(MathUtil.clamp(motorPower, -Constants.rotator.kMotorClamp, Constants.rotator.kMotorClamp));
   }
 
   // sets PID Goal

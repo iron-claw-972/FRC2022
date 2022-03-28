@@ -2,47 +2,62 @@ package frc.robot.controls;
 
 
 import controllers.*;
-import edu.wpi.first.wpilibj.Joystick;
+import controllers.GameController.Button;
+import controllers.GameController.DPad;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.*;
-import frc.robot.commands.cargoCommands.PositionArm;
-import frc.robot.robotConstants.climbExtender.*;
-import frc.robot.robotConstants.climbRotator.*;
+import frc.robot.commands.cargo.*;
+import frc.robot.constants.Constants;
 import frc.robot.util.ClimberMethods;
 
 public class ManualClimb {
 
-  public static GameController controller = new GameController(new Joystick(3));
+  public static GameController manualClimb = new GameController(Constants.oi.kManualClimbJoy);
 
-  public static MarinusClimbExtenderConstants extend = new MarinusClimbExtenderConstants();
-  public static MarinusClimbRotatorConstants rotate = new MarinusClimbRotatorConstants();
+  public static void configureControls() {
+    if (!DriverStation.isJoystickConnected(Constants.oi.kManualClimbJoy)) {
+      // Don't try to configure bindings if controller not plugged in
+      return;
+    }
 
-  public static void configureButtonBindings() {
+    configureManualClimbControls();
+  }
 
-    controller.getDPad().right().whenPressed(new SequentialCommandGroup (
+  private static void configureManualClimbControls() {
+    manualClimb.get(DPad.RIGHT).whenPressed(new SequentialCommandGroup (
       new InstantCommand(() -> ClimberMethods.disableRotator()),
       new InstantCommand(() -> ClimberMethods.setRotatorOutput(0.2))));
     
     
-    controller.getDPad().left().whenPressed(new SequentialCommandGroup (
+    manualClimb.get(DPad.LEFT).whenPressed(new SequentialCommandGroup (
       new InstantCommand(() -> ClimberMethods.disableRotator()),
       new InstantCommand(() -> ClimberMethods.setRotatorOutput(-0.2))));
 
 
     // STRING SHOULD BE UNWINDING
-    controller.getDPad().up().whenPressed(new SequentialCommandGroup (
+    manualClimb.get(DPad.UP).whenPressed(new SequentialCommandGroup (
       new InstantCommand(() -> ClimberMethods.disableExtender()),
       new InstantCommand(() -> ClimberMethods.setExtenderOutput(.2))
     ));
    
     // STRING SHOULD BE WINDING
-    controller.getDPad().down().whenPressed(new SequentialCommandGroup (
+    manualClimb.get(DPad.DOWN).whenPressed(new SequentialCommandGroup (
       new InstantCommand(() -> ClimberMethods.disableExtender()),
       new InstantCommand(() -> ClimberMethods.setExtenderOutput(-.2))
     ));
 
-    controller.getButtons().A().whenPressed(
+    manualClimb.get(Button.A).whenPressed(
       new PositionArm(170)
     );
+
+    manualClimb.get(DPad.UNPRESSED).whenPressed(new SequentialCommandGroup(
+      new InstantCommand(() -> ClimberMethods.setExtenderOutput(0)),
+      new InstantCommand(() -> ClimberMethods.setRotatorOutput(0)),
+      new InstantCommand(() -> ClimberMethods.disableExtender()),
+      new InstantCommand(() -> ClimberMethods.disableRotator())
+    ));
+  }
+
    /*
 
     controller.getDPad().right().whenPressed(new SequentialCommandGroup (
@@ -87,18 +102,11 @@ public class ManualClimb {
     ));
     
     */
-    controller.getDPad().unpressed().whenPressed(new SequentialCommandGroup(
-      new InstantCommand(() -> ClimberMethods.setExtenderOutput(0)),
-      new InstantCommand(() -> ClimberMethods.setRotatorOutput(0)),
-      new InstantCommand(() -> ClimberMethods.disableExtender()),
-      new InstantCommand(() -> ClimberMethods.disableRotator())
-    ));
 
     // SmartDashboard.putNumber("set angle", 90);
     // controller.getButtons().X().whenPressed(new SequentialCommandGroup(
     // new InstantCommand(() -> ClimberMethods.enableRotator()), 
     // new InstantCommand(() -> ClimberMethods.setAngle(SmartDashboard.getNumber("set angle", 90))) 
     // ));
-  }
 
 }

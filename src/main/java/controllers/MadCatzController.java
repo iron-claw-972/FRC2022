@@ -1,118 +1,67 @@
 package controllers;
 
-import controllers.constants.MadCatzConstants;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.button.*;
 
 public class MadCatzController extends Controller {
+  public final Trigger
+    ALL_UP = get(HatSwitch.UP).or(get(HatSwitch.UP_LEFT)).or(get(HatSwitch.UP_RIGHT)),
+    ALL_DOWN = get(HatSwitch.DOWN).or(get(HatSwitch.DOWN_LEFT)).or(get(HatSwitch.DOWN_RIGHT)),
+    ALL_LEFT = get(HatSwitch.LEFT).or(get(HatSwitch.UP_LEFT)).or(get(HatSwitch.DOWN_LEFT)),
+    ALL_RIGHT = get(HatSwitch.RIGHT).or(get(HatSwitch.UP_RIGHT)).or(get(HatSwitch.DOWN_RIGHT));
 
-  private Button button = new Button();
-  private HatSwitch hatSwitch = new HatSwitch();
-  private JoystickAxis joystickAxis = new JoystickAxis();
 
-  public MadCatzController(Joystick joystick_) {
-    super(joystick_);
+  public MadCatzController(int port) {
+    super(port);
   }
 
-  //returns JoystickButton object
-  public class Button {
-    public JoystickButton b1() {
-      return new JoystickButton(getController(), MadCatzConstants.Buttons.k1);
-    }
-    public JoystickButton b2() {
-      return new JoystickButton(getController(), MadCatzConstants.Buttons.k2);
-    }
-    public JoystickButton b3() {
-      return new JoystickButton(getController(), MadCatzConstants.Buttons.k3);
-    }
-    public JoystickButton b4() {
-      return new JoystickButton(getController(), MadCatzConstants.Buttons.k4);
-    }
-    public JoystickButton b5() {
-      return new JoystickButton(getController(), MadCatzConstants.Buttons.k5);
-    }
-    public JoystickButton b6() {
-      return new JoystickButton(getController(), MadCatzConstants.Buttons.k6);
-    }
-    public JoystickButton b7() {
-      return new JoystickButton(getController(), MadCatzConstants.Buttons.k7);
+  public enum Button {
+    B1(1), B2(2), B3(3), B4(4), B6(6), B7(7);
+
+    public final int id;
+
+    Button(final int id) {
+      this.id = id;
     }
   }
 
-  //returns POVButton object
-  public class HatSwitch {
-    public POVButton up() {
-      return new POVButton(getController(), MadCatzConstants.Thumbstick.kUp);
-    }
-    public POVButton upRight() {
-      return new POVButton(getController(), MadCatzConstants.Thumbstick.kUpRight);
-    }
-    public POVButton right() {
-      return new POVButton(getController(), MadCatzConstants.Thumbstick.kRight);
-    }
-    public POVButton downRight() {
-      return new POVButton(getController(), MadCatzConstants.Thumbstick.kDownRight);
-    }
-    public POVButton down() {
-      return new POVButton(getController(), MadCatzConstants.Thumbstick.kDown);
-    }
-    public POVButton downLeft() {
-      return new POVButton(getController(), MadCatzConstants.Thumbstick.kDownLeft);
-    }
-    public POVButton left() {
-      return new POVButton(getController(), MadCatzConstants.Thumbstick.kLeft);
-    }
-    public POVButton upLeft() {
-      return new POVButton(getController(), MadCatzConstants.Thumbstick.kUpLeft);
-    }
-    
-    public Trigger allUp() {
-      return up()
-      .or(upRight()
-      .or(upLeft()));
-    }
-    public Trigger allDown() {
-      return down()
-      .or(downRight()
-      .or(downLeft()));
-    }
-    public Trigger allLeft() {
-      return left()
-      .or(upLeft()
-      .or(downLeft()));
-    }
-    public Trigger allRight() {
-      return right()
-      .or(upRight()
-      .or(downRight()));
+  public enum Axis {
+    X(0), Y(1), ZAXIS(2), ZROTATE(3);
+
+    public final int id;
+
+    Axis(final int id) {
+      this.id = id;
     }
   }
 
-  //returns JoystickButton object
-  public class JoystickAxis {
-    public double X() {
-      return getController().getRawAxis(MadCatzConstants.JoystickAxis.kX);
-    }
-    public double Y() {
-      return getController().getRawAxis(MadCatzConstants.JoystickAxis.kY);
-    }
-    public double zRotate() {
-      return getController().getRawAxis(MadCatzConstants.JoystickAxis.kZRotate);
-    }
-    public double zAxis() {
-      return getController().getRawAxis(MadCatzConstants.JoystickAxis.kZAxis);
+  public enum HatSwitch {
+    UNPRESSED(-1), UP(0), UP_RIGHT(45), RIGHT(90), DOWN_RIGHT(135), DOWN(180), DOWN_LEFT(235), LEFT(270), UP_LEFT(315);
+
+    public final int angle;
+
+    HatSwitch(final int angle) {
+      this.angle = angle;
     }
   }
 
-  public Button getButtons() {
-    return button;
+  public JoystickButton get(Button button) {
+    return new JoystickButton(m_controller, button.id);
   }
 
-  public HatSwitch getHatSwitch() {
-    return hatSwitch;
+  public double get(Axis axis) {
+    return m_controller.getRawAxis(axis.id);
   }
 
-  public JoystickAxis getJoyStickAxis() {
-    return joystickAxis;
+  public POVButton get(HatSwitch hatSwitch) {
+    return new POVButton(m_controller, hatSwitch.angle);
+  }
+
+  public Trigger get(Trigger trigger) {
+    return trigger;
+  }
+
+  public Joystick get() {
+    return m_controller;
   }
 }

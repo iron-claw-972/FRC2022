@@ -1,197 +1,95 @@
 package controllers;
 
-import controllers.constants.*;
-import edu.wpi.first.wpilibj.GenericHID;
+import java.util.function.BooleanSupplier;
+
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj2.command.button.*;
 
 public class GameController extends Controller {
-
-  private Button Button = new Button();
-  private DPad DPad = new DPad();
-  private TriggerAxis TriggerAxis = new TriggerAxis();
-  private JoystickAxis JoystickAxis = new JoystickAxis();
-  private Joystick Joystick;
+  // These are the different controller triggers
+  public final BooleanSupplier
+    LEFT_TRIGGER_BUTTON = () -> get(Axis.LEFT_TRIGGER) > 0.5,
+    RIGHT_TRIGGER_BUTTON = () -> get(Axis.RIGHT_TRIGGER) > 0.5;
   
-  public GameController(Joystick joystick_) {
-    super(joystick_);
-    Joystick = joystick_;
+  public final Trigger
+    ALL_UP = get(DPad.UP).or(get(DPad.UP_LEFT)).or(get(DPad.UP_RIGHT)),
+    ALL_DOWN = get(DPad.DOWN).or(get(DPad.DOWN_LEFT)).or(get(DPad.DOWN_RIGHT)),
+    ALL_LEFT = get(DPad.LEFT).or(get(DPad.UP_LEFT)).or(get(DPad.DOWN_LEFT)),
+    ALL_RIGHT = get(DPad.RIGHT).or(get(DPad.UP_RIGHT)).or(get(DPad.DOWN_RIGHT));
+
+
+  public GameController(int port) {
+    super(port);
   }
+  
+  public enum Button {
+    A(1), B(2), X(3), Y(4), LB(5), RB(6), BACK(7), START(8), LEFT_JOY(9), RIGHT_JOY(10);
 
-  public JoystickAxis getJoystickAxis() {
-    return JoystickAxis;
+    public final int id;
+
+    Button(final int id) {
+      this.id = id;
+    }
   }
+  
+  public enum Axis {
+    LEFT_X(0), LEFT_Y(1), LEFT_TRIGGER(2), RIGHT_TRIGGER(3), RIGHT_X(4), RIGHT_Y(5);
 
-  public TriggerAxis getTriggerAxis() {
-    return TriggerAxis;
-  }
+    public final int id;
 
-  public DPad getDPad() {
-    return DPad;
-  }
-
-  public Button getButtons() {
-    return Button;
-  }
-
-  public void startRumble() {
-    Joystick.setRumble(GenericHID.RumbleType.kLeftRumble, .7);
-    Joystick.setRumble(GenericHID.RumbleType.kRightRumble, .7);
-  }
-
-  public void endRumble() {
-    Joystick.setRumble(GenericHID.RumbleType.kLeftRumble, 0);
-    Joystick.setRumble(GenericHID.RumbleType.kRightRumble, 0);
-  }
-
-  //returns JoystickButton object
-  public final class Button {
-    public JoystickButton A() {
-      return new JoystickButton(getController(), GameConstants.buttons.kA);
-    }
-
-    public JoystickButton B() {
-      return new JoystickButton(getController(), GameConstants.buttons.kB);
-    }
-
-    public JoystickButton X() {
-      return new JoystickButton(getController(), GameConstants.buttons.kX);
-    }
-
-    public JoystickButton Y() {
-      return new JoystickButton(getController(), GameConstants.buttons.kY);
-    }
-
-    public JoystickButton LB() {
-      return new JoystickButton(getController(), GameConstants.buttons.kLB);
-    }
-
-    public JoystickButton RB() {
-      return new JoystickButton(getController(), GameConstants.buttons.kRB);
-    }
-
-    public JoystickButton BACK() {
-      return new JoystickButton(getController(), GameConstants.buttons.kBack);
-    }
-
-    public JoystickButton START() {
-      return new JoystickButton(getController(), GameConstants.buttons.kStart);
-    }
-
-    public Trigger LT() {
-      return new Trigger(TriggerAxis::leftTriggerButton);
-    }
-
-    public Trigger RT() {
-      return new Trigger(TriggerAxis::rightTriggerButton);
-    }
-    public JoystickButton leftJoyButton() {
-      return new JoystickButton(getController(), GameConstants.buttons.kLeftJoyPressed);
-    }
-    public JoystickButton rightJoyButton() {
-      return new JoystickButton(getController(), GameConstants.buttons.kRightJoyPressed);
+    Axis(final int id) {
+      this.id = id;
     }
   }
 
-  // returns POVButton object
-  public class DPad {
-    public POVButton unpressed() {
-      return new POVButton(getController(), -1);
-    }
+  public enum DPad {
+    UNPRESSED(-1), UP(0), UP_RIGHT(45), RIGHT(90), DOWN_RIGHT(135), DOWN(180), DOWN_LEFT(235), LEFT(270), UP_LEFT(315);
 
-    public POVButton up() {
-      return new POVButton(getController(), GameConstants.dPad.kUp);
-    }
+    public final int angle;
 
-    public POVButton upRight() {
-      return new POVButton(getController(), GameConstants.dPad.kUpRight);
-    }
-
-    public POVButton right() {
-      return new POVButton(getController(), GameConstants.dPad.kRight);
-    }
-
-    public POVButton downRight() {
-      return new POVButton(getController(), GameConstants.dPad.kDownRight);
-    }
-
-    public POVButton down() {
-      return new POVButton(getController(), GameConstants.dPad.kDown);
-    }
-
-    public POVButton downLeft() {
-      return new POVButton(getController(), GameConstants.dPad.kDownLeft);
-    }
-
-    public POVButton left() {
-      return new POVButton(getController(), GameConstants.dPad.kLeft);
-    }
-
-    public POVButton upLeft() {
-      return new POVButton(getController(), GameConstants.dPad.kUpLeft);
-    }
-
-    public Trigger allUp() {
-      return up()
-          .or(upRight()
-              .or(upLeft()));
-    }
-
-    public Trigger allDown() {
-      return down()
-          .or(downRight()
-              .or(downLeft()));
-    }
-
-    public Trigger allLeft() {
-      return left()
-          .or(upLeft()
-              .or(downLeft()));
-    }
-
-    public Trigger allRight() {
-      return right()
-          .or(upRight()
-              .or(downRight()));
+    DPad(final int angle) {
+      this.angle = angle;
     }
   }
 
-  // returns Joystick Axis value
-  public class JoystickAxis {
-    public double leftX() {
-      return getController().getRawAxis(GameConstants.joystickAxis.kLeftX);
-    }
+  public enum RumbleStatus {
+    RUMBLE_ON(0.7), RUMBLE_OFF(0);
 
-    public double leftY() {
-      return getController().getRawAxis(GameConstants.joystickAxis.kLeftY);
-    }
+    public final double rumbleValue;
 
-    public double rightX() {
-      return getController().getRawAxis(GameConstants.joystickAxis.kRightX);
-    }
-
-    public double rightY() {
-      return getController().getRawAxis(GameConstants.joystickAxis.kRightY);
+    RumbleStatus(final double rumbleValue) {
+      this.rumbleValue = rumbleValue;
     }
   }
 
-  // returns Trigger Axis value
-  public class TriggerAxis {
-    public double leftTrigger() {
-      return getController().getRawAxis(GameConstants.triggers.kLeftT);
-    }
-
-    public boolean leftTriggerButton() {
-      return leftTrigger() > 0.5;
-    }
-
-    public double rightTrigger() {
-      return getController().getRawAxis(GameConstants.triggers.kRightT);
-    }
-
-    public boolean rightTriggerButton() {
-      return rightTrigger() > 0.5;
-    }
+  public JoystickButton get(Button button) {
+    return new JoystickButton(m_controller, button.id);
   }
+
+  public double get(Axis axis) {
+    return m_controller.getRawAxis(axis.id);
+  }
+  
+  public POVButton get(DPad dPad) {
+    return new POVButton(m_controller, dPad.angle);
+  }
+
+  public Trigger get(BooleanSupplier condition) {
+    return new Trigger(condition);
+  }
+
+  public Trigger get(Trigger trigger) {
+    return trigger;
+  }
+
+  public Joystick get() {
+    return m_controller;
+  }
+
+  public void setRumble(RumbleStatus rumbleStatus) {
+    m_controller.setRumble(RumbleType.kLeftRumble, rumbleStatus.rumbleValue);
+    m_controller.setRumble(RumbleType.kRightRumble, rumbleStatus.rumbleValue);
+  }
+
 }

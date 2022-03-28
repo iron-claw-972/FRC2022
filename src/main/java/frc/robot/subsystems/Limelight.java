@@ -3,17 +3,14 @@ package frc.robot.subsystems;
 import java.util.function.BooleanSupplier;
 
 import edu.wpi.first.math.filter.Debouncer;
-import edu.wpi.first.math.filter.MedianFilter;
 import edu.wpi.first.math.filter.Debouncer.DebounceType;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.robotConstants.limelight.MarinusLimelightConstants;
+import frc.robot.constants.Constants;
 
 public class Limelight extends SubsystemBase {
-  public static MarinusLimelightConstants constants = new MarinusLimelightConstants();
-
   private NetworkTable m_table;
   private String m_tableName;
 
@@ -73,7 +70,7 @@ public class Limelight extends SubsystemBase {
         // m_targetArea = getTa();
         // m_skew = getTs();
 
-        if (constants.kIsMountedHorizontally) {
+        if (Constants.ll.kIsMountedHorizontally) {
           m_horizontalAngularOffset = getTx();
           m_verticalAngularOffset = getTy();
         } else {
@@ -213,16 +210,16 @@ public class Limelight extends SubsystemBase {
 
     switch (pipeline) {
       case RED_CARGO:
-        m_table.getEntry("pipeline").setNumber(constants.kRedCargoPipeline);
+        m_table.getEntry("pipeline").setNumber(Constants.ll.kRedCargoPipeline);
         break;
       case BLUE_CARGO:
-        m_table.getEntry("pipeline").setNumber(constants.kBlueCargoPipeline);
+        m_table.getEntry("pipeline").setNumber(Constants.ll.kBlueCargoPipeline);
         break;
       case UPPER_HUB:
-        m_table.getEntry("pipeline").setNumber(constants.kUpperHubPipeline);
+        m_table.getEntry("pipeline").setNumber(Constants.ll.kUpperHubPipeline);
         break;
       case DRIVER:
-        m_table.getEntry("pipeline").setNumber(constants.kDriverPipeline);
+        m_table.getEntry("pipeline").setNumber(Constants.ll.kDriverPipeline);
         break;
       default:
     }
@@ -266,13 +263,13 @@ public class Limelight extends SubsystemBase {
   }
 
   private double getLimelightHeight(double armAngle) {
-    return constants.kPivotHeight
-        + (constants.kPivotToLimelightLength * Math.sin(Units.degreesToRadians(armAngle)));
+    return Constants.ll.kPivotHeight
+        + (Constants.ll.kPivotToLimelightLength * Math.sin(Units.degreesToRadians(armAngle)));
   }
 
   private double getLimelightFaceAngle(double armAngle) {
     // If angle is obtuse, find the supplementary angle
-    double limelightFaceAngle = armAngle + constants.kStipeToLimelightFaceAngularOffset;
+    double limelightFaceAngle = armAngle + Constants.ll.kStipeToLimelightFaceAngularOffset;
     if (limelightFaceAngle < 90) {
       return (limelightFaceAngle);
     }
@@ -306,11 +303,11 @@ public class Limelight extends SubsystemBase {
   }
 
   public double getHubDistance(double stipeAngle) {
-    return getDistance(stipeAngle, constants.kHubHeight);
+    return getDistance(stipeAngle, Constants.ll.kHubHeight);
   }
 
   public double getBallDistance(double stipeAngle, boolean isRedBall) {
-    return getDistance(stipeAngle, constants.kBallTargetHeight);
+    return getDistance(stipeAngle, Constants.ll.kBallTargetHeight);
   }
 
   private double getDistance(double stipeAngle, double targetHeight) {

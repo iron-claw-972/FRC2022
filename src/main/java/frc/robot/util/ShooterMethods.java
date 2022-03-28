@@ -4,17 +4,15 @@ package frc.robot.util;
 import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.math.util.Units;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.Constants;
-import frc.robot.RobotContainer;
-import frc.robot.commands.cargoCommands.GetDistance;
+import frc.robot.Robot;
+import frc.robot.commands.cargo.GetDistance;
+import frc.robot.constants.Constants;
 
 public class ShooterMethods {
-
   // cargo arm methods
   public static void setAngle(double angle) {
-    RobotContainer.m_cargoRotator.resetPID();
-    RobotContainer.m_cargoRotator.setPosition(angle);
+    Robot.m_arm.resetPID();
+    Robot.m_arm.setPosition(angle);
   }
 
   public static void setAngleOptimal() {
@@ -26,14 +24,14 @@ public class ShooterMethods {
   }
 
   public static double getWheelVelocity() {
-    return RobotContainer.m_cargoShooter.getVelocity();
+    return Robot.m_shooter.getVelocity();
   }
 
   public static double getTargetHeightOffset(double physicalShooterAngle) {
     double physicalShooterAngleRad = Units.degreesToRadians(physicalShooterAngle);
-    double targetHeightOffset = RobotContainer.limelightConstants.kHubHeight // Height of hub
-                              - RobotContainer.limelightConstants.kPivotHeight // Height of stipe pivot
-                              - (RobotContainer.cargoConstants.kPivotToShootingExitPointLength * Math.sin(physicalShooterAngleRad)); // Height from pivot to shooter exit point
+    double targetHeightOffset = Constants.ll.kHubHeight // Height of hub
+                              - Constants.ll.kPivotHeight // Height of stipe pivot
+                              - (Constants.arm.kPivotToShootingExitPointLength * Math.sin(physicalShooterAngleRad)); // Height from pivot to shooter exit point
     return targetHeightOffset;
   }
 
@@ -42,22 +40,22 @@ public class ShooterMethods {
 
     // Horizontal distance from shooter exit point to center of hub
     double shootingDistance = pivotDistance // Distance from vision tape to pivot
-                            + (RobotContainer.limelightConstants.kHubDiameter / 2) // Radius of the hub
-                            - (RobotContainer.cargoConstants.kPivotToShootingExitPointLength * Math.cos(physicalShooterAngleRad)); // Subtract horizontal distance from stipe pivot to exit point of shooter (the midpoint between the centers of the two shooter wheels)
+                            + (Constants.ll.kHubDiameter / 2) // Radius of the hub
+                            - (Constants.arm.kPivotToShootingExitPointLength * Math.cos(physicalShooterAngleRad)); // Subtract horizontal distance from stipe pivot to exit point of shooter (the midpoint between the centers of the two shooter wheels)
     return shootingDistance;
   }
 
   public static double limelightDistanceToPivotDistance(double limelightDistance, double limelightPosAngle) {
     double limelightPosAngleRad = Units.degreesToRadians(limelightPosAngle);
     double pivotDistance;
-    if (limelightPosAngle - RobotContainer.limelightConstants.kStipeToLimelightPosAngularOffset + RobotContainer.limelightConstants.kStipeToLimelightFaceAngularOffset < 90) {
+    if (limelightPosAngle - Constants.ll.kStipeToLimelightPosAngularOffset + Constants.ll.kStipeToLimelightFaceAngularOffset < 90) {
       // Front
       pivotDistance = limelightDistance
-                            + (RobotContainer.limelightConstants.kPivotToLimelightLength * Math.cos(limelightPosAngleRad)); // Horizontal distance from limelight to stipe pivot
+                            + (Constants.ll.kPivotToLimelightLength * Math.cos(limelightPosAngleRad)); // Horizontal distance from limelight to stipe pivot
     } else {
       // Back
       pivotDistance = limelightDistance
-                            - (RobotContainer.limelightConstants.kPivotToLimelightLength * Math.cos(limelightPosAngleRad)); // Horizontal distance from limelight to stipe pivot
+                            - (Constants.ll.kPivotToLimelightLength * Math.cos(limelightPosAngleRad)); // Horizontal distance from limelight to stipe pivot
     }
     return pivotDistance;
   }
@@ -80,19 +78,19 @@ public class ShooterMethods {
   }
 
   public static double getArmAngle() {
-    return RobotContainer.m_cargoRotator.currentAngle();
+    return Robot.m_arm.currentAngle();
   }
 
   public static void enableArm() {
-    RobotContainer.m_cargoRotator.enable();
+    Robot.m_arm.enable();
   }
 
   public static void disableArm() {
-    RobotContainer.m_cargoRotator.disable();
+    Robot.m_arm.disable();
   }
 
   public static boolean isArmAtSetpoint() {
-    return RobotContainer.m_cargoRotator.reachedSetpoint();
+    return Robot.m_arm.reachedSetpoint();
   }
 
   public static boolean isArmBack(){
@@ -100,14 +98,14 @@ public class ShooterMethods {
   }
 
   public static boolean isArmFront(){
-    // return RobotContainer.m_cargoRotator.isFrontOutakeFar() || RobotContainer.m_cargoRotator.isFrontOutakeNear();
-    // return RobotContainer.m_cargoRotator.currentAngle() <= Operator.cargoConstants.kFrontOuttakeFarPos + 3 &&
-    //   RobotContainer.m_cargoRotator.currentAngle() <= Operator.cargoConstants.kFrontOuttakeNearPos + 3;
-    return RobotContainer.m_cargoRotator.currentAngle() + RobotContainer.cargoConstants.kStipeToPhysicalShooterAngularOffset < 90;
+    // return Robot.mArm.isFrontOutakeFar() || Robot.mArm.isFrontOutakeNear();
+    // return Constants.m_cargoRotator.currentAngle() <= Operator..arm.kFrontOuttakeFarPos + 3 &&
+    //   Constants.m_cargoRotator.currentAngle() <= Operator..arm.kFrontOuttakeNearPos + 3;
+    return Robot.m_arm.currentAngle() + Constants.arm.kStipeToPhysicalShooterAngularOffset < 90;
   }
 
   public static boolean isLimelightFaceFront() {
-    return RobotContainer.m_cargoRotator.currentAngle() + RobotContainer.limelightConstants.kStipeToLimelightFaceAngularOffset < 90;
+    return Robot.m_arm.currentAngle() + Constants.ll.kStipeToLimelightFaceAngularOffset < 90;
   }
 
   // public static double getFrontStaticShootingSpeed() {
@@ -130,23 +128,23 @@ public class ShooterMethods {
 
   // belt methods
   public static void setBeltSpeed(double speed) {
-    RobotContainer.m_cargoBelt.setOutput(speed);
+    Robot.m_belt.setOutput(speed);
   }
 
   public static void setBeltPower(double power) {
-    RobotContainer.m_cargoBelt.setPower(power);
+    Robot.m_belt.setPower(power);
   }
 
   public static void enableBelt() {
-    RobotContainer.m_cargoBelt.enable();
+    Robot.m_belt.enable();
   }
 
   public static void disableBelt() {
-    RobotContainer.m_cargoBelt.disable();
+    Robot.m_belt.disable();
   }
 
   public static void stopBelt() {
-    RobotContainer.m_cargoShooter.setStop();
+    Robot.m_shooter.setStop();
   }
 
   public static double velocityToRPM(DoubleSupplier speed, boolean isFront) {
@@ -163,65 +161,65 @@ public class ShooterMethods {
 
   // wheel methods
   public static void setWheelSpeed(DoubleSupplier speed, boolean isFront) {
-    RobotContainer.m_cargoShooter.setSpeed(velocityToRPM(speed, isFront));
+    Robot.m_shooter.setSpeed(velocityToRPM(speed, isFront));
   }
   public static void setWheelRPM(double speed) {
-    RobotContainer.m_cargoShooter.setSpeed(speed);
+    Robot.m_shooter.setSpeed(speed);
   }
   
   public static void enableWheel() {
-    RobotContainer.m_cargoShooter.enable();
+    Robot.m_shooter.enable();
   }
   public static void disableWheel() {
-    RobotContainer.m_cargoShooter.disable();
+    Robot.m_shooter.disable();
   }
 
   public static boolean isWheelAtSetpoint() {
-    boolean reachedSetpoint = RobotContainer.m_cargoShooter.reachedSetpoint();
+    boolean reachedSetpoint = Robot.m_shooter.reachedSetpoint();
     if (reachedSetpoint) {
       System.out.println("Reached shooter wheel setpoint");
     }
     return reachedSetpoint;
   }
 
-  public static boolean isRedAlliance() {
-    return SmartDashboard.getBoolean("Is Red Alliance", Constants.kIsRedAlliance);
-  }
+  // public static boolean isRedAlliance() {
+  //   return SmartDashboard.getBoolean("Is Red Alliance", Constants.kIsRedAlliance);
+  // }
 
   public static void stopWheel() {
-    RobotContainer.m_cargoShooter.setStop();
+    Robot.m_shooter.setStop();
   }
   //
 
   public static void enableAll() {
-    RobotContainer.m_cargoRotator.enable();
-    RobotContainer.m_cargoBelt.enable();
-    RobotContainer.m_cargoShooter.enable();
+    Robot.m_arm.enable();
+    Robot.m_belt.enable();
+    Robot.m_shooter.enable();
   }
 
   public static void disableShiitake() {
-    RobotContainer.m_cargoBelt.disable();
-    RobotContainer.m_cargoShooter.disable();
+    Robot.m_belt.disable();
+    Robot.m_shooter.disable();
   }
 
   public static boolean isBallContainedSecurely() {
-    // System.out.println(RobotContainer.m_balldetector.containsBallSecurely());
-    return RobotContainer.m_ballDetection.containsBallSecurely();
+    // System.out.println(Robot.m_balldetector.containsBallSecurely());
+    return Robot.m_ballDetection.containsBallSecurely();
   }
 
   public static boolean isBallContained() {
-    // System.out.println(RobotContainer.m_balldetector.containsBallSecurely());
-    return RobotContainer.m_ballDetection.containsBall();
+    // System.out.println(Robot.m_balldetector.containsBallSecurely());
+    return Robot.m_ballDetection.containsBall();
   }
 
   public static boolean isBallShot() {
-    return !RobotContainer.m_ballDetection.containsBall();
+    return !Robot.m_ballDetection.containsBall();
   }
 
   public static void multiSetter(double armAngle, double beltPower, double shooterSpeed) {
-    RobotContainer.m_cargoRotator.setPosition(armAngle);
-    RobotContainer.m_cargoBelt.setPower(beltPower);
-    RobotContainer.m_cargoShooter.setSpeed(shooterSpeed);
+    Robot.m_arm.setPosition(armAngle);
+    Robot.m_belt.setPower(beltPower);
+    Robot.m_shooter.setSpeed(shooterSpeed);
   }
 
 }

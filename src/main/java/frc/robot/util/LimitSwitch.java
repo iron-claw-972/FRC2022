@@ -4,36 +4,35 @@ import edu.wpi.first.math.filter.Debouncer;
 import edu.wpi.first.wpilibj.DigitalInput;
 
 public class LimitSwitch {
-    
-  DigitalInput limitSwitch;
-  Debouncer debouncer;
-  boolean lastRead;
+  DigitalInput m_limitSwitch;
+  Debouncer m_debouncer;
+  boolean m_lastRead;
 
   public LimitSwitch(int port){
     this(port, 0);
   }
 
   public LimitSwitch(int port, double debouncerMargin){
-    limitSwitch = new DigitalInput(port);
-    debouncer = new Debouncer(debouncerMargin, Debouncer.DebounceType.kBoth);
+    m_limitSwitch = new DigitalInput(port);
+    m_debouncer = new Debouncer(debouncerMargin, Debouncer.DebounceType.kBoth);
   }
 
   public boolean get() {
     //updates debounce and last read
-    lastRead = !debouncer.calculate(limitSwitch.get());
-    return !debouncer.calculate(limitSwitch.get());
+    m_lastRead = !m_debouncer.calculate(m_limitSwitch.get());
+    return !m_debouncer.calculate(m_limitSwitch.get());
   }
 
   public boolean fallingEdge() {
-    return lastRead && !get();
+    return m_lastRead && !get();
   }
   
   public boolean risingEdge() {
-    return !lastRead && get();
+    return !m_lastRead && get();
   }
 
   public boolean getNoUpdate(){
-    return !debouncer.calculate(limitSwitch.get());
+    return !m_debouncer.calculate(m_limitSwitch.get());
   }
 
 }

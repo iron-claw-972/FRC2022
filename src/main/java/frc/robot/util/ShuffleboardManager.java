@@ -7,52 +7,40 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.shuffleboard.*;
 import edu.wpi.first.wpilibj.smartdashboard.*;
 import edu.wpi.first.wpilibj2.command.*;
-import frc.robot.Constants;
-import frc.robot.RobotContainer;
-import frc.robot.Constants.AutoConstants;
-import frc.robot.autonomous.drivetrain.Pathweaver;
-import frc.robot.subsystems.ClimbExtender;
-import frc.robot.subsystems.ClimbRotator;
+import frc.robot.Robot;
+import frc.robot.subsystems.*;
 import frc.robot.commands.*;
-import frc.robot.commands.autoCommands.BackFlexibleAuto;
-import frc.robot.commands.autoCommands.FrontFlexibleAuto;
-import frc.robot.commands.cargoCommands.AlignToUpperHub;
-import frc.robot.commands.cargoCommands.ChaseBall;
-import frc.robot.commands.cargoCommands.GetDistance;
-import frc.robot.controls.Driver;
-import frc.robot.robotConstants.climbExtender.MarinusClimbExtenderConstants;
+import frc.robot.commands.auto.*;
+import frc.robot.commands.cargo.*;
+import frc.robot.constants.Constants;
 
 public class ShuffleboardManager {
 
-  SendableChooser<Command> autoCommand = new SendableChooser<>();
-  public static ShuffleboardTab mainTab = Shuffleboard.getTab("Main");
-  public static ShuffleboardTab cargoTab = Shuffleboard.getTab("Cargo");
-  public static ShuffleboardTab climbTab = Shuffleboard.getTab("Climb");
-  public static ShuffleboardTab autoTab = Shuffleboard.getTab("Auto");
+  SendableChooser<Command> m_autoCommand = new SendableChooser<>();
+  ShuffleboardTab m_mainTab = Shuffleboard.getTab("Main");
+  ShuffleboardTab m_cargoTab = Shuffleboard.getTab("Cargo");
+  ShuffleboardTab m_climbTab = Shuffleboard.getTab("Climb");
+  ShuffleboardTab m_autoTab = Shuffleboard.getTab("Auto");
 
-  NetworkTableEntry autoWait = autoTab.add("Auto Wait", 0.0).getEntry();
-  NetworkTableEntry isFar = autoTab.add("Flexible Auto First Shoot is Fender", true).getEntry();
-  NetworkTableEntry distance = autoTab.add("Flexible Auto Drive Distance", 0.0).getEntry();
-  NetworkTableEntry shootSecond = autoTab.add("Flexible Auto Shoot a Second Time", true).getEntry();
-  NetworkTableEntry intakeSecond = autoTab.add("Flexible Auto Get and Shoot a Second Time", true).getEntry();
-  NetworkTableEntry limelightColor = cargoTab.add("Limelight (Red)", true).getEntry();
+  NetworkTableEntry m_autoWait = m_autoTab.add("Auto Wait", 0.0).getEntry();
+  NetworkTableEntry m_isFar = m_autoTab.add("Flexible Auto First Shoot is Fender", true).getEntry();
+  NetworkTableEntry m_distance = m_autoTab.add("Flexible Auto Drive Distance", 0.0).getEntry();
+  NetworkTableEntry m_shootSecond = m_autoTab.add("Flexible Auto Shoot a Second Time", true).getEntry();
+  NetworkTableEntry m_intakeSecond = m_autoTab.add("Flexible Auto Get and Shoot a Second Time", true).getEntry();
+  NetworkTableEntry m_limelightColor = m_cargoTab.add("Limelight (Red)", true).getEntry();
 
-  NetworkTableEntry commandScheduler = mainTab.add("Command Scheduler", "NULL").getEntry();
+  NetworkTableEntry m_commandScheduler = m_mainTab.add("Command Scheduler", "NULL").getEntry();
   
-  MarinusClimbExtenderConstants extenderConstants = new MarinusClimbExtenderConstants();
-  
-
   public void setup() {
-    mainTab.addBoolean("Is Teleop", DriverStation::isTeleop);
-    mainTab.addNumber("left drive encoder", RobotContainer.m_drive::getLeftPosition);
+    m_mainTab.addBoolean("Is Teleop", DriverStation::isTeleop);
+    m_mainTab.addNumber("left drive encoder", Robot.m_drive::getLeftPosition);
     // climbTab.addNumber("Max Extension Ticks", () -> extenderConstants.kExtenderMaxArmTicks);
     chooserUpdate();
     subsystemSpam();
     time();
     update();
 
-    autoTab.add("Auto Chooser", autoCommand);
-    mainTab.addString("Drive Mode", this::getDriveModeString);
+    m_autoTab.add("Auto Chooser", m_autoCommand);
   }
 
   public void update() {
@@ -60,8 +48,8 @@ public class ShuffleboardManager {
   }
 
   public void time() {
-    mainTab.addNumber("Time Left", DriverStation::getMatchTime);
-    mainTab.addNumber("Time Left Until Endgame" , this::getDriverStationTimeTillEndGame);
+    m_mainTab.addNumber("Time Left", DriverStation::getMatchTime);
+    m_mainTab.addNumber("Time Left Until Endgame" , this::getDriverStationTimeTillEndGame);
     // primaryTab.add("Auto Wait", 0);
   }
   private double getDriverStationTimeTillEndGame(){
@@ -70,34 +58,31 @@ public class ShuffleboardManager {
 
   public void chooserUpdate() {
     // originally 0.8492
-    autoCommand.addOption("DoNothing", new DoNothing());
-    autoCommand.addOption("Front1BallAuto", new Front1BallAuto());
-    autoCommand.addOption("Front2BallAuto", new Front2BallAuto(Constants.kIsRedAlliance));
-    autoCommand.addOption("Front3BallAuto", new Front3BallAuto(Constants.kIsRedAlliance));
-    autoCommand.addOption("StationaryFront1BallAuto", new StationaryFront1BallAuto());
-    autoCommand.addOption("Back1BallAuto", new Back1BallAuto());
-    autoCommand.addOption("Back2BallAuto", new Back2BallAuto(Constants.kIsRedAlliance));
-    autoCommand.addOption("Back3BallAuto", new Back3BallAuto(Constants.kIsRedAlliance));
-    autoCommand.addOption("StationaryBack1BallAuto", new StationaryBack1BallAuto());
+    m_autoCommand.addOption("DoNothing", new DoNothing());
 
-    autoCommand.addOption("RedVision3Ball", new Vision3BallAuto(true));
-    autoCommand.addOption("BlueVision3Ball", new Vision3BallAuto(false));
+    m_autoCommand.addOption("Front1BallAuto", new Front1BallAuto());
+    m_autoCommand.addOption("Back1BallAuto", new Back1BallAuto());
+
+    m_autoCommand.addOption("Back2BallAuto", new Back2BallAuto());
+
+    m_autoCommand.addOption("RedVision3Ball", new Vision3BallAuto(true));
+    m_autoCommand.addOption("BlueVision3Ball", new Vision3BallAuto(false));
 
     // autoCommand.setDefaultOption("fetch me my paper boy", new FlexibleAuto(distance.getDouble(0), intakeSecond.getBoolean(true), shootSecond.getBoolean(true), limelightColor.getBoolean(Constants.kIsRedAlliance)));
-    autoCommand.addOption("pathweaver", Pathweaver.pathweaverCommand(AutoConstants.kTrajectoryName));
+    m_autoCommand.addOption("pathweaver", Pathweaver.pathweaverCommand(Constants.auto.kTrajectoryName));
     // m_chooser.addOption("teleop", new TeleopDrive(Drivetrain.getInstance()));
-    autoCommand.addOption("Spin baby spin", new RunCommand(() -> RobotContainer.m_drive.tankDrive(0.5, -0.5), RobotContainer.m_drive));
+    m_autoCommand.addOption("Spin baby spin", new RunCommand(() -> Robot.m_drive.tankDrive(0.5, -0.5), Robot.m_drive));
     // adds auto to shuffle board
     // SmartDashboard.putData("Auto Chooser",autoCommand);
   }
   public void subsystemSpam() {
     // put subsystem shuffleboard things in here!
 
-    loadClimbExtenderShuffleboard(RobotContainer.m_extenderL);
-    loadClimbExtenderShuffleboard(RobotContainer.m_extenderR);
+    loadClimbExtenderShuffleboard(Robot.m_extenderL);
+    loadClimbExtenderShuffleboard(Robot.m_extenderR);
 
-    loadClimbRotatorShuffleboard(RobotContainer.m_climbRotatorL);
-    loadClimbRotatorShuffleboard(RobotContainer.m_climbRotatorR);
+    loadClimbRotatorShuffleboard(Robot.m_rotatorL);
+    loadClimbRotatorShuffleboard(Robot.m_rotatorR);
 
     loadCargoShooterShuffleboard();
     loadCargoRotatorShuffleboard();
@@ -112,113 +97,107 @@ public class ShuffleboardManager {
 
   public Command getAutonomousCommand() {
     chooserUpdate();
-    return autoCommand.getSelected();
+    return m_autoCommand.getSelected();
   }
   public Command getAutonomousWaitCommand() {
-    return new WaitCommand(autoWait.getDouble(0));
+    return new WaitCommand(m_autoWait.getDouble(0));
   }
 
   public void loadCargoRotatorShuffleboard() {
-    cargoTab.addNumber("Cargo Arm Angle", RobotContainer.m_cargoRotator::currentAngle);
-    cargoTab.addBoolean("Cargo Rotator", RobotContainer.m_cargoRotator::isEnabled);
-    cargoTab.addNumber("Cargo Arm Raw Angle", RobotContainer.m_cargoRotator::currentAngleRaw);
-    cargoTab.addNumber("Cargo Rotator Setpoint", RobotContainer.m_cargoRotator::getSetpoint);
+    m_cargoTab.addNumber("Cargo Arm Angle", Robot.m_arm::currentAngle);
+    m_cargoTab.addBoolean("Cargo Rotator", Robot.m_arm::isEnabled);
+    m_cargoTab.addNumber("Cargo Arm Raw Angle", Robot.m_arm::currentAngleRaw);
+    m_cargoTab.addNumber("Cargo Rotator Setpoint", Robot.m_arm::getSetpoint);
 
-    cargoTab.add("Cargo Rotator PID", RobotContainer.m_cargoRotator.cargoRotatorPID);
+    m_cargoTab.add("Cargo Rotator PID", Robot.m_arm.m_armPID);
   }
   public void loadCargoShooterShuffleboard() {
-    cargoTab.addBoolean("Cargo Shooter", RobotContainer.m_cargoShooter::isEnabled);
-    cargoTab.addNumber("Shooter Velocity", RobotContainer.m_cargoShooter::getVelocity);
+    m_cargoTab.addBoolean("Cargo Shooter", Robot.m_shooter::isEnabled);
+    m_cargoTab.addNumber("Shooter Velocity", Robot.m_shooter::getVelocity);
         
-    cargoTab.add("CargoShooterPID", RobotContainer.m_cargoShooter.cargoShooterPID);
+    m_cargoTab.add("CargoShooterPID", Robot.m_shooter.m_shooterPID);
 
-    SmartDashboard.putNumber("Shooter FF", RobotContainer.wheelConstants.kForward);
+    SmartDashboard.putNumber("Shooter FF", Constants.shooter.kForward);
   }
   public void loadCargoBeltShuffleboard(){
-    cargoTab.addBoolean("Cargo Belt", RobotContainer.m_cargoBelt::isEnabled);
+    m_cargoTab.addBoolean("Cargo Belt", Robot.m_belt::isEnabled);
   }
 
   public void loadLimelightShuffleboard() {
-    cargoTab.add("Alignment PID", AlignToUpperHub.alignPID);
-    cargoTab.add("Ball Chase PID", ChaseBall.turnPID);
+    m_cargoTab.add("Alignment PID", AlignToUpperHub.alignPID);
+    m_cargoTab.add("Ball Chase PID", ChaseBall.turnPID);
 
-    cargoTab.addBoolean("Is Aligned To Hub", () -> AlignToUpperHub.isFinished);
-    cargoTab.addNumber("Alignment offset (deg)", () -> AlignToUpperHub.offset);
+    m_cargoTab.addBoolean("Is Aligned To Hub", () -> AlignToUpperHub.isFinished);
+    m_cargoTab.addNumber("Alignment offset (deg)", () -> AlignToUpperHub.offset);
 
-    cargoTab.addNumber("Chase offset (deg)", () -> ChaseBall.offset);
+    m_cargoTab.addNumber("Chase offset (deg)", () -> ChaseBall.offset);
 
-    cargoTab.addNumber("Pivot Distance (in)", () -> Units.metersToInches(GetDistance.pivotDistance));
-    cargoTab.addNumber("Limelight Distance (in)", () -> Units.metersToInches(GetDistance.limelightDistance));
-    cargoTab.addNumber("Optimal velocity (ft)", () -> GetDistance.optimalVelocity);
+    m_cargoTab.addNumber("Pivot Distance (in)", () -> Units.metersToInches(GetDistance.pivotDistance));
+    m_cargoTab.addNumber("Limelight Distance (in)", () -> Units.metersToInches(GetDistance.limelightDistance));
+    m_cargoTab.addNumber("Optimal velocity (ft)", () -> GetDistance.optimalVelocity);
     // cargoTab.addNumber("Optimal RPM", () -> ShooterMethods.velocityToRPM(() -> GetDistance.optimalVelocity));
-    cargoTab.addNumber("Optimal stipe angle (deg)", () -> GetDistance.optimalStipeAngle);
-    cargoTab.addBoolean("getDistance Is Finished", () -> GetDistance.isFinished);
+    m_cargoTab.addNumber("Optimal stipe angle (deg)", () -> GetDistance.optimalStipeAngle);
+    m_cargoTab.addBoolean("getDistance Is Finished", () -> GetDistance.isFinished);
 
-    cargoTab.addNumber("Tx (deg)", RobotContainer.m_limelight::getHubHorizontalAngularOffset);
-    cargoTab.addNumber("Ty (deg)", RobotContainer.m_limelight::getVerticalAngularOffset);
+    m_cargoTab.addNumber("Tx (deg)", Robot.m_limelight::getHubHorizontalAngularOffset);
+    m_cargoTab.addNumber("Ty (deg)", Robot.m_limelight::getVerticalAngularOffset);
 
-    cargoTab.addNumber("Limelight latency (ms)", RobotContainer.m_limelight::getLatency);
+    m_cargoTab.addNumber("Limelight latency (ms)", Robot.m_limelight::getLatency);
 
     // SmartDashboard.putNumber("Front Shooting velocity", -2900);
     // SmartDashboard.putNumber("Front Stipe angle", 80);
 
     // SmartDashboard.putNumber("Back Shooting velocity", -2900);
     // SmartDashboard.putNumber("Back Stipe angle", 154);
-    SmartDashboard.putNumber("Front Shot Efficiency", RobotContainer.wheelConstants.kFrontShotEfficiency);
-    SmartDashboard.putNumber("Back Shot Efficiency", RobotContainer.wheelConstants.kBackShotEfficiency);
+    SmartDashboard.putNumber("Front Shot Efficiency", Constants.shooter.kFrontShotEfficiency);
+    SmartDashboard.putNumber("Back Shot Efficiency", Constants.shooter.kBackShotEfficiency);
 
-    SmartDashboard.putNumber("Front Distance Error (in)", RobotContainer.limelightConstants.kFrontLimelightDistanceError);
-    SmartDashboard.putNumber("Back Distance Error (in)", RobotContainer.limelightConstants.kBackLimelightDistanceError);
-
-    SmartDashboard.putBoolean("Is Red Alliance", Constants.kIsRedAlliance);
+    SmartDashboard.putNumber("Front Distance Error (in)", Constants.ll.kFrontLimelightDistanceError);
+    SmartDashboard.putNumber("Back Distance Error (in)", Constants.ll.kBackLimelightDistanceError);
   }
 
   public void loadClimbExtenderShuffleboard(ClimbExtender extender) {
-    climbTab.addNumber(extender.getSide() + " Extension", extender::currentExtensionRaw);
-    climbTab.addBoolean(extender.getSide() + " Extender", extender::isEnabled);
+    m_climbTab.addNumber(extender.getSide() + " Extension", extender::currentExtensionRaw);
+    m_climbTab.addBoolean(extender.getSide() + " Extender", extender::isEnabled);
     
-    climbTab.add(extender.getSide() + "Climb Extender PID", extender.extenderPID);
-    climbTab.addBoolean(extender.getSide() + " Extender Setpoint", extender::reachedSetpoint);
+    m_climbTab.add(extender.getSide() + "Climb Extender PID", extender.m_extenderPID);
+    m_climbTab.addBoolean(extender.getSide() + " Extender Setpoint", extender::reachedSetpoint);
   }
 
   public void loadClimbRotatorShuffleboard(ClimbRotator rotator) {
     // a pop-up in shuffleboard that allows you to see how much the arm extended in inches
-    climbTab.addNumber(rotator.getSide() + " Climb Rotator Angle", rotator::currentAngle);
+    m_climbTab.addNumber(rotator.getSide() + " Climb Rotator Angle", rotator::currentAngle);
     // a pop-up in shuffleboard that states if the rotator is on/off
-    climbTab.addBoolean(rotator.getSide() + " Climb Rotator", rotator::isEnabled);
+    m_climbTab.addBoolean(rotator.getSide() + " Climb Rotator", rotator::isEnabled);
 
-    climbTab.addNumber(rotator.getSide() + " Climb Rotator Goal", rotator::getSetPoint);
+    m_climbTab.addNumber(rotator.getSide() + " Climb Rotator Goal", rotator::getSetPoint);
     
     // PID values that can be modified in shuffleboard
-    climbTab.add(rotator.getSide() + " Climb Rotator PID", rotator.armPID);
-    climbTab.addBoolean(rotator.getSide() + " Climb Rotator Setpoint Reached", rotator::reachedSetpoint);
+    m_climbTab.add(rotator.getSide() + " Climb Rotator PID", rotator.armPID);
+    m_climbTab.addBoolean(rotator.getSide() + " Climb Rotator Setpoint Reached", rotator::reachedSetpoint);
 
 
   }
 
   public void loadBallDetectionShuffleboard(){
-    cargoTab.addBoolean("Has Red Ball", RobotContainer.m_ballDetection::hasRedBall);
-    cargoTab.addBoolean("Has Blue Ball", RobotContainer.m_ballDetection::hasBlueBall);
-    cargoTab.addBoolean("Has Ball", RobotContainer.m_ballDetection::containsBall);
-    cargoTab.addBoolean("Has Ball Securely", RobotContainer.m_ballDetection::containsBallSecurely);
+    m_cargoTab.addBoolean("Has Red Ball", Robot.m_ballDetection::hasRedBall);
+    m_cargoTab.addBoolean("Has Blue Ball", Robot.m_ballDetection::hasBlueBall);
+    m_cargoTab.addBoolean("Has Ball", Robot.m_ballDetection::containsBall);
+    m_cargoTab.addBoolean("Has Ball Securely", Robot.m_ballDetection::containsBallSecurely);
 
-  }
-
-  private String getDriveModeString(){
-    return Driver.getDriveMode().toString();
   }
 
   public boolean getLimelightRed(){
-    return limelightColor.getBoolean(true);
+    return m_limelightColor.getBoolean(true);
   }
   public boolean getLimelightBlue(){
-    return !limelightColor.getBoolean(true);
+    return !m_limelightColor.getBoolean(true);
   }
 
   public void loadCommandSchedulerShuffleboard(){
-    CommandScheduler.getInstance().onCommandInitialize(command -> commandScheduler.setString("Command initialized: " + command.getName()));
-    CommandScheduler.getInstance().onCommandInterrupt(command -> commandScheduler.setString("Command interrupted: " + command.getName()));
-    CommandScheduler.getInstance().onCommandFinish(command -> commandScheduler.setString("Command finished: " + command.getName()));
+    CommandScheduler.getInstance().onCommandInitialize(command -> m_commandScheduler.setString("Command initialized: " + command.getName()));
+    CommandScheduler.getInstance().onCommandInterrupt(command -> m_commandScheduler.setString("Command interrupted: " + command.getName()));
+    CommandScheduler.getInstance().onCommandFinish(command -> m_commandScheduler.setString("Command finished: " + command.getName()));
   }
 }
   

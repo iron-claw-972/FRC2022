@@ -1,81 +1,81 @@
 package frc.robot.util;
 
-import frc.robot.RobotContainer;
+import frc.robot.Robot;
 
 public class ClimberMethods {
   public static void setExtension(double inches) {
-    RobotContainer.m_extenderL.set(inches);
-    RobotContainer.m_extenderR.set(inches);
+    Robot.m_extenderL.set(inches);
+    Robot.m_extenderR.set(inches);
   }
 
   public static void setAngle(double angle) {
-    RobotContainer.m_climbRotatorL.setGoal(angle);
-    RobotContainer.m_climbRotatorR.setGoal(angle);
+    Robot.m_rotatorL.setGoal(angle);
+    Robot.m_rotatorR.setGoal(angle);
   }
 
   public static void setRotatorOutput(double pow) {
-    RobotContainer.m_climbRotatorL.setOutput(pow);
-    RobotContainer.m_climbRotatorR.setOutput(pow);
+    Robot.m_rotatorL.setOutput(pow);
+    Robot.m_rotatorR.setOutput(pow);
   }
 
   public static void setExtenderOutput(double pow) {
-    RobotContainer.m_extenderL.setOutput(pow);
-    RobotContainer.m_extenderR.setOutput(pow);
+    Robot.m_extenderL.setOutput(pow);
+    Robot.m_extenderR.setOutput(pow);
   }
 
   public static boolean isExtenderAtSetpoint() {
     // if the extenders reached their setpoint, return true
-    return RobotContainer.m_extenderL.reachedSetpoint() && RobotContainer.m_extenderR.reachedSetpoint();
+    return Robot.m_extenderL.reachedSetpoint() && Robot.m_extenderR.reachedSetpoint();
   }
 
   public static boolean isRotatorAtSetpoint() {
     // if the rotators reached their setpoint, return true
-   // System.out.println("R: " + RobotContainer.m_climbRotatorR.reachedSetpoint());
-   // System.out.println("L: " + RobotContainer.m_climbRotatorL.reachedSetpoint());
-    return RobotContainer.m_climbRotatorR.reachedSetpoint() && RobotContainer.m_climbRotatorL.reachedSetpoint();
+   // System.out.println("R: " + Robot.mRotatorR.reachedSetpoint());
+   // System.out.println("L: " + Robot.mRotatorL.reachedSetpoint());
+    return Robot.m_rotatorR.reachedSetpoint() && Robot.m_rotatorL.reachedSetpoint();
   }
 
   public static void enableExtender() {
-    RobotContainer.m_extenderL.enable();
-    RobotContainer.m_extenderR.enable();
+    Robot.m_extenderL.enable();
+    Robot.m_extenderR.enable();
   }
 
   public static void disableExtender() {
-    RobotContainer.m_extenderL.disable();
-    RobotContainer.m_extenderR.disable();
+    Robot.m_extenderL.disable();
+    Robot.m_extenderR.disable();
   }
 
   public static void enableRotator() {
-    RobotContainer.m_climbRotatorL.enable();
-    RobotContainer.m_climbRotatorR.enable();
+    Robot.m_rotatorL.enable();
+    Robot.m_rotatorR.enable();
   }
 
   public static void disableRotator() {
-    RobotContainer.m_climbRotatorL.disable();
-    RobotContainer.m_climbRotatorR.disable();
+    Robot.m_rotatorL.disable();
+    Robot.m_rotatorR.disable();
   }
 
   public static void enableAll() {
-    RobotContainer.m_extenderL.enable();
-    RobotContainer.m_extenderR.enable();
-    RobotContainer.m_climbRotatorL.enable();
-    RobotContainer.m_climbRotatorR.enable();
+    Robot.m_extenderL.enable();
+    Robot.m_extenderR.enable();
+    Robot.m_rotatorL.enable();
+    Robot.m_rotatorR.enable();
   }
 
   public static void disableAll() {
-    RobotContainer.m_extenderL.disable();
-    RobotContainer.m_extenderR.disable();
-    RobotContainer.m_climbRotatorL.disable();
-    RobotContainer.m_climbRotatorR.disable();
+    Robot.m_extenderL.disable();
+    Robot.m_extenderR.disable();
+    Robot.m_rotatorL.disable();
+    Robot.m_rotatorR.disable();
   }
 
   public static void removeLimiter() {
-    RobotContainer.m_extenderL.removeLimiter();
-    RobotContainer.m_extenderR.removeLimiter();
+    Robot.m_extenderL.removeLimiter();
+    Robot.m_extenderR.removeLimiter();
   }
 
   public static void enableLimiter() {
-    RobotContainer.m_extenderL.enableLimiter();
-    RobotContainer.m_extenderR.enableLimiter();
+    Robot.m_extenderL.enableLimiter();
+    Robot.m_extenderR.enableLimiter();
   }
 }

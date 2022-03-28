@@ -7,54 +7,51 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
+import frc.robot.constants.Constants;
 import frc.robot.util.ControllerFactory;
-import frc.robot.robotConstants.shooterBelt.MarinusBeltConstants;
 import edu.wpi.first.math.MathUtil;
 
 public class CargoBelt extends SubsystemBase {
-
-  MarinusBeltConstants constants = new MarinusBeltConstants();
-
-  private final WPI_TalonFX m_CargoBeltMotor = ControllerFactory.createTalonFX(
-    constants.kCargoBeltMotorPort , 
-    constants.kSupplyCurrentLimit,
-    constants.kSupplyTriggerThreshold, 
-    constants.kSupplyTriggerDuration,
-    constants.kNeutral
+  private final WPI_TalonFX m_cargoBeltMotor = ControllerFactory.createTalonFX(
+    Constants.belt.kCargoBeltMotorPort , 
+    Constants.belt.kSupplyCurrentLimit,
+    Constants.belt.kSupplyTriggerThreshold, 
+    Constants.belt.kSupplyTriggerDuration,
+    Constants.belt.kNeutral
   );
 
-  private boolean enabled = false;
-  private double motorPower = 0.0;
+  private boolean m_enabled = false;
+  private double m_motorPower = 0.0;
 
   @Override
   public void periodic() {
-    if (enabled){
-      setOutput(motorPower);
+    if (m_enabled){
+      setOutput(m_motorPower);
     }
   }
   
   public void setPower(double power) {
-    motorPower = power;
+    m_motorPower = power;
   }
   
   public void setOutput(double motorPower) {
-    m_CargoBeltMotor.set(ControlMode.PercentOutput, MathUtil.clamp(motorPower, -constants.kMotorClamp, constants.kMotorClamp));
+    m_cargoBeltMotor.set(ControlMode.PercentOutput, MathUtil.clamp(motorPower, -Constants.belt.kMotorClamp, Constants.belt.kMotorClamp));
   }
 
   public void setStop() {
-    motorPower = 0;
+    m_motorPower = 0;
   }
 
   public void enable() {
-    enabled = true;
+    m_enabled = true;
   }
 
   public void disable() {
-    enabled = false;
+    m_enabled = false;
     setOutput(0);
   }
 
   public boolean isEnabled(){
-    return enabled;
+    return m_enabled;
   }
 }

@@ -7,8 +7,8 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
+import frc.robot.constants.Constants;
 import frc.robot.util.ControllerFactory;
-import frc.robot.robotConstants.shooterWheel.MarinusCargoShooterConstants;
 import ctre_shims.TalonEncoder;
 import ctre_shims.TalonEncoderSim;
 import edu.wpi.first.math.MathUtil;
@@ -19,51 +19,54 @@ import edu.wpi.first.wpilibj.simulation.FlywheelSim;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class CargoShooter extends SubsystemBase {
+  private final WPI_TalonFX m_motor = ControllerFactory.createTalonFX(
+    Constants.shooter.kCargoShooterMotorPort,
+    Constants.shooter.kSupplyCurrentLimit,
+    Constants.shooter.kSupplyTriggerThreshold,
+    Constants.shooter.kSupplyTriggerDuration,
+    Constants.shooter.kNeutral
+  );
+  private final TalonEncoder m_encoder = new TalonEncoder(m_motor);
 
-  MarinusCargoShooterConstants constants = new MarinusCargoShooterConstants();
-
-  private final WPI_TalonFX m_cargoShooterMotor = ControllerFactory.createTalonFX(constants.kCargoShooterMotorPort , constants.kSupplyCurrentLimit, constants.kSupplyTriggerThreshold, constants.kSupplyTriggerDuration, constants.kNeutral);
-  private final TalonEncoder m_cargoShooterEncoder = new TalonEncoder(m_cargoShooterMotor);
-
-  public PIDController cargoShooterPID = new PIDController(constants.kP, constants.kI, constants.kD);
+  public PIDController m_shooterPID = new PIDController(Constants.shooter.kP, Constants.shooter.kI, Constants.shooter.kD);
 
   private FlywheelSim m_flywheelSim;
   private TalonEncoderSim m_flywheelEncoderSim;
 
-  private boolean enabled = false;
-  private double motorSpeed = 0.0;
+  private boolean m_enabled = false;
+  private double m_motorSpeed = 0.0;
 
   public CargoShooter() {
-    m_cargoShooterEncoder.setDistancePerPulse(constants.kDistancePerPulse);
-    m_cargoShooterEncoder.reset();
-    cargoShooterPID.setTolerance(constants.kVelocityPIDTolerance);
-    cargoShooterPID.reset();
+    m_encoder.setDistancePerPulse(Constants.shooter.kDistancePerPulse);
+    m_encoder.reset();
+    m_shooterPID.setTolerance(Constants.shooter.kVelocityPIDTolerance);
+    m_shooterPID.reset();
     // cargoShooterPID.setSetpoint(motorSpeed);
 
     if (RobotBase.isSimulation()) {
       m_flywheelSim = new FlywheelSim(
-        constants.kFlywheelPlant,
-        constants.kFlywheelGearbox,
-        constants.kGearRatio
+        Constants.shooter.kFlywheelPlant,
+        Constants.shooter.kFlywheelGearbox,
+        Constants.shooter.kGearRatio
       );
 
-      m_flywheelEncoderSim = new TalonEncoderSim(m_cargoShooterEncoder);
+      m_flywheelEncoderSim = new TalonEncoderSim(m_encoder);
     }
   }
 
   @Override
   public void periodic() {
-    if (enabled){
+    if (m_enabled){
       
-      cargoShooterPID.setSetpoint(motorSpeed);
-      setVoltage(cargoShooterPID.calculate(getVelocity()) + SmartDashboard.getNumber("Shooter FF", constants.kForward) * motorSpeed);
+      m_shooterPID.setSetpoint(m_motorSpeed);
+      setVoltage(m_shooterPID.calculate(getVelocity()) + SmartDashboard.getNumber("Shooter FF", Constants.shooter.kForward) * m_motorSpeed);
     ;
     }
   }
 
   @Override
   public void simulationPeriodic() {
-    m_flywheelSim.setInput(m_cargoShooterMotor.get() * RobotController.getBatteryVoltage());
+    m_flywheelSim.setInput(m_motor.get() * RobotController.getBatteryVoltage());
     m_flywheelSim.update(0.020);
 
     m_flywheelEncoderSim.setRate(m_flywheelSim.getAngularVelocityRPM() / 60);
@@ -71,12 +74,12 @@ public class CargoShooter extends SubsystemBase {
   }
 
   public void setOutput(double motorPower) {
-    m_cargoShooterMotor.set(ControlMode.PercentOutput, MathUtil.clamp(motorPower, -constants.kMotorClamp, constants.kMotorClamp));
+    m_motor.set(ControlMode.PercentOutput, MathUtil.clamp(motorPower, -Constants.shooter.kMotorClamp, Constants.shooter.kMotorClamp));
   }
 
   public void setSpeed(double newSpeed) {
-    motorSpeed = newSpeed;
-    cargoShooterPID.setSetpoint(motorSpeed);
+    m_motorSpeed = newSpeed;
+    m_shooterPID.setSetpoint(m_motorSpeed);
   }
 
   public void setStop() {
@@ -84,28 +87,28 @@ public class CargoShooter extends SubsystemBase {
   }
 
   public void enable() {
-    enabled=true;
+    m_enabled=true;
   }
 
   public void disable() {
-    enabled=false;
+    m_enabled=false;
     setVoltage(0);
   }
 
   public boolean reachedSetpoint() {
-    return cargoShooterPID.atSetpoint();
+    return m_shooterPID.atSetpoint();
   }
 
   public void setVoltage(double volts){
-    m_cargoShooterMotor.setVoltage(volts);
+    m_motor.setVoltage(volts);
   }
 
   public double getVelocity(){
-    return m_cargoShooterEncoder.getRate();
+    return m_encoder.getRate();
   }
 
   public boolean isEnabled() {
-    return enabled;
+    return m_enabled;
   }
 
 }

@@ -2,103 +2,70 @@ package frc.robot.controls;
 
 
 import controllers.*;
+import controllers.PistolController.Axis;
+import controllers.PistolController.Button;
 import edu.wpi.first.math.filter.SlewRateLimiter;
-import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.Constants.*;
-import frc.robot.Constants;
-import frc.robot.RobotContainer;
-import frc.robot.commands.cargoCommands.AlignToUpperHub;
-import frc.robot.commands.cargoCommands.EjectBall;
-import frc.robot.commands.cargoCommands.Intake;
-import frc.robot.commands.cargoCommands.PositionArm;
-import frc.robot.commands.cargoCommands.Shoot;
-import frc.robot.robotConstants.cargoRotator.MarinusCargoRotatorConstants;
-import frc.robot.robotConstants.shooterBelt.MarinusBeltConstants;
-import frc.robot.robotConstants.shooterWheel.MarinusCargoShooterConstants;
-import frc.robot.util.DriveMode;
-import frc.robot.util.ShooterMethods;
+import edu.wpi.first.wpilibj.DriverStation;
+import frc.robot.commands.cargo.EjectBall;
+import frc.robot.commands.cargo.Intake;
+import frc.robot.commands.cargo.PositionArm;
+import frc.robot.constants.Constants;
+import frc.robot.util.Functions;
 
 public class Driver {
+  private static PistolController driver = new PistolController(Constants.oi.kDriverJoy);
 
-  private static PistolController controller = new PistolController(new Joystick(JoyConstants.kDriverJoy));
-
-  private static SlewRateLimiter slewThrottle = new SlewRateLimiter(DriveConstants.kSlewRate);
-  private static SlewRateLimiter slewTurn = new SlewRateLimiter(DriveConstants.kSlewRate);
-
-  public static MarinusCargoRotatorConstants cargoConstants = new MarinusCargoRotatorConstants();
-  public static MarinusBeltConstants beltConstants = new MarinusBeltConstants();
-  public static MarinusCargoShooterConstants wheelConstants = new MarinusCargoShooterConstants();
-  
-  // sets default drive mode
-  private static DriveMode driveMode = DriveMode.ARCADE;
+  private static SlewRateLimiter slewThrottle = new SlewRateLimiter(Constants.drive.kSlewRate);
+  private static SlewRateLimiter slewTurn = new SlewRateLimiter(Constants.drive.kSlewRate);
 
   // driver buttons
-  public static void configureButtonBindings() {
+  public static void configureControls() {
+    if (!DriverStation.isJoystickConnected(Constants.oi.kDriverJoy)) {
+      // Don't try to configure bindings if controller not plugged in
+      return;
+    }
+    configureDriveControls();
+  }
+
+  private static void configureDriveControls() {
     // Position arm front
-    controller.getButtons().frontSwitchBottom().whenPressed(new PositionArm(cargoConstants.kFrontLimelightScanPos));
+    driver.get(Button.BOTTOM_FRONT).whenPressed(new PositionArm(Constants.arm.kFrontLimelightScanPos));
 
     // Position arm back
-    controller.getButtons().backSwitchBottom().whenPressed(new PositionArm(cargoConstants.kBackLimelightScanPos));
+    driver.get(Button.BOTTOM_BACK).whenPressed(new PositionArm(Constants.arm.kBackLimelightScanPos));
 
-    // Intake w/ ball chase for our color
-    controller.getButtons().frontSwitchTop()
-      .whenHeld(new Intake(cargoConstants.kUprightPos, true, Constants.kIsRedAlliance))
-      .whenReleased(new PositionArm(cargoConstants.kUprightPos));
+    // Intake w/ ball chase for red ball
+    driver.get(Button.TOP_FRONT)
+      .whenHeld(new Intake(Constants.arm.kUprightPos, true, true))
+      .whenReleased(new PositionArm(Constants.arm.kUprightPos));
 
-    // Intake w/ ball chase for opponent color
-    controller.getButtons().backSwitchTop()
-      .whenHeld(new Intake(cargoConstants.kUprightPos, true, !Constants.kIsRedAlliance))
-      .whenReleased(new PositionArm(cargoConstants.kUprightPos));
+    // Intake w/ ball chase for blue ball
+    driver.get(Button.TOP_BACK)
+      .whenHeld(new Intake(Constants.arm.kUprightPos, true, false))
+      .whenReleased(new PositionArm(Constants.arm.kUprightPos));
 
     // Eject ball
-    controller.getButtons().bottomButton().whenHeld(new EjectBall());
+    driver.get(Button.BOTTOM).whenHeld(new EjectBall());
   }
   
   public static double getThrottleValue() {
     // put any processes in any order of the driver's choosing
     // Controllers y-axes are natively up-negative, down-positive
-    return slewThrottle.calculate(Functions.deadband(JoyConstants.kDeadband, getRawThrottleValue()));
+    return slewThrottle.calculate(Functions.deadband(Constants.oi.kDeadband, getRawThrottleValue()));
   }
 
   public static double getTurnValue() {
     // right is positive; left is negative
-    return slewTurn.calculate(Functions.deadband(JoyConstants.kDeadband, getRawTurnValue()));
-  }
-  
-  // sets drive mode
-  public static void setDriveMode(DriveMode dm) {
-    driveMode = dm;
-  }
-  
-  //checks drive mode
-  public static boolean isDrive(DriveMode drive) {
-    return (driveMode == drive);
+    return slewTurn.calculate(Functions.deadband(Constants.oi.kDeadband, getRawTurnValue()));
   }
 
   public static double getRawThrottleValue() {
     // Controllers y-axes are natively up-negative, down-positive
-    return controller.getTriggerAxis();
+    return driver.get(Axis.TRIGGER);
   }
 
   public static double getRawTurnValue() {
     // Right is Positive left is negative
-    return controller.getWheelAxis();
+    return driver.get(Axis.WHEEL);
   }
-
-  public static DriveMode getDriveMode() {
-    return driveMode;
-  }
-  
-  public static void swapDriveMode(DriveMode primary , DriveMode secondary){
-    if (driveMode == primary) {
-      setDriveMode(secondary);
-    } else if (driveMode == secondary){
-      setDriveMode(primary);
-    } else {
-      setDriveMode(primary);
-    }
-  }
-
 }

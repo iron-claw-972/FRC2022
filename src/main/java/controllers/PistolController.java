@@ -1,57 +1,54 @@
 package controllers;
 
-import controllers.constants.PistolConstants;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 public class PistolController extends Controller {
+  public final Trigger
+    TOP_BACK_ONLY = get(Button.TOP_BACK).and(get(Button.TOP_FRONT).negate()),
+    TOP_FRONT_ONLY = get(Button.TOP_FRONT).and(get(Button.TOP_BACK).negate()),
+    BOTTOM_BACK_ONLY = get(Button.BOTTOM_BACK).and(get(Button.BOTTOM_FRONT).negate()),
+    BOTTOM_FRONT_ONLY = get(Button.BOTTOM_FRONT).and(get(Button.BOTTOM_BACK).negate());
 
-  private Button button = new Button();
 
-  public PistolController(Joystick joystick_){
-    super(joystick_);
+  public PistolController(int port) {
+    super(port);
   }
+  
+  public enum Button {
+    TOP_BACK(1), TOP_FRONT(2),BOTTOM_FRONT(3), BOTTOM_BACK(4),  BOTTOM(5);
 
-  public class Button {
-    public JoystickButton backSwitchTop() {
-      return new JoystickButton(getController(), PistolConstants.Buttons.kBackSwitchTop);
-    }
-    public JoystickButton frontSwitchTop() {
-      return new JoystickButton(getController(), PistolConstants.Buttons.kForwardSwitchTop);
-    }
-    public JoystickButton backSwitchBottom() {
-      return new JoystickButton(getController(), PistolConstants.Buttons.kBackSwitchBottom);
-    }
-    public JoystickButton frontSwitchBottom() {
-      return new JoystickButton(getController(), PistolConstants.Buttons.kForwardSwitchBottom);
-    }
-    public JoystickButton bottomButton() {
-      return new JoystickButton(getController(), PistolConstants.Buttons.kBottomButton);
-    }
+    public final int id;
 
-    public Trigger backSwitchTopSmart() {
-      return new JoystickButton(getController(), PistolConstants.Buttons.kBackSwitchTop).and(frontSwitchTop().negate());
+    Button(final int id) {
+      this.id = id;
     }
-    public Trigger frontSwitchTopSmart() {
-      return new JoystickButton(getController(), PistolConstants.Buttons.kForwardSwitchTop).and(backSwitchTop().negate());
-    }
-    public Trigger backSwitchBottomSmart() {
-      return new JoystickButton(getController(), PistolConstants.Buttons.kBackSwitchBottom).and(frontSwitchBottom().negate());
-    }
-    public Trigger frontSwitchBottomSmart() {
-      return new JoystickButton(getController(), PistolConstants.Buttons.kForwardSwitchBottom).and(frontSwitchBottom().negate());
+  }
+  
+  public enum Axis {
+    WHEEL(0), TRIGGER(1);
+
+    public final int id;
+
+    Axis(final int id) {
+      this.id = id;
     }
   }
 
-  public double getTriggerAxis() {
-    return getController().getRawAxis(PistolConstants.JoystickAxis.kTriggerAxis);
-  }
-  public double getWheelAxis() {
-    return getController().getRawAxis(PistolConstants.JoystickAxis.kWheelAxis);
+  public JoystickButton get(Button button) {
+    return new JoystickButton(m_controller, button.id);
   }
 
-  public Button getButtons() {
-    return button;
+  public double get(Axis axis) {
+    return m_controller.getRawAxis(axis.id);
+  }
+  
+  public Trigger get(Trigger trigger) {
+    return trigger;
+  }
+
+  public Joystick get() {
+    return m_controller;
   }
 }

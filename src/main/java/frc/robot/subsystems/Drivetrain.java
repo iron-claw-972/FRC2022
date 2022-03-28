@@ -8,7 +8,7 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.robotConstants.drivetrain.*;
+import frc.robot.constants.Constants;
 import frc.robot.util.ControllerFactory;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
@@ -36,52 +36,46 @@ import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import ctre_shims.TalonEncoder;
 import ctre_shims.TalonEncoderSim;
-import frc.robot.Constants.AutoConstants;
-import frc.robot.Constants;
 
 public class Drivetrain extends SubsystemBase {
-
-  //change this to use constants from a different robot
-  public static MarinusDriveConstants constants = new MarinusDriveConstants();
-
-  WPI_TalonFX m_leftMotor1 = ControllerFactory.createTalonFX(constants.leftMotorPorts[0], constants.kSupplyCurrentLimit, constants.kSupplyTriggerThreshold, constants.kSupplyTriggerDuration, constants.kMainNeutralMode, true);
-  WPI_TalonFX m_rightMotor1 = ControllerFactory.createTalonFX(constants.rightMotorPorts[0], constants.kSupplyCurrentLimit, constants.kSupplyTriggerThreshold, constants.kSupplyTriggerDuration, constants.kMainNeutralMode, true);
-  WPI_TalonFX m_leftMotor2 = ControllerFactory.createTalonFX(constants.leftMotorPorts[1], constants.kSupplyCurrentLimit, constants.kSupplyTriggerThreshold, constants.kSupplyTriggerDuration, constants.kNeutralMode, true);
-  WPI_TalonFX m_rightMotor2 = ControllerFactory.createTalonFX(constants.rightMotorPorts[1], constants.kSupplyCurrentLimit, constants.kSupplyTriggerThreshold, constants.kSupplyTriggerDuration, constants.kNeutralMode, true);
+  WPI_TalonFX m_leftMotor1 = ControllerFactory.createTalonFX(Constants.drive.leftMotorPorts[0], Constants.drive.kSupplyCurrentLimit, Constants.drive.kSupplyTriggerThreshold, Constants.drive.kSupplyTriggerDuration, Constants.drive.kMainNeutralMode, true);
+  WPI_TalonFX m_rightMotor1 = ControllerFactory.createTalonFX(Constants.drive.rightMotorPorts[0], Constants.drive.kSupplyCurrentLimit, Constants.drive.kSupplyTriggerThreshold, Constants.drive.kSupplyTriggerDuration, Constants.drive.kMainNeutralMode, true);
+  WPI_TalonFX m_leftMotor2 = ControllerFactory.createTalonFX(Constants.drive.leftMotorPorts[1], Constants.drive.kSupplyCurrentLimit, Constants.drive.kSupplyTriggerThreshold, Constants.drive.kSupplyTriggerDuration, Constants.drive.kNeutralMode, true);
+  WPI_TalonFX m_rightMotor2 = ControllerFactory.createTalonFX(Constants.drive.rightMotorPorts[1], Constants.drive.kSupplyCurrentLimit, Constants.drive.kSupplyTriggerThreshold, Constants.drive.kSupplyTriggerDuration, Constants.drive.kNeutralMode, true);
   
   // private PhoenixMotorControllerGroup m_leftMotors;
   // private PhoenixMotorControllerGroup m_rightMotors;
   // private final DifferentialDrive m_dDrive;
 
   // The left-side drive encoder
-  private final TalonEncoder m_leftEncoder = new TalonEncoder(m_leftMotor1, constants.kLeftEncoderReversed);
+  private final TalonEncoder m_leftEncoder = new TalonEncoder(m_leftMotor1, Constants.drive.kLeftEncoderReversed);
 
   // The right-side drive encoder
-  private final TalonEncoder m_rightEncoder = new TalonEncoder(m_rightMotor1, constants.kRightEncoderReversed);
+  private final TalonEncoder m_rightEncoder = new TalonEncoder(m_rightMotor1, Constants.drive.kRightEncoderReversed);
 
   private final AHRS m_navX = new AHRS(SPI.Port.kMXP);
 
   // Odometry class for tracking robot pose
   private final DifferentialDriveOdometry m_odometry;
 
-  private final PIDController m_leftPositionPID = new PIDController(constants.KpPosition, constants.KiPosition, constants.KdPosition);
-  private final PIDController m_rightPositionPID = new PIDController(constants.KpPosition, constants.KiPosition, constants.KdPosition);
+  private final PIDController m_leftPositionPID = new PIDController(Constants.drive.KpPosition, Constants.drive.KiPosition, Constants.drive.KdPosition);
+  private final PIDController m_rightPositionPID = new PIDController(Constants.drive.KpPosition, Constants.drive.KiPosition, Constants.drive.KdPosition);
 
-  private final PIDController m_leftVelocityPID = new PIDController(constants.KpVelocity,
-      constants.KiVelocity, constants.KdVelocity);
-  private final PIDController m_rightVelocityPID = new PIDController(constants.KpVelocity,
-      constants.KiVelocity, constants.KdVelocity);
+  private final PIDController m_leftVelocityPID = new PIDController(Constants.drive.KpVelocity,
+      Constants.drive.KiVelocity, Constants.drive.KdVelocity);
+  private final PIDController m_rightVelocityPID = new PIDController(Constants.drive.KpVelocity,
+      Constants.drive.KiVelocity, Constants.drive.KdVelocity);
 
-  private final RamseteController m_ramseteController = new RamseteController(AutoConstants.kRamseteB,
-      AutoConstants.kRamseteZeta);
+  private final RamseteController m_ramseteController = new RamseteController(Constants.auto.kRamseteB,
+      Constants.auto.kRamseteZeta);
 
   private final SimpleMotorFeedforward m_feedforward = new SimpleMotorFeedforward(
-      constants.KsLinear,
-      constants.KvLinear,
-      constants.KaLinear);
+      Constants.drive.KsLinear,
+      Constants.drive.KvLinear,
+      Constants.drive.KaLinear);
 
   private final DifferentialDriveKinematics m_driveKinematics = new DifferentialDriveKinematics(
-      constants.kTrackWidth);
+      Constants.drive.kTrackWidth);
 
   // These classes help us simulate our drivetrain
   private DifferentialDrivetrainSim m_drivetrainSim;
@@ -119,8 +113,8 @@ public class Drivetrain extends SubsystemBase {
     m_leftMotor1.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
 
     // Sets the distance per pulse for the encoders
-    m_leftEncoder.setDistancePerPulse(constants.kDistancePerPulse);
-    m_rightEncoder.setDistancePerPulse(constants.kDistancePerPulse);
+    m_leftEncoder.setDistancePerPulse(Constants.drive.kDistancePerPulse);
+    m_rightEncoder.setDistancePerPulse(Constants.drive.kDistancePerPulse);
 
     resetEncoders();
     zeroHeading();
@@ -130,11 +124,11 @@ public class Drivetrain extends SubsystemBase {
     if (RobotBase.isSimulation()) {
       // This class simulates our drivetrain's motion around the field.
       m_drivetrainSim = new DifferentialDrivetrainSim(
-          constants.kDrivetrainPlant,
-          constants.kDriveGearbox,
-          constants.kGearRatio,
-          constants.kTrackWidth,
-          constants.kWheelDiameter / 2.0,
+          Constants.drive.kDrivetrainPlant,
+          Constants.drive.kDriveGearbox,
+          Constants.drive.kGearRatio,
+          Constants.drive.kTrackWidth,
+          Constants.drive.kWheelDiameter / 2.0,
           VecBuilder.fill(0, 0, 0.0001, 0.1, 0.1, 0.005, 0.005));
 
       // The encoder and gyro angle sims let us set simulated sensor readings
@@ -199,10 +193,10 @@ public class Drivetrain extends SubsystemBase {
   }
 
   public void resetCoastBrakeMode() {
-    m_leftMotor1.setNeutralMode(constants.kMainNeutralMode);
-    m_rightMotor1.setNeutralMode(constants.kMainNeutralMode);
-    m_leftMotor1.setNeutralMode(constants.kNeutralMode);
-    m_rightMotor1.setNeutralMode(constants.kNeutralMode);
+    m_leftMotor1.setNeutralMode(Constants.drive.kMainNeutralMode);
+    m_rightMotor1.setNeutralMode(Constants.drive.kMainNeutralMode);
+    m_leftMotor1.setNeutralMode(Constants.drive.kNeutralMode);
+    m_rightMotor1.setNeutralMode(Constants.drive.kNeutralMode);
   }
 
   public void shiftDrive(double throttle, double turn) {

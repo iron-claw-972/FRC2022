@@ -1,8 +1,8 @@
 package frc.robot.commands;
 
-import frc.robot.RobotContainer;
-import frc.robot.commands.cargoCommands.GetDistance;
-import frc.robot.subsystems.CargoRotator;
+import frc.robot.Robot;
+import frc.robot.commands.cargo.GetDistance;
+import frc.robot.subsystems.CargoArm;
 import frc.robot.subsystems.Limelight;
 
 import static org.junit.Assert.*;
@@ -41,8 +41,8 @@ public class GetDistanceTest {
 
   // @Test
   // public void printShootingResults() {
-  //   // when(cargoRotator.currentAngle()).thenReturn(RobotContainer.cargoConstants.kFrontLimelightScanPos);
-  //   when(cargoRotator.currentAngle()).thenReturn(RobotContainer.cargoConstants.kBackLimelightScanPos);
+  //   // when(cargoRotator.currentAngle()).thenReturn(Constants.arm.kFrontLimelightScanPos);
+  //   when(cargoRotator.currentAngle()).thenReturn(Constants.arm.kBackLimelightScanPos);
   //   doAnswer(stipeAngle -> {
   //     return Units.inchesToMeters(84);
   //   }).when(limelight).getHubDistance(anyDouble());

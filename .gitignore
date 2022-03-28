@@ -164,6 +164,6 @@ bin/
 /sim/**
 
 shuffleboarddebug.json
-/sim*.json
+/simgui*
 
 *.wpilog
