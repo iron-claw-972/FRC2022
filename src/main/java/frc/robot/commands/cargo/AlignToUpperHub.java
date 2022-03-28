@@ -7,7 +7,7 @@ import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Limelight;
 
 public class AlignToUpperHub extends CommandBase {
-  private final Limelight mLimelight;
+  private final Limelight m_limelight;
   private final Drivetrain m_drive;
 
   public static boolean isFinished = false;
@@ -16,7 +16,7 @@ public class AlignToUpperHub extends CommandBase {
   public static PIDController alignPID = new PIDController(Constants.ll.kAlignP, Constants.ll.kAlignI, Constants.ll.kAlignD);
 
   public AlignToUpperHub(Limelight limelight, Drivetrain drivetrain) {
-    mLimelight = limelight;
+    m_limelight = limelight;
     m_drive = drivetrain;
     addRequirements(limelight, drivetrain);
 
@@ -26,19 +26,19 @@ public class AlignToUpperHub extends CommandBase {
   @Override
   public void initialize() {
     isFinished = false;
-    mLimelight.setUpperHubPipeline();
+    m_limelight.setUpperHubPipeline();
     alignPID.reset();
   }
 
   @Override
   public void execute() {
-    offset = mLimelight.getHubHorizontalAngularOffset();
+    offset = m_limelight.getHubHorizontalAngularOffset();
     m_drive.arcadeDrive(0, alignPID.calculate(offset, 0));
   }
 
   @Override
   public boolean isFinished() {
-    return alignPID.atSetpoint() && mLimelight.hasValidTarget();
+    return alignPID.atSetpoint() && m_limelight.hasValidTarget();
   }
 
   @Override

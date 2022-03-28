@@ -11,7 +11,7 @@ import frc.robot.subsystems.Limelight;
 import frc.robot.util.ShooterMethods;
 
 public class ChaseBall extends CommandBase {
-  private final Limelight mLimelight;
+  private final Limelight m_limelight;
   private final Drivetrain m_drive;
   
   private final boolean m_isRedBall;
@@ -28,7 +28,7 @@ public class ChaseBall extends CommandBase {
   }
 
   public ChaseBall(Limelight limelight, Drivetrain drivetrain, boolean isRedBall) {
-    mLimelight = limelight;
+    m_limelight = limelight;
     m_drive = drivetrain;
     addRequirements(limelight, drivetrain);
 
@@ -43,16 +43,16 @@ public class ChaseBall extends CommandBase {
 
   @Override
   public void initialize() {
-    mLimelight.setBallPipeline(m_isRedBall);
+    m_limelight.setBallPipeline(m_isRedBall);
     turnPID.reset();
     // throttlePID.reset();
   }
 
   @Override
   public void execute() {
-    // double distance = Units.metersToInches(mLimelight.getBallDistance(2, m_isRedBall));
+    // double distance = Units.metersToInches(m_limelight.getBallDistance(2, m_isRedBall));
 
-    offset = mLimelight.getBallHorizontalAngularOffset(m_isRedBall);
+    offset = m_limelight.getBallHorizontalAngularOffset(m_isRedBall);
     double turn = MathUtil.clamp(
       turnPID.calculate(offset, 0),
       -Constants.ll.kMaxTurnPower,

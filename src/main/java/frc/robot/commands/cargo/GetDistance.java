@@ -10,7 +10,7 @@ import frc.robot.subsystems.Limelight;
 import frc.robot.util.ShooterMethods;
 
 public class GetDistance extends CommandBase {
-  private final Limelight mLimelight;
+  private final Limelight m_limelight;
   private final CargoArm m_cargoRotator;
 
   public static boolean isFinished = false;
@@ -24,7 +24,7 @@ public class GetDistance extends CommandBase {
   private boolean isFront = true;
 
   public GetDistance(Limelight limelight, CargoArm cargoRotator) {
-    mLimelight = limelight;
+    m_limelight = limelight;
     m_cargoRotator = cargoRotator;
     addRequirements(limelight);
   }
@@ -32,7 +32,7 @@ public class GetDistance extends CommandBase {
   @Override
   public void initialize() {
     isFinished = false;
-    mLimelight.setUpperHubPipeline();
+    m_limelight.setUpperHubPipeline();
     optimalVelocity = Double.NaN;
     optimalStipeAngle = Double.NaN;
     loggedOptimalShootingAngle = Double.NaN;
@@ -59,7 +59,7 @@ public class GetDistance extends CommandBase {
     }
     
     // Get horizontal distance from vision tape to limelight lens
-    limelightDistance = mLimelight.getHubDistance(currentStipeAngle);
+    limelightDistance = m_limelight.getHubDistance(currentStipeAngle);
 
     // if (isFront) {
     //   limelightDistance += SmartDashboard.getNumber("Front Distance Error", Constants.ll.kFrontLimelightDistanceError);

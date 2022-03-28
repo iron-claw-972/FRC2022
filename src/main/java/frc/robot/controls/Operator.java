@@ -59,18 +59,18 @@ public class Operator {
 
   // public static void testShootBinds() {
     // controller.get().RT().whileActiveOnce(new Shoot(false, false, false, 175, -6000));
-    // controller.get().RB().whenHeld(new GetDistance(Robot.mLimelight, Robot.mArm));
+    // controller.get().RB().whenHeld(new GetDistance(Robot.m_limelight, Robot.mArm));
 
     // Align to upper hub front
     // controller.get().RT().whileActiveOnce(new SequentialCommandGroup(
     //   new PositionArm(Constants.arm.kFrontLimelightScanPos),
-    //   new AlignToUpperHub(Robot.mLimelight, Robot.m_drive)
+    //   new AlignToUpperHub(Robot.m_limelight, Robot.m_drive)
     // ));
 
     // // Align to upper hub back
     // controller.get().RB().whenHeld(new SequentialCommandGroup(
     //   new PositionArm(Constants.arm.kBackLimelightScanPos),
-    //   new AlignToUpperHub(Robot.mLimelight, Robot.m_drive)
+    //   new AlignToUpperHub(Robot.m_limelight, Robot.m_drive)
     // ));
   // }
 
