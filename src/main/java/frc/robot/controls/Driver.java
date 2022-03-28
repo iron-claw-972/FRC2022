@@ -25,6 +25,11 @@ public class Driver {
       DriverStation.reportWarning("Driver controller not connected to Port " + Constants.oi.kDriverJoy, true);
       return;
     }
+    if (getThrottleValue() != 0 || getTurnValue() != 0) {
+      // Make sure driver controller is responding so the drivetrain doesn't go crazy upon enabling
+      DriverStation.reportWarning("Driver controller not properly connected to Port " + Constants.oi.kDriverJoy + ". Try restarting or reconnecting driver controller.", false);
+      return;
+    }
     configureDriveControls();
   }
 
