@@ -12,13 +12,21 @@ import frc.robot.util.ControllerFactory;
 import edu.wpi.first.math.MathUtil;
 
 public class CargoBelt extends SubsystemBase {
-  private final WPI_TalonFX m_cargoBeltMotor = ControllerFactory.createTalonFX(
-    Constants.belt.kCargoBeltMotorPort , 
-    Constants.belt.kSupplyCurrentLimit,
-    Constants.belt.kSupplyTriggerThreshold, 
-    Constants.belt.kSupplyTriggerDuration,
-    Constants.belt.kNeutral
-  );
+  private final WPI_TalonFX m_cargoBeltMotor;
+
+  public CargoBelt() {
+    this(ControllerFactory.createTalonFX(
+      Constants.belt.kCargoBeltMotorPort , 
+      Constants.belt.kSupplyCurrentLimit,
+      Constants.belt.kSupplyTriggerThreshold, 
+      Constants.belt.kSupplyTriggerDuration,
+      Constants.belt.kNeutral
+    ));
+  }
+
+  public CargoBelt(WPI_TalonFX motor) {
+    m_cargoBeltMotor = motor;
+  }
 
   private boolean m_enabled = false;
   private double m_motorPower = 0.0;

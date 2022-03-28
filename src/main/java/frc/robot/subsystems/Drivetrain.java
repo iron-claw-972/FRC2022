@@ -48,12 +48,12 @@ public class Drivetrain extends SubsystemBase {
   // private final DifferentialDrive m_dDrive;
 
   // The left-side drive encoder
-  private final TalonEncoder m_leftEncoder = new TalonEncoder(m_leftMotor1, Constants.drive.kLeftEncoderReversed);
+  private final TalonEncoder m_leftEncoder;
 
   // The right-side drive encoder
-  private final TalonEncoder m_rightEncoder = new TalonEncoder(m_rightMotor1, Constants.drive.kRightEncoderReversed);
+  private final TalonEncoder m_rightEncoder;
 
-  private final AHRS m_navX = new AHRS(SPI.Port.kMXP);
+  private final AHRS m_navX;
 
   // Odometry class for tracking robot pose
   private final DifferentialDriveOdometry m_odometry;
@@ -86,6 +86,25 @@ public class Drivetrain extends SubsystemBase {
   private Field2d m_fieldSim;
 
   public Drivetrain() {
+    this(
+      ControllerFactory.createTalonFX(Constants.drive.leftMotorPorts[0], Constants.drive.kSupplyCurrentLimit, Constants.drive.kSupplyTriggerThreshold, Constants.drive.kSupplyTriggerDuration, Constants.drive.kMainNeutralMode, true),
+      ControllerFactory.createTalonFX(Constants.drive.rightMotorPorts[0], Constants.drive.kSupplyCurrentLimit, Constants.drive.kSupplyTriggerThreshold, Constants.drive.kSupplyTriggerDuration, Constants.drive.kMainNeutralMode, true),
+      ControllerFactory.createTalonFX(Constants.drive.leftMotorPorts[1], Constants.drive.kSupplyCurrentLimit, Constants.drive.kSupplyTriggerThreshold, Constants.drive.kSupplyTriggerDuration, Constants.drive.kNeutralMode, true),
+      ControllerFactory.createTalonFX(Constants.drive.rightMotorPorts[1], Constants.drive.kSupplyCurrentLimit, Constants.drive.kSupplyTriggerThreshold, Constants.drive.kSupplyTriggerDuration, Constants.drive.kNeutralMode, true),
+      new AHRS(SPI.Port.kMXP)
+    );
+  }
+
+  public Drivetrain(WPI_TalonFX leftMotor1, WPI_TalonFX leftMotor2, WPI_TalonFX rightMotor1, WPI_TalonFX rightMotor2, AHRS navX) {
+    m_leftMotor1 = leftMotor1;
+    m_leftMotor2 = leftMotor2;
+    m_rightMotor1 = rightMotor1;
+    m_rightMotor2 = rightMotor2;
+
+    m_leftEncoder = new TalonEncoder(m_leftMotor1, Constants.drive.kLeftEncoderReversed);
+    m_rightEncoder = new TalonEncoder(m_rightMotor1, Constants.drive.kRightEncoderReversed);
+
+    m_navX = navX;
 
     // m_leftMotors = new PhoenixMotorControllerGroup(m_leftMotor1, m_leftMotor2);
     // m_rightMotors = new PhoenixMotorControllerGroup(m_rightMotor1, m_rightMotor2);

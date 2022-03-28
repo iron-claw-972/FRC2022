@@ -19,14 +19,8 @@ import edu.wpi.first.wpilibj.simulation.FlywheelSim;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class CargoShooter extends SubsystemBase {
-  private final WPI_TalonFX m_motor = ControllerFactory.createTalonFX(
-    Constants.shooter.kCargoShooterMotorPort,
-    Constants.shooter.kSupplyCurrentLimit,
-    Constants.shooter.kSupplyTriggerThreshold,
-    Constants.shooter.kSupplyTriggerDuration,
-    Constants.shooter.kNeutral
-  );
-  private final TalonEncoder m_encoder = new TalonEncoder(m_motor);
+  private final WPI_TalonFX m_motor;
+  private final TalonEncoder m_encoder;
 
   public PIDController m_shooterPID = new PIDController(Constants.shooter.kP, Constants.shooter.kI, Constants.shooter.kD);
 
@@ -37,6 +31,19 @@ public class CargoShooter extends SubsystemBase {
   private double m_motorSpeed = 0.0;
 
   public CargoShooter() {
+    this(ControllerFactory.createTalonFX(
+      Constants.shooter.kCargoShooterMotorPort,
+      Constants.shooter.kSupplyCurrentLimit,
+      Constants.shooter.kSupplyTriggerThreshold,
+      Constants.shooter.kSupplyTriggerDuration,
+      Constants.shooter.kNeutral
+    ));
+  }
+
+  public CargoShooter(WPI_TalonFX motor) {
+    m_motor = motor;
+    m_encoder = new TalonEncoder(motor);
+
     m_encoder.setDistancePerPulse(Constants.shooter.kDistancePerPulse);
     m_encoder.reset();
     m_shooterPID.setTolerance(Constants.shooter.kVelocityPIDTolerance);

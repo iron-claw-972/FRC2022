@@ -24,20 +24,27 @@ public class ClimbExtender extends SubsystemBase {
   
   private double m_setpoint;
 
-  // it was requested to use multiple objects for the extender because one might fail
   public ClimbExtender(boolean isLeft) {
-    // if the arm is left, the tick value is inverted && objects are assigned correctly
+    this(
+      isLeft, 
+      ControllerFactory.createTalonFX((isLeft ? Constants.extender.kLeftExtenderPort : Constants.extender.kRightExtenderPort), Constants.extender.kSupplyCurrentLimit, Constants.extender.kSupplyTriggerThreshold, Constants.extender.kSupplyTriggerDuration, Constants.extender.kNeutral), 
+      new LimitSwitch((isLeft ? Constants.extender.kExtLeftLimitSwitch : Constants.extender.kExtRightLimitSwitch), Constants.extender.kExtLimitSwitchDebouncer)
+    );
+  }
+
+  // it was requested to use multiple objects for the extender because one might fail
+  public ClimbExtender(boolean isLeft, WPI_TalonFX motor, LimitSwitch limitSwitch) {
+    m_motor = motor;
+    m_limitSwitch = limitSwitch;
+
     if (isLeft) {
-      m_motor = ControllerFactory.createTalonFX(Constants.extender.kLeftExtenderPort, Constants.extender.kSupplyCurrentLimit, Constants.extender.kSupplyTriggerThreshold, Constants.extender.kSupplyTriggerDuration, Constants.extender.kNeutral); // initializes the motor
+      // if the arm is left, the tick value is inverted && objects are assigned correctly
       m_side = "Left"; // the direction for shuffleboard's use
       m_motor.setInverted(true);
-      m_limitSwitch = new LimitSwitch(Constants.extender.kExtLeftLimitSwitch, Constants.extender.kExtLimitSwitchDebouncer);
     }
     else {
       // otherwise, just assign the motor object to the right
-      m_motor = ControllerFactory.createTalonFX(Constants.extender.kRightExtenderPort, Constants.extender.kSupplyCurrentLimit, Constants.extender.kSupplyTriggerThreshold, Constants.extender.kSupplyTriggerDuration, Constants.extender.kNeutral); // initializes the motor
       m_side = "Right"; // the direction for shuffleboard's use
-      m_limitSwitch = new LimitSwitch(Constants.extender.kExtRightLimitSwitch, Constants.extender.kExtLimitSwitchDebouncer);
     }
 
     // converts the length of the arm in inches to ticks and makes that the maximum tick limit, it's checked every 10 milliseconds

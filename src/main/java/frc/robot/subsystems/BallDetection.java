@@ -11,7 +11,7 @@ import edu.wpi.first.math.filter.Debouncer.DebounceType;
 import edu.wpi.first.wpilibj.util.Color;
 
 public class BallDetection extends SubsystemBase {
-  private final ColorSensorV3 m_colorSensor = new ColorSensorV3(Constants.colorsensor.kI2cPort);
+  private final ColorSensorV3 m_colorSensor;
 
   private Color m_detectedColor;
   private int m_proximity;
@@ -19,6 +19,11 @@ public class BallDetection extends SubsystemBase {
   private Debouncer m_detectionDebouncer = new Debouncer(0.05, DebounceType.kRising);
   
   public BallDetection(){
+    this(new ColorSensorV3(Constants.colorsensor.kI2cPort));
+  }
+
+  public BallDetection(ColorSensorV3 colorSensor) {
+    m_colorSensor = colorSensor;
   }
 
   public void periodic() {

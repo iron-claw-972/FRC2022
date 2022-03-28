@@ -21,9 +21,16 @@ public class CargoArm extends SubsystemBase {
   public PIDController m_armPID = new PIDController(Constants.arm.kP, Constants.arm.kI, Constants.arm.kD);
 
   public CargoArm() {
-    m_encoder = new DutyCycleEncoder(Constants.arm.kArmEncoder);
-    m_motor = ControllerFactory.createTalonFX(Constants.arm.kArmMotor, Constants.arm.kSupplyCurrentLimit,
-        Constants.arm.kSupplyTriggerThreshold, Constants.arm.kSupplyTriggerDuration, Constants.arm.kNeutral);
+    this(
+      new DutyCycleEncoder(Constants.arm.kArmEncoder),
+      ControllerFactory.createTalonFX(Constants.arm.kArmMotor, Constants.arm.kSupplyCurrentLimit,
+        Constants.arm.kSupplyTriggerThreshold, Constants.arm.kSupplyTriggerDuration, Constants.arm.kNeutral)
+    );
+  }
+
+  public CargoArm(DutyCycleEncoder encoder, WPI_TalonFX motor) {
+    m_encoder = encoder;
+    m_motor = motor;
 
     // set the tolerance allowed for the PID
     m_armPID.setTolerance(Constants.arm.kArmTolerance);
@@ -54,27 +61,13 @@ public class CargoArm extends SubsystemBase {
   }
 
   public double currentAngleRaw() {
-    //fixes position of encoder when starting on wrong side of 0 position
     return m_encoder.get();
-    // if (encoder.get() > 0.5) {
-    //   return encoder.get() - 1.0;
-    // } else {
-    //   return encoder.get();
-    // }
   }
 
   // returns the current angle of the duty cycle encoder with offset accounted for
   public double currentAngle() {
     double angle = (currentAngleRaw() + Constants.arm.kOffset) * Constants.arm.kArmDegreeMultiple;
-    // if (angle < -60) {
-    //   angle += 360;
-    // }
-    // if (angle > 200) {
-    //   // angle -= 360;
-    //   angle = angle % 360;
-    // }
     return MathUtil.clamp(angle, 0, 175);
-    // return angle;
   }
 
   public boolean reachedSetpoint() {
