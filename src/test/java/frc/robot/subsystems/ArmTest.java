@@ -21,9 +21,9 @@ public class ArmTest {
     assertEquals(145, arm.getSetpoint(), 0);
   }
 
-  @Test
-  public void testDisabled() {
-    assertFalse(arm.isEnabled());
-  }
+  // @Test
+  // public void testDisabled() {
+  //   assertFalse(arm.isEnabled());
+  // }
 
 }

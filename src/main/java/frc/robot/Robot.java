@@ -43,7 +43,7 @@ public class Robot extends TimedRobot {
   UsbCamera m_camera1;
   UsbCamera m_camera2;
 
-  public static Limelight limelight = new Limelight(() -> ShooterMethods.isLimelightFaceFront());
+  public static Limelight limelight = new Limelight(ShooterMethods::isLimelightFaceFront);
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -51,7 +51,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
-    // Instantiate our   This will perform all our button bindings, and put our
+    //  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     //setup cameras 
     m_camera1 = CameraServer.startAutomaticCapture();
