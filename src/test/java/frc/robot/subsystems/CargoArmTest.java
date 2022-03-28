@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj.*;
 import org.junit.*;
 
 
-public class ArmTest {
+public class CargoArmTest {
   public DutyCycleEncoder encoder = mock(DutyCycleEncoder.class);
   public WPI_TalonFX motor = mock(WPI_TalonFX.class);
 
