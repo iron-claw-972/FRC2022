@@ -17,6 +17,7 @@ public class ManualClimb {
   public static void configureControls() {
     if (!DriverStation.isJoystickConnected(Constants.oi.kManualClimbJoy)) {
       // Don't try to configure bindings if controller not plugged in
+      DriverStation.reportWarning("Manual Climb controller not connected to Port " + Constants.oi.kManualClimbJoy, true);
       return;
     }
 

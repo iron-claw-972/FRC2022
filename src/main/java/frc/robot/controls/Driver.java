@@ -22,6 +22,7 @@ public class Driver {
   public static void configureControls() {
     if (!DriverStation.isJoystickConnected(Constants.oi.kDriverJoy)) {
       // Don't try to configure bindings if controller not plugged in
+      DriverStation.reportWarning("Driver controller not connected to Port " + Constants.oi.kDriverJoy, true);
       return;
     }
     configureDriveControls();

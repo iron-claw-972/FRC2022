@@ -21,6 +21,7 @@ public class Operator {
   public static void configureControls() {
     if (!DriverStation.isJoystickConnected(Constants.oi.kOperatorJoy)) {
       // Don't try to configure bindings if controller not plugged in
+      DriverStation.reportWarning("Operator controller not connected to Port " + Constants.oi.kOperatorJoy, true);
       return;
     }
 
