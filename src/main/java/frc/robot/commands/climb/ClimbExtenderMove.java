@@ -31,8 +31,8 @@ public class ClimbExtenderMove extends SequentialCommandGroup {
   
         // set the setpoints of the extenders
         // please note: these extensions are different to account for the left not reaching as high as it should
-        new InstantCommand(() -> extenderL.set(extensionL)),
-        new InstantCommand(() -> extenderR.set(extensionR)),
+        new InstantCommand(() -> extenderL.setGoal(extensionL)),
+        new InstantCommand(() -> extenderR.setGoal(extensionR)),
   
         // wait until both extenders reach their setpoints
         new WaitUntilCommand(() -> ClimberMethods.isExtenderAtSetpoint())

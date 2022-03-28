@@ -4,8 +4,8 @@ import frc.robot.Robot;
 
 public class ClimberMethods {
   public static void setExtension(double inches) {
-    Robot.extenderL.set(inches);
-    Robot.extenderR.set(inches);
+    Robot.extenderL.setGoal(inches);
+    Robot.extenderR.setGoal(inches);
   }
 
   public static void setAngle(double angle) {
