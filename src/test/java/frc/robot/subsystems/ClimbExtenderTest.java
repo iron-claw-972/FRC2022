@@ -6,7 +6,6 @@ import static org.junit.Assert.assertEquals;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
-import edu.wpi.first.wpilibj.*;
 import frc.robot.constants.ExtenderConstants;
 import frc.robot.util.LimitSwitch;
 
@@ -26,13 +25,13 @@ public class ClimbExtenderTest {
   }
 
   @Test
-  public void RightExtenderIsRight() {
+  public void ExtenderIsRight() {
     extender.setSide(false);
     assertEquals("Right", extender.getSide()); // is the extender the right side?
   }
 
   @Test
-  public void RightExtenderSetpointSet() {
+  public void ExtenderSetpointSet() {
     extender.enable();
     extender.setGoal(extend.kLeftMaxUpwards);
     extender.periodic();
@@ -40,12 +39,12 @@ public class ClimbExtenderTest {
   }
 
   @Test
-  public void RightExtenderReachedSetpoint() {
+  public void ExtenderReachedSetpoint() {
     assertTrue(extender.reachedSetpoint()); // does the extender reach its setpoint?
   }
 
   @Test
-  public void RightExtenderZero() {
+  public void ExtenderZero() {
     extender.zero();
     assertEquals(0, extender.currentExtensionRaw(), 0); // is the extender zeroed?
   }

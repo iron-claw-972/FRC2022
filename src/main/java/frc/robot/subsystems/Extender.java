@@ -25,9 +25,7 @@ public class Extender extends SubsystemBase {
   private double m_setpoint;
 
   public Extender(boolean isLeft) {
-    this(
-      isLeft, 
-      ControllerFactory.createTalonFX((
+    this(isLeft, ControllerFactory.createTalonFX((
         isLeft ? Constants.extender.kLeftExtenderPort : Constants.extender.kRightExtenderPort), 
         Constants.extender.kSupplyCurrentLimit, 
         Constants.extender.kSupplyTriggerThreshold, 
