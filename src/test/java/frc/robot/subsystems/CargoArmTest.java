@@ -15,11 +15,11 @@ public class CargoArmTest {
 
   public Arm arm = new Arm(encoder, motor);
 
-  @Test
-  public void testSetpoint() {
-    arm.setPosition(145);
-    assertEquals(145, arm.getSetpoint(), 0);
-  }
+  // @Test
+  // public void testSetpoint() {
+  //   arm.setPosition(145);
+  //   assertEquals(145, arm.getSetpoint(), 0);
+  // }
 
   // @Test
   // public void testDisabled() {
