@@ -12,22 +12,22 @@ public class VoltaireDriveConstants {
   public final int[] rightMotorPorts = {14, 15};
   public final int[] leftMotorPorts = {22, 18};
 
-  public final double KsLinear = 0.60877; // Ks
-  public final double KvLinear = 0.049031; // Kv
-  public final double KaLinear = 0.0058764; // Ka
+  public final double KsLinear = 0.54711; // Ks
+  public final double KvLinear = 0.054418; // Kv
+  public final double KaLinear = 0.0083099; // Ka
 
   // Drivetrain (Angular)
-  public final double KsAngular = 0.61013; // Ks
-  public final double KvAngular = 143.86; // Kv
-  public final double KaAngular = 30.392; // Ka
+  public final double KsAngular = -6.9537; // Ks
+  public final double KvAngular = 15.323; // Kv
+  public final double KaAngular = 1.8528; // Ka
 
   // Position PID gain values
-  public final double KpPosition = 2.1573; // Kp for Ramsete PID
+  public final double KpPosition = 2.3104; // Kp for Ramsete PID
   public final double KiPosition = 0; // Kp for Ramsete PID
-  public final double KdPosition = 0.1426; // Kp for Ramsete PID
+  public final double KdPosition = 0.1763; // Kp for Ramsete PID
 
   // Velocity PID gain values
-  public final double KpVelocity = 0.065062; // Proportional
+  public final double KpVelocity = 0.074767; // Proportional
   public final double KiVelocity = 0; // Integral
   public final double KdVelocity = 0; // Derivative
 
