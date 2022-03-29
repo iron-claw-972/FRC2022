@@ -88,8 +88,8 @@ public class Drivetrain extends SubsystemBase {
   public Drivetrain() {
     this(
       ControllerFactory.createTalonFX(Constants.drive.leftMotorPorts[0], Constants.drive.kSupplyCurrentLimit, Constants.drive.kSupplyTriggerThreshold, Constants.drive.kSupplyTriggerDuration, Constants.drive.kMainNeutralMode, true),
-      ControllerFactory.createTalonFX(Constants.drive.rightMotorPorts[0], Constants.drive.kSupplyCurrentLimit, Constants.drive.kSupplyTriggerThreshold, Constants.drive.kSupplyTriggerDuration, Constants.drive.kMainNeutralMode, true),
       ControllerFactory.createTalonFX(Constants.drive.leftMotorPorts[1], Constants.drive.kSupplyCurrentLimit, Constants.drive.kSupplyTriggerThreshold, Constants.drive.kSupplyTriggerDuration, Constants.drive.kNeutralMode, true),
+      ControllerFactory.createTalonFX(Constants.drive.rightMotorPorts[0], Constants.drive.kSupplyCurrentLimit, Constants.drive.kSupplyTriggerThreshold, Constants.drive.kSupplyTriggerDuration, Constants.drive.kMainNeutralMode, true),
       ControllerFactory.createTalonFX(Constants.drive.rightMotorPorts[1], Constants.drive.kSupplyCurrentLimit, Constants.drive.kSupplyTriggerThreshold, Constants.drive.kSupplyTriggerDuration, Constants.drive.kNeutralMode, true),
       new AHRS(SPI.Port.kMXP)
     );
