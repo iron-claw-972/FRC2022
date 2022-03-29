@@ -18,7 +18,7 @@ public class Rotator extends SubsystemBase {
   public final String side;
   private boolean left;
 
-  private double setpoint = Constants.rotator.kNinetyDeg;
+  private double setpoint = Constants.rotator.kMaxForwardL;
   private double encoderOffset;
 
   public PIDController armPID = new PIDController(Constants.rotator.kP , Constants.rotator.kI , Constants.rotator.kD);
@@ -38,17 +38,13 @@ public class Rotator extends SubsystemBase {
       side = "Left"; // the direction for shuffleboard's use
       m_motor.setInverted(true); // inverts the motor
       encoderOffset = Constants.rotator.kArmLeftEncoderOffset; // sets an offset for the encoder
-
-     // limitSwitchLower = new LimitSwitch(Constants.rotator.kLeftLimitSwitchLower , Constants.rotator.kLimitSwitchDebouncer);
-     // limitSwitchUpper = new LimitSwitch(Constants.rotator.kLeftLimitSwitchUpper , Constants.rotator.kLimitSwitchDebouncer);
+      setpoint = Constants.rotator.kMaxForwardL;
     }
     // otherwise, use the normal encoder value and set the motorports to the right
     else {
       side = "Right"; // the direction for shuffleboard's use
       encoderOffset = Constants.rotator.kArmRightEncoderOffset; // sets an offset for the encoder
-
-     // limitSwitchLower = new LimitSwitch(Constants.rotator.kRightLimitSwitchLower , Constants.rotator.kLimitSwitchDebouncer);
-     // limitSwitchUpper = new LimitSwitch(Constants.rotator.kRightLimitSwitchUpper , Constants.rotator.kLimitSwitchDebouncer);
+      setpoint = Constants.rotator.kMaxForwardR;
     }
    
     left = isLeft;

@@ -51,7 +51,6 @@ public class Extender extends SubsystemBase {
     m_motor.configForwardSoftLimitThreshold(Constants.extender.kSoftLimit, 10);
 
     // so that the limiters are enabled
-    // TODO: If the motors don't move, CHECK TO SEE IF THE LIMITER IS TOO LOW!
     m_motor.configForwardSoftLimitEnable(true, 10);
 
     // so that I in the PID doesn't accumulate

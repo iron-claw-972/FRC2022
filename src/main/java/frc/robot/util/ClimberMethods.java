@@ -13,6 +13,11 @@ public class ClimberMethods {
     Robot.rotatorR.setGoal(angle);
   }
 
+  public static void setAngle(double angleL, double angleR) {
+    Robot.rotatorL.setGoal(angleL);
+    Robot.rotatorR.setGoal(angleR);
+  }
+
   public static void setRotatorOutput(double pow) {
     Robot.rotatorL.setOutput(pow);
     Robot.rotatorR.setOutput(pow);
