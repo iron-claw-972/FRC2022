@@ -6,8 +6,8 @@ import frc.robot.Robot;
 import frc.robot.subsystems.Extender;
 
 public class ClimbMove extends SequentialCommandGroup {
-  public ClimbMove(double extensionL, double extensionR, double angle) {
-    this(extensionL, extensionR, angle, Robot.extenderL, Robot.extenderR);
+  public ClimbMove(double extensionL, double extensionR, double angleL, double angleR) {
+    this(extensionL, extensionR, angleL, angleR, Robot.extenderL, Robot.extenderR);
   }
 
   /**
@@ -17,11 +17,11 @@ public class ClimbMove extends SequentialCommandGroup {
    * @param extension the extension of the climber.
    * @param angle the angle of the climb rotator, in degrees.
    */
-  public ClimbMove(double extensionL, double extensionR, double angle, Extender extenderL, Extender extenderR) {
+  public ClimbMove(double extensionL, double extensionR, double angleL, double angleR, Extender extenderL, Extender extenderR) {
     addRequirements(extenderL, extenderR);
     addCommands(
       // moves the rotator
-      parallel(new ClimbRotatorMove(angle), new ClimbExtenderMove(extensionL, extensionR))
+      parallel(new ClimbRotatorMove(angleL, angleR), new ClimbExtenderMove(extensionL, extensionR))
     );
   }
 }

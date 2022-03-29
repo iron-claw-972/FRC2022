@@ -100,12 +100,12 @@ public class Operator {
 
     // when DPad Right is pressed, enable the rotator and go to kMaxForward degrees
     operator.get(DPad.RIGHT).whenPressed(new SequentialCommandGroup (
-      new ClimbRotatorMove(Constants.rotator.kMaxForward)
+      new ClimbRotatorMove(Constants.rotator.kMaxForwardL, Constants.rotator.kMaxForwardR)
     ));
     
     // when DPad Left is pressed, enable the rotator and go to kMaxBackward degrees
     operator.get(DPad.LEFT).whenPressed(new SequentialCommandGroup (
-      new ClimbRotatorMove(Constants.rotator.kMaxBackward)
+      new ClimbRotatorMove(Constants.rotator.kMaxBackwardL, Constants.rotator.kMaxBackwardR)
     ));
 
     // when nothing on the DPad is pressed, the extenders are disabled
@@ -115,7 +115,7 @@ public class Operator {
 
     // rotator goes to the bar
     operator.get(operator.LEFT_TRIGGER_BUTTON).whenActive(new SequentialCommandGroup(
-      new ClimbRotatorMove(Constants.rotator.kToBar)
+      new ClimbRotatorMove(Constants.rotator.kToBarL, Constants.rotator.kToBarR)
     ));
 
     operator.get(Button.START).whenPressed(
@@ -123,7 +123,7 @@ public class Operator {
     );
 
     operator.get(Button.LB).whenPressed(new SequentialCommandGroup(    
-      new ClimbRotatorMove(Constants.rotator.kNinetyDeg),
+      new ClimbRotatorMove(Constants.rotator.kMaxForwardL, Constants.rotator.kMaxForwardR),
       // when it reaches 90 degrees, compress
       new ExtendDownwards(Constants.extender.kAlwaysZero),
       
@@ -132,17 +132,17 @@ public class Operator {
 
       // extend fully and rotate backwards fully
       // rotator should theoretically be faster than the extender
-      new ClimbRotatorMove(Constants.rotator.kMaxBackward),
+      new ClimbRotatorMove(Constants.rotator.kMaxBackwardL, Constants.rotator.kMaxBackwardR),
       new PrintCommand("passed climb rotator move"),
       new ClimbExtenderMove(Constants.extender.kLeftMaxUpwards, Constants.extender.kRightMaxUpwards),
 
       // after we fully extend and rotate, rotate to the bar
-      new ClimbRotatorMove(Constants.rotator.kToBar),
+      new ClimbRotatorMove(Constants.rotator.kToBarL, Constants.rotator.kToBarR),
 
       // compress fully and rotate to 90 degrees
       new ParallelCommandGroup(
         new ExtendDownwards(Constants.extender.kAlwaysZero),
-        new ClimbRotatorMove(Constants.rotator.kNinetyDeg)
+        new ClimbRotatorMove(Constants.rotator.kMaxForwardL, Constants.rotator.kMaxForwardR)
       ),
 
       new ClimbExtenderMove(Constants.extender.kLeftSlightlyUpward, Constants.extender.kRightSlightlyUpward),

@@ -22,11 +22,15 @@ public class RotatorConstants {
     public final double kArmTolerance = 1.5;
 
     // locations
-    public final double kNinetyDeg = 95;
-    public final double kMaxBackward = 123;
-    public final double kMaxForward = kNinetyDeg;
-    public final double kToBar = 115;
-    public final double kHookStatic = 110;
+    public final double kMaxBackwardL = 123;
+    public final double kMaxForwardL = 95;
+    public final double kToBarL = 115;
+    public final double kHookStaticL = 110;
+
+    public final double kMaxBackwardR = 123;
+    public final double kMaxForwardR = 95;
+    public final double kToBarR = 115;
+    public final double kHookStaticR = 110;
 
     // PID constants
     public final double kP = 0.05;
