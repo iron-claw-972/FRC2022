@@ -129,8 +129,10 @@ public class Rotator extends SubsystemBase {
   public void setSide(boolean isLeft) {
     if(isLeft) {
       m_side = "Left";
+      left = true;
     } else {
       m_side = "Right";
+      left = false;
     }
   }
 
