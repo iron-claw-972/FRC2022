@@ -70,7 +70,7 @@ public class Robot extends TimedRobot {
 
     // default command to run in teleop
     
-    drive.setDefaultCommand(new TeleopDrive(drive));
+    drive.setDefaultCommand(new DifferentialDrive(drive));
     // m_testArm.setDefaultCommand(new armPID(m_testArm));
     //m_cargoShooter.setDefaultCommand(new RunCommand(() -> m_cargoShooter.setOutput(Operator.controller.getJoystickAxis().leftY()), m_cargoShooter));
     //m_cargoBelt.setDefaultCommand(new RunCommand(() -> m_cargoBelt.setOutput(-Operator.controller.getJoystickAxis().rightY()), m_cargoBelt));
