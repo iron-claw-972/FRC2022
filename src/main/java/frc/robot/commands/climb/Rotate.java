@@ -8,8 +8,8 @@ import frc.robot.Robot;
 import frc.robot.subsystems.Rotator;
 import frc.robot.util.ClimberMethods;
 
-public class ClimbRotatorMove extends SequentialCommandGroup {
-  public ClimbRotatorMove(double angleL, double angleR) {
+public class Rotate extends SequentialCommandGroup {
+  public Rotate(double angleL, double angleR) {
     this(angleL, angleR, Robot.rotatorL, Robot.rotatorR);
   }
 
@@ -19,7 +19,7 @@ public class ClimbRotatorMove extends SequentialCommandGroup {
    * 
    * @param angle the angle to rotate to in degrees
    */
-  public ClimbRotatorMove(double angleL, double angleR, Rotator rotatorL, Rotator rotatorR) {
+  public Rotate(double angleL, double angleR, Rotator rotatorL, Rotator rotatorR) {
     addRequirements(rotatorL, rotatorR);
     addCommands(
       new SequentialCommandGroup(

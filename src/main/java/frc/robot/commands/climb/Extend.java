@@ -14,16 +14,16 @@ import frc.robot.util.ClimberMethods;
  * 
  * @param extension The extension desired for the extenders.
  */
-public class ClimbExtenderMove extends SequentialCommandGroup {
-  public ClimbExtenderMove(double extensionL, double extensionR) {
+public class Extend extends SequentialCommandGroup {
+  public Extend(double extensionL, double extensionR) {
     this(extensionL, extensionR, Robot.extenderL, Robot.extenderR);
   }
 
-  public ClimbExtenderMove(double extensionL, double extensionR, Extender extenderL, Extender extenderR) {
+  public Extend(double extensionL, double extensionR, Extender extenderL, Extender extenderR) {
     addRequirements(extenderL, extenderR);
     addCommands(
       // if the extenders' setpoints are zero, treat it as a zeroing if it's permitted by kAlwaysZero
-      (extensionL == 0 && extensionR == 0 ? new ExtendDownwards(Constants.extender.kAlwaysZero) :
+      (extensionL == 0 && extensionR == 0 ? new Retract(Constants.extender.kAlwaysZero) :
       // if it's not supposed to zero or is not having a setpoint of zero,
       new SequentialCommandGroup(
         // enable the extender
