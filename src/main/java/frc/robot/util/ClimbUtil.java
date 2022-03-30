@@ -2,7 +2,7 @@ package frc.robot.util;
 
 import frc.robot.Robot;
 
-public class ClimberMethods {
+public class ClimbUtil {
   public static void setExtension(double inches) {
     Robot.extenderL.set(inches);
     Robot.extenderR.set(inches);

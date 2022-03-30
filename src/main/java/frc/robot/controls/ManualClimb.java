@@ -5,7 +5,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.*;
 import frc.robot.commands.cargo.*;
 import frc.robot.constants.Constants;
-import frc.robot.util.ClimberMethods;
+import frc.robot.util.ClimbUtil;
 import lib.controllers.*;
 import lib.controllers.GameController.Button;
 import lib.controllers.GameController.DPad;
@@ -26,25 +26,25 @@ public class ManualClimb {
 
   private static void configureManualClimbControls() {
     manualClimb.get(DPad.RIGHT).whenPressed(new SequentialCommandGroup (
-      new InstantCommand(() -> ClimberMethods.disableRotator()),
-      new InstantCommand(() -> ClimberMethods.setRotatorOutput(0.2))));
+      new InstantCommand(() -> ClimbUtil.disableRotator()),
+      new InstantCommand(() -> ClimbUtil.setRotatorOutput(0.2))));
     
     
     manualClimb.get(DPad.LEFT).whenPressed(new SequentialCommandGroup (
-      new InstantCommand(() -> ClimberMethods.disableRotator()),
-      new InstantCommand(() -> ClimberMethods.setRotatorOutput(-0.2))));
+      new InstantCommand(() -> ClimbUtil.disableRotator()),
+      new InstantCommand(() -> ClimbUtil.setRotatorOutput(-0.2))));
 
 
     // STRING SHOULD BE UNWINDING
     manualClimb.get(DPad.UP).whenPressed(new SequentialCommandGroup (
-      new InstantCommand(() -> ClimberMethods.disableExtender()),
-      new InstantCommand(() -> ClimberMethods.setExtenderOutput(.2))
+      new InstantCommand(() -> ClimbUtil.disableExtender()),
+      new InstantCommand(() -> ClimbUtil.setExtenderOutput(.2))
     ));
    
     // STRING SHOULD BE WINDING
     manualClimb.get(DPad.DOWN).whenPressed(new SequentialCommandGroup (
-      new InstantCommand(() -> ClimberMethods.disableExtender()),
-      new InstantCommand(() -> ClimberMethods.setExtenderOutput(-.2))
+      new InstantCommand(() -> ClimbUtil.disableExtender()),
+      new InstantCommand(() -> ClimbUtil.setExtenderOutput(-.2))
     ));
 
     manualClimb.get(Button.A).whenPressed(
@@ -52,10 +52,10 @@ public class ManualClimb {
     );
 
     manualClimb.get(DPad.UNPRESSED).whenPressed(new SequentialCommandGroup(
-      new InstantCommand(() -> ClimberMethods.setExtenderOutput(0)),
-      new InstantCommand(() -> ClimberMethods.setRotatorOutput(0)),
-      new InstantCommand(() -> ClimberMethods.disableExtender()),
-      new InstantCommand(() -> ClimberMethods.disableRotator())
+      new InstantCommand(() -> ClimbUtil.setExtenderOutput(0)),
+      new InstantCommand(() -> ClimbUtil.setRotatorOutput(0)),
+      new InstantCommand(() -> ClimbUtil.disableExtender()),
+      new InstantCommand(() -> ClimbUtil.disableRotator())
     ));
   }
 

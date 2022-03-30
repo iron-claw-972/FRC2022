@@ -7,7 +7,7 @@ import frc.robot.Robot;
 import frc.robot.commands.DoNothing;
 import frc.robot.constants.Constants;
 import frc.robot.subsystems.Extender;
-import frc.robot.util.ClimberMethods;
+import frc.robot.util.ClimbUtil;
 
 public class Retract extends SequentialCommandGroup {
   public Extender m_extenderL, m_extenderR;
@@ -29,7 +29,7 @@ public class Retract extends SequentialCommandGroup {
       addRequirements(extenderR, extenderL);
 
       addCommands(
-          new InstantCommand(() -> ClimberMethods.disableExtender()), //disable just to make sure PID doesn't run
+          new InstantCommand(() -> ClimbUtil.disableExtender()), //disable just to make sure PID doesn't run
           parallel(
             //in parallel moves each extender down and then waits until it is compressed
             compressed(true) ? new DoNothing() : sequence(

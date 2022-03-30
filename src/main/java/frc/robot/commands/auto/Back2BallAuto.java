@@ -4,7 +4,7 @@ import edu.wpi.first.wpilibj2.command.*;
 import frc.robot.Robot;
 import frc.robot.commands.cargo.PositionArm;
 import frc.robot.constants.Constants;
-import frc.robot.util.ShooterMethods;
+import frc.robot.util.CargoUtil;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.BallDetection;
 import frc.robot.subsystems.Belt;
@@ -19,7 +19,7 @@ public class Back2BallAuto extends SequentialCommandGroup {
   public Back2BallAuto(Drivetrain drive, Belt belt, Arm arm, Shooter shooter, BallDetection ballDetection) {
     addRequirements(drive, belt, arm, shooter, ballDetection);
     addCommands(
-        new InstantCommand(() -> ShooterMethods.setBeltPower(0)),
+        new InstantCommand(() -> CargoUtil.setBeltPower(0)),
         parallel(
           new DriveDistance(0.6642),
           new ShootAuto(false, false, 1, () -> DriveDistance.isFinished, 157, 25)

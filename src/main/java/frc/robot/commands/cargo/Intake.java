@@ -14,7 +14,7 @@ import frc.robot.subsystems.Belt;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Limelight;
-import frc.robot.util.ShooterMethods;
+import frc.robot.util.CargoUtil;
 
 public class Intake extends SequentialCommandGroup {
   public Intake(double postIntakeArmPosition, boolean doesChaseBall) {
@@ -35,7 +35,7 @@ public class Intake extends SequentialCommandGroup {
         // Set pipeline early to account for network latency
         new InstantCommand(() -> limelight.setBallPipeline(isRedBall)),
 
-        new InstantCommand(() -> ShooterMethods.enableAll()),
+        new InstantCommand(() -> CargoUtil.enableAll()),
 
         // new ConditionalCommand(
         //   new WaitUntilCommand(() -> !ShooterMethods.isBallContained()),
@@ -45,9 +45,9 @@ public class Intake extends SequentialCommandGroup {
 
         // Spin up wheel, belt, set angle, and start ball chase simultaneously
         parallel(
-          new InstantCommand(() -> ShooterMethods.setWheelRPM(Constants.shooter.kIntakeSpeed)),
-          new InstantCommand(() -> ShooterMethods.setBeltPower(Constants.belt.kIntakeSpeed)),
-          new InstantCommand(() -> ShooterMethods.setAngle(Constants.arm.kIntakePos)),
+          new InstantCommand(() -> CargoUtil.setWheelRPM(Constants.shooter.kIntakeSpeed)),
+          new InstantCommand(() -> CargoUtil.setBeltPower(Constants.belt.kIntakeSpeed)),
+          new InstantCommand(() -> CargoUtil.setAngle(Constants.arm.kIntakePos)),
           new ConditionalCommand(
             new ChaseBall(isRedBall),
             new TeleopDrive(drive),
@@ -59,10 +59,10 @@ public class Intake extends SequentialCommandGroup {
         new ConditionalCommand(
           sequence(
             // Bring arm back up and stop intake when we have the ball
-            new WaitUntilCommand(() -> ShooterMethods.isBallContained()),
-            new InstantCommand(() -> ShooterMethods.disableShiitake()),
-            new InstantCommand(() -> ShooterMethods.setAngle(postIntakeArmPosition)),
-            new WaitUntilCommand(() -> ShooterMethods.isArmAtSetpoint()).withTimeout(1)
+            new WaitUntilCommand(() -> CargoUtil.isBallContained()),
+            new InstantCommand(() -> CargoUtil.disableShiitake()),
+            new InstantCommand(() -> CargoUtil.setAngle(postIntakeArmPosition)),
+            new WaitUntilCommand(() -> CargoUtil.isArmAtSetpoint()).withTimeout(1)
           ),
           new DoNothing(), 
           () -> doesCheckBall
@@ -72,7 +72,7 @@ public class Intake extends SequentialCommandGroup {
 
   @Override
   public void end(boolean interrupted) {
-    ShooterMethods.disableShiitake();
+    CargoUtil.disableShiitake();
     // limelight.setDriverPipeline();
   }
 }

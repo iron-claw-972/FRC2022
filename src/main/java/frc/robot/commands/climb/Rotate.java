@@ -6,7 +6,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import frc.robot.Robot;
 import frc.robot.subsystems.Rotator;
-import frc.robot.util.ClimberMethods;
+import frc.robot.util.ClimbUtil;
 
 public class Rotate extends SequentialCommandGroup {
   public Rotate(double angleL, double angleR) {
@@ -24,16 +24,16 @@ public class Rotate extends SequentialCommandGroup {
     addCommands(
       new SequentialCommandGroup(
         // enable the rotator
-        new InstantCommand(() -> ClimberMethods.enableRotator()),
+        new InstantCommand(() -> ClimbUtil.enableRotator()),
         new PrintCommand("passed enabled"),
 
         // angle the rotator
-        new InstantCommand(() -> ClimberMethods.setAngle(angleL, angleR)),
+        new InstantCommand(() -> ClimbUtil.setAngle(angleL, angleR)),
   
         new PrintCommand("passed set angle"),
 
         // wait until rotator reaches its setpoint
-        new WaitUntilCommand(() -> ClimberMethods.isRotatorAtSetpoint()),
+        new WaitUntilCommand(() -> ClimbUtil.isRotatorAtSetpoint()),
         new PrintCommand("passed setpoint")
     ));
     }

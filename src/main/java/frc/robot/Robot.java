@@ -18,7 +18,7 @@ import frc.robot.commands.drive.TeleopDrive;
 import frc.robot.controls.*;
 import frc.robot.subsystems.*;
 import frc.robot.util.Log;
-import frc.robot.util.ShooterMethods;
+import frc.robot.util.CargoUtil;
 import frc.robot.util.ShuffleboardManager;
 
 /**
@@ -45,7 +45,7 @@ public class Robot extends TimedRobot {
   UsbCamera m_camera1;
   UsbCamera m_camera2;
 
-  public static Limelight ll = new Limelight(ShooterMethods::isLimelightFaceFront);
+  public static Limelight ll = new Limelight(CargoUtil::isLimelightFaceFront);
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -114,8 +114,8 @@ public class Robot extends TimedRobot {
   @Override
   public void disabledInit() {
     CommandScheduler.getInstance().cancelAll();
-    ShooterMethods.disableArm();
-    ShooterMethods.disableShiitake();
+    CargoUtil.disableArm();
+    CargoUtil.disableShiitake();
   }
 
   @Override

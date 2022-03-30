@@ -8,7 +8,7 @@ import frc.robot.Robot;
 import frc.robot.commands.cargo.GetDistance;
 import frc.robot.constants.Constants;
 
-public class ShooterMethods {
+public class CargoUtil {
   // cargo arm methods
   public static void setAngle(double angle) {
     Robot.arm.resetPID();

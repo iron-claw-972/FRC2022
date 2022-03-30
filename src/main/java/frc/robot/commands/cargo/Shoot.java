@@ -15,7 +15,7 @@ import frc.robot.subsystems.Belt;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Limelight;
-import frc.robot.util.ShooterMethods;
+import frc.robot.util.CargoUtil;
 
 public class Shoot extends SequentialCommandGroup {
     public Shoot(boolean doesCalculateSpeed, boolean doesAlign, boolean isFront) {
@@ -46,16 +46,16 @@ public class Shoot extends SequentialCommandGroup {
       addRequirements(shooter, arm, belt, limelight, drive, ballDetection);
       addCommands(
         // Start spin up before so PID has less work to do
-        new InstantCommand(() -> ShooterMethods.setWheelRPM(-2000)),
+        new InstantCommand(() -> CargoUtil.setWheelRPM(-2000)),
 
         // Set hub pipeline early to account for network latency
         new InstantCommand(() -> limelight.setUpperHubPipeline()),
 
         // Don't spin shooting wheels until ball is confirmed to be in shooter
-        new InstantCommand(() -> ShooterMethods.setBeltPower(Constants.belt.kIntakeSpeed)),
-        new WaitUntilCommand(() -> ShooterMethods.isBallContained()).withTimeout(0.4),
+        new InstantCommand(() -> CargoUtil.setBeltPower(Constants.belt.kIntakeSpeed)),
+        new WaitUntilCommand(() -> CargoUtil.isBallContained()).withTimeout(0.4),
 
-        new InstantCommand(() -> ShooterMethods.enableAll()),
+        new InstantCommand(() -> CargoUtil.enableAll()),
 
         parallel(
           sequence(
@@ -63,13 +63,13 @@ public class Shoot extends SequentialCommandGroup {
             new ConditionalCommand(
               sequence(
                 new WaitUntilCommand(() -> GetDistance.isFinished),
-                new InstantCommand(() -> ShooterMethods.setWheelSpeed(() -> GetDistance.optimalVelocity, isFront))
+                new InstantCommand(() -> CargoUtil.setWheelSpeed(() -> GetDistance.optimalVelocity, isFront))
               ),
-              new InstantCommand(() -> ShooterMethods.setWheelRPM(shooterWheelOuttakeSpeed)),
+              new InstantCommand(() -> CargoUtil.setWheelRPM(shooterWheelOuttakeSpeed)),
               () -> doesCalculateSpeed
             ),
 
-            new WaitUntilCommand(() -> ShooterMethods.isWheelAtSetpoint())
+            new WaitUntilCommand(() -> CargoUtil.isWheelAtSetpoint())
           ),
 
           // Limelight stuff
@@ -102,17 +102,17 @@ public class Shoot extends SequentialCommandGroup {
         ),
 
         // // Wait until both arm and wheels are at setpoint
-        new WaitUntilCommand(() -> ShooterMethods.isWheelAtSetpoint() && ShooterMethods.isArmAtSetpoint()),
+        new WaitUntilCommand(() -> CargoUtil.isWheelAtSetpoint() && CargoUtil.isArmAtSetpoint()),
 
         // Spin belts to outtake ball
-        new InstantCommand(() -> ShooterMethods.setBeltPower(Constants.belt.kOuttakeSpeed)),
+        new InstantCommand(() -> CargoUtil.setBeltPower(Constants.belt.kOuttakeSpeed)),
         new WaitCommand(0.4)
       );
     }
 
     @Override
     public void end(boolean interrupted) {
-      ShooterMethods.disableShiitake();
+      CargoUtil.disableShiitake();
       // Robot.m_limelight.setDriverPipeline();
       GetDistance.isFinished = false; // Reset finished condition
     }

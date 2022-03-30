@@ -8,7 +8,7 @@ import frc.robot.Robot;
 import frc.robot.subsystems.BallDetection;
 import frc.robot.subsystems.Belt;
 import frc.robot.subsystems.Shooter;
-import frc.robot.util.ShooterMethods;
+import frc.robot.util.CargoUtil;
 
 public class EjectBall extends SequentialCommandGroup {
   public EjectBall() {
@@ -18,18 +18,18 @@ public class EjectBall extends SequentialCommandGroup {
   public EjectBall(Belt belt, Shooter shooter, BallDetection ballDetection) {
     addRequirements(belt, shooter, ballDetection);
     addCommands(
-      new InstantCommand(() -> ShooterMethods.setBeltPower(0.8)),
-      new InstantCommand(() -> ShooterMethods.setWheelRPM(-1500)),
-      new InstantCommand(() -> ShooterMethods.enableBelt()),
-      new InstantCommand(() -> ShooterMethods.enableWheel()),
-      new WaitUntilCommand(() -> !ShooterMethods.isBallContained()),
+      new InstantCommand(() -> CargoUtil.setBeltPower(0.8)),
+      new InstantCommand(() -> CargoUtil.setWheelRPM(-1500)),
+      new InstantCommand(() -> CargoUtil.enableBelt()),
+      new InstantCommand(() -> CargoUtil.enableWheel()),
+      new WaitUntilCommand(() -> !CargoUtil.isBallContained()),
       new WaitCommand(0.5)
     );
   }
 
   @Override
   public void end(boolean interrupted) {
-    ShooterMethods.disableShiitake();
+    CargoUtil.disableShiitake();
     // Robot.m_limelight.setDriverPipeline();
   }
 }

@@ -5,7 +5,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import frc.robot.Robot;
 import frc.robot.subsystems.Arm;
-import frc.robot.util.ShooterMethods;
+import frc.robot.util.CargoUtil;
 
 public class PositionArmOptimal extends SequentialCommandGroup {
     public PositionArmOptimal() {
@@ -21,9 +21,9 @@ public class PositionArmOptimal extends SequentialCommandGroup {
     public PositionArmOptimal(Arm arm) {
         addRequirements(arm);
         addCommands(
-            new InstantCommand(() -> ShooterMethods.enableArm()),
-            new InstantCommand(() -> ShooterMethods.setAngleOptimal()),
-            new WaitUntilCommand(() -> ShooterMethods.isArmAtSetpoint())
+            new InstantCommand(() -> CargoUtil.enableArm()),
+            new InstantCommand(() -> CargoUtil.setAngleOptimal()),
+            new WaitUntilCommand(() -> CargoUtil.isArmAtSetpoint())
         );
     }
 }

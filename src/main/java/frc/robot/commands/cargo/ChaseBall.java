@@ -8,7 +8,7 @@ import frc.robot.constants.Constants;
 import frc.robot.controls.Driver;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Limelight;
-import frc.robot.util.ShooterMethods;
+import frc.robot.util.CargoUtil;
 
 public class ChaseBall extends CommandBase {
   private final Limelight m_limelight;
@@ -69,7 +69,7 @@ public class ChaseBall extends CommandBase {
 
   @Override
   public boolean isFinished() {
-    return ShooterMethods.isBallContained();
+    return CargoUtil.isBallContained();
   }
 
   @Override

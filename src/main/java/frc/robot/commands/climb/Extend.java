@@ -6,7 +6,7 @@ import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import frc.robot.Robot;
 import frc.robot.constants.Constants;
 import frc.robot.subsystems.Extender;
-import frc.robot.util.ClimberMethods;
+import frc.robot.util.ClimbUtil;
 
 /**
  * 
@@ -27,7 +27,7 @@ public class Extend extends SequentialCommandGroup {
       // if it's not supposed to zero or is not having a setpoint of zero,
       new SequentialCommandGroup(
         // enable the extender
-        new InstantCommand(() -> ClimberMethods.enableExtender()),
+        new InstantCommand(() -> ClimbUtil.enableExtender()),
   
         // set the setpoints of the extenders
         // please note: these extensions are different to account for the left not reaching as high as it should
@@ -35,7 +35,7 @@ public class Extend extends SequentialCommandGroup {
         new InstantCommand(() -> extenderR.set(extensionR)),
   
         // wait until both extenders reach their setpoints
-        new WaitUntilCommand(() -> ClimberMethods.isExtenderAtSetpoint())
+        new WaitUntilCommand(() -> ClimbUtil.isExtenderAtSetpoint())
     )));
     }
 }

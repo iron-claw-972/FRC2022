@@ -8,7 +8,7 @@ import frc.robot.commands.climb.*;
 import frc.robot.constants.Constants;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.*;
-import frc.robot.util.ClimberMethods;
+import frc.robot.util.ClimbUtil;
 import lib.controllers.*;
 import lib.controllers.GameController.Button;
 import lib.controllers.GameController.DPad;
@@ -77,11 +77,11 @@ public class Operator {
   private static void configureClimbControls() {
 
     operator.get(Button.LEFT_JOY).whenPressed(
-      new InstantCommand(ClimberMethods::removeLimiter)
+      new InstantCommand(ClimbUtil::removeLimiter)
     );
 
     operator.get(Button.RIGHT_JOY).whenPressed(
-      new InstantCommand(ClimberMethods::enableLimiter)
+      new InstantCommand(ClimbUtil::enableLimiter)
     );
 
     // when DPad Up is pressed, enable the extender and extend upwards to kMaxUpwards
@@ -110,7 +110,7 @@ public class Operator {
 
     // when nothing on the DPad is pressed, the extenders are disabled
     operator.get(DPad.UNPRESSED).whenPressed(
-      new InstantCommand(() -> ClimberMethods.disableExtender())
+      new InstantCommand(() -> ClimbUtil.disableExtender())
     );
 
     // rotator goes to the bar
