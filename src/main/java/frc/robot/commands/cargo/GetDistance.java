@@ -25,13 +25,13 @@ public class GetDistance extends CommandBase {
   private boolean isFront = true;
 
   public GetDistance() {
-    this(Robot.limelight, Robot.arm);
+    this(Robot.ll, Robot.arm);
   }
 
   public GetDistance(Limelight limelight, Arm arm) {
     m_limelight = limelight;
     m_arm = arm;
-    addRequirements(limelight, arm);
+    // addRequirements(limelight, arm);
   }
 
   @Override

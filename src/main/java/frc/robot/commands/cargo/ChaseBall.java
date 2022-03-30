@@ -27,7 +27,7 @@ public class ChaseBall extends CommandBase {
   }
 
   public ChaseBall(boolean isRedBall, boolean driverControlled) {
-    this(Robot.limelight, Robot.drive, isRedBall, driverControlled);
+    this(Robot.ll, Robot.drive, isRedBall, driverControlled);
   }
 
   public ChaseBall(Limelight limelight, Drivetrain drivetrain, boolean isRedBall, boolean driverControlled) {

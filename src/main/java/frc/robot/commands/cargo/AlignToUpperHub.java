@@ -17,7 +17,7 @@ public class AlignToUpperHub extends CommandBase {
   public static PIDController alignPID = new PIDController(Constants.ll.kAlignP, Constants.ll.kAlignI, Constants.ll.kAlignD);
 
   public AlignToUpperHub() {
-    this(Robot.limelight, Robot.drive);
+    this(Robot.ll, Robot.drive);
   }
 
   public AlignToUpperHub(Limelight limelight, Drivetrain drivetrain) {

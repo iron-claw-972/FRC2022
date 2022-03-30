@@ -27,7 +27,7 @@ public class IntakeAuto extends SequentialCommandGroup {
       doesChaseBall,
       isRedBall,
       distance,
-      Robot.limelight,
+      Robot.ll,
       Robot.belt,
       Robot.arm,
       Robot.shooter,

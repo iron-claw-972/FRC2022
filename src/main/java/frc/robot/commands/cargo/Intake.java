@@ -26,7 +26,7 @@ public class Intake extends SequentialCommandGroup {
   }
 
   public Intake(double postIntakeArmPosition, boolean doesChaseBall, boolean isRedBall, boolean doesCheckBall) {
-    this(postIntakeArmPosition, doesChaseBall, isRedBall, doesCheckBall, Robot.shooter, Robot.arm, Robot.belt, Robot.limelight, Robot.drive, Robot.ballDetection);
+    this(postIntakeArmPosition, doesChaseBall, isRedBall, doesCheckBall, Robot.shooter, Robot.arm, Robot.belt, Robot.ll, Robot.drive, Robot.ballDetection);
   }
 
   public Intake(double postIntakeArmPosition, boolean doesChaseBall, boolean isRedBall, boolean doesCheckBall, Shooter shooter, Arm arm, Belt belt, Limelight limelight, Drivetrain drive, BallDetection ballDetection) {

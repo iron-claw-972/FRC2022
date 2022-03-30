@@ -19,7 +19,7 @@ import frc.robot.util.ShooterMethods;
 
 public class Shoot extends SequentialCommandGroup {
     public Shoot(boolean doesCalculateSpeed, boolean doesAlign, boolean isFront) {
-        this(doesCalculateSpeed, doesAlign, isFront, Double.NaN, Double.NaN, Robot.shooter, Robot.arm, Robot.belt, Robot.limelight, Robot.drive, Robot.ballDetection);
+        this(doesCalculateSpeed, doesAlign, isFront, Double.NaN, Double.NaN, Robot.shooter, Robot.arm, Robot.belt, Robot.ll, Robot.drive, Robot.ballDetection);
     }
 
     public Shoot(boolean doesCalculateSpeed, boolean doesAlign, boolean isFront, Shooter shooter, Arm arm, Belt belt, Limelight limelight, Drivetrain drive, BallDetection ballDetection) {
@@ -27,7 +27,7 @@ public class Shoot extends SequentialCommandGroup {
     }
 
     public Shoot(boolean doesCalculateSpeed, boolean doesAlign, boolean isFront, double outtakeArmPosition, double shooterWheelOuttakeSpeed) {
-        this(doesCalculateSpeed, doesAlign, isFront, outtakeArmPosition, shooterWheelOuttakeSpeed, Robot.shooter, Robot.arm, Robot.belt, Robot.limelight, Robot.drive, Robot.ballDetection);
+        this(doesCalculateSpeed, doesAlign, isFront, outtakeArmPosition, shooterWheelOuttakeSpeed, Robot.shooter, Robot.arm, Robot.belt, Robot.ll, Robot.drive, Robot.ballDetection);
     }
 
     public Shoot(

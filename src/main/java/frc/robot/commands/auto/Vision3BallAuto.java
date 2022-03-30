@@ -17,7 +17,7 @@ import frc.robot.util.ShooterMethods;
 
 public class Vision3BallAuto extends SequentialCommandGroup {
   public Vision3BallAuto(boolean isRedBall) {
-    this(isRedBall, Robot.drive, Robot.belt, Robot.arm, Robot.shooter, Robot.limelight, Robot.ballDetection);
+    this(isRedBall, Robot.drive, Robot.belt, Robot.arm, Robot.shooter, Robot.ll, Robot.ballDetection);
   }
 
   public Vision3BallAuto(boolean isRedBall, Drivetrain drive, Belt belt, Arm arm, Shooter shooter, Limelight limelight, BallDetection ballDetection) {

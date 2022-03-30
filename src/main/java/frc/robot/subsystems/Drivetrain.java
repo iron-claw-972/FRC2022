@@ -103,8 +103,10 @@ public class Drivetrain extends SubsystemBase {
     m_rightMotor1 = rightMotor1;
     m_rightMotor2 = rightMotor2;
 
-    // m_rightMotor1.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
-    // m_leftMotor1.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
+    m_rightMotor1.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
+    m_leftMotor1.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
+    m_rightMotor2.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
+    m_leftMotor2.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
 
     m_leftEncoder = new TalonEncoder(m_leftMotor1, Constants.drive.kLeftEncoderReversed);
     m_rightEncoder = new TalonEncoder(m_rightMotor1, Constants.drive.kRightEncoderReversed);

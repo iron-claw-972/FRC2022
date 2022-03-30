@@ -141,10 +141,10 @@ public class ShuffleboardManager {
     m_cargoTab.addNumber("Optimal stipe angle (deg)", () -> GetDistance.optimalStipeAngle);
     m_cargoTab.addBoolean("getDistance Is Finished", () -> GetDistance.isFinished);
 
-    m_cargoTab.addNumber("Tx (deg)", Robot.limelight::getHubHorizontalAngularOffset);
-    m_cargoTab.addNumber("Ty (deg)", Robot.limelight::getVerticalAngularOffset);
+    m_cargoTab.addNumber("Tx (deg)", Robot.ll::getHubHorizontalAngularOffset);
+    m_cargoTab.addNumber("Ty (deg)", Robot.ll::getVerticalAngularOffset);
 
-    m_cargoTab.addNumber("Limelight latency (ms)", Robot.limelight::getLatency);
+    m_cargoTab.addNumber("Limelight latency (ms)", Robot.ll::getLatency);
 
     // SmartDashboard.putNumber("Front Shooting velocity", -2900);
     // SmartDashboard.putNumber("Front Stipe angle", 80);

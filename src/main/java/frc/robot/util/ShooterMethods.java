@@ -207,6 +207,18 @@ public class ShooterMethods {
     return Robot.ballDetection.containsBallSecurely();
   }
 
+  public static double getHubDistance(double stipeAngle) {
+    return Robot.ll.getHubDistance(stipeAngle);
+  }
+
+  public static void setUpperHubPipeline() {
+    Robot.ll.setUpperHubPipeline();
+  }
+
+  public static void setBallPipeline(boolean isRedBall) {
+    Robot.ll.setBallPipeline(isRedBall);
+  }
+
   public static boolean isBallContained() {
     // System.out.println(Robot.m_balldetector.containsBallSecurely());
     return Robot.ballDetection.containsBall();

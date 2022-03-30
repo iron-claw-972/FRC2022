@@ -3,6 +3,7 @@ package frc.robot.controls;
 
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj.DriverStation;
+import frc.robot.Robot;
 import frc.robot.commands.cargo.EjectBall;
 import frc.robot.commands.cargo.Intake;
 import frc.robot.commands.cargo.PositionArm;
@@ -43,12 +44,12 @@ public class Driver {
     // Intake w/ ball chase for red ball
     driver.get(Button.TOP_FRONT)
       .whenHeld(new Intake(Constants.arm.kUprightPos, true, true))
-      .whenReleased(new PositionArm(Constants.arm.kUprightPos));
+      .whenReleased(new PositionArm(Constants.arm.kUprightPos).andThen(() -> Robot.ll.setUpperHubPipeline()));
 
     // Intake w/ ball chase for blue ball
     driver.get(Button.TOP_BACK)
       .whenHeld(new Intake(Constants.arm.kUprightPos, true, false))
-      .whenReleased(new PositionArm(Constants.arm.kUprightPos));
+      .whenReleased(new PositionArm(Constants.arm.kUprightPos).andThen(() -> Robot.ll.setUpperHubPipeline()));
 
     // Eject ball
     driver.get(Button.BOTTOM).whenHeld(new EjectBall());
