@@ -13,11 +13,11 @@ import org.junit.*;
 
 
 public class ClimbExtenderTest {
-  public LimitSwitch limitSwitch = mock(LimitSwitch.class);
-  public WPI_TalonFX motor = mock(WPI_TalonFX.class);
-  public ExtenderConstants extend = mock(ExtenderConstants.class);
+  private LimitSwitch limitSwitch = mock(LimitSwitch.class);
+  private WPI_TalonFX motor = mock(WPI_TalonFX.class);
+  private ExtenderConstants extend = mock(ExtenderConstants.class);
 
-  public Extender extender = new Extender(true, motor, limitSwitch);
+  private Extender extender = new Extender(true, motor, limitSwitch);
 
   @Test
   public void ExtenderInherentlyOff() {
