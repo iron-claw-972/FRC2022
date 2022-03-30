@@ -1,10 +1,10 @@
 package frc.robot.commands;
 
-import controllers.GameController;
-import controllers.GameController.RumbleStatus;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
+import lib.controllers.GameController;
+import lib.controllers.GameController.RumbleStatus;
 
 public class Rumble extends SequentialCommandGroup{
 

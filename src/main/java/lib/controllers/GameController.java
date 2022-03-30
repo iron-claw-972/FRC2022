@@ -1,4 +1,4 @@
-package controllers;
+package lib.controllers;
 
 import java.util.function.BooleanSupplier;
 

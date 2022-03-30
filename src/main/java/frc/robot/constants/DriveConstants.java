@@ -24,22 +24,22 @@ public class DriveConstants {
 
   // Use the SysId program in WPILib Tools to estimate values
   // Drivetrain
-  public final double KsLinear = 0.67061; // Ks
-  public final double KvLinear = 0.56072; // Kv
-  public final double KaLinear = 2.5044; // Ka
+  public final double KsLinear = 0.61763; // Ks
+  public final double KvLinear = 2.4394; // Kv
+  public final double KaLinear = 0.19755; // Ka
 
   // Drivetrain (Angular)
-  public final double KsAngular = 1.2099; // Ks
-  public final double KvAngular = 4.7967; // Kv
-  public final double KaAngular = 0.59406; // Ka
+  public final double KsAngular = 0.68983; // Ks
+  public final double KvAngular = 1.5; // Kv
+  public final double KaAngular = 0.3; // Ka
 
   // Position PID gain values
-  public final double KpPosition = 0.15592; // Kp for Ramsete PID
+  public final double KpPosition = 82.761; // Kp for Ramsete PID
   public final double KiPosition = 0; // Kp for Ramsete PID
-  public final double KdPosition = 0; // Kp for Ramsete PID
+  public final double KdPosition = 5.1379; // Kp for Ramsete PID
 
   // Velocity PID gain values
-  public final double KpVelocity = 1; // Proportional
+  public final double KpVelocity = 2.8662; // Proportional
   public final double KiVelocity = 0; // Integral
   public final double KdVelocity = 0; // Derivative
 

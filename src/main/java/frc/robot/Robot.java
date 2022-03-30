@@ -9,9 +9,11 @@ package frc.robot;
 
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.UsbCamera;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.commands.drive.DifferentialDrive;
 import frc.robot.commands.drive.TeleopDrive;
 import frc.robot.controls.*;
 import frc.robot.subsystems.*;
@@ -61,20 +63,22 @@ public class Robot extends TimedRobot {
     int width = 16 * factor;
     int height = 9 * factor;
     
-    m_camera1.setFPS(30);
-    m_camera1.setResolution(width, height);
-    m_camera2.setFPS(30);
-    m_camera2.setResolution(width, height);
+    // m_camera1.setFPS(30);
+    // m_camera1.setResolution(width, height);
+    // m_camera2.setFPS(30);
+    // m_camera2.setResolution(width, height);
 
     // default command to run in teleop
     
-    drive.setDefaultCommand(new TeleopDrive(drive));
+    drive.setDefaultCommand(new DifferentialDrive(drive));
     // m_testArm.setDefaultCommand(new armPID(m_testArm));
     //m_cargoShooter.setDefaultCommand(new RunCommand(() -> m_cargoShooter.setOutput(Operator.controller.getJoystickAxis().leftY()), m_cargoShooter));
     //m_cargoBelt.setDefaultCommand(new RunCommand(() -> m_cargoBelt.setOutput(-Operator.controller.getJoystickAxis().rightY()), m_cargoBelt));
     // m_limelight.setDefaultCommand(new GetDistance(m_limelight, m_cargoRotator));
     
     // Configure the button bindings
+    DriverStation.silenceJoystickConnectionWarning(true);
+
     Driver.configureControls();
     Operator.configureControls();
     // ClimbOperator.configureButtonBindings();
@@ -101,6 +105,7 @@ public class Robot extends TimedRobot {
     CommandScheduler.getInstance().run();
     shuffleboard.update();
     drive.updateMotors();
+    log.updateBuffer();
   }
 
   /**
@@ -108,6 +113,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void disabledInit() {
+    CommandScheduler.getInstance().cancelAll();
     ShooterMethods.disableArm();
     ShooterMethods.disableShiitake();
   }
@@ -136,7 +142,6 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousPeriodic() {
-    log.updateBuffer();
   }
 
   @Override
@@ -156,7 +161,6 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopPeriodic() {
-    log.updateBuffer();
   }
 
   @Override

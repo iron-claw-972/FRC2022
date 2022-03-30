@@ -31,21 +31,23 @@ import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.simulation.DifferentialDrivetrainSim;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import ctre_shims.PhoenixMotorControllerGroup;
 import ctre_shims.TalonEncoder;
 import ctre_shims.TalonEncoderSim;
 
 public class Drivetrain extends SubsystemBase {
-  WPI_TalonFX m_leftMotor1 = ControllerFactory.createTalonFX(Constants.drive.leftMotorPorts[0], Constants.drive.kSupplyCurrentLimit, Constants.drive.kSupplyTriggerThreshold, Constants.drive.kSupplyTriggerDuration, Constants.drive.kMainNeutralMode, true);
-  WPI_TalonFX m_rightMotor1 = ControllerFactory.createTalonFX(Constants.drive.rightMotorPorts[0], Constants.drive.kSupplyCurrentLimit, Constants.drive.kSupplyTriggerThreshold, Constants.drive.kSupplyTriggerDuration, Constants.drive.kMainNeutralMode, true);
-  WPI_TalonFX m_leftMotor2 = ControllerFactory.createTalonFX(Constants.drive.leftMotorPorts[1], Constants.drive.kSupplyCurrentLimit, Constants.drive.kSupplyTriggerThreshold, Constants.drive.kSupplyTriggerDuration, Constants.drive.kNeutralMode, true);
-  WPI_TalonFX m_rightMotor2 = ControllerFactory.createTalonFX(Constants.drive.rightMotorPorts[1], Constants.drive.kSupplyCurrentLimit, Constants.drive.kSupplyTriggerThreshold, Constants.drive.kSupplyTriggerDuration, Constants.drive.kNeutralMode, true);
+  private final WPI_TalonFX m_leftMotor1;
+  private final WPI_TalonFX m_rightMotor1;
+  private final WPI_TalonFX m_leftMotor2;
+  private final WPI_TalonFX m_rightMotor2;
   
-  // private PhoenixMotorControllerGroup m_leftMotors;
-  // private PhoenixMotorControllerGroup m_rightMotors;
-  // private final DifferentialDrive m_dDrive;
+  private final PhoenixMotorControllerGroup m_leftMotors;
+  private final PhoenixMotorControllerGroup m_rightMotors;
+  private final DifferentialDrive m_dDrive;
 
   // The left-side drive encoder
   private final TalonEncoder m_leftEncoder;
@@ -87,10 +89,10 @@ public class Drivetrain extends SubsystemBase {
 
   public Drivetrain() {
     this(
-      ControllerFactory.createTalonFX(Constants.drive.leftMotorPorts[0], Constants.drive.kSupplyCurrentLimit, Constants.drive.kSupplyTriggerThreshold, Constants.drive.kSupplyTriggerDuration, Constants.drive.kMainNeutralMode, true),
-      ControllerFactory.createTalonFX(Constants.drive.leftMotorPorts[1], Constants.drive.kSupplyCurrentLimit, Constants.drive.kSupplyTriggerThreshold, Constants.drive.kSupplyTriggerDuration, Constants.drive.kNeutralMode, true),
-      ControllerFactory.createTalonFX(Constants.drive.rightMotorPorts[0], Constants.drive.kSupplyCurrentLimit, Constants.drive.kSupplyTriggerThreshold, Constants.drive.kSupplyTriggerDuration, Constants.drive.kMainNeutralMode, true),
-      ControllerFactory.createTalonFX(Constants.drive.rightMotorPorts[1], Constants.drive.kSupplyCurrentLimit, Constants.drive.kSupplyTriggerThreshold, Constants.drive.kSupplyTriggerDuration, Constants.drive.kNeutralMode, true),
+      ControllerFactory.createTalonFX(Constants.drive.leftMotorPorts[0], Constants.drive.kSupplyCurrentLimit, Constants.drive.kSupplyTriggerThreshold, Constants.drive.kSupplyTriggerDuration, Constants.drive.kMainNeutralMode, false),
+      ControllerFactory.createTalonFX(Constants.drive.leftMotorPorts[1], Constants.drive.kSupplyCurrentLimit, Constants.drive.kSupplyTriggerThreshold, Constants.drive.kSupplyTriggerDuration, Constants.drive.kNeutralMode, false),
+      ControllerFactory.createTalonFX(Constants.drive.rightMotorPorts[0], Constants.drive.kSupplyCurrentLimit, Constants.drive.kSupplyTriggerThreshold, Constants.drive.kSupplyTriggerDuration, Constants.drive.kMainNeutralMode, false),
+      ControllerFactory.createTalonFX(Constants.drive.rightMotorPorts[1], Constants.drive.kSupplyCurrentLimit, Constants.drive.kSupplyTriggerThreshold, Constants.drive.kSupplyTriggerDuration, Constants.drive.kNeutralMode, false),
       new AHRS(SPI.Port.kMXP)
     );
   }
@@ -101,35 +103,28 @@ public class Drivetrain extends SubsystemBase {
     m_rightMotor1 = rightMotor1;
     m_rightMotor2 = rightMotor2;
 
+    // m_rightMotor1.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
+    // m_leftMotor1.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
+
     m_leftEncoder = new TalonEncoder(m_leftMotor1, Constants.drive.kLeftEncoderReversed);
     m_rightEncoder = new TalonEncoder(m_rightMotor1, Constants.drive.kRightEncoderReversed);
 
     m_navX = navX;
 
-    // m_leftMotors = new PhoenixMotorControllerGroup(m_leftMotor1, m_leftMotor2);
-    // m_rightMotors = new PhoenixMotorControllerGroup(m_rightMotor1, m_rightMotor2);
+    m_leftMotors = new PhoenixMotorControllerGroup(m_leftMotor1, m_leftMotor2);
+    m_rightMotors = new PhoenixMotorControllerGroup(m_rightMotor1, m_rightMotor2);
 
     // Inverting one side of the drivetrain as to drive forward
     if (RobotBase.isSimulation()) {
-      m_leftMotor1.setInverted(false);
-      m_leftMotor2.setInverted(false);
-      m_rightMotor1.setInverted(false);
-      m_rightMotor1.setInverted(false);
+      m_leftMotors.setInverted(false);
+      m_rightMotors.setInverted(false);
     } else {
-      m_leftMotor1.setInverted(true);
-      m_leftMotor2.setInverted(true);
-      m_rightMotor1.setInverted(false);
-      m_rightMotor2.setInverted(false);
+      m_leftMotors.setInverted(true);
+      m_rightMotors.setInverted(false);
     }
 
 
-    // m_dDrive = new DifferentialDrive(m_leftMotors, m_rightMotors);
-
-    // m_leftMotor2.follow(m_leftMotor1);
-    // m_rightMotor2.follow(m_rightMotor1);
-
-    m_rightMotor1.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
-    m_leftMotor1.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
+    m_dDrive = new DifferentialDrive(m_leftMotors, m_rightMotors);
 
     // Sets the distance per pulse for the encoders
     m_leftEncoder.setDistancePerPulse(Constants.drive.kDistancePerPulse);
@@ -161,21 +156,21 @@ public class Drivetrain extends SubsystemBase {
   }
 
   public void arcadeDrive(double throttle, double turn) {
-    m_leftMotor1.set(ControlMode.PercentOutput, throttle + turn);
-    m_rightMotor1.set(ControlMode.PercentOutput, throttle - turn);
-    m_leftMotor2.set(ControlMode.PercentOutput, throttle + turn);
-    m_rightMotor2.set(ControlMode.PercentOutput, throttle - turn);
+    // m_leftMotor1.set(ControlMode.PercentOutput, throttle + turn);
+    // m_rightMotor1.set(ControlMode.PercentOutput, throttle - turn);
+    // m_leftMotor2.set(ControlMode.PercentOutput, throttle + turn);
+    // m_rightMotor2.set(ControlMode.PercentOutput, throttle - turn);
     //System.out.println(turn);
 
-    //m_dDrive.arcadeDrive(throttle, turn);
+    m_dDrive.arcadeDrive(throttle, turn);
   }
 
   public void tankDrive(double left, double right) {
-    m_leftMotor1.set(ControlMode.PercentOutput, left);
-    m_rightMotor1.set(ControlMode.PercentOutput, right);
-    m_leftMotor2.set(ControlMode.PercentOutput, left);
-    m_rightMotor2.set(ControlMode.PercentOutput, right);
-    //m_dDrive.tankDrive(left, right);
+    // m_leftMotor1.set(ControlMode.PercentOutput, left);
+    // m_rightMotor1.set(ControlMode.PercentOutput, right);
+    // m_leftMotor2.set(ControlMode.PercentOutput, left);
+    // m_rightMotor2.set(ControlMode.PercentOutput, right);
+    m_dDrive.tankDrive(left, right);
   }
 
   public void propDrive(double throttle, double turn) {
@@ -191,31 +186,31 @@ public class Drivetrain extends SubsystemBase {
   }
 
   public void setBrakeMode() {
-    m_leftMotor1.setNeutralMode(NeutralMode.Brake);
-    m_rightMotor1.setNeutralMode(NeutralMode.Brake);
-    m_leftMotor2.setNeutralMode(NeutralMode.Brake);
-    m_rightMotor2.setNeutralMode(NeutralMode.Brake);
+    // m_leftMotor1.setNeutralMode(NeutralMode.Brake);
+    // m_rightMotor1.setNeutralMode(NeutralMode.Brake);
+    // m_leftMotor2.setNeutralMode(NeutralMode.Brake);
+    // m_rightMotor2.setNeutralMode(NeutralMode.Brake);
   }
 
   public void setCoastMode() {
-    m_leftMotor1.setNeutralMode(NeutralMode.Coast);
-    m_rightMotor1.setNeutralMode(NeutralMode.Coast);
-    m_leftMotor2.setNeutralMode(NeutralMode.Coast);
-    m_rightMotor2.setNeutralMode(NeutralMode.Coast);
+    // m_leftMotor1.setNeutralMode(NeutralMode.Coast);
+    // m_rightMotor1.setNeutralMode(NeutralMode.Coast);
+    // m_leftMotor2.setNeutralMode(NeutralMode.Coast);
+    // m_rightMotor2.setNeutralMode(NeutralMode.Coast);
   }
 
   public void setHalfCoast() {
-    m_leftMotor1.setNeutralMode(NeutralMode.Coast);
-    m_rightMotor1.setNeutralMode(NeutralMode.Coast);
-    m_leftMotor2.setNeutralMode(NeutralMode.Brake);
-    m_rightMotor2.setNeutralMode(NeutralMode.Brake);
+    // m_leftMotor1.setNeutralMode(NeutralMode.Coast);
+    // m_rightMotor1.setNeutralMode(NeutralMode.Coast);
+    // m_leftMotor2.setNeutralMode(NeutralMode.Brake);
+    // m_rightMotor2.setNeutralMode(NeutralMode.Brake);
   }
 
   public void resetCoastBrakeMode() {
-    m_leftMotor1.setNeutralMode(Constants.drive.kMainNeutralMode);
-    m_rightMotor1.setNeutralMode(Constants.drive.kMainNeutralMode);
-    m_leftMotor1.setNeutralMode(Constants.drive.kNeutralMode);
-    m_rightMotor1.setNeutralMode(Constants.drive.kNeutralMode);
+    // m_leftMotor1.setNeutralMode(Constants.drive.kMainNeutralMode);
+    // m_rightMotor1.setNeutralMode(Constants.drive.kMainNeutralMode);
+    // m_leftMotor1.setNeutralMode(Constants.drive.kNeutralMode);
+    // m_rightMotor1.setNeutralMode(Constants.drive.kNeutralMode);
   }
 
   public void shiftDrive(double throttle, double turn) {
@@ -279,11 +274,9 @@ public class Drivetrain extends SubsystemBase {
    *
    * @return The drawn current in Amps.
    */
-  /*
-   public double getDrawnCurrentAmps() {
+  public double getDrawnCurrentAmps() {
     return m_drivetrainSim.getCurrentDrawAmps();
   }
-  */
 
   public DifferentialDriveKinematics getDriveKinematics() {
     return m_driveKinematics;
@@ -410,11 +403,9 @@ public class Drivetrain extends SubsystemBase {
       leftVolts *= batteryVoltage / Constants.kMaxVoltage;
       rightVolts *= batteryVoltage / Constants.kMaxVoltage;
     }
-    m_leftMotor1.setVoltage(leftVolts);
-    m_leftMotor2.setVoltage(leftVolts);
-    m_rightMotor1.setVoltage(rightVolts);
-    m_rightMotor2.setVoltage(rightVolts);
-    //m_dDrive.feed();
+    m_leftMotors.setVoltage(leftVolts);
+    m_rightMotors.setVoltage(rightVolts);
+    m_dDrive.feed();
   }
 
   /**
@@ -444,7 +435,7 @@ public class Drivetrain extends SubsystemBase {
    * @param maxOutput the maximum output to which the drive will be constrained
    */
   public void setMaxOutput(double maxOutput) {
-    //m_dDrive.setMaxOutput(maxOutput);
+    m_dDrive.setMaxOutput(maxOutput);
   }
 
   /** Zeroes the heading of the robot. */
@@ -471,7 +462,7 @@ public class Drivetrain extends SubsystemBase {
   }
 
   public void updateMotors(){
-    //m_dDrive.feed();
+    m_dDrive.feed();
   }
   
   public double getLeftPosition(){

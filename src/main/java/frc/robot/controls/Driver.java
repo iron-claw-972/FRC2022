@@ -1,9 +1,6 @@
 package frc.robot.controls;
 
 
-import controllers.*;
-import controllers.PistolController.Axis;
-import controllers.PistolController.Button;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj.DriverStation;
 import frc.robot.commands.cargo.EjectBall;
@@ -11,6 +8,9 @@ import frc.robot.commands.cargo.Intake;
 import frc.robot.commands.cargo.PositionArm;
 import frc.robot.constants.Constants;
 import frc.robot.util.Functions;
+import lib.controllers.*;
+import lib.controllers.PistolController.Axis;
+import lib.controllers.PistolController.Button;
 
 public class Driver {
   private static PistolController driver = new PistolController(Constants.oi.kDriverJoy);

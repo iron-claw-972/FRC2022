@@ -3,12 +3,12 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
-import controllers.GameController.Axis;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.util.ControllerFactory;
 import frc.robot.util.LimitSwitch;
+import lib.controllers.GameController.Axis;
 import frc.robot.constants.Constants;
 import frc.robot.controls.Operator;
 

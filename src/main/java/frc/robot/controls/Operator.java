@@ -1,9 +1,6 @@
 package frc.robot.controls;
 
 
-import controllers.*;
-import controllers.GameController.Button;
-import controllers.GameController.DPad;
 import frc.robot.Robot;
 import frc.robot.commands.Rumble;
 import frc.robot.commands.cargo.*;
@@ -12,6 +9,9 @@ import frc.robot.constants.Constants;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.*;
 import frc.robot.util.ClimberMethods;
+import lib.controllers.*;
+import lib.controllers.GameController.Button;
+import lib.controllers.GameController.DPad;
 
 public class Operator {
 
