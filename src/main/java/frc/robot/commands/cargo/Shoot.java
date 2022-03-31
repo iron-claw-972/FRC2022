@@ -46,7 +46,7 @@ public class Shoot extends SequentialCommandGroup {
       addRequirements(shooter, arm, belt, limelight, drive, ballDetection);
       addCommands(
         // Start spin up before so PID has less work to do
-        new InstantCommand(() -> CargoUtil.setWheelRPM(-2000)),
+        new InstantCommand(() -> CargoUtil.setWheelRPM(-3000)),
 
         // Set hub pipeline early to account for network latency
         new InstantCommand(() -> limelight.setUpperHubPipeline()),

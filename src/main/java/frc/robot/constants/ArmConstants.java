@@ -29,9 +29,9 @@ public class ArmConstants {
     public final double kFeedForwardOffsetAngle = 30.0;
     public final double kFeedForwardHardstopTolerance = 3.0;
 
-    public final double kSAngle = -50;
+    public final double kSAngle = -40;
 
-    public final double kFrontLimelightScanPos = 80;
+    public final double kFrontLimelightScanPos = 75; // 80
     public final double kBackLimelightScanPos = 172;
 
     // These should be stipe angles
@@ -54,7 +54,7 @@ public class ArmConstants {
     public final double kAutoBackOuttakeFarPos = 168;
     public final double kUprightPos = 123;
 
-    public final double kOptimalBackShootingPos = 150;
+    public final double kOptimalBackShootingPos = 167.5;
 
     public final double kPivotToShootingExitPointLength = Units.inchesToMeters(19.313208);
     public final double kStipeToShootingTrajectoryAngularOffset = -39;

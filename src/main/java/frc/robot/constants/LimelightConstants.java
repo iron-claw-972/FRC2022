@@ -14,10 +14,10 @@ public class LimelightConstants {
   public final double kAutoThrottlePow = -0.3;
 
   public final double kTurnPIDTolerance = 1;
-  public final double kTurnP = 0.005; // Originally 0.025
+  public final double kTurnP = 0.05; // Originally 0.005
   public final double kTurnI = 0;
   public final double kTurnD = 0;
-  public final double kMaxTurnPower = 0.6;
+  public final double kMaxTurnPower = 1;
 
   public final double kThrottlePIDTolerance = 0.5;
   public final double kThrottleP = 0.12;

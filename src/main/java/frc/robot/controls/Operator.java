@@ -50,7 +50,7 @@ public class Operator {
 
     // Manual intake
     operator.get(Button.X)
-      .whenHeld(new Intake(Constants.arm.kUprightPos, false))
+      .whenHeld(new Intake(Constants.arm.kOptimalBackShootingPos, false))
       .whenReleased(new PositionArm(Constants.arm.kUprightPos).andThen(() -> Robot.ll.setUpperHubPipeline()));
 
     // Stow arm

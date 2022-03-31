@@ -67,7 +67,8 @@ public class Rotator extends SubsystemBase {
     // SmartDashboard.putNumber(direction + " rotator offset", encoderOffset);
     if(enabled) {
       // set the arm power according to the PID
-      setOutput(armPID.calculate(currentAngle(), setpoint));
+      // TODO
+      // setOutput(armPID.calculate(currentAngle(), setpoint));
     } else {
       m_motor.set(0);
     }

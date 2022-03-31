@@ -99,7 +99,7 @@ public class GetDistance extends CommandBase {
     if (m_doesCalculateAngle) {
       optimalShootingAngle = CargoUtil.getOptimalShootingAngle(Constants.arm.kSAngle, currentShootingDistance, currentTargetHeightOffset);
     } else {
-      optimalShootingAngle = 180 - (Constants.arm.kOptimalBackShootingPos + Constants.arm.kStipeToShootingTrajectoryAngularOffset);
+      optimalShootingAngle = 180 - (m_arm.currentAngle() + Constants.arm.kStipeToShootingTrajectoryAngularOffset);
     }
 
     // Clamp arm angles that will hit the hex shaft attached to the climb triangle

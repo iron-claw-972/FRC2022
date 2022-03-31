@@ -28,7 +28,7 @@ public class ShooterConstants {
   public final double kDistancePerPulse = 100.0 / kEncoderResolution;
   public final double kGearRatio = (double) 18 / 30;
 
-  public final double kFrontShotEfficiency = 0.99;
+  public final double kFrontShotEfficiency = 1;
   public final double kBackShotEfficiency = 1;
   // public final double kBackShotEfficiency = 0.93;
 

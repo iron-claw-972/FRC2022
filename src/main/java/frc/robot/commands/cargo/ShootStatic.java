@@ -4,6 +4,7 @@ package frc.robot.commands.cargo;
 import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
+import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
@@ -34,6 +35,7 @@ public class ShootStatic extends SequentialCommandGroup {
     ) {
       addRequirements(shooter, arm, belt, limelight, drive, ballDetection);
       addCommands(
+        new InstantCommand(() -> CargoUtil.disableShiitake()),
         // Start spin up before so PID has less work to do
         new InstantCommand(() -> CargoUtil.setWheelRPM(-2000)),
 
@@ -51,12 +53,17 @@ public class ShootStatic extends SequentialCommandGroup {
           ),
           new PositionArm(Constants.arm.kOptimalBackShootingPos)
         ),
+        new AlignToUpperHub(),
+        new GetDistance(false),
+        new WaitUntilCommand(() -> GetDistance.isFinished),
+        new InstantCommand(() -> CargoUtil.setWheelSpeed(() -> GetDistance.optimalVelocity, false)),
+        new WaitUntilCommand(() -> CargoUtil.isWheelAtSetpoint() && CargoUtil.isArmAtSetpoint()),
 
-        deadline(
-          new WaitUntilCommand(() -> CargoUtil.isWheelAtSetpoint() && CargoUtil.isArmAtSetpoint() && Robot.ll.hasValidTarget() && AlignToUpperHub.alignPID.atSetpoint() && GetDistance.isFinished),
-          new GetDistance(false).perpetually(),
-          new AlignToUpperHub().perpetually()
-        ),
+        // deadline(
+        //   //  && Robot.ll.hasValidTarget() && AlignToUpperHub.alignPID.atSetpoint() && GetDistance.isFinished),
+          
+          
+        // ),
 
         // Spin belts to outtake ball
         new InstantCommand(() -> CargoUtil.setBeltPower(Constants.belt.kOuttakeSpeed)),

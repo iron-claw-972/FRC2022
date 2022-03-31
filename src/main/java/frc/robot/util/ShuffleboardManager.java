@@ -33,7 +33,7 @@ public class ShuffleboardManager {
   NetworkTableEntry m_commandScheduler = m_mainTab.add("Command Scheduler", "NULL").getEntry();
   
   public void setup() {
-    LiveWindow.disableAllTelemetry(); // LiveWindow is causing periodic loop overruns
+    // LiveWindow.disableAllTelemetry(); // LiveWindow is causing periodic loop overruns
     m_mainTab.addBoolean("Is Teleop", DriverStation::isTeleop);
     m_mainTab.addNumber("left drive encoder", Robot.drive::getLeftPosition);
     // climbTab.addNumber("Max Extension Ticks", () -> extenderConstants.kExtenderMaxArmTicks);
