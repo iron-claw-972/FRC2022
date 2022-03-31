@@ -28,7 +28,7 @@ public class RotatorConstants {
     public final double kHookStaticL = 110;
 
     public final double kMaxBackwardR = 123;
-    public final double kMaxForwardR = 95;
+    public final double kMaxForwardR = 93;
     public final double kToBarR = 115;
     public final double kHookStaticR = 110;
 
@@ -38,8 +38,8 @@ public class RotatorConstants {
     public final double kD = 0.00;
 
     // encoder offset
-    public final double kArmLeftEncoderOffset = 178.39190538479764;
-    public final double kArmRightEncoderOffset = 69.28583865714597;
+    public final double kArmLeftEncoderOffset = 178.68450439211261;
+    public final double kArmRightEncoderOffset = -178.66164754154119;
     
     // upper limit switches
     public final int kLeftLimitSwitchUpper = 0;
