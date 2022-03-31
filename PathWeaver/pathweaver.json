@@ -1,9 +1,9 @@
 {
   "lengthUnit": "Meter",
   "exportUnit": "Always Meters",
-  "maxVelocity": 1.0,
-  "maxAcceleration": 1.0,
-  "trackWidth": 0.58,
+  "maxVelocity": 0.39,
+  "maxAcceleration": 0.39,
+  "trackWidth": 0.787,
   "gameName": "Rapid React",
   "outputDir": "../src/main/deploy/paths"
 }

@@ -3,8 +3,8 @@ package frc.robot.constants;
 import edu.wpi.first.math.util.Units;
 
 public class AutoConstants {
-  public final double kMaxSpeedMetersPerSecond = Units.feetToMeters(3.28); // Max velocity
-  public final double kMaxAccelerationMetersPerSecondSquared = Units.feetToMeters(3.28); // Max acceleration
+  public final double kMaxSpeedMetersPerSecond = Units.feetToMeters(1.28); // Max velocity
+  public final double kMaxAccelerationMetersPerSecondSquared = Units.feetToMeters(1.28); // Max acceleration
 
   // Reasonable baseline values for a RAMSETE follower in units of meters and seconds
   // DO NOT MODIFY unless you know what you are doing
@@ -18,6 +18,6 @@ public class AutoConstants {
   // Trajectories should be placed in src/main/deploy/paths
   // name without stuff after . ex AutoPath
   public final String kTrajectoryDirectory = "paths/output/";
-  public final String kTrajectoryName = "SquareTest";
+  public final String kTrajectoryName = "";
   public final String k3BallAuto = "T23Ball";
 }
