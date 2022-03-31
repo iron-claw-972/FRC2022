@@ -8,7 +8,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc.robot.commands.cargo.Shoot;
+import frc.robot.commands.cargo.ShootStatic;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.BallDetection;
 import frc.robot.subsystems.Belt;

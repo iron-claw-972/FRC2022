@@ -22,13 +22,20 @@ public class GetDistance extends CommandBase {
   public static double pivotDistance = Double.NaN;
   public static double limelightDistance = Double.NaN;
 
+  private boolean m_doesCalculateAngle;
+
   private boolean isFront = true;
 
   public GetDistance() {
-    this(Robot.ll, Robot.arm);
+    this(true);
   }
 
-  public GetDistance(Limelight limelight, Arm arm) {
+  public GetDistance(boolean doesCalculateAngle) {
+    this(doesCalculateAngle, Robot.ll, Robot.arm);
+  }
+
+  public GetDistance(boolean doesCalculateAngle, Limelight limelight, Arm arm) {
+    m_doesCalculateAngle = doesCalculateAngle;
     m_limelight = limelight;
     m_arm = arm;
     // addRequirements(limelight, arm);
@@ -87,8 +94,13 @@ public class GetDistance extends CommandBase {
     double currentTargetHeightOffset = CargoUtil.getTargetHeightOffset(currentPhysicalShooterAngle);
     double currentShootingDistance = CargoUtil.getShootingDistance(pivotDistance, currentPhysicalShooterAngle);
 
+    double optimalShootingAngle;
     // Find optimal shooting angle
-    double optimalShootingAngle = CargoUtil.getOptimalShootingAngle(Constants.arm.kSAngle, currentShootingDistance, currentTargetHeightOffset);
+    if (m_doesCalculateAngle) {
+      optimalShootingAngle = CargoUtil.getOptimalShootingAngle(Constants.arm.kSAngle, currentShootingDistance, currentTargetHeightOffset);
+    } else {
+      optimalShootingAngle = 180 - (Constants.arm.kOptimalBackShootingPos + Constants.arm.kStipeToShootingTrajectoryAngularOffset);
+    }
 
     // Clamp arm angles that will hit the hex shaft attached to the climb triangle
     

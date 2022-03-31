@@ -53,6 +53,7 @@ public class Shoot extends SequentialCommandGroup {
 
         // Don't spin shooting wheels until ball is confirmed to be in shooter
         new InstantCommand(() -> CargoUtil.setBeltPower(Constants.belt.kIntakeSpeed)),
+        new InstantCommand(() -> CargoUtil.enableBelt()),
         new WaitUntilCommand(() -> CargoUtil.isBallContained()).withTimeout(0.4),
 
         new InstantCommand(() -> CargoUtil.enableAll()),
@@ -92,7 +93,7 @@ public class Shoot extends SequentialCommandGroup {
             // set to actual shooting angle
             new ConditionalCommand(
               sequence(
-                new GetDistance(limelight, arm),
+                new GetDistance(),
                 new PositionArmOptimal()
               ),
               new PositionArm(outtakeArmPosition),
