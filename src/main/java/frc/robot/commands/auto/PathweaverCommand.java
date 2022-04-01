@@ -80,8 +80,8 @@ public class PathweaverCommand extends SequentialCommandGroup {
         drive.getFeedforward(),
         drive.getDriveKinematics(),
         drive::getWheelSpeeds,
-        drive.getLeftPositionPID(),
-        drive.getRightPositionPID(),
+        drive.getLeftVelocityPID(),
+        drive.getRightVelocityPID(),
         drive::tankDriveVolts,
         drive
       ),
