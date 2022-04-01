@@ -118,5 +118,5 @@ public class Shooter extends SubsystemBase {
   public boolean isEnabled() {
     return m_enabled;
   }
-
+  
 }
