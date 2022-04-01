@@ -9,11 +9,20 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
+import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.RobotController;
+import edu.wpi.first.wpilibj.simulation.BatterySim;
 import edu.wpi.first.wpilibj.simulation.DutyCycleEncoderSim;
 import edu.wpi.first.wpilibj.simulation.EncoderSim;
+import edu.wpi.first.wpilibj.simulation.RoboRioSim;
 import edu.wpi.first.wpilibj.simulation.SingleJointedArmSim;
+import edu.wpi.first.wpilibj.smartdashboard.Mechanism2d;
+import edu.wpi.first.wpilibj.smartdashboard.MechanismLigament2d;
+import edu.wpi.first.wpilibj.smartdashboard.MechanismRoot2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.util.Color;
+import edu.wpi.first.wpilibj.util.Color8Bit;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Arm extends SubsystemBase {
@@ -25,10 +34,24 @@ public class Arm extends SubsystemBase {
   private double m_feedforward;
   private double m_outputVoltage;
 
-  private SingleJointedArmSim m_simArm;
+  private SingleJointedArmSim m_armSim;
   private DutyCycleEncoderSim m_encoderSim;
 
   public PIDController m_armPID = new PIDController(Constants.arm.kP, Constants.arm.kI, Constants.arm.kD);
+
+  // Create a Mechanism2d display of an Arm with a fixed ArmTower and moving Arm.
+  private final Mechanism2d m_mech2d = new Mechanism2d(60, 60);
+  private final MechanismRoot2d m_armPivot = m_mech2d.getRoot("ArmPivot", 30, 30);
+  private final MechanismLigament2d m_armTower =
+      m_armPivot.append(new MechanismLigament2d("ArmTower", 30, -90));
+  private final MechanismLigament2d m_arm =
+      m_armPivot.append(
+          new MechanismLigament2d(
+              "Arm",
+              30,
+              Units.radiansToDegrees(0.5),
+              6,
+              new Color8Bit(Color.kYellow)));
 
   public Arm() {
     this(
@@ -46,7 +69,7 @@ public class Arm extends SubsystemBase {
     m_armPID.setTolerance(Constants.arm.kArmTolerance);
 
     if (RobotBase.isSimulation()) {
-      m_simArm = new SingleJointedArmSim(
+      m_armSim = new SingleJointedArmSim(
         Constants.arm.kGearbox, 
         Constants.arm.kGearRatio, 
         Constants.arm.kMomentOfInertia, 
@@ -59,6 +82,10 @@ public class Arm extends SubsystemBase {
 
       // The encoder and gyro angle sims let us set simulated sensor readings
       m_encoderSim = new DutyCycleEncoderSim(m_encoder);
+
+      //display for simulator on SmartDashboard
+      SmartDashboard.putData("Arm Sim", m_mech2d);
+      m_armTower.setColor(new Color8Bit(Color.kBlue));
     }
   }
 
@@ -73,14 +100,23 @@ public class Arm extends SubsystemBase {
 
   @Override
   public void simulationPeriodic() {
-    // In this method, we update our simulation of what our elevator is doing
-    // First, we set our "inputs" (voltages)
-    m_simArm.setInput(m_motor.get() * RobotController.getBatteryVoltage());
+    // In this method, we update our simulation of what our arm is doing
+
+    //First update arm sim power
+    m_armSim.setInput(MathUtil.clamp(m_outputVoltage, -Constants.arm.kMotorClamp, Constants.arm.kMotorClamp));
+
     // Next, we update it. The standard loop time is 20ms.
-    m_simArm.update(0.020);
+    m_armSim.update(0.020);
 
     // Finally, we set our simulated encoder's readings and simulated battery voltage
-    m_encoderSim.setDistance(Units.radiansToDegrees(m_simArm.getAngleRads()));
+    m_encoderSim.setDistance(Units.radiansToRotations(m_armSim.getAngleRads()));
+    // SimBattery estimates loaded battery voltages
+    RoboRioSim.setVInVoltage(
+        BatterySim.calculateDefaultBatteryLoadedVoltage(m_armSim.getCurrentDrawAmps()));
+
+    // Update the Mechanism Arm angle based on the simulated arm angle
+    //System.out.println("Angle: " + Units.radiansToDegrees(m_armSim.getAngleRads()));
+    m_arm.setAngle(Units.radiansToDegrees(m_armSim.getAngleRads()));
   }
 
   public void resetPID() {
