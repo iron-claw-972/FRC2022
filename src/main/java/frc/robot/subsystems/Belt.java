@@ -62,4 +62,8 @@ public class Belt extends SubsystemBase {
   public boolean isEnabled(){
     return m_enabled;
   }
+
+  public double getMotorPower() {
+    return m_motorPower;
+  }
 }
