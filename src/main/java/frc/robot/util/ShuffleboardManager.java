@@ -71,7 +71,12 @@ public class ShuffleboardManager {
     m_autoCommand.addOption("BlueVision3Ball", new Vision3BallAuto(false));
 
     // autoCommand.setDefaultOption("fetch me my paper boy", new FlexibleAuto(distance.getDouble(0), intakeSecond.getBoolean(true), shootSecond.getBoolean(true), limelightColor.getBoolean(Constants.kIsRedAlliance)));
-    m_autoCommand.addOption("pathweaver: square test", new PathweaverCommand(Constants.auto.kTrajectoryName, Robot.drive));
+    m_autoCommand.addOption("Main pathweaver: " + Constants.auto.kTrajectoryName, new PathweaverCommand(Constants.auto.kTrajectoryName, Robot.drive));
+    
+    for (String path : Constants.auto.kAutoPaths) {
+      m_autoCommand.addOption(path, new PathweaverCommand(path, Robot.drive));
+    }
+
     // m_chooser.addOption("teleop", new TeleopDrive(Drivetrain.getInstance()));
     m_autoCommand.addOption("Spin baby spin", new RunCommand(() -> Robot.drive.tankDrive(0.5, -0.5), Robot.drive));
     // adds auto to shuffle board

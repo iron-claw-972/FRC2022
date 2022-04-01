@@ -18,6 +18,7 @@ public class AutoConstants {
   // Trajectories should be placed in src/main/deploy/paths
   // name without stuff after . ex AutoPath
   public final String kTrajectoryDirectory = "paths/output/";
-  public final String kTrajectoryName = "";
+  public final String kTrajectoryName = "HangarTest";
   public final String k3BallAuto = "T23Ball";
+  public final String[] kAutoPaths = {"HangarTest", "SquareTest", "T13Ball", "T23Ball", "TopAuto", "TwoBallsToHangarTest", "Unnamed"};
 }
