@@ -28,10 +28,11 @@ public class PathweaverCommand extends SequentialCommandGroup {
       );
     } catch (IOException ex) {
       DriverStation.reportWarning(
-        "Unable to open trajectory: " + trajectoryName + "\n" + "Falling back to default trajectory",
+        "Unable to open trajectory: " + trajectoryName + "\n" + "Falling back to empty trajectory",
         ex.getStackTrace()
       );
-
+      return new Trajectory(); //empty trajectory
+      /*
       var autoVoltageConstraint = new DifferentialDriveVoltageConstraint(
           drive.getFeedforward(),
           drive.getDriveKinematics(),
@@ -48,12 +49,17 @@ public class PathweaverCommand extends SequentialCommandGroup {
 
       // Fallback to default trajectory
       return TrajectoryGenerator.generateTrajectory(
-          // Make a square and end where we started
-          new Pose2d(0, 0, new Rotation2d(0)),
-          List.of(new Translation2d(3, 0)),
-          new Pose2d(0, 0, new Rotation2d(0)),
-          // Pass config
-          config);
+         // Start at the origin facing the +X direction
+         new Pose2d(0, 0, new Rotation2d(0)),
+         // Pass through these two interior waypoints, making an 's' curve path
+         List.of(
+             new Translation2d(1, 1),
+             new Translation2d(2, -1)
+         ),
+         // End 3 meters straight ahead of where we started, facing forward
+         new Pose2d(3, 0, new Rotation2d(0)),
+         // Pass config
+         config);*/
     }
   }
 
@@ -77,8 +83,8 @@ public class PathweaverCommand extends SequentialCommandGroup {
         drive.getFeedforward(),
         drive.getDriveKinematics(),
         drive::getWheelSpeeds,
-        drive.getLeftPositionPID(),
-        drive.getRightPositionPID(),
+        drive.getLeftVelocityPID(),
+        drive.getRightVelocityPID(),
         drive::tankDriveVolts,
         drive
       ),
