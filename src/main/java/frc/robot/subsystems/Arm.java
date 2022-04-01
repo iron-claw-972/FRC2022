@@ -2,11 +2,18 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
+import ctre_shims.TalonEncoderSim;
 import frc.robot.constants.Constants;
 import frc.robot.util.ControllerFactory;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
+import edu.wpi.first.wpilibj.RobotBase;
+import edu.wpi.first.wpilibj.RobotController;
+import edu.wpi.first.wpilibj.simulation.DutyCycleEncoderSim;
+import edu.wpi.first.wpilibj.simulation.EncoderSim;
+import edu.wpi.first.wpilibj.simulation.SingleJointedArmSim;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Arm extends SubsystemBase {
@@ -17,6 +24,9 @@ public class Arm extends SubsystemBase {
   private double m_setpoint = Constants.arm.kIntakePos;
   private double m_feedforward;
   private double m_outputVoltage;
+
+  private SingleJointedArmSim m_simArm;
+  private DutyCycleEncoderSim m_encoderSim;
 
   public PIDController m_armPID = new PIDController(Constants.arm.kP, Constants.arm.kI, Constants.arm.kD);
 
@@ -34,6 +44,22 @@ public class Arm extends SubsystemBase {
 
     // set the tolerance allowed for the PID
     m_armPID.setTolerance(Constants.arm.kArmTolerance);
+
+    if (RobotBase.isSimulation()) {
+      m_simArm = new SingleJointedArmSim(
+        Constants.arm.kGearbox, 
+        Constants.arm.kGearRatio, 
+        Constants.arm.kMomentOfInertia, 
+        Constants.arm.kLength, 
+        Constants.arm.kMinAngleRads, 
+        Constants.arm.kMaxAngleRads, 
+        Constants.arm.kMassKg, 
+        true
+      );
+
+      // The encoder and gyro angle sims let us set simulated sensor readings
+      m_encoderSim = new DutyCycleEncoderSim(m_encoder);
+    }
   }
 
   @Override
@@ -43,6 +69,18 @@ public class Arm extends SubsystemBase {
       m_outputVoltage = -(m_armPID.calculate(currentAngle(), m_setpoint) + m_feedforward);
       setVoltage(m_outputVoltage);
     }
+  }
+
+  @Override
+  public void simulationPeriodic() {
+    // In this method, we update our simulation of what our elevator is doing
+    // First, we set our "inputs" (voltages)
+    m_simArm.setInput(m_motor.get() * RobotController.getBatteryVoltage());
+    // Next, we update it. The standard loop time is 20ms.
+    m_simArm.update(0.020);
+
+    // Finally, we set our simulated encoder's readings and simulated battery voltage
+    m_encoderSim.setDistance(Units.radiansToDegrees(m_simArm.getAngleRads()));
   }
 
   public void resetPID() {
