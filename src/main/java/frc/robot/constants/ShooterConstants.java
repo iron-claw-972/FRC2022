@@ -32,7 +32,6 @@ public class ShooterConstants {
   public final double kBackShotEfficiency = 1;
   // public final double kBackShotEfficiency = 0.93;
 
-
   // PID Stuff
   public final double kP = 0.008;
   public final double kI = 0;
@@ -44,12 +43,6 @@ public class ShooterConstants {
   public final double kS = 1.0734;
   public final double kV = 0.24225;
   public final double kA = 0.02524;
-
-  public final LinearSystem<N1, N1, N1> kFlywheelPlant =
-    LinearSystemId.identifyVelocitySystem(
-      kV,
-      kA
-    );
 
   public final DCMotor kFlywheelGearbox = DCMotor.getFalcon500(1);
 
