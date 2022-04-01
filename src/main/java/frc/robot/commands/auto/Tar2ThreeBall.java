@@ -10,17 +10,16 @@ import frc.robot.subsystems.Belt;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Limelight;
-import frc.robot.commands.cargo.ChaseBall;
 import frc.robot.commands.cargo.PositionArm;
 import frc.robot.commands.cargo.Shoot;
 import frc.robot.util.CargoUtil;
 
 public class Tar2ThreeBall extends SequentialCommandGroup {
-  public Tar2ThreeBall(boolean isRedBall) {
-    this(isRedBall, Robot.drive, Robot.belt, Robot.arm, Robot.shooter, Robot.ll, Robot.ballDetection);
+  public Tar2ThreeBall() {
+    this(Robot.drive, Robot.belt, Robot.arm, Robot.shooter, Robot.ll, Robot.ballDetection);
   }
 
-  public Tar2ThreeBall(boolean isRedBall, Drivetrain drive, Belt belt, Arm arm, Shooter shooter, Limelight limelight, BallDetection ballDetection) {
+  public Tar2ThreeBall(Drivetrain drive, Belt belt, Arm arm, Shooter shooter, Limelight limelight, BallDetection ballDetection) {
     addRequirements(drive, belt, arm, shooter, limelight, ballDetection);
     addCommands(
         new InstantCommand(() -> CargoUtil.setBeltPower(0)),
