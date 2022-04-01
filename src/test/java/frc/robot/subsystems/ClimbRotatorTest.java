@@ -39,12 +39,4 @@ public class ClimbRotatorTest {
     rotator.periodic();
     assertEquals(rotate.kMaxBackward, rotator.getGoal(), 0); // does the rotator have its setpoint set?
   }
-
-  @Test
-  public void RotatorReachedSetpoint() {
-    rotator.periodic();
-    System.out.println(rotator.reachedSetpoint());
-    System.out.println(rotator.currentAngle());
-    assertTrue(rotator.reachedSetpoint()); // does the rotator reach its setpoint?
-  }
 }

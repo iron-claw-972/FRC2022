@@ -39,11 +39,6 @@ public class ClimbExtenderTest {
   }
 
   @Test
-  public void ExtenderReachedSetpoint() {
-    assertTrue(extender.reachedSetpoint()); // does the extender reach its setpoint?
-  }
-
-  @Test
   public void ExtenderZero() {
     extender.zero();
     assertEquals(0, extender.currentExtensionRaw(), 0); // is the extender zeroed?
