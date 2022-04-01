@@ -4,6 +4,7 @@ package frc.robot.util;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.shuffleboard.*;
 import edu.wpi.first.wpilibj.smartdashboard.*;
 import edu.wpi.first.wpilibj2.command.*;
@@ -32,6 +33,7 @@ public class ShuffleboardManager {
   NetworkTableEntry m_commandScheduler = m_mainTab.add("Command Scheduler", "NULL").getEntry();
   
   public void setup() {
+    LiveWindow.disableAllTelemetry(); // LiveWindow is causing periodic loop overruns
     m_mainTab.addBoolean("Is Teleop", DriverStation::isTeleop);
     m_mainTab.addNumber("left drive encoder", Robot.drive::getLeftPosition);
     // climbTab.addNumber("Max Extension Ticks", () -> extenderConstants.kExtenderMaxArmTicks);
@@ -69,7 +71,12 @@ public class ShuffleboardManager {
     m_autoCommand.addOption("BlueVision3Ball", new Vision3BallAuto(false));
 
     // autoCommand.setDefaultOption("fetch me my paper boy", new FlexibleAuto(distance.getDouble(0), intakeSecond.getBoolean(true), shootSecond.getBoolean(true), limelightColor.getBoolean(Constants.kIsRedAlliance)));
-    m_autoCommand.addOption("pathweaver", Pathweaver.pathweaverCommand(Constants.auto.kTrajectoryName));
+    m_autoCommand.addOption("Main pathweaver: " + Constants.auto.kTrajectoryName, new PathweaverCommand(Constants.auto.kTrajectoryName, Robot.drive));
+    
+    for (String path : Constants.auto.kAutoPaths) {
+      m_autoCommand.addOption(path, new PathweaverCommand(path, Robot.drive));
+    }
+
     // m_chooser.addOption("teleop", new TeleopDrive(Drivetrain.getInstance()));
     m_autoCommand.addOption("Spin baby spin", new RunCommand(() -> Robot.drive.tankDrive(0.5, -0.5), Robot.drive));
     // adds auto to shuffle board
@@ -139,10 +146,10 @@ public class ShuffleboardManager {
     m_cargoTab.addNumber("Optimal stipe angle (deg)", () -> GetDistance.optimalStipeAngle);
     m_cargoTab.addBoolean("getDistance Is Finished", () -> GetDistance.isFinished);
 
-    m_cargoTab.addNumber("Tx (deg)", Robot.limelight::getHubHorizontalAngularOffset);
-    m_cargoTab.addNumber("Ty (deg)", Robot.limelight::getVerticalAngularOffset);
+    m_cargoTab.addNumber("Tx (deg)", Robot.ll::getHubHorizontalAngularOffset);
+    m_cargoTab.addNumber("Ty (deg)", Robot.ll::getVerticalAngularOffset);
 
-    m_cargoTab.addNumber("Limelight latency (ms)", Robot.limelight::getLatency);
+    m_cargoTab.addNumber("Limelight latency (ms)", Robot.ll::getLatency);
 
     // SmartDashboard.putNumber("Front Shooting velocity", -2900);
     // SmartDashboard.putNumber("Front Stipe angle", 80);

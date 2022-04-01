@@ -8,7 +8,7 @@ import frc.robot.Robot;
 import frc.robot.constants.Constants;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Limelight;
-import frc.robot.util.ShooterMethods;
+import frc.robot.util.CargoUtil;
 
 public class GetDistance extends CommandBase {
   private final Limelight m_limelight;
@@ -25,13 +25,13 @@ public class GetDistance extends CommandBase {
   private boolean isFront = true;
 
   public GetDistance() {
-    this(Robot.limelight, Robot.arm);
+    this(Robot.ll, Robot.arm);
   }
 
   public GetDistance(Limelight limelight, Arm arm) {
     m_limelight = limelight;
     m_arm = arm;
-    addRequirements(limelight, arm);
+    // addRequirements(limelight, arm);
   }
 
   @Override
@@ -82,13 +82,13 @@ public class GetDistance extends CommandBase {
       return;
     }
 
-    pivotDistance = ShooterMethods.limelightDistanceToPivotDistance(limelightDistance, currentLimelightPosAngle);
+    pivotDistance = CargoUtil.limelightDistanceToPivotDistance(limelightDistance, currentLimelightPosAngle);
 
-    double currentTargetHeightOffset = ShooterMethods.getTargetHeightOffset(currentPhysicalShooterAngle);
-    double currentShootingDistance = ShooterMethods.getShootingDistance(pivotDistance, currentPhysicalShooterAngle);
+    double currentTargetHeightOffset = CargoUtil.getTargetHeightOffset(currentPhysicalShooterAngle);
+    double currentShootingDistance = CargoUtil.getShootingDistance(pivotDistance, currentPhysicalShooterAngle);
 
     // Find optimal shooting angle
-    double optimalShootingAngle = ShooterMethods.getOptimalShootingAngle(Constants.arm.kSAngle, currentShootingDistance, currentTargetHeightOffset);
+    double optimalShootingAngle = CargoUtil.getOptimalShootingAngle(Constants.arm.kSAngle, currentShootingDistance, currentTargetHeightOffset);
 
     // Clamp arm angles that will hit the hex shaft attached to the climb triangle
     
@@ -124,13 +124,13 @@ public class GetDistance extends CommandBase {
     // double actualOptimalLimelightAngle = optimalStipeAngle + Constants.ll.kStipeToLimelightAngularOffset;
     // double optimalLimelightAngle = (isFront ? actualOptimalLimelightAngle : 180 - actualOptimalLimelightAngle);
 
-    double newTargetHeightOffset = ShooterMethods.getTargetHeightOffset(optimalPhysicalShooterAngle);
-    double newShootingDistance = ShooterMethods.getShootingDistance(pivotDistance, optimalPhysicalShooterAngle);
+    double newTargetHeightOffset = CargoUtil.getTargetHeightOffset(optimalPhysicalShooterAngle);
+    double newShootingDistance = CargoUtil.getShootingDistance(pivotDistance, optimalPhysicalShooterAngle);
 
     loggedTargetHeightOffset = Units.metersToFeet(newTargetHeightOffset); // For unit tests
 
     // Find optimal shooting velocity
-    optimalVelocity = Units.metersToFeet(ShooterMethods.getOptimalShooterSpeed(optimalShootingAngle, newTargetHeightOffset, newShootingDistance));
+    optimalVelocity = Units.metersToFeet(CargoUtil.getOptimalShooterSpeed(optimalShootingAngle, newTargetHeightOffset, newShootingDistance));
 
     // Use shot efficiencies to adjust for error in any calculations in velocity to RPM formula
     if (actualOptimalShootingAngle < 90) {

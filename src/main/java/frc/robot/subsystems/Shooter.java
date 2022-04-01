@@ -66,7 +66,8 @@ public class Shooter extends SubsystemBase {
     if (m_enabled){
       
       m_shooterPID.setSetpoint(m_motorSpeed);
-      setVoltage(m_shooterPID.calculate(getVelocity()) + SmartDashboard.getNumber("Shooter FF", Constants.shooter.kForward) * m_motorSpeed);
+      // setVoltage(m_shooterPID.calculate(getVelocity()) + SmartDashboard.getNumber("Shooter FF", Constants.shooter.kForward) * m_motorSpeed);
+      setVoltage(m_shooterPID.calculate(getVelocity()) + Constants.shooter.kForward * m_motorSpeed);
     ;
     }
   }

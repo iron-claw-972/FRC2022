@@ -7,12 +7,12 @@ import frc.robot.Robot;
 import frc.robot.commands.DoNothing;
 import frc.robot.constants.Constants;
 import frc.robot.subsystems.Extender;
-import frc.robot.util.ClimberMethods;
+import frc.robot.util.ClimbUtil;
 
-public class ExtendDownwards extends SequentialCommandGroup {
+public class Retract extends SequentialCommandGroup {
   public Extender m_extenderL, m_extenderR;
 
-  public ExtendDownwards(boolean zero) {
+  public Retract(boolean zero) {
     this(zero, Robot.extenderL, Robot.extenderR);
   }
   /**
@@ -23,13 +23,13 @@ public class ExtendDownwards extends SequentialCommandGroup {
    * 
    * @param zero whether or not it should zero the extender when it reaches the bottom
    */
-  public ExtendDownwards(boolean zero, Extender extenderL, Extender extenderR) {
+  public Retract(boolean zero, Extender extenderL, Extender extenderR) {
       m_extenderL = extenderL;
       m_extenderR = extenderR;
       addRequirements(extenderR, extenderL);
 
       addCommands(
-          new InstantCommand(() -> ClimberMethods.disableExtender()), //disable just to make sure PID doesn't run
+          new InstantCommand(() -> ClimbUtil.disableExtender()), //disable just to make sure PID doesn't run
           parallel(
             //in parallel moves each extender down and then waits until it is compressed
             compressed(true) ? new DoNothing() : sequence(

@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import frc.robot.Robot;
 import frc.robot.subsystems.Arm;
-import frc.robot.util.ShooterMethods;
+import frc.robot.util.CargoUtil;
 
 public class PositionArm extends SequentialCommandGroup {
     public PositionArm(double armPosition) {
@@ -23,9 +23,9 @@ public class PositionArm extends SequentialCommandGroup {
     public PositionArm(double armPosition, Arm arm) {
         addRequirements(arm);
         addCommands(
-            new InstantCommand(() -> ShooterMethods.enableArm()),
-            new InstantCommand(() -> ShooterMethods.setAngle(armPosition)),
-            new WaitUntilCommand(() -> ShooterMethods.isArmAtSetpoint())
+            new InstantCommand(() -> CargoUtil.enableArm()),
+            new InstantCommand(() -> CargoUtil.setAngle(armPosition)),
+            new WaitUntilCommand(() -> CargoUtil.isArmAtSetpoint())
         );
     }
 }

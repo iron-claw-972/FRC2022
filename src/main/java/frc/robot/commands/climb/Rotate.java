@@ -6,11 +6,11 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import frc.robot.Robot;
 import frc.robot.subsystems.Rotator;
-import frc.robot.util.ClimberMethods;
+import frc.robot.util.ClimbUtil;
 
-public class ClimbRotatorMove extends SequentialCommandGroup {
-  public ClimbRotatorMove(double angle) {
-    this(angle, Robot.rotatorL, Robot.rotatorR);
+public class Rotate extends SequentialCommandGroup {
+  public Rotate(double angleL, double angleR) {
+    this(angleL, angleR, Robot.rotatorL, Robot.rotatorR);
   }
 
   /**
@@ -19,21 +19,21 @@ public class ClimbRotatorMove extends SequentialCommandGroup {
    * 
    * @param angle the angle to rotate to in degrees
    */
-  public ClimbRotatorMove(double angle, Rotator rotatorL, Rotator rotatorR) {
+  public Rotate(double angleL, double angleR, Rotator rotatorL, Rotator rotatorR) {
     addRequirements(rotatorL, rotatorR);
     addCommands(
       new SequentialCommandGroup(
         // enable the rotator
-        new InstantCommand(() -> ClimberMethods.enableRotator()),
+        new InstantCommand(() -> ClimbUtil.enableRotator()),
         new PrintCommand("passed enabled"),
 
         // angle the rotator
-        new InstantCommand(() -> ClimberMethods.setAngle(angle)),
+        new InstantCommand(() -> ClimbUtil.setAngle(angleL, angleR)),
   
         new PrintCommand("passed set angle"),
 
         // wait until rotator reaches its setpoint
-        new WaitUntilCommand(() -> ClimberMethods.isRotatorAtSetpoint()),
+        new WaitUntilCommand(() -> ClimbUtil.isRotatorAtSetpoint()),
         new PrintCommand("passed setpoint")
     ));
     }

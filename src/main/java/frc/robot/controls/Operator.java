@@ -1,9 +1,6 @@
 package frc.robot.controls;
 
 
-import controllers.*;
-import controllers.GameController.Button;
-import controllers.GameController.DPad;
 import frc.robot.Robot;
 import frc.robot.commands.Rumble;
 import frc.robot.commands.cargo.*;
@@ -11,7 +8,10 @@ import frc.robot.commands.climb.*;
 import frc.robot.constants.Constants;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.*;
-import frc.robot.util.ClimberMethods;
+import frc.robot.util.ClimbUtil;
+import lib.controllers.*;
+import lib.controllers.GameController.Button;
+import lib.controllers.GameController.DPad;
 
 public class Operator {
 
@@ -51,7 +51,7 @@ public class Operator {
     // Manual intake
     operator.get(Button.X)
       .whenHeld(new Intake(Constants.arm.kUprightPos, false))
-      .whenReleased(new PositionArm(Constants.arm.kUprightPos));
+      .whenReleased(new PositionArm(Constants.arm.kUprightPos).andThen(() -> Robot.ll.setUpperHubPipeline()));
 
     // Stow arm
     operator.get(Button.B).whenPressed(new PositionArm(Constants.arm.kStowPos));
@@ -77,75 +77,75 @@ public class Operator {
   private static void configureClimbControls() {
 
     operator.get(Button.LEFT_JOY).whenPressed(
-      new InstantCommand(ClimberMethods::removeLimiter)
+      new InstantCommand(ClimbUtil::removeLimiter)
     );
 
     operator.get(Button.RIGHT_JOY).whenPressed(
-      new InstantCommand(ClimberMethods::enableLimiter)
+      new InstantCommand(ClimbUtil::enableLimiter)
     );
 
     // when DPad Up is pressed, enable the extender and extend upwards to kMaxUpwards
     operator.get(DPad.UP).whenHeld(new ParallelCommandGroup(
       // stow the cargo subsystem
       new PositionArm(Constants.arm.kStowPos),
-      new ClimbExtenderMove(Constants.extender.kLeftMaxUpwards, Constants.extender.kRightMaxUpwards)
+      new Extend(Constants.extender.kLeftMaxUpwards, Constants.extender.kRightMaxUpwards)
     ));
 
     // when DPad Down is pressed, enable the extender and compress downwards to kMaxDownwards
     operator.get(DPad.DOWN).whenHeld(new ParallelCommandGroup(
       // stow the cargo subsystem
       new PositionArm(Constants.arm.kStowPos),
-      new ExtendDownwards(Constants.extender.kAlwaysZero)
+      new Retract(Constants.extender.kAlwaysZero)
     ));
 
     // when DPad Right is pressed, enable the rotator and go to kMaxForward degrees
     operator.get(DPad.RIGHT).whenPressed(new SequentialCommandGroup (
-      new ClimbRotatorMove(Constants.rotator.kMaxForward)
+      new Rotate(Constants.rotator.kMaxForwardL, Constants.rotator.kMaxForwardR)
     ));
     
     // when DPad Left is pressed, enable the rotator and go to kMaxBackward degrees
     operator.get(DPad.LEFT).whenPressed(new SequentialCommandGroup (
-      new ClimbRotatorMove(Constants.rotator.kMaxBackward)
+      new Rotate(Constants.rotator.kMaxBackwardL, Constants.rotator.kMaxBackwardR)
     ));
 
     // when nothing on the DPad is pressed, the extenders are disabled
     operator.get(DPad.UNPRESSED).whenPressed(
-      new InstantCommand(() -> ClimberMethods.disableExtender())
+      new InstantCommand(() -> ClimbUtil.disableExtender())
     );
 
     // rotator goes to the bar
     operator.get(operator.LEFT_TRIGGER_BUTTON).whenActive(new SequentialCommandGroup(
-      new ClimbRotatorMove(Constants.rotator.kToBar)
+      new Rotate(Constants.rotator.kToBarL, Constants.rotator.kToBarR)
     ));
 
     operator.get(Button.START).whenPressed(
-      new ExtendDownwards(true)
+      new Retract(true)
     );
 
     operator.get(Button.LB).whenPressed(new SequentialCommandGroup(    
-      new ClimbRotatorMove(Constants.rotator.kMaxForward),
+      new Rotate(Constants.rotator.kMaxForwardL, Constants.rotator.kMaxForwardR),
       // when it reaches 90 degrees, compress
-      new ExtendDownwards(Constants.extender.kAlwaysZero),
+      new Retract(Constants.extender.kAlwaysZero),
       
       // after the static hooks are on, extend slightly upwards
-      new ClimbExtenderMove(Constants.extender.kLeftSlightlyUpward, Constants.extender.kRightSlightlyUpward),
+      new Extend(Constants.extender.kLeftSlightlyUpward, Constants.extender.kRightSlightlyUpward),
 
       // extend fully and rotate backwards fully
       // rotator should theoretically be faster than the extender
-      new ClimbRotatorMove(Constants.rotator.kMaxBackward),
+      new Rotate(Constants.rotator.kMaxBackwardL, Constants.rotator.kMaxBackwardR),
       new PrintCommand("passed climb rotator move"),
-      new ClimbExtenderMove(Constants.extender.kLeftMaxUpwards, Constants.extender.kRightMaxUpwards),
+      new Extend(Constants.extender.kLeftMaxUpwards, Constants.extender.kRightMaxUpwards),
 
       // after we fully extend and rotate, rotate to the bar
-      new ClimbRotatorMove(Constants.rotator.kToBar),
+      new Rotate(Constants.rotator.kToBarL, Constants.rotator.kToBarR),
 
       // compress fully and rotate to 90 degrees
       new ParallelCommandGroup(
-        new ExtendDownwards(Constants.extender.kAlwaysZero),
-        new ClimbRotatorMove(Constants.rotator.kMaxForward)
+        new Retract(Constants.extender.kAlwaysZero),
+        new Rotate(Constants.rotator.kMaxForwardL, Constants.rotator.kMaxForwardR)
       ),
 
-      new ClimbExtenderMove(Constants.extender.kLeftSlightlyUpward, Constants.extender.kRightSlightlyUpward),
+      new Extend(Constants.extender.kLeftSlightlyUpward, Constants.extender.kRightSlightlyUpward),
 
       // vibrate the controller
       new Rumble(operator)

@@ -54,6 +54,8 @@ public class ArmConstants {
     public final double kAutoBackOuttakeFarPos = 168;
     public final double kUprightPos = 123;
 
+    public final double kOptimalBackShootingPos = 150;
+
     public final double kPivotToShootingExitPointLength = Units.inchesToMeters(19.313208);
     public final double kStipeToShootingTrajectoryAngularOffset = -39;
     public final double kStipeToPhysicalShooterAngularOffset = -44;

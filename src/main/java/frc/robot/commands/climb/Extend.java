@@ -6,7 +6,7 @@ import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import frc.robot.Robot;
 import frc.robot.constants.Constants;
 import frc.robot.subsystems.Extender;
-import frc.robot.util.ClimberMethods;
+import frc.robot.util.ClimbUtil;
 
 /**
  * 
@@ -14,20 +14,20 @@ import frc.robot.util.ClimberMethods;
  * 
  * @param extension The extension desired for the extenders.
  */
-public class ClimbExtenderMove extends SequentialCommandGroup {
-  public ClimbExtenderMove(double extensionL, double extensionR) {
+public class Extend extends SequentialCommandGroup {
+  public Extend(double extensionL, double extensionR) {
     this(extensionL, extensionR, Robot.extenderL, Robot.extenderR);
   }
 
-  public ClimbExtenderMove(double extensionL, double extensionR, Extender extenderL, Extender extenderR) {
+  public Extend(double extensionL, double extensionR, Extender extenderL, Extender extenderR) {
     addRequirements(extenderL, extenderR);
     addCommands(
       // if the extenders' setpoints are zero, treat it as a zeroing if it's permitted by kAlwaysZero
-      (extensionL == 0 && extensionR == 0 ? new ExtendDownwards(Constants.extender.kAlwaysZero) :
+      (extensionL == 0 && extensionR == 0 ? new Retract(Constants.extender.kAlwaysZero) :
       // if it's not supposed to zero or is not having a setpoint of zero,
       new SequentialCommandGroup(
         // enable the extender
-        new InstantCommand(() -> ClimberMethods.enableExtender()),
+        new InstantCommand(() -> ClimbUtil.enableExtender()),
   
         // set the setpoints of the extenders
         // please note: these extensions are different to account for the left not reaching as high as it should
@@ -35,7 +35,7 @@ public class ClimbExtenderMove extends SequentialCommandGroup {
         new InstantCommand(() -> extenderR.setGoal(extensionR)),
   
         // wait until both extenders reach their setpoints
-        new WaitUntilCommand(() -> ClimberMethods.isExtenderAtSetpoint())
+        new WaitUntilCommand(() -> ClimbUtil.isExtenderAtSetpoint())
     )));
     }
 }

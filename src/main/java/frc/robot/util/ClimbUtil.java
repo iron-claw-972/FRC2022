@@ -2,7 +2,7 @@ package frc.robot.util;
 
 import frc.robot.Robot;
 
-public class ClimberMethods {
+public class ClimbUtil {
   public static void setExtension(double inches) {
     Robot.extenderL.setGoal(inches);
     Robot.extenderR.setGoal(inches);
@@ -11,6 +11,11 @@ public class ClimberMethods {
   public static void setAngle(double angle) {
     Robot.rotatorL.setGoal(angle);
     Robot.rotatorR.setGoal(angle);
+  }
+
+  public static void setAngle(double angleL, double angleR) {
+    Robot.rotatorL.setGoal(angleL);
+    Robot.rotatorR.setGoal(angleR);
   }
 
   public static void setRotatorOutput(double pow) {

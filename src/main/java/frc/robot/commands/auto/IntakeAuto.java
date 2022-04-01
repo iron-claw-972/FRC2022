@@ -8,7 +8,7 @@ import frc.robot.Robot;
 import frc.robot.commands.cargo.ChaseBall;
 import frc.robot.constants.Constants;
 import frc.robot.subsystems.Limelight;
-import frc.robot.util.ShooterMethods;
+import frc.robot.util.CargoUtil;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.BallDetection;
 import frc.robot.subsystems.Belt;
@@ -27,7 +27,7 @@ public class IntakeAuto extends SequentialCommandGroup {
       doesChaseBall,
       isRedBall,
       distance,
-      Robot.limelight,
+      Robot.ll,
       Robot.belt,
       Robot.arm,
       Robot.shooter,
@@ -51,28 +51,28 @@ public class IntakeAuto extends SequentialCommandGroup {
     addRequirements(shooter, arm, belt,
         limelight, drive, ballDetection);
     addCommands(
-        new InstantCommand(() -> ShooterMethods.enableAll()),
+        new InstantCommand(() -> CargoUtil.enableAll()),
         parallel(
-          new InstantCommand(() -> ShooterMethods.setWheelRPM(Constants.shooter.kIntakeSpeed)),
-          new InstantCommand(() -> ShooterMethods.setBeltPower(Constants.belt.kIntakeSpeed)),
-          new InstantCommand(() -> ShooterMethods.setAngle(Constants.arm.kIntakePos))
+          new InstantCommand(() -> CargoUtil.setWheelRPM(Constants.shooter.kIntakeSpeed)),
+          new InstantCommand(() -> CargoUtil.setBeltPower(Constants.belt.kIntakeSpeed)),
+          new InstantCommand(() -> CargoUtil.setAngle(Constants.arm.kIntakePos))
         ),
-        new WaitUntilCommand(() -> ShooterMethods.isArmAtSetpoint()),
-        new WaitUntilCommand(() -> ShooterMethods.isWheelAtSetpoint()),
+        new WaitUntilCommand(() -> CargoUtil.isArmAtSetpoint()),
+        new WaitUntilCommand(() -> CargoUtil.isWheelAtSetpoint()),
         new DriveDistance(distance),
         new ConditionalCommand(
           new ChaseBall(isRedBall, false),
-          new WaitUntilCommand(() -> ShooterMethods.isBallContained()).withTimeout(1.5),
+          new WaitUntilCommand(() -> CargoUtil.isBallContained()).withTimeout(1.5),
           () -> doesChaseBall
         ),
-        new InstantCommand(() -> ShooterMethods.disableShiitake()),
-        new InstantCommand(() -> ShooterMethods.setAngle(postIntakeArmPosition)),
-        new WaitUntilCommand(() -> ShooterMethods.isArmAtSetpoint()).withTimeout(1)
+        new InstantCommand(() -> CargoUtil.disableShiitake()),
+        new InstantCommand(() -> CargoUtil.setAngle(postIntakeArmPosition)),
+        new WaitUntilCommand(() -> CargoUtil.isArmAtSetpoint()).withTimeout(1)
     );
   }
 
   @Override
   public void end(boolean interrupted) {
-    ShooterMethods.disableShiitake();
+    CargoUtil.disableShiitake();
   }
 }

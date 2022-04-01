@@ -3,12 +3,12 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
-import controllers.GameController.Axis;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.util.ControllerFactory;
 import frc.robot.util.LimitSwitch;
+import lib.controllers.GameController.Axis;
 import frc.robot.constants.Constants;
 import frc.robot.controls.Operator;
 
@@ -58,7 +58,6 @@ public class Extender extends SubsystemBase {
     m_motor.configForwardSoftLimitThreshold(Constants.extender.kSoftLimit, 10);
 
     // so that the limiters are enabled
-    // TODO: If the motors don't move, CHECK TO SEE IF THE LIMITER IS TOO LOW!
     m_motor.configForwardSoftLimitEnable(true, 10);
 
     // so that I in the PID doesn't accumulate

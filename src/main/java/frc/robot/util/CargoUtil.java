@@ -8,7 +8,7 @@ import frc.robot.Robot;
 import frc.robot.commands.cargo.GetDistance;
 import frc.robot.constants.Constants;
 
-public class ShooterMethods {
+public class CargoUtil {
   // cargo arm methods
   public static void setAngle(double angle) {
     Robot.arm.resetPID();
@@ -205,6 +205,18 @@ public class ShooterMethods {
   public static boolean isBallContainedSecurely() {
     // System.out.println(Robot.m_balldetector.containsBallSecurely());
     return Robot.ballDetection.containsBallSecurely();
+  }
+
+  public static double getHubDistance(double stipeAngle) {
+    return Robot.ll.getHubDistance(stipeAngle);
+  }
+
+  public static void setUpperHubPipeline() {
+    Robot.ll.setUpperHubPipeline();
+  }
+
+  public static void setBallPipeline(boolean isRedBall) {
+    Robot.ll.setBallPipeline(isRedBall);
   }
 
   public static boolean isBallContained() {

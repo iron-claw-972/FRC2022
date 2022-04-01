@@ -13,17 +13,17 @@ import frc.robot.subsystems.Limelight;
 import frc.robot.commands.cargo.ChaseBall;
 import frc.robot.commands.cargo.PositionArm;
 import frc.robot.commands.cargo.Shoot;
-import frc.robot.util.ShooterMethods;
+import frc.robot.util.CargoUtil;
 
 public class Vision3BallAuto extends SequentialCommandGroup {
   public Vision3BallAuto(boolean isRedBall) {
-    this(isRedBall, Robot.drive, Robot.belt, Robot.arm, Robot.shooter, Robot.limelight, Robot.ballDetection);
+    this(isRedBall, Robot.drive, Robot.belt, Robot.arm, Robot.shooter, Robot.ll, Robot.ballDetection);
   }
 
   public Vision3BallAuto(boolean isRedBall, Drivetrain drive, Belt belt, Arm arm, Shooter shooter, Limelight limelight, BallDetection ballDetection) {
     addRequirements(drive, belt, arm, shooter, limelight, ballDetection);
     addCommands(
-        new InstantCommand(() -> ShooterMethods.setBeltPower(0)),
+        new InstantCommand(() -> CargoUtil.setBeltPower(0)),
         parallel(
           new DriveDistance(0.6642),
           new ShootAuto(false, false, 1, () -> DriveDistance.isFinished, 157, 25)
@@ -31,11 +31,11 @@ public class Vision3BallAuto extends SequentialCommandGroup {
         new IntakeAuto(Constants.arm.kAutoBackOuttakeFarPos, false, isRedBall, Constants.auto.kIntakeDriveDistance), 
         new ShootAuto(false, false, 0, () -> true, 157, 25),
         new DriveRotation(0.65),
-        new InstantCommand(() -> ShooterMethods.enableAll()),
+        new InstantCommand(() -> CargoUtil.enableAll()),
         parallel(
           new DriveDistance(1.25),
-          new InstantCommand(() -> ShooterMethods.setWheelRPM(Constants.shooter.kIntakeSpeed)),
-          new InstantCommand(() -> ShooterMethods.setBeltPower(Constants.belt.kIntakeSpeed))
+          new InstantCommand(() -> CargoUtil.setWheelRPM(Constants.shooter.kIntakeSpeed)),
+          new InstantCommand(() -> CargoUtil.setBeltPower(Constants.belt.kIntakeSpeed))
         ),
         new PositionArm(Constants.arm.kIntakePos),
         new ChaseBall(isRedBall, false).withTimeout(2),
