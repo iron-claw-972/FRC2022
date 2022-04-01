@@ -20,5 +20,5 @@ public class AutoConstants {
   public final String kTrajectoryDirectory = "paths/output/";
   public final String kTrajectoryName = "HangarTest";
   public final String k3BallAuto = "T23Ball";
-  public final String[] kAutoPaths = {"HangarTest", "SquareTest", "T13Ball", "T23Ball", "TopAuto", "TwoBallsToHangarTest", "Unnamed"};
+  public final String[] kAutoPaths = {"HangarTest", "SquareTest", "T13Ball", "T23Ball", "TopAuto", "TwoBallsToHangarTest", "CurveTest"};
 }
