@@ -35,8 +35,8 @@ public class ClimbRotatorTest {
   @Test
   public void RotatorSetpointSet() {
     rotator.enable();
-    rotator.setGoal(rotate.kMaxBackward);
+    rotator.setGoal(rotate.kMaxBackwardL);
     rotator.periodic();
-    assertEquals(rotate.kMaxBackward, rotator.getGoal(), 0); // does the rotator have its setpoint set?
+    assertEquals(rotate.kMaxBackwardL, rotator.getGoal(), 0); // does the rotator have its setpoint set?
   }
 }
