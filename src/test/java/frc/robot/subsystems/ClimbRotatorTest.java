@@ -9,12 +9,10 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import org.junit.*;
 
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
-import frc.robot.constants.RotatorConstants;
 
 public class ClimbRotatorTest {
   private DutyCycleEncoder dce = mock(DutyCycleEncoder.class);
   private WPI_TalonFX motor = mock(WPI_TalonFX.class);
-  private RotatorConstants rotate = mock(RotatorConstants.class);
   
   private Rotator rotator = new Rotator(true, dce, motor);
 
@@ -35,8 +33,8 @@ public class ClimbRotatorTest {
   @Test
   public void RotatorSetpointSet() {
     rotator.enable();
-    rotator.setGoal(rotate.kMaxBackwardL);
+    rotator.setGoal(120);
     rotator.periodic();
-    assertEquals(rotate.kMaxBackwardL, rotator.getGoal(), 0); // does the rotator have its setpoint set?
+    assertEquals(120, rotator.getGoal(), 0); // is the rotator's setpoint correct?
   }
 }

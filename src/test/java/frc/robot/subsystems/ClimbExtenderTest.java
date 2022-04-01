@@ -6,7 +6,6 @@ import static org.junit.Assert.assertEquals;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
-import frc.robot.constants.ExtenderConstants;
 import frc.robot.util.LimitSwitch;
 
 import org.junit.*;
@@ -15,13 +14,15 @@ import org.junit.*;
 public class ClimbExtenderTest {
   private LimitSwitch limitSwitch = mock(LimitSwitch.class);
   private WPI_TalonFX motor = mock(WPI_TalonFX.class);
-  private ExtenderConstants extend = mock(ExtenderConstants.class);
 
   private Extender extender = new Extender(true, motor, limitSwitch);
 
   @Test
   public void ExtenderInherentlyOff() {
     assertFalse(extender.isEnabled()); // is the extender disabled on init?
+
+    extender.enable();
+    assertTrue(extender.isEnabled()); // is the extender enabled?
   }
 
   @Test
@@ -32,10 +33,9 @@ public class ClimbExtenderTest {
 
   @Test
   public void ExtenderSetpointSet() {
-    extender.enable();
-    extender.setGoal(extend.kLeftMaxUpwards);
+    extender.setGoal(2000);
     extender.periodic();
-    assertEquals(extend.kLeftMaxUpwards, extender.getGoal(), 0); // does the extender have its setpoint set?
+    assertEquals(2000, extender.getGoal(), 0); // is the extender's setpoint correct?
   }
 
   @Test
