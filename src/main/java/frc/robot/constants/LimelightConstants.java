@@ -4,7 +4,7 @@ import edu.wpi.first.math.util.Units;
 
 public class LimelightConstants {
   public final double kAlignPIDTolerance = 1.5;
-  public final double kAlignP = 0.02;
+  public final double kAlignP = 0.2;
   public final double kAlignI = 0.00;
   public final double kAlignD = 0.001;
   // public final double kAlignPIDTolerance = 1;
@@ -14,7 +14,7 @@ public class LimelightConstants {
   public final double kAutoThrottlePow = -0.3;
 
   public final double kTurnPIDTolerance = 1;
-  public final double kTurnP = 0.005; // Originally 0.025
+  public final double kTurnP = 0.012; // Originally 0.025
   public final double kTurnI = 0;
   public final double kTurnD = 0;
   public final double kMaxTurnPower = 0.6;

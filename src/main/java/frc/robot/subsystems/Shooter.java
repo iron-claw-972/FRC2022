@@ -38,7 +38,7 @@ public class Shooter extends SubsystemBase {
       Nat.N1(),
       Nat.N1(),
       Constants.shooter.kFlywheelPlant,
-      VecBuilder.fill(3.0), // How accurate we think our model is
+      VecBuilder.fill(2.0), // How accurate we think our model is
       VecBuilder.fill(0.01), // How accurate we think our encoder
       // data is
       0.020);
@@ -98,31 +98,32 @@ public class Shooter extends SubsystemBase {
 
   @Override
   public void periodic() {
-    // if (m_enabled) {
+    if (m_enabled) {
 
       m_shooterPID.setSetpoint(m_motorSpeed);
-      m_shooterPID.calculate(getVelocity());
       // setVoltage(m_shooterPID.calculate(getVelocity()) +
       // SmartDashboard.getNumber("Shooter FF", Constants.shooter.kForward) *
       // m_motorSpeed);
-      // setVoltage(m_shooterPID.calculate(getVelocity()) + Constants.shooter.kForward * m_motorSpeed);
+      setVoltage(m_shooterPID.calculate(getVelocity()) + Constants.shooter.kForward * m_motorSpeed);
 
-      m_loop.setNextR(VecBuilder.fill(Units.rotationsPerMinuteToRadiansPerSecond(m_motorSpeed)));
+      // m_loop.setNextR(VecBuilder.fill(Units.rotationsPerMinuteToRadiansPerSecond(m_motorSpeed)));
 
-      m_loop.correct(VecBuilder.fill(m_encoder.getRate())); // Encoder gives rad/s
+      // m_loop.correct(VecBuilder.fill(m_encoder.getRate())); // Encoder gives rad/s
 
-      double timestamp = Timer.getFPGATimestamp();
+      // double timestamp = Timer.getFPGATimestamp();
       // Update our LQR to generate new voltage commands and use the voltages to predict the next
       // state with out Kalman filter.
-      m_loop.predict(timestamp - m_lastTimestamp);
+      // m_loop.predict(timestamp - m_lastTimestamp);
+
+      // System.out.println(m_encoder.getRate());
 
       // Send the new calculated voltage to the motors.
       // voltage = duty cycle * battery voltage, so
       // duty cycle = voltage / battery voltage
-      double nextVoltage = m_loop.getU(0);
-      m_motor.setVoltage(m_motorSpeed == 0 ? 0 : nextVoltage);
-      m_lastTimestamp = timestamp;
-    // }
+      // double nextVoltage = m_loop.getU(0);
+      // m_motor.setVoltage(m_motorSpeed == 0 ? 0 : nextVoltage);
+      // m_lastTimestamp = timestamp;
+    }
   }
 
   @Override
@@ -141,9 +142,9 @@ public class Shooter extends SubsystemBase {
   }
 
   public void setSpeed(double newSpeed) {
-    m_motorSpeed = Units.rotationsPerMinuteToRadiansPerSecond(newSpeed);
+    m_motorSpeed = newSpeed;
     // m_motorSpeed = newSpeed;
-    // m_shooterPID.setSetpoint(m_motorSpeed);
+    m_shooterPID.setSetpoint(m_motorSpeed);
   }
 
   public void setStop() {
@@ -157,11 +158,13 @@ public class Shooter extends SubsystemBase {
   public void disable() {
     m_enabled = false;
     setSpeed(0.0);
-    // setVoltage(0);
+    setVoltage(0);
   }
 
   public boolean reachedSetpoint() {
     return m_shooterPID.atSetpoint();
+    // System.out.println(m_motorSpeed);
+    // return Math.abs(getVelocity() - m_motorSpeed) <= Constants.shooter.kVelocityTolerance;
   }
 
   public void setVoltage(double volts) {
@@ -169,8 +172,8 @@ public class Shooter extends SubsystemBase {
   }
 
   public double getVelocity() {
-    // return m_encoder.getRate();
-    return Units.radiansPerSecondToRotationsPerMinute(m_encoder.getRate());
+    return m_encoder.getRate();
+    // return Units.radiansPerSecondToRotationsPerMinute(m_encoder.getRate());
   }
 
   public boolean isEnabled() {

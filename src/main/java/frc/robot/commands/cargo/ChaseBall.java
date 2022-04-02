@@ -62,8 +62,8 @@ public class ChaseBall extends CommandBase {
     );
     m_drive.feedForwardDrive(
       // MathUtil.clamp(throttlePID.calculate(distance, 0), -0.5, 0.5),
-      (m_driverControlled ? Driver.getThrottleValue() : Constants.ll.kAutoThrottlePow),
-      (Double.isNaN(turn) ? -Driver.getTurnValue() : turn)
+      (m_driverControlled ? Driver.getThrottleValue() * Constants.drive.kMaxSpeedMetersPerSecond : Constants.ll.kAutoThrottlePow),
+      (Double.isNaN(turn) ? Driver.getTurnValue() : turn) * Constants.drive.kMaxAngularSpeedRadiansPerSecond
     );
   }
 
