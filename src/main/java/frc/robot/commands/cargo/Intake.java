@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import frc.robot.Robot;
 import frc.robot.commands.DoNothing;
+import frc.robot.commands.drive.DifferentialDrive;
 import frc.robot.commands.drive.TeleopDrive;
 import frc.robot.constants.Constants;
 import frc.robot.subsystems.Arm;
@@ -50,7 +51,7 @@ public class Intake extends SequentialCommandGroup {
           new InstantCommand(() -> CargoUtil.setAngle(Constants.arm.kIntakePos)),
           new ConditionalCommand(
             new ChaseBall(isRedBall),
-            new TeleopDrive(drive),
+            new DifferentialDrive(drive),
             () -> doesChaseBall
           )
         ),
