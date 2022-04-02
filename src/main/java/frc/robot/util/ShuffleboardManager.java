@@ -74,12 +74,11 @@ public class ShuffleboardManager {
     m_autoCommand.addOption("RedTar2ThreeBall", new Tar2ThreeBall(Alliance.Red));
     m_autoCommand.addOption("BlueTar2ThreeBall", new Tar2ThreeBall(Alliance.Blue));
     m_autoCommand.addOption("HalfPathweaver Tarmac 2 3 Ball", new Tarmack2_3BallHP());
+    m_autoCommand.addOption("HalfPathweaver Tarmac 2 4 Ball", new Tarmack2_4BallHP());
 
-    m_autoCommand.addOption("Main pathweaver: " + Constants.auto.kTrajectoryName, new PathweaverCommand(Constants.auto.kTrajectoryName, Robot.drive));
-    
-    for (String path : Constants.auto.kAutoPaths) {
-      m_autoCommand.addOption(path, new PathweaverCommand(path, Robot.drive));
-    }
+    // for (String path : Constants.auto.kAutoPaths) {
+    //   m_autoCommand.addOption(path, new PathweaverCommand(path, Robot.drive));
+    // }
 
     m_autoCommand.addOption("Spin baby spin", new RunCommand(() -> Robot.drive.tankDrive(0.5, -0.5), Robot.drive));
   }
