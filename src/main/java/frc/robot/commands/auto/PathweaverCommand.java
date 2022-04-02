@@ -75,7 +75,6 @@ public class PathweaverCommand extends SequentialCommandGroup {
     addRequirements(drive);
 
     addCommands(
-      new InstantCommand(() -> m_drive.resetOdometry(trajectory.getInitialPose())),
       new RamseteCommand(
         trajectory,
         drive::getPose,

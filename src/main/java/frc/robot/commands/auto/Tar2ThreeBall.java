@@ -1,6 +1,7 @@
 
 package frc.robot.commands.auto;
 
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.*;
 import frc.robot.Robot;
 import frc.robot.constants.Constants;
@@ -12,16 +13,18 @@ import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Limelight;
 import frc.robot.commands.cargo.PositionArm;
 import frc.robot.commands.cargo.Shoot;
+import frc.robot.util.BallPositions;
 import frc.robot.util.CargoUtil;
 
 public class Tar2ThreeBall extends SequentialCommandGroup {
-  public Tar2ThreeBall() {
-    this(Robot.drive, Robot.belt, Robot.arm, Robot.shooter, Robot.ll, Robot.ballDetection);
+  public Tar2ThreeBall(Alliance color) {
+    this(Robot.drive, Robot.belt, Robot.arm, Robot.shooter, Robot.ll, Robot.ballDetection, color);
   }
 
-  public Tar2ThreeBall(Drivetrain drive, Belt belt, Arm arm, Shooter shooter, Limelight limelight, BallDetection ballDetection) {
+  public Tar2ThreeBall(Drivetrain drive, Belt belt, Arm arm, Shooter shooter, Limelight limelight, BallDetection ballDetection, Alliance color) {
     addRequirements(drive, belt, arm, shooter, limelight, ballDetection);
     addCommands(
+        new InstantCommand(() -> drive.resetOdometry(BallPositions.getBall(3, color).getRobotPoseFromBall())),
         new InstantCommand(() -> CargoUtil.setBeltPower(0)),
         new ShootAuto(false, false, 1, () -> DriveDistance.isFinished, 157, 25),
         parallel(
