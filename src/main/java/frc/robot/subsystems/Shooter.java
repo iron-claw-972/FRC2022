@@ -107,9 +107,9 @@ public class Shooter extends SubsystemBase {
       // m_motorSpeed);
       // setVoltage(m_shooterPID.calculate(getVelocity()) + Constants.shooter.kForward * m_motorSpeed);
 
-      m_loop.setNextR(VecBuilder.fill(m_motorSpeed));
+      m_loop.setNextR(VecBuilder.fill(Units.rotationsPerMinuteToRadiansPerSecond(m_motorSpeed)));
 
-      m_loop.correct(VecBuilder.fill(m_encoder.getRate())); // Encoder gives rps
+      m_loop.correct(VecBuilder.fill(m_encoder.getRate())); // Encoder gives rad/s
 
       double timestamp = Timer.getFPGATimestamp();
       // Update our LQR to generate new voltage commands and use the voltages to predict the next
