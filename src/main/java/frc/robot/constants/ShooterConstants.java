@@ -12,10 +12,10 @@ public class ShooterConstants {
   public final int kCargoShooterMotorPort = 7;
 
   public final int kFrontOuttakeFarSpeed = -2900;
-  public final int kBackOuttakeFarSpeed = -2180;
+  public final int kBackOuttakeFarSpeed = -3100;
 
   public final int kFrontOuttakeHighSpeed = -2900;
-  public final int kBackOuttakeHighSpeed = -3000; // 24 ft/s
+  public final int kBackOuttakeHighSpeed = -3357; // 24 ft/s
 
   public final int kFrontOuttakeNearSpeed = -1400;
   public final int kBackOuttakeNearSpeed = -1500; //70 degrees
@@ -25,10 +25,12 @@ public class ShooterConstants {
   public final int kIntakeSpeed = 2000;
 
   public final int kEncoderResolution = 2048; // 2048 for Falcon500 integrated encoder
-  public final double kDistancePerPulse = 100.0 / kEncoderResolution;
-  public final double kGearRatio = (double) 18 / 30;
+  // public final double kGearRatio = (double) 18 / 30;
+  public final double kGearRatio = 1.0;
+  // public final double kDistancePerPulse = 2.0 * Math.PI / kEncoderResolution; // This converts from encoder ticks to rotations
+  public final double kDistancePerPulse = 100.0 / kEncoderResolution; // This converts from encoder ticks to rotations
 
-  public final double kFrontShotEfficiency = 0.99;
+  public final double kFrontShotEfficiency = 1;
   public final double kBackShotEfficiency = 1;
   // public final double kBackShotEfficiency = 0.93;
 
@@ -38,18 +40,18 @@ public class ShooterConstants {
   public final double kI = 0;
   public final double kD = 0;
   public final double kForward = 0.0018;
-  public final double kVelocityPIDTolerance = 15;
+  public final double kVelocityTolerance = 15.0;
 
   // Feedforward
-  public final double kS = 1.0734;
-  public final double kV = 0.24225;
-  public final double kA = 0.02524;
+  public final double kS = 1.0917;
+  public final double kV = 0.024284;
+  public final double kA = 0.002929;
 
-  public final LinearSystem<N1, N1, N1> kFlywheelPlant =
-    LinearSystemId.identifyVelocitySystem(
-      kV,
-      kA
-    );
+  // public final double kS = 1.1199;
+  // public final double kV = 0.012827;
+  // public final double kA = 0.0018137;
+
+  public final LinearSystem<N1, N1, N1> kFlywheelPlant = LinearSystemId.identifyVelocitySystem(kV, kA);
 
   public final DCMotor kFlywheelGearbox = DCMotor.getFalcon500(1);
 

@@ -56,14 +56,14 @@ public class ChaseBall extends CommandBase {
 
     offset = m_limelight.getBallHorizontalAngularOffset(m_isRedBall);
     double turn = MathUtil.clamp(
-      turnPID.calculate(offset, 0),
+      -turnPID.calculate(offset, 0),
       -Constants.ll.kMaxTurnPower,
       Constants.ll.kMaxTurnPower
     );
-    m_drive.arcadeDrive(
+    m_drive.feedForwardDrive(
       // MathUtil.clamp(throttlePID.calculate(distance, 0), -0.5, 0.5),
-      (m_driverControlled ? Driver.getThrottleValue() : Constants.ll.kAutoThrottlePow),
-      (Double.isNaN(turn) ? -Driver.getTurnValue() : turn)
+      (m_driverControlled ? Driver.getThrottleValue() * Constants.drive.kMaxSpeedMetersPerSecond : Constants.ll.kAutoThrottlePow),
+      (Double.isNaN(turn) ? Driver.getTurnValue() : turn) * Constants.drive.kMaxAngularSpeedRadiansPerSecond
     );
   }
 
@@ -74,7 +74,7 @@ public class ChaseBall extends CommandBase {
 
   @Override
   public void end(boolean interrupted) {
-    m_drive.arcadeDrive(0, 0);
+    m_drive.feedForwardDrive(0, 0);
     m_limelight.setDriverPipeline();
   }
 }

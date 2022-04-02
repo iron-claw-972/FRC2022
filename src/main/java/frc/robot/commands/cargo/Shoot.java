@@ -87,6 +87,7 @@ public class Shoot extends SequentialCommandGroup {
               new DoNothing(),
               () -> doesAlign
             ),
+            new InstantCommand(() -> drive.feedForwardDrive(0, 0)),
 
             //  Calculate distance and determines optimal shooting angle and velocity and
             // set to actual shooting angle

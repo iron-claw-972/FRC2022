@@ -32,21 +32,21 @@ public class Operator {
   private static void configureCargoControls() {
     // Vision Shoot front
     operator.get(Button.Y).whenHeld(new SequentialCommandGroup(
-      new InstantCommand(() -> Robot.drive.arcadeDrive(0, 0)),
+      new InstantCommand(() -> Robot.drive.feedForwardDrive(0, 0)),
       new Shoot(true, true, true)
     ));
 
     // Vision Shoot back
     operator.get(Button.A).whenHeld(new SequentialCommandGroup(
-      new InstantCommand(() -> Robot.drive.arcadeDrive(0, 0)),
+      new InstantCommand(() -> Robot.drive.feedForwardDrive(0, 0)),
       new Shoot(true, true, false)
     ));
 
     // Manual Shoot front
-    operator.get(operator.RIGHT_TRIGGER_BUTTON).whileActiveOnce(new Shoot(false, false, true, Constants.arm.kFrontOuttakeHighPos, Constants.shooter.kFrontOuttakeHighSpeed));
+    operator.get(operator.RIGHT_TRIGGER_BUTTON).whileActiveOnce(new Shoot(false, true, true, Constants.arm.kFrontOuttakeHighPos, Constants.shooter.kFrontOuttakeHighSpeed));
 
     // Manual Shoot back
-    operator.get(Button.RB).whenHeld(new Shoot(false, false, false, Constants.arm.kBackOuttakeHighPos, Constants.shooter.kBackOuttakeHighSpeed));
+    operator.get(Button.RB).whenHeld(new Shoot(false, true, false, Constants.arm.kBackOuttakeHighPos, Constants.shooter.kBackOuttakeHighSpeed));
 
     // Manual intake
     operator.get(Button.X)

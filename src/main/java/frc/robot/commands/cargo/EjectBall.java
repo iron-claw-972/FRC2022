@@ -19,7 +19,7 @@ public class EjectBall extends SequentialCommandGroup {
     addRequirements(belt, shooter, ballDetection);
     addCommands(
       new InstantCommand(() -> CargoUtil.setBeltPower(0.8)),
-      new InstantCommand(() -> CargoUtil.setWheelRPM(-1500)),
+      new InstantCommand(() -> CargoUtil.setWheelRPM(-2000)),
       new InstantCommand(() -> CargoUtil.enableBelt()),
       new InstantCommand(() -> CargoUtil.enableWheel()),
       new WaitUntilCommand(() -> !CargoUtil.isBallContained()),

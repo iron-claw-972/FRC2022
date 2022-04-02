@@ -80,7 +80,10 @@ public class ShuffleboardManager {
     //   m_autoCommand.addOption(path, new PathweaverCommand(path, Robot.drive));
     // }
 
-    m_autoCommand.addOption("Spin baby spin", new RunCommand(() -> Robot.drive.tankDrive(0.5, -0.5), Robot.drive));
+    // m_chooser.addOption("teleop", new TeleopDrive(Drivetrain.getInstance()));
+    m_autoCommand.addOption("Spin baby spin", new RunCommand(() -> Robot.drive.tankFeedForwardDrive(0.5, -0.5), Robot.drive));
+    // adds auto to shuffle board
+    // SmartDashboard.putData("Auto Chooser",autoCommand);
   }
   public void subsystemSpam() {
     // put subsystem shuffleboard things in here!
@@ -159,8 +162,8 @@ public class ShuffleboardManager {
     SmartDashboard.putNumber("Front Shot Efficiency", Constants.shooter.kFrontShotEfficiency);
     SmartDashboard.putNumber("Back Shot Efficiency", Constants.shooter.kBackShotEfficiency);
 
-    SmartDashboard.putNumber("Front Distance Error (in)", Constants.ll.kFrontLimelightDistanceError);
-    SmartDashboard.putNumber("Back Distance Error (in)", Constants.ll.kBackLimelightDistanceError);
+    SmartDashboard.putNumber("Front Distance Error", Constants.ll.kFrontLimelightDistanceError);
+    SmartDashboard.putNumber("Back Distance Error", Constants.ll.kBackLimelightDistanceError);
   }
 
   public void loadClimbExtenderShuffleboard(Extender extender) {
