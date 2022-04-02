@@ -43,10 +43,10 @@ public class Operator {
     ));
 
     // Manual Shoot front
-    operator.get(operator.RIGHT_TRIGGER_BUTTON).whileActiveOnce(new Shoot(false, false, true, Constants.arm.kFrontOuttakeHighPos, Constants.shooter.kFrontOuttakeHighSpeed));
+    operator.get(operator.RIGHT_TRIGGER_BUTTON).whileActiveOnce(new Shoot(false, true, true, Constants.arm.kFrontOuttakeHighPos, Constants.shooter.kFrontOuttakeHighSpeed));
 
     // Manual Shoot back
-    operator.get(Button.RB).whenHeld(new Shoot(false, false, false, Constants.arm.kBackOuttakeHighPos, Constants.shooter.kBackOuttakeHighSpeed));
+    operator.get(Button.RB).whenHeld(new Shoot(false, true, false, Constants.arm.kBackOuttakeHighPos, Constants.shooter.kBackOuttakeHighSpeed));
 
     // Manual intake
     operator.get(Button.X)
