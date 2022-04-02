@@ -32,13 +32,13 @@ public class Operator {
   private static void configureCargoControls() {
     // Vision Shoot front
     operator.get(Button.Y).whenHeld(new SequentialCommandGroup(
-      new InstantCommand(() -> Robot.drive.arcadeDrive(0, 0)),
+      new InstantCommand(() -> Robot.drive.feedForwardDrive(0, 0)),
       new Shoot(true, true, true)
     ));
 
     // Vision Shoot back
     operator.get(Button.A).whenHeld(new SequentialCommandGroup(
-      new InstantCommand(() -> Robot.drive.arcadeDrive(0, 0)),
+      new InstantCommand(() -> Robot.drive.feedForwardDrive(0, 0)),
       new Shoot(true, true, false)
     ));
 
