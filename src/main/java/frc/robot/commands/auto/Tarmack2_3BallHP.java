@@ -32,7 +32,7 @@ public class Tarmack2_3BallHP extends SequentialCommandGroup {
             new InstantCommand(() -> CargoUtil.setBeltPower(Constants.belt.kIntakeSpeed)),
             new InstantCommand(() -> CargoUtil.enableAll())
           ),
-          new PathweaverCommand("T23Ball", drive)
+          new PathweaverCommand("1_pathanthonywantedmetomake", drive)
         ),
         new ShootAuto(false, false, 0, () -> true, 157, 25)
     );
