@@ -47,6 +47,7 @@ public class Tarmack2_4BallHP extends SequentialCommandGroup {
           new InstantCommand(() -> CargoUtil.setBeltPower(Constants.belt.kIntakeSpeed)),
           new PathweaverCommand("2_to4thBall", drive)
         ),
+        new PathweaverCommand("3_from4thBall", drive),
         new ShootAuto(false, true, 0, () -> true, 157, 25)
     );
   }
