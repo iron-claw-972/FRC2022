@@ -32,7 +32,7 @@ public class LimelightConstants {
   public final boolean kIsMountedHorizontally = true;
 
   public final double kFrontLimelightDistanceError = 0;
-  public final double kBackLimelightDistanceError = -10;
+  public final double kBackLimelightDistanceError = 0;
 
   // Pipeline numbers used by Limelight NT
   public final int kRedCargoPipeline = 0;
