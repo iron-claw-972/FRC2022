@@ -15,10 +15,8 @@ public class AutoConstants {
   public final double kIntakeDriveDistance = 0.381;
   public final double kDriveSpeed = 0.5;
 
-  // Trajectories should be placed in src/main/deploy/paths
-  // name without stuff after . ex AutoPath
+  // Pathweaver output folder should be src/main/deploy/paths
+  // name without stuff after . ex AutoPath.wpilib.json -> AutoPath
   public final String kTrajectoryDirectory = "paths/output/";
-  public final String kTrajectoryName = "HangarTest";
-  public final String k3BallAuto = "T23Ball";
-  public final String[] kAutoPaths = {"LongLine", "0_pathanthonywantedmetomake", "Turn", "HangarTest", "SquareTest", "T13Ball", "T23Ball", "TopAuto", "TwoBallsToHangarTest", "Unnamed"};
+  public final String[] kAutoPaths = {"0_pathanthonywantedmetomake", "Turn", "HangarTest", "T13Ball", "T23Ball"};
 }
