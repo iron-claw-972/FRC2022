@@ -86,6 +86,10 @@ public class Extender extends SubsystemBase {
     m_manualEnabled = false;
   }
 
+  public boolean isManual() {
+    return m_manualEnabled;
+  }
+
   // called in Robot by button binds
   public void set(double distance) {
     m_setpoint = distance;

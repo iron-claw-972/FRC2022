@@ -4,11 +4,10 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import frc.robot.constants.Constants;
 import frc.robot.util.ControllerFactory;
-// import frc.robot.util.LimitSwitch;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.wpilibj.DutyCycle;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Rotator extends SubsystemBase {
@@ -64,10 +63,22 @@ public class Rotator extends SubsystemBase {
     
     // SmartDashboard.putNumber(direction + " rotator angle raw", currentAngleRaw());
     // SmartDashboard.putNumber(direction + " rotator angle", currentAngle());
-    // SmartDashboard.putNumber(direction + " rotator offset", encoderOffset);
+    SmartDashboard.putNumber(side + " rotator offset", encoderOffset);
     if(enabled) {
-      // set the arm power according to the PID
-      setOutput(armPID.calculate(currentAngle(), setpoint));
+      // set the arm power according to the PID and FF
+      double FF = 0;
+      if ((setpoint == Constants.rotator.kMaxBackwardL && left) || (setpoint == Constants.rotator.kMaxBackwardR && !left)) {
+        FF = Constants.rotator.kF;
+      } else if ((setpoint == Constants.rotator.kMaxForwardL && left) || (setpoint == Constants.rotator.kMaxForwardR && !left)) {
+        FF = -1 * Constants.rotator.kF;
+      } else {
+        if (currentAngle() > setpoint) {
+          FF = -0.9 * Constants.rotator.kF;
+        } else {
+          FF = 0.9 * Constants.rotator.kF;
+        }
+      }
+      setOutput(FF + armPID.calculate(currentAngle(), setpoint));
     } else {
       m_motor.set(0);
     }
@@ -98,7 +109,8 @@ public class Rotator extends SubsystemBase {
 
   public boolean reachedSetpoint() {
     // checks if the arm is at its setpoint
-    return (currentAngle() < setpoint + Constants.rotator.kArmTolerance && currentAngle() > setpoint - Constants.rotator.kArmTolerance);
+    return armPID.atSetpoint();
+    // return (currentAngle() < setpoint + Constants.rotator.kArmTolerance && currentAngle() > setpoint - Constants.rotator.kArmTolerance);
   }
 
   //enables PID
