@@ -41,6 +41,11 @@ public class Belt extends SubsystemBase {
   public void setPower(double power) {
     m_motorPower = power;
   }
+  // return the value of m_motor_power
+  public double getPower() {
+    return m_motorPower;
+  }
+  
   
   public void setOutput(double motorPower) {
     m_cargoBeltMotor.set(ControlMode.PercentOutput, MathUtil.clamp(motorPower, -Constants.belt.kMotorClamp, Constants.belt.kMotorClamp));
