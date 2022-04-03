@@ -31,6 +31,7 @@ public class Tarmack2_3BallHP extends SequentialCommandGroup {
         ),
         new IntakeAuto(Constants.arm.kAutoBackOuttakeFarPos, false, false, Constants.auto.kIntakeDriveDistance), 
         new ShootAuto(false, false, 0, () -> true, 157, 25),
+        new PositionArm(Constants.arm.kIntakePos),
         parallel(
           sequence(
             new InstantCommand(() -> CargoUtil.setWheelRPM(Constants.shooter.kIntakeSpeed)),
@@ -39,7 +40,7 @@ public class Tarmack2_3BallHP extends SequentialCommandGroup {
           ),
           new PathweaverCommand("1_pathanthonywantedmetomake", drive)
         ),
-        new ShootAuto(false, true, 0, () -> true, 157, 25)
+        new ShootAuto(false, true, 0, () -> true, 108, 25)
     );
   }
 }

@@ -55,15 +55,15 @@ public class DriveRotation extends CommandBase {
   @Override
   public boolean isFinished() {
     if (setpoint > 0) {
-      return m_drive.getLeftPosition() <= zeroPos - setpoint;
+      return -m_drive.getLeftPosition() <= zeroPos - setpoint;
     } else {
-      return m_drive.getLeftPosition() >= zeroPos - setpoint;
+      return -m_drive.getLeftPosition() >= zeroPos - setpoint;
     }
   }
 
   @Override
   public void end(boolean interrupted) {
     isFinished = true;
-    m_drive.feedForwardDrive(0, 0);
+    m_drive.tankDriveVolts(0, 0);
   }
 }

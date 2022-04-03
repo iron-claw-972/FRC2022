@@ -37,6 +37,16 @@ public class ShuffleboardManager {
     LiveWindow.disableAllTelemetry(); // LiveWindow is causing periodic loop overruns
     m_mainTab.addBoolean("Is Teleop", DriverStation::isTeleop);
     m_mainTab.addNumber("left drive encoder", Robot.drive::getLeftPosition);
+    m_autoTab.addNumber("Navx Position", Robot.drive::getHeading);
+
+    m_autoTab.addNumber("X", Robot.drive::getPoseX);
+    m_autoTab.addNumber("Y", Robot.drive::getPoseX);
+    m_autoTab.addNumber("Rotation", Robot.drive::getPoseRotation);
+    
+    SmartDashboard.putNumber("auto rot", 100);
+
+    SmartDashboard.putData(Robot.drive.m_field);
+
     // climbTab.addNumber("Max Extension Ticks", () -> extenderConstants.kExtenderMaxArmTicks);
     chooserUpdate();
     subsystemSpam();
@@ -62,6 +72,8 @@ public class ShuffleboardManager {
   public void chooserUpdate() {
     // originally 0.8492
     m_autoCommand.addOption("DoNothing", new DoNothing());
+    
+    m_autoCommand.addOption("PATHWEAVE", new PathweaverCommand("Turn", Robot.drive));
 
     m_autoCommand.addOption("Front1BallAuto", new Front1BallAuto());
     m_autoCommand.addOption("Back1BallAuto", new Back1BallAuto());
@@ -75,10 +87,11 @@ public class ShuffleboardManager {
     m_autoCommand.addOption("BlueTar2ThreeBall", new Tar2ThreeBall(Alliance.Blue));
     m_autoCommand.addOption("HalfPathweaver Tarmac 2 3 Ball", new Tarmack2_3BallHP());
     m_autoCommand.addOption("HalfPathweaver Tarmac 2 4 Ball", new Tarmack2_4BallHP());
+    m_autoCommand.addOption("Rotation", new DriveRotation(SmartDashboard.getNumber("auto rot", 100)));
 
-    // for (String path : Constants.auto.kAutoPaths) {
-    //   m_autoCommand.addOption(path, new PathweaverCommand(path, Robot.drive));
-    // }
+    for (String path : Constants.auto.kAutoPaths) {
+      m_autoCommand.addOption(path, new PathweaverCommand(path, Robot.drive));
+    }
 
     // m_chooser.addOption("teleop", new TeleopDrive(Drivetrain.getInstance()));
     m_autoCommand.addOption("Spin baby spin", new RunCommand(() -> Robot.drive.tankFeedForwardDrive(0.5, -0.5), Robot.drive));

@@ -11,6 +11,8 @@ import frc.robot.subsystems.Belt;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Limelight;
+import frc.robot.commands.cargo.AlignToUpperHub;
+import frc.robot.commands.cargo.ChaseBall;
 import frc.robot.commands.cargo.PositionArm;
 import frc.robot.commands.cargo.Shoot;
 import frc.robot.util.BallPositions;
@@ -26,19 +28,24 @@ public class Tar2ThreeBall extends SequentialCommandGroup {
     addCommands(
         new InstantCommand(() -> drive.resetOdometry(BallPositions.getBall(3, color).getRobotPoseFromBall())),
         new InstantCommand(() -> CargoUtil.setBeltPower(0)),
-        new ShootAuto(false, false, 1, () -> DriveDistance.isFinished, 157, 25),
-        parallel(
-          new PathweaverCommand("0_pathanthonywantedmetomake", drive),
-          new PositionArm(Constants.arm.kIntakePos),
+        new PathweaverCommand("0_pathanthonywantedmetomake", drive),
+        new ShootAuto(false, false, 1, () -> true, 157, 24),
+        new PositionArm(Constants.arm.kIntakePos),
+        new ParallelDeadlineGroup(
+          new WaitUntilCommand(() -> CargoUtil.isBallContained()).withTimeout(2),
+          new PathweaverCommand("exittarmac", drive),
           sequence(
             new InstantCommand(() -> CargoUtil.setWheelRPM(Constants.shooter.kIntakeSpeed)),
             new InstantCommand(() -> CargoUtil.setBeltPower(Constants.belt.kIntakeSpeed)),
             new InstantCommand(() -> CargoUtil.enableAll())
           )
-        ),       
+        ),
         new ShootAuto(false, false, 0, () -> true, 157, 25),
         parallel(
-          new PathweaverCommand("1_pathanthonywantedmetomake", drive),
+          sequence(
+            new PathweaverCommand("1_pathanthonywantedmetomake", drive),
+            new ChaseBall(false, false)
+          ),
           new PositionArm(Constants.arm.kIntakePos),
           sequence(
             new InstantCommand(() -> CargoUtil.setWheelRPM(Constants.shooter.kIntakeSpeed)),
@@ -46,8 +53,9 @@ public class Tar2ThreeBall extends SequentialCommandGroup {
             new InstantCommand(() -> CargoUtil.enableAll())
           )
         ),
-        new Shoot(false, true, false, 154, -3357),
-        //Line 47 needs values changed to be accurate
+        new PositionArm(154),
+        new AlignToUpperHub(),
+        new ShootAuto(false, false, 0, () -> true, 157, 25),
         new PositionArm(154)
     );
   }
