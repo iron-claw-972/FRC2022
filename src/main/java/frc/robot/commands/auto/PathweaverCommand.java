@@ -9,10 +9,9 @@ import edu.wpi.first.wpilibj2.command.*;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.DriverStation;
 import java.io.IOException;
-import java.nio.file.Path;
 import java.util.List;
 
-import frc.robot.Robot;
+import frc.robot.commands.DoNothing;
 import frc.robot.constants.Constants;
 import frc.robot.subsystems.Drivetrain;
 
@@ -28,10 +27,10 @@ public class PathweaverCommand extends SequentialCommandGroup {
       );
     } catch (IOException ex) {
       DriverStation.reportWarning(
-        "Unable to open trajectory: " + trajectoryName + "\n" + "Falling back to empty trajectory",
+        "Unable to open trajectory: " + trajectoryName + "\n" + "Will not do anything.",
         ex.getStackTrace()
       );
-      return new Trajectory(); //empty trajectory
+      return null;
       /*
       var autoVoltageConstraint = new DifferentialDriveVoltageConstraint(
           drive.getFeedforward(),
@@ -74,21 +73,24 @@ public class PathweaverCommand extends SequentialCommandGroup {
     m_drive = drive;
     addRequirements(drive);
 
-    addCommands(
-      new InstantCommand(() -> m_drive.resetOdometry(trajectory.getInitialPose())),
-      new RamseteCommand(
-        trajectory,
-        drive::getPose,
-        drive.getRamseteController(),
-        drive.getFeedforward(),
-        drive.getDriveKinematics(),
-        drive::getWheelSpeeds,
-        drive.getLeftVelocityPID(),
-        drive.getRightVelocityPID(),
-        drive::tankDriveVolts,
-        drive
-      ),
-      new InstantCommand(() -> m_drive.tankDriveVolts(0, 0))
-    );
+    if (trajectory != null) {
+      addCommands(
+        new RamseteCommand(
+          trajectory,
+          drive::getPose,
+          drive.getRamseteController(),
+          drive.getFeedforward(),
+          drive.getDriveKinematics(),
+          drive::getWheelSpeeds,
+          drive.getLeftVelocityPID(),
+          drive.getRightVelocityPID(),
+          drive::tankDriveVolts,
+          drive
+        ),
+        new InstantCommand(() -> m_drive.tankDriveVolts(0, 0))
+      );
+    } else {
+      addCommands(new DoNothing());
+    }
   }
 }

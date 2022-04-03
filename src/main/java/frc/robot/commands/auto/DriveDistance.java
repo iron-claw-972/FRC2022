@@ -42,8 +42,8 @@ public class DriveDistance extends CommandBase {
   @Override
   public void execute() { 
     m_drive.tankFeedForwardDrive(
-      -Math.copySign(Constants.auto.kDriveSpeed, setpoint),
-      -Math.copySign(Constants.auto.kDriveSpeed, setpoint));
+      Math.copySign(Constants.auto.kDriveSpeed, setpoint),
+      Math.copySign(Constants.auto.kDriveSpeed, setpoint));
   }
 
   // @Override
@@ -54,9 +54,9 @@ public class DriveDistance extends CommandBase {
   @Override
   public boolean isFinished() {
     if (setpoint > 0) {
-      return m_drive.getLeftPosition() <= zeroPos - setpoint;
+      return -m_drive.getLeftPosition() <= zeroPos - setpoint;
     } else {
-      return m_drive.getLeftPosition() >= zeroPos - setpoint;
+      return -m_drive.getLeftPosition() >= zeroPos - setpoint;
     }
   }
 

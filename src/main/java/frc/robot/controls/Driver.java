@@ -4,7 +4,6 @@ package frc.robot.controls;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj.DriverStation;
 import frc.robot.Robot;
-import frc.robot.commands.cargo.AlignToUpperHub;
 import frc.robot.commands.cargo.EjectBall;
 import frc.robot.commands.cargo.Intake;
 import frc.robot.commands.cargo.PositionArm;
@@ -59,12 +58,12 @@ public class Driver {
   public static double getThrottleValue() {
     // put any processes in any order of the driver's choosing
     // Controllers y-axes are natively up-negative, down-positive
-    return slewThrottle.calculate(Functions.deadband(Constants.oi.kDeadband, getRawThrottleValue()));
+    return -slewThrottle.calculate(Functions.deadband(Constants.oi.kDeadband, getRawThrottleValue()));
   }
 
   public static double getTurnValue() {
     // right is positive; left is negative
-    return slewTurn.calculate(Functions.deadband(Constants.oi.kDeadband, getRawTurnValue()));
+    return -slewTurn.calculate(Functions.deadband(Constants.oi.kDeadband, getRawTurnValue()));
   }
 
   public static double getRawThrottleValue() {

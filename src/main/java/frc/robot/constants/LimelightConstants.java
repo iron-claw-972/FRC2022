@@ -11,7 +11,7 @@ public class LimelightConstants {
   // public final double kAlignP = 0.037;
   // public final double kAlignI = 0.05;
   // public final double kAlignD = 0.004;
-  public final double kAutoThrottlePow = -0.3;
+  public final double kAutoThrottlePow = 0.3;
 
   public final double kTurnPIDTolerance = 1;
   public final double kTurnP = 0.01; // Originally 0.025

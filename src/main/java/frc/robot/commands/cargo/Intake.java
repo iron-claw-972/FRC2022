@@ -7,7 +7,6 @@ import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import frc.robot.Robot;
 import frc.robot.commands.DoNothing;
 import frc.robot.commands.drive.DifferentialDrive;
-import frc.robot.commands.drive.TeleopDrive;
 import frc.robot.constants.Constants;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.BallDetection;

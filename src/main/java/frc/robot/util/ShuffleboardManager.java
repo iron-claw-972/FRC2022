@@ -4,6 +4,7 @@ package frc.robot.util;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.shuffleboard.*;
 import edu.wpi.first.wpilibj.smartdashboard.*;
@@ -36,6 +37,16 @@ public class ShuffleboardManager {
     LiveWindow.disableAllTelemetry(); // LiveWindow is causing periodic loop overruns
     m_mainTab.addBoolean("Is Teleop", DriverStation::isTeleop);
     m_mainTab.addNumber("left drive encoder", Robot.drive::getLeftPosition);
+    m_autoTab.addNumber("Navx Position", Robot.drive::getHeading);
+
+    m_autoTab.addNumber("X", Robot.drive::getPoseX);
+    m_autoTab.addNumber("Y", Robot.drive::getPoseX);
+    m_autoTab.addNumber("Rotation", Robot.drive::getPoseRotation);
+    
+    SmartDashboard.putNumber("auto rot", 100);
+
+    SmartDashboard.putData(Robot.drive.m_field);
+
     // climbTab.addNumber("Max Extension Ticks", () -> extenderConstants.kExtenderMaxArmTicks);
     chooserUpdate();
     subsystemSpam();
@@ -61,6 +72,8 @@ public class ShuffleboardManager {
   public void chooserUpdate() {
     // originally 0.8492
     m_autoCommand.addOption("DoNothing", new DoNothing());
+    
+    m_autoCommand.addOption("PATHWEAVE", new PathweaverCommand("Turn", Robot.drive));
 
     m_autoCommand.addOption("Front1BallAuto", new Front1BallAuto());
     m_autoCommand.addOption("Back1BallAuto", new Back1BallAuto());
@@ -70,12 +83,12 @@ public class ShuffleboardManager {
     m_autoCommand.addOption("RedVision3Ball", new Vision3BallAuto(true));
     m_autoCommand.addOption("BlueVision3Ball", new Vision3BallAuto(false));
 
-    m_autoCommand.addOption("Tar2ThreeBall", new Tar2ThreeBall());
-    m_autoCommand.addOption("HalfPathweave Tarmack 2 3 Ball", new Tarmack2_3BallHP());
+    m_autoCommand.addOption("RedTar2ThreeBall", new Tar2ThreeBall(Alliance.Red));
+    m_autoCommand.addOption("BlueTar2ThreeBall", new Tar2ThreeBall(Alliance.Blue));
+    m_autoCommand.addOption("HalfPathweaver Tarmac 2 3 Ball", new Tarmac2_3BallHP());
+    m_autoCommand.addOption("HalfPathweaver Tarmac 2 4 Ball", new Tarmac2_4BallHP());
+    m_autoCommand.addOption("Rotation", new DriveRotation(SmartDashboard.getNumber("auto rot", 100)));
 
-    // autoCommand.setDefaultOption("fetch me my paper boy", new FlexibleAuto(distance.getDouble(0), intakeSecond.getBoolean(true), shootSecond.getBoolean(true), limelightColor.getBoolean(Constants.kIsRedAlliance)));
-    m_autoCommand.addOption("Main pathweaver: " + Constants.auto.kTrajectoryName, new PathweaverCommand(Constants.auto.kTrajectoryName, Robot.drive));
-    
     for (String path : Constants.auto.kAutoPaths) {
       m_autoCommand.addOption(path, new PathweaverCommand(path, Robot.drive));
     }

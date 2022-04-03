@@ -56,7 +56,7 @@ public class ChaseBall extends CommandBase {
 
     offset = m_limelight.getBallHorizontalAngularOffset(m_isRedBall);
     double turn = MathUtil.clamp(
-      -turnPID.calculate(offset, 0),
+      turnPID.calculate(offset, 0),
       -Constants.ll.kMaxTurnPower,
       Constants.ll.kMaxTurnPower
     );
