@@ -9,10 +9,8 @@ import edu.wpi.first.wpilibj2.command.*;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.DriverStation;
 import java.io.IOException;
-import java.nio.file.Path;
 import java.util.List;
 
-import frc.robot.Robot;
 import frc.robot.commands.DoNothing;
 import frc.robot.constants.Constants;
 import frc.robot.subsystems.Drivetrain;

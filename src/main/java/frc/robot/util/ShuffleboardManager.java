@@ -85,8 +85,8 @@ public class ShuffleboardManager {
 
     m_autoCommand.addOption("RedTar2ThreeBall", new Tar2ThreeBall(Alliance.Red));
     m_autoCommand.addOption("BlueTar2ThreeBall", new Tar2ThreeBall(Alliance.Blue));
-    m_autoCommand.addOption("HalfPathweaver Tarmac 2 3 Ball", new Tarmack2_3BallHP());
-    m_autoCommand.addOption("HalfPathweaver Tarmac 2 4 Ball", new Tarmack2_4BallHP());
+    m_autoCommand.addOption("HalfPathweaver Tarmac 2 3 Ball", new Tarmac2_3BallHP());
+    m_autoCommand.addOption("HalfPathweaver Tarmac 2 4 Ball", new Tarmac2_4BallHP());
     m_autoCommand.addOption("Rotation", new DriveRotation(SmartDashboard.getNumber("auto rot", 100)));
 
     for (String path : Constants.auto.kAutoPaths) {

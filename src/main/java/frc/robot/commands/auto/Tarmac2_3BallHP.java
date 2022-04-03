@@ -1,8 +1,5 @@
 package frc.robot.commands.auto;
 
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.*;
 import frc.robot.Robot;
 import frc.robot.commands.cargo.PositionArm;
@@ -15,12 +12,12 @@ import frc.robot.subsystems.Belt;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Drivetrain;
 
-public class Tarmack2_3BallHP extends SequentialCommandGroup {
-  public Tarmack2_3BallHP() {
+public class Tarmac2_3BallHP extends SequentialCommandGroup {
+  public Tarmac2_3BallHP() {
     this(Robot.drive, Robot.belt, Robot.arm, Robot.shooter, Robot.ballDetection);
   }
 
-  public Tarmack2_3BallHP(Drivetrain drive, Belt belt, Arm arm, Shooter shooter, BallDetection ballDetection) {
+  public Tarmac2_3BallHP(Drivetrain drive, Belt belt, Arm arm, Shooter shooter, BallDetection ballDetection) {
     addRequirements(drive, belt, arm, shooter, ballDetection);
     addCommands(
         new InstantCommand(() -> drive.resetOdometry(BallPositions.B3.getRobotPoseFromBall())),
