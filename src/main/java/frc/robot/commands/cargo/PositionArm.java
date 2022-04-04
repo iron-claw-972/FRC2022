@@ -21,8 +21,8 @@ public class PositionArm extends SequentialCommandGroup {
     public PositionArm(double armPosition, Arm arm) {
         addRequirements(arm);
         addCommands(
-            new InstantCommand(() -> CargoUtil.enableArm()),
             new InstantCommand(() -> CargoUtil.setAngle(armPosition)),
+            new InstantCommand(() -> CargoUtil.enableArm()),
             new WaitUntilCommand(() -> CargoUtil.isArmAtSetpoint())
         );
     }
