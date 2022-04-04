@@ -4,6 +4,7 @@ package frc.robot.util;
 import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
 import frc.robot.commands.cargo.GetDistance;
 import frc.robot.constants.Constants;
@@ -165,6 +166,18 @@ public class CargoUtil {
   }
   public static void setWheelRPM(double speed) {
     Robot.shooter.setSpeed(speed);
+  }
+
+  public static void setWheelRPM(DoubleSupplier speed) {
+    setWheelRPM(speed.getAsDouble());
+  }
+
+  public static double getTestShooterSpeed() {
+    return SmartDashboard.getNumber("Test shooter speed", 0);
+  }
+
+  public static double getTestArmAngle() {
+    return SmartDashboard.getNumber("Test arm angle", 0);
   }
   
   public static void enableWheel() {

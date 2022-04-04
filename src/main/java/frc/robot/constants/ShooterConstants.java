@@ -27,8 +27,8 @@ public class ShooterConstants {
   public final int kEncoderResolution = 2048; // 2048 for Falcon500 integrated encoder
   // public final double kGearRatio = (double) 18 / 30;
   public final double kGearRatio = 1.0;
-  // public final double kDistancePerPulse = 2.0 * Math.PI / kEncoderResolution; // This converts from encoder ticks to rotations
-  public final double kDistancePerPulse = 100.0 / kEncoderResolution; // This converts from encoder ticks to rotations
+  public final double kDistancePerPulse = 2.0 * Math.PI / kEncoderResolution; // This converts from encoder ticks to rotations
+  // public final double kDistancePerPulse = 100.0 / kEncoderResolution; // This converts from encoder ticks to rotations
 
   public final double kFrontShotEfficiency = 1;
   public final double kBackShotEfficiency = 1;
@@ -36,10 +36,12 @@ public class ShooterConstants {
 
 
   // PID Stuff
-  public final double kP = 0.008;
+  // public final double kP = 0.008;
+  public final double kP = 0.006;
   public final double kI = 0;
-  public final double kD = 0;
-  public final double kForward = 0.0018;
+  public final double kD = 0.0004;
+  // public final double kForward = 0.0018;
+  public final double kForward = 1.07;
   public final double kVelocityTolerance = 15.0;
 
   // Feedforward
