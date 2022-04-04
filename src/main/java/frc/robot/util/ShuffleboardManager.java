@@ -185,6 +185,8 @@ public class ShuffleboardManager {
     
     m_climbTab.add(extender.getSide() + "Climb Extender PID", extender.m_extenderPID);
     m_climbTab.addBoolean(extender.getSide() + " Extender Setpoint", extender::reachedSetpoint);
+    m_climbTab.addBoolean(extender.getSide() + " Limit Switch", extender::compressionLimitSwitch);
+    m_climbTab.addBoolean(extender.getSide() + " Manual", extender::isManual);
   }
 
   public void loadClimbRotatorShuffleboard(Rotator rotator) {
@@ -199,7 +201,7 @@ public class ShuffleboardManager {
     m_climbTab.add(rotator.getSide() + " Climb Rotator PID", rotator.armPID);
     m_climbTab.addBoolean(rotator.getSide() + " Climb Rotator Setpoint Reached", rotator::reachedSetpoint);
 
-
+    SmartDashboard.putNumber(rotator.getSide() + " Rotator FF", 0);
   }
 
   public void loadBallDetectionShuffleboard(){

@@ -33,8 +33,8 @@ public class Robot extends TimedRobot {
   public static Drivetrain drive = new Drivetrain();
   public static Rotator rotatorL = new Rotator(true);
   public static Rotator rotatorR = new Rotator(false);
-  public static Extender extenderL = new Extender(true);
-  public static Extender extenderR = new Extender(false);
+  public static Extender extenderL;
+  public static Extender extenderR;
   public static Arm arm = new Arm();
   public static Belt belt = new Belt();
   public static Shooter shooter = new Shooter();
@@ -52,6 +52,8 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
+    extenderL = new Extender(true);
+    extenderR = new Extender(false);
     //  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     //setup cameras 
