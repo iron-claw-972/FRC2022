@@ -39,11 +39,12 @@ public class Operator {
     operator.get(Button.Y).whenHeld(new SequentialCommandGroup(
       new PositionArm(108),
       new InstantCommand(() -> CargoUtil.setWheelRPM(CargoUtil::getCalibrationSpeed)),
+      new InstantCommand(() -> CargoUtil.setBeltPower(Constants.belt.kIntakeSpeed)),
+      new InstantCommand(() -> CargoUtil.enableBelt()),
       new InstantCommand(() -> CargoUtil.enableWheel()),
       // new WaitCommand(1),
       new WaitUntilCommand(() -> CargoUtil.isWheelAtSetpoint()),
       new InstantCommand(() -> CargoUtil.setBeltPower(Constants.belt.kOuttakeSpeed)),
-      new InstantCommand(() -> CargoUtil.enableBelt()),
       new WaitCommand(0.4),
       new InstantCommand(() -> CargoUtil.disableShiitake())
     ));
@@ -53,7 +54,9 @@ public class Operator {
     operator.get(Button.A).whenHeld(new SequentialCommandGroup(
       new PositionArm(108),
       new InstantCommand(() -> CargoUtil.setWheelRPM(CargoUtil::getCalibrationSpeed)),
+      new InstantCommand(() -> CargoUtil.setBeltPower(Constants.belt.kIntakeSpeed)),
       new InstantCommand(() -> CargoUtil.enableWheel()),
+      new InstantCommand(() -> CargoUtil.enableBelt()),
       new WaitCommand(999999)
       // new WaitUntilCommand(() -> CargoUtil.isWheelAtSetpoint()),
     ));

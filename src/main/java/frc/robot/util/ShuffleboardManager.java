@@ -126,6 +126,7 @@ public class ShuffleboardManager {
     m_cargoTab.addNumber("Shooter Velocity", Robot.shooter::getVelocity);
         
     m_cargoTab.add("CargoShooterPID", Robot.shooter.m_shooterPID);
+    m_cargoTab.addBoolean("CargoShooterPID at Setpoint", Robot.shooter.m_shooterPID::atSetpoint);
 
     SmartDashboard.putNumber("Shooter FF", Constants.shooter.kForward);
     SmartDashboard.putNumber("Calibration speed", 0);
@@ -137,6 +138,7 @@ public class ShuffleboardManager {
   public void loadLimelightShuffleboard() {
     m_cargoTab.add("Alignment PID", AlignToUpperHub.alignPID);
     m_cargoTab.add("Ball Chase PID", ChaseBall.turnPID);
+    
 
     m_cargoTab.addBoolean("Is Aligned To Hub", () -> AlignToUpperHub.isFinished);
     m_cargoTab.addNumber("Alignment offset (deg)", () -> AlignToUpperHub.offset);
