@@ -39,7 +39,7 @@ public class ArmConstants {
     public final double kBackMaxShootingAngle = 157;
 
     // locations
-    public final double kIntakePos = 2; // 0 degrees (when on hardstops)
+    public final double kIntakePos = 2; // 2 degrees (when on hardstops)
     public final double kBackOuttakeNearPos = 160;
     public final double kBackOuttakeFarPos = 168;
     public final double kFrontOuttakeNearPos = 110; // TODO: Update this value

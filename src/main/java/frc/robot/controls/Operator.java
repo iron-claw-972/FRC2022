@@ -8,6 +8,7 @@ import frc.robot.commands.climb.*;
 import frc.robot.constants.Constants;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.*;
+import frc.robot.util.CargoUtil;
 import frc.robot.util.ClimbUtil;
 import lib.controllers.*;
 import lib.controllers.GameController.Button;
@@ -31,16 +32,38 @@ public class Operator {
   
   private static void configureCargoControls() {
     // Vision Shoot front
+    // operator.get(Button.Y).whenHeld(new SequentialCommandGroup(
+    //   new InstantCommand(() -> Robot.drive.feedForwardDrive(0, 0)),
+    //   new Shoot(true, true, true)
+    // ));
     operator.get(Button.Y).whenHeld(new SequentialCommandGroup(
-      new InstantCommand(() -> Robot.drive.feedForwardDrive(0, 0)),
-      new Shoot(true, true, true)
+      new PositionArm(108),
+      new InstantCommand(() -> CargoUtil.setWheelRPM(CargoUtil::getCalibrationSpeed)),
+      new InstantCommand(() -> CargoUtil.enableWheel()),
+      // new WaitCommand(1),
+      new WaitUntilCommand(() -> CargoUtil.isWheelAtSetpoint()),
+      new InstantCommand(() -> CargoUtil.setBeltPower(Constants.belt.kOuttakeSpeed)),
+      new InstantCommand(() -> CargoUtil.enableBelt()),
+      new WaitCommand(0.4),
+      new InstantCommand(() -> CargoUtil.disableShiitake())
     ));
+    operator.get(Button.Y).whenReleased(new InstantCommand(() -> CargoUtil.disableShiitake()));
+
+
+    operator.get(Button.A).whenHeld(new SequentialCommandGroup(
+      new PositionArm(108),
+      new InstantCommand(() -> CargoUtil.setWheelRPM(CargoUtil::getCalibrationSpeed)),
+      new InstantCommand(() -> CargoUtil.enableWheel()),
+      new WaitCommand(999999)
+      // new WaitUntilCommand(() -> CargoUtil.isWheelAtSetpoint()),
+    ));
+    operator.get(Button.A).whenReleased(new InstantCommand(() -> CargoUtil.disableShiitake()));
 
     // Vision Shoot back
-    operator.get(Button.A).whenHeld(new SequentialCommandGroup(
-      new InstantCommand(() -> Robot.drive.feedForwardDrive(0, 0)),
-      new Shoot(true, true, false)
-    ));
+    // operator.get(Button.A).whenHeld(new SequentialCommandGroup(
+    //   new InstantCommand(() -> Robot.drive.feedForwardDrive(0, 0)),
+    //   new Shoot(true, true, false)
+    // ));
 
     // Manual Shoot front
     operator.get(operator.RIGHT_TRIGGER_BUTTON).whileActiveOnce(new Shoot(false, true, true, Constants.arm.kFrontOuttakeHighPos, Constants.shooter.kFrontOuttakeHighSpeed));

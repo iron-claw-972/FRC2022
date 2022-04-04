@@ -36,10 +36,12 @@ public class ShooterConstants {
 
 
   // PID Stuff
-  public final double kP = 0.008;
+  // public final double kP = 0.008;
+  public final double kP = 0;
   public final double kI = 0;
   public final double kD = 0;
-  public final double kForward = 0.0018;
+  // public final double kForward = 0.0018;
+  public final double kForward = 1.08;
   public final double kVelocityTolerance = 15.0;
 
   // Feedforward

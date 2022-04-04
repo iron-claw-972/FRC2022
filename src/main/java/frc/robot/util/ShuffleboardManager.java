@@ -128,6 +128,7 @@ public class ShuffleboardManager {
     m_cargoTab.add("CargoShooterPID", Robot.shooter.m_shooterPID);
 
     SmartDashboard.putNumber("Shooter FF", Constants.shooter.kForward);
+    SmartDashboard.putNumber("Calibration speed", 0);
   }
   public void loadCargoBeltShuffleboard(){
     m_cargoTab.addBoolean("Cargo Belt", Robot.belt::isEnabled);
