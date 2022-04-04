@@ -12,6 +12,7 @@ public enum BallPositions {
 
   public Translation2d m_pos;
   public Alliance m_alliance;
+  public double m_angleAwayFromHub;
   private int m_rotationIndex;
   private static final double distBallFromHub = 153;
   private static final double distRobotFromHub = 101 - (36.5 / 2.0) - 4; //79.83313
@@ -21,18 +22,17 @@ public enum BallPositions {
   private BallPositions(int rotIndex, Alliance alliance) {
 
     // 0 degrees is pointing right from the hub. So the centerline is 144 degrees. The first red ball is 11.25 degrees from the centerline then each ball is 22.5 degrees
-    double angle = Units.degreesToRadians(114 + 11.25 + rotIndex*22.5);
-    Translation2d ballPosRelativeToHub = new Translation2d(Units.inchesToMeters(Math.cos(angle) * distBallFromHub), Units.inchesToMeters(Math.sin(angle) * distBallFromHub));
+    m_angleAwayFromHub = Units.degreesToRadians(114 + 11.25 + rotIndex*22.5);
+    Translation2d ballPosRelativeToHub = new Translation2d(Units.inchesToMeters(Math.cos(m_angleAwayFromHub) * distBallFromHub), Units.inchesToMeters(Math.sin(m_angleAwayFromHub) * distBallFromHub));
     m_pos = hubPos.plus(ballPosRelativeToHub);
     m_alliance = alliance;
     m_rotationIndex = rotIndex;
   }
 
   public Pose2d getRobotPoseFromBall() {
-    double angle = Units.degreesToRadians(114 + 11.25 + m_rotationIndex*22.5);
-    Translation2d ballPosRelativeToHub = new Translation2d(Units.inchesToMeters(Math.cos(angle) * distRobotFromHub), Units.inchesToMeters(Math.sin(angle) * distRobotFromHub));
+    Translation2d ballPosRelativeToHub = new Translation2d(Units.inchesToMeters(Math.cos(m_angleAwayFromHub) * distRobotFromHub), Units.inchesToMeters(Math.sin(m_angleAwayFromHub) * distRobotFromHub));
     m_pos = hubPos.plus(ballPosRelativeToHub);
-    return new Pose2d(m_pos, new Rotation2d(angle));
+    return new Pose2d(m_pos, new Rotation2d(m_angleAwayFromHub));
   }
 
   public static BallPositions getBall(int index, Alliance color) {

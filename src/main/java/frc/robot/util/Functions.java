@@ -1,5 +1,14 @@
 package frc.robot.util;
 
+import java.util.List;
+
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.trajectory.Trajectory;
+import edu.wpi.first.math.trajectory.TrajectoryConfig;
+import edu.wpi.first.math.trajectory.TrajectoryGenerator;
+import edu.wpi.first.math.trajectory.constraint.DifferentialDriveVoltageConstraint;
+import frc.robot.Robot;
+import frc.robot.constants.Constants;
 
 public class Functions {
 
@@ -36,5 +45,25 @@ public class Functions {
       finVal *= -1;
     }
     return finVal;
+  }
+
+  public static Trajectory createTrajectory(List<Pose2d> waypoints) {
+
+    var autoVoltageConstraint = new DifferentialDriveVoltageConstraint(
+        Robot.drive.getFeedforward(),
+        Robot.drive.getDriveKinematics(),
+        Constants.kMaxVoltage);
+
+    // Create config for trajectory
+    TrajectoryConfig config = new TrajectoryConfig(
+        Constants.auto.kMaxSpeedMetersPerSecond,
+        Constants.auto.kMaxAccelerationMetersPerSecondSquared)
+            // Add kinematics to ensure max speed is actually obeyed
+            .setKinematics(Robot.drive.getDriveKinematics())
+            // Apply the voltage constraint
+            .addConstraint(autoVoltageConstraint);
+
+    // Fallback to default trajectory
+    return TrajectoryGenerator.generateTrajectory(waypoints, config);
   }
 }

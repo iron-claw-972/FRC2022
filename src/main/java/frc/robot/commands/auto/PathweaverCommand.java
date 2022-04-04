@@ -31,34 +31,6 @@ public class PathweaverCommand extends SequentialCommandGroup {
         ex.getStackTrace()
       );
       return null;
-      /*
-      var autoVoltageConstraint = new DifferentialDriveVoltageConstraint(
-          drive.getFeedforward(),
-          drive.getDriveKinematics(),
-          Constants.kMaxVoltage);
-
-      // Create config for trajectory
-      TrajectoryConfig config = new TrajectoryConfig(
-          Constants.auto.kMaxSpeedMetersPerSecond,
-          Constants.auto.kMaxAccelerationMetersPerSecondSquared)
-              // Add kinematics to ensure max speed is actually obeyed
-              .setKinematics(drive.getDriveKinematics())
-              // Apply the voltage constraint
-              .addConstraint(autoVoltageConstraint);
-
-      // Fallback to default trajectory
-      return TrajectoryGenerator.generateTrajectory(
-         // Start at the origin facing the +X direction
-         new Pose2d(0, 0, new Rotation2d(0)),
-         // Pass through these two interior waypoints, making an 's' curve path
-         List.of(
-             new Translation2d(1, 1),
-             new Translation2d(2, -1)
-         ),
-         // End 3 meters straight ahead of where we started, facing forward
-         new Pose2d(3, 0, new Rotation2d(0)),
-         // Pass config
-         config);*/
     }
   }
 
