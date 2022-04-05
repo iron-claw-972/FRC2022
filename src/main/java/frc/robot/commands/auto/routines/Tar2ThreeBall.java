@@ -12,6 +12,7 @@ import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Limelight;
 import frc.robot.commands.auto.PathweaverCommand;
+import frc.robot.commands.auto.PathweaverIntake;
 import frc.robot.commands.auto.ShootAuto;
 import frc.robot.commands.cargo.AlignToUpperHub;
 import frc.robot.commands.cargo.ChaseBall;
@@ -31,25 +32,14 @@ public class Tar2ThreeBall extends SequentialCommandGroup {
         new InstantCommand(() -> CargoUtil.setBeltPower(0)),
         new PathweaverCommand("4ballzero", drive),
         new ShootAuto(false, false, 1, () -> true, 157, 24),
+
         new PositionArm(Constants.arm.kIntakePos),
-        parallel(
-          new PathweaverCommand("4ballone", drive),
-          sequence(
-            new InstantCommand(() -> CargoUtil.setWheelRPM(Constants.shooter.kIntakeSpeed)),
-            new InstantCommand(() -> CargoUtil.setBeltPower(Constants.belt.kIntakeSpeed)),
-            new InstantCommand(() -> CargoUtil.enableAll())
-          )
-        ),
+        new PathweaverIntake("4ballone"),
+
         new ShootAuto(false, false, 0, () -> true, 157, 25),
-        parallel(
-          new PathweaverCommand("4balltwo", drive),
-          new PositionArm(Constants.arm.kIntakePos),
-          sequence(
-            new InstantCommand(() -> CargoUtil.setWheelRPM(Constants.shooter.kIntakeSpeed)),
-            new InstantCommand(() -> CargoUtil.setBeltPower(Constants.belt.kIntakeSpeed)),
-            new InstantCommand(() -> CargoUtil.enableAll())
-          )
-        ),
+
+        new PathweaverIntake("4balltwo"),
+
         new ShootAuto(false, false, 0, () -> true, 157, 25),
         new PositionArm(154)
     );
