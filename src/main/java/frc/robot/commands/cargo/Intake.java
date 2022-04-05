@@ -54,6 +54,7 @@ public class Intake extends SequentialCommandGroup {
             () -> doesChaseBall
           )
         ),
+        new InstantCommand(() -> Robot.drive.tankDriveVolts(0, 0)),
 
         // new DoNothing()
         new ConditionalCommand(
@@ -74,5 +75,6 @@ public class Intake extends SequentialCommandGroup {
   public void end(boolean interrupted) {
     CargoUtil.disableShiitake();
     // limelight.setDriverPipeline();
+    Robot.drive.tankDriveVolts(0, 0);
   }
 }

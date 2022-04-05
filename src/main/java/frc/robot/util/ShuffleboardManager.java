@@ -168,6 +168,8 @@ public class ShuffleboardManager {
 
     SmartDashboard.putNumber("Shooter FF", Constants.shooter.kForward);
     SmartDashboard.putNumber("Shooter kS", Constants.shooter.kS);
+    SmartDashboard.putNumber("Limelight angle factor", Constants.ll.kAngularFactor);
+    m_cargoTab.add(Robot.drive.m_dDrive);
 
     SmartDashboard.putNumber("Test shooter speed", -2500);
     SmartDashboard.putNumber("Test arm angle", 108);

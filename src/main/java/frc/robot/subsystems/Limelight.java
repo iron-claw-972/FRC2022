@@ -7,6 +7,7 @@ import edu.wpi.first.math.filter.Debouncer.DebounceType;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.Constants;
 
@@ -317,7 +318,7 @@ public class Limelight extends SubsystemBase {
   }
 
   private double getDistance(double stipeAngle, double targetHeight) {
-    double limelightAngleRad = Units.degreesToRadians(getLimelightFaceAngle(stipeAngle) + (m_verticalAngularOffset * Constants.ll.kAngularFactor));
+    double limelightAngleRad = Units.degreesToRadians(getLimelightFaceAngle(stipeAngle) + (m_verticalAngularOffset * SmartDashboard.getNumber("Limelight angle factor", Constants.ll.kAngularFactor)));
     double distance = ((targetHeight - getLimelightHeight(stipeAngle)) / (Math.tan(limelightAngleRad)));
 
     return distance;

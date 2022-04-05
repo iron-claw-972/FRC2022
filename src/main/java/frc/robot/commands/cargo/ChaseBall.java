@@ -74,7 +74,7 @@ public class ChaseBall extends CommandBase {
 
   @Override
   public void end(boolean interrupted) {
-    m_drive.feedForwardDrive(0, 0);
+    m_drive.tankDriveVolts(0, 0);
     m_limelight.setDriverPipeline();
   }
 }
