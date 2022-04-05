@@ -91,26 +91,32 @@ public class ShuffleboardManager {
     m_autoCommand.addOption("Rotation", new DriveRotation(SmartDashboard.getNumber("auto rot", 100)));
 
     m_autoCommand.addOption("TestPath", 
-      new InstantCommand(() -> Robot.drive.resetOdometry(BallPositions.getBall(3, Alliance.Blue).getRobotPoseFromBall())).andThen(
+      new InstantCommand(() -> Robot.drive.resetOdometry(BallPositions.B3.getRobotPoseFromBall())).andThen(
       new PathweaverCommand("Test2Ball", Robot.drive))
     );
 
     m_autoCommand.addOption("Reset Pose Start", 
-    new InstantCommand(() -> Robot.drive.resetOdometry(BallPositions.getBall(3, Alliance.Blue).getRobotPoseFromBall())).andThen(new PrintCommand("Robot: " + BallPositions.getBall(3, Alliance.Blue).getRobotPoseFromBall().getX() + ", " + BallPositions.getBall(3, Alliance.Blue).getRobotPoseFromBall().getY()))
-    );
-    m_autoCommand.addOption("Reset Pose Ball", new InstantCommand(() -> Robot.drive.resetOdometry(Functions.centerToRobot(
-      new Pose2d(
-        BallPositions.getBall(3, Alliance.Blue).m_pos, 
-        new Rotation2d(BallPositions.getBall(3, Alliance.Blue).m_angleAwayFromHub)
-      )))).andThen(new PrintCommand("Ball: " + BallPositions.getBall(3, Alliance.Blue).m_pos.getX() + ", " + BallPositions.getBall(3, Alliance.Blue).m_pos.getY()))
-      );
-    m_autoCommand.addOption("Reset Pose Hub", new InstantCommand(() -> Robot.drive.resetOdometry(Functions.centerToRobot(
-      new Pose2d(
-        BallPositions.getBall(3, Alliance.Blue).hubPos, 
-        new Rotation2d(BallPositions.getBall(3, Alliance.Blue).m_angleAwayFromHub)
-      )))).andThen(new PrintCommand("Hub: " + BallPositions.getBall(3, Alliance.Blue).hubPos.getX() + ", " + BallPositions.getBall(3, Alliance.Blue).hubPos.getY()))
+    new InstantCommand(() -> Robot.drive.resetOdometry(BallPositions.B3.getRobotPoseFromBall())).andThen(new PrintCommand("Robot: " + BallPositions.B3.getRobotPoseFromBall().getX() + ", " + BallPositions.B3.getRobotPoseFromBall().getY()))
     );
 
+    m_autoCommand.addOption("Reset Pose Zero", new InstantCommand(() -> Robot.drive.resetOdometry(new Pose2d(0, 0, new Rotation2d()))));
+
+    m_autoCommand.addOption("Reset Pose Ball", new InstantCommand(() -> Robot.drive.resetOdometry(
+      new Pose2d(
+        BallPositions.B3.m_pos, 
+        new Rotation2d(BallPositions.B3.m_angleAwayFromHub)
+      ))).andThen(new PrintCommand("Ball: " + BallPositions.B3.m_pos.getX() + ", " + BallPositions.B3.m_pos.getY()))
+      );
+    m_autoCommand.addOption("Reset Pose Hub", new InstantCommand(() -> Robot.drive.resetOdometry(
+      new Pose2d(
+        BallPositions.B3.hubPos, 
+        new Rotation2d(BallPositions.B3.m_angleAwayFromHub)
+      ))).andThen(new PrintCommand("Hub: " + BallPositions.B3.hubPos.getX() + ", " + BallPositions.B3.hubPos.getY()))
+    );
+
+    m_autoCommand.addOption("Reset Pose True", 
+      new InstantCommand(() -> Robot.drive.resetOdometry(BallPositions.B3.getRobotPoseFromBall(Units.inchesToMeters(101) - (Constants.drive.kRobotLength / 2.0))))
+    );
 
   }
   public void subsystemSpam() {

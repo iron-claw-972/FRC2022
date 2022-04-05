@@ -4,10 +4,12 @@ import java.util.List;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.math.trajectory.constraint.DifferentialDriveVoltageConstraint;
+import edu.wpi.first.math.util.Units;
 import frc.robot.Robot;
 import frc.robot.constants.Constants;
 
@@ -77,5 +79,9 @@ public class Functions {
   public static Pose2d centerToRobot(Pose2d inputPose) {
     Pose2d bOrigin = new Pose2d(Constants.drive.kRobotWidth/2.0, -Constants.drive.kRobotLength/2.0, Rotation2d.fromDegrees(0));
     return inputPose.relativeTo(bOrigin);
+  }
+
+  public static Translation2d centerToBall(Translation2d inputPose) {
+    return new Translation2d(inputPose.getX() + Units.inchesToMeters(9.5)/2.0, inputPose.getY() - Units.inchesToMeters(9.5)/2.0);
   }
 }
