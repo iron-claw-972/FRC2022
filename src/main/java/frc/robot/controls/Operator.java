@@ -186,9 +186,9 @@ public class Operator {
   //     new ClimbRotatorMove(Constants.rotator.kMaxBackward)
   //   ));
 
-  //   // when LB is pressed, enable the rotator and go to kNinetyDeg degrees
+  //   // when LB is pressed, enable the rotator and go to kMaxForward degrees
   //   operator.get(Button.LB).whenPressed(new SequentialCommandGroup(
-  //     new ClimbRotatorMove(Constants.rotator.kNinetyDeg)
+  //     new ClimbRotatorMove(Constants.rotator.kMaxForward)
   //   ));
 
   //   // when nothing on the DPad is pressed, the extenders are disabled
@@ -216,7 +216,7 @@ public class Operator {
   //         new PositionArm(Constants.arm.kStowPos),
 
   //         // go to maximum extension, go to 90 degrees
-  //         new ClimbMove(Constants.extender.kRightMaxUpwards, Constants.extender.kLeftMaxUpwards, Constants.rotator.kNinetyDeg)
+  //         new ClimbMove(Constants.extender.kRightMaxUpwards, Constants.extender.kLeftMaxUpwards, Constants.rotator.kMaxForward)
   //       ),
 
   //       // vibrate the controller
@@ -224,7 +224,7 @@ public class Operator {
   //   ));
 
   //   operator.get(DPad.DOWN).whenPressed(new SequentialCommandGroup(    
-  //     new ClimbRotatorMove(Constants.rotator.kNinetyDeg),
+  //     new ClimbRotatorMove(Constants.rotator.kMaxForward),
   //     // when it reaches 90 degrees, compress
   //     new ExtendDownwards(Constants.extender.kAlwaysZero),
       
@@ -250,7 +250,7 @@ public class Operator {
   //     // compress fully and rotate to 90 degrees
   //     new ParallelCommandGroup(
   //       new ExtendDownwards(Constants.extender.kAlwaysZero),
-  //       new ClimbRotatorMove(Constants.rotator.kNinetyDeg)
+  //       new ClimbRotatorMove(Constants.rotator.kMaxForward)
   //     ),
 
   //     new ClimbExtenderMove(Constants.extender.kRightSlightlyUpward, Constants.extender.kLeftSlightlyUpward),

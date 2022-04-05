@@ -195,7 +195,7 @@ public class ShuffleboardManager {
     // a pop-up in shuffleboard that states if the rotator is on/off
     m_climbTab.addBoolean(rotator.getSide() + " Climb Rotator", rotator::isEnabled);
 
-    m_climbTab.addNumber(rotator.getSide() + " Climb Rotator Goal", rotator::getSetPoint);
+    m_climbTab.addNumber(rotator.getSide() + " Climb Rotator Goal", rotator::getGoal);
     
     // PID values that can be modified in shuffleboard
     m_climbTab.add(rotator.getSide() + " Climb Rotator PID", rotator.armPID);
