@@ -3,6 +3,7 @@ package frc.robot.util;
 import java.util.List;
 
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
@@ -66,5 +67,15 @@ public class Functions {
 
     // Fallback to default trajectory
     return TrajectoryGenerator.generateTrajectory(waypoints, config);
+  }
+
+  public static Trajectory centerToRobot(Trajectory inputTrajectory) {
+    Pose2d bOrigin = new Pose2d(Constants.drive.kRobotWidth/2.0, -Constants.drive.kRobotLength/2.0, Rotation2d.fromDegrees(0));
+    return inputTrajectory.relativeTo(bOrigin);
+  }
+
+  public static Pose2d centerToRobot(Pose2d inputPose) {
+    Pose2d bOrigin = new Pose2d(Constants.drive.kRobotWidth/2.0, -Constants.drive.kRobotLength/2.0, Rotation2d.fromDegrees(0));
+    return inputPose.relativeTo(bOrigin);
   }
 }

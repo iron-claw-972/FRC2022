@@ -93,6 +93,8 @@ public class ShuffleboardManager {
       new PathweaverCommand("Test2Ball", Robot.drive))
     );
 
+    m_autoCommand.addOption("Reset Pose", new InstantCommand(() -> Robot.drive.resetOdometry(BallPositions.getBall(3, Alliance.Blue).getRobotPoseFromBall())));
+
   }
   public void subsystemSpam() {
     // put subsystem shuffleboard things in here!

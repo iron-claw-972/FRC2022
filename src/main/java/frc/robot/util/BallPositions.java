@@ -38,7 +38,7 @@ public enum BallPositions {
   public Pose2d getRobotPoseFromBall() {
     Translation2d ballPosRelativeToHub = new Translation2d(Units.inchesToMeters(Math.cos(m_angleAwayFromHub) * distRobotFromHub), Units.inchesToMeters(Math.sin(m_angleAwayFromHub) * distRobotFromHub));
     m_pos = hubPos.plus(ballPosRelativeToHub);
-    return new Pose2d(m_pos, new Rotation2d(m_angleAwayFromHub));
+    return Functions.centerToRobot(new Pose2d(m_pos, new Rotation2d(m_angleAwayFromHub)));
   }
 
   public static BallPositions getBall(int index, Alliance color) {

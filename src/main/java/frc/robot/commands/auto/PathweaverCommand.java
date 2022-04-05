@@ -1,19 +1,15 @@
 package frc.robot.commands.auto;
 
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.trajectory.*;
-import edu.wpi.first.math.trajectory.constraint.DifferentialDriveVoltageConstraint;
 import edu.wpi.first.wpilibj2.command.*;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.DriverStation;
 import java.io.IOException;
-import java.util.List;
 
 import frc.robot.commands.DoNothing;
 import frc.robot.constants.Constants;
 import frc.robot.subsystems.Drivetrain;
+import frc.robot.util.Functions;
 
 public class PathweaverCommand extends SequentialCommandGroup {
   private Drivetrain m_drive;
@@ -60,8 +56,7 @@ public class PathweaverCommand extends SequentialCommandGroup {
 
     if (trajectory != null) {
 
-      Pose2d bOrigin = new Pose2d(-Constants.drive.kRobotWidth/2.0, -Constants.drive.kRobotLength/2.0, Rotation2d.fromDegrees(0));
-      Trajectory newTrajectory = trajectory.relativeTo(bOrigin);
+      Trajectory newTrajectory = Functions.centerToRobot(trajectory);
 
       addCommands(
         (resetPose ? new InstantCommand(() -> drive.resetOdometry(newTrajectory.getInitialPose())) : new DoNothing()),
