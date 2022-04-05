@@ -16,6 +16,7 @@ import frc.robot.subsystems.*;
 import frc.robot.commands.*;
 import frc.robot.commands.auto.*;
 import frc.robot.commands.auto.routines.OneBallAuto;
+import frc.robot.commands.auto.routines.Tar2FourBall;
 import frc.robot.commands.auto.routines.TwoBallAuto;
 import frc.robot.commands.auto.routines.Tar2ThreeBall;
 import frc.robot.commands.auto.routines.Vision3BallAuto;
@@ -88,6 +89,10 @@ public class ShuffleboardManager {
 
     m_autoCommand.addOption("RedTar2ThreeBall", new Tar2ThreeBall(Alliance.Red));
     m_autoCommand.addOption("BlueTar2ThreeBall", new Tar2ThreeBall(Alliance.Blue));
+
+    m_autoCommand.addOption("RedTar2FourBall", new Tar2FourBall(Alliance.Red));
+    m_autoCommand.addOption("BlueTar2FourBall", new Tar2FourBall(Alliance.Blue));
+
     m_autoCommand.addOption("Rotation", new DriveRotation(SmartDashboard.getNumber("auto rot", 100)));
 
     m_autoCommand.addOption("TestPath", 
