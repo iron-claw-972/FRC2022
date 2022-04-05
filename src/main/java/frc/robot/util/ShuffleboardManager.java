@@ -13,11 +13,9 @@ import frc.robot.Robot;
 import frc.robot.subsystems.*;
 import frc.robot.commands.*;
 import frc.robot.commands.auto.*;
-import frc.robot.commands.auto.routines.Back1BallAuto;
-import frc.robot.commands.auto.routines.Back2BallAuto;
+import frc.robot.commands.auto.routines.OneBallAuto;
+import frc.robot.commands.auto.routines.TwoBallAuto;
 import frc.robot.commands.auto.routines.Tar2ThreeBall;
-import frc.robot.commands.auto.routines.Tarmac2_3BallHP;
-import frc.robot.commands.auto.routines.Tarmac2_4BallHP;
 import frc.robot.commands.auto.routines.Vision3BallAuto;
 import frc.robot.commands.cargo.*;
 import frc.robot.constants.Constants;
@@ -79,17 +77,15 @@ public class ShuffleboardManager {
     // originally 0.8492
     m_autoCommand.addOption("DoNothing", new DoNothing());
     
-    m_autoCommand.addOption("Back1BallAuto", new Back1BallAuto());
+    m_autoCommand.addOption("1 Ball Auto", new OneBallAuto());
 
-    m_autoCommand.addOption("Back2BallAuto", new Back2BallAuto());
+    m_autoCommand.addOption("2 Ball Auto", new TwoBallAuto());
 
     m_autoCommand.addOption("RedVision3Ball", new Vision3BallAuto(true));
     m_autoCommand.addOption("BlueVision3Ball", new Vision3BallAuto(false));
 
     m_autoCommand.addOption("RedTar2ThreeBall", new Tar2ThreeBall(Alliance.Red));
     m_autoCommand.addOption("BlueTar2ThreeBall", new Tar2ThreeBall(Alliance.Blue));
-    m_autoCommand.addOption("HalfPathweaver Tarmac 2 3 Ball", new Tarmac2_3BallHP());
-    m_autoCommand.addOption("HalfPathweaver Tarmac 2 4 Ball", new Tarmac2_4BallHP());
     m_autoCommand.addOption("Rotation", new DriveRotation(SmartDashboard.getNumber("auto rot", 100)));
 
     m_autoCommand.addOption("TestPath", 

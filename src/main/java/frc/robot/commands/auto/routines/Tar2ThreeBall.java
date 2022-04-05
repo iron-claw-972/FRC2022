@@ -29,12 +29,12 @@ public class Tar2ThreeBall extends SequentialCommandGroup {
     addCommands(
         new InstantCommand(() -> drive.resetOdometry(BallPositions.getBall(3, color).getRobotPoseFromBall())),
         new InstantCommand(() -> CargoUtil.setBeltPower(0)),
-        new PathweaverCommand("0_pathanthonywantedmetomake", drive),
+        new PathweaverCommand("4ballone", drive),
         new ShootAuto(false, false, 1, () -> true, 157, 24),
         new PositionArm(Constants.arm.kIntakePos),
         new ParallelDeadlineGroup(
           new WaitUntilCommand(() -> CargoUtil.isBallContained()).withTimeout(2),
-          new PathweaverCommand("exittarmac", drive),
+          new PathweaverCommand("4ballone", drive),
           sequence(
             new InstantCommand(() -> CargoUtil.setWheelRPM(Constants.shooter.kIntakeSpeed)),
             new InstantCommand(() -> CargoUtil.setBeltPower(Constants.belt.kIntakeSpeed)),
@@ -44,7 +44,7 @@ public class Tar2ThreeBall extends SequentialCommandGroup {
         new ShootAuto(false, false, 0, () -> true, 157, 25),
         parallel(
           sequence(
-            new PathweaverCommand("1_pathanthonywantedmetomake", drive),
+            new PathweaverCommand("4balltwo", drive),
             new ChaseBall(false, false)
           ),
           new PositionArm(Constants.arm.kIntakePos),
