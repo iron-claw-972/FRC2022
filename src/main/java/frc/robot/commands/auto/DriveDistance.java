@@ -63,6 +63,6 @@ public class DriveDistance extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     isFinished = true;
-    m_drive.feedForwardDrive(0, 0);
+    m_drive.tankDriveVolts(0, 0);
   }
 }

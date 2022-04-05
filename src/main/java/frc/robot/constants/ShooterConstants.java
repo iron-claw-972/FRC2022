@@ -14,8 +14,10 @@ public class ShooterConstants {
   public final int kFrontOuttakeFarSpeed = -2900;
   public final int kBackOuttakeFarSpeed = -3100;
 
-  public final int kFrontOuttakeHighSpeed = -2900;
-  public final int kBackOuttakeHighSpeed = -3357; // 24 ft/s
+  public final int kFrontOuttakeHighSpeed = -1969;
+  public final int kBackOuttakeHighSpeed = -2022; // 24 ft/s
+  // public final int kFrontOuttakeHighSpeed = -2900;
+  // public final int kBackOuttakeHighSpeed = -3357; // 24 ft/s
 
   public final int kFrontOuttakeNearSpeed = -1400;
   public final int kBackOuttakeNearSpeed = -1500; //70 degrees

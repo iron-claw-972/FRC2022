@@ -47,7 +47,7 @@ public class Drivetrain extends SubsystemBase {
   
   private final PhoenixMotorControllerGroup m_leftMotors;
   private final PhoenixMotorControllerGroup m_rightMotors;
-  private final DifferentialDrive m_dDrive;
+  public final DifferentialDrive m_dDrive;
 
   // The left-side drive encoder
   private final TalonEncoder m_leftEncoder;
