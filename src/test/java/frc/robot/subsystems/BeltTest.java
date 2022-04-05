@@ -13,15 +13,10 @@ public class BeltTest {
     public void BeltInherentlyEnabled() {
         assertFalse(belt.isEnabled());
     }
+    
     @Test 
     public void BeltPowerCorrect(){
         belt.setPower(0.5); 
         assertEquals(0.5, belt.getPower(),0);
     }
-    @Test
-    public void DoesStopWork(){
-        belt.setStop(); 
-        assertEquals(0, belt.getPower(),0);
-
-    };
 }

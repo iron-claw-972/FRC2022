@@ -14,8 +14,8 @@ public class ExtenderConstants {
   public final double kExtenderTolerance = 550;
 
   // motor clamps
-  public final double kMotorClampDown = -0.9; //should be negative!
-  public final double kMotorClampUp = .9;     //should be positive!
+  public final double kMotorClampDown = -0.9; //should be negative! (not used)
+  public final double kMotorClampUp = 1.0;     //should be positive!
   
   // locations
   public final double kLeftMaxUpwards = 501373;
@@ -27,7 +27,7 @@ public class ExtenderConstants {
   public final double kRightSlightlyUpward = kRightMaxUpwards / 4;
 
   public final double kDownPowerCalibration = -0.3;   //has to go slower when calibrating to be more precise
-  public final double kDownPowerNoCalibration = -0.8;
+  public final double kDownPowerNoCalibration = -0.9;
   
   // extender limit switches
   public final int kExtLeftLimitSwitch = 8;

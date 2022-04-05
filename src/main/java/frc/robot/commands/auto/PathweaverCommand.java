@@ -46,9 +46,13 @@ public class PathweaverCommand extends SequentialCommandGroup {
     addRequirements(drive);
 
     if (trajectory != null) {
+
+      Pose2d bOrigin = new Pose2d(-Constants.drive.kRobotWidth/2.0, -Constants.drive.kRobotLength/2.0, Rotation2d.fromDegrees(0));
+      Trajectory newTrajectory = trajectory.relativeTo(bOrigin);
+
       addCommands(
         new RamseteCommand(
-          trajectory,
+          newTrajectory,
           drive::getPose,
           drive.getRamseteController(),
           drive.getFeedforward(),

@@ -25,10 +25,17 @@ public class Extender extends SubsystemBase {
   private double m_setpoint;
 
   public Extender(boolean isLeft) {
-    this(
-      isLeft, 
-      ControllerFactory.createTalonFX((isLeft ? Constants.extender.kLeftExtenderPort : Constants.extender.kRightExtenderPort), Constants.extender.kSupplyCurrentLimit, Constants.extender.kSupplyTriggerThreshold, Constants.extender.kSupplyTriggerDuration, Constants.extender.kNeutral), 
-      new LimitSwitch((isLeft ? Constants.extender.kExtLeftLimitSwitch : Constants.extender.kExtRightLimitSwitch), Constants.extender.kExtLimitSwitchDebouncer)
+    this(isLeft, ControllerFactory.createTalonFX((
+        isLeft ? Constants.extender.kLeftExtenderPort : Constants.extender.kRightExtenderPort), 
+        Constants.extender.kSupplyCurrentLimit, 
+        Constants.extender.kSupplyTriggerThreshold, 
+        Constants.extender.kSupplyTriggerDuration,
+        Constants.extender.kNeutral
+      ),
+      new LimitSwitch((
+        isLeft ? Constants.extender.kExtLeftLimitSwitch : Constants.extender.kExtRightLimitSwitch), 
+        Constants.extender.kExtLimitSwitchDebouncer
+      )
     );
   }
 
@@ -47,7 +54,7 @@ public class Extender extends SubsystemBase {
       m_side = "Right"; // the direction for shuffleboard's use
     }
 
-    // converts the length of the arm in inches to ticks and makes that the maximum tick limit, it's checked every 10 milliseconds
+    // the tick value can't exceed the soft limit, checked every 10 milliseconds
     m_motor.configForwardSoftLimitThreshold(Constants.extender.kSoftLimit, 10);
 
     // so that the limiters are enabled
@@ -86,9 +93,17 @@ public class Extender extends SubsystemBase {
     m_manualEnabled = false;
   }
 
+  public boolean isManual() {
+    return m_manualEnabled;
+  }
+
   // called in Robot by button binds
-  public void set(double distance) {
+  public void setGoal(double distance) {
     m_setpoint = distance;
+  }
+
+  public double getGoal() {
+    return m_setpoint;
   }
 
   public void setOffset(double offset) {
@@ -118,9 +133,29 @@ public class Extender extends SubsystemBase {
     //}
   }
 
-  // checks to see if the extender is fullycompressed
+  // checks to see if the extender is fully compressed
   public boolean compressionLimitSwitch() {
     return m_limitSwitch.get();
+  }
+
+  public String getSide() {
+    return m_side;
+  }
+
+  public void setSide(boolean isLeft) {
+    if(isLeft) {
+      m_side = "Left";
+    } else {
+      m_side = "Right";
+    }
+  }
+
+  public boolean isEnabled(){
+    return m_enabled;
+  }
+
+  public double getVelocity() {
+    return m_motor.getSelectedSensorVelocity();
   }
 
   @Override
@@ -158,17 +193,5 @@ public class Extender extends SubsystemBase {
       // motor power is set to the extender pid's calculation
       setOutput(m_extenderPID.calculate(currentExtensionRaw(), m_setpoint));
     }
-  }
-
-  public String getSide() {
-    return m_side;
-  }
-
-  public boolean isEnabled(){
-    return m_enabled;
-  }
-
-  public double getVelocity() {
-    return m_motor.getSelectedSensorVelocity();
   }
 } 

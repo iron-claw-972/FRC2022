@@ -88,6 +88,10 @@ public class ShuffleboardManager {
     m_autoCommand.addOption("HalfPathweaver Tarmac 2 3 Ball", new Tarmac2_3BallHP());
     m_autoCommand.addOption("HalfPathweaver Tarmac 2 4 Ball", new Tarmac2_4BallHP());
     m_autoCommand.addOption("Rotation", new DriveRotation(SmartDashboard.getNumber("auto rot", 100)));
+    m_autoCommand.addOption("TestPath", 
+      new InstantCommand(() -> Robot.drive.resetOdometry(BallPositions.getBall(3, Alliance.Blue).getRobotPoseFromBall())).andThen(
+      new PathweaverCommand("Test2Ball", Robot.drive))
+    );
 
     for (String path : Constants.auto.kAutoPaths) {
       m_autoCommand.addOption(path, new PathweaverCommand(path, Robot.drive));
@@ -185,6 +189,8 @@ public class ShuffleboardManager {
     
     m_climbTab.add(extender.getSide() + "Climb Extender PID", extender.m_extenderPID);
     m_climbTab.addBoolean(extender.getSide() + " Extender Setpoint", extender::reachedSetpoint);
+    m_climbTab.addBoolean(extender.getSide() + " Limit Switch", extender::compressionLimitSwitch);
+    m_climbTab.addBoolean(extender.getSide() + " Manual", extender::isManual);
   }
 
   public void loadClimbRotatorShuffleboard(Rotator rotator) {
@@ -193,13 +199,13 @@ public class ShuffleboardManager {
     // a pop-up in shuffleboard that states if the rotator is on/off
     m_climbTab.addBoolean(rotator.getSide() + " Climb Rotator", rotator::isEnabled);
 
-    m_climbTab.addNumber(rotator.getSide() + " Climb Rotator Goal", rotator::getSetPoint);
+    m_climbTab.addNumber(rotator.getSide() + " Climb Rotator Goal", rotator::getGoal);
     
     // PID values that can be modified in shuffleboard
     m_climbTab.add(rotator.getSide() + " Climb Rotator PID", rotator.armPID);
     m_climbTab.addBoolean(rotator.getSide() + " Climb Rotator Setpoint Reached", rotator::reachedSetpoint);
 
-
+    SmartDashboard.putNumber(rotator.getSide() + " Rotator FF", 0);
   }
 
   public void loadBallDetectionShuffleboard(){
