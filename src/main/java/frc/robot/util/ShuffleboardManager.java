@@ -106,37 +106,13 @@ public class ShuffleboardManager {
         BallPositions.B3.m_pos, 
         new Rotation2d(BallPositions.B3.m_angleAwayFromHub)
       ))).andThen(new PrintCommand("Ball: " + BallPositions.B3.m_pos.getX() + ", " + BallPositions.B3.m_pos.getY()))
-      );
+    );
+    
     m_autoCommand.addOption("Reset Pose Hub", new InstantCommand(() -> Robot.drive.resetOdometry(
       new Pose2d(
         Constants.field.hubPos, 
         new Rotation2d(BallPositions.B3.m_angleAwayFromHub)
       ))).andThen(new PrintCommand("Hub: " + Constants.field.hubPos.getX() + ", " + Constants.field.hubPos.getY()))
-    );
-
-    m_autoCommand.addOption("Reset Pose Ball relBall", new InstantCommand(() -> Robot.drive.resetOdometry(
-      new Pose2d(
-        Functions.centerToBall(BallPositions.B3.m_pos), 
-        new Rotation2d(BallPositions.B3.m_angleAwayFromHub)
-      ))).andThen(new PrintCommand("Ball: " + BallPositions.B3.m_pos.getX() + ", " + BallPositions.B3.m_pos.getY()))
-      );
-
-      m_autoCommand.addOption("Reset Pose Ball relRobot", new InstantCommand(() -> Robot.drive.resetOdometry(Functions.centerToRobot(
-        new Pose2d(
-          BallPositions.B3.m_pos, 
-          new Rotation2d(BallPositions.B3.m_angleAwayFromHub)
-        )))).andThen(new PrintCommand("Ball: " + BallPositions.B3.m_pos.getX() + ", " + BallPositions.B3.m_pos.getY()))
-        );
-    
-      m_autoCommand.addOption("Reset Pose Ball relBoth", new InstantCommand(() -> Robot.drive.resetOdometry(Functions.centerToRobot(
-      new Pose2d(
-        Functions.centerToBall(BallPositions.B3.m_pos), 
-        new Rotation2d(BallPositions.B3.m_angleAwayFromHub)
-      )))).andThen(new PrintCommand("Ball: " + BallPositions.B3.m_pos.getX() + ", " + BallPositions.B3.m_pos.getY()))
-      );
-
-    m_autoCommand.addOption("Reset Pose 4", 
-    new InstantCommand(() -> Robot.drive.resetOdometry(BallPositions.B3.getRobotPoseFromBall(3.4))).andThen(new PrintCommand("Robot: " + BallPositions.B3.getRobotPoseFromBall().getX() + ", " + BallPositions.B3.getRobotPoseFromBall().getY()))
     );
 
   }
