@@ -14,44 +14,26 @@ public enum BallPositions {
   public Translation2d m_pos;
   public Alliance m_alliance;
   public double m_angleAwayFromHub;
-  private static final double distBallFromHub = 153;
-  private static final double distRobotFromHub = Units.inchesToMeters(101 - 4) - (Constants.drive.kRobotLength / 2.0);
-
-  // B2: 5.055967588330683, 1.8718983624773031
-  // B3: 7.571473958141919, 0.284732043288499
-  // Robot: 7.890858654925988, 2.14344149286908
-
-  //Ball:  7.812356692416772, 1.6865869816927082
-  //Robot: 7.386906692416773, 2.1501369816927083
-  //Hub:   8.2296,            4.1148
-
-//   //BALL #6
-// Ball: 7.571473958141919, 0.284732043288499
-// Robot: 7.386906692416773, 2.1501369816927083 angle: 260.25
-
-//Ball: 7.812356692416772, 1.6865869816927082
 
   // 0.850 Robot Width
   // 0.927 Robot Length
   
-  public final Translation2d hubPos = new Translation2d(Units.inchesToMeters(324), Units.inchesToMeters(162));
-
   private BallPositions(int rotIndex, Alliance alliance) {
     // 0 degrees is pointing right from the hub. So the centerline is 144 degrees. The first red ball is 11.25 degrees from the centerline then each ball is 22.5 degrees
     m_angleAwayFromHub = Units.degreesToRadians(114 + 11.25 + rotIndex*22.5);
-    Translation2d ballPosRelativeToHub = new Translation2d(Math.cos(m_angleAwayFromHub) * distBallFromHub, Math.sin(m_angleAwayFromHub) * distBallFromHub);
-    m_pos = Functions.centerToBall(hubPos.plus(ballPosRelativeToHub));
+    Translation2d ballPosRelativeToHub = new Translation2d(Math.cos(m_angleAwayFromHub) * Constants.field.distBallFromHub, Math.sin(m_angleAwayFromHub) * Constants.field.distBallFromHub);
+    m_pos = Constants.field.hubPos.plus(ballPosRelativeToHub);
     m_alliance = alliance;
   }
 
   public Pose2d getRobotPoseFromBall() {
-    Translation2d robotPosRelativeToHub = new Translation2d(Math.cos(m_angleAwayFromHub) * distRobotFromHub, Math.sin(m_angleAwayFromHub) * distRobotFromHub);
-    return new Pose2d(hubPos.plus(robotPosRelativeToHub), new Rotation2d(m_angleAwayFromHub));
+    Translation2d robotPosRelativeToHub = new Translation2d(Math.cos(m_angleAwayFromHub) * Constants.field.distRobotStartFromHub, Math.sin(m_angleAwayFromHub) * Constants.field.distRobotStartFromHub);
+    return new Pose2d(Constants.field.hubPos.plus(robotPosRelativeToHub), new Rotation2d(m_angleAwayFromHub));
   }
 
   public Pose2d getRobotPoseFromBall(double dist) {
-    Translation2d robotPosRelativeToHub = new Translation2d(Units.inchesToMeters(Math.cos(m_angleAwayFromHub) * dist), Units.inchesToMeters(Math.sin(m_angleAwayFromHub) * dist));
-    return new Pose2d(hubPos.plus(robotPosRelativeToHub), new Rotation2d(m_angleAwayFromHub));
+    Translation2d robotPosRelativeToHub = new Translation2d(Math.cos(m_angleAwayFromHub) * dist, Math.sin(m_angleAwayFromHub) * dist);
+    return new Pose2d(Constants.field.hubPos.plus(robotPosRelativeToHub), new Rotation2d(m_angleAwayFromHub));
   }
 
   public static BallPositions getBall(int index, Alliance color) {
