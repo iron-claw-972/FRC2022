@@ -26,7 +26,8 @@ public class LimelightConstants {
 
   public final double kStipeToLimelightFaceAngularOffset = -33;
   public final double kStipeToLimelightPosAngularOffset = 0;
-  public final double kHubHeight = Units.inchesToMeters(102.625); // Distance from ground to center of vision tape
+  // public final double kHubHeight = Units.inchesToMeters(102.625); // Distance from ground to center of vision tape
+  public final double kHubHeight = Units.inchesToMeters(101.5); // Distance from ground to center of vision tape
   public final double kHubDiameter = Units.inchesToMeters(60.125);
   public final double kBallTargetHeight = Units.inchesToMeters(9.5/2);
   public final boolean kIsMountedHorizontally = true;
@@ -37,7 +38,8 @@ public class LimelightConstants {
   // Pipeline numbers used by Limelight NT
   public final int kRedCargoPipeline = 0;
   public final int kBlueCargoPipeline = 1;
-  public final int kUpperHubPipeline = 2;
+  // public final int kUpperHubPipeline = 2;
+  public final int kUpperHubPipeline = 4;
   public final int kDriverPipeline = 3;
 
   public final double kPivotToLimelightLength = Units.inchesToMeters(21.07); // Distance from pivot to limelight lens

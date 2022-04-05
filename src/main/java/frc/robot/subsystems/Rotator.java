@@ -132,7 +132,7 @@ public class Rotator extends SubsystemBase {
   }
 
   public void setOutput(double motorPower){
-    m_motor.set(MathUtil.clamp(motorPower, -Constants.rotator.kMotorClamp, Constants.rotator.kMotorClamp));
+    // m_motor.set(MathUtil.clamp(motorPower, -Constants.rotator.kMotorClamp, Constants.rotator.kMotorClamp));
   }
 
   // sets PID Goal

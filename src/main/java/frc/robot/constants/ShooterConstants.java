@@ -42,10 +42,16 @@ public class ShooterConstants {
   public final double kD = 0.0004;
   // public final double kForward = 0.0018;
   public final double kForward = 1.07;
-  public final double kVelocityTolerance = 15.0;
+  public final double kVelocityTolerance = 8.0;
 
   // Feedforward
-  public final double kS = 1.0917;
+  // // public final double kS = 0.98459;
+  // public final double kS = 0;
+  // public final double kV = 0.02101;
+  // public final double kA = 0.0031592;
+
+  // public final double kS = 1.0917;
+  public final double kS = 0;
   public final double kV = 0.024284;
   public final double kA = 0.002929;
 
