@@ -16,6 +16,12 @@ public enum BallPositions {
   private int m_rotationIndex;
   private static final double distBallFromHub = 153;
   private static final double distRobotFromHub = 101 - (36.5 / 2.0) - 4; //79.83313
+
+  // B2: 5.055967588330683, 1.8718983624773031
+  // B3: 7.571473958141919, 0.284732043288499
+  // Robot: 7.890858654925988, 2.14344149286908
+  // 0.850 Robot Width
+  // 0.927 Robot Length
   
   private final Translation2d hubPos = new Translation2d(Units.inchesToMeters(324), Units.inchesToMeters(162));
 
@@ -52,5 +58,11 @@ public enum BallPositions {
       default:
         return null;
     }
+  }
+
+  public void printBallPos() {
+    //print B2 and B3
+    System.out.println("Ball: " + m_pos.getX() + ", " + m_pos.getY());
+    System.out.println("Robot: " + getRobotPoseFromBall().getX() + ", " + getRobotPoseFromBall().getY() + " rad: " + m_angleAwayFromHub);
   }
 }

@@ -47,6 +47,7 @@ public class Functions {
     return finVal;
   }
 
+  // TODO: figure out if this can work?
   public static Trajectory createTrajectory(List<Pose2d> waypoints) {
 
     var autoVoltageConstraint = new DifferentialDriveVoltageConstraint(
