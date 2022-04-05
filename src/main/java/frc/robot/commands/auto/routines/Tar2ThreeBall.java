@@ -29,7 +29,7 @@ public class Tar2ThreeBall extends SequentialCommandGroup {
     addCommands(
         new InstantCommand(() -> drive.resetOdometry(BallPositions.getBall(3, color).getRobotPoseFromBall())),
         new InstantCommand(() -> CargoUtil.setBeltPower(0)),
-        new PathweaverCommand("4ballone", drive),
+        new PathweaverCommand("4ballzero", drive),
         new ShootAuto(false, false, 1, () -> true, 157, 24),
         new PositionArm(Constants.arm.kIntakePos),
         new ParallelDeadlineGroup(
