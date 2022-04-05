@@ -88,6 +88,10 @@ public class ShuffleboardManager {
     m_autoCommand.addOption("HalfPathweaver Tarmac 2 3 Ball", new Tarmac2_3BallHP());
     m_autoCommand.addOption("HalfPathweaver Tarmac 2 4 Ball", new Tarmac2_4BallHP());
     m_autoCommand.addOption("Rotation", new DriveRotation(SmartDashboard.getNumber("auto rot", 100)));
+    m_autoCommand.addOption("TestPath", 
+      new InstantCommand(() -> Robot.drive.resetOdometry(BallPositions.getBall(3, Alliance.Blue).getRobotPoseFromBall())).andThen(
+      new PathweaverCommand("Test2Ball", Robot.drive))
+    );
 
     for (String path : Constants.auto.kAutoPaths) {
       m_autoCommand.addOption(path, new PathweaverCommand(path, Robot.drive));

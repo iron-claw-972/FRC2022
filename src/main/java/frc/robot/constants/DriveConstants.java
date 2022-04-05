@@ -22,6 +22,9 @@ public class DriveConstants {
   public final double kWheelCircumference = kWheelDiameter * Math.PI;
   public final double kDistancePerPulse = kWheelCircumference / kGearRatio / (double) kEncoderResolution;
 
+  public final double kRobotLength = Units.inchesToMeters(36.5);
+  public final double kRobotWidth = Units.inchesToMeters(33.5);
+
   // Use the SysId program in WPILib Tools to estimate values
   // Drivetrain
   public final double KsLinear = 0.63571; // Ks

@@ -15,7 +15,7 @@ public enum BallPositions {
   public double m_angleAwayFromHub;
   private int m_rotationIndex;
   private static final double distBallFromHub = 153;
-  private static final double distRobotFromHub = 101 - (36.5 / 2.0) - 4; //79.83313
+  private static final double distRobotFromHub = 101 - 4; //79.83313
   
   private final Translation2d hubPos = new Translation2d(Units.inchesToMeters(324), Units.inchesToMeters(162));
 
