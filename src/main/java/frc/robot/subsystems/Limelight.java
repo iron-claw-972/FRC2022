@@ -317,7 +317,7 @@ public class Limelight extends SubsystemBase {
   }
 
   private double getDistance(double stipeAngle, double targetHeight) {
-    double limelightAngleRad = Units.degreesToRadians(getLimelightFaceAngle(stipeAngle) + m_verticalAngularOffset);
+    double limelightAngleRad = Units.degreesToRadians(getLimelightFaceAngle(stipeAngle) + (m_verticalAngularOffset * Constants.ll.kAngularFactor));
     double distance = ((targetHeight - getLimelightHeight(stipeAngle)) / (Math.tan(limelightAngleRad)));
 
     return distance;

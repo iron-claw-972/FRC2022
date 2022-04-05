@@ -24,6 +24,8 @@ public class LimelightConstants {
   public final double kThrottleI = 0.08;
   public final double kThrottleD = 0;
 
+  public final double kAngularFactor = 1.32;
+
   public final double kStipeToLimelightFaceAngularOffset = -33;
   public final double kStipeToLimelightPosAngularOffset = 0;
   // public final double kHubHeight = Units.inchesToMeters(102.625); // Distance from ground to center of vision tape
