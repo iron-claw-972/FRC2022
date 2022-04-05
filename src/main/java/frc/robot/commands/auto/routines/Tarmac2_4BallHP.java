@@ -1,7 +1,11 @@
-package frc.robot.commands.auto;
+package frc.robot.commands.auto.routines;
 
 import edu.wpi.first.wpilibj2.command.*;
 import frc.robot.Robot;
+import frc.robot.commands.auto.DriveDistance;
+import frc.robot.commands.auto.IntakeAuto;
+import frc.robot.commands.auto.PathweaverCommand;
+import frc.robot.commands.auto.ShootAuto;
 import frc.robot.commands.cargo.PositionArm;
 import frc.robot.constants.Constants;
 import frc.robot.util.BallPositions;

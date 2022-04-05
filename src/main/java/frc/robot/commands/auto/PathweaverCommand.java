@@ -37,11 +37,24 @@ public class PathweaverCommand extends SequentialCommandGroup {
   public PathweaverCommand(String trajectoryName, Drivetrain drive) {
     this(
       getTrajectory(trajectoryName, drive),
-      drive
+      drive,
+      false
+    );
+  }
+
+  public PathweaverCommand(String trajectoryName, Drivetrain drive, boolean resetPose) {
+    this(
+      getTrajectory(trajectoryName, drive),
+      drive,
+      resetPose
     );
   }
 
   public PathweaverCommand(Trajectory trajectory, Drivetrain drive) {
+    this(trajectory, drive, false);
+  }
+
+  public PathweaverCommand(Trajectory trajectory, Drivetrain drive, boolean resetPose) {
     m_drive = drive;
     addRequirements(drive);
 
@@ -51,6 +64,7 @@ public class PathweaverCommand extends SequentialCommandGroup {
       Trajectory newTrajectory = trajectory.relativeTo(bOrigin);
 
       addCommands(
+        (resetPose ? new InstantCommand(() -> drive.resetOdometry(newTrajectory.getInitialPose())) : new DoNothing()),
         new RamseteCommand(
           newTrajectory,
           drive::getPose,

@@ -18,5 +18,4 @@ public class AutoConstants {
   // Pathweaver output folder should be src/main/deploy/paths
   // name without stuff after . ex AutoPath.wpilib.json -> AutoPath
   public final String kTrajectoryDirectory = "paths/output/";
-  public final String[] kAutoPaths = {"0_pathanthonywantedmetomake", "Turn", "HangarTest", "T13Ball", "T23Ball"};
 }

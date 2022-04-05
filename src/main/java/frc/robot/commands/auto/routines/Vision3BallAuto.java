@@ -1,5 +1,5 @@
 
-package frc.robot.commands.auto;
+package frc.robot.commands.auto.routines;
 
 import edu.wpi.first.wpilibj2.command.*;
 import frc.robot.Robot;
@@ -10,6 +10,10 @@ import frc.robot.subsystems.Belt;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Limelight;
+import frc.robot.commands.auto.DriveDistance;
+import frc.robot.commands.auto.DriveRotation;
+import frc.robot.commands.auto.IntakeAuto;
+import frc.robot.commands.auto.ShootAuto;
 import frc.robot.commands.cargo.ChaseBall;
 import frc.robot.commands.cargo.PositionArm;
 import frc.robot.commands.cargo.Shoot;

@@ -13,6 +13,12 @@ import frc.robot.Robot;
 import frc.robot.subsystems.*;
 import frc.robot.commands.*;
 import frc.robot.commands.auto.*;
+import frc.robot.commands.auto.routines.Back1BallAuto;
+import frc.robot.commands.auto.routines.Back2BallAuto;
+import frc.robot.commands.auto.routines.Tar2ThreeBall;
+import frc.robot.commands.auto.routines.Tarmac2_3BallHP;
+import frc.robot.commands.auto.routines.Tarmac2_4BallHP;
+import frc.robot.commands.auto.routines.Vision3BallAuto;
 import frc.robot.commands.cargo.*;
 import frc.robot.constants.Constants;
 
@@ -73,9 +79,6 @@ public class ShuffleboardManager {
     // originally 0.8492
     m_autoCommand.addOption("DoNothing", new DoNothing());
     
-    m_autoCommand.addOption("PATHWEAVE", new PathweaverCommand("Turn", Robot.drive));
-
-    m_autoCommand.addOption("Front1BallAuto", new Front1BallAuto());
     m_autoCommand.addOption("Back1BallAuto", new Back1BallAuto());
 
     m_autoCommand.addOption("Back2BallAuto", new Back2BallAuto());
@@ -88,19 +91,12 @@ public class ShuffleboardManager {
     m_autoCommand.addOption("HalfPathweaver Tarmac 2 3 Ball", new Tarmac2_3BallHP());
     m_autoCommand.addOption("HalfPathweaver Tarmac 2 4 Ball", new Tarmac2_4BallHP());
     m_autoCommand.addOption("Rotation", new DriveRotation(SmartDashboard.getNumber("auto rot", 100)));
+
     m_autoCommand.addOption("TestPath", 
       new InstantCommand(() -> Robot.drive.resetOdometry(BallPositions.getBall(3, Alliance.Blue).getRobotPoseFromBall())).andThen(
       new PathweaverCommand("Test2Ball", Robot.drive))
     );
 
-    for (String path : Constants.auto.kAutoPaths) {
-      m_autoCommand.addOption(path, new PathweaverCommand(path, Robot.drive));
-    }
-
-    // m_chooser.addOption("teleop", new TeleopDrive(Drivetrain.getInstance()));
-    m_autoCommand.addOption("Spin baby spin", new RunCommand(() -> Robot.drive.tankFeedForwardDrive(0.5, -0.5), Robot.drive));
-    // adds auto to shuffle board
-    // SmartDashboard.putData("Auto Chooser",autoCommand);
   }
   public void subsystemSpam() {
     // put subsystem shuffleboard things in here!
