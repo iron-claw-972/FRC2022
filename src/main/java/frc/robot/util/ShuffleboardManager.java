@@ -182,8 +182,8 @@ public class ShuffleboardManager {
     SmartDashboard.putNumber("Front Shot Efficiency", Constants.shooter.kFrontShotEfficiency);
     SmartDashboard.putNumber("Back Shot Efficiency", Constants.shooter.kBackShotEfficiency);
 
-    SmartDashboard.putNumber("Front Distance Error", Constants.ll.kFrontLimelightDistanceError);
-    SmartDashboard.putNumber("Back Distance Error", Constants.ll.kBackLimelightDistanceError);
+    SmartDashboard.putNumber("Front Distance Factor", Constants.ll.kFrontLimelightDistanceFactor);
+    SmartDashboard.putNumber("Back Distance Factor", Constants.ll.kBackLimelightDistanceFactor);
   }
 
   public void loadClimbExtenderShuffleboard(Extender extender) {
