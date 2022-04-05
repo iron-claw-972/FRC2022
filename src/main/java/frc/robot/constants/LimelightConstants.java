@@ -34,8 +34,8 @@ public class LimelightConstants {
   public final double kBallTargetHeight = Units.inchesToMeters(9.5/2);
   public final boolean kIsMountedHorizontally = true;
 
-  public final double kFrontLimelightDistanceError = 0;
-  public final double kBackLimelightDistanceError = 0;
+  public final double kFrontLimelightDistanceFactor = 1;
+  public final double kBackLimelightDistanceFactor = 1;
 
   // Pipeline numbers used by Limelight NT
   public final int kRedCargoPipeline = 0;

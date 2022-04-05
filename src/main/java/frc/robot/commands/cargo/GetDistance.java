@@ -67,9 +67,9 @@ public class GetDistance extends CommandBase {
     limelightDistance = m_limelight.getHubDistance(currentStipeAngle);
 
     if (isFront) {
-      limelightDistance += SmartDashboard.getNumber("Front Distance Error", Constants.ll.kFrontLimelightDistanceError);
+      limelightDistance *= SmartDashboard.getNumber("Front Distance Factor", Constants.ll.kFrontLimelightDistanceFactor);
     } else {
-      limelightDistance += SmartDashboard.getNumber("Back Distance Error", Constants.ll.kBackLimelightDistanceError);
+      limelightDistance *= SmartDashboard.getNumber("Back Distance Factor", Constants.ll.kBackLimelightDistanceFactor);
     }
 
     if (Double.isNaN(limelightDistance) || ((currentLimelightFaceAngle < 90) != (currentPhysicalShooterAngle < 90))) {
