@@ -1,6 +1,8 @@
 package frc.robot.util;
 
 
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -93,7 +95,22 @@ public class ShuffleboardManager {
       new PathweaverCommand("Test2Ball", Robot.drive))
     );
 
-    m_autoCommand.addOption("Reset Pose", new InstantCommand(() -> Robot.drive.resetOdometry(BallPositions.getBall(3, Alliance.Blue).getRobotPoseFromBall())));
+    m_autoCommand.addOption("Reset Pose Start", 
+    new InstantCommand(() -> Robot.drive.resetOdometry(BallPositions.getBall(3, Alliance.Blue).getRobotPoseFromBall())).andThen(new PrintCommand("Robot: " + BallPositions.getBall(3, Alliance.Blue).getRobotPoseFromBall().getX() + ", " + BallPositions.getBall(3, Alliance.Blue).getRobotPoseFromBall().getY()))
+    );
+    m_autoCommand.addOption("Reset Pose Ball", new InstantCommand(() -> Robot.drive.resetOdometry(Functions.centerToRobot(
+      new Pose2d(
+        BallPositions.getBall(3, Alliance.Blue).m_pos, 
+        new Rotation2d(BallPositions.getBall(3, Alliance.Blue).m_angleAwayFromHub)
+      )))).andThen(new PrintCommand("Ball: " + BallPositions.getBall(3, Alliance.Blue).m_pos.getX() + ", " + BallPositions.getBall(3, Alliance.Blue).m_pos.getY()))
+      );
+    m_autoCommand.addOption("Reset Pose Hub", new InstantCommand(() -> Robot.drive.resetOdometry(Functions.centerToRobot(
+      new Pose2d(
+        BallPositions.getBall(3, Alliance.Blue).hubPos, 
+        new Rotation2d(BallPositions.getBall(3, Alliance.Blue).m_angleAwayFromHub)
+      )))).andThen(new PrintCommand("Hub: " + BallPositions.getBall(3, Alliance.Blue).hubPos.getX() + ", " + BallPositions.getBall(3, Alliance.Blue).hubPos.getY()))
+    );
+
 
   }
   public void subsystemSpam() {
