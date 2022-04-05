@@ -152,7 +152,9 @@ public class CargoUtil {
     double velocity = speed.getAsDouble();
     double rpm;
     if (isFront) {
-      rpm = -(178*velocity - 1100);
+      // rpm = -(178*velocity - 1100);
+      // rpm = -(122*velocity - 1167);
+      rpm = -(126*velocity - 1264);
     } else {
       rpm = -(372*velocity - 5943);
       // rpm = -(294*velocity - 3628);
