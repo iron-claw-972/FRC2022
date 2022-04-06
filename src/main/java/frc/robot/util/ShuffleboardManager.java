@@ -84,12 +84,8 @@ public class ShuffleboardManager {
 
     m_autoCommand.addOption("DoNothing - there be dragons past here", new DoNothing());
 
-    m_autoCommand.addOption("RedVision3Ball", new ThreeBallVision(true));
-    m_autoCommand.addOption("BlueVision3Ball", new ThreeBallVision(false));
-
-    m_autoCommand.addOption("RedTar2ThreeBall", new ThreeBall(Alliance.Red));
-
-    m_autoCommand.addOption("RedTar2FourBall", new FourBall(Alliance.Red));
+    m_autoCommand.addOption("RedVision3Ball", new ThreeBallVision(Alliance.Red));
+    m_autoCommand.addOption("BlueVision3Ball", new ThreeBallVision(Alliance.Blue));
 
     m_autoCommand.addOption("Rotation", new DriveRotation(SmartDashboard.getNumber("auto rot", 100)));
 

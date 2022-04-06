@@ -1,6 +1,7 @@
 
 package frc.robot.commands.auto.routines;
 
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.*;
 import frc.robot.Robot;
 import frc.robot.constants.Constants;
@@ -21,20 +22,20 @@ import frc.robot.util.BallPositions;
 import frc.robot.util.CargoUtil;
 
 public class ThreeBallVision extends SequentialCommandGroup {
-  public ThreeBallVision(boolean isRedBall) {
-    this(isRedBall, Robot.drive, Robot.belt, Robot.arm, Robot.shooter, Robot.ll, Robot.ballDetection);
+  public ThreeBallVision(Alliance color) {
+    this(color, Robot.drive, Robot.belt, Robot.arm, Robot.shooter, Robot.ll, Robot.ballDetection);
   }
 
-  public ThreeBallVision(boolean isRedBall, Drivetrain drive, Belt belt, Arm arm, Shooter shooter, Limelight limelight, BallDetection ballDetection) {
+  public ThreeBallVision(Alliance color, Drivetrain drive, Belt belt, Arm arm, Shooter shooter, Limelight limelight, BallDetection ballDetection) {
     addRequirements(drive, belt, arm, shooter, limelight, ballDetection);
     addCommands(
-        new InstantCommand(() -> drive.resetOdometry(BallPositions.B3.getRobotPoseFromBall())),
+        new InstantCommand(() -> drive.resetOdometry(BallPositions.getBall(3, color).getRobotPoseFromBall())),
         new InstantCommand(() -> CargoUtil.setBeltPower(0)),
         parallel(
           new DriveDistance(0.6642),
           new ShootAuto(false, false, 1, () -> DriveDistance.isFinished, 157, 25)
         ),
-        new IntakeAuto(Constants.arm.kAutoBackOuttakeFarPos, false, isRedBall, Constants.auto.kIntakeDriveDistance), 
+        new IntakeAuto(Constants.arm.kAutoBackOuttakeFarPos, false, color == Alliance.Red, Constants.auto.kIntakeDriveDistance), 
         new ShootAuto(false, false, 0, () -> true, 157, 25),
         new DriveRotation(0.65),
         new InstantCommand(() -> CargoUtil.enableAll()),
