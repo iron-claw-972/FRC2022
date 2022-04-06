@@ -372,6 +372,33 @@ public class Drivetrain extends SubsystemBase {
     return m_odometry.getPoseMeters();
   }
 
+  /**
+   * Returns the currently-estimated x pose of the robot.
+   *
+   * @return The x of the pose in meters.
+   */
+  public double getEstimatedX() {
+    return m_odometry.getPoseMeters().getX();
+  }
+
+  /**
+   * Returns the currently-estimated y pose of the robot.
+   *
+   * @return The y of the pose in meters.
+   */
+  public double getEstimatedY() {
+    return m_odometry.getPoseMeters().getY();
+  }
+
+  /**
+   * Returns the currently-estimated rotation pose of the robot.
+   *
+   * @return The rotation in degrees.
+   */
+  public double getEstimatedDegrees() {
+    return m_odometry.getPoseMeters().getRotation().getDegrees();
+  }
+
   public DifferentialDriveWheelSpeeds getWheelSpeeds() {
     return new DifferentialDriveWheelSpeeds(m_leftEncoder.getRate(), m_rightEncoder.getRate());
   }

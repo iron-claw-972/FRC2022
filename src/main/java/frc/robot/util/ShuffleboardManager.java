@@ -54,13 +54,8 @@ public class ShuffleboardManager {
     chooserUpdate();
     subsystemSpam();
     time();
-    update();
 
     m_autoTab.add("Auto Chooser", m_autoCommand);
-  }
-
-  public void update() {
-    
   }
 
   public void time() {

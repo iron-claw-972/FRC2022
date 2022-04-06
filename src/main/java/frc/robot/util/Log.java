@@ -101,6 +101,9 @@ public class Log {
     add(drivetrain::getLeftPosition, "/drivetrain/getLeftPosition");
     add(drivetrain::getRightPosition, "/drivetrain/getRightPosition");
     add(drivetrain::getTurnRate, "/drivetrain/getTurnRate");
+    add(drivetrain::getEstimatedX, "/drivetrain/getEstimatedX");
+    add(drivetrain::getEstimatedY, "/drivetrain/getEstimatedY");
+    add(drivetrain::getEstimatedDegrees, "/drivetrain/getEstimatedDegrees");
   }
   public void initializeCommandScheduler(){
     StringLogEntry commandScheduler = new StringLogEntry(m_log, "/commandScheduler");
