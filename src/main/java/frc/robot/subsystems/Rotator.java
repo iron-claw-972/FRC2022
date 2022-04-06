@@ -4,6 +4,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import frc.robot.constants.Constants;
 import frc.robot.util.ControllerFactory;
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -16,7 +17,7 @@ public class Rotator extends SubsystemBase {
   private String m_side;
   private boolean left;
 
-  private double setpoint = Constants.rotator.kMaxForwardL;
+  private double setpoint;
   private double encoderOffset;
 
   public PIDController armPID = new PIDController(Constants.rotator.kP , Constants.rotator.kI , Constants.rotator.kD);
@@ -48,6 +49,7 @@ public class Rotator extends SubsystemBase {
     // otherwise, use the normal encoder value and set the motorports to the right
     else {
       m_side = "Right"; // the direction for shuffleboard's use
+      m_motor.setInverted(false); // for consistency
       encoderOffset = Constants.rotator.kArmRightEncoderOffset; // sets an offset for the encoder
       setpoint = Constants.rotator.kMaxForwardR;
     }
@@ -74,7 +76,7 @@ public class Rotator extends SubsystemBase {
       // set the arm power according to the PID and FF
       double FF = 0;
       if ((setpoint == Constants.rotator.kMaxBackwardL && left) || (setpoint == Constants.rotator.kMaxBackwardR && !left)) {
-        FF = Constants.rotator.kF;
+        FF =  1 * Constants.rotator.kF;
       } else if ((setpoint == Constants.rotator.kMaxForwardL && left) || (setpoint == Constants.rotator.kMaxForwardR && !left)) {
         FF = -1 * Constants.rotator.kF;
       } else {
@@ -131,7 +133,7 @@ public class Rotator extends SubsystemBase {
   }
 
   public void setOutput(double motorPower){
-    // m_motor.set(MathUtil.clamp(motorPower, -Constants.rotator.kMotorClamp, Constants.rotator.kMotorClamp));
+    m_motor.set(MathUtil.clamp(motorPower, -Constants.rotator.kMotorClamp, Constants.rotator.kMotorClamp));
   }
 
   // sets PID Goal
