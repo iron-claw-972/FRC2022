@@ -17,6 +17,7 @@ import frc.robot.commands.auto.ShootAuto;
 import frc.robot.commands.cargo.ChaseBall;
 import frc.robot.commands.cargo.PositionArm;
 import frc.robot.commands.cargo.Shoot;
+import frc.robot.util.BallPositions;
 import frc.robot.util.CargoUtil;
 
 public class ThreeBallVision extends SequentialCommandGroup {
@@ -27,6 +28,7 @@ public class ThreeBallVision extends SequentialCommandGroup {
   public ThreeBallVision(boolean isRedBall, Drivetrain drive, Belt belt, Arm arm, Shooter shooter, Limelight limelight, BallDetection ballDetection) {
     addRequirements(drive, belt, arm, shooter, limelight, ballDetection);
     addCommands(
+        new InstantCommand(() -> drive.resetOdometry(BallPositions.B3.getRobotPoseFromBall())),
         new InstantCommand(() -> CargoUtil.setBeltPower(0)),
         parallel(
           new DriveDistance(0.6642),

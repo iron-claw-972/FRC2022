@@ -26,7 +26,7 @@ public class TwoBallPW extends SequentialCommandGroup {
   public TwoBallPW(Drivetrain drive, Belt belt, Arm arm, Shooter shooter, BallDetection ballDetection) {
     addRequirements(drive, belt, arm, shooter, ballDetection);
     addCommands(
-      new InstantCommand(() -> drive.resetOdometry(BallPositions.getBall(3, Alliance.Blue).getRobotPoseFromBall())),
+      new InstantCommand(() -> drive.resetOdometry(BallPositions.B3.getRobotPoseFromBall())),
       new InstantCommand(() -> CargoUtil.setBeltPower(0)),
       new PathweaverCommand("4ballzero", drive),
       new ShootAuto(false, false, 0, () -> true, 157, 24),

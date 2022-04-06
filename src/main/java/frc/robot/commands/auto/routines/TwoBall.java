@@ -7,6 +7,7 @@ import frc.robot.commands.auto.IntakeAuto;
 import frc.robot.commands.auto.ShootAuto;
 import frc.robot.commands.cargo.PositionArm;
 import frc.robot.constants.Constants;
+import frc.robot.util.BallPositions;
 import frc.robot.util.CargoUtil;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.BallDetection;
@@ -22,6 +23,7 @@ public class TwoBall extends SequentialCommandGroup {
   public TwoBall(Drivetrain drive, Belt belt, Arm arm, Shooter shooter, BallDetection ballDetection) {
     addRequirements(drive, belt, arm, shooter, ballDetection);
     addCommands(
+        new InstantCommand(() -> drive.resetOdometry(BallPositions.B3.getRobotPoseFromBall())),
         new InstantCommand(() -> CargoUtil.setBeltPower(0)),
         parallel(
           new DriveDistance(0.6642),
