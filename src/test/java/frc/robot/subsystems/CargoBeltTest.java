@@ -15,7 +15,7 @@ public class CargoBeltTest {
   public Belt belt = new Belt(motor);
 
   @Test
-  public void BeltInherentlyOff() {
+  public void beltInherentlyOff() {
     assertFalse(belt.isEnabled()); // is the belt inherently disabled?
 
     belt.enable();
@@ -23,7 +23,7 @@ public class CargoBeltTest {
   }
 
   @Test
-  public void BeltPowerSet() {
+  public void beltPowerSet() {
     assertEquals(0.0, belt.getMotorPower(), 0); // is the belt inherently not powered?
 
     belt.setPower(.5);

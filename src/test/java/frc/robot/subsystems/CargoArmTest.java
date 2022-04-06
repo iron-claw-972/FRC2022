@@ -18,12 +18,12 @@ public class CargoArmTest {
 
 
   @Test
-  public void ArmInherentlyOff() {
+  public void armInherentlyOff() {
     assertFalse(arm.isEnabled()); // is the arm inherently off?
   }
 
   @Test
-  public void ArmSetpointSet() {
+  public void armSetpointSet() {
     arm.enable();
     assertTrue(arm.isEnabled()); // is the arm enabled?
 
@@ -37,7 +37,7 @@ public class CargoArmTest {
   }
 
   @Test
-  public void ArmMathCheck() {
+  public void armMathCheck() {
     assertEquals(-0.1736481776669303, arm.cosineOfAngle(100), 0); // does this math return correctly?
   }
 }

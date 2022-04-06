@@ -18,7 +18,7 @@ public class ClimbExtenderTest {
   private Extender extender = new Extender(true, motor, limitSwitch);
 
   @Test
-  public void ExtenderInherentlyOff() {
+  public void extenderInherentlyOff() {
     assertFalse(extender.isEnabled()); // is the extender disabled on init?
 
     extender.enable();
@@ -26,20 +26,20 @@ public class ClimbExtenderTest {
   }
 
   @Test
-  public void ExtenderIsRight() {
+  public void extenderIsRight() {
     extender.setSide(false);
     assertEquals("Right", extender.getSide()); // is the extender the right side?
   }
 
   @Test
-  public void ExtenderSetpointSet() {
+  public void extenderSetpointSet() {
     extender.setGoal(2000);
     extender.periodic();
     assertEquals(2000, extender.getGoal(), 0); // is the extender's setpoint correct?
   }
 
   @Test
-  public void ExtenderZero() {
+  public void extenderZero() {
     extender.zero();
     assertEquals(0, extender.currentExtensionRaw(), 0); // is the extender zeroed?
   }

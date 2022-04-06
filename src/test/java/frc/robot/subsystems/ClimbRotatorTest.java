@@ -13,25 +13,25 @@ import edu.wpi.first.wpilibj.DutyCycleEncoder;
 public class ClimbRotatorTest {
   private DutyCycleEncoder dce = mock(DutyCycleEncoder.class);
   private WPI_TalonFX motor = mock(WPI_TalonFX.class);
-  
+
   private Rotator rotator = new Rotator(true, dce, motor);
 
   // TODO: Figure out why this is throwing an AllocationException error.
   // This theoretically works.
 
   @Test
-  public void RotatorInherentlyOn() {
+  public void rotatorInherentlyOn() {
     assertTrue(rotator.isEnabled()); // is the rotator enabled on init?
   }
 
   @Test
-  public void RotatorIsRight() {
+  public void rotatorIsRight() {
     rotator.setSide(false);
     assertEquals("Right", rotator.getSide()); // is the rotator the right side?
   }
 
   @Test
-  public void RotatorSetpointSet() {
+  public void rotatorSetpointSet() {
     rotator.enable();
     rotator.setGoal(120);
     rotator.periodic();
