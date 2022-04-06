@@ -8,6 +8,7 @@ import frc.robot.commands.climb.*;
 import frc.robot.constants.Constants;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.*;
+import frc.robot.util.CargoUtil;
 import frc.robot.util.ClimbUtil;
 import lib.controllers.*;
 import lib.controllers.GameController.Button;
@@ -26,27 +27,28 @@ public class Operator {
     }
 
     configureCargoControls();
+    // configureCargoTestControls();
     configureClimbControls();
   }
   
   private static void configureCargoControls() {
     // Vision Shoot front
     operator.get(Button.Y).whenHeld(new SequentialCommandGroup(
-      new InstantCommand(() -> Robot.drive.feedForwardDrive(0, 0)),
+      new InstantCommand(() -> Robot.drive.tankDriveVolts(0, 0)),
       new Shoot(true, true, true)
     ));
 
     // Vision Shoot back
     operator.get(Button.A).whenHeld(new SequentialCommandGroup(
-      new InstantCommand(() -> Robot.drive.feedForwardDrive(0, 0)),
+      new InstantCommand(() -> Robot.drive.tankDriveVolts(0, 0)),
       new Shoot(true, true, false)
     ));
 
     // Manual Shoot front
-    operator.get(operator.RIGHT_TRIGGER_BUTTON).whileActiveOnce(new Shoot(false, true, true, Constants.arm.kFrontOuttakeHighPos, Constants.shooter.kFrontOuttakeHighSpeed));
+    operator.get(operator.RIGHT_TRIGGER_BUTTON).whileActiveOnce(new Shoot(false, false, true, Constants.arm.kFrontOuttakeHighPos, Constants.shooter.kFrontOuttakeHighSpeed));
 
     // Manual Shoot back
-    operator.get(Button.RB).whenHeld(new Shoot(false, true, false, Constants.arm.kBackOuttakeHighPos, Constants.shooter.kBackOuttakeHighSpeed));
+    operator.get(Button.RB).whenHeld(new Shoot(false, false, false, Constants.arm.kBackOuttakeHighPos, Constants.shooter.kBackOuttakeHighSpeed));
 
     // Manual intake
     operator.get(Button.X)
@@ -57,9 +59,46 @@ public class Operator {
     operator.get(Button.B).whenPressed(new PositionArm(Constants.arm.kStowPos));
   }
 
-  // public static void testShootBinds() {
+  public static void configureCargoTestControls() {
     // controller.get().RT().whileActiveOnce(new Shoot(false, false, false, 175, -6000));
     // controller.get().RB().whenHeld(new GetDistance(Robot.m_limelight, Robot.mArm));
+
+    operator.get(Button.Y).whenHeld(new SequentialCommandGroup(
+      new InstantCommand(() -> CargoUtil.setAngle(CargoUtil::getTestArmAngle)),
+      new InstantCommand(() -> CargoUtil.enableArm()),
+      new WaitUntilCommand(() -> CargoUtil.isArmAtSetpoint()),
+      new InstantCommand(() -> CargoUtil.setWheelRPM(CargoUtil::getTestShooterSpeed)),
+      new InstantCommand(() -> CargoUtil.setBeltPower(Constants.belt.kIntakeSpeed)),
+      new InstantCommand(() -> CargoUtil.enableBelt()),
+      new InstantCommand(() -> CargoUtil.enableWheel()),
+      // new WaitCommand(1),
+      new WaitUntilCommand(() -> CargoUtil.isWheelAtSetpoint()),
+      new InstantCommand(() -> CargoUtil.setBeltPower(Constants.belt.kOuttakeSpeed)),
+      new WaitCommand(0.4),
+      new InstantCommand(() -> CargoUtil.disableShiitake())
+    ));
+    operator.get(Button.Y).whenReleased(new InstantCommand(() -> CargoUtil.disableShiitake()));
+
+
+    operator.get(Button.A).whenHeld(new SequentialCommandGroup(
+      new InstantCommand(() -> CargoUtil.setAngle(CargoUtil::getTestArmAngle)),
+      new InstantCommand(() -> CargoUtil.enableArm()),
+      new WaitUntilCommand(() -> CargoUtil.isArmAtSetpoint()),
+      new InstantCommand(() -> CargoUtil.setWheelRPM(CargoUtil::getTestShooterSpeed)),
+      new InstantCommand(() -> CargoUtil.setBeltPower(Constants.belt.kIntakeSpeed)),
+      new InstantCommand(() -> CargoUtil.enableWheel()),
+      new InstantCommand(() -> CargoUtil.enableBelt()),
+      new WaitCommand(999999)
+      // new WaitUntilCommand(() -> CargoUtil.isWheelAtSetpoint()),
+    ));
+    operator.get(Button.A).whenReleased(new InstantCommand(() -> CargoUtil.disableShiitake()));
+
+    operator.get(Button.B).whenHeld(new SequentialCommandGroup(
+      new InstantCommand(() -> CargoUtil.setAngle(CargoUtil::getTestArmAngle)),
+      new InstantCommand(() -> CargoUtil.enableArm()),
+      new WaitUntilCommand(() -> CargoUtil.isArmAtSetpoint())
+    ));
+    operator.get(Button.B).whenReleased(new InstantCommand(() -> CargoUtil.disableArm()));
 
     // Align to upper hub front
     // controller.get().RT().whileActiveOnce(new SequentialCommandGroup(
@@ -72,7 +111,7 @@ public class Operator {
     //   new PositionArm(Constants.arm.kBackLimelightScanPos),
     //   new AlignToUpperHub(Robot.m_limelight, Robot.m_drive)
     // ));
-  // }
+  }
 
   private static void configureClimbControls() {
 

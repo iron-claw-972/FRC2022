@@ -154,6 +154,7 @@ public class ShuffleboardManager {
     m_cargoTab.addBoolean("Cargo Rotator", Robot.arm::isEnabled);
     m_cargoTab.addNumber("Cargo Arm Raw Angle", Robot.arm::currentAngleRaw);
     m_cargoTab.addNumber("Cargo Rotator Setpoint", Robot.arm::getSetpoint);
+    m_cargoTab.addBoolean("Cargo Arm at Setpoint", Robot.arm.m_armPID::atSetpoint);
 
     m_cargoTab.add("Cargo Rotator PID", Robot.arm.m_armPID);
   }
@@ -163,7 +164,15 @@ public class ShuffleboardManager {
         
     m_cargoTab.add("CargoShooterPID", Robot.shooter.m_shooterPID);
 
+    m_cargoTab.addBoolean("Shooter at Setpoint", Robot.shooter::reachedSetpoint);
+
     SmartDashboard.putNumber("Shooter FF", Constants.shooter.kForward);
+    SmartDashboard.putNumber("Shooter kS", Constants.shooter.kS);
+    SmartDashboard.putNumber("Limelight angle factor", Constants.ll.kAngularFactor);
+    m_cargoTab.add(Robot.drive.m_dDrive);
+
+    SmartDashboard.putNumber("Test shooter speed", -2500);
+    SmartDashboard.putNumber("Test arm angle", 108);
   }
   public void loadCargoBeltShuffleboard(){
     m_cargoTab.addBoolean("Cargo Belt", Robot.belt::isEnabled);
@@ -198,8 +207,8 @@ public class ShuffleboardManager {
     SmartDashboard.putNumber("Front Shot Efficiency", Constants.shooter.kFrontShotEfficiency);
     SmartDashboard.putNumber("Back Shot Efficiency", Constants.shooter.kBackShotEfficiency);
 
-    SmartDashboard.putNumber("Front Distance Error", Constants.ll.kFrontLimelightDistanceError);
-    SmartDashboard.putNumber("Back Distance Error", Constants.ll.kBackLimelightDistanceError);
+    SmartDashboard.putNumber("Front Distance Factor", Constants.ll.kFrontLimelightDistanceFactor);
+    SmartDashboard.putNumber("Back Distance Factor", Constants.ll.kBackLimelightDistanceFactor);
   }
 
   public void loadClimbExtenderShuffleboard(Extender extender) {
