@@ -14,11 +14,11 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.commands.drive.DifferentialDrive;
-import frc.robot.commands.drive.TeleopDrive;
 import frc.robot.controls.*;
 import frc.robot.subsystems.*;
 import frc.robot.util.Log;
 import frc.robot.util.CargoUtil;
+import frc.robot.util.Functions;
 import frc.robot.util.ShuffleboardManager;
 
 /**
@@ -41,11 +41,10 @@ public class Robot extends TimedRobot {
   public static Shooter shooter = new Shooter();
   public static BallDetection ballDetection = new BallDetection();
   public static Log log = new Log();
-  
+  public static Limelight ll = new Limelight(CargoUtil::isLimelightFaceFront);
+
   UsbCamera m_camera1;
   UsbCamera m_camera2;
-
-  public static Limelight ll = new Limelight(CargoUtil::isLimelightFaceFront);
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -53,40 +52,26 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
-    //  This will perform all our button bindings, and put our
-    // autonomous chooser on the dashboard.
+
+    //load paths now, as loading them during auto takes a noticeable amount of time
+    Functions.loadPaths();
+
     //setup cameras 
+    //TODO: use m_camera1.setFPS(30) or m_camera1.setResolution(width, height)?
     m_camera1 = CameraServer.startAutomaticCapture();
     m_camera2 = CameraServer.startAutomaticCapture();
 
-    int factor = 10; // max is 80
-    int width = 16 * factor;
-    int height = 9 * factor;
-    
-    // m_camera1.setFPS(30);
-    // m_camera1.setResolution(width, height);
-    // m_camera2.setFPS(30);
-    // m_camera2.setResolution(width, height);
-
     // default command to run in teleop
-    
     drive.setDefaultCommand(new DifferentialDrive(drive));
-    // m_testArm.setDefaultCommand(new armPID(m_testArm));
-    //m_cargoShooter.setDefaultCommand(new RunCommand(() -> m_cargoShooter.setOutput(Operator.controller.getJoystickAxis().leftY()), m_cargoShooter));
-    //m_cargoBelt.setDefaultCommand(new RunCommand(() -> m_cargoBelt.setOutput(-Operator.controller.getJoystickAxis().rightY()), m_cargoBelt));
-    // m_limelight.setDefaultCommand(new GetDistance(m_limelight, m_cargoRotator));
-    
-    // Configure the button bindings
+
+    // This is really annoying so it's disabled
     DriverStation.silenceJoystickConnectionWarning(true);
 
     Driver.configureControls();
     Operator.configureControls();
-    // ClimbOperator.configureButtonBindings();
 
-    //sets up shuffle board
     shuffleboard.setup();
     log.initialize();
-    // m_autonomousCommand = m_getAutonomousCommand();
   }
 
   /**
@@ -103,7 +88,6 @@ public class Robot extends TimedRobot {
     // and running subsystem periodic() methods.  This must be called from the robot's periodic
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
-    shuffleboard.update();
     drive.updateMotors();
     log.updateBuffer();
   }
@@ -116,6 +100,7 @@ public class Robot extends TimedRobot {
     CommandScheduler.getInstance().cancelAll();
     CargoUtil.disableArm();
     CargoUtil.disableShiitake();
+    drive.setCoastMode();
   }
 
   @Override
@@ -127,13 +112,10 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
-    // m_autonomousCommand = m_getAutonomousCommand();
     m_autoCommand = getAutonomousCommand();
 
-    // schedule the autonomous command (example)
     if (m_autoCommand != null) {
       m_autoCommand.schedule();
-      //commented out for safety so that no one dies
     }
   }
 
@@ -150,9 +132,9 @@ public class Robot extends TimedRobot {
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
     // this line or comment it out.
-    if (m_autoCommand != null) {
-      m_autoCommand.cancel();
-    }
+    // if (m_autoCommand != null) {
+    //   m_autoCommand.cancel();
+    // }
     drive.setHalfCoast();
   }
 
@@ -177,7 +159,7 @@ public class Robot extends TimedRobot {
   }
 
   /**
-  //  * Use this to pass the autonomous command to the main {@link Robot} class.
+   * Use this to pass the autonomous command to the main {@link Robot} class.
    *
    * @return the command to run in autonomous
    */

@@ -66,11 +66,11 @@ public class GetDistance extends CommandBase {
     // Get horizontal distance from vision tape to limelight lens
     limelightDistance = m_limelight.getHubDistance(currentStipeAngle);
 
-    // if (isFront) {
-    //   limelightDistance += SmartDashboard.getNumber("Front Distance Error", Constants.ll.kFrontLimelightDistanceError);
-    // } else {
-    //   limelightDistance += SmartDashboard.getNumber("Back Distance Error", Constants.ll.kBackLimelightDistanceError);
-    // }
+    if (isFront) {
+      limelightDistance *= SmartDashboard.getNumber("Front Distance Factor", Constants.ll.kFrontLimelightDistanceFactor);
+    } else {
+      limelightDistance *= SmartDashboard.getNumber("Back Distance Factor", Constants.ll.kBackLimelightDistanceFactor);
+    }
 
     if (Double.isNaN(limelightDistance) || ((currentLimelightFaceAngle < 90) != (currentPhysicalShooterAngle < 90))) {
       // If distance not found or limelight on opposite side of shooting trajectory, then do not shoot

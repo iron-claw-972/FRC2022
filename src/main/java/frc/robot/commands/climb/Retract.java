@@ -1,5 +1,6 @@
 package frc.robot.commands.climb;
 
+import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
@@ -32,18 +33,25 @@ public class Retract extends SequentialCommandGroup {
           new InstantCommand(() -> ClimbUtil.disableExtender()), //disable just to make sure PID doesn't run
           parallel(
             //in parallel moves each extender down and then waits until it is compressed
-            compressed(true) ? new DoNothing() : sequence(
-              new InstantCommand(() -> extenderL.setOutput(zero ? Constants.extender.kDownPowerCalibration : Constants.extender.kDownPowerNoCalibration)),
-              new WaitUntilCommand(() -> compressed(true)),
-              new InstantCommand(() -> extenderL.disable()),
-              (zero ? (new InstantCommand(() -> extenderL.zero())) : new DoNothing())
-            ),
-            compressed(false) ? new DoNothing() : sequence(
-              new InstantCommand(() -> extenderR.setOutput(zero ? Constants.extender.kDownPowerCalibration : Constants.extender.kDownPowerNoCalibration)),
-              new WaitUntilCommand(() -> compressed(false)),
-              new InstantCommand(() -> extenderR.disable()),
-              (zero ? (new InstantCommand(() -> extenderR.zero())) : new DoNothing())
-            )
+            new ConditionalCommand(
+              new DoNothing(), 
+              sequence(
+                new InstantCommand(() -> extenderL.setOutput(zero ? Constants.extender.kDownPowerCalibration : Constants.extender.kDownPowerNoCalibration)),
+                new WaitUntilCommand(() -> compressed(true)),
+                new InstantCommand(() -> extenderL.disable()),
+                (zero ? (new InstantCommand(() -> extenderL.zero())) : new DoNothing())
+              ), 
+              () -> compressed(true)),
+            
+            new ConditionalCommand(
+              new DoNothing(), 
+              sequence(
+                new InstantCommand(() -> extenderR.setOutput(zero ? Constants.extender.kDownPowerCalibration : Constants.extender.kDownPowerNoCalibration)),
+                new WaitUntilCommand(() -> compressed(false)),
+                new InstantCommand(() -> extenderR.disable()),
+                (zero ? (new InstantCommand(() -> extenderR.zero())) : new DoNothing())
+              ), 
+              () -> compressed(false))
           )
       );
   }

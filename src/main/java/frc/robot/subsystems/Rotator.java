@@ -4,18 +4,16 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import frc.robot.constants.Constants;
 import frc.robot.util.ControllerFactory;
-// import frc.robot.util.LimitSwitch;
-import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.wpilibj.DutyCycle;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Rotator extends SubsystemBase {
   private boolean enabled = true;
   private final DutyCycleEncoder encoder;
   private final WPI_TalonFX m_motor;
-  public final String side;
+  private String m_side;
   private boolean left;
 
   private double setpoint = Constants.rotator.kMaxForwardL;
@@ -26,7 +24,14 @@ public class Rotator extends SubsystemBase {
   // private LimitSwitch limitSwitchLower, limitSwitchUpper;
 
   public Rotator(boolean isLeft) {
-    this(isLeft, new DutyCycleEncoder(isLeft ? Constants.rotator.kArmLeftEncoder : Constants.rotator.kArmRightEncoder), ControllerFactory.createTalonFX((isLeft ? Constants.rotator.kArmLeftMotor : Constants.rotator.kArmRightMotor), Constants.rotator.kSupplyCurrentLimit, Constants.rotator.kSupplyTriggerThreshold, Constants.rotator.kSupplyTriggerDuration, Constants.rotator.kNeutral));
+    this(isLeft, new DutyCycleEncoder
+      (isLeft ? Constants.rotator.kArmLeftEncoder : Constants.rotator.kArmRightEncoder),
+      ControllerFactory.createTalonFX((isLeft ? Constants.rotator.kArmLeftMotor : Constants.rotator.kArmRightMotor), 
+      Constants.rotator.kSupplyCurrentLimit, 
+      Constants.rotator.kSupplyTriggerThreshold, 
+      Constants.rotator.kSupplyTriggerDuration, 
+      Constants.rotator.kNeutral
+    ));
   }
 
   public Rotator(boolean isLeft, DutyCycleEncoder encoder, WPI_TalonFX motor) {
@@ -35,14 +40,14 @@ public class Rotator extends SubsystemBase {
 
     // if the arm is left, the encoder value is inverted && the objects are assigned correctly
     if (isLeft) {
-      side = "Left"; // the direction for shuffleboard's use
+      m_side = "Left"; // the direction for shuffleboard's use
       m_motor.setInverted(true); // inverts the motor
       encoderOffset = Constants.rotator.kArmLeftEncoderOffset; // sets an offset for the encoder
       setpoint = Constants.rotator.kMaxForwardL;
     }
     // otherwise, use the normal encoder value and set the motorports to the right
     else {
-      side = "Right"; // the direction for shuffleboard's use
+      m_side = "Right"; // the direction for shuffleboard's use
       encoderOffset = Constants.rotator.kArmRightEncoderOffset; // sets an offset for the encoder
       setpoint = Constants.rotator.kMaxForwardR;
     }
@@ -64,10 +69,22 @@ public class Rotator extends SubsystemBase {
     
     // SmartDashboard.putNumber(direction + " rotator angle raw", currentAngleRaw());
     // SmartDashboard.putNumber(direction + " rotator angle", currentAngle());
-    // SmartDashboard.putNumber(direction + " rotator offset", encoderOffset);
+    SmartDashboard.putNumber(m_side + " rotator offset", encoderOffset);
     if(enabled) {
-      // set the arm power according to the PID
-      setOutput(armPID.calculate(currentAngle(), setpoint));
+      // set the arm power according to the PID and FF
+      double FF = 0;
+      if ((setpoint == Constants.rotator.kMaxBackwardL && left) || (setpoint == Constants.rotator.kMaxBackwardR && !left)) {
+        FF = Constants.rotator.kF;
+      } else if ((setpoint == Constants.rotator.kMaxForwardL && left) || (setpoint == Constants.rotator.kMaxForwardR && !left)) {
+        FF = -1 * Constants.rotator.kF;
+      } else {
+        if (currentAngle() > setpoint) {
+          FF = -0.9 * Constants.rotator.kF;
+        } else {
+          FF = 0.9 * Constants.rotator.kF;
+        }
+      }
+      setOutput(FF + armPID.calculate(currentAngle(), setpoint));
     } else {
       m_motor.set(0);
     }
@@ -98,7 +115,8 @@ public class Rotator extends SubsystemBase {
 
   public boolean reachedSetpoint() {
     // checks if the arm is at its setpoint
-    return (currentAngle() < setpoint + Constants.rotator.kArmTolerance && currentAngle() > setpoint - Constants.rotator.kArmTolerance);
+    return armPID.atSetpoint();
+    // return (currentAngle() < setpoint + Constants.rotator.kArmTolerance && currentAngle() > setpoint - Constants.rotator.kArmTolerance);
   }
 
   //enables PID
@@ -113,7 +131,7 @@ public class Rotator extends SubsystemBase {
   }
 
   public void setOutput(double motorPower){
-    m_motor.set(MathUtil.clamp(motorPower, -Constants.rotator.kMotorClamp, Constants.rotator.kMotorClamp));
+    // m_motor.set(MathUtil.clamp(motorPower, -Constants.rotator.kMotorClamp, Constants.rotator.kMotorClamp));
   }
 
   // sets PID Goal
@@ -127,10 +145,20 @@ public class Rotator extends SubsystemBase {
   }
 
   public String getSide() {
-      return side;
+    return m_side;
   }
 
-  public double getSetPoint() {
+  public void setSide(boolean isLeft) {
+    if(isLeft) {
+      m_side = "Left";
+      left = true;
+    } else {
+      m_side = "Right";
+      left = false;
+    }
+  }
+
+  public double getGoal() {
       return setpoint;
   }
 }

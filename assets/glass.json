@@ -1,0 +1,37 @@
+{
+  "NetworkTables": {
+    "SmartDashboard": {
+      "open": false
+    },
+    "types": {
+      "/FMSInfo": "FMSInfo",
+      "/Shuffleboard/Auto/Auto Chooser": "String Chooser",
+      "/Shuffleboard/Cargo/Alignment PID": "PIDController",
+      "/Shuffleboard/Cargo/Ball Chase PID": "PIDController",
+      "/Shuffleboard/Cargo/Cargo Rotator PID": "PIDController",
+      "/Shuffleboard/Cargo/CargoShooterPID": "PIDController",
+      "/Shuffleboard/Cargo/DifferentialDrive[1]": "DifferentialDrive",
+      "/Shuffleboard/Climb/Left Climb Rotator PID": "PIDController",
+      "/Shuffleboard/Climb/LeftClimb Extender PID": "PIDController",
+      "/Shuffleboard/Climb/Right Climb Rotator PID": "PIDController",
+      "/Shuffleboard/Climb/RightClimb Extender PID": "PIDController",
+      "/SmartDashboard/Field": "Field2d"
+    },
+    "windows": {
+      "/SmartDashboard/Field": {
+        "Robot": {
+          "length": 0.9269999861717224,
+          "width": 0.8500000238418579
+        },
+        "image": "C:\\Users\\Anthony\\Documents\\GitHub\\FRC2022\\assets\\2022-field-cropped.png",
+        "window": {
+          "visible": true
+        }
+      }
+    }
+  },
+  "NetworkTables Settings": {
+    "mode": "Client",
+    "serverTeam": "972"
+  }
+}

@@ -47,7 +47,7 @@ public class Drivetrain extends SubsystemBase {
   
   private final PhoenixMotorControllerGroup m_leftMotors;
   private final PhoenixMotorControllerGroup m_rightMotors;
-  private final DifferentialDrive m_dDrive;
+  public final DifferentialDrive m_dDrive;
 
   // The left-side drive encoder
   private final TalonEncoder m_leftEncoder;
@@ -56,6 +56,8 @@ public class Drivetrain extends SubsystemBase {
   private final TalonEncoder m_rightEncoder;
 
   private final AHRS m_navX;
+
+  public Field2d m_field = new Field2d();
 
   // Odometry class for tracking robot pose
   private final DifferentialDriveOdometry m_odometry;
@@ -121,8 +123,8 @@ public class Drivetrain extends SubsystemBase {
       m_leftMotors.setInverted(false);
       m_rightMotors.setInverted(false);
     } else {
-      m_leftMotors.setInverted(true);
-      m_rightMotors.setInverted(false);
+      m_leftMotors.setInverted(false);
+      m_rightMotors.setInverted(true);
     }
 
 
@@ -289,6 +291,7 @@ public class Drivetrain extends SubsystemBase {
   public void periodic() {
     // SmartDashboard.putData("Drivetrain", m_dDrive);
     // Update the odometry in the periodic block
+    m_field.setRobotPose(getPose());
     updateOdometry();
     if (RobotBase.isSimulation()) {
       m_fieldSim.setRobotPose(getPose());
@@ -369,6 +372,33 @@ public class Drivetrain extends SubsystemBase {
     return m_odometry.getPoseMeters();
   }
 
+  /**
+   * Returns the currently-estimated x pose of the robot.
+   *
+   * @return The x of the pose in meters.
+   */
+  public double getEstimatedX() {
+    return m_odometry.getPoseMeters().getX();
+  }
+
+  /**
+   * Returns the currently-estimated y pose of the robot.
+   *
+   * @return The y of the pose in meters.
+   */
+  public double getEstimatedY() {
+    return m_odometry.getPoseMeters().getY();
+  }
+
+  /**
+   * Returns the currently-estimated rotation pose of the robot.
+   *
+   * @return The rotation in degrees.
+   */
+  public double getEstimatedDegrees() {
+    return m_odometry.getPoseMeters().getRotation().getDegrees();
+  }
+
   public DifferentialDriveWheelSpeeds getWheelSpeeds() {
     return new DifferentialDriveWheelSpeeds(m_leftEncoder.getRate(), m_rightEncoder.getRate());
   }
@@ -380,6 +410,7 @@ public class Drivetrain extends SubsystemBase {
    */
   public void resetOdometry(Pose2d pose) {
     resetEncoders();
+    //zeroHeading();
     m_odometry.resetPosition(pose, m_navX.getRotation2d());
   }
 
@@ -452,6 +483,18 @@ public class Drivetrain extends SubsystemBase {
    */
   public double getHeading() {
     return m_navX.getRotation2d().getDegrees();
+  }
+
+  public double getPoseX() {
+    return getPose().getX();
+  }
+
+  public double getPoseY() {
+    return getPose().getY();
+  }
+
+  public double getPoseRotation() {
+    return getPose().getRotation().getDegrees();
   }
 
   /**
