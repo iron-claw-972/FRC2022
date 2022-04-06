@@ -18,27 +18,26 @@ import frc.robot.commands.cargo.PositionArm;
 import frc.robot.util.BallPositions;
 import frc.robot.util.CargoUtil;
 
-public class Tar2ThreeBall extends SequentialCommandGroup {
-  public Tar2ThreeBall(Alliance color) {
+public class FourBall extends SequentialCommandGroup {
+  public FourBall(Alliance color) {
     this(Robot.drive, Robot.belt, Robot.arm, Robot.shooter, Robot.ll, Robot.ballDetection, color);
   }
 
-  public Tar2ThreeBall(Drivetrain drive, Belt belt, Arm arm, Shooter shooter, Limelight limelight, BallDetection ballDetection, Alliance color) {
+  public FourBall(Drivetrain drive, Belt belt, Arm arm, Shooter shooter, Limelight limelight, BallDetection ballDetection, Alliance color) {
     addRequirements(drive, belt, arm, shooter, limelight, ballDetection);
     addCommands(
-        new InstantCommand(() -> drive.resetOdometry(BallPositions.getBall(3, color).getRobotPoseFromBall())),
-        new InstantCommand(() -> CargoUtil.setBeltPower(0)),
-        new PathweaverCommand("4ballzero", drive),
-        new ShootAuto(false, false, 0, () -> true, 157, 24),
+      new ThreeBall(color),
+      
+      new PathweaverIntake("4ballthree"),
 
-        new PositionArm(Constants.arm.kIntakePos), //position arm early because it tends to hit the ball
-        new PathweaverIntake("4ballone"),
+      new InstantCommand(() -> CargoUtil.setBeltSpeed(Constants.belt.kIntakeSpeed)),
+      new InstantCommand(() -> CargoUtil.setWheelSpeed(() -> 32, true)),
 
-        new ShootAuto(false, false, 0, () -> true, 157, 25.5),
+      new PathweaverCommand("4ballfour", drive),
+      
+      new ShootAuto(false, true, 0, () -> true, 100, 32),
 
-        new PathweaverIntake("4balltwo"),
-
-        new ShootAuto(false, true, 0, () -> true, 109, 26)
+      new PositionArm(154)
     );
   }
 }

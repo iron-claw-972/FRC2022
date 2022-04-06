@@ -14,12 +14,12 @@ import frc.robot.subsystems.Belt;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Drivetrain;
 
-public class TwoBallAuto extends SequentialCommandGroup {
-  public TwoBallAuto() {
+public class TwoBall extends SequentialCommandGroup {
+  public TwoBall() {
     this(Robot.drive, Robot.belt, Robot.arm, Robot.shooter, Robot.ballDetection);
   }
 
-  public TwoBallAuto(Drivetrain drive, Belt belt, Arm arm, Shooter shooter, BallDetection ballDetection) {
+  public TwoBall(Drivetrain drive, Belt belt, Arm arm, Shooter shooter, BallDetection ballDetection) {
     addRequirements(drive, belt, arm, shooter, ballDetection);
     addCommands(
         new InstantCommand(() -> CargoUtil.setBeltPower(0)),

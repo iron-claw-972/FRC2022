@@ -10,12 +10,12 @@ import frc.robot.subsystems.Belt;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Drivetrain;
 
-public class OneBallAuto extends SequentialCommandGroup {
-  public OneBallAuto() {
+public class OneBall extends SequentialCommandGroup {
+  public OneBall() {
     this(Robot.drive, Robot.belt, Robot.arm, Robot.shooter);
   }
 
-  public OneBallAuto(Drivetrain drive, Belt belt, Arm arm, Shooter shooter) {
+  public OneBall(Drivetrain drive, Belt belt, Arm arm, Shooter shooter) {
     addRequirements(drive, belt, arm, shooter);
     addCommands(
         new ShootAuto(false, true, 1, () -> true, 108, 22.4719101),

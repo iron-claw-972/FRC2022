@@ -19,12 +19,12 @@ import frc.robot.commands.cargo.PositionArm;
 import frc.robot.commands.cargo.Shoot;
 import frc.robot.util.CargoUtil;
 
-public class Vision3BallAuto extends SequentialCommandGroup {
-  public Vision3BallAuto(boolean isRedBall) {
+public class ThreeBallVision extends SequentialCommandGroup {
+  public ThreeBallVision(boolean isRedBall) {
     this(isRedBall, Robot.drive, Robot.belt, Robot.arm, Robot.shooter, Robot.ll, Robot.ballDetection);
   }
 
-  public Vision3BallAuto(boolean isRedBall, Drivetrain drive, Belt belt, Arm arm, Shooter shooter, Limelight limelight, BallDetection ballDetection) {
+  public ThreeBallVision(boolean isRedBall, Drivetrain drive, Belt belt, Arm arm, Shooter shooter, Limelight limelight, BallDetection ballDetection) {
     addRequirements(drive, belt, arm, shooter, limelight, ballDetection);
     addCommands(
         new InstantCommand(() -> CargoUtil.setBeltPower(0)),

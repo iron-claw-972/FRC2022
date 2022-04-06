@@ -15,11 +15,7 @@ import frc.robot.Robot;
 import frc.robot.subsystems.*;
 import frc.robot.commands.*;
 import frc.robot.commands.auto.*;
-import frc.robot.commands.auto.routines.OneBallAuto;
-import frc.robot.commands.auto.routines.Tar2FourBall;
-import frc.robot.commands.auto.routines.TwoBallAuto;
-import frc.robot.commands.auto.routines.Tar2ThreeBall;
-import frc.robot.commands.auto.routines.Vision3BallAuto;
+import frc.robot.commands.auto.routines.*;
 import frc.robot.commands.cargo.*;
 import frc.robot.constants.Constants;
 
@@ -79,22 +75,26 @@ public class ShuffleboardManager {
   public void chooserUpdate() {
     // originally 0.8492
     
-    m_autoCommand.addOption("1 Ball Auto", new OneBallAuto());
+    m_autoCommand.addOption("1 Ball Auto", new OneBallPW());
 
-    m_autoCommand.addOption("2 Ball Auto", new TwoBallAuto());
+    m_autoCommand.addOption("2 Ball Auto", new TwoBallPW());
 
-    m_autoCommand.addOption("3 Ball Auto", new Tar2ThreeBall(Alliance.Blue));
+    m_autoCommand.addOption("3 Ball Auto", new ThreeBall(Alliance.Blue));
 
-    m_autoCommand.addOption("4 Ball Auto", new Tar2FourBall(Alliance.Blue));
+    m_autoCommand.addOption("4 Ball Auto", new FourBall(Alliance.Blue));
+
+    m_autoCommand.addOption("1 Ball Auto No Pathweaver", new OneBall());
+    
+    m_autoCommand.addOption("2 Ball Auto No Pathweaver", new TwoBall());
 
     m_autoCommand.addOption("DoNothing - there be dragons past here", new DoNothing());
 
-    m_autoCommand.addOption("RedVision3Ball", new Vision3BallAuto(true));
-    m_autoCommand.addOption("BlueVision3Ball", new Vision3BallAuto(false));
+    m_autoCommand.addOption("RedVision3Ball", new ThreeBallVision(true));
+    m_autoCommand.addOption("BlueVision3Ball", new ThreeBallVision(false));
 
-    m_autoCommand.addOption("RedTar2ThreeBall", new Tar2ThreeBall(Alliance.Red));
+    m_autoCommand.addOption("RedTar2ThreeBall", new ThreeBall(Alliance.Red));
 
-    m_autoCommand.addOption("RedTar2FourBall", new Tar2FourBall(Alliance.Red));
+    m_autoCommand.addOption("RedTar2FourBall", new FourBall(Alliance.Red));
 
     m_autoCommand.addOption("Rotation", new DriveRotation(SmartDashboard.getNumber("auto rot", 100)));
 
