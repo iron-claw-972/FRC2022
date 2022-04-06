@@ -1,5 +1,8 @@
 package frc.robot.util;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 
 import edu.wpi.first.math.geometry.Pose2d;
@@ -8,19 +11,17 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
+import edu.wpi.first.math.trajectory.TrajectoryUtil;
 import edu.wpi.first.math.trajectory.constraint.DifferentialDriveVoltageConstraint;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Filesystem;
 import frc.robot.Robot;
 import frc.robot.constants.Constants;
 
 public class Functions {
 
-  /*
-  public static Functions controls;
-  public static Functions getControls(){
-    return controls;
-  }
-  */
+  private static HashMap<String, Trajectory> trajectories = new HashMap<String, Trajectory>();
 
   /**
    * Deadbands an input to [-1, -deadband], [deadband, 1], rescaling inputs to be
@@ -83,5 +84,43 @@ public class Functions {
 
   public static Translation2d centerToBall(Translation2d inputPose) {
     return new Translation2d(inputPose.getX() + Units.inchesToMeters(9.5)/2.0, inputPose.getY() - Units.inchesToMeters(9.5)/2.0);
+  }
+
+  public static void loadPaths() {
+    File[] directoryListing = Filesystem.getDeployDirectory().toPath().resolve(Constants.auto.kTrajectoryDirectory).toFile().listFiles();
+    if (directoryListing != null) {
+      for (File file : directoryListing) {
+        if (file.isFile() && file.getName().indexOf(".") != -1) {
+          System.out.println("Processing file: " + file.getName());
+          String name = file.getName().substring(0, file.getName().indexOf("."));
+          trajectories.put(name, getTrajectoryFromJson(name));
+        }
+      }
+    } else {
+      DriverStation.reportWarning(
+        "Issue with finding path files. Paths will not be loaded.",
+        true
+      );
+    }
+  }
+
+  public static Trajectory getTrajectory(String trajectoryName) {
+    return trajectories.get(trajectoryName);
+  }
+
+  private static Trajectory getTrajectoryFromJson(String trajectoryName) {
+    try {
+      return TrajectoryUtil.fromPathweaverJson(
+        Filesystem.getDeployDirectory().toPath().resolve(
+          Constants.auto.kTrajectoryDirectory + trajectoryName + ".wpilib.json"
+        )
+      );
+    } catch (IOException ex) {
+      DriverStation.reportWarning(
+        "Unable to open trajectory: " + trajectoryName + "\n" + "Will not do anything.",
+        ex.getStackTrace()
+      );
+      return null;
+    }
   }
 }

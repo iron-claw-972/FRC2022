@@ -78,20 +78,23 @@ public class ShuffleboardManager {
 
   public void chooserUpdate() {
     // originally 0.8492
-    m_autoCommand.addOption("DoNothing", new DoNothing());
     
     m_autoCommand.addOption("1 Ball Auto", new OneBallAuto());
 
     m_autoCommand.addOption("2 Ball Auto", new TwoBallAuto());
 
+    m_autoCommand.addOption("3 Ball Auto", new Tar2ThreeBall(Alliance.Blue));
+
+    m_autoCommand.addOption("4 Ball Auto", new Tar2FourBall(Alliance.Blue));
+
+    m_autoCommand.addOption("DoNothing - there be dragons past here", new DoNothing());
+
     m_autoCommand.addOption("RedVision3Ball", new Vision3BallAuto(true));
     m_autoCommand.addOption("BlueVision3Ball", new Vision3BallAuto(false));
 
     m_autoCommand.addOption("RedTar2ThreeBall", new Tar2ThreeBall(Alliance.Red));
-    m_autoCommand.addOption("BlueTar2ThreeBall", new Tar2ThreeBall(Alliance.Blue));
 
     m_autoCommand.addOption("RedTar2FourBall", new Tar2FourBall(Alliance.Red));
-    m_autoCommand.addOption("BlueTar2FourBall", new Tar2FourBall(Alliance.Blue));
 
     m_autoCommand.addOption("Rotation", new DriveRotation(SmartDashboard.getNumber("auto rot", 100)));
 

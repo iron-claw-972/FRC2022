@@ -14,25 +14,9 @@ import frc.robot.util.Functions;
 public class PathweaverCommand extends SequentialCommandGroup {
   private Drivetrain m_drive;
 
-  private static Trajectory getTrajectory(String trajectoryName, Drivetrain drive) {
-    try {
-      return TrajectoryUtil.fromPathweaverJson(
-        Filesystem.getDeployDirectory().toPath().resolve(
-          Constants.auto.kTrajectoryDirectory + trajectoryName + ".wpilib.json"
-        )
-      );
-    } catch (IOException ex) {
-      DriverStation.reportWarning(
-        "Unable to open trajectory: " + trajectoryName + "\n" + "Will not do anything.",
-        ex.getStackTrace()
-      );
-      return null;
-    }
-  }
-
   public PathweaverCommand(String trajectoryName, Drivetrain drive) {
     this(
-      getTrajectory(trajectoryName, drive),
+      Functions.getTrajectory(trajectoryName),
       drive,
       false
     );
@@ -40,7 +24,7 @@ public class PathweaverCommand extends SequentialCommandGroup {
 
   public PathweaverCommand(String trajectoryName, Drivetrain drive, boolean resetPose) {
     this(
-      getTrajectory(trajectoryName, drive),
+      Functions.getTrajectory(trajectoryName),
       drive,
       resetPose
     );
@@ -55,8 +39,6 @@ public class PathweaverCommand extends SequentialCommandGroup {
     addRequirements(drive);
 
     if (trajectory != null) {
-
-      Trajectory newTrajectory = Functions.centerToRobot(trajectory);
 
       addCommands(
         (resetPose ? new InstantCommand(() -> drive.resetOdometry(trajectory.getInitialPose())) : new DoNothing()),

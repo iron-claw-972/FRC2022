@@ -18,6 +18,7 @@ import frc.robot.controls.*;
 import frc.robot.subsystems.*;
 import frc.robot.util.Log;
 import frc.robot.util.CargoUtil;
+import frc.robot.util.Functions;
 import frc.robot.util.ShuffleboardManager;
 
 /**
@@ -52,6 +53,8 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
+    Functions.loadPaths();
+
     extenderL = new Extender(true);
     extenderR = new Extender(false);
     //  This will perform all our button bindings, and put our

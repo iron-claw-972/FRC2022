@@ -14,8 +14,6 @@ import frc.robot.subsystems.Limelight;
 import frc.robot.commands.auto.PathweaverCommand;
 import frc.robot.commands.auto.PathweaverIntake;
 import frc.robot.commands.auto.ShootAuto;
-import frc.robot.commands.cargo.AlignToUpperHub;
-import frc.robot.commands.cargo.ChaseBall;
 import frc.robot.commands.cargo.PositionArm;
 import frc.robot.util.BallPositions;
 import frc.robot.util.CargoUtil;
@@ -31,7 +29,7 @@ public class Tar2ThreeBall extends SequentialCommandGroup {
         new InstantCommand(() -> drive.resetOdometry(BallPositions.getBall(3, color).getRobotPoseFromBall())),
         new InstantCommand(() -> CargoUtil.setBeltPower(0)),
         new PathweaverCommand("4ballzero", drive),
-        new ShootAuto(false, false, 1, () -> true, 157, 24),
+        new ShootAuto(false, false, 0, () -> true, 157, 24),
 
         new PositionArm(Constants.arm.kIntakePos), //position arm early because it tends to hit the ball
         new PathweaverIntake("4ballone"),
