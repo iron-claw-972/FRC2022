@@ -2,39 +2,60 @@ package frc.robot.commands.auto;
 
 import edu.wpi.first.math.trajectory.*;
 import edu.wpi.first.wpilibj2.command.*;
-import edu.wpi.first.wpilibj.Filesystem;
-import edu.wpi.first.wpilibj.DriverStation;
-import java.io.IOException;
 
+import frc.robot.Robot;
 import frc.robot.commands.DoNothing;
-import frc.robot.constants.Constants;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.util.Functions;
 
 public class PathweaverCommand extends SequentialCommandGroup {
   private Drivetrain m_drive;
 
-  public PathweaverCommand(String trajectoryName, Drivetrain drive) {
+  /**
+   * 
+   * Creates a command that runs pathweaver path from a pathweaver generated file.
+   * 
+   * @param trajectoryName The trajectory for pathweaver to run. This is the file name in deploy/paths/output but without the stuff after the dot.
+   * @param resetPose Whether or not to reset the pose before starting.
+   * @param stopAtEnd Whether or not to set the motor power to zero at the end of the command.
+   */
+  public PathweaverCommand(String trajectoryName, boolean resetPose, boolean stopAtEnd) {
     this(
       Functions.getTrajectory(trajectoryName),
-      drive,
-      false
+      Robot.drive,
+      resetPose, 
+      stopAtEnd
     );
   }
 
-  public PathweaverCommand(String trajectoryName, Drivetrain drive, boolean resetPose) {
+  /**
+   * 
+   * Creates a command that runs pathweaver path from a pathweaver generated file.
+   * 
+   * @param trajectoryName The trajectory for pathweaver to run. This is the file name in deploy/paths/output but without the stuff after the dot.
+   * @param drive The robot drivetrain.
+   * @param resetPose Whether or not to reset the pose before starting.
+   * @param stopAtEnd Whether or not to set the motor power to zero at the end of the command.
+   */
+  public PathweaverCommand(String trajectoryName, Drivetrain drive, boolean resetPose, boolean stopAtEnd) {
     this(
       Functions.getTrajectory(trajectoryName),
       drive,
-      resetPose
+      resetPose, 
+      stopAtEnd
     );
   }
 
-  public PathweaverCommand(Trajectory trajectory, Drivetrain drive) {
-    this(trajectory, drive, false);
-  }
-
-  public PathweaverCommand(Trajectory trajectory, Drivetrain drive, boolean resetPose) {
+  /**
+   * 
+   * Creates a command that runs pathweaver.
+   * 
+   * @param trajectory The trajectory for pathweaver to run.
+   * @param drive The robot drivetrain.
+   * @param resetPose Whether or not to reset the pose before starting.
+   * @param stopAtEnd Whether or not to set the motor power to zero at the end of the command.
+   */
+  public PathweaverCommand(Trajectory trajectory, Drivetrain drive, boolean resetPose, boolean stopAtEnd) {
     m_drive = drive;
     addRequirements(drive);
 
@@ -55,7 +76,7 @@ public class PathweaverCommand extends SequentialCommandGroup {
           drive::tankDriveVolts,
           drive
         ),
-        new InstantCommand(() -> m_drive.tankDriveVolts(0, 0))
+        (stopAtEnd ? new InstantCommand(() -> m_drive.tankDriveVolts(0, 0)) : new DoNothing())
       );
     } else {
       addCommands(new DoNothing());

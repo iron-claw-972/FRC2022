@@ -89,10 +89,7 @@ public class ShuffleboardManager {
 
     m_autoCommand.addOption("Rotation", new DriveRotation(SmartDashboard.getNumber("auto rot", 100)));
 
-    m_autoCommand.addOption("TestPath", 
-      new InstantCommand(() -> Robot.drive.resetOdometry(BallPositions.B3.getRobotPoseFromBall())).andThen(
-      new PathweaverCommand("Test2Ball", Robot.drive))
-    );
+    m_autoCommand.addOption("TestPath", new PathweaverCommand("Test2Ball", true, true));
 
     m_autoCommand.addOption("Reset Pose Start", 
     new InstantCommand(() -> Robot.drive.resetOdometry(BallPositions.B3.getRobotPoseFromBall())).andThen(new PrintCommand("Robot: " + BallPositions.B3.getRobotPoseFromBall().getX() + ", " + BallPositions.B3.getRobotPoseFromBall().getY()))

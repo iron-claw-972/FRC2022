@@ -45,7 +45,7 @@ public class ThreeBallVision extends SequentialCommandGroup {
           new InstantCommand(() -> CargoUtil.setBeltPower(Constants.belt.kIntakeSpeed))
         ),
         new PositionArm(Constants.arm.kIntakePos),
-        new ChaseBall(isRedBall, false).withTimeout(2),
+        new ChaseBall(color == Alliance.Red, false).withTimeout(2),
         new PositionArm(Constants.arm.kFrontOuttakeAutoPos),
         new DriveRotation(-0.6),
         //new ShootAuto(false, true, 0, () -> true, Constants.arm.kFrontOuttakeAutoPos, Constants.shooter.kFrontOuttakeAutoSpeed),

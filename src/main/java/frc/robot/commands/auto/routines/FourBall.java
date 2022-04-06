@@ -15,7 +15,6 @@ import frc.robot.commands.auto.PathweaverCommand;
 import frc.robot.commands.auto.PathweaverIntake;
 import frc.robot.commands.auto.ShootAuto;
 import frc.robot.commands.cargo.PositionArm;
-import frc.robot.util.BallPositions;
 import frc.robot.util.CargoUtil;
 
 public class FourBall extends SequentialCommandGroup {
@@ -28,12 +27,12 @@ public class FourBall extends SequentialCommandGroup {
     addCommands(
       new ThreeBall(color),
       
-      new PathweaverIntake("4ballthree"),
+      new PathweaverIntake("4ballthree", false),
 
       new InstantCommand(() -> CargoUtil.setBeltSpeed(Constants.belt.kIntakeSpeed)),
       new InstantCommand(() -> CargoUtil.setWheelSpeed(() -> 32, true)),
 
-      new PathweaverCommand("4ballfour", drive),
+      new PathweaverCommand("4ballfour", false, true),
       
       new ShootAuto(false, true, 0, () -> true, 100, 32),
 

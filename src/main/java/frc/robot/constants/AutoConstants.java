@@ -1,7 +1,5 @@
 package frc.robot.constants;
 
-import edu.wpi.first.math.util.Units;
-
 public class AutoConstants {
   public final double kMaxSpeedMetersPerSecond = 2.3; // Max velocity
   public final double kMaxAccelerationMetersPerSecondSquared = 2.3; // Max acceleration
