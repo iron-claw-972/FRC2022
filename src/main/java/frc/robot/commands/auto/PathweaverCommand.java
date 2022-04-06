@@ -59,10 +59,10 @@ public class PathweaverCommand extends SequentialCommandGroup {
       Trajectory newTrajectory = Functions.centerToRobot(trajectory);
 
       addCommands(
-        (resetPose ? new InstantCommand(() -> drive.resetOdometry(newTrajectory.getInitialPose())) : new DoNothing()),
+        (resetPose ? new InstantCommand(() -> drive.resetOdometry(trajectory.getInitialPose())) : new DoNothing()),
         new InstantCommand(() -> drive.m_field.getObject("traj").setTrajectory(trajectory)),
         new RamseteCommand(
-          newTrajectory,
+          trajectory,
           drive::getPose,
           drive.getRamseteController(),
           drive.getFeedforward(),

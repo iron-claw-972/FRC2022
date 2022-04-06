@@ -10,6 +10,7 @@
       "/Shuffleboard/Cargo/Ball Chase PID": "PIDController",
       "/Shuffleboard/Cargo/Cargo Rotator PID": "PIDController",
       "/Shuffleboard/Cargo/CargoShooterPID": "PIDController",
+      "/Shuffleboard/Cargo/DifferentialDrive[1]": "DifferentialDrive",
       "/Shuffleboard/Climb/Left Climb Rotator PID": "PIDController",
       "/Shuffleboard/Climb/LeftClimb Extender PID": "PIDController",
       "/Shuffleboard/Climb/Right Climb Rotator PID": "PIDController",

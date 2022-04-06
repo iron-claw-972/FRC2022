@@ -26,24 +26,16 @@ public class Tar2FourBall extends SequentialCommandGroup {
   public Tar2FourBall(Drivetrain drive, Belt belt, Arm arm, Shooter shooter, Limelight limelight, BallDetection ballDetection, Alliance color) {
     addRequirements(drive, belt, arm, shooter, limelight, ballDetection);
     addCommands(
-      new InstantCommand(() -> drive.resetOdometry(BallPositions.getBall(3, color).getRobotPoseFromBall())),
-      new InstantCommand(() -> CargoUtil.setBeltPower(0)),
-      new PathweaverCommand("4ballzero", drive),
-      new ShootAuto(false, false, 1, () -> true, 157, 24),
-
-      new PositionArm(Constants.arm.kIntakePos),
-      new PathweaverIntake("4ballone"),
-
-      new ShootAuto(false, false, 0, () -> true, 157, 25),
-
-      new PathweaverIntake("4balltwo"),
-
-      new ShootAuto(false, false, 0, () -> true, 157, 25),
+      new Tar2ThreeBall(color),
       
       new PathweaverIntake("4ballthree"),
 
+      new InstantCommand(() -> CargoUtil.setBeltSpeed(Constants.belt.kIntakeSpeed)),
+      new InstantCommand(() -> CargoUtil.setWheelSpeed(() -> 32, true)),
+
       new PathweaverCommand("4ballfour", drive),
-      new ShootAuto(false, false, 0, () -> true, 157, 25),
+      
+      new ShootAuto(false, true, 0, () -> true, 100, 32),
 
       new PositionArm(154)
     );
