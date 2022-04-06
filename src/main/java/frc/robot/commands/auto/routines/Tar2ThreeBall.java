@@ -33,14 +33,14 @@ public class Tar2ThreeBall extends SequentialCommandGroup {
         new PathweaverCommand("4ballzero", drive),
         new ShootAuto(false, false, 1, () -> true, 157, 24),
 
-        new PositionArm(Constants.arm.kIntakePos),
+        new PositionArm(Constants.arm.kIntakePos), //position arm early because it tends to hit the ball
         new PathweaverIntake("4ballone"),
 
         new ShootAuto(false, false, 0, () -> true, 157, 25),
 
         new PathweaverIntake("4balltwo"),
 
-        new ShootAuto(false, false, 0, () -> true, 157, 25),
+        new ShootAuto(false, true, 0, () -> true, 108, 25),
         new PositionArm(154)
     );
   }
