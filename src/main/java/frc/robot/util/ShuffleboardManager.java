@@ -43,10 +43,13 @@ public class ShuffleboardManager {
     update();
 
     m_autoTab.add("Auto Chooser", m_autoCommand);
+
+    SmartDashboard.putBoolean("set followers", false);
+    SmartDashboard.putBoolean("refresh followers", true);
   }
 
   public void update() {
-    
+
   }
 
   public void time() {

@@ -103,6 +103,9 @@ public class Drivetrain extends SubsystemBase {
     m_rightMotor1 = rightMotor1;
     m_rightMotor2 = rightMotor2;
 
+    m_leftMotor2.follow(m_leftMotor1);
+    m_rightMotor2.follow(m_rightMotor1);
+
     m_rightMotor1.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
     m_leftMotor1.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
     m_rightMotor2.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
@@ -124,7 +127,6 @@ public class Drivetrain extends SubsystemBase {
       m_leftMotors.setInverted(true);
       m_rightMotors.setInverted(false);
     }
-
 
     m_dDrive = new DifferentialDrive(m_leftMotors, m_rightMotors);
 
@@ -188,31 +190,31 @@ public class Drivetrain extends SubsystemBase {
   }
 
   public void setBrakeMode() {
-    // m_leftMotor1.setNeutralMode(NeutralMode.Brake);
-    // m_rightMotor1.setNeutralMode(NeutralMode.Brake);
-    // m_leftMotor2.setNeutralMode(NeutralMode.Brake);
-    // m_rightMotor2.setNeutralMode(NeutralMode.Brake);
+    m_leftMotor1.setNeutralMode(NeutralMode.Brake);
+    m_rightMotor1.setNeutralMode(NeutralMode.Brake);
+    m_leftMotor2.setNeutralMode(NeutralMode.Brake);
+    m_rightMotor2.setNeutralMode(NeutralMode.Brake);
   }
 
   public void setCoastMode() {
-    // m_leftMotor1.setNeutralMode(NeutralMode.Coast);
-    // m_rightMotor1.setNeutralMode(NeutralMode.Coast);
-    // m_leftMotor2.setNeutralMode(NeutralMode.Coast);
-    // m_rightMotor2.setNeutralMode(NeutralMode.Coast);
+    m_leftMotor1.setNeutralMode(NeutralMode.Coast);
+    m_rightMotor1.setNeutralMode(NeutralMode.Coast);
+    m_leftMotor2.setNeutralMode(NeutralMode.Coast);
+    m_rightMotor2.setNeutralMode(NeutralMode.Coast);
   }
 
   public void setHalfCoast() {
-    // m_leftMotor1.setNeutralMode(NeutralMode.Coast);
-    // m_rightMotor1.setNeutralMode(NeutralMode.Coast);
-    // m_leftMotor2.setNeutralMode(NeutralMode.Brake);
-    // m_rightMotor2.setNeutralMode(NeutralMode.Brake);
+    m_leftMotor1.setNeutralMode(NeutralMode.Coast);
+    m_rightMotor1.setNeutralMode(NeutralMode.Coast);
+    m_leftMotor2.setNeutralMode(NeutralMode.Brake);
+    m_rightMotor2.setNeutralMode(NeutralMode.Brake);
   }
 
   public void resetCoastBrakeMode() {
-    // m_leftMotor1.setNeutralMode(Constants.drive.kMainNeutralMode);
-    // m_rightMotor1.setNeutralMode(Constants.drive.kMainNeutralMode);
-    // m_leftMotor1.setNeutralMode(Constants.drive.kNeutralMode);
-    // m_rightMotor1.setNeutralMode(Constants.drive.kNeutralMode);
+    m_leftMotor1.setNeutralMode(Constants.drive.kMainNeutralMode);
+    m_rightMotor1.setNeutralMode(Constants.drive.kMainNeutralMode);
+    m_leftMotor1.setNeutralMode(Constants.drive.kNeutralMode);
+    m_rightMotor1.setNeutralMode(Constants.drive.kNeutralMode);
   }
 
   public void shiftDrive(double throttle, double turn) {

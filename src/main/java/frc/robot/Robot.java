@@ -7,18 +7,27 @@
 
 package frc.robot;
 
+import com.kauailabs.navx.frc.AHRS;
+
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import frc.robot.commands.DoNothing;
+import frc.robot.commands.auto.Back2BallAuto;
+import frc.robot.commands.auto.PathweaverCommand;
 import frc.robot.commands.drive.DifferentialDrive;
 import frc.robot.commands.drive.TeleopDrive;
+import frc.robot.constants.Constants;
 import frc.robot.controls.*;
 import frc.robot.subsystems.*;
 import frc.robot.util.Log;
 import frc.robot.util.CargoUtil;
+import frc.robot.util.ControllerFactory;
 import frc.robot.util.ShuffleboardManager;
 
 /**
@@ -70,7 +79,9 @@ public class Robot extends TimedRobot {
 
     // default command to run in teleop
     
-    drive.setDefaultCommand(new DifferentialDrive(drive));
+    // drive.setDefaultCommand(new DifferentialDrive(drive));
+    drive.setDefaultCommand(new TeleopDrive(drive));
+    // drive.setCoastMode();
     // m_testArm.setDefaultCommand(new armPID(m_testArm));
     //m_cargoShooter.setDefaultCommand(new RunCommand(() -> m_cargoShooter.setOutput(Operator.controller.getJoystickAxis().leftY()), m_cargoShooter));
     //m_cargoBelt.setDefaultCommand(new RunCommand(() -> m_cargoBelt.setOutput(-Operator.controller.getJoystickAxis().rightY()), m_cargoBelt));
@@ -127,9 +138,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
-    // m_autonomousCommand = m_getAutonomousCommand();
     m_autoCommand = getAutonomousCommand();
-
     // schedule the autonomous command (example)
     if (m_autoCommand != null) {
       m_autoCommand.schedule();
@@ -183,5 +192,8 @@ public class Robot extends TimedRobot {
    */
   public Command getAutonomousCommand() {
     return shuffleboard.getAutonomousCommand();
+    // return new InstantCommand(() -> drive.tankDrive(0.5, -0.5));
+    // return new PathweaverCommand(Constants.auto.kTrajectoryName, Robot.drive);
+    // return new DoNothing();
   }
 }

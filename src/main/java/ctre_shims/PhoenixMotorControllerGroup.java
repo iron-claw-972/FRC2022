@@ -6,6 +6,8 @@ import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.util.sendable.SendableRegistry;
 import edu.wpi.first.wpilibj.motorcontrol.MotorController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 import java.util.Arrays;
 
 /**
@@ -24,8 +26,7 @@ public class PhoenixMotorControllerGroup implements MotorController, Sendable, A
    * @param leadMotorController The lead MotorController to add
    * @param motorControllers The MotorControllers to add
    */
-  public PhoenixMotorControllerGroup(
-      MotorController leadMotorController, MotorController... motorControllers) {
+  public PhoenixMotorControllerGroup(MotorController leadMotorController, MotorController... motorControllers) {
     boolean validArgumentTypes = leadMotorController instanceof BaseMotorController;
     for (MotorController motorController : motorControllers) {
       validArgumentTypes = validArgumentTypes && (motorController instanceof BaseMotorController);
@@ -59,6 +60,11 @@ public class PhoenixMotorControllerGroup implements MotorController, Sendable, A
   @Override
   public void set(double speed) {
     m_leadMotorController.set(speed);
+    // if (SmartDashboard.getBoolean("set followers", false)){
+      for (MotorController motorController : m_motorControllers) {
+        motorController.set(speed);
+      }
+    // }
   }
 
   @Override
@@ -105,6 +111,12 @@ public class PhoenixMotorControllerGroup implements MotorController, Sendable, A
     m_leadMotorController.setVoltage(outputVolts);
     for (MotorController motorController : m_motorControllers) {
       motorController.setVoltage(outputVolts);
+    }
+  }
+
+  public void refreshFollower(){
+    for (MotorController motorController : m_motorControllers) {
+      ((BaseMotorController) motorController).follow((BaseMotorController) m_leadMotorController);
     }
   }
 }
