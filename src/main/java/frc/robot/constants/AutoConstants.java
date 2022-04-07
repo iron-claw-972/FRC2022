@@ -9,9 +9,7 @@ public class AutoConstants {
   public final double kRamseteB = 2;
   public final double kRamseteZeta = 0.7;
 
-  // 0.2032
-  public final double kIntakeDriveDistance = 0.381;
-  public final double kDriveSpeed = 0.5;
+  public final double kDriveSpeed = 0.3;
 
   // Pathweaver output folder should be src/main/deploy/paths
   // name without stuff after . ex AutoPath.wpilib.json -> AutoPath

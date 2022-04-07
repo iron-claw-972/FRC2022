@@ -25,11 +25,10 @@ public class TwoBall extends SequentialCommandGroup {
     addCommands(
         new InstantCommand(() -> drive.resetOdometry(BallPositions.B3.getRobotPoseFromBall())),
         new InstantCommand(() -> CargoUtil.setBeltPower(0)),
-        parallel(
-          new DriveDistance(0.6642),
-          new ShootAuto(false, false, 1, () -> DriveDistance.isFinished, 157, 25)
-        ),
-        new IntakeAuto(Constants.arm.kAutoBackOuttakeFarPos, false, false, Constants.auto.kIntakeDriveDistance), 
+        new DriveDistance(0.6642),
+        new ShootAuto(false, false, 1, () -> true, 157, 25),
+        new PrintCommand("finished shooting"),
+        new IntakeAuto(Constants.arm.kAutoBackOuttakeFarPos, false, false, 0.4), 
         new ShootAuto(false, false, 0, () -> true, 157, 25),
         new PositionArm(154),
         new DriveDistance(0.1)

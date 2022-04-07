@@ -31,11 +31,9 @@ public class ThreeBallVision extends SequentialCommandGroup {
     addCommands(
         new InstantCommand(() -> drive.resetOdometry(BallPositions.getBall(3, color).getRobotPoseFromBall())),
         new InstantCommand(() -> CargoUtil.setBeltPower(0)),
-        parallel(
-          new DriveDistance(0.6642),
-          new ShootAuto(false, false, 1, () -> DriveDistance.isFinished, 157, 25)
-        ),
-        new IntakeAuto(Constants.arm.kAutoBackOuttakeFarPos, false, color == Alliance.Red, Constants.auto.kIntakeDriveDistance), 
+        new DriveDistance(0.6642),
+        new ShootAuto(false, false, 1, () -> true, 157, 25),
+        new IntakeAuto(Constants.arm.kAutoBackOuttakeFarPos, false, color == Alliance.Red, 0.4), 
         new ShootAuto(false, false, 0, () -> true, 157, 25),
         new DriveRotation(0.65),
         new InstantCommand(() -> CargoUtil.enableAll()),
