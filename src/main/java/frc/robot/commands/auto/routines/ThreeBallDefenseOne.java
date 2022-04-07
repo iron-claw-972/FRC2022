@@ -12,12 +12,13 @@ import frc.robot.util.BallPositions;
 public class ThreeBallDefenseOne extends SequentialCommandGroup {
     public ThreeBallDefenseOne() {
         addCommands(
-            
-            new InstantCommand(() -> Robot.drive.resetOdometry(BallPositions.B3.getRobotPoseFromBall())),
+            new TwoBallPW(),
 
-            new PathweaverCommand("4balldefenseone", false, true),
-            new PathweaverIntake("4", true),
-            new ShootAuto(false, true, 0, () -> false, 153, 24)
+            new PathweaverIntake("4balltwo", false, true),
+    
+            new ShootAuto(false, true, 0, () -> true, 109, 26)
+
+            //TODO: add defense ball
         );
     }
 }
