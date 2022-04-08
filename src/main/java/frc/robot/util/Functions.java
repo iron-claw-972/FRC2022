@@ -87,13 +87,17 @@ public class Functions {
   }
 
   public static void loadPaths() {
+    double totalTime = 0;
     File[] directoryListing = Filesystem.getDeployDirectory().toPath().resolve(Constants.auto.kTrajectoryDirectory).toFile().listFiles();
     if (directoryListing != null) {
       for (File file : directoryListing) {
         if (file.isFile() && file.getName().indexOf(".") != -1) {
-          System.out.println("Processing file: " + file.getName());
+          long startTime = System.nanoTime();
           String name = file.getName().substring(0, file.getName().indexOf("."));
           trajectories.put(name, getTrajectoryFromJson(name));
+          double time = (System.nanoTime() - startTime) / 1000000.0;
+          totalTime += time;
+          System.out.println("Processed file: " + file.getName() + ", took " + time + " milliseconds.");
         }
       }
     } else {
@@ -102,6 +106,7 @@ public class Functions {
         true
       );
     }
+    System.out.println("File processing took a total of " + totalTime + " milliseconds");
   }
 
   public static Trajectory getTrajectory(String trajectoryName) {
