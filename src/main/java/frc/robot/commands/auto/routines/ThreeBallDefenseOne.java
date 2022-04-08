@@ -17,7 +17,6 @@ import frc.robot.util.BallPositions;
 
 public class ThreeBallDefenseOne extends SequentialCommandGroup {
 
-
   public ThreeBallDefenseOne(Alliance color) {
     this(Robot.drive, Robot.belt, Robot.arm, Robot.shooter, Robot.ll, color);
   }
@@ -26,20 +25,9 @@ public class ThreeBallDefenseOne extends SequentialCommandGroup {
     addRequirements(drive, belt, arm, shooter, ll);
     addCommands(
       new InstantCommand(() -> drive.resetOdometry(BallPositions.B1.getRobotPoseFromBall())),
-
-      new PathweaverIntake("3BallTurn_0", false, true),
-      new ShootAuto(false, true, 0, () -> false, 153, 25),
-      new PathweaverCommand("3BallTurn_1", false, false),
-      new PathweaverIntake("3BallTurn_2", false, true),
-      new ShootAuto(false, true, 0, () -> false, 153, 25),
-      new PathweaverIntake("3BallTurn_3", false, false),
-      new ShootAuto(false, true, 0, () -> false, 153, 25),
-      new PathweaverCommand("3BallTurn_4", false, false)
+      new ThreeBall(Alliance.Blue),
+      new PathweaverIntake("4balldefenseone", true),
+      new ShootAuto(false, true, 0, () -> true, 108, 23)
     );
-  
-
-}
-
-      
-  
+  }
 }

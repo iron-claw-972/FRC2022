@@ -14,25 +14,28 @@ import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Shooter;
 import frc.robot.util.BallPositions;
 
-public class ThreeBallTarmac1 extends SequentialCommandGroup {
+public class FourBallTarmac1 extends SequentialCommandGroup {
 
-  public ThreeBallTarmac1(Alliance color) {
+  public FourBallTarmac1(Alliance color) {
     this(Robot.drive, Robot.belt, Robot.arm, Robot.shooter, Robot.ll, color);
   }
 
-  public ThreeBallTarmac1(Drivetrain drive, Belt belt, Arm arm, Shooter shooter, Limelight ll, Alliance color) {
+  public FourBallTarmac1(Drivetrain drive, Belt belt, Arm arm, Shooter shooter, Limelight ll, Alliance color) {
       
     addRequirements(drive, belt, arm, shooter, ll);
     addCommands(
       new InstantCommand(() -> drive.resetOdometry(BallPositions.B1.getRobotPoseFromBall())),
 
-      new PathweaverIntake("4ballzero", false, true),
-      new PathweaverCommand("4ballone", false, false),
-      new PathweaverIntake("4balltwo", false, true),
-      new ShootAuto(false, true, 0, () -> false, 153, 25),
-      new PathweaverIntake("4ballthree", false, false),
-      new ShootAuto(false, true, 0, () -> false, 153, 25),
-      new PathweaverCommand("4ballfour", false, false)
+      new ShootAuto(false, true, 1, () -> true, 108, 22.4719101),
+
+      new PathweaverIntake("3BallTurn_0", false, true),
+      new ShootAuto(false, true, 0, () -> true, 157, 25),
+      new PathweaverCommand("3BallTurn_1", false, false),
+      new PathweaverIntake("3BallTurn_2", false, true),
+      new ShootAuto(false, true, 0, () -> true, 153, 25),
+      new PathweaverIntake("3BallTurn_3", false, false),
+      new PathweaverCommand("4ballfour", false, true),
+      new ShootAuto(false, true, 0, () -> true, 108, 32)
     );
   }
 
