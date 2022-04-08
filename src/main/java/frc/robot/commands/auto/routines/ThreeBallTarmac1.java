@@ -8,7 +8,6 @@ import frc.robot.commands.auto.PathweaverCommand;
 import frc.robot.commands.auto.PathweaverIntake;
 import frc.robot.commands.auto.ShootAuto;
 import frc.robot.subsystems.Arm;
-import frc.robot.subsystems.BallDetection;
 import frc.robot.subsystems.Belt;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Limelight;
@@ -27,16 +26,13 @@ public class ThreeBallTarmac1 extends SequentialCommandGroup {
     addCommands(
       new InstantCommand(() -> drive.resetOdometry(BallPositions.B1.getRobotPoseFromBall())),
 
-      new PathweaverIntake("3BallTurn_0", false, true),
+      new PathweaverIntake("4ballzero", false, true),
+      new PathweaverCommand("4ballone", false, false),
+      new PathweaverIntake("4balltwo", false, true),
       new ShootAuto(false, true, 0, () -> false, 153, 25),
-      new PathweaverCommand("3BallTurn_1", false, false),
-      new PathweaverIntake("3BallTurn_2", false, true),
+      new PathweaverIntake("4ballthree", false, false),
       new ShootAuto(false, true, 0, () -> false, 153, 25),
-      new PathweaverCommand("3BallTurn_3", false, false),
-      new PathweaverCommand("3BallTurn_4", false, false)
-
-
-
+      new PathweaverCommand("4ballfour", false, false)
     );
   }
 
