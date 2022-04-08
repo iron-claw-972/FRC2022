@@ -112,7 +112,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
-    m_autoCommand = getAutonomousCommand();
+    m_autoCommand = getAutonomousCommand().withTimeout(20);
 
     if (m_autoCommand != null) {
       m_autoCommand.schedule();

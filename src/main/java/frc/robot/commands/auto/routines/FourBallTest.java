@@ -29,16 +29,16 @@ public class FourBallTest extends SequentialCommandGroup {
 
       new PathweaverIntake("4balltwo_test", false, true),
 
-      new ShootAuto(false, true, 0, () -> true, 157, 26),
+      new ShootAuto(false, false, 0, () -> true, 157, 26),
       
       new PathweaverIntake("4ballthree_test", false),
 
       new InstantCommand(() -> CargoUtil.setBeltSpeed(Constants.belt.kIntakeSpeed)),
-      new InstantCommand(() -> CargoUtil.setWheelSpeed(() -> 27, true)),
+      new InstantCommand(() -> CargoUtil.setWheelSpeed(() -> 26, true)),
 
       new PathweaverCommand("4ballfour_test", false, true),
       
-      new ShootAuto(false, true, 0, () -> true, 157, 27),
+      new ShootAuto(false, false, 0, () -> true, 157, 26),
 
       new PositionArm(154)
     );

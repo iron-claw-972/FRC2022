@@ -7,6 +7,7 @@ import frc.robot.commands.cargo.*;
 import frc.robot.commands.climb.*;
 import frc.robot.constants.Constants;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.*;
 import frc.robot.util.CargoUtil;
 import frc.robot.util.ClimbUtil;
@@ -129,7 +130,7 @@ public class Operator {
     operator.get(DPad.UP).whenHeld(new ParallelCommandGroup(
       // stow the cargo subsystem
       new PositionArm(Constants.arm.kStowPos),
-      new Extend(Constants.extender.kLeftMaxUpwards, Constants.extender.kRightMaxUpwards)
+      new Extend(SmartDashboard.getNumber("Left Max Extension", Constants.extender.kLeftMaxUpwards), SmartDashboard.getNumber("Right Max Extension", Constants.extender.kRightMaxUpwards))
     ));
 
     // when DPad Down is pressed, enable the extender and compress downwards to kMaxDownwards

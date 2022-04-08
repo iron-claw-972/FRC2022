@@ -47,6 +47,8 @@ public class ShuffleboardManager {
     m_autoTab.addNumber("Rotation", Robot.drive::getPoseRotation);
     
     SmartDashboard.putNumber("auto rot", 100);
+    SmartDashboard.putNumber("Left Max Extension", Constants.extender.kLeftMaxUpwards);
+    SmartDashboard.putNumber("Right Max Extension", Constants.extender.kRightMaxUpwards);
 
     SmartDashboard.putData(Robot.drive.m_field);
 

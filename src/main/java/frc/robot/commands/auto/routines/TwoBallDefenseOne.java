@@ -3,6 +3,7 @@ package frc.robot.commands.auto.routines;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Robot;
 import frc.robot.commands.auto.PathweaverCommand;
+import frc.robot.commands.auto.PathweaverIntake;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Belt;
 import frc.robot.subsystems.Drivetrain;
@@ -19,7 +20,7 @@ public class TwoBallDefenseOne extends SequentialCommandGroup {
     addRequirements(drive, belt, arm, shooter, ll);
     addCommands(
       new TwoBallPW(),
-      new PathweaverCommand("2ball1Defense", false, true)
+      new PathweaverIntake("2ball1Defense", true)
     );
   }
 }
