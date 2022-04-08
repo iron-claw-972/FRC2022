@@ -90,6 +90,7 @@ public class Robot extends TimedRobot {
     CommandScheduler.getInstance().run();
     drive.updateMotors();
     log.updateBuffer();
+    
   }
 
   /**
@@ -105,6 +106,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void disabledPeriodic() {
+    m_autoCommand = getAutonomousCommand();
   }
 
   /**
@@ -112,8 +114,6 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
-    m_autoCommand = getAutonomousCommand().withTimeout(20);
-
     if (m_autoCommand != null) {
       m_autoCommand.schedule();
     }

@@ -24,7 +24,7 @@ public class TwoBallPW extends SequentialCommandGroup {
     addCommands(
       new InstantCommand(() -> CargoUtil.setBeltPower(0)),
       new PathweaverCommand("4ballzero", true, true),
-      new ShootAuto(false, false, 0, () -> true, 157, 24),
+      new ShootAuto(false, false, 0, () -> true, 157, 24.1),
 
       new PositionArm(Constants.arm.kIntakePos), //position arm early because it tends to hit the ball
       new PathweaverIntake("4ballone", true),

@@ -1,8 +1,8 @@
 package frc.robot.constants;
 
 public class AutoConstants {
-  public final double kMaxSpeedMetersPerSecond = 2.3; // Max velocity
-  public final double kMaxAccelerationMetersPerSecondSquared = 2.3; // Max acceleration
+  public final double kMaxSpeedMetersPerSecond = 3.4; // Max velocity
+  public final double kMaxAccelerationMetersPerSecondSquared = 2.4; // Max acceleration
 
   // Reasonable baseline values for a RAMSETE follower in units of meters and seconds
   // DO NOT MODIFY unless you know what you are doing

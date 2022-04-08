@@ -14,6 +14,7 @@ import frc.robot.subsystems.Limelight;
 import frc.robot.commands.auto.PathweaverCommand;
 import frc.robot.commands.auto.PathweaverIntake;
 import frc.robot.commands.auto.ShootAuto;
+import frc.robot.commands.cargo.AlignToUpperHub;
 import frc.robot.commands.cargo.PositionArm;
 import frc.robot.util.CargoUtil;
 
@@ -29,16 +30,22 @@ public class FourBallTest extends SequentialCommandGroup {
 
       new PathweaverIntake("4balltwo_test", false, true),
 
-      new ShootAuto(false, false, 0, () -> true, 157, 26),
-      
+      // new PositionArm(Constants.arm.kBackLimelightScanPos),
+
+      // new AlignToUpperHub(),
+
+      new ShootAuto(false, false, 0, () -> true, 157, 27),
+
       new PathweaverIntake("4ballthree_test", false),
 
-      new InstantCommand(() -> CargoUtil.setBeltSpeed(Constants.belt.kIntakeSpeed)),
-      new InstantCommand(() -> CargoUtil.setWheelSpeed(() -> 26, true)),
-
-      new PathweaverCommand("4ballfour_test", false, true),
+      parallel(
+        new InstantCommand(() -> CargoUtil.setBeltSpeed(Constants.belt.kIntakeSpeed)),
+        new InstantCommand(() -> CargoUtil.setWheelSpeed(() -> 28.5, true)),
+        new PositionArm(157),
+        new PathweaverCommand("4ballfour_test", false, true)
+      ),
       
-      new ShootAuto(false, false, 0, () -> true, 157, 26),
+      new ShootAuto(false, false, 0, () -> true, 157, 28.5),
 
       new PositionArm(154)
     );

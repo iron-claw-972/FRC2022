@@ -58,6 +58,7 @@ public class Operator {
 
     // Stow arm
     operator.get(Button.B).whenPressed(new PositionArm(Constants.arm.kStowPos));
+    // operator.get(Button.B).whenPressed(new AlignToUpperHub());
   }
 
   public static void configureCargoTestControls() {

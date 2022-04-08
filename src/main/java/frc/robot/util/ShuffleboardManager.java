@@ -78,7 +78,9 @@ public class ShuffleboardManager {
 
     m_autoCommand.addOption("3 Ball Auto", new ThreeBall(Alliance.Blue));
 
-    m_autoCommand.addOption("4 Ball Auto", new FourBall(Alliance.Blue));
+    m_autoCommand.addOption("4 Ball Auto", new FourBallTest(Alliance.Blue));
+
+    m_autoCommand.setDefaultOption("4 Ball Auto", new FourBallTest(Alliance.Blue));
 
     m_autoCommand.addOption("1 Ball Auto No Pathweaver", new OneBall());
     
@@ -139,7 +141,6 @@ public class ShuffleboardManager {
   }
 
   public Command getAutonomousCommand() {
-    chooserUpdate();
     return m_autoCommand.getSelected();
   }
   public Command getAutonomousWaitCommand() {
