@@ -15,13 +15,13 @@ import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Shooter;
 import frc.robot.util.BallPositions;
 
-public class ThreeBallTurn extends SequentialCommandGroup {
+public class ThreeBallTarmac1 extends SequentialCommandGroup {
 
-  public ThreeBallTurn(Alliance color) {
+  public ThreeBallTarmac1(Alliance color) {
     this(Robot.drive, Robot.belt, Robot.arm, Robot.shooter, Robot.ll, color);
   }
 
-  public ThreeBallTurn(Drivetrain drive, Belt belt, Arm arm, Shooter shooter, Limelight ll, Alliance color) {
+  public ThreeBallTarmac1(Drivetrain drive, Belt belt, Arm arm, Shooter shooter, Limelight ll, Alliance color) {
       
     addRequirements(drive, belt, arm, shooter, ll);
     addCommands(

@@ -84,6 +84,8 @@ public class ShuffleboardManager {
 
     m_autoCommand.addOption("DoNothing - there be dragons past here", new DoNothing());
 
+    m_autoCommand.addOption("Tarmac 1: 3 Ball Auto", new ThreeBallTarmac1(Alliance.Blue));
+
     m_autoCommand.addOption("RedVision3Ball", new ThreeBallVision(Alliance.Red));
     m_autoCommand.addOption("BlueVision3Ball", new ThreeBallVision(Alliance.Blue));
 
