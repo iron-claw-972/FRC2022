@@ -2,21 +2,13 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
-import ctre_shims.TalonEncoderSim;
 import frc.robot.constants.Constants;
 import frc.robot.util.ControllerFactory;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
-import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.RobotBase;
-import edu.wpi.first.wpilibj.RobotController;
-import edu.wpi.first.wpilibj.simulation.BatterySim;
-import edu.wpi.first.wpilibj.simulation.DutyCycleEncoderSim;
-import edu.wpi.first.wpilibj.simulation.EncoderSim;
-import edu.wpi.first.wpilibj.simulation.RoboRioSim;
-import edu.wpi.first.wpilibj.simulation.SingleJointedArmSim;
 import edu.wpi.first.wpilibj.smartdashboard.Mechanism2d;
 import edu.wpi.first.wpilibj.smartdashboard.MechanismLigament2d;
 import edu.wpi.first.wpilibj.smartdashboard.MechanismRoot2d;
@@ -33,9 +25,6 @@ public class Arm extends SubsystemBase {
   private double m_setpoint = Constants.arm.kIntakePos;
   private double m_feedforward;
   private double m_outputVoltage;
-
-  private SingleJointedArmSim m_armSim;
-  private DutyCycleEncoderSim m_encoderSim;
 
   public PIDController m_armPID = new PIDController(Constants.arm.kP, Constants.arm.kI, Constants.arm.kD);
 
@@ -69,20 +58,6 @@ public class Arm extends SubsystemBase {
     m_armPID.setTolerance(Constants.arm.kArmTolerance);
 
     if (RobotBase.isSimulation()) {
-      m_armSim = new SingleJointedArmSim(
-        Constants.arm.kGearbox, 
-        Constants.arm.kGearRatio, 
-        Constants.arm.kMomentOfInertia, 
-        Constants.arm.kLength, 
-        Constants.arm.kMinAngleRads, 
-        Constants.arm.kMaxAngleRads, 
-        Constants.arm.kMassKg, 
-        true
-      );
-
-      // The encoder and gyro angle sims let us set simulated sensor readings
-      m_encoderSim = new DutyCycleEncoderSim(m_encoder);
-
       //display for simulator on SmartDashboard
       SmartDashboard.putData("Arm Sim", m_mech2d);
       m_armTower.setColor(new Color8Bit(Color.kBlue));
@@ -100,23 +75,10 @@ public class Arm extends SubsystemBase {
 
   @Override
   public void simulationPeriodic() {
-    // In this method, we update our simulation of what our arm is doing
-
-    //First update arm sim power
-    m_armSim.setInput(MathUtil.clamp(m_outputVoltage, -Constants.arm.kMotorClamp, Constants.arm.kMotorClamp));
-
-    // Next, we update it. The standard loop time is 20ms.
-    m_armSim.update(0.020);
-
-    // Finally, we set our simulated encoder's readings and simulated battery voltage
-    m_encoderSim.setDistance(Units.radiansToRotations(m_armSim.getAngleRads()));
-    // SimBattery estimates loaded battery voltages
-    RoboRioSim.setVInVoltage(
-        BatterySim.calculateDefaultBatteryLoadedVoltage(m_armSim.getCurrentDrawAmps()));
-
-    // Update the Mechanism Arm angle based on the simulated arm angle
-    //System.out.println("Angle: " + Units.radiansToDegrees(m_armSim.getAngleRads()));
-    m_arm.setAngle(Units.radiansToDegrees(m_armSim.getAngleRads()));
+    // Ideally we would set this to Units.radiansToDegrees(m_armSim.getAngleRads()) to set the arm to the simulation
+    // with m_arm sim being a SingleJointedArmSim class, configured using the constants in ArmConstants
+    // However it doesn't seem accurate enough
+    m_arm.setAngle(m_setpoint);
   }
 
   public void resetPID() {
@@ -146,6 +108,9 @@ public class Arm extends SubsystemBase {
 
   public boolean reachedSetpoint() {
     // checks if the arm is at its setpoint
+    if (RobotBase.isSimulation()) {
+      return true;
+    }
     return m_armPID.atSetpoint();
   }
 
