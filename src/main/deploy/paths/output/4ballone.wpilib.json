@@ -1,6 +1,6 @@
 [
 {
-"acceleration": 2.2999999999999994,
+"acceleration": 2.3,
 "curvature": 0.0,
 "pose": {
 "rotation": {
@@ -15,7 +15,7 @@
 "velocity": 0.0
 },
 {
-"acceleration": 2.3,
+"acceleration": 2.3000000000000007,
 "curvature": -6.857720117190385,
 "pose": {
 "rotation": {
@@ -27,10 +27,10 @@
 }
 },
 "time": 0.07837490684632463,
-"velocity": 0.1802622857465466
+"velocity": 0.18026228574654662
 },
 {
-"acceleration": 2.2999999999999994,
+"acceleration": 2.299999999999999,
 "curvature": -2.3275021229904085,
 "pose": {
 "rotation": {
@@ -42,7 +42,7 @@
 }
 },
 "time": 0.1263602803318817,
-"velocity": 0.2906286447633279
+"velocity": 0.29062864476332795
 },
 {
 "acceleration": 2.299999999999999,

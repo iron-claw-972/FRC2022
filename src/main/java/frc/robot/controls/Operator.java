@@ -63,42 +63,44 @@ public class Operator {
     // controller.get().RT().whileActiveOnce(new Shoot(false, false, false, 175, -6000));
     // controller.get().RB().whenHeld(new GetDistance(Robot.m_limelight, Robot.mArm));
 
-    operator.get(Button.Y).whenHeld(new SequentialCommandGroup(
-      new InstantCommand(() -> CargoUtil.setAngle(CargoUtil::getTestArmAngle)),
-      new InstantCommand(() -> CargoUtil.enableArm()),
-      new WaitUntilCommand(() -> CargoUtil.isArmAtSetpoint()),
-      new InstantCommand(() -> CargoUtil.setWheelRPM(CargoUtil::getTestShooterSpeed)),
-      new InstantCommand(() -> CargoUtil.setBeltPower(Constants.belt.kIntakeSpeed)),
-      new InstantCommand(() -> CargoUtil.enableBelt()),
-      new InstantCommand(() -> CargoUtil.enableWheel()),
-      // new WaitCommand(1),
-      new WaitUntilCommand(() -> CargoUtil.isWheelAtSetpoint()),
-      new InstantCommand(() -> CargoUtil.setBeltPower(Constants.belt.kOuttakeSpeed)),
-      new WaitCommand(0.4),
-      new InstantCommand(() -> CargoUtil.disableShiitake())
-    ));
-    operator.get(Button.Y).whenReleased(new InstantCommand(() -> CargoUtil.disableShiitake()));
+    // operator.get(Button.Y).whenHeld(new SequentialCommandGroup(
+    //   new InstantCommand(() -> CargoUtil.setAngle(CargoUtil::getTestArmAngle)),
+    //   new InstantCommand(() -> CargoUtil.enableArm()),
+    //   new WaitUntilCommand(() -> CargoUtil.isArmAtSetpoint()),
+    //   new InstantCommand(() -> CargoUtil.setWheelRPM(CargoUtil::getTestShooterSpeed)),
+    //   new InstantCommand(() -> CargoUtil.setBeltPower(Constants.belt.kIntakeSpeed)),
+    //   new InstantCommand(() -> CargoUtil.enableBelt()),
+    //   new InstantCommand(() -> CargoUtil.enableWheel()),
+    //   // new WaitCommand(1),
+    //   new WaitUntilCommand(() -> CargoUtil.isWheelAtSetpoint()),
+    //   new InstantCommand(() -> CargoUtil.setBeltPower(Constants.belt.kOuttakeSpeed)),
+    //   new WaitCommand(0.4),
+    //   new InstantCommand(() -> CargoUtil.disableShiitake())
+    // ));
+    // operator.get(Button.Y).whenReleased(new InstantCommand(() -> CargoUtil.disableShiitake()));
 
 
-    operator.get(Button.A).whenHeld(new SequentialCommandGroup(
-      new InstantCommand(() -> CargoUtil.setAngle(CargoUtil::getTestArmAngle)),
-      new InstantCommand(() -> CargoUtil.enableArm()),
-      new WaitUntilCommand(() -> CargoUtil.isArmAtSetpoint()),
-      new InstantCommand(() -> CargoUtil.setWheelRPM(CargoUtil::getTestShooterSpeed)),
-      new InstantCommand(() -> CargoUtil.setBeltPower(Constants.belt.kIntakeSpeed)),
-      new InstantCommand(() -> CargoUtil.enableWheel()),
-      new InstantCommand(() -> CargoUtil.enableBelt()),
-      new WaitCommand(999999)
-      // new WaitUntilCommand(() -> CargoUtil.isWheelAtSetpoint()),
-    ));
-    operator.get(Button.A).whenReleased(new InstantCommand(() -> CargoUtil.disableShiitake()));
+    // operator.get(Button.A).whenHeld(new SequentialCommandGroup(
+    //   new InstantCommand(() -> CargoUtil.setAngle(CargoUtil::getTestArmAngle)),
+    //   new InstantCommand(() -> CargoUtil.enableArm()),
+    //   new WaitUntilCommand(() -> CargoUtil.isArmAtSetpoint()),
+    //   new InstantCommand(() -> CargoUtil.setWheelRPM(CargoUtil::getTestShooterSpeed)),
+    //   new InstantCommand(() -> CargoUtil.setBeltPower(Constants.belt.kIntakeSpeed)),
+    //   new InstantCommand(() -> CargoUtil.enableWheel()),
+    //   new InstantCommand(() -> CargoUtil.enableBelt()),
+    //   new WaitCommand(999999)
+    //   // new WaitUntilCommand(() -> CargoUtil.isWheelAtSetpoint()),
+    // ));
+    // operator.get(Button.A).whenReleased(new InstantCommand(() -> CargoUtil.disableShiitake()));
+
+    operator.get(Button.Y).whenHeld(new GetDistance(Robot.ll, Robot.arm));
 
     operator.get(Button.B).whenHeld(new SequentialCommandGroup(
       new InstantCommand(() -> CargoUtil.setAngle(CargoUtil::getTestArmAngle)),
       new InstantCommand(() -> CargoUtil.enableArm()),
       new WaitUntilCommand(() -> CargoUtil.isArmAtSetpoint())
     ));
-    operator.get(Button.B).whenReleased(new InstantCommand(() -> CargoUtil.disableArm()));
+    // operator.get(Button.B).whenReleased(new InstantCommand(() -> CargoUtil.disableArm()));
 
     // Align to upper hub front
     // controller.get().RT().whileActiveOnce(new SequentialCommandGroup(

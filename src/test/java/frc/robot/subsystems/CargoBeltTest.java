@@ -1,33 +1,33 @@
-package frc.robot.subsystems;
+// package frc.robot.subsystems;
 
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.*;
+// import static org.junit.Assert.*;
+// import static org.mockito.Mockito.*;
 
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
-
-
-import org.junit.*;
+// import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 
-public class CargoBeltTest {
-  public WPI_TalonFX motor = mock(WPI_TalonFX.class);
+// import org.junit.*;
 
-  public Belt belt = new Belt(motor);
 
-  @Test
-  public void beltInherentlyOff() {
-    assertFalse(belt.isEnabled()); // is the belt inherently disabled?
+// public class CargoBeltTest {
+//   public WPI_TalonFX motor = mock(WPI_TalonFX.class);
 
-    belt.enable();
-    assertTrue(belt.isEnabled()); // is the belt enabled?
-  }
+//   public Belt belt = new Belt(motor);
 
-  @Test
-  public void beltPowerSet() {
-    assertEquals(0.0, belt.getMotorPower(), 0); // is the belt inherently not powered?
+//   @Test
+//   public void beltInherentlyOff() {
+//     assertFalse(belt.isEnabled()); // is the belt inherently disabled?
 
-    belt.setPower(.5);
-    belt.periodic();
-    assertEquals(.5, belt.getMotorPower(), 0); // is the belt's power correct?
-  }
-}
+//     belt.enable();
+//     assertTrue(belt.isEnabled()); // is the belt enabled?
+//   }
+
+//   @Test
+//   public void beltPowerSet() {
+//     assertEquals(0.0, belt.getMotorPower(), 0); // is the belt inherently not powered?
+
+//     belt.setPower(.5);
+//     belt.periodic();
+//     assertEquals(.5, belt.getMotorPower(), 0); // is the belt's power correct?
+//   }
+// }
