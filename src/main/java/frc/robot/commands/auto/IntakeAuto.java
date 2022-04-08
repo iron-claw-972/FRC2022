@@ -2,10 +2,13 @@ package frc.robot.commands.auto;
 
 import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import frc.robot.Robot;
+import frc.robot.commands.DoNothing;
 import frc.robot.commands.cargo.ChaseBall;
+import frc.robot.commands.cargo.PositionArm;
 import frc.robot.constants.Constants;
 import frc.robot.subsystems.Limelight;
 import frc.robot.util.CargoUtil;
@@ -55,14 +58,14 @@ public class IntakeAuto extends SequentialCommandGroup {
         parallel(
           new InstantCommand(() -> CargoUtil.setWheelRPM(Constants.shooter.kIntakeSpeed)),
           new InstantCommand(() -> CargoUtil.setBeltPower(Constants.belt.kIntakeSpeed)),
-          new InstantCommand(() -> CargoUtil.setAngle(Constants.arm.kIntakePos))
+          new PositionArm(Constants.arm.kIntakePos)
         ),
-        new WaitUntilCommand(() -> CargoUtil.isArmAtSetpoint()),
         new WaitUntilCommand(() -> CargoUtil.isWheelAtSetpoint()),
+        new PrintCommand("Starting drive distance.. " + distance ),
         new DriveDistance(distance),
         new ConditionalCommand(
           new ChaseBall(isRedBall, false),
-          new WaitUntilCommand(() -> CargoUtil.isBallContained()).withTimeout(1.5),
+          new DoNothing(),
           () -> doesChaseBall
         ),
         new InstantCommand(() -> CargoUtil.disableShiitake()),

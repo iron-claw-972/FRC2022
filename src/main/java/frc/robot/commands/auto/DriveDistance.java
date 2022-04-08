@@ -18,7 +18,7 @@ import frc.robot.subsystems.Drivetrain;
 public class DriveDistance extends CommandBase {
   double setpoint, zeroPos;
 
-  public static boolean isFinished = false;
+  public boolean isFinished = false;
 
   public Drivetrain m_drive;
 
