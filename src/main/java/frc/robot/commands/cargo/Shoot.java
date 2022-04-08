@@ -53,6 +53,7 @@ public class Shoot extends SequentialCommandGroup {
 
         // Don't spin shooting wheels until ball is confirmed to be in shooter
         new InstantCommand(() -> CargoUtil.setBeltPower(Constants.belt.kIntakeSpeed)),
+        new InstantCommand(() -> CargoUtil.enableBelt()),
         new WaitUntilCommand(() -> CargoUtil.isBallContained()).withTimeout(0.4),
 
         new InstantCommand(() -> CargoUtil.enableAll()),
@@ -90,19 +91,25 @@ public class Shoot extends SequentialCommandGroup {
 
             //  Calculate distance and determines optimal shooting angle and velocity and
             // set to actual shooting angle
-            new ConditionalCommand(
-              sequence(
-                new GetDistance(limelight, arm),
-                new PositionArmOptimal()
+            deadline(
+              new ConditionalCommand(
+                sequence(
+                  new GetDistance(limelight, arm),
+                  new PositionArmOptimal()
+                ),
+                new PositionArm(outtakeArmPosition),
+                () -> doesCalculateSpeed
               ),
-              new PositionArm(outtakeArmPosition),
-              () -> doesCalculateSpeed
+              new InstantCommand(() -> drive.tankDriveVolts(0, 0)).perpetually()
             )
           )
         ),
 
         // // Wait until both arm and wheels are at setpoint
-        new WaitUntilCommand(() -> CargoUtil.isWheelAtSetpoint() && CargoUtil.isArmAtSetpoint()),
+        deadline(
+          new WaitUntilCommand(() -> CargoUtil.isWheelAtSetpoint() && CargoUtil.isArmAtSetpoint()),
+          new InstantCommand(() -> drive.tankDriveVolts(0, 0)).perpetually()
+        ),
 
         // Spin belts to outtake ball
         new InstantCommand(() -> CargoUtil.setBeltPower(Constants.belt.kOuttakeSpeed)),

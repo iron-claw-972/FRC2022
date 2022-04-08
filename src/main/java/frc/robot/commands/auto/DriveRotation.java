@@ -42,7 +42,7 @@ public class DriveRotation extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() { 
-    m_drive.tankDrive(
+    m_drive.tankFeedForwardDrive(
       -Math.copySign(Constants.auto.kDriveSpeed, setpoint),
        Math.copySign(Constants.auto.kDriveSpeed, setpoint));
   }
@@ -55,15 +55,15 @@ public class DriveRotation extends CommandBase {
   @Override
   public boolean isFinished() {
     if (setpoint > 0) {
-      return m_drive.getLeftPosition() <= zeroPos - setpoint;
+      return -m_drive.getLeftPosition() <= zeroPos - setpoint;
     } else {
-      return m_drive.getLeftPosition() >= zeroPos - setpoint;
+      return -m_drive.getLeftPosition() >= zeroPos - setpoint;
     }
   }
 
   @Override
   public void end(boolean interrupted) {
     isFinished = true;
-    m_drive.tankDrive(0, 0);
+    m_drive.tankDriveVolts(0, 0);
   }
 }

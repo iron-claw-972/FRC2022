@@ -47,7 +47,7 @@ public class ArmConstants {
     public final double kFrontOuttakeFarPos = 85;
 
     public final double kFrontOuttakeHighPos = 108;
-    public final double kBackOuttakeHighPos = 162;
+    public final double kBackOuttakeHighPos = 157;
 
     public final double kBackOuttakeLimelightPos = 168;
     public final double kFrontOuttakeAutoPos = 108;

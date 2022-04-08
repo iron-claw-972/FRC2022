@@ -14,4 +14,5 @@ public final class Constants {
   public static final DriveConstants drive = new DriveConstants();
   public static final LimelightConstants ll = new LimelightConstants();
   public static final ShooterConstants shooter = new ShooterConstants();
+  public static final FieldConstants field = new FieldConstants();
 }

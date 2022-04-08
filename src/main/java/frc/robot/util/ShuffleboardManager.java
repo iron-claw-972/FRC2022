@@ -1,9 +1,12 @@
 package frc.robot.util;
 
 
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.shuffleboard.*;
 import edu.wpi.first.wpilibj.smartdashboard.*;
@@ -12,6 +15,7 @@ import frc.robot.Robot;
 import frc.robot.subsystems.*;
 import frc.robot.commands.*;
 import frc.robot.commands.auto.*;
+import frc.robot.commands.auto.routines.*;
 import frc.robot.commands.cargo.*;
 import frc.robot.constants.Constants;
 
@@ -36,17 +40,22 @@ public class ShuffleboardManager {
     LiveWindow.disableAllTelemetry(); // LiveWindow is causing periodic loop overruns
     m_mainTab.addBoolean("Is Teleop", DriverStation::isTeleop);
     m_mainTab.addNumber("left drive encoder", Robot.drive::getLeftPosition);
+    m_autoTab.addNumber("Navx Position", Robot.drive::getHeading);
+
+    m_autoTab.addNumber("X", Robot.drive::getPoseX);
+    m_autoTab.addNumber("Y", Robot.drive::getPoseX);
+    m_autoTab.addNumber("Rotation", Robot.drive::getPoseRotation);
+    
+    SmartDashboard.putNumber("auto rot", 100);
+
+    SmartDashboard.putData(Robot.drive.m_field);
+
     // climbTab.addNumber("Max Extension Ticks", () -> extenderConstants.kExtenderMaxArmTicks);
     chooserUpdate();
     subsystemSpam();
     time();
-    update();
 
     m_autoTab.add("Auto Chooser", m_autoCommand);
-  }
-
-  public void update() {
-    
   }
 
   public void time() {
@@ -60,27 +69,52 @@ public class ShuffleboardManager {
 
   public void chooserUpdate() {
     // originally 0.8492
-    m_autoCommand.addOption("DoNothing", new DoNothing());
-
-    m_autoCommand.addOption("Front1BallAuto", new Front1BallAuto());
-    m_autoCommand.addOption("Back1BallAuto", new Back1BallAuto());
-
-    m_autoCommand.addOption("Back2BallAuto", new Back2BallAuto());
-
-    m_autoCommand.addOption("RedVision3Ball", new Vision3BallAuto(true));
-    m_autoCommand.addOption("BlueVision3Ball", new Vision3BallAuto(false));
-
-    // autoCommand.setDefaultOption("fetch me my paper boy", new FlexibleAuto(distance.getDouble(0), intakeSecond.getBoolean(true), shootSecond.getBoolean(true), limelightColor.getBoolean(Constants.kIsRedAlliance)));
-    m_autoCommand.addOption("Main pathweaver: " + Constants.auto.kTrajectoryName, new PathweaverCommand(Constants.auto.kTrajectoryName, Robot.drive));
     
-    for (String path : Constants.auto.kAutoPaths) {
-      m_autoCommand.addOption(path, new PathweaverCommand(path, Robot.drive));
-    }
+    m_autoCommand.addOption("1 Ball Auto", new OneBallPW());
 
-    // m_chooser.addOption("teleop", new TeleopDrive(Drivetrain.getInstance()));
-    m_autoCommand.addOption("Spin baby spin", new RunCommand(() -> Robot.drive.tankDrive(0.5, -0.5), Robot.drive));
-    // adds auto to shuffle board
-    // SmartDashboard.putData("Auto Chooser",autoCommand);
+    m_autoCommand.addOption("2 Ball Auto", new TwoBallPW());
+
+    m_autoCommand.addOption("3 Ball Auto", new ThreeBall(Alliance.Blue));
+
+    m_autoCommand.addOption("4 Ball Auto", new FourBall(Alliance.Blue));
+
+    m_autoCommand.addOption("1 Ball Auto No Pathweaver", new OneBall());
+    
+    m_autoCommand.addOption("2 Ball Auto No Pathweaver", new TwoBall());
+
+    m_autoCommand.addOption("DoNothing - there be dragons past here", new DoNothing());
+
+    m_autoCommand.addOption("Tarmac 1: 4 Ball Auto", new FourBallTarmac1(Alliance.Blue));
+    m_autoCommand.addOption("Tarmac 2: 3 Ball Defense 1", new ThreeBallDefenseOne(Alliance.Blue));
+    m_autoCommand.addOption("2 Ball Defense 1", new TwoBallDefenseOne());
+
+    m_autoCommand.addOption("RedVision3Ball", new ThreeBallVision(Alliance.Red));
+    m_autoCommand.addOption("BlueVision3Ball", new ThreeBallVision(Alliance.Blue));
+
+    m_autoCommand.addOption("Rotation", new DriveRotation(SmartDashboard.getNumber("auto rot", 100)));
+
+    m_autoCommand.addOption("TestPath", new PathweaverCommand("Test2Ball", true, true));
+
+    m_autoCommand.addOption("Reset Pose Start", 
+    new InstantCommand(() -> Robot.drive.resetOdometry(BallPositions.B3.getRobotPoseFromBall())).andThen(new PrintCommand("Robot: " + BallPositions.B3.getRobotPoseFromBall().getX() + ", " + BallPositions.B3.getRobotPoseFromBall().getY()))
+    );
+
+    m_autoCommand.addOption("Reset Pose Zero", new InstantCommand(() -> Robot.drive.resetOdometry(new Pose2d(0, 0, new Rotation2d()))));
+
+    m_autoCommand.addOption("Reset Pose Ball", new InstantCommand(() -> Robot.drive.resetOdometry(
+      new Pose2d(
+        BallPositions.B3.m_pos, 
+        new Rotation2d(BallPositions.B3.m_angleAwayFromHub)
+      ))).andThen(new PrintCommand("Ball: " + BallPositions.B3.m_pos.getX() + ", " + BallPositions.B3.m_pos.getY()))
+    );
+    
+    m_autoCommand.addOption("Reset Pose Hub", new InstantCommand(() -> Robot.drive.resetOdometry(
+      new Pose2d(
+        Constants.field.hubPos, 
+        new Rotation2d(BallPositions.B3.m_angleAwayFromHub)
+      ))).andThen(new PrintCommand("Hub: " + Constants.field.hubPos.getX() + ", " + Constants.field.hubPos.getY()))
+    );
+
   }
   public void subsystemSpam() {
     // put subsystem shuffleboard things in here!
@@ -115,6 +149,7 @@ public class ShuffleboardManager {
     m_cargoTab.addBoolean("Cargo Rotator", Robot.arm::isEnabled);
     m_cargoTab.addNumber("Cargo Arm Raw Angle", Robot.arm::currentAngleRaw);
     m_cargoTab.addNumber("Cargo Rotator Setpoint", Robot.arm::getSetpoint);
+    m_cargoTab.addBoolean("Cargo Arm at Setpoint", Robot.arm.m_armPID::atSetpoint);
 
     m_cargoTab.add("Cargo Rotator PID", Robot.arm.m_armPID);
   }
@@ -124,7 +159,15 @@ public class ShuffleboardManager {
         
     m_cargoTab.add("CargoShooterPID", Robot.shooter.m_shooterPID);
 
+    m_cargoTab.addBoolean("Shooter at Setpoint", Robot.shooter::reachedSetpoint);
+
     SmartDashboard.putNumber("Shooter FF", Constants.shooter.kForward);
+    SmartDashboard.putNumber("Shooter kS", Constants.shooter.kS);
+    SmartDashboard.putNumber("Limelight angle factor", Constants.ll.kAngularFactor);
+    m_cargoTab.add(Robot.drive.m_dDrive);
+
+    SmartDashboard.putNumber("Test shooter speed", -2500);
+    SmartDashboard.putNumber("Test arm angle", 108);
   }
   public void loadCargoBeltShuffleboard(){
     m_cargoTab.addBoolean("Cargo Belt", Robot.belt::isEnabled);
@@ -159,8 +202,8 @@ public class ShuffleboardManager {
     SmartDashboard.putNumber("Front Shot Efficiency", Constants.shooter.kFrontShotEfficiency);
     SmartDashboard.putNumber("Back Shot Efficiency", Constants.shooter.kBackShotEfficiency);
 
-    SmartDashboard.putNumber("Front Distance Error (in)", Constants.ll.kFrontLimelightDistanceError);
-    SmartDashboard.putNumber("Back Distance Error (in)", Constants.ll.kBackLimelightDistanceError);
+    SmartDashboard.putNumber("Front Distance Factor", Constants.ll.kFrontLimelightDistanceFactor);
+    SmartDashboard.putNumber("Back Distance Factor", Constants.ll.kBackLimelightDistanceFactor);
   }
 
   public void loadClimbExtenderShuffleboard(Extender extender) {
@@ -169,6 +212,8 @@ public class ShuffleboardManager {
     
     m_climbTab.add(extender.getSide() + "Climb Extender PID", extender.m_extenderPID);
     m_climbTab.addBoolean(extender.getSide() + " Extender Setpoint", extender::reachedSetpoint);
+    m_climbTab.addBoolean(extender.getSide() + " Limit Switch", extender::compressionLimitSwitch);
+    m_climbTab.addBoolean(extender.getSide() + " Manual", extender::isManual);
   }
 
   public void loadClimbRotatorShuffleboard(Rotator rotator) {
@@ -177,13 +222,13 @@ public class ShuffleboardManager {
     // a pop-up in shuffleboard that states if the rotator is on/off
     m_climbTab.addBoolean(rotator.getSide() + " Climb Rotator", rotator::isEnabled);
 
-    m_climbTab.addNumber(rotator.getSide() + " Climb Rotator Goal", rotator::getSetPoint);
+    m_climbTab.addNumber(rotator.getSide() + " Climb Rotator Goal", rotator::getGoal);
     
     // PID values that can be modified in shuffleboard
     m_climbTab.add(rotator.getSide() + " Climb Rotator PID", rotator.armPID);
     m_climbTab.addBoolean(rotator.getSide() + " Climb Rotator Setpoint Reached", rotator::reachedSetpoint);
 
-
+    SmartDashboard.putNumber(rotator.getSide() + " Rotator FF", 0);
   }
 
   public void loadBallDetectionShuffleboard(){
