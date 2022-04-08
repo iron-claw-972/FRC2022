@@ -2,6 +2,7 @@ package frc.robot.constants;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 
+import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.util.Units;
 
 public class ArmConstants {
@@ -73,4 +74,15 @@ public class ArmConstants {
     public final double kSupplyTriggerThreshold = 30;
     public final double kSupplyTriggerDuration = 0;
     public final NeutralMode kNeutral = NeutralMode.Brake;
+
+    //sim constants
+    //TODO: needs configuration! Got values from cad, likely inaccurate
+    public final DCMotor kGearbox = DCMotor.getFalcon500(1); //The type of and number of motors in the arm gearbox.
+    public final double kGearRatio = 128.0 / 9.0; // The gearing of the arm (numbers greater than 1 represent reductions).
+    public final double kMomentOfInertia = 0.566;// The moment of inertia of the arm, calculated from CAD software. (jKgMetersSquared)
+    public final double kLength = 0.710;// The length of the arm. (meters)
+    public final double kMinAngleRads = Units.degreesToRadians(2); // The minimum angle that the arm is capable of. (radians)
+    public final double kMaxAngleRads = Units.degreesToRadians(172);    // The maximum angle that the arm is capable of. (radians)
+    public final double kMassKg = 5.456;    // The mass of the arm. (kilograms)
+
 }
