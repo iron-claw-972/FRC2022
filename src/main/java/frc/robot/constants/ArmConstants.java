@@ -6,6 +6,7 @@ import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.util.Units;
 
 public class ArmConstants {
+    //none of this shit means anything ??????
     // the duty cycle encoder ports of the arm
     public final int kArmEncoder = 4;
 

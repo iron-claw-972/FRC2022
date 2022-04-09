@@ -17,6 +17,7 @@ import frc.robot.commands.auto.ShootAuto;
 import frc.robot.commands.cargo.PositionArm;
 import frc.robot.util.CargoUtil;
 
+//this works right, right.... right??
 public class FourBall extends SequentialCommandGroup {
   public FourBall(Alliance color) {
     this(Robot.drive, Robot.belt, Robot.arm, Robot.shooter, Robot.ll, Robot.ballDetection, color);
@@ -26,7 +27,7 @@ public class FourBall extends SequentialCommandGroup {
     addRequirements(drive, belt, arm, shooter, limelight, ballDetection);
     addCommands(
       new ThreeBall(color),
-      
+      //"4ball"
       new PathweaverIntake("4ballthree", false),
 
       new InstantCommand(() -> CargoUtil.setBeltSpeed(Constants.belt.kIntakeSpeed)),

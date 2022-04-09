@@ -26,6 +26,7 @@ public class AlignToUpperHub extends CommandBase {
     addRequirements(limelight, drivetrain);
 
     alignPID.setTolerance(Constants.ll.kAlignPIDTolerance);
+    //System.exit(0);
   }
 
   @Override

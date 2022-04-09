@@ -31,5 +31,6 @@ public class EjectBall extends SequentialCommandGroup {
   public void end(boolean interrupted) {
     CargoUtil.disableShiitake();
     // Robot.m_limelight.setDriverPipeline();
+        //System.exit(0);
   }
 }

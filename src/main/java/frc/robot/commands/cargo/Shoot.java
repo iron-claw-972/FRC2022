@@ -57,7 +57,8 @@ public class Shoot extends SequentialCommandGroup {
         new WaitUntilCommand(() -> CargoUtil.isBallContained()).withTimeout(0.4),
 
         new InstantCommand(() -> CargoUtil.enableAll()),
-
+      
+        //like parallel parking :)
         parallel(
           sequence(
             // Spin up wheels to optimal velocity when the limelight gets the optimal angle

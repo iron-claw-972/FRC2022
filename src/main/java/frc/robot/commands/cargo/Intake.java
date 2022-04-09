@@ -43,6 +43,7 @@ public class Intake extends SequentialCommandGroup {
         //   () -> doesCheckBall
         // ),
 
+        //System.exit(0);
         // Spin up wheel, belt, set angle, and start ball chase simultaneously
         parallel(
           new InstantCommand(() -> CargoUtil.setWheelRPM(Constants.shooter.kIntakeSpeed)),

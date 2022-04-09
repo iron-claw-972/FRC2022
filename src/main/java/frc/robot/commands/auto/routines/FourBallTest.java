@@ -34,7 +34,7 @@ public class FourBallTest extends SequentialCommandGroup {
 
       // new AlignToUpperHub(),
 
-      new ShootAuto(false, false, 0, () -> true, 157, 27),
+      new ShootAuto(false, false, 0, () -> true, 157, 27.75),
 
       new PathweaverIntake("4ballthree_test", false),
 
