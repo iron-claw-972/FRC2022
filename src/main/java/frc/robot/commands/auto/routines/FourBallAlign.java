@@ -18,17 +18,23 @@ import frc.robot.commands.cargo.AlignToUpperHub;
 import frc.robot.commands.cargo.PositionArm;
 import frc.robot.util.CargoUtil;
 
-public class FourBallTest extends SequentialCommandGroup {
-  public FourBallTest(Alliance color) {
+public class FourBallAlign extends SequentialCommandGroup {
+  public FourBallAlign(Alliance color) {
     this(Robot.drive, Robot.belt, Robot.arm, Robot.shooter, Robot.ll, Robot.ballDetection, color);
   }
 
-  public FourBallTest(Drivetrain drive, Belt belt, Arm arm, Shooter shooter, Limelight limelight, BallDetection ballDetection, Alliance color) {
+  public FourBallAlign(Drivetrain drive, Belt belt, Arm arm, Shooter shooter, Limelight limelight, BallDetection ballDetection, Alliance color) {
     addRequirements(drive, belt, arm, shooter, limelight, ballDetection);
     addCommands(
       new TwoBallPW(),
 
+      new InstantCommand(() -> limelight.setUpperHubPipeline()),
+
       new PathweaverIntake("4balltwo_test", false, true),
+
+      new PositionArm(Constants.arm.kBackLimelightScanPos),
+
+      new AlignToUpperHub().withTimeout(4),
 
       new ShootAuto(false, false, 0, () -> true, 157, 27.75),
 

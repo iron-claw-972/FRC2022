@@ -43,8 +43,8 @@ public class Robot extends TimedRobot {
   public static Log log = new Log();
   public static Limelight ll = new Limelight(CargoUtil::isLimelightFaceFront);
 
-  UsbCamera m_camera1;
-  UsbCamera m_camera2;
+  // UsbCamera m_camera1;
+  // UsbCamera m_camera2;
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -58,8 +58,8 @@ public class Robot extends TimedRobot {
 
     //setup cameras 
     //TODO: use m_camera1.setFPS(30) or m_camera1.setResolution(width, height)?
-    m_camera1 = CameraServer.startAutomaticCapture();
-    m_camera2 = CameraServer.startAutomaticCapture();
+    // m_camera1 = CameraServer.startAutomaticCapture();
+    // m_camera2 = CameraServer.startAutomaticCapture();
 
     // default command to run in teleop
     drive.setDefaultCommand(new DifferentialDrive(drive));

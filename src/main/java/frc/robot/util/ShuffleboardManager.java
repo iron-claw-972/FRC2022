@@ -80,17 +80,22 @@ public class ShuffleboardManager {
 
     m_autoCommand.addOption("4 Ball Auto", new FourBallTest(Alliance.Blue));
 
+    m_autoCommand.addOption("4 Ball Auto with Alignment", new FourBallAlign(Alliance.Blue));
+
     m_autoCommand.setDefaultOption("4 Ball Auto", new FourBallTest(Alliance.Blue));
+
+    m_autoCommand.addOption("2 Ball Defense 1", new TwoBallDefenseOne());
+
+    m_autoCommand.addOption("2 Ball Auto & drive forward a little", new TwoBallTest());
+
+    m_autoCommand.addOption("DoNothing - there be dragons past here", new DoNothing());
 
     m_autoCommand.addOption("1 Ball Auto No Pathweaver", new OneBall());
     
     m_autoCommand.addOption("2 Ball Auto No Pathweaver", new TwoBall());
 
-    m_autoCommand.addOption("DoNothing - there be dragons past here", new DoNothing());
-
     m_autoCommand.addOption("Tarmac 1: 4 Ball Auto", new FourBallTarmac1(Alliance.Blue));
     m_autoCommand.addOption("Tarmac 2: 3 Ball Defense 1", new ThreeBallDefenseOne(Alliance.Blue));
-    m_autoCommand.addOption("2 Ball Defense 1", new TwoBallDefenseOne());
 
     m_autoCommand.addOption("RedVision3Ball", new ThreeBallVision(Alliance.Red));
     m_autoCommand.addOption("BlueVision3Ball", new ThreeBallVision(Alliance.Blue));

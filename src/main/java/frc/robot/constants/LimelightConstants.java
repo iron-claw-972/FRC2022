@@ -6,7 +6,12 @@ public class LimelightConstants {
   public final double kAlignPIDTolerance = 1.5;
   public final double kAlignP = 0.2;
   public final double kAlignI = 0.00;
-  public final double kAlignD = 0.001;
+  public final double kAlignD = 0.02;
+  // public final double kAlignPIDTolerance = 1.5;
+  // public final double kAlignP = 0.2;
+  // public final double kAlignI = 0.00;
+  // public final double kAlignD = 0.001;
+
   // public final double kAlignPIDTolerance = 1;
   // public final double kAlignP = 0.037;
   // public final double kAlignI = 0.05;

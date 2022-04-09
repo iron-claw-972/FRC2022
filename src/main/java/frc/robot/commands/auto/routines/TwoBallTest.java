@@ -14,12 +14,12 @@ import frc.robot.subsystems.Belt;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Drivetrain;
 
-public class TwoBallPW extends SequentialCommandGroup {
-  public TwoBallPW() {
+public class TwoBallTest extends SequentialCommandGroup {
+  public TwoBallTest() {
     this(Robot.drive, Robot.belt, Robot.arm, Robot.shooter, Robot.ballDetection);
   }
 
-  public TwoBallPW(Drivetrain drive, Belt belt, Arm arm, Shooter shooter, BallDetection ballDetection) {
+  public TwoBallTest(Drivetrain drive, Belt belt, Arm arm, Shooter shooter, BallDetection ballDetection) {
     addRequirements(drive, belt, arm, shooter, ballDetection);
     addCommands(
       new InstantCommand(() -> CargoUtil.setBeltPower(0)),
@@ -37,7 +37,9 @@ public class TwoBallPW extends SequentialCommandGroup {
       new PositionArm(Constants.arm.kIntakePos), //position arm early because it tends to hit the ball
       new PathweaverIntake("4ballone", true),
 
-      new ShootAuto(false, false, 0, () -> true, 157, 25.5)
+      new ShootAuto(false, false, 0, () -> true, 157, 25.5),
+
+      new PathweaverCommand("extraforward", false, true)
     );
   }
 }
