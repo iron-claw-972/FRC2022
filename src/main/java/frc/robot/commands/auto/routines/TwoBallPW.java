@@ -23,7 +23,15 @@ public class TwoBallPW extends SequentialCommandGroup {
     addRequirements(drive, belt, arm, shooter, ballDetection);
     addCommands(
       new InstantCommand(() -> CargoUtil.setBeltPower(0)),
-      new PathweaverCommand("4ballzero", true, true),
+      parallel(
+        sequence(
+          new InstantCommand(() -> CargoUtil.setBeltSpeed(Constants.belt.kIntakeSpeed)),
+          new InstantCommand(() -> CargoUtil.enableBelt()),
+          new InstantCommand(() -> CargoUtil.setWheelSpeed(() -> 24.0, false)),
+          new InstantCommand(() -> CargoUtil.enableWheel())
+        ),
+        new PathweaverCommand("4ballzero", true, true)
+      ),
       new ShootAuto(false, false, 0, () -> true, 157, 24.1),
 
       new PositionArm(Constants.arm.kIntakePos), //position arm early because it tends to hit the ball

@@ -98,9 +98,9 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void disabledInit() {
-    CommandScheduler.getInstance().disable();
-    // CargoUtil.disableArm();
-    // CargoUtil.disableShiitake();
+    CommandScheduler.getInstance().cancelAll();
+    CargoUtil.disableArm();
+    CargoUtil.disableShiitake();
     // drive.setCoastMode();
   }
 
@@ -114,7 +114,6 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
-    CommandScheduler.getInstance().enable();
     if (m_autoCommand != null) {
       m_autoCommand.schedule();
     }
@@ -136,7 +135,6 @@ public class Robot extends TimedRobot {
     // if (m_autoCommand != null) {
     //   m_autoCommand.cancel();
     // }
-    CommandScheduler.getInstance().enable();
   }
 
   /**

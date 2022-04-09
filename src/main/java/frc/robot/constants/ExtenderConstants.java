@@ -18,11 +18,11 @@ public class ExtenderConstants {
   public final double kMotorClampUp = 1.0;     //should be positive!
   
   // locations
-  public final double kLeftMaxUpwards = 504440; //474472
+  public final double kLeftMaxUpwards = 523396; //474472
   public final double kLeftHalfway = kLeftMaxUpwards / 2;
   public final double kLeftSlightlyUpward = kLeftMaxUpwards / 4;
 
-  public final double kRightMaxUpwards = 508601; //478895
+  public final double kRightMaxUpwards = 534538; //478895
   public final double kRightHalfway = kRightMaxUpwards / 2;
   public final double kRightSlightlyUpward = kRightMaxUpwards / 4;
 
