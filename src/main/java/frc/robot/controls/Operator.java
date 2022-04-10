@@ -57,8 +57,8 @@ public class Operator {
       .whenReleased(new PositionArm(Constants.arm.kUprightPos).andThen(() -> Robot.ll.setUpperHubPipeline()));
 
     // Stow arm
-    // operator.get(Button.B).whenPressed(new PositionArm(Constants.arm.kStowPos));
-    operator.get(Button.B).whenHeld(new AlignToUpperHub());
+    operator.get(Button.B).whenPressed(new PositionArm(Constants.arm.kStowPos));
+    // operator.get(Button.B).whenHeld(new AlignToUpperHub());
   }
 
   public static void configureCargoTestControls() {
