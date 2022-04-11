@@ -26,17 +26,17 @@ public class RotatorConstants {
 
     public final double kMaxBackwardL = 123.5;
     public final double kMaxForwardL = 96.1;
-    public final double kToBarL = 115;
+    public final double kToBarL = 113;
 
     public final double kMaxBackwardR = 124.5;
     public final double kMaxForwardR = 96;
-    public final double kToBarR = 115;
+    public final double kToBarR = 113;
 
     // PID constants
-    public final double kP = 0.01;
+    public final double kP = 0.015;
     public final double kI = 0.00;
     public final double kD = 0.00;
-    public final double kF = 0.06;
+    public final double kF = 0.07;
 
     // encoder offset
     public final double kArmLeftEncoderOffset = 177.92214137305353;

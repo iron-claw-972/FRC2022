@@ -88,6 +88,8 @@ public class ShuffleboardManager {
 
     m_autoCommand.addOption("2 Ball Auto & drive forward a little", new TwoBallTest());
 
+    m_autoCommand.addOption("1 Ball Auto and drive away", new OneBallLongExit());
+
     m_autoCommand.addOption("DoNothing - there be dragons past here", new DoNothing());
 
     m_autoCommand.addOption("1 Ball Auto No Pathweaver", new OneBall());

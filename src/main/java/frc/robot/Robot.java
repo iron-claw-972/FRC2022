@@ -90,7 +90,6 @@ public class Robot extends TimedRobot {
     CommandScheduler.getInstance().run();
     drive.updateMotors();
     log.updateBuffer();
-    
   }
 
   /**
