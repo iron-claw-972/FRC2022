@@ -84,12 +84,12 @@ public class Extender extends SubsystemBase {
   }
 
   // remove the soft limiter and have manual override
-  public void removeLimiter() {
+  public void enableManualControl() {
     m_manualEnabled = true;
   }
 
   // enable the soft limiter and go back to default controls
-  public void enableLimiter() {
+  public void disableManualControl() {
     m_manualEnabled = false;
   }
 
@@ -152,10 +152,6 @@ public class Extender extends SubsystemBase {
 
   public boolean isEnabled(){
     return m_enabled;
-  }
-
-  public double getVelocity() {
-    return m_motor.getSelectedSensorVelocity();
   }
 
   @Override

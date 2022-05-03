@@ -75,12 +75,12 @@ public class ClimbUtil {
   }
 
   public static void removeLimiter() {
-    Robot.extenderL.removeLimiter();
-    Robot.extenderR.removeLimiter();
+    Robot.extenderL.enableManualControl();
+    Robot.extenderR.enableManualControl();
   }
 
   public static void enableLimiter() {
-    Robot.extenderL.enableLimiter();
-    Robot.extenderR.enableLimiter();
+    Robot.extenderL.disableManualControl();
+    Robot.extenderR.disableManualControl();
   }
 }
