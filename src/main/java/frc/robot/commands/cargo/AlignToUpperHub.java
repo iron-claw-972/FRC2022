@@ -26,6 +26,7 @@ public class AlignToUpperHub extends CommandBase {
     addRequirements(limelight, drivetrain);
 
     alignPID.setTolerance(Constants.ll.kAlignPIDTolerance);
+    //System.exit(0);
   }
 
   @Override
@@ -38,7 +39,7 @@ public class AlignToUpperHub extends CommandBase {
   @Override
   public void execute() {
     offset = m_limelight.getHubHorizontalAngularOffset();
-    m_drive.arcadeDrive(0, alignPID.calculate(offset, 0));
+    m_drive.feedForwardDrive(0, alignPID.calculate(offset, 0));
   }
 
   @Override
@@ -49,6 +50,6 @@ public class AlignToUpperHub extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     isFinished = true;
-    m_drive.arcadeDrive(0, 0);
+    m_drive.tankDriveVolts(0, 0);
   }
 }

@@ -6,7 +6,15 @@ import frc.robot.constants.Constants;
 import frc.robot.util.ControllerFactory;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
+import edu.wpi.first.wpilibj.RobotBase;
+import edu.wpi.first.wpilibj.smartdashboard.Mechanism2d;
+import edu.wpi.first.wpilibj.smartdashboard.MechanismLigament2d;
+import edu.wpi.first.wpilibj.smartdashboard.MechanismRoot2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.util.Color;
+import edu.wpi.first.wpilibj.util.Color8Bit;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Arm extends SubsystemBase {
@@ -19,6 +27,20 @@ public class Arm extends SubsystemBase {
   private double m_outputVoltage;
 
   public PIDController m_armPID = new PIDController(Constants.arm.kP, Constants.arm.kI, Constants.arm.kD);
+
+  // Create a Mechanism2d display of an Arm with a fixed ArmTower and moving Arm.
+  private final Mechanism2d m_mech2d = new Mechanism2d(60, 60);
+  private final MechanismRoot2d m_armPivot = m_mech2d.getRoot("ArmPivot", 30, 30);
+  private final MechanismLigament2d m_armTower =
+      m_armPivot.append(new MechanismLigament2d("ArmTower", 30, -90));
+  private final MechanismLigament2d m_arm =
+      m_armPivot.append(
+          new MechanismLigament2d(
+              "Arm",
+              30,
+              Units.radiansToDegrees(0.5),
+              6,
+              new Color8Bit(Color.kYellow)));
 
   public Arm() {
     this(
@@ -34,6 +56,12 @@ public class Arm extends SubsystemBase {
 
     // set the tolerance allowed for the PID
     m_armPID.setTolerance(Constants.arm.kArmTolerance);
+
+    if (RobotBase.isSimulation()) {
+      //display for simulator on SmartDashboard
+      SmartDashboard.putData("Arm Sim", m_mech2d);
+      m_armTower.setColor(new Color8Bit(Color.kBlue));
+    }
   }
 
   @Override
@@ -43,6 +71,14 @@ public class Arm extends SubsystemBase {
       m_outputVoltage = -(m_armPID.calculate(currentAngle(), m_setpoint) + m_feedforward);
       setVoltage(m_outputVoltage);
     }
+  }
+
+  @Override
+  public void simulationPeriodic() {
+    // Ideally we would set this to Units.radiansToDegrees(m_armSim.getAngleRads()) to set the arm to the simulation
+    // with m_arm sim being a SingleJointedArmSim class, configured using the constants in ArmConstants
+    // However it doesn't seem accurate enough
+    m_arm.setAngle(m_setpoint);
   }
 
   public void resetPID() {
@@ -72,6 +108,9 @@ public class Arm extends SubsystemBase {
 
   public boolean reachedSetpoint() {
     // checks if the arm is at its setpoint
+    if (RobotBase.isSimulation()) {
+      return true;
+    }
     return m_armPID.atSetpoint();
   }
 

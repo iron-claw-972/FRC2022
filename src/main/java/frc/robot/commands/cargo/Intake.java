@@ -6,7 +6,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import frc.robot.Robot;
 import frc.robot.commands.DoNothing;
-import frc.robot.commands.drive.TeleopDrive;
+import frc.robot.commands.drive.DifferentialDrive;
 import frc.robot.constants.Constants;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.BallDetection;
@@ -43,6 +43,7 @@ public class Intake extends SequentialCommandGroup {
         //   () -> doesCheckBall
         // ),
 
+        //System.exit(0);
         // Spin up wheel, belt, set angle, and start ball chase simultaneously
         parallel(
           new InstantCommand(() -> CargoUtil.setWheelRPM(Constants.shooter.kIntakeSpeed)),
@@ -50,10 +51,11 @@ public class Intake extends SequentialCommandGroup {
           new InstantCommand(() -> CargoUtil.setAngle(Constants.arm.kIntakePos)),
           new ConditionalCommand(
             new ChaseBall(isRedBall),
-            new TeleopDrive(drive),
+            new DifferentialDrive(drive),
             () -> doesChaseBall
           )
         ),
+        new InstantCommand(() -> Robot.drive.tankDriveVolts(0, 0)),
 
         // new DoNothing()
         new ConditionalCommand(
@@ -74,5 +76,6 @@ public class Intake extends SequentialCommandGroup {
   public void end(boolean interrupted) {
     CargoUtil.disableShiitake();
     // limelight.setDriverPipeline();
+    Robot.drive.tankDriveVolts(0, 0);
   }
 }

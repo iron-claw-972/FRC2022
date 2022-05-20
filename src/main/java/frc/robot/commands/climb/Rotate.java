@@ -25,16 +25,10 @@ public class Rotate extends SequentialCommandGroup {
       new SequentialCommandGroup(
         // enable the rotator
         new InstantCommand(() -> ClimbUtil.enableRotator()),
-        new PrintCommand("passed enabled"),
-
         // angle the rotator
         new InstantCommand(() -> ClimbUtil.setAngle(angleL, angleR)),
-  
-        new PrintCommand("passed set angle"),
-
         // wait until rotator reaches its setpoint
-        new WaitUntilCommand(() -> ClimbUtil.isRotatorAtSetpoint()),
-        new PrintCommand("passed setpoint")
+        new WaitUntilCommand(() -> ClimbUtil.isRotatorAtSetpoint())
     ));
     }
 }

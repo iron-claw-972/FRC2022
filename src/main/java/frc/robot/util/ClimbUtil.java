@@ -4,8 +4,8 @@ import frc.robot.Robot;
 
 public class ClimbUtil {
   public static void setExtension(double inches) {
-    Robot.extenderL.set(inches);
-    Robot.extenderR.set(inches);
+    Robot.extenderL.setGoal(inches);
+    Robot.extenderR.setGoal(inches);
   }
 
   public static void setAngle(double angle) {
@@ -75,12 +75,12 @@ public class ClimbUtil {
   }
 
   public static void removeLimiter() {
-    Robot.extenderL.removeLimiter();
-    Robot.extenderR.removeLimiter();
+    Robot.extenderL.enableManualControl();
+    Robot.extenderR.enableManualControl();
   }
 
   public static void enableLimiter() {
-    Robot.extenderL.enableLimiter();
-    Robot.extenderR.enableLimiter();
+    Robot.extenderL.disableManualControl();
+    Robot.extenderR.disableManualControl();
   }
 }

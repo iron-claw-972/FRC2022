@@ -23,12 +23,13 @@ public class LimitSwitch {
   public LimitSwitch(DigitalInput limitSwitch, double debouncerMargin){
     m_limitSwitch = limitSwitch;
     m_debouncer = new Debouncer(debouncerMargin, Debouncer.DebounceType.kBoth);
+    m_lastRead = true;
   }
 
   public boolean get() {
     //updates debounce and last read
     m_lastRead = !m_debouncer.calculate(m_limitSwitch.get());
-    return !m_debouncer.calculate(m_limitSwitch.get());
+    return m_lastRead;
   }
 
   public boolean fallingEdge() {

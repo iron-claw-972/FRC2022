@@ -8,7 +8,7 @@ public class RotatorConstants {
     public final int kArmRightEncoder = 0;
 
     // motor clamping
-    public final double kMotorClamp = 0.1;
+    public final double kMotorClamp = 0.35;
 
     // the motor ports of the arm
     public final int kArmRightMotor = 9;
@@ -19,27 +19,28 @@ public class RotatorConstants {
     public final double kArmZeroEncoderDegrees = 0;
 
     // the distance allowed from the setpoint (in degrees)
-    public final double kArmTolerance = 1.5;
+    public final double kArmTolerance = 0.3;
 
     // locations
-    public final double kMaxBackwardL = 123;
-    public final double kMaxForwardL = 95;
-    public final double kToBarL = 115;
-    public final double kHookStaticL = 110;
+    public final double kMiddle = 116;
 
-    public final double kMaxBackwardR = 123;
-    public final double kMaxForwardR = 95;
-    public final double kToBarR = 115;
-    public final double kHookStaticR = 110;
+    public final double kMaxBackwardL = 123.5;
+    public final double kMaxForwardL = 96.1;
+    public final double kToBarL = 113;
+
+    public final double kMaxBackwardR = 124.5;
+    public final double kMaxForwardR = 96;
+    public final double kToBarR = 113;
 
     // PID constants
-    public final double kP = 0.05;
+    public final double kP = 0.015;
     public final double kI = 0.00;
     public final double kD = 0.00;
+    public final double kF = 0.07;
 
     // encoder offset
-    public final double kArmLeftEncoderOffset = 178.39190538479764;
-    public final double kArmRightEncoderOffset = 69.28583865714597;
+    public final double kArmLeftEncoderOffset = 177.92214137305353;
+    public final double kArmRightEncoderOffset = 2.518796987969921;
     
     // upper limit switches
     public final int kLeftLimitSwitchUpper = 0;
