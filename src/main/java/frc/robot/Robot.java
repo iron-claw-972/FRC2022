@@ -18,7 +18,6 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.commands.DoNothing;
-import frc.robot.commands.auto.Back2BallAuto;
 import frc.robot.commands.auto.PathweaverCommand;
 import frc.robot.commands.drive.DifferentialDrive;
 import frc.robot.commands.drive.TeleopDrive;
