@@ -3,6 +3,8 @@ package frc.robot.controls;
 
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
 import frc.robot.commands.cargo.EjectBall;
 import frc.robot.commands.cargo.Intake;
@@ -15,6 +17,7 @@ import lib.controllers.PistolController.Button;
 
 public class Driver {
   private static PistolController driver = new PistolController(Constants.oi.kDriverJoy);
+  private static Joystick driverGC = new Joystick(1);
 
   private static SlewRateLimiter slewThrottle = new SlewRateLimiter(Constants.drive.kSlewRate);
   private static SlewRateLimiter slewTurn = new SlewRateLimiter(Constants.drive.kSlewRate);
@@ -32,6 +35,9 @@ public class Driver {
       return;
     }
     configureDriveControls();
+    SmartDashboard.setDefaultNumber("Throtle", 1);
+    SmartDashboard.setDefaultNumber("Turn", 1);
+    SmartDashboard.setDefaultBoolean("Pistol", true);
   }
 
   private static void configureDriveControls() {
@@ -56,23 +62,27 @@ public class Driver {
   }
   
   public static double getThrottleValue() {
-    // put any processes in any order of the driver's choosing
+    // put any processes in any order of the driver's choosing  
     // Controllers y-axes are natively up-negative, down-positive
-    return -slewThrottle.calculate(Functions.deadband(Constants.oi.kDeadband, getRawThrottleValue()));
+    return -slewThrottle.calculate(Functions.deadband(Constants.oi.kDeadband, getRawThrottleValue() * SmartDashboard.getNumber("Throttle", 1)));
   }
 
   public static double getTurnValue() {
     // right is positive; left is negative
-    return -slewTurn.calculate(Functions.deadband(Constants.oi.kDeadband, getRawTurnValue()));
+    return -slewTurn.calculate(Functions.deadband(Constants.oi.kDeadband, getRawTurnValue() * SmartDashboard.getNumber("Turn", 1)));
   }
 
   public static double getRawThrottleValue() {
     // Controllers y-axes are natively up-negative, down-positive
+    if (SmartDashboard.getBoolean("Pistol", true))
     return driver.get(Axis.TRIGGER);
+    return driverGC.getRawAxis(1);
   }
 
   public static double getRawTurnValue() {
     // Right is Positive left is negative
+    if (SmartDashboard.getBoolean("Pistol", true))
     return driver.get(Axis.WHEEL);
+    return driverGC.getRawAxis(4);
   }
 }
