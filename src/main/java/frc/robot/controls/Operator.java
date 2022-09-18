@@ -27,9 +27,9 @@ public class Operator {
       return;
     }
 
-    configureCargoControls();
+    // configureCargoControls();
     // configureCargoTestControls();
-    configureClimbControls();
+    // configureClimbControls();
   }
   
   private static void configureCargoControls() {
