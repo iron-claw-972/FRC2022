@@ -10,9 +10,9 @@ import edu.wpi.first.math.util.Units;
 
 public class DriveConstants {
 
-  public final int[] rightMotorPorts = {13, 0};
-  public final int[] leftMotorPorts = {12, 0};
-
+  public final int[] rightMotorPorts = {3, 4};
+  public final int[] leftMotorPorts = {1, 2};
+  
   //auto might be off because they were calibrated for classbot3
 
   public final double kTrackWidth = Units.inchesToMeters(31); // Distance between center of left wheel and center of right wheel in meters
