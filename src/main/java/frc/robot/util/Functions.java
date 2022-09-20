@@ -52,7 +52,7 @@ public class Functions {
   }
 
   // TODO: figure out if this can work?
-  public static Trajectory createTrajectory(List<Pose2d> waypoints) {
+  public static Trajectory createTrajectory(Pose2d... waypoints) {
 
     var autoVoltageConstraint = new DifferentialDriveVoltageConstraint(
         Robot.drive.getFeedforward(),
@@ -68,8 +68,7 @@ public class Functions {
             // Apply the voltage constraint
             .addConstraint(autoVoltageConstraint);
 
-    // Fallback to default trajectory
-    return TrajectoryGenerator.generateTrajectory(waypoints, config);
+    return TrajectoryGenerator.generateTrajectory(List.of(waypoints), config);
   }
 
   public static Trajectory centerToRobot(Trajectory inputTrajectory) {
@@ -127,5 +126,21 @@ public class Functions {
       );
       return null;
     }
+  }
+
+  public static Rotation2d getAngleToHub(Pose2d pose) {
+    // 0 degrees is pointing right from the hub.
+    // https://www.desmos.com/calculator/zqkvczktlv
+
+    double distToHubX = pose.getX() - Constants.field.hubPos.getX();
+    double distToHubY = pose.getY() - Constants.field.hubPos.getY();
+
+    if (distToHubX > 0) {
+      return new Rotation2d(Math.atan(distToHubX / distToHubY) + Math.PI);
+    } else {
+      return new Rotation2d(Math.atan(distToHubX / distToHubY));
+    }
+
+    // return new Rotation2d(distToHubX, distToHubY); this probably also works
   }
 }
