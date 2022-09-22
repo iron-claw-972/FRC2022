@@ -17,7 +17,7 @@ public class Extender extends SubsystemBase {
   private boolean m_enabled = false;
   private boolean m_manualEnabled = false;
   private WPI_TalonFX m_motor;
-  private String m_side;
+  private boolean m_isLeft;
 
   public PIDController m_extenderPID = new PIDController(Constants.extender.kP, Constants.extender.kI, Constants.extender.kD);
   private LimitSwitch m_limitSwitch;
@@ -43,15 +43,14 @@ public class Extender extends SubsystemBase {
   public Extender(boolean isLeft, WPI_TalonFX motor, LimitSwitch limitSwitch) {
     m_motor = motor;
     m_limitSwitch = limitSwitch;
+    m_isLeft = isLeft;
 
     if (isLeft) {
       // if the arm is left, the tick value is inverted && objects are assigned correctly
-      m_side = "Left"; // the direction for shuffleboard's use
       m_motor.setInverted(true);
     }
     else {
-      // otherwise, just assign the motor object to the right
-      m_side = "Right"; // the direction for shuffleboard's use
+      // anything that needs to be setup for the right side can be done here.
     }
 
     // the tick value can't exceed the soft limit, checked every 10 milliseconds
@@ -139,15 +138,15 @@ public class Extender extends SubsystemBase {
   }
 
   public String getSide() {
-    return m_side;
+    if(m_isLeft) {
+      return "Left";
+    } else {
+      return "Right";
+    }
   }
 
   public void setSide(boolean isLeft) {
-    if(isLeft) {
-      m_side = "Left";
-    } else {
-      m_side = "Right";
-    }
+    m_isLeft = isLeft;
   }
 
   public boolean isEnabled(){
@@ -157,9 +156,10 @@ public class Extender extends SubsystemBase {
   @Override
   public void periodic() {
 
+    // in manual mode, the extenders are controlled by the joysticks.
     if (m_manualEnabled) {
     
-    if (m_side.equals("Left")) {
+    if (m_isLeft) {
       if (Operator.operator.get(Axis.LEFT_Y) > 0.1) {
         setOutput(-0.2);
         m_enabled = false;
@@ -171,7 +171,7 @@ public class Extender extends SubsystemBase {
       }
     }
 
-    if (m_side.equals("Right")) {
+    if (!m_isLeft) {
       if (Operator.operator.get(Axis.RIGHT_Y) > 0.1) {
         setOutput(-0.2);
         m_enabled = false;
