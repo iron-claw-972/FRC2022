@@ -9,6 +9,13 @@ import frc.robot.subsystems.Rotator;
 import frc.robot.util.ClimbUtil;
 
 public class Rotate extends SequentialCommandGroup {
+  /**
+   * 
+   * Sets the setpoint of the climber arms to a specified angle. Do not exceed 125 degrees or go below 90 degrees.
+   * 
+   * @param angleL the angle to rotate to in degrees for the left rotator
+   * @param angleR the angle to rotate to in degrees for the right rotator
+   */
   public Rotate(double angleL, double angleR) {
     this(angleL, angleR, Robot.rotatorL, Robot.rotatorR);
   }
@@ -17,7 +24,8 @@ public class Rotate extends SequentialCommandGroup {
    * 
    * Sets the setpoint of the climber arms to a specified angle. Do not exceed 125 degrees or go below 90 degrees.
    * 
-   * @param angle the angle to rotate to in degrees
+   * @param angleL the angle to rotate to in degrees for the left rotator
+   * @param angleR the angle to rotate to in degrees for the right rotator
    */
   public Rotate(double angleL, double angleR, Rotator rotatorL, Rotator rotatorR) {
     addRequirements(rotatorL, rotatorR);

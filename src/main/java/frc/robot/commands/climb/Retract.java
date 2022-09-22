@@ -13,9 +13,18 @@ import frc.robot.util.ClimbUtil;
 public class Retract extends SequentialCommandGroup {
   public Extender m_extenderL, m_extenderR;
 
+  /**
+   * 
+   * In parallel powers each extender downwards until it reaches the bottom limit switch. 
+   * Should be used exclusively when you want to go fully down. Has an option to zero when
+   * it reaches the bottom as the bottom is exactly where it hits the limit switch, 0.
+   * 
+   * @param zero whether or not it should zero the extender when it reaches the bottom
+   */
   public Retract(boolean zero) {
     this(zero, Robot.extenderL, Robot.extenderR);
   }
+  
   /**
    * 
    * In parallel powers each extender downwards until it reaches the bottom limit switch. 
