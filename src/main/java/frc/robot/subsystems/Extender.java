@@ -51,6 +51,7 @@ public class Extender extends SubsystemBase {
     }
     else {
       // anything that needs to be setup for the right side can be done here.
+      m_motor.setInverted(true);
     }
 
     // the tick value can't exceed the soft limit, checked every 10 milliseconds
