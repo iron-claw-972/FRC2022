@@ -119,10 +119,12 @@ public class Operator {
 
   private static void configureClimbControls() {
 
+    // Pressing down on the left joystick enables manual control
     operator.get(Button.LEFT_JOY).whenPressed(
       new InstantCommand(ClimbUtil::removeLimiter)
     );
 
+    // Pressing down on the right joystick disables manual control
     operator.get(Button.RIGHT_JOY).whenPressed(
       new InstantCommand(ClimbUtil::enableLimiter)
     );
