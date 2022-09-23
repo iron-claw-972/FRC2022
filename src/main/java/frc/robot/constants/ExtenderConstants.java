@@ -8,7 +8,7 @@ public class ExtenderConstants {
   public final int kLeftExtenderPort = 11;
 
   // the arm's length in ticks
-  public final double kSoftLimit = 600000;
+  public final double kSoftLimit = 557349;
 
   // tolerance allowed to the PID 
   public final double kExtenderTolerance = 550;

@@ -26,12 +26,12 @@ public class PistolController extends Controller {
     }
   }
   
-  public enum Axis {
+  public enum PistolAxis {
     WHEEL(0), TRIGGER(1);
 
     public final int id;
 
-    Axis(final int id) {
+    PistolAxis(final int id) {
       this.id = id;
     }
   }
@@ -40,7 +40,7 @@ public class PistolController extends Controller {
     return new JoystickButton(m_controller, button.id);
   }
 
-  public double get(Axis axis) {
+  public double get(PistolAxis axis) {
     return m_controller.getRawAxis(axis.id);
   }
   

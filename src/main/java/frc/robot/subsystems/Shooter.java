@@ -144,8 +144,8 @@ public class Shooter extends SubsystemBase {
   }
 
   public void setOutput(double motorPower) {
-    m_motor.set(ControlMode.PercentOutput,
-        MathUtil.clamp(motorPower, -Constants.shooter.kMotorClamp, Constants.shooter.kMotorClamp));
+    // m_motor.set(ControlMode.PercentOutput,
+    //     MathUtil.clamp(motorPower, -Constants.shooter.kMotorClamp, Constants.shooter.kMotorClamp));
   }
 
   public void setSpeed(double newSpeed) {

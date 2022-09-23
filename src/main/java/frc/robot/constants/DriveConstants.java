@@ -70,6 +70,6 @@ public class DriveConstants {
   public final double kSupplyCurrentLimit = 40;
   public final double kSupplyTriggerThreshold = 50;
   public final double kSupplyTriggerDuration = 0.3;
-  public final NeutralMode kNeutralMode = NeutralMode.Brake;
-  public final NeutralMode kMainNeutralMode = NeutralMode.Brake;
+  public final NeutralMode kNeutralMode = NeutralMode.Coast;
+  public final NeutralMode kMainNeutralMode = NeutralMode.Coast;
 }

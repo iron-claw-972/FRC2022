@@ -8,7 +8,7 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.util.ControllerFactory;
 import frc.robot.util.LimitSwitch;
-import lib.controllers.GameController.Axis;
+import lib.controllers.GameController.GCAxis;
 import frc.robot.constants.Constants;
 import frc.robot.controls.Operator;
 
@@ -161,10 +161,10 @@ public class Extender extends SubsystemBase {
     if (m_manualEnabled) {
     
     if (m_isLeft) {
-      if (Operator.operator.get(Axis.LEFT_Y) > 0.1) {
+      if (Operator.operator.get(GCAxis.LEFT_Y) > 0.1) {
         setOutput(-0.2);
         m_enabled = false;
-      } else if (Operator.operator.get(Axis.LEFT_Y) < -0.1) {
+      } else if (Operator.operator.get(GCAxis.LEFT_Y) < -0.1) {
         setOutput(0.2);
         m_enabled = false;
       } else {
@@ -173,10 +173,10 @@ public class Extender extends SubsystemBase {
     }
 
     if (!m_isLeft) {
-      if (Operator.operator.get(Axis.RIGHT_Y) > 0.1) {
+      if (Operator.operator.get(GCAxis.RIGHT_Y) > 0.1) {
         setOutput(-0.2);
         m_enabled = false;
-      } else if (Operator.operator.get(Axis.RIGHT_Y) < -0.1) {
+      } else if (Operator.operator.get(GCAxis.RIGHT_Y) < -0.1) {
         setOutput(0.2);
         m_enabled = false;
       } else {

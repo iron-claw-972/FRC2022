@@ -9,8 +9,8 @@ import edu.wpi.first.wpilibj2.command.button.*;
 public class GameController extends Controller {
   // These are the different controller triggers
   public final BooleanSupplier
-    LEFT_TRIGGER_BUTTON = () -> get(Axis.LEFT_TRIGGER) > 0.5,
-    RIGHT_TRIGGER_BUTTON = () -> get(Axis.RIGHT_TRIGGER) > 0.5;
+    LEFT_TRIGGER_BUTTON = () -> get(GCAxis.LEFT_TRIGGER) > 0.5,
+    RIGHT_TRIGGER_BUTTON = () -> get(GCAxis.RIGHT_TRIGGER) > 0.5;
   
   public final Trigger
     ALL_UP = get(DPad.UP).or(get(DPad.UP_LEFT)).or(get(DPad.UP_RIGHT)),
@@ -33,12 +33,12 @@ public class GameController extends Controller {
     }
   }
   
-  public enum Axis {
+  public enum GCAxis {
     LEFT_X(0), LEFT_Y(1), LEFT_TRIGGER(2), RIGHT_TRIGGER(3), RIGHT_X(4), RIGHT_Y(5);
 
     public final int id;
 
-    Axis(final int id) {
+    GCAxis(final int id) {
       this.id = id;
     }
   }
@@ -67,7 +67,7 @@ public class GameController extends Controller {
     return new JoystickButton(m_controller, button.id);
   }
 
-  public double get(Axis axis) {
+  public double get(GCAxis axis) {
     return m_controller.getRawAxis(axis.id);
   }
   
