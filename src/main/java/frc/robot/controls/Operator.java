@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj2.command.*;
 import frc.robot.util.CargoUtil;
 import frc.robot.util.ClimbUtil;
 import lib.controllers.*;
-import lib.controllers.GameController.Button;
+import lib.controllers.GameController.GCButton;
 import lib.controllers.GameController.DPad;
 
 public class Operator {
@@ -34,13 +34,14 @@ public class Operator {
   
   private static void configureCargoControls() {
     // Vision Shoot front
-    operator.get(Button.Y).whenHeld(new SequentialCommandGroup(
+    operator.get(GCButton.Y).whenHeld(new SequentialCommandGroup(
       new InstantCommand(() -> Robot.drive.tankDriveVolts(0, 0)),
       new Shoot(true, true, true)
     ));
 
     // Vision Shoot back
-    operator.get(Button.A).whenHeld(new SequentialCommandGroup(
+    operator.get(GCButton.A).whenHeld(new SequentialCommandGroup(
+      new PrintCommand("A Pressed"),
       new InstantCommand(() -> Robot.drive.tankDriveVolts(0, 0)),
       new Shoot(true, true, false)
     ));
@@ -49,15 +50,15 @@ public class Operator {
     operator.get(operator.RIGHT_TRIGGER_BUTTON).whileActiveOnce(new Shoot(false, false, true, Constants.arm.kFrontOuttakeHighPos, Constants.shooter.kFrontOuttakeHighSpeed));
 
     // Manual Shoot back
-    operator.get(Button.RB).whenHeld(new Shoot(false, false, false, Constants.arm.kBackOuttakeHighPos, Constants.shooter.kBackOuttakeHighSpeed));
+    operator.get(GCButton.RB).whenHeld(new Shoot(false, false, false, Constants.arm.kBackOuttakeHighPos, Constants.shooter.kBackOuttakeHighSpeed));
 
     // Manual intake
-    operator.get(Button.X)
+    operator.get(GCButton.X)
       .whenHeld(new Intake(Constants.arm.kUprightPos, false))
       .whenReleased(new PositionArm(Constants.arm.kUprightPos).andThen(() -> Robot.ll.setUpperHubPipeline()));
 
     // Stow arm
-    operator.get(Button.B).whenPressed(new PositionArm(Constants.arm.kStowPos));
+    operator.get(GCButton.B).whenPressed(new PositionArm(Constants.arm.kStowPos));
     // operator.get(Button.B).whenHeld(new AlignToUpperHub());
   }
 
@@ -95,9 +96,9 @@ public class Operator {
     // ));
     // operator.get(Button.A).whenReleased(new InstantCommand(() -> CargoUtil.disableShiitake()));
 
-    operator.get(Button.Y).whenHeld(new GetDistance(Robot.ll, Robot.arm));
+    operator.get(GCButton.Y).whenHeld(new GetDistance(Robot.ll, Robot.arm));
 
-    operator.get(Button.B).whenHeld(new SequentialCommandGroup(
+    operator.get(GCButton.B).whenHeld(new SequentialCommandGroup(
       new InstantCommand(() -> CargoUtil.setAngle(CargoUtil::getTestArmAngle)),
       new InstantCommand(() -> CargoUtil.enableArm()),
       new WaitUntilCommand(() -> CargoUtil.isArmAtSetpoint())
@@ -120,12 +121,12 @@ public class Operator {
   private static void configureClimbControls() {
 
     // Pressing down on the left joystick enables manual control
-    operator.get(Button.LEFT_JOY).whenPressed(
+    operator.get(GCButton.LEFT_JOY).whenPressed(
       new InstantCommand(ClimbUtil::removeLimiter)
     );
 
     // Pressing down on the right joystick disables manual control
-    operator.get(Button.RIGHT_JOY).whenPressed(
+    operator.get(GCButton.RIGHT_JOY).whenPressed(
       new InstantCommand(ClimbUtil::enableLimiter)
     );
 
@@ -163,11 +164,11 @@ public class Operator {
       new Rotate(Constants.rotator.kToBarL, Constants.rotator.kToBarR)
     ));
 
-    operator.get(Button.START).whenPressed(
+    operator.get(GCButton.START).whenPressed(
       new Retract(true)
     );
 
-    operator.get(Button.LB).whenPressed(new SequentialCommandGroup(    
+    operator.get(GCButton.LB).whenPressed(new SequentialCommandGroup(    
       new Rotate(Constants.rotator.kMaxForwardL, Constants.rotator.kMaxForwardR),
       // when it reaches 90 degrees, compress
       new Retract(Constants.extender.kAlwaysZero),

@@ -23,12 +23,12 @@ public class GameController extends Controller {
     super(port);
   }
   
-  public enum Button {
+  public enum GCButton {
     A(1), B(2), X(3), Y(4), LB(5), RB(6), BACK(7), START(8), LEFT_JOY(9), RIGHT_JOY(10);
 
     public final int id;
 
-    Button(final int id) {
+    GCButton(final int id) {
       this.id = id;
     }
   }
@@ -63,7 +63,7 @@ public class GameController extends Controller {
     }
   }
 
-  public JoystickButton get(Button button) {
+  public JoystickButton get(GCButton button) {
     return new JoystickButton(m_controller, button.id);
   }
 

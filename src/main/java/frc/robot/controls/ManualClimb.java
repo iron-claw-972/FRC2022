@@ -7,7 +7,7 @@ import frc.robot.commands.cargo.*;
 import frc.robot.constants.Constants;
 import frc.robot.util.ClimbUtil;
 import lib.controllers.*;
-import lib.controllers.GameController.Button;
+import lib.controllers.GameController.GCButton;
 import lib.controllers.GameController.DPad;
 
 public class ManualClimb {
@@ -47,7 +47,7 @@ public class ManualClimb {
       new InstantCommand(() -> ClimbUtil.setExtenderOutput(-.2))
     ));
 
-    manualClimb.get(Button.A).whenPressed(
+    manualClimb.get(GCButton.A).whenPressed(
       new PositionArm(170)
     );
 

@@ -6,22 +6,22 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 public class PistolController extends Controller {
   public final Trigger
-    TOP_BACK_ONLY = get(Button.TOP_BACK).and(get(Button.TOP_FRONT).negate()),
-    TOP_FRONT_ONLY = get(Button.TOP_FRONT).and(get(Button.TOP_BACK).negate()),
-    BOTTOM_BACK_ONLY = get(Button.BOTTOM_BACK).and(get(Button.BOTTOM_FRONT).negate()),
-    BOTTOM_FRONT_ONLY = get(Button.BOTTOM_FRONT).and(get(Button.BOTTOM_BACK).negate());
+    TOP_BACK_ONLY = get(PistolButton.TOP_BACK).and(get(PistolButton.TOP_FRONT).negate()),
+    TOP_FRONT_ONLY = get(PistolButton.TOP_FRONT).and(get(PistolButton.TOP_BACK).negate()),
+    BOTTOM_BACK_ONLY = get(PistolButton.BOTTOM_BACK).and(get(PistolButton.BOTTOM_FRONT).negate()),
+    BOTTOM_FRONT_ONLY = get(PistolButton.BOTTOM_FRONT).and(get(PistolButton.BOTTOM_BACK).negate());
 
 
   public PistolController(int port) {
     super(port);
   }
   
-  public enum Button {
+  public enum PistolButton {
     TOP_BACK(1), TOP_FRONT(2),BOTTOM_FRONT(3), BOTTOM_BACK(4),  BOTTOM(5);
 
     public final int id;
 
-    Button(final int id) {
+    PistolButton(final int id) {
       this.id = id;
     }
   }
@@ -36,7 +36,7 @@ public class PistolController extends Controller {
     }
   }
 
-  public JoystickButton get(Button button) {
+  public JoystickButton get(PistolButton button) {
     return new JoystickButton(m_controller, button.id);
   }
 

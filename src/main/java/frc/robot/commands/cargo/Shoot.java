@@ -13,6 +13,7 @@ import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.BallDetection;
 import frc.robot.subsystems.Belt;
 import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.Limelight.LEDMode;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Limelight;
 import frc.robot.util.CargoUtil;
@@ -30,6 +31,8 @@ public class Shoot extends SequentialCommandGroup {
         this(doesCalculateSpeed, doesAlign, isFront, outtakeArmPosition, shooterWheelOuttakeSpeed, Robot.shooter, Robot.arm, Robot.belt, Robot.ll, Robot.drive, Robot.ballDetection);
     }
 
+    Limelight ll;
+
     public Shoot(
           boolean doesCalculateSpeed,
           boolean doesAlign,
@@ -43,6 +46,7 @@ public class Shoot extends SequentialCommandGroup {
           Drivetrain drive,
           BallDetection ballDetection
     ) {
+      ll = limelight;
       addRequirements(shooter, arm, belt, limelight, drive, ballDetection);
       addCommands(
         // Start spin up before so PID has less work to do
@@ -50,6 +54,7 @@ public class Shoot extends SequentialCommandGroup {
 
         // Set hub pipeline early to account for network latency
         new InstantCommand(() -> limelight.setUpperHubPipeline()),
+        new InstantCommand(() -> limelight.setLedMode(LEDMode.ON)),
 
         // Don't spin shooting wheels until ball is confirmed to be in shooter
         new InstantCommand(() -> CargoUtil.setBeltPower(Constants.belt.kIntakeSpeed)),
@@ -57,7 +62,6 @@ public class Shoot extends SequentialCommandGroup {
         new WaitUntilCommand(() -> CargoUtil.isBallContained()).withTimeout(0.4),
 
         new InstantCommand(() -> CargoUtil.enableAll()),
-      
         //like parallel parking :) - yanis
         parallel(
           sequence(
@@ -112,6 +116,8 @@ public class Shoot extends SequentialCommandGroup {
           new InstantCommand(() -> drive.tankDriveVolts(0, 0)).perpetually()
         ),
 
+        new InstantCommand(() -> limelight.setLedMode(LEDMode.PIPELINE)),
+
         // Spin belts to outtake ball
         new InstantCommand(() -> CargoUtil.setBeltPower(Constants.belt.kOuttakeSpeed)),
         new WaitCommand(0.4)
@@ -123,5 +129,6 @@ public class Shoot extends SequentialCommandGroup {
       CargoUtil.disableShiitake();
       // Robot.m_limelight.setDriverPipeline();
       GetDistance.isFinished = false; // Reset finished condition
+      ll.setLedMode(LEDMode.PIPELINE);
     }
 }
