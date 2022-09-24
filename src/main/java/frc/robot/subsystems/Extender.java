@@ -129,7 +129,7 @@ public class Extender extends SubsystemBase {
   // tells the motor object to drive at a speed that the PID sets the motorPower to be
   public void setOutput(double motorPower) {
     //if (motorPower > 0 || !limitSwitch.get()) {
-      m_motor.set(MathUtil.clamp(motorPower, Constants.extender.kMotorClampDown, Constants.extender.kMotorClampUp));
+      //m_motor.set(MathUtil.clamp(motorPower, Constants.extender.kMotorClampDown, Constants.extender.kMotorClampUp));
     //}
   }
 
@@ -188,7 +188,7 @@ public class Extender extends SubsystemBase {
 
     if(m_enabled) {
       // motor power is set to the extender pid's calculation
-      setOutput(m_extenderPID.calculate(currentExtensionRaw(), m_setpoint));
+      //setOutput(m_extenderPID.calculate(currentExtensionRaw(), m_setpoint));
     }
   }
 } 
