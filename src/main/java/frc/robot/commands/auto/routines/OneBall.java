@@ -20,8 +20,9 @@ public class OneBall extends SequentialCommandGroup {
     addRequirements(drive, belt, arm, shooter);
     addCommands(
         new InstantCommand(() -> drive.resetOdometry(BallPositions.B3.getRobotPoseFromBall())),
-        new ShootAuto(false, true, 1, () -> true, 108, 22.4719101),
-        new DriveDistance(1.0),
+        new DriveDistance(-1.2).withTimeout(5),
+        // new ShootAuto(false, true, 1, () -> true, 108, 22.4719101),
+        new ShootAuto(false, true, 1, () -> true, 108, 27.5),
         new PositionArm(154)
     );
   }

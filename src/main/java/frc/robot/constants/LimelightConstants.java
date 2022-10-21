@@ -42,7 +42,10 @@ public class LimelightConstants {
 
   // public final double kFrontLimelightDistanceFactor = 1.41;
   // public final double kBackLimelightDistanceFactor = 1;
+
   public final double kFrontLimelightDistanceFactor = 1.259;
+  // public final double kFrontLimelightDistanceFactor = 1.27;
+
   public final double kBackLimelightDistanceFactor = 0.902;
 
   // Pipeline numbers used by Limelight NT

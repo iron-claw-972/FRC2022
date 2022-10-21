@@ -12,12 +12,12 @@ import frc.robot.constants.Constants;
 import frc.robot.controls.Driver;
 import frc.robot.subsystems.Drivetrain;
 
-public class DifferentialDrive extends CommandBase {
+public class ArcadeDriveSet extends CommandBase {
   private final Drivetrain m_drive;
 
   private double speed, rotation;
 
-  public DifferentialDrive(Drivetrain subsystem) {
+  public ArcadeDriveSet(Drivetrain subsystem) {
     m_drive = subsystem;
     addRequirements(subsystem);
   }
@@ -27,12 +27,12 @@ public class DifferentialDrive extends CommandBase {
   public void execute() {
 
     //slew rate limiter removed temp need to move to controls
-    speed = Driver.getThrottleValue() * Constants.drive.kMaxSpeedMetersPerSecond;
-    rotation = Driver.getTurnValue() * Constants.drive.kMaxAngularSpeedRadiansPerSecond;
+    // speed = Driver.getThrottleValue() * Constants.drive.kMaxSpeedMetersPerSecond;
+    // rotation = Driver.getTurnValue() * Constants.drive.kMaxAngularSpeedRadiansPerSecond;
 
-    m_drive.feedForwardDrive(speed, rotation);
+    // m_drive.feedForwardDrive(speed, rotation);
 
-    // m_drive.arcadeDrive(Driver.getThrottleValue(), Driver.getTurnValue());
+    m_drive.arcadeDrive(Driver.getThrottleValue(), Driver.getTurnValue());
     
   }
   

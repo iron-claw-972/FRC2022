@@ -105,6 +105,11 @@ public class Drivetrain extends SubsystemBase {
     m_rightMotor1 = rightMotor1;
     m_rightMotor2 = rightMotor2;
 
+    // m_leftMotor1.configFactoryDefault();
+    // m_leftMotor2.configFactoryDefault();
+    // m_rightMotor1.configFactoryDefault();
+    // m_rightMotor2.configFactoryDefault();
+
     m_rightMotor1.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
     m_leftMotor1.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
     m_rightMotor2.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
@@ -115,8 +120,8 @@ public class Drivetrain extends SubsystemBase {
 
     m_navX = navX;
 
-    m_leftMotors = new PhoenixMotorControllerGroup(m_leftMotor1, m_leftMotor2);
-    m_rightMotors = new PhoenixMotorControllerGroup(m_rightMotor1, m_rightMotor2);
+    m_leftMotors = new PhoenixMotorControllerGroup(m_leftMotor1);
+    m_rightMotors = new PhoenixMotorControllerGroup(m_rightMotor1);
 
     // Inverting one side of the drivetrain as to drive forward
     if (RobotBase.isSimulation()) {
@@ -157,16 +162,20 @@ public class Drivetrain extends SubsystemBase {
       m_fieldSim = new Field2d();
       SmartDashboard.putData("Field", m_fieldSim);
     }
+
+    
   }
 
   public void arcadeDrive(double throttle, double turn) {
-    // m_leftMotor1.set(ControlMode.PercentOutput, throttle + turn);
-    // m_rightMotor1.set(ControlMode.PercentOutput, throttle - turn);
+    m_leftMotor1.set(ControlMode.PercentOutput, throttle + turn);
+    m_rightMotor1.set(ControlMode.PercentOutput, throttle - turn);
     // m_leftMotor2.set(ControlMode.PercentOutput, throttle + turn);
     // m_rightMotor2.set(ControlMode.PercentOutput, throttle - turn);
     //System.out.println(turn);
+    // m_leftMotors.set( throttle + turn );
+    // m_rightMotors.set( throttle - turn );
 
-    m_dDrive.arcadeDrive(throttle, turn);
+    // m_dDrive.arcadeDrive(throttle, turn);
   }
 
   public void tankDrive(double left, double right) {
@@ -175,6 +184,8 @@ public class Drivetrain extends SubsystemBase {
     // m_leftMotor2.set(ControlMode.PercentOutput, left);
     // m_rightMotor2.set(ControlMode.PercentOutput, right);
     m_dDrive.tankDrive(left, right);
+    // m_leftMotors.set(left);
+    // m_rightMotors.set(right);
   }
 
   public void propDrive(double throttle, double turn) {
@@ -183,8 +194,8 @@ public class Drivetrain extends SubsystemBase {
 
     m_leftMotor1.set(ControlMode.PercentOutput, leftOut);
     m_leftMotor2.set(ControlMode.PercentOutput, leftOut);
-    m_rightMotor1.set(ControlMode.PercentOutput, rightOut);
-    m_rightMotor2.set(ControlMode.PercentOutput, rightOut);
+    // m_rightMotor1.set(ControlMode.PercentOutput, rightOut);
+    // m_rightMotor2.set(ControlMode.PercentOutput, rightOut);
     //m_dDrive.feed();
     //m_dDrive.curvatureDrive(throttle, turn, false);
   }
@@ -242,8 +253,8 @@ public class Drivetrain extends SubsystemBase {
 
     m_leftMotor1.set(ControlMode.PercentOutput, leftOut);
     m_rightMotor1.set(ControlMode.PercentOutput, rightOut);
-    m_leftMotor2.set(ControlMode.PercentOutput, leftOut);
-    m_rightMotor2.set(ControlMode.PercentOutput, rightOut);
+    // m_leftMotor2.set(ControlMode.PercentOutput, leftOut);
+    // m_rightMotor2.set(ControlMode.PercentOutput, rightOut);
     //m_dDrive.feed();
   }
 

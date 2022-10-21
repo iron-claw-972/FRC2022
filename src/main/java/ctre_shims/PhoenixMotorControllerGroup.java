@@ -59,6 +59,9 @@ public class PhoenixMotorControllerGroup implements MotorController, Sendable, A
   @Override
   public void set(double speed) {
     m_leadMotorController.set(speed);
+    for (MotorController motorController : m_motorControllers) {
+      motorController.set(speed);
+    }
   }
 
   @Override

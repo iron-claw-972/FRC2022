@@ -18,9 +18,9 @@ public class OneBallPW extends SequentialCommandGroup {
   public OneBallPW(Drivetrain drive, Belt belt, Arm arm, Shooter shooter) {
     addRequirements(drive, belt, arm, shooter);
     addCommands(
-        new ShootAuto(false, true, 1, () -> true, 108, 22.4719101),
         new PathweaverCommand("4ballzero", true, false),
         new PathweaverCommand("4ballone", false, true),
+        new ShootAuto(false, true, 1, () -> true, 108, 22.4719101),
         new PositionArm(154)
     );
   }

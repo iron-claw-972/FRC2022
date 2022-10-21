@@ -10,7 +10,7 @@ import edu.wpi.first.math.util.Units;
 
 public class DriveConstants {
 
-  public final int[] rightMotorPorts = {3, 4};
+  public final int[] rightMotorPorts = {3, 4};// FX 15 or 4 is not funcitonal
   public final int[] leftMotorPorts = {1, 2};
 
   //auto might be off because they were calibrated for classbot3
@@ -70,6 +70,6 @@ public class DriveConstants {
   public final double kSupplyCurrentLimit = 40;
   public final double kSupplyTriggerThreshold = 50;
   public final double kSupplyTriggerDuration = 0.3;
-  public final NeutralMode kNeutralMode = NeutralMode.Brake;
-  public final NeutralMode kMainNeutralMode = NeutralMode.Brake;
+  public final NeutralMode kNeutralMode = NeutralMode.Coast;
+  public final NeutralMode kMainNeutralMode = NeutralMode.Coast;
 }

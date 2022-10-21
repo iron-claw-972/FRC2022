@@ -13,7 +13,9 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.commands.drive.ArcadeDriveSet;
 import frc.robot.commands.drive.DifferentialDrive;
+import frc.robot.commands.drive.TeleopDrive;
 import frc.robot.controls.*;
 import frc.robot.subsystems.*;
 import frc.robot.util.Log;
@@ -62,7 +64,8 @@ public class Robot extends TimedRobot {
     // m_camera2 = CameraServer.startAutomaticCapture();
 
     // default command to run in teleop
-    drive.setDefaultCommand(new DifferentialDrive(drive));
+    // drive.setDefaultCommand(new DifferentialDrive(drive));
+    drive.setDefaultCommand(new TeleopDrive(drive));
 
     // This is really annoying so it's disabled
     DriverStation.silenceJoystickConnectionWarning(true);

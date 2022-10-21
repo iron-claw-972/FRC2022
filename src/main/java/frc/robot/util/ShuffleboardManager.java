@@ -40,6 +40,7 @@ public class ShuffleboardManager {
     LiveWindow.disableAllTelemetry(); // LiveWindow is causing periodic loop overruns
     m_mainTab.addBoolean("Is Teleop", DriverStation::isTeleop);
     m_mainTab.addNumber("left drive encoder", Robot.drive::getLeftPosition);
+    m_mainTab.addNumber("right drive encoder", Robot.drive::getRightPosition);
     m_autoTab.addNumber("Navx Position", Robot.drive::getHeading);
 
     m_autoTab.addNumber("X", Robot.drive::getPoseX);

@@ -10,11 +10,11 @@ import frc.robot.commands.cargo.PositionArm;
 import frc.robot.constants.Constants;
 import frc.robot.util.Functions;
 import lib.controllers.*;
-import lib.controllers.PistolController.Axis;
-import lib.controllers.PistolController.Button;
+import lib.controllers.GameController.Axis;
+import lib.controllers.GameController.Button;
 
 public class Driver {
-  private static PistolController driver = new PistolController(Constants.oi.kDriverJoy);
+  private static GameController driver = new GameController(Constants.oi.kDriverJoy);
 
   private static SlewRateLimiter slewThrottle = new SlewRateLimiter(Constants.drive.kSlewRate);
   private static SlewRateLimiter slewTurn = new SlewRateLimiter(Constants.drive.kSlewRate);
@@ -36,23 +36,23 @@ public class Driver {
 
   private static void configureDriveControls() {
     // Position arm front
-    driver.get(Button.BOTTOM_FRONT).whenPressed(new PositionArm(Constants.arm.kFrontLimelightScanPos));
+    driver.get(driver.RIGHT_TRIGGER_BUTTON).whenActive(new PositionArm(Constants.arm.kFrontLimelightScanPos));
 
     // Position arm back
-    driver.get(Button.BOTTOM_BACK).whenPressed(new PositionArm(Constants.arm.kBackLimelightScanPos));
+    driver.get(driver.LEFT_TRIGGER_BUTTON).whenActive(new PositionArm(Constants.arm.kBackLimelightScanPos));
 
     // Intake w/ ball chase for red ball
-    driver.get(Button.TOP_FRONT)
+    driver.get(Button.B)
       .whenHeld(new Intake(Constants.arm.kUprightPos, true, true))
       .whenReleased(new PositionArm(Constants.arm.kUprightPos).andThen(() -> Robot.ll.setUpperHubPipeline()));
 
     // Intake w/ ball chase for blue ball
-    driver.get(Button.TOP_BACK)
+    driver.get(Button.X)
       .whenHeld(new Intake(Constants.arm.kUprightPos, true, false))
       .whenReleased(new PositionArm(Constants.arm.kUprightPos).andThen(() -> Robot.ll.setUpperHubPipeline()));
 
     // Eject ball
-    driver.get(Button.BOTTOM).whenHeld(new EjectBall());
+    driver.get(Button.RB).whenHeld(new EjectBall());
   }
   
   public static double getThrottleValue() {
@@ -68,11 +68,11 @@ public class Driver {
 
   public static double getRawThrottleValue() {
     // Controllers y-axes are natively up-negative, down-positive
-    return driver.get(Axis.TRIGGER);
+    return driver.get(Axis.LEFT_Y);
   }
 
   public static double getRawTurnValue() {
     // Right is Positive left is negative
-    return driver.get(Axis.WHEEL);
+    return driver.get(Axis.RIGHT_X);
   }
 }
